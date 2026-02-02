@@ -1,0 +1,902 @@
+tar -xf rst2pdf-0.99.tar.gz
+running install
+running build
+running build_py
+creating build
+creating build/lib
+creating build/lib/rst2pdf
+copying ./rst2pdf/dumpstyle.py -> build/lib/rst2pdf
+copying ./rst2pdf/flowables.py -> build/lib/rst2pdf
+copying ./rst2pdf/nodehandlers.py -> build/lib/rst2pdf
+copying ./rst2pdf/styles.py -> build/lib/rst2pdf
+copying ./rst2pdf/basenodehandler.py -> build/lib/rst2pdf
+copying ./rst2pdf/__init__.py -> build/lib/rst2pdf
+copying ./rst2pdf/svgimage.py -> build/lib/rst2pdf
+copying ./rst2pdf/genelements.py -> build/lib/rst2pdf
+copying ./rst2pdf/math_flowable.py -> build/lib/rst2pdf
+copying ./rst2pdf/pdfbuilder.py -> build/lib/rst2pdf
+copying ./rst2pdf/style2yaml.py -> build/lib/rst2pdf
+copying ./rst2pdf/languages.py -> build/lib/rst2pdf
+copying ./rst2pdf/log.py -> build/lib/rst2pdf
+copying ./rst2pdf/rson.py -> build/lib/rst2pdf
+copying ./rst2pdf/findfonts.py -> build/lib/rst2pdf
+copying ./rst2pdf/createpdf.py -> build/lib/rst2pdf
+copying ./rst2pdf/image.py -> build/lib/rst2pdf
+copying ./rst2pdf/pygments2style.py -> build/lib/rst2pdf
+copying ./rst2pdf/genpdftext.py -> build/lib/rst2pdf
+copying ./rst2pdf/sphinxnodes.py -> build/lib/rst2pdf
+copying ./rst2pdf/config.py -> build/lib/rst2pdf
+copying ./rst2pdf/sectnumlinks.py -> build/lib/rst2pdf
+copying ./rst2pdf/sinker.py -> build/lib/rst2pdf
+copying ./rst2pdf/utils.py -> build/lib/rst2pdf
+copying ./rst2pdf/writer.py -> build/lib/rst2pdf
+creating build/lib/rst2pdf/roles
+copying ./rst2pdf/roles/__init__.py -> build/lib/rst2pdf/roles
+copying ./rst2pdf/roles/counter.py -> build/lib/rst2pdf/roles
+copying ./rst2pdf/roles/package.py -> build/lib/rst2pdf/roles
+copying ./rst2pdf/roles/counter_off.py -> build/lib/rst2pdf/roles
+creating build/lib/rst2pdf/extensions
+copying ./rst2pdf/extensions/sample.py -> build/lib/rst2pdf/extensions
+copying ./rst2pdf/extensions/__init__.py -> build/lib/rst2pdf/extensions
+copying ./rst2pdf/extensions/plantuml_r2p.py -> build/lib/rst2pdf/extensions
+copying ./rst2pdf/extensions/preprocess_r2p.py -> build/lib/rst2pdf/extensions
+copying ./rst2pdf/extensions/fancytitles.py -> build/lib/rst2pdf/extensions
+copying ./rst2pdf/extensions/dotted_toc.py -> build/lib/rst2pdf/extensions
+creating build/lib/rst2pdf/directives
+copying ./rst2pdf/directives/__init__.py -> build/lib/rst2pdf/directives
+copying ./rst2pdf/directives/noop.py -> build/lib/rst2pdf/directives
+copying ./rst2pdf/directives/oddeven.py -> build/lib/rst2pdf/directives
+copying ./rst2pdf/directives/code_block.py -> build/lib/rst2pdf/directives
+copying ./rst2pdf/directives/contents.py -> build/lib/rst2pdf/directives
+copying ./rst2pdf/directives/aafigure.py -> build/lib/rst2pdf/directives
+creating build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/b4.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/stata-light.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/twelvepoint.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/rrt.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/sas.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/borland.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/a5.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/b1.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/emacs.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/a2.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/default.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/eightpoint.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/b5.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/sphinx.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/b1-landscape.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/b2.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/b3.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/a5-landscape.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/solarized-light.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/a1.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/freetype-sans.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/paraiso-dark.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/b5-landscape.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/monokai.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/murphy.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/paraiso-light.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/algol_nu.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/a3.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/vs.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/no-compact-lists.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/stata-dark.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/pastie.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/autumn.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/perldoc.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/trac.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/11x17.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/a1-landscape.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/stata.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/solarized-dark.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/serif.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/b0.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/bw.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/letter.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/rainbow_dash.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/fruity.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/b6-landscape.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/dejavu.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/a0.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/b3-landscape.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/legal.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/friendly.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/xcode.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/a6-landscape.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/b2-landscape.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/freetype-serif.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/debugtables.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/a4.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/double-sided.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/arduino.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/vim.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/styles.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/a4-landscape.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/algol.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/manni.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/a6.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/abap.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/tenpoint.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/a3-landscape.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/rst2pdf-0-9.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/tango.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/lovelace.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/colorful.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/b6.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/igor.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/twocolumn.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/a2-landscape.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/letter-landscape.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/native.yaml -> build/lib/rst2pdf/styles
+copying ./rst2pdf/styles/b4-landscape.yaml -> build/lib/rst2pdf/styles
+creating build/lib/rst2pdf/images
+copying ./rst2pdf/images/image-missing.png -> build/lib/rst2pdf/images
+copying ./rst2pdf/images/image-missing.jpg -> build/lib/rst2pdf/images
+creating build/lib/rst2pdf/templates
+copying ./rst2pdf/templates/sphinxcover.tmpl -> build/lib/rst2pdf/templates
+copying ./rst2pdf/templates/cover.tmpl -> build/lib/rst2pdf/templates
+running install_lib
+creating /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64
+creating /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9
+creating /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages
+creating /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf
+copying build/lib/rst2pdf/dumpstyle.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf
+copying build/lib/rst2pdf/flowables.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf
+copying build/lib/rst2pdf/nodehandlers.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf
+copying build/lib/rst2pdf/styles.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf
+creating /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/b4.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/stata-light.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/twelvepoint.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/rrt.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/sas.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/borland.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/a5.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/b1.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/emacs.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/a2.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/default.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/eightpoint.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/b5.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/sphinx.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/b1-landscape.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/b2.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/b3.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/a5-landscape.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/solarized-light.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/a1.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/freetype-sans.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/paraiso-dark.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/b5-landscape.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/monokai.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/murphy.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/paraiso-light.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/algol_nu.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/a3.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/vs.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/no-compact-lists.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/stata-dark.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/pastie.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/autumn.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/perldoc.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/trac.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/11x17.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/a1-landscape.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/stata.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/solarized-dark.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/serif.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/b0.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/bw.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/letter.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/rainbow_dash.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/fruity.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/b6-landscape.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/dejavu.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/a0.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/b3-landscape.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/legal.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/friendly.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/xcode.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/a6-landscape.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/b2-landscape.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/freetype-serif.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/debugtables.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/a4.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/double-sided.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/arduino.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/vim.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/styles.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/a4-landscape.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/algol.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/manni.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/a6.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/abap.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/tenpoint.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/a3-landscape.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/rst2pdf-0-9.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/tango.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/lovelace.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/colorful.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/b6.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/igor.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/twocolumn.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/a2-landscape.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/letter-landscape.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/native.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/styles/b4-landscape.yaml -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles
+copying build/lib/rst2pdf/basenodehandler.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf
+copying build/lib/rst2pdf/__init__.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf
+copying build/lib/rst2pdf/svgimage.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf
+creating /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/templates
+copying build/lib/rst2pdf/templates/sphinxcover.tmpl -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/templates
+copying build/lib/rst2pdf/templates/cover.tmpl -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/templates
+copying build/lib/rst2pdf/genelements.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf
+creating /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/images
+copying build/lib/rst2pdf/images/image-missing.png -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/images
+copying build/lib/rst2pdf/images/image-missing.jpg -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/images
+copying build/lib/rst2pdf/math_flowable.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf
+copying build/lib/rst2pdf/pdfbuilder.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf
+creating /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/roles
+copying build/lib/rst2pdf/roles/__init__.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/roles
+copying build/lib/rst2pdf/roles/counter.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/roles
+copying build/lib/rst2pdf/roles/package.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/roles
+copying build/lib/rst2pdf/roles/counter_off.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/roles
+copying build/lib/rst2pdf/style2yaml.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf
+copying build/lib/rst2pdf/languages.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf
+copying build/lib/rst2pdf/log.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf
+copying build/lib/rst2pdf/rson.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf
+copying build/lib/rst2pdf/findfonts.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf
+copying build/lib/rst2pdf/createpdf.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf
+copying build/lib/rst2pdf/image.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf
+creating /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/extensions
+copying build/lib/rst2pdf/extensions/sample.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/extensions
+copying build/lib/rst2pdf/extensions/__init__.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/extensions
+copying build/lib/rst2pdf/extensions/plantuml_r2p.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/extensions
+copying build/lib/rst2pdf/extensions/preprocess_r2p.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/extensions
+copying build/lib/rst2pdf/extensions/fancytitles.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/extensions
+copying build/lib/rst2pdf/extensions/dotted_toc.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/extensions
+copying build/lib/rst2pdf/pygments2style.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf
+creating /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/directives
+copying build/lib/rst2pdf/directives/__init__.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/directives
+copying build/lib/rst2pdf/directives/noop.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/directives
+copying build/lib/rst2pdf/directives/oddeven.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/directives
+copying build/lib/rst2pdf/directives/code_block.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/directives
+copying build/lib/rst2pdf/directives/contents.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/directives
+copying build/lib/rst2pdf/directives/aafigure.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/directives
+copying build/lib/rst2pdf/genpdftext.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf
+copying build/lib/rst2pdf/sphinxnodes.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf
+copying build/lib/rst2pdf/config.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf
+copying build/lib/rst2pdf/sectnumlinks.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf
+copying build/lib/rst2pdf/sinker.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf
+copying build/lib/rst2pdf/utils.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf
+copying build/lib/rst2pdf/writer.py -> /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/dumpstyle.py to dumpstyle.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/flowables.py to flowables.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/nodehandlers.py to nodehandlers.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles.py to styles.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/basenodehandler.py to basenodehandler.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/__init__.py to __init__.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/svgimage.py to svgimage.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/genelements.py to genelements.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/math_flowable.py to math_flowable.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/pdfbuilder.py to pdfbuilder.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/roles/__init__.py to __init__.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/roles/counter.py to counter.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/roles/package.py to package.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/roles/counter_off.py to counter_off.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/style2yaml.py to style2yaml.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/languages.py to languages.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/log.py to log.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/rson.py to rson.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/findfonts.py to findfonts.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/createpdf.py to createpdf.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/image.py to image.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/extensions/sample.py to sample.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/extensions/__init__.py to __init__.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/extensions/plantuml_r2p.py to plantuml_r2p.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/extensions/preprocess_r2p.py to preprocess_r2p.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/extensions/fancytitles.py to fancytitles.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/extensions/dotted_toc.py to dotted_toc.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/pygments2style.py to pygments2style.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/directives/__init__.py to __init__.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/directives/noop.py to noop.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/directives/oddeven.py to oddeven.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/directives/code_block.py to code_block.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/directives/contents.py to contents.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/directives/aafigure.py to aafigure.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/genpdftext.py to genpdftext.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/sphinxnodes.py to sphinxnodes.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/config.py to config.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/sectnumlinks.py to sectnumlinks.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/sinker.py to sinker.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/utils.py to utils.cpython-39.pyc
+byte-compiling /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/writer.py to writer.cpython-39.pyc
+running install_egg_info
+running egg_info
+writing rst2pdf.egg-info/PKG-INFO
+writing dependency_links to rst2pdf.egg-info/dependency_links.txt
+writing entry points to rst2pdf.egg-info/entry_points.txt
+writing requirements to rst2pdf.egg-info/requires.txt
+writing top-level names to rst2pdf.egg-info/top_level.txt
+listing git files failed - pretending there aren't any
+reading manifest file 'rst2pdf.egg-info/SOURCES.txt'
+reading manifest template 'MANIFEST.in'
+adding license file 'LICENSE.txt'
+writing manifest file 'rst2pdf.egg-info/SOURCES.txt'
+Copying rst2pdf.egg-info to /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf-0.99-py3.9.egg-info
+running install_scripts
+Installing rst2pdf script to /storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/bin
+Removing some zero lenght files
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg:
+total 8
+drwxr-xr-x 2 root root 4096 févr. 21 18:10 install
+drwxr-xr-x 7 root root 4096 févr. 21 18:10 usr
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/install:
+total 4
+-rw-r--r-- 1 root root 384 févr. 21 18:10 slack-desc
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr:
+total 20
+drwxr-xr-x 2 root root 4096 févr. 21 18:10 bin
+drwxr-xr-x 3 root root 4096 févr. 21 18:10 doc
+drwxr-xr-x 3 root root 4096 févr. 21 18:10 lib64
+drwxr-xr-x 3 root root 4096 févr. 21 18:10 man
+drwxr-xr-x 3 root root 4096 févr. 21 18:10 src
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/bin:
+total 4
+-rwxr-xr-x 1 root root 955 févr. 21 18:10 rst2pdf
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/doc:
+total 4
+drwxr-xr-x 3 root root 4096 févr. 21 18:10 rst2pdf-0.99
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/doc/rst2pdf-0.99:
+total 48
+-rw-r--r-- 1 root root 31262 févr. 21 18:10 CHANGES.rst
+-rw-r--r-- 1 root root   394 févr. 21 18:10 Contributors.txt
+-rw-r--r-- 1 root root  1107 févr. 21 18:10 LICENSE.txt
+-rw-r--r-- 1 root root  3908 févr. 21 18:10 README.rst
+drwxr-xr-x 5 root root  4096 févr. 21 18:10 doc
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/doc/rst2pdf-0.99/doc:
+total 108
+-rw-r--r-- 1 root root  4427 févr. 21 18:10 DEVELOPERS.rst
+-rw-r--r-- 1 root root  3052 févr. 21 18:10 RELEASE_PROCESS.rst
+drwxr-xr-x 2 root root  4096 févr. 21 18:10 assets
+-rw-r--r-- 1 root root   527 févr. 21 18:10 gen_docs.sh
+-rw-r--r-- 1 root root 66803 févr. 21 18:10 manual.rst
+drwxr-xr-x 2 root root  4096 févr. 21 18:10 montecristo
+drwxr-xr-x 4 root root  4096 févr. 21 18:10 output
+-rw-r--r-- 1 root root  1244 févr. 21 18:10 rst2html-manual.py
+-rw-r--r-- 1 root root  5821 févr. 21 18:10 rst2pdf.rst
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/doc/rst2pdf-0.99/doc/assets:
+total 108
+-rw-r--r-- 1 root root   179 févr. 21 18:10 biohazard.png
+-rw-r--r-- 1 root root  2513 févr. 21 18:10 config.sample
+-rw-r--r-- 1 root root   293 févr. 21 18:10 cover.tmpl
+-rw-r--r-- 1 root root 38576 févr. 21 18:10 flowables.py
+-rw-r--r-- 1 root root  1907 févr. 21 18:10 manual.css
+-rw-r--r-- 1 root root   611 févr. 21 18:10 manual.yaml
+-rw-r--r-- 1 root root 47498 févr. 21 18:10 rst2pdf-logo.jpg
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/doc/rst2pdf-0.99/doc/montecristo:
+total 212
+-rw-r--r-- 1 root root    179 févr. 21 18:10 README.txt
+-rw-r--r-- 1 root root 185108 févr. 21 18:10 if.jpg
+-rw-r--r-- 1 root root  19801 févr. 21 18:10 montecristo.rst
+-rw-r--r-- 1 root root    675 févr. 21 18:10 montecristo.sheet
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/doc/rst2pdf-0.99/doc/output:
+total 8
+drwxr-xr-x 3 root root 4096 févr. 21 18:10 html
+drwxr-xr-x 2 root root 4096 févr. 21 18:10 pdf
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/doc/rst2pdf-0.99/doc/output/html:
+total 4
+drwxr-xr-x 2 root root 4096 févr. 21 18:10 assets
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/doc/rst2pdf-0.99/doc/output/html/assets:
+total 0
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/doc/rst2pdf-0.99/doc/output/pdf:
+total 0
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64:
+total 4
+drwxr-xr-x 3 root root 4096 févr. 21 18:10 python3.9
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9:
+total 4
+drwxr-xr-x 4 root root 4096 févr. 21 18:10 site-packages
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages:
+total 8
+drwxr-xr-x 9 root root 4096 févr. 21 18:10 rst2pdf
+drwxr-xr-x 2 root root 4096 févr. 21 18:10 rst2pdf-0.99-py3.9.egg-info
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf:
+total 428
+-rw-r--r-- 1 root root   281 déc.  30  2020 __init__.py
+drwxr-xr-x 2 root root  4096 févr. 21 18:10 __pycache__
+-rw-r--r-- 1 root root 12093 janv.  2 11:29 basenodehandler.py
+-rw-r--r-- 1 root root   844 déc.  30  2020 config.py
+-rw-r--r-- 1 root root 65763 janv.  8 13:07 createpdf.py
+drwxr-xr-x 3 root root  4096 févr. 21 18:10 directives
+-rw-r--r-- 1 root root  4948 août  30 17:19 dumpstyle.py
+drwxr-xr-x 3 root root  4096 févr. 21 18:10 extensions
+-rw-r--r-- 1 root root 13358 déc.  11 18:23 findfonts.py
+-rw-r--r-- 1 root root 41992 janv.  2 11:29 flowables.py
+-rw-r--r-- 1 root root 40561 janv.  2 11:29 genelements.py
+-rw-r--r-- 1 root root  8882 août  30 17:19 genpdftext.py
+-rw-r--r-- 1 root root 15554 déc.  11 18:23 image.py
+drwxr-xr-x 2 root root  4096 févr. 21 18:10 images
+-rw-r--r-- 1 root root  1532 déc.  30  2020 languages.py
+-rw-r--r-- 1 root root   716 déc.  30  2020 log.py
+-rw-r--r-- 1 root root  6701 janv.  2 11:29 math_flowable.py
+-rw-r--r-- 1 root root   367 déc.  30  2020 nodehandlers.py
+-rw-r--r-- 1 root root 39149 janv.  2 11:29 pdfbuilder.py
+-rw-r--r-- 1 root root  2603 août  30 17:19 pygments2style.py
+drwxr-xr-x 3 root root  4096 févr. 21 18:10 roles
+-rw-r--r-- 1 root root 33550 août  30 17:19 rson.py
+-rw-r--r-- 1 root root   877 déc.  30  2020 sectnumlinks.py
+-rw-r--r-- 1 root root   963 août  30 17:19 sinker.py
+-rw-r--r-- 1 root root  7641 déc.  11 18:23 sphinxnodes.py
+-rw-r--r-- 1 root root  1912 août  30 17:19 style2yaml.py
+drwxr-xr-x 2 root root  4096 févr. 21 18:10 styles
+-rw-r--r-- 1 root root 35530 déc.  11 18:23 styles.py
+-rw-r--r-- 1 root root  2461 août  30 17:19 svgimage.py
+drwxr-xr-x 2 root root  4096 févr. 21 18:10 templates
+-rw-r--r-- 1 root root  8671 janv.  2 11:29 utils.py
+-rw-r--r-- 1 root root   854 déc.  30  2020 writer.py
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/__pycache__:
+total 308
+-rw-r--r-- 1 root root   263 févr. 21 18:10 __init__.cpython-39.pyc
+-rw-r--r-- 1 root root  9516 févr. 21 18:10 basenodehandler.cpython-39.pyc
+-rw-r--r-- 1 root root  1180 févr. 21 18:10 config.cpython-39.pyc
+-rw-r--r-- 1 root root 41458 févr. 21 18:10 createpdf.cpython-39.pyc
+-rw-r--r-- 1 root root  4897 févr. 21 18:10 dumpstyle.cpython-39.pyc
+-rw-r--r-- 1 root root  8545 févr. 21 18:10 findfonts.cpython-39.pyc
+-rw-r--r-- 1 root root 30018 févr. 21 18:10 flowables.cpython-39.pyc
+-rw-r--r-- 1 root root 29423 févr. 21 18:10 genelements.cpython-39.pyc
+-rw-r--r-- 1 root root  7793 févr. 21 18:10 genpdftext.cpython-39.pyc
+-rw-r--r-- 1 root root  9058 févr. 21 18:10 image.cpython-39.pyc
+-rw-r--r-- 1 root root  1554 févr. 21 18:10 languages.cpython-39.pyc
+-rw-r--r-- 1 root root   769 févr. 21 18:10 log.cpython-39.pyc
+-rw-r--r-- 1 root root  5425 févr. 21 18:10 math_flowable.cpython-39.pyc
+-rw-r--r-- 1 root root   321 févr. 21 18:10 nodehandlers.cpython-39.pyc
+-rw-r--r-- 1 root root 24877 févr. 21 18:10 pdfbuilder.cpython-39.pyc
+-rw-r--r-- 1 root root  1720 févr. 21 18:10 pygments2style.cpython-39.pyc
+-rw-r--r-- 1 root root 26276 févr. 21 18:10 rson.cpython-39.pyc
+-rw-r--r-- 1 root root  1588 févr. 21 18:10 sectnumlinks.cpython-39.pyc
+-rw-r--r-- 1 root root  1280 févr. 21 18:10 sinker.cpython-39.pyc
+-rw-r--r-- 1 root root  8749 févr. 21 18:10 sphinxnodes.cpython-39.pyc
+-rw-r--r-- 1 root root  1626 févr. 21 18:10 style2yaml.cpython-39.pyc
+-rw-r--r-- 1 root root 17840 févr. 21 18:10 styles.cpython-39.pyc
+-rw-r--r-- 1 root root  2155 févr. 21 18:10 svgimage.cpython-39.pyc
+-rw-r--r-- 1 root root  7067 févr. 21 18:10 utils.cpython-39.pyc
+-rw-r--r-- 1 root root  1192 févr. 21 18:10 writer.cpython-39.pyc
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/directives:
+total 36
+-rw-r--r-- 1 root root     0 déc.  30  2020 __init__.py
+drwxr-xr-x 2 root root  4096 févr. 21 18:10 __pycache__
+-rw-r--r-- 1 root root  3537 déc.  15 10:42 aafigure.py
+-rw-r--r-- 1 root root 14914 août  30 17:19 code_block.py
+-rw-r--r-- 1 root root  2297 janv.  2 11:29 contents.py
+-rw-r--r-- 1 root root   289 déc.  30  2020 noop.py
+-rw-r--r-- 1 root root   914 déc.  30  2020 oddeven.py
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/directives/__pycache__:
+total 28
+-rw-r--r-- 1 root root  156 févr. 21 18:10 __init__.cpython-39.pyc
+-rw-r--r-- 1 root root 2358 févr. 21 18:10 aafigure.cpython-39.pyc
+-rw-r--r-- 1 root root 7554 févr. 21 18:10 code_block.cpython-39.pyc
+-rw-r--r-- 1 root root 1034 févr. 21 18:10 contents.cpython-39.pyc
+-rw-r--r-- 1 root root  381 févr. 21 18:10 noop.cpython-39.pyc
+-rw-r--r-- 1 root root 1353 févr. 21 18:10 oddeven.cpython-39.pyc
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/extensions:
+total 48
+-rw-r--r-- 1 root root   256 déc.  30  2020 __init__.py
+drwxr-xr-x 2 root root  4096 févr. 21 18:10 __pycache__
+-rw-r--r-- 1 root root  5967 déc.  30  2020 dotted_toc.py
+-rw-r--r-- 1 root root  5572 août  30 17:19 fancytitles.py
+-rw-r--r-- 1 root root  3148 août  30 17:19 plantuml_r2p.py
+-rw-r--r-- 1 root root 13249 août  30 17:19 preprocess_r2p.py
+-rw-r--r-- 1 root root   681 août  30 17:19 sample.py
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/extensions/__pycache__:
+total 32
+-rw-r--r-- 1 root root   417 févr. 21 18:10 __init__.cpython-39.pyc
+-rw-r--r-- 1 root root  2102 févr. 21 18:10 dotted_toc.cpython-39.pyc
+-rw-r--r-- 1 root root  3523 févr. 21 18:10 fancytitles.cpython-39.pyc
+-rw-r--r-- 1 root root  3288 févr. 21 18:10 plantuml_r2p.cpython-39.pyc
+-rw-r--r-- 1 root root 11479 févr. 21 18:10 preprocess_r2p.cpython-39.pyc
+-rw-r--r-- 1 root root   911 févr. 21 18:10 sample.cpython-39.pyc
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/images:
+total 20
+-rw-r--r-- 1 root root  5101 févr. 12  2019 image-missing.jpg
+-rw-r--r-- 1 root root 11228 déc.  23  2017 image-missing.png
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/roles:
+total 16
+-rw-r--r-- 1 root root    0 déc.  30  2020 __init__.py
+drwxr-xr-x 2 root root 4096 févr. 21 18:10 __pycache__
+-rw-r--r-- 1 root root  797 déc.  30  2020 counter.py
+-rw-r--r-- 1 root root  245 déc.  30  2020 counter_off.py
+-rw-r--r-- 1 root root 1309 janv.  8 13:08 package.py
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/roles/__pycache__:
+total 16
+-rw-r--r-- 1 root root  151 févr. 21 18:10 __init__.cpython-39.pyc
+-rw-r--r-- 1 root root 1355 févr. 21 18:10 counter.cpython-39.pyc
+-rw-r--r-- 1 root root  434 févr. 21 18:10 counter_off.cpython-39.pyc
+-rw-r--r-- 1 root root 1392 févr. 21 18:10 package.cpython-39.pyc
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/styles:
+total 484
+-rw-r--r-- 1 root root    35 août  30 17:19 11x17.yaml
+-rw-r--r-- 1 root root    22 août  30 17:19 a0.yaml
+-rw-r--r-- 1 root root    32 août  30 17:19 a1-landscape.yaml
+-rw-r--r-- 1 root root    22 août  30 17:19 a1.yaml
+-rw-r--r-- 1 root root    32 août  30 17:19 a2-landscape.yaml
+-rw-r--r-- 1 root root    22 août  30 17:19 a2.yaml
+-rw-r--r-- 1 root root    32 août  30 17:19 a3-landscape.yaml
+-rw-r--r-- 1 root root    22 août  30 17:19 a3.yaml
+-rw-r--r-- 1 root root    32 août  30 17:19 a4-landscape.yaml
+-rw-r--r-- 1 root root    22 août  30 17:19 a4.yaml
+-rw-r--r-- 1 root root    32 août  30 17:19 a5-landscape.yaml
+-rw-r--r-- 1 root root    22 août  30 17:19 a5.yaml
+-rw-r--r-- 1 root root    32 août  30 17:19 a6-landscape.yaml
+-rw-r--r-- 1 root root    22 août  30 17:19 a6.yaml
+-rw-r--r-- 1 root root  4542 août  30 17:19 abap.yaml
+-rw-r--r-- 1 root root  5402 août  30 17:19 algol.yaml
+-rw-r--r-- 1 root root  5402 août  30 17:19 algol_nu.yaml
+-rw-r--r-- 1 root root  4343 août  30 17:19 arduino.yaml
+-rw-r--r-- 1 root root  4718 août  30 17:19 autumn.yaml
+-rw-r--r-- 1 root root    22 août  30 17:19 b0.yaml
+-rw-r--r-- 1 root root    32 août  30 17:19 b1-landscape.yaml
+-rw-r--r-- 1 root root    22 août  30 17:19 b1.yaml
+-rw-r--r-- 1 root root    32 août  30 17:19 b2-landscape.yaml
+-rw-r--r-- 1 root root    22 août  30 17:19 b2.yaml
+-rw-r--r-- 1 root root    32 août  30 17:19 b3-landscape.yaml
+-rw-r--r-- 1 root root    22 août  30 17:19 b3.yaml
+-rw-r--r-- 1 root root    32 août  30 17:19 b4-landscape.yaml
+-rw-r--r-- 1 root root    22 août  30 17:19 b4.yaml
+-rw-r--r-- 1 root root    32 août  30 17:19 b5-landscape.yaml
+-rw-r--r-- 1 root root    22 août  30 17:19 b5.yaml
+-rw-r--r-- 1 root root    32 août  30 17:19 b6-landscape.yaml
+-rw-r--r-- 1 root root    22 août  30 17:19 b6.yaml
+-rw-r--r-- 1 root root  4841 août  30 17:19 borland.yaml
+-rw-r--r-- 1 root root  5121 août  30 17:19 bw.yaml
+-rw-r--r-- 1 root root  5501 août  30 17:19 colorful.yaml
+-rw-r--r-- 1 root root  1497 août  30 17:19 debugtables.yaml
+-rw-r--r-- 1 root root  5054 août  30 17:19 default.yaml
+-rw-r--r-- 1 root root    91 août  30 17:19 dejavu.yaml
+-rw-r--r-- 1 root root    32 août  30 17:19 double-sided.yaml
+-rw-r--r-- 1 root root    32 août  30 17:19 eightpoint.yaml
+-rw-r--r-- 1 root root  5052 août  30 17:19 emacs.yaml
+-rw-r--r-- 1 root root    76 août  30 17:19 freetype-sans.yaml
+-rw-r--r-- 1 root root    52 août  30 17:19 freetype-serif.yaml
+-rw-r--r-- 1 root root  5079 août  30 17:19 friendly.yaml
+-rw-r--r-- 1 root root  5327 août  30 17:19 fruity.yaml
+-rw-r--r-- 1 root root  4438 août  30 17:19 igor.yaml
+-rw-r--r-- 1 root root    25 août  30 17:19 legal.yaml
+-rw-r--r-- 1 root root    36 août  30 17:19 letter-landscape.yaml
+-rw-r--r-- 1 root root    26 août  30 17:19 letter.yaml
+-rw-r--r-- 1 root root  4767 août  30 17:19 lovelace.yaml
+-rw-r--r-- 1 root root  5125 août  30 17:19 manni.yaml
+-rw-r--r-- 1 root root  4452 août  30 17:19 monokai.yaml
+-rw-r--r-- 1 root root  5594 août  30 17:19 murphy.yaml
+-rw-r--r-- 1 root root  4959 août  30 17:19 native.yaml
+-rw-r--r-- 1 root root   122 août  30 17:19 no-compact-lists.yaml
+-rw-r--r-- 1 root root  4516 août  30 17:19 paraiso-dark.yaml
+-rw-r--r-- 1 root root  4516 août  30 17:19 paraiso-light.yaml
+-rw-r--r-- 1 root root  5519 août  30 17:19 pastie.yaml
+-rw-r--r-- 1 root root  4816 août  30 17:19 perldoc.yaml
+-rw-r--r-- 1 root root  5419 août  30 17:19 rainbow_dash.yaml
+-rw-r--r-- 1 root root  4251 août  30 17:19 rrt.yaml
+-rw-r--r-- 1 root root 13088 août  30 17:19 rst2pdf-0-9.yaml
+-rw-r--r-- 1 root root  5016 août  30 17:19 sas.yaml
+-rw-r--r-- 1 root root    36 août  30 17:19 serif.yaml
+-rw-r--r-- 1 root root  4664 août  30 17:19 solarized-dark.yaml
+-rw-r--r-- 1 root root  4664 août  30 17:19 solarized-light.yaml
+-rw-r--r-- 1 root root  7685 déc.  11 18:23 sphinx.yaml
+-rw-r--r-- 1 root root  4843 août  30 17:19 stata-dark.yaml
+-rw-r--r-- 1 root root  4839 août  30 17:19 stata-light.yaml
+-rw-r--r-- 1 root root  4839 août  30 17:19 stata.yaml
+-rw-r--r-- 1 root root 12745 déc.  18 18:16 styles.yaml
+-rw-r--r-- 1 root root  5345 août  30 17:19 tango.yaml
+-rw-r--r-- 1 root root    33 août  30 17:19 tenpoint.yaml
+-rw-r--r-- 1 root root  5010 août  30 17:19 trac.yaml
+-rw-r--r-- 1 root root    33 août  30 17:19 twelvepoint.yaml
+-rw-r--r-- 1 root root   257 août  30 17:19 twocolumn.yaml
+-rw-r--r-- 1 root root  4602 août  30 17:19 vim.yaml
+-rw-r--r-- 1 root root  4364 août  30 17:19 vs.yaml
+-rw-r--r-- 1 root root  4351 août  30 17:19 xcode.yaml
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf/templates:
+total 8
+-rw-r--r-- 1 root root 126 oct.  21  2020 cover.tmpl
+-rw-r--r-- 1 root root 362 oct.  21  2020 sphinxcover.tmpl
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/lib64/python3.9/site-packages/rst2pdf-0.99-py3.9.egg-info:
+total 76
+-rw-r--r-- 1 root root  5225 févr. 21 18:10 PKG-INFO
+-rw-r--r-- 1 root root 50273 févr. 21 18:10 SOURCES.txt
+-rw-r--r-- 1 root root     1 févr. 21 18:10 dependency_links.txt
+-rw-r--r-- 1 root root    52 févr. 21 18:10 entry_points.txt
+-rw-r--r-- 1 root root   255 févr. 21 18:10 requires.txt
+-rw-r--r-- 1 root root     8 févr. 21 18:10 top_level.txt
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/man:
+total 4
+drwxr-xr-x 2 root root 4096 févr. 21 18:10 man1
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/man/man1:
+total 0
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/src:
+total 4
+drwxr-xr-x 2 root root 4096 févr. 21 18:10 rst2pdf-0.99
+
+/storage/repo/x86_64/slint-15.0/source/rst2pdf/pkg/usr/src/rst2pdf-0.99:
+total 4
+-rw-r--r-- 1 root root 940 févr. 21 18:10 SLKBUILD
+
+Slackware package maker, version 3.14159265.
+
+Searching for symbolic links:
+
+No symbolic links were found, so we won't make an installation script.
+You can make your own later in ./install/doinst.sh and rebuild the
+package if you like.
+
+This next step is optional - you can set the directories in your package
+to some sane permissions. If any of the directories in your package have
+special permissions, then DO NOT reset them here!
+
+Would you like to reset all directory permissions to 755 (drwxr-xr-x) and
+directory ownerships to root.root ([y]es, [n]o)? n
+
+Creating Slackware package:  /storage/repo/x86_64/slint-15.0/source/rst2pdf/rst2pdf-0.99-x86_64-1slint.txz
+
+./
+install/
+install/slack-desc
+usr/
+usr/bin/
+usr/bin/rst2pdf
+usr/doc/
+usr/doc/rst2pdf-0.99/
+usr/doc/rst2pdf-0.99/CHANGES.rst
+usr/doc/rst2pdf-0.99/Contributors.txt
+usr/doc/rst2pdf-0.99/LICENSE.txt
+usr/doc/rst2pdf-0.99/README.rst
+usr/doc/rst2pdf-0.99/doc/
+usr/doc/rst2pdf-0.99/doc/DEVELOPERS.rst
+usr/doc/rst2pdf-0.99/doc/RELEASE_PROCESS.rst
+usr/doc/rst2pdf-0.99/doc/assets/
+usr/doc/rst2pdf-0.99/doc/assets/biohazard.png
+usr/doc/rst2pdf-0.99/doc/assets/config.sample
+usr/doc/rst2pdf-0.99/doc/assets/cover.tmpl
+usr/doc/rst2pdf-0.99/doc/assets/flowables.py
+usr/doc/rst2pdf-0.99/doc/assets/manual.css
+usr/doc/rst2pdf-0.99/doc/assets/manual.yaml
+usr/doc/rst2pdf-0.99/doc/assets/rst2pdf-logo.jpg
+usr/doc/rst2pdf-0.99/doc/gen_docs.sh
+usr/doc/rst2pdf-0.99/doc/manual.rst
+usr/doc/rst2pdf-0.99/doc/montecristo/
+usr/doc/rst2pdf-0.99/doc/montecristo/README.txt
+usr/doc/rst2pdf-0.99/doc/montecristo/if.jpg
+usr/doc/rst2pdf-0.99/doc/montecristo/montecristo.rst
+usr/doc/rst2pdf-0.99/doc/montecristo/montecristo.sheet
+usr/doc/rst2pdf-0.99/doc/output/
+usr/doc/rst2pdf-0.99/doc/output/.gitignore
+usr/doc/rst2pdf-0.99/doc/output/html/
+usr/doc/rst2pdf-0.99/doc/output/html/assets/
+usr/doc/rst2pdf-0.99/doc/output/pdf/
+usr/doc/rst2pdf-0.99/doc/rst2html-manual.py
+usr/doc/rst2pdf-0.99/doc/rst2pdf.rst
+usr/lib64/
+usr/lib64/python3.9/
+usr/lib64/python3.9/site-packages/
+usr/lib64/python3.9/site-packages/rst2pdf/
+usr/lib64/python3.9/site-packages/rst2pdf-0.99-py3.9.egg-info/
+usr/lib64/python3.9/site-packages/rst2pdf-0.99-py3.9.egg-info/PKG-INFO
+usr/lib64/python3.9/site-packages/rst2pdf-0.99-py3.9.egg-info/SOURCES.txt
+usr/lib64/python3.9/site-packages/rst2pdf-0.99-py3.9.egg-info/dependency_links.txt
+usr/lib64/python3.9/site-packages/rst2pdf-0.99-py3.9.egg-info/entry_points.txt
+usr/lib64/python3.9/site-packages/rst2pdf-0.99-py3.9.egg-info/requires.txt
+usr/lib64/python3.9/site-packages/rst2pdf-0.99-py3.9.egg-info/top_level.txt
+usr/lib64/python3.9/site-packages/rst2pdf/__init__.py
+usr/lib64/python3.9/site-packages/rst2pdf/__pycache__/
+usr/lib64/python3.9/site-packages/rst2pdf/__pycache__/__init__.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/__pycache__/basenodehandler.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/__pycache__/config.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/__pycache__/createpdf.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/__pycache__/dumpstyle.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/__pycache__/findfonts.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/__pycache__/flowables.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/__pycache__/genelements.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/__pycache__/genpdftext.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/__pycache__/image.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/__pycache__/languages.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/__pycache__/log.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/__pycache__/math_flowable.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/__pycache__/nodehandlers.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/__pycache__/pdfbuilder.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/__pycache__/pygments2style.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/__pycache__/rson.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/__pycache__/sectnumlinks.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/__pycache__/sinker.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/__pycache__/sphinxnodes.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/__pycache__/style2yaml.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/__pycache__/styles.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/__pycache__/svgimage.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/__pycache__/utils.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/__pycache__/writer.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/basenodehandler.py
+usr/lib64/python3.9/site-packages/rst2pdf/config.py
+usr/lib64/python3.9/site-packages/rst2pdf/createpdf.py
+usr/lib64/python3.9/site-packages/rst2pdf/directives/
+usr/lib64/python3.9/site-packages/rst2pdf/directives/__init__.py
+usr/lib64/python3.9/site-packages/rst2pdf/directives/__pycache__/
+usr/lib64/python3.9/site-packages/rst2pdf/directives/__pycache__/__init__.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/directives/__pycache__/aafigure.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/directives/__pycache__/code_block.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/directives/__pycache__/contents.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/directives/__pycache__/noop.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/directives/__pycache__/oddeven.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/directives/aafigure.py
+usr/lib64/python3.9/site-packages/rst2pdf/directives/code_block.py
+usr/lib64/python3.9/site-packages/rst2pdf/directives/contents.py
+usr/lib64/python3.9/site-packages/rst2pdf/directives/noop.py
+usr/lib64/python3.9/site-packages/rst2pdf/directives/oddeven.py
+usr/lib64/python3.9/site-packages/rst2pdf/dumpstyle.py
+usr/lib64/python3.9/site-packages/rst2pdf/extensions/
+usr/lib64/python3.9/site-packages/rst2pdf/extensions/__init__.py
+usr/lib64/python3.9/site-packages/rst2pdf/extensions/__pycache__/
+usr/lib64/python3.9/site-packages/rst2pdf/extensions/__pycache__/__init__.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/extensions/__pycache__/dotted_toc.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/extensions/__pycache__/fancytitles.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/extensions/__pycache__/plantuml_r2p.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/extensions/__pycache__/preprocess_r2p.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/extensions/__pycache__/sample.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/extensions/dotted_toc.py
+usr/lib64/python3.9/site-packages/rst2pdf/extensions/fancytitles.py
+usr/lib64/python3.9/site-packages/rst2pdf/extensions/plantuml_r2p.py
+usr/lib64/python3.9/site-packages/rst2pdf/extensions/preprocess_r2p.py
+usr/lib64/python3.9/site-packages/rst2pdf/extensions/sample.py
+usr/lib64/python3.9/site-packages/rst2pdf/findfonts.py
+usr/lib64/python3.9/site-packages/rst2pdf/flowables.py
+usr/lib64/python3.9/site-packages/rst2pdf/genelements.py
+usr/lib64/python3.9/site-packages/rst2pdf/genpdftext.py
+usr/lib64/python3.9/site-packages/rst2pdf/image.py
+usr/lib64/python3.9/site-packages/rst2pdf/images/
+usr/lib64/python3.9/site-packages/rst2pdf/images/image-missing.jpg
+usr/lib64/python3.9/site-packages/rst2pdf/images/image-missing.png
+usr/lib64/python3.9/site-packages/rst2pdf/languages.py
+usr/lib64/python3.9/site-packages/rst2pdf/log.py
+usr/lib64/python3.9/site-packages/rst2pdf/math_flowable.py
+usr/lib64/python3.9/site-packages/rst2pdf/nodehandlers.py
+usr/lib64/python3.9/site-packages/rst2pdf/pdfbuilder.py
+usr/lib64/python3.9/site-packages/rst2pdf/pygments2style.py
+usr/lib64/python3.9/site-packages/rst2pdf/roles/
+usr/lib64/python3.9/site-packages/rst2pdf/roles/__init__.py
+usr/lib64/python3.9/site-packages/rst2pdf/roles/__pycache__/
+usr/lib64/python3.9/site-packages/rst2pdf/roles/__pycache__/__init__.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/roles/__pycache__/counter.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/roles/__pycache__/counter_off.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/roles/__pycache__/package.cpython-39.pyc
+usr/lib64/python3.9/site-packages/rst2pdf/roles/counter.py
+usr/lib64/python3.9/site-packages/rst2pdf/roles/counter_off.py
+usr/lib64/python3.9/site-packages/rst2pdf/roles/package.py
+usr/lib64/python3.9/site-packages/rst2pdf/rson.py
+usr/lib64/python3.9/site-packages/rst2pdf/sectnumlinks.py
+usr/lib64/python3.9/site-packages/rst2pdf/sinker.py
+usr/lib64/python3.9/site-packages/rst2pdf/sphinxnodes.py
+usr/lib64/python3.9/site-packages/rst2pdf/style2yaml.py
+usr/lib64/python3.9/site-packages/rst2pdf/styles/
+usr/lib64/python3.9/site-packages/rst2pdf/styles.py
+usr/lib64/python3.9/site-packages/rst2pdf/styles/11x17.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/a0.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/a1-landscape.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/a1.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/a2-landscape.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/a2.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/a3-landscape.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/a3.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/a4-landscape.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/a4.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/a5-landscape.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/a5.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/a6-landscape.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/a6.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/abap.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/algol.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/algol_nu.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/arduino.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/autumn.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/b0.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/b1-landscape.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/b1.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/b2-landscape.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/b2.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/b3-landscape.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/b3.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/b4-landscape.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/b4.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/b5-landscape.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/b5.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/b6-landscape.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/b6.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/borland.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/bw.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/colorful.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/debugtables.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/default.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/dejavu.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/double-sided.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/eightpoint.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/emacs.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/freetype-sans.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/freetype-serif.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/friendly.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/fruity.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/igor.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/legal.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/letter-landscape.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/letter.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/lovelace.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/manni.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/monokai.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/murphy.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/native.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/no-compact-lists.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/paraiso-dark.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/paraiso-light.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/pastie.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/perldoc.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/rainbow_dash.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/rrt.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/rst2pdf-0-9.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/sas.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/serif.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/solarized-dark.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/solarized-light.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/sphinx.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/stata-dark.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/stata-light.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/stata.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/styles.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/tango.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/tenpoint.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/trac.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/twelvepoint.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/twocolumn.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/vim.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/vs.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/styles/xcode.yaml
+usr/lib64/python3.9/site-packages/rst2pdf/svgimage.py
+usr/lib64/python3.9/site-packages/rst2pdf/templates/
+usr/lib64/python3.9/site-packages/rst2pdf/templates/cover.tmpl
+usr/lib64/python3.9/site-packages/rst2pdf/templates/sphinxcover.tmpl
+usr/lib64/python3.9/site-packages/rst2pdf/utils.py
+usr/lib64/python3.9/site-packages/rst2pdf/writer.py
+usr/man/
+usr/man/man1/
+usr/src/
+usr/src/rst2pdf-0.99/
+usr/src/rst2pdf-0.99/SLKBUILD
+WARNING:  zero length file usr/lib64/python3.9/site-packages/rst2pdf/roles/__init__.py
+WARNING:  zero length file usr/lib64/python3.9/site-packages/rst2pdf/directives/__init__.py
+
+Slackware package /storage/repo/x86_64/slint-15.0/source/rst2pdf/rst2pdf-0.99-x86_64-1slint.txz created.
+
+Package has been built.

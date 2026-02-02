@@ -1,0 +1,44 @@
+This document describes how one could quickly test if a new package works
+resonably well. The idea was posted on
+http://lists.debian.org/debian-accessibility/2013/10/msg00026.html
+
+eBook-speaker actually can read you any text (including OCR). So far, I
+only test it with real ebook. I suggest to download a legally free book,
+e.g. some work from Edgar Allan Poe:
+http://www.gutenberg.org/ebooks/32037
+http://openlibrary.org/books/OL7044543M/The_works_of_Edgar_Allan_Poe.
+
+eBook-speaker needs a console, so start it in a terminal window. You can
+run eBook-speaker straight without input and it should show you your
+current directory listing. Moving up and down should allow you to select
+any file. eBook-speaker is made for 24 lines x 80 chars, if your window
+is smaller, text might appear funny. Also, I try to keep the packaging
+such that both ebook-speaker and eBook-speaker work. The former form is
+preferred by me, the latter by the author of eBook-speaker.
+
+paul@wollumbin ~/ $ ebook-speaker
+
+- You should get a screen with two info lines of eBook-speaker and then
+  the content of directory where you started eBook-speaker.
+- Pressing h should bring you the help, then pressing any key should
+  return you to the normal screen.
+- Pressing Cursor Down should scroll down to the next file
+- Pressing enter should start the reading and you should be able to hear
+  the text.
+- Hitting q should quite gracefully.
+
+paul@wollumbin ~/ $ ebook-speaker Old_World_Romances.epub
+
+- You should get a screen with the content of the book. You will only
+  see at maximum the first 22 chapters of the book even if there are more.
+- Hitting q should quite gracefully.
+- Restarting eBook-speaker as before should start where you were the last
+  time you "read" this book.
+
+eBook-speaker stores it's current configuration in ~/.eBook-speaker.xml
+and places bookmarks in ~/.eBook-speaker/ You might want to backup/remove
+those to restore default settings. (Don't edit while eBook-speaker is
+running or it will be overwritten.)
+
+Lastly, testing if the translations still work is also nice:
+paul@wollumbin ~/ $ LANGUAGE=nl_NL eBook-speaker

@@ -1,0 +1,5 @@
+### caja-dropbox 1.28.0
+
+* update translations
+* fix -Wmissing-field-initializers
+

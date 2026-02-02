@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="config-accessibility-keyboard">
+  <abstract role="description">
+    <para>Настройка расширенных возможностей клавиатуры. Облегчаетработу пользователям с ограниченными возможностями.</para>
+  </abstract>
+  <title>Специальные возможности клавиатуры (AccessX)</title>
+  <para/>
+</sect1>

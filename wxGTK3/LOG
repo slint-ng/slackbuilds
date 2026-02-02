@@ -1,0 +1,20 @@
+-- Which libraries should wxWidgets use?
+    wxUSE_STL:        OFF  (use C++ STL classes)
+    wxUSE_REGEX:      sys  (enable support for wxRegEx class)
+    wxUSE_ZLIB:       sys  (use zlib for LZW compression)
+    wxUSE_EXPAT:      sys  (use expat for XML parsing)
+    wxUSE_LIBJPEG:    sys  (use libjpeg (JPEG file format))
+    wxUSE_LIBPNG:     sys  (use libpng (PNG image format))
+    wxUSE_LIBTIFF:    sys  (use libtiff (TIFF file format))
+    wxUSE_NANOSVG:    sys  (use NanoSVG for rasterizing SVG)
+    wxUSE_LIBLZMA:    sys  (use liblzma for LZMA compression)
+    wxUSE_LIBSDL:     ON   (use SDL for audio on Unix)
+    wxUSE_LIBMSPACK:  OFF  (use libmspack (CHM help files loading))
+
+-- Configured wxWidgets 3.2.8 for Linux
+    Min OS Version required at runtime:                Linux x86_64
+    Which GUI toolkit should wxWidgets use?            gtk3 3.24.49 with support for: libnotify, GTK+ printing
+    Should wxWidgets be compiled into single library?  OFF
+    Should wxWidgets be linked as a shared library?    ON
+    Should wxWidgets support Unicode?                  ON
+    What wxWidgets compatibility level should be used? 3.0

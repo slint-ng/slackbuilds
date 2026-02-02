@@ -1,0 +1,6 @@
+This directory is usually empty.
+
+Building espeak-ng packages separately the variants and store here the
+resulting package, that the maintainer then moves to the repository.
+
+Dependendy: espeak-ng

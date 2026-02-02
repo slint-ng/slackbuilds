@@ -1,0 +1,26 @@
+gst-plugins-good 1.20.4
+
+    Plugins      : alpha, alphacolor, apetag, audiofx, audioparsers, auparse,
+                   autodetect, avi, cutter, navigationtest, debug, deinterlace,
+                   dtmf, effectv, equalizer, flv, flxdec, goom, goom2k1,
+                   icydemux, id3demux, imagefreeze, interleave, isomp4, alaw,
+                   mulaw, level, matroska, monoscope, multifile, multipart,
+                   replaygain, rtp, rtpmanager, rtsp, shapewipe, smpte,
+                   spectrum, udp, videobox, videocrop, videofilter, videomixer,
+                   wavenc, wavparse, y4menc, ossaudio, oss4, video4linux2,
+                   ximagesrc, aasink, cairo, flac, gdkpixbuf, gtk, jack, jpeg,
+                   lame, cacasink, dv, png, mpg123, 1394, pulseaudio, shout2,
+                   soup, speex, taglib, twolame, vpx, wavpack
+
+  User defined options
+    bindir       : /usr/bin
+    buildtype    : release
+    datadir      : /usr/share
+    includedir   : /usr/include
+    libdir       : lib64
+    libexecdir   : /usr/libexec
+    localstatedir: /var
+    mandir       : /usr/man
+    prefix       : /usr
+    sbindir      : /usr/sbin
+    sysconfdir   : /etc

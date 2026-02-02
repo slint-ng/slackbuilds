@@ -1,0 +1,25 @@
+[Desktop Entry]
+Name=GUEFI Boot Manager
+Name[ca]=Gestor d'arrencada GUEFI.
+Name[de]=GUEFI Bootmanager
+Name[el]=Διαχειριστής Εκκίνησης GUEFI
+Name[es]=Gestor de Arranque GUEFI
+Name[fr]=Gestionnaire d'amorcage GUEFI
+Name[nl]=GUEFI Boot Manager
+Name[sv]=GUEFI starthanterare
+Name[uk]=Менеджер завантаження GUEFI
+Comment=A graphical frontend to efibootmgr
+Comment[ca]=Un frontal gràfic per a efibootmgr
+Comment[de]=Ein grafisches Frontend zu "efibootmgr"
+Comment[el]=Ένα γραφικό περιβάλλον για το efibootmgr
+Comment[es]=Una interfaz gráfica para efibootmgr
+Comment[fr]=Un frontend graphique de efibootmgr
+Comment[nl]=Een grafische schil voor efibootmgr
+Comment[sv]=Ett grafiskt gränssnitt till efibootmgr
+Comment[uk]=Графічний інтерфейс до efibootmgr
+Exec=gksu /usr/sbin/guefi
+Icon=guefi
+Terminal=false
+Type=Application
+Categories=Application;System;
+StartupNotify=true

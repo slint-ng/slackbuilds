@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+             |-----handy-ruler------------------------------------------------------|
+aaa_slapt-get: aaa_slapt-get (an apt-like front-end to Slackware's pkgtools)
+aaa_slapt-get: 
+aaa_slapt-get: aaa_slapt-get is an apt like system for Slackware package management.
+aaa_slapt-get:  * See /usr/doc/aaa_slapt-get-*/ for complete documentation. 
+aaa_slapt-get:  * You will also want to customize /etc/aaa_slapt-get/aaa_slapt-getrc,
+aaa_slapt-get:    using a local mirror.  www.slackware.com may be very busy.
+aaa_slapt-get:  * Support:
+aaa_slapt-get:    https://github.com/jaos/aaa_slapt-get/issues
+aaa_slapt-get:  * Please translate
+aaa_slapt-get:    https://www.transifex.com/jaos/aaa_slapt-get/
+aaa_slapt-get:

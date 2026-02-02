@@ -1,0 +1,119 @@
+# Maintainer: Alexander Epaneshnikov <alex19ep@archlinux.org>
+# Maintainer: vantu5z <vantu5z@mail.ru>
+# Contributor: der_fenix <derfenix@gmail.com>
+# Included in Slint by Didier Spaier didier@slitdotfr
+# comit dated 27/12/2024
+export commit=846293f
+pkgname=RHVoice
+pkgver=1.16.5
+pkgrel=1slint
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Free and open source synthesizer)"
+"RHVoice is a free and open source speech synthesizer."
+"It consists of the following components: command line tools, speech"
+"modules for NVDA and Speech Dispatcher, Windows (SAPI5), Android App"
+)
+arch=('x86_64')
+docs=("README.md" "LICENSE.md" "NEWS")
+url="https://github.com/RHVoice/RHVoice"
+#source=("https://github.com/RHVoice/RHVoice/releases/download/1.8.0/rhvoice-1.8.0.tar.gz")
+license=('GPL3' 'custom' 'custom:by-nc-nd-4.0' 'custom:by-sa-4.0')
+depends=('libpulse')
+makedepends=('git' 'scons' 'speech-dispatcher' 'portaudio' 'libao')
+optdepends=('rhvoice-dictionary-git: extended russian dictionary'
+            'speech-dispatcher: for speech-dispatcher module support'
+            'portaudio: for portaudio backend'
+            'libao: for ao backend')
+
+CWD="$(pwd)"
+export CWD
+
+doinst() {
+    rm -f /etc/RHVoice/RHVoice-ru.conf;
+    rm -f /etc/RHVoice/RHVoice-ua.conf;
+    case $LANG in 
+        en*)
+            cp etc/RHVoice/RHVoice.conf-en etc/RHVoice/RHVoice.conf.new
+        ;;
+        ru*)
+            cp etc/RHVoice/RHVoice.conf-ru etc/RHVoice/RHVoice.conf.new
+        ;;
+        uk*)
+            cp etc/RHVoice/RHVoice.conf-uk etc/RHVoice/RHVoice.conf.new
+        ;;
+        *)
+            cp etc/RHVoice/RHVoice.conf-en etc/RHVoice/RHVoice.conf.new
+        ;;
+    esac;
+    if [ ! -r etc/RHVoice/RHVoice.conf ]; then
+        mv etc/RHVoice/RHVoice.conf.new etc/RHVoice/RHVoice.conf;
+    else
+        if [ "$(md5sum etc/RHVoice/RHVoice.conf.new)" = "$(md5sum etc/RHVoice/RHVoice.conf)" ]; then
+            rm etc/RHVoice.conf.new;
+        fi;
+    fi
+}
+
+build() {
+	git clone --recursive https://github.com/RHVoice/RHVoice.git
+	cd RHVoice
+	git checkout $commit
+	scons \
+	prefix=/usr \
+	libdir=/usr/lib${LIBDIRSUFFIX} \
+	sysconfdir=/etc \
+	servicedir='/usr/share/dbus-1/services/'
+	export SCONSFLAGS="$MAKEFLAGS"
+	scons install DESTDIR="$PKG" prefix="/usr" sysconfdir="/etc" \
+	      CPPFLAGS="$CPPFLAGS" CCFLAGS="$CFLAGS" LINKFLAGS="$LDFLAGS"
+	DOCDIR=$PKG/usr/doc/${pkgname}-$pkgver
+	mkdir -p $PKG/etc/RHVoice
+	mkdir -p $DOCDIR
+	pandoc -s -t html5 -o $PKG/usr/doc/${pkgname}-$pkgver/LICENSE.html \
+	 --metadata pagetitle="LICENSE" LICENSE.md
+	pandoc -s -t html5 -o $PKG/usr/doc/${pkgname}-$pkgver/README.html \
+	 --metadata pagetitle="README" README.md
+	 cp -a doc/* $DOCDIR/
+	 cp -r licenses $DOCDIR
+	 cp $CWD/README.LICENSES $DOCDIR/licenses
+	 rm -f $PKG/etc/RHVoice/RHVoice.conf
+	 mv $DOCDIR/en/RHVoice.conf $PKG/etc/RHVoice/RHVoice.conf-en
+	 mv $DOCDIR/ru/RHVoice.conf $PKG/etc/RHVoice/RHVoice.conf-ru
+	 mv $DOCDIR/ua/RHVoice.conf $PKG/etc/RHVoice/RHVoice.conf-uk
+	 for voice in $(ls $PKG/usr/share/RHVoice/voices|grep -v -e bdl -e clb); do
+		language=$(sed -n "/language/s/language=//p" $PKG/usr/share/RHVoice/voices/$voice/voice.info)
+		# This case not used. But just in case...
+		case $language in
+			Albanian) code=sq_AL;;
+			Brazilian-Portuguese) code=pt_BR;;
+			Esperanto) code=eo;;
+			Georgian) code=ka_GE;;
+			Kyrgyz) code=ky_KG;;
+			Macedonian) code=mk_MK;;
+			Polish) code=pl_PL;;
+			Russian) code=ru_RU;;
+			Tatar) code=tt_RU;;
+			Ukrainian) code=uk_UA
+		esac
+		gender=$(sed -n "/gender/s/gender=//p" $PKG/usr/share/RHVoice/voices/$voice/voice.info)
+		rm -rf $CWD/voicepkg
+		mkdir -p $CWD/voicepkg/usr/share/RHVoice/voices
+		mv $PKG/usr/share/RHVoice/voices/$voice $CWD/voicepkg/usr/share/RHVoice/voices/
+		mkdir -p $CWD/voicepkg/install
+		VOICENAME=RHVoice-${voice}-${language}
+		echo "$VOICENAME: $VOICENAME ($gender $language voice for RHVoice)" >$CWD/voicepkg/install/slack-desc
+		echo "$VOICENAME:" >>$CWD/voicepkg/install/slack-desc
+		# However natia is not built by default: "Georgian language is skipped because of non-free license"
+		if [ "$voice" = "natia" ]; then
+			echo "$VOICENAME: This voice is proprietary, only non-commercial usage is allowed.">>$CWD/voicepkg/install/slack-desc
+		fi
+		if [ "$voice" = "talgat" ]; then
+			echo "$VOICENAME: This voice is proprietary, only personal usage is allowed.">>$CWD/voicepkg/install/slack-desc
+		fi
+		cd $CWD/voicepkg
+		/sbin/makepkg -l y -c n $CWD/$VOICENAME-$pkgver-noarch-1slint.txz
+		cd -
+	done
+}

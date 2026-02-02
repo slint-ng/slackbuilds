@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY VERSION "1.10.1">
+<!ENTITY legal SYSTEM "legal.xml">
+<!ENTITY app "<application>MATE Control Center</application>">
+<!ENTITY appname "MATE Control Center">
+<!-- Information about the entities
+       The legal.xml file contains legal information, there is no need to edit the file.
+       Use the appversion entity to specify the version of the application.
+       Use the manrevision entity to specify the revision number of this manual.
+       Use the date entity to specify the release date of this manual.
+       Use the app entity to specify the name of the application. -->]>
+<article id="index" lang="ja">
+  
+  <articleinfo>
+    <abstract role="description">
+      <para>MATE コントロールセンタは、ユーザが MATE を使用するための設定を行う、中心的な役割を提供する場所です。ウインドウ枠の操作から既定のフォントの種類の指定まで、あらゆることを設定できます。</para>
+    </abstract>
+    <title>MATE コントロールセンタ・マニュアル</title>
+    <authorgroup>
+      <author><firstname>MATE 文書化プロジェクト</firstname> <surname/> <affiliation><orgname>MATE デスクトップ</orgname></affiliation></author>
+      <author><firstname>Kevin</firstname><surname>Breit</surname></author>
+    </authorgroup>
+    <copyright><year>2015年-2021年</year> <holder>MATE 文書化プロジェクト</holder></copyright>
+    <copyright><year>2001, 2002</year> <holder>Ximian, Inc.</holder></copyright>
+
+    <publisher role="maintainer">
+      <publishername>MATE 文書化プロジェクト</publishername>
+    </publisher>
+    <publisher>
+      <publishername>GNOME 文書化プロジェクト</publishername>
+    </publisher>
+    
+    <revhistory>
+      <revision><revnumber>2.15</revnumber> <date>2015年7月</date> <firstname>MATE 文書化プロジェクト</firstname> <surname/></revision>
+      <revision><revnumber>2.14</revnumber> <date>2006年3月</date></revision> 
+    </revhistory>
+
+    <!-- This file contains link to license for the
+   documentation (GNU FDL), and other legal stuff such as "NO
+   WARRANTY" statement. Please do not change any of this. -->
+
+    <releaseinfo>このマニュアルは、MATE コントロールセンタ 1.10.1 版の説明をしています。</releaseinfo>
+
+    <legalnotice>
+        <title>フィードバック</title>
+        <para>MATE コントロールセンタやこのマニュアルに関する不具合や提案を報告するには、<ulink url="help:mate-user-guide/feedback" type="help">MATE フィードバック・ページ</ulink>の指示に従ってください。</para>
+<!-- Translators may also add here feedback address for translations -->
+    </legalnotice>
+  </articleinfo>
+  
+  <sect1 id="intro">
+    <title>はじめに</title>
+    <para><application>MATE コントロールセンタ</application>は、全ての環境設定ツールを起動できる、統合的なウィンドウです。</para>
+    <note><para>設定ツールの使い方が分からないときは、<ulink type="help" url="help:mate-user-guide/prefs">ユーザガイド</ulink>をご覧ください。</para></note>
+
+<!-- ============= To Start Control Center  ============================ -->
+    <sect2 id="mate-control-center-to-start">
+      <title>MATE コントロールセンタを使うには</title>
+      <para>MATE コントロールセンタは、次の方法で起動できます。</para>
+      <variablelist>
+        <varlistentry>
+          <term><guimenu>システム</guimenu> メニュー</term>
+          <listitem>
+            <para><menuchoice><guimenu>コントロールセンタ</guimenu></menuchoice>というメニューを選択してください。</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>コマンドラインから</term>
+          <listitem>
+            <para>次のコマンドを実行します。<command>mate-control-center</command></para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </sect2>
+
+  </sect1>
+  
+  <sect1 id="matecc-interface">
+    <title>使い方</title>
+    <para><application>MATE コントロールセンタ</application>・ウィンドウでは、システムに予めインストールされているすべての設定ツールが、グループごとに一覧表示されます。</para>
+    <tip><para>左側のペインでは、まずグループを選択するか、フィルターボックスに任意のキーワードを入力することで、設定ツールにすばやくアクセスできます。また、<guilabel>外観の設定</guilabel>や<guilabel>お気に入りのアプリ</guilabel>など、一般的なタスクにもアクセスできます。</para></tip>
+    <para>設定ツールを開くには、それをクリックするだけです。</para>
+    <tip><para>環境設定ツールの説明は、マウスのカーソルをその上に置くと表示されます。</para></tip>
+  </sect1>
+</article>

@@ -1,0 +1,58 @@
+#Packager:Didier Spaier didieratslintdotfr
+
+pkgname=ibus-braille
+pkgver=0.3
+pkgrel=2slint
+#arch=noarch
+# source extracted from ibus-braille_0.3.orig.tar.gz from Debian,
+# renamed and re-compressed for easier hnadlintof the version number
+source=("ibus-braille-0.3.tar.xz")
+docs=("README.html" "copying" "changelog" "authors")
+
+doinst() {
+  # Update any existing icon cache files:
+  if find /usr/share/icons -maxdepth 2 2> /dev/null | grep -q icon-theme.cache ; then
+    for theme_dir in /usr/share/icons/* ; do
+      if [ -r ${theme_dir}/icon-theme.cache ]; then
+        /usr/bin/gtk-update-icon-cache -t -f ${theme_dir} 1> /dev/null 2> /dev/null &
+      fi
+    done
+    # This would be a large file and probably shouldn't be there.
+    if [ -r /usr/share/icons/icon-theme.cache ]; then
+      rm -f /usr/share/icons/icon-theme.cache
+    fi
+  fi
+  
+  # Update desktop database:
+  if [ -x /usr/bin/update-desktop-database ]; then
+    /usr/bin/update-desktop-database /usr/share/applications 1> /dev/null 2> /dev/null
+  fi
+}
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Braille input method for ibus)"
+"ibus-sharada-braille is an ibus input engine based on six key approach"
+"of braille. We consider the acceptance of this project by Svathanthra"
+"Malayalam Computing and Google as a new flowering of the effort"
+"of Louis Braille."
+)
+options="nosrcpack"
+
+build() {
+	cd $startdir/src/$pkgname-$pkgver
+	pandoc -f markdown -t html5 README.md -o README.html
+	# patches from Debian
+	patch -p1 --verbose < $startdir/patches/python3.patch || exit
+	patch -p1 --verbose < $startdir/patches/Specify-version-of-imported-libs.patch || exit
+	./autogen.sh
+	./configure --prefix=/usr \
+		--libdir=/usr/lib${LIBDIRSUFFIX} \
+		--localstatedir=/var \
+		--sysconfdir=/etc \
+		--with-python=/usr/bin/python3 \
+		--build=$arch-slackware-linux
+	make -j $numjobs || return 1
+	make install DESTDIR=$PKG
+} 

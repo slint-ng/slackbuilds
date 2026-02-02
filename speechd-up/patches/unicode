@@ -1,0 +1,49 @@
+Forwarded: https://github.com/williamh/speechd-up/pull/5
+
+commit d2ebae8d1b6f68a7c969337508edfd1d29f7ac44
+Author: Dennis Filder <d.filder@web.de>
+Date:   Sun Sep 27 19:05:50 2020 +0200
+
+    Fix assertion failed when speaking some Unicode characters
+    
+    When pressing unicode characters, and since speechd-up currently uses
+    the non-unicode softsynth, speakup returns EAGAIN to tell to retry
+    reading. This is not actually an error.
+
+diff --git a/speechd-up.c b/speechd-up.c
+index 0b8f93f..06a35bc 100644
+--- a/speechd-up.c
++++ b/speechd-up.c
+@@ -631,6 +631,7 @@ void destroy_pid_file()
+ int main(int argc, char *argv[])
+ {
+ 	size_t chars_read;
++	ssize_t chars_read_signed;
+ 	char buf[BUF_SIZE + 1];
+ 	int ret;
+ 
+@@ -748,11 +749,19 @@ int main(int argc, char *argv[])
+ 			close(fd);
+ 			return -1;
+ 		}
+-		chars_read = read(fd, buf, BUF_SIZE);
+-		if (chars_read < 0) {
+-			FATAL(5, "read() failed");
+-			close(fd);
+-			return -1;
++		chars_read_signed = read(fd, buf, BUF_SIZE);
++		if (chars_read_signed < 0) {
++			if (errno == EAGAIN) {
++				LOG(5, "read() failed with EAGAIN, retrying");
++				continue;
++			} else {
++				FATAL(5, "read() failed with %d,%s",
++				      errno, strerror(errno));
++				close(fd);
++				return -1;
++			}
++		} else {
++			chars_read = chars_read_signed;
+ 		}
+ 		buf[chars_read] = 0;
+ 		LOG(5, "Main loop characters read = %d : (%s)", chars_read,

@@ -1,0 +1,16 @@
+Cage 0.1.5
+
+    xwayland: true
+
+Build targets in project: 2
+
+cage 0.1.5
+
+  User defined options
+    buildtype    : release
+    libdir       : /usr/lib64
+    localstatedir: /var
+    mandir       : /usr/man
+    prefix       : /usr
+    strip        : true
+    sysconfdir   : /etc

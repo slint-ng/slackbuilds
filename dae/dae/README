@@ -1,0 +1,86 @@
+DAE The digital audio editor
+(C) copyright Meraka Institute, CSIR
+EMAIL: wvdwalt@csir.co.za
+
+*******************************************************************************
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; either version 3 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details (file
+COPYING in the root directory).
+
+You should have received a copy of the GNU General Public License along with
+this program; if not, write to the Free Software Foundation, Inc., 675 Mass
+Ave, Cambridge, MA 02139, USA.
+
+*******************************************************************************
+
+The purpose of this program is to allow for the editing of digital audio
+files from a text-base application in a user-friendly manner.
+Among the very few open-source programs that claim to perform this task, I
+could find only two that was still actively maintained and compiled under a
+modern Linux system.  These were ecasound and wedit.
+The text-based interface of ecasound is quite accessible, but not user
+friendly at all.  It is a direct interface to the ecasound library.  Wedit,
+an audio editor written by a blind man some years ago, is more user-friendly
+but did not have all the functions required to make editing of audio files
+usable in a real time environment like a lecture/presentation.
+
+Ecasound has application programming interfaces (APIs) for
+ a number of languages.
+I first developed the editor using the PERL api, but
+ended up using ecasound and its python API for the development of DAE.
+
+ 
+
+The idea was to keep the function of the editor as close to that of a
+conventional analog tape recorder, but with at least the following
+additional functions.
+1.  The ability to delete a marked passage from the audio,
+2.  The ability to insert either from an existing file or by recording
+through a microphone, into the middle of an audio file,
+3.  The ability to copy a marked passage out to another audio file.
+
+Verifying that a marked audio block is correct is done by playing the marked
+passage.  Doing anything with digital audio files except playing them, even
+with the graphical tools, seem to assume some knowledge of audio file
+formats.  As the potential users of DAE are unlikely to have that knowledge,
+it was required to screen the user from that detail.
+This is done by automatically converting all formats to that of the file
+being edited.
+
+Technical detail
+DAE is written in python and requires a number of other applications to be
+installed.
+1.  Ecasound and its library as well as python.
+    Currently ecasound needs to be compiled with libsamplerate support. 
+Libsamplerate is a separate package used for changing the sample rate of
+audio files.
+2.  Lame, mpg123, ogg123 and oggenc for mp3 and ogg-vorbis support.
+3.  Dae currently calls pickafile for selecting files, but that requirement
+could be removed.  Pickafile is a text-based file browser which forms part
+of the Kies package, but it is included in the dae package for your
+conveniance.  Pickafile requires a small program called getterm which is
+also included with dae.
+    Dae also requires catchkey, part of the kies package for processing the
+keystrokes.  A copy of catchkey is also included with dae.
+
+
+
+Like most programs of this nature, DAE is a bit of a disk space glutton
+A copy of the file being edited is made on startup to serve as a backup. 
+When inserting or deletion is done, work files are created which can also
+potentially take up as much space as the original file.  When compressed
+files, IE .mp3 or .ogg files are being edited, they are first decompressed
+to a working file which cause the disk space requirement to go up even more.
+Note that editing of compressed files is not yet supported in the current
+python version of dae.
+
+I have tested DAE on a 300 Megahertz processor PC with 256 MB ram using a
+big CD quality file and it still worked.
+Processing is noticeably slower on the slower machines.

@@ -1,0 +1,682 @@
+checking for g++... g++
+checking whether the C++ compiler works... yes
+checking for C++ compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C++ compiler... yes
+checking whether g++ accepts -g... yes
+checking for gawk... gawk
+checking for gcc... gcc
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to accept ISO C89... none needed
+checking how to run the C preprocessor... gcc -E
+checking for a BSD-compatible install... /usr/bin/ginstall -c
+checking whether ln -s works... yes
+checking whether make sets $(MAKE)... yes
+checking for ranlib... ranlib
+checking for perl... /usr/bin/perl
+checking for nkf... no
+checking for man... /usr/bin/man
+checking for X... disabled
+checking build system type... x86_64-slackware-linux-gnu
+checking host system type... x86_64-slackware-linux-gnu
+checking if m17n support is enabled... yes
+checking if Unicode support is enabled... yes
+checking if message l10n... no
+checking if japanese support is enabled... no
+checking which charset is used for display... UTF-8
+checking for a thread-safe mkdir -p... /usr/bin/mkdir -p
+checking whether NLS is requested... yes
+checking for msgfmt... /usr/bin/msgfmt
+checking for gmsgfmt... /usr/bin/msgfmt
+checking for xgettext... /usr/bin/xgettext
+checking for msgmerge... /usr/bin/msgmerge
+checking for ld used by GCC... /usr/bin/ld
+checking if the linker (/usr/bin/ld) is GNU ld... yes
+checking for shared library run path origin... done
+checking for grep that handles long lines and -e... /usr/bin/grep
+checking for egrep... /usr/bin/grep -E
+checking for CFPreferencesCopyAppValue... no
+checking for CFLocaleCopyCurrent... no
+checking for GNU gettext in libc... yes
+checking whether to use NLS... yes
+checking where the gettext function comes from... libc
+checking if color escape sequence for kterm/pxvt is enabled... yes
+checking if ANSI color escape sequence support is enabled... yes
+checking if background color support is enabled... yes
+checking if image is enabled... no
+checking default keymap... w3m
+checking if popup menu is enabled... no
+checking if mouse operation enabled... no
+checking if URL history is enabled... no
+checking if alarm is enabled... no
+checking if cookie is enabled... no
+checking if nntp is enabled... no
+checking if Gopher is enabled... no
+checking if dictionary lookup is enabled... no
+checking if help cgi is enabled... no
+checking if external URI loader is enabled... no
+checking if w3mmail is used... no
+checking if migemo is supported with... no
+checking which editor is used by default... no
+checking which mailer is used by default... no
+checking which external browser is used by default... no
+checking for -lbsd... not found
+checking for -lBSD... not found
+checking for -l44bsd... not found
+checking for -lsocket... not found
+checking for -lnsl... found at /usr/lib64
+checking for -ldld... not found
+checking for -ldl... found at /usr/lib64
+checking if IPv6 support is enabled... no
+checking for pkg-config... /usr/bin/pkg-config
+checking pkg-config is at least version 0.9.0... yes
+checking if SSL is supported... yes
+checking for SSL... yes
+checking for SSL_new in -lssl... yes
+checking if SSL certificate verification is enabled... no
+checking if digest auth is enabled... no
+checking for sqrt... no
+checking for sqrt in -lm... yes
+checking terminal library... terminfo ncurses
+checking for tgetent in -lterminfo... no
+checking for tgetent in -lncurses... yes
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking GC library exists... yes
+checking gc.h usability... yes
+checking gc.h presence... yes
+checking for gc.h... yes
+checking for GC_init in -lgc... yes
+checking for zError in -lz... yes
+checking for socklen_t... yes
+checking for dirent.h that defines DIR... yes
+checking for library containing opendir... none required
+checking for ANSI C header files... (cached) yes
+checking for sys/wait.h that is POSIX.1 compatible... yes
+checking termios.h usability... yes
+checking termios.h presence... yes
+checking for termios.h... yes
+checking float.h usability... yes
+checking float.h presence... yes
+checking for float.h... yes
+checking sys/select.h usability... yes
+checking sys/select.h presence... yes
+checking for sys/select.h... yes
+checking locale.h usability... yes
+checking locale.h presence... yes
+checking for locale.h... yes
+checking for stdint.h... (cached) yes
+checking for inttypes.h... (cached) yes
+checking size of long long... 8
+checking for strcasecmp... yes
+checking for strcasestr... yes
+checking for strchr... yes
+checking for memcpy... yes
+checking for strerror... yes
+checking for bcopy... yes
+checking for setpgrp... yes
+checking for chdir... yes
+checking for mkdtemp... yes
+checking for faccessat... yes
+checking for getcwd... yes
+checking for getwd... yes
+checking for readlink... yes
+checking for setenv... yes
+checking for putenv... yes
+checking for strtoll... yes
+checking for stroq... no
+checking for atoll... yes
+checking for atoq... no
+checking for symlink... yes
+checking for readlink... (cached) yes
+checking for lstat... yes
+checking for srand48... yes
+checking for srandom... yes
+checking for getpassphrase... no
+checking for waitpid... yes
+checking for setlocale... yes
+checking for strftime... yes
+checking for wait3 that fills in rusage... yes
+checking whether setpgrp takes no argument... yes
+checking for nl_langinfo and CODESET... yes
+checking for sigsetjmp... yes
+checking return type of signal handlers... void
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating posubst
+config.status: creating po/Makefile.in
+config.status: creating scripts/Makefile
+config.status: creating scripts/dirlist.cgi
+config.status: creating scripts/w3mhelp.cgi
+config.status: creating scripts/w3mmail.cgi
+config.status: creating scripts/xface2xpm
+config.status: creating scripts/multipart/Makefile
+config.status: creating scripts/multipart/multipart.cgi
+config.status: creating scripts/w3mman/Makefile
+config.status: creating scripts/w3mman/w3mman
+config.status: creating scripts/w3mman/w3mman.1
+config.status: creating scripts/w3mman/w3mman.de.1
+config.status: creating scripts/w3mman/w3mman2html.cgi
+config.status: creating libwc/Makefile
+config.status: creating w3mimg/Makefile
+config.status: creating w3mimg/fb/Makefile
+config.status: creating w3mimg/x11/Makefile
+config.status: creating w3mimg/win/Makefile
+config.status: creating w3mhelp-w3m_en.html
+config.status: creating w3mhelp-w3m_ja.html
+config.status: creating w3mhelp-lynx_en.html
+config.status: creating w3mhelp-lynx_ja.html
+config.status: creating config.h
+config.status: executing po-directories commands
+config.status: creating po/POTFILES
+config.status: creating po/Makefile
+(echo '#define DEFUN(x,y,z) x y';\
+ sed -ne '/^DEFUN/{p;n;/^[ 	]/p;}' ./main.c ./menu.c) | gcc -E  - | \
+ awk '$1 ~ /^[_A-Za-z]/ { \
+       for (i=2;i<=NF;i++) { print $i, $1} \
+ }' > funcname.tab.tmp
+funcname.tab updated
+sort funcname.tab | gawk -f ./funcname1.awk > funcname1.h
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o main.o main.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o file.o file.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o buffer.o buffer.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o display.o display.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o etc.o etc.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o search.o search.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o linein.o linein.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o table.o table.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o local.o local.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o form.o form.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o map.o map.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o frame.o frame.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o rc.o rc.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o menu.o menu.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o mailcap.o mailcap.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o image.o image.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o symbol.o symbol.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o entity.o entity.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o terms.o terms.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o url.o url.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o ftp.o ftp.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o mimehead.o mimehead.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o regex.o regex.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o news.o news.c
+sort funcname.tab | gawk -f ./funcname0.awk > funcname.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o mktable.o mktable.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"  -DDUMMY -c -o dummy.o entity.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o Str.o Str.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o hash.o hash.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o myctype.o myctype.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"  -o mktable mktable.o dummy.o Str.o hash.o myctype.o  -lm  -lnsl -ldl -lgc
+sort funcname.tab | gawk -f ./functable.awk > functable.tab
+./mktable 100 functable.tab > functable.c
+rm -f functable.tab
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o func.o func.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o cookie.o cookie.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o history.o history.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o backend.o backend.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o util.o util.c
+sort funcname.tab | gawk -f ./funcname2.awk > funcname2.h
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o keybind.o keybind.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o anchor.o anchor.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o parsetagx.o parsetagx.c
+./mktable 100 ./tagtable.tab > tagtable.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o tagtable.o tagtable.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o istream.o istream.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o version.o version.c
+echo '/* $I''d$ */' > entity.h
+./mktable 100 ./entity.tab >> entity.h
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o indep.o indep.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o textlist.o textlist.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o parsetag.o parsetag.c
+ar rv libindep.a Str.o indep.o regex.o textlist.o parsetag.o myctype.o hash.o
+ar: création de libindep.a
+a - Str.o
+a - indep.o
+a - regex.o
+a - textlist.o
+a - parsetag.o
+a - myctype.o
+a - hash.o
+ranlib libindep.a
+(cd libwc && make CC='gcc' OPTS='')
+make[1] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/libwc »
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o big5.o big5.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o ces.o ces.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o char_conv.o char_conv.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o charset.o charset.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o combining.o combining.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o conv.o conv.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o detect.o detect.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o gb18030.o gb18030.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o gbk.o gbk.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o hkscs.o hkscs.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o hz.o hz.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o iso2022.o iso2022.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o jis.o jis.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o johab.o johab.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o priv.o priv.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o putc.o putc.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o search.o search.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o sjis.o sjis.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o status.o status.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o ucs.o ucs.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o uhc.o uhc.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o utf7.o utf7.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o utf8.o utf8.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o viet.o viet.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o wtf.o wtf.c
+ar rv libwc.a big5.o ces.o char_conv.o charset.o combining.o conv.o detect.o gb18030.o gbk.o hkscs.o hz.o iso2022.o jis.o johab.o priv.o putc.o search.o sjis.o status.o ucs.o uhc.o utf7.o utf8.o viet.o wtf.o
+ar: création de libwc.a
+a - big5.o
+a - ces.o
+a - char_conv.o
+a - charset.o
+a - combining.o
+a - conv.o
+a - detect.o
+a - gb18030.o
+a - gbk.o
+a - hkscs.o
+a - hz.o
+a - iso2022.o
+a - jis.o
+a - johab.o
+a - priv.o
+a - putc.o
+a - search.o
+a - sjis.o
+a - status.o
+a - ucs.o
+a - uhc.o
+a - utf7.o
+a - utf8.o
+a - viet.o
+a - wtf.o
+ranlib libwc.a
+make[1] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/libwc »
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"  -o w3m main.o file.o buffer.o display.o etc.o search.o linein.o table.o local.o form.o map.o frame.o rc.o menu.o mailcap.o image.o symbol.o entity.o terms.o url.o ftp.o mimehead.o regex.o news.o func.o cookie.o history.o backend.o util.o keybind.o anchor.o parsetagx.o tagtable.o istream.o version.o  -lm  -lnsl -ldl -L. -lindep  -lgc -L./libwc -lwc -lssl -lcrypto -lssl -lcrypto -lncurses
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o w3mbookmark.o w3mbookmark.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"  -o w3mbookmark w3mbookmark.o dummy.o  -lm  -lnsl -ldl -L. -lindep  -lgc
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"    -c -o w3mhelperpanel.o w3mhelperpanel.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"  -o w3mhelperpanel w3mhelperpanel.o dummy.o  -lm  -lnsl -ldl -L. -lindep  -lgc
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"  -o inflate.o -c ./inflate.c
+gcc -Wall -Wnull-dereference -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"  -o inflate inflate.o  -lm  -lnsl -ldl -lz
+for dir in scripts;	\
+do	\
+	(cd $dir && make PERL='/usr/bin/perl' MKDIR='mkdir -p' BIN_DIR='/usr/bin' AUXBIN_DIR='/usr/libexec/w3m' CGIBIN_DIR='/usr/libexec/w3m/cgi-bin' HELP_DIR='/usr/share/w3m' MAN_DIR='/usr/man' ETC_DIR='/etc' CONF_DIR='/etc/w3m' RC_DIR='~/.w3m' DESTDIR='' KEYBIND_SRC='keybind.c'); \
+done
+make[1] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/scripts »
+generating w3mhelp-funcname.pl...
+done
+generating w3mhelp-funcdesc*.pl...
+done
+for subdir in multipart w3mman; \
+do \
+	(cd $subdir && make); \
+done
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/scripts/multipart »
+make[2]: rien à faire pour « all ».
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/scripts/multipart »
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/scripts/w3mman »
+make[2]: rien à faire pour « all ».
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/scripts/w3mman »
+for subdir in multipart w3mman; \
+do \
+	(cd $subdir && make); \
+done
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/scripts/multipart »
+make[2]: rien à faire pour « all ».
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/scripts/multipart »
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/scripts/w3mman »
+make[2]: rien à faire pour « all ».
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/scripts/w3mman »
+make[1] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/scripts »
+(cd po && make)
+make[1] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/po »
+test ! -f ./w3m.pot || \
+  test -z "de.gmo it.gmo ja.gmo sv_SE.gmo zh_CN.gmo zh_TW.gmo" || make de.gmo it.gmo ja.gmo sv_SE.gmo zh_CN.gmo zh_TW.gmo
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/po »
+rm -f de.gmo && /usr/bin/msgfmt -c --statistics --verbose -o de.gmo de.po
+de.po : 235 messages traduits, 2 messages non traduits.
+rm -f it.gmo && /usr/bin/msgfmt -c --statistics --verbose -o it.gmo it.po
+it.po : 235 messages traduits, 2 messages non traduits.
+rm -f ja.gmo && /usr/bin/msgfmt -c --statistics --verbose -o ja.gmo ja.po
+ja.po : 233 messages traduits, 4 messages non traduits.
+rm -f sv_SE.gmo && /usr/bin/msgfmt -c --statistics --verbose -o sv_SE.gmo sv_SE.po
+sv_SE.po : 235 messages traduits, 2 messages non traduits.
+rm -f zh_CN.gmo && /usr/bin/msgfmt -c --statistics --verbose -o zh_CN.gmo zh_CN.po
+zh_CN.po : 224 messages traduits, 13 messages non traduits.
+rm -f zh_TW.gmo && /usr/bin/msgfmt -c --statistics --verbose -o zh_TW.gmo zh_TW.po
+zh_TW.po : 226 messages traduits, 11 messages non traduits.
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/po »
+touch stamp-po
+make[1] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/po »
+(cd libwc && make CC='gcc' OPTS='')
+make[1] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/libwc »
+make[1]: rien à faire pour « all ».
+make[1] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/libwc »
+mkdir -p /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/bin
+mkdir -p /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/libexec/w3m
+mkdir -p /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/libexec/w3m/cgi-bin
+mkdir -p /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/share/w3m
+mkdir -p /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/man/man1
+mkdir -p /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/man/ja/man1
+mkdir -p /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/man/de/man1
+/usr/bin/ginstall -c w3m /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/bin/w3m
+/usr/bin/ginstall -c -m 644 w3mhelp-w3m_en.html /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/share/w3m/w3mhelp.html
+/usr/bin/ginstall -c -m 644 ./doc/w3m.1 /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/man/man1/w3m.1
+/usr/bin/ginstall -c -m 644 ./doc-jp/w3m.1 /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/man/ja/man1/w3m.1
+/usr/bin/ginstall -c -m 644 ./doc-de/w3m.1 /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/man/de/man1/w3m.1
+targets="inflate"; for file in $targets; \
+do \
+	case $file in \
+	w3mimgdisplay) /usr/bin/ginstall -c $file \
+		/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/libexec/w3m/$file;; \
+	*) /usr/bin/ginstall -c $file /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/libexec/w3m/$file;; \
+	esac; \
+done
+for file in w3mbookmark w3mhelperpanel; \
+do \
+	/usr/bin/ginstall -c $file /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/libexec/w3m/cgi-bin/$file; \
+done
+for dir in scripts;	\
+do	\
+	(cd $dir && make PERL='/usr/bin/perl' MKDIR='mkdir -p' BIN_DIR='/usr/bin' AUXBIN_DIR='/usr/libexec/w3m' CGIBIN_DIR='/usr/libexec/w3m/cgi-bin' HELP_DIR='/usr/share/w3m' MAN_DIR='/usr/man' ETC_DIR='/etc' CONF_DIR='/etc/w3m' RC_DIR='~/.w3m' DESTDIR='/repo/x86_64/slint-15.0/source/w3m/package-w3m' KEYBIND_SRC='keybind.c'); \
+done
+make[1] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/scripts »
+for subdir in multipart w3mman; \
+do \
+	(cd $subdir && make); \
+done
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/scripts/multipart »
+make[2]: rien à faire pour « all ».
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/scripts/multipart »
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/scripts/w3mman »
+make[2]: rien à faire pour « all ».
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/scripts/w3mman »
+for subdir in multipart w3mman; \
+do \
+	(cd $subdir && make); \
+done
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/scripts/multipart »
+make[2]: rien à faire pour « all ».
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/scripts/multipart »
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/scripts/w3mman »
+make[2]: rien à faire pour « all ».
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/scripts/w3mman »
+make[1] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/scripts »
+topdir=`pwd`; \
+for dir in scripts;	\
+do	\
+	(cd $dir && make PERL='/usr/bin/perl' MKDIR='mkdir -p' BIN_DIR='/usr/bin' AUXBIN_DIR='/usr/libexec/w3m' CGIBIN_DIR='/usr/libexec/w3m/cgi-bin' HELP_DIR='/usr/share/w3m' MAN_DIR='/usr/man' ETC_DIR='/etc' CONF_DIR='/etc/w3m' RC_DIR='~/.w3m' DESTDIR='/repo/x86_64/slint-15.0/source/w3m/package-w3m' KEYBIND_SRC='keybind.c' install); \
+done
+make[1] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/scripts »
+mkdir -p /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/libexec/w3m
+mkdir -p /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/libexec/w3m/cgi-bin
+mkdir -p /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/share/w3m
+for file in xface2xpm;     \
+do      \
+	/usr/bin/ginstall -c $file /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/libexec/w3m;  \
+done
+for file in w3mdict.cgi dirlist.cgi w3mhelp.cgi w3mmail.cgi;     \
+do      \
+	/usr/bin/ginstall -c $file /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/libexec/w3m/cgi-bin;  \
+done
+for file in w3mhelp-*.pl; \
+do \
+	/usr/bin/ginstall -c -m 644 $file /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/share/w3m; \
+done
+for subdir in multipart w3mman; \
+do \
+	(cd $subdir && make install); \
+done
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/scripts/multipart »
+mkdir -p /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/libexec/w3m/cgi-bin
+for file in multipart.cgi;	\
+do	\
+	/usr/bin/ginstall -c $file /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/libexec/w3m/cgi-bin;	\
+done
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/scripts/multipart »
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/scripts/w3mman »
+mkdir -p /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/bin
+mkdir -p /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/libexec/w3m/cgi-bin
+mkdir -p /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/man/man1
+mkdir -p /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/man/de/man1
+for file in w3mman;     \
+do      \
+	/usr/bin/ginstall -c $file /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/bin;	\
+done
+for file in w3mman2html.cgi;     \
+do      \
+	/usr/bin/ginstall -c $file /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/libexec/w3m/cgi-bin;	\
+done
+for file in w3mman.1; \
+do	\
+	/usr/bin/ginstall -c -m 644 $file /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/man/man1; \
+done
+for file in w3mman.de.1; \
+do	\
+	/usr/bin/ginstall -c -m 644 $file /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/man/de/man1; \
+	f=`echo "$file" | sed -e 's/\.de\././'`; \
+	mv /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/man/de/man1/$file /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/man/de/man1/$f; \
+done
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/scripts/w3mman »
+make[1] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/scripts »
+NLSTARGET="po"; for subdir in $NLSTARGET; \
+do \
+ (cd $subdir && make install); \
+done
+make[1] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/po »
+installing de.gmo as /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/share/locale/de/LC_MESSAGES/w3m.mo
+installing it.gmo as /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/share/locale/it/LC_MESSAGES/w3m.mo
+installing ja.gmo as /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/share/locale/ja/LC_MESSAGES/w3m.mo
+installing sv_SE.gmo as /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/share/locale/sv_SE/LC_MESSAGES/w3m.mo
+installing zh_CN.gmo as /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/share/locale/zh_CN/LC_MESSAGES/w3m.mo
+installing zh_TW.gmo as /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/share/locale/zh_TW/LC_MESSAGES/w3m.mo
+if test "w3m" = "gettext-tools"; then \
+  /usr/bin/mkdir -p /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/share/gettext/po; \
+  for file in Makefile.in.in remove-potcdate.sin quot.sed boldquot.sed en@quot.header en@boldquot.header insert-header.sin Rules-quot   Makevars.template; do \
+    /usr/bin/ginstall -c -m 644 ./$file \
+		    /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/share/gettext/po/$file; \
+  done; \
+  for file in Makevars; do \
+    rm -f /repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/share/gettext/po/$file; \
+  done; \
+else \
+  : ; \
+fi
+make[1] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121/po »
+iconv: séquence d'échappement non permise à la position 41
+iconv: séquence d'échappement non permise à la position 59
+iconv: séquence d'échappement non permise à la position 167
+iconv: séquence d'échappement non permise à la position 62
+iconv: séquence d'échappement non permise à la position 129
+iconv: séquence d'échappement non permise à la position 4
+iconv: séquence d'échappement non permise à la position 0
+iconv: séquence d'échappement non permise à la position 3
+iconv: séquence d'échappement non permise à la position 11
+iconv: séquence d'échappement non permise à la position 5
+iconv: séquence d'échappement non permise à la position 1
+iconv: séquence d'échappement non permise à la position 8
+iconv: séquence d'échappement non permise à la position 5
+iconv: séquence d'échappement non permise à la position 4
+iconv: séquence d'échappement non permise à la position 13
+iconv: séquence d'échappement non permise à la position 10
+iconv: séquence d'échappement non permise à la position 24
+iconv: séquence d'échappement non permise à la position 156
+iconv: séquence d'échappement non permise à la position 161
+iconv: séquence d'échappement non permise à la position 149
+
+Slackware package maker, version 3.14159265.
+
+Searching for symbolic links:
+
+No symbolic links were found, so we won't make an installation script.
+You can make your own later in ./install/doinst.sh and rebuild the
+package if you like.
+
+This next step is optional - you can set the directories in your package
+to some sane permissions. If any of the directories in your package have
+special permissions, then DO NOT reset them here!
+
+Would you like to reset all directory permissions to 755 (drwxr-xr-x) and
+directory ownerships to root.root ([y]es, [n]o)? 
+n
+
+Creating Slackware package:  /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121-x86_64-1slint.txz
+
+./
+etc/
+etc/w3m/
+install/
+install/slack-desc
+usr/
+usr/bin/
+usr/bin/w3m
+usr/bin/w3mman
+usr/doc/
+usr/doc/w3m-0.5.3+git20230121/
+usr/doc/w3m-0.5.3+git20230121/ABOUT-NLS
+usr/doc/w3m-0.5.3+git20230121/ChangeLog
+usr/doc/w3m-0.5.3+git20230121/NEWS
+usr/doc/w3m-0.5.3+git20230121/README
+usr/doc/w3m-0.5.3+git20230121/TODO
+usr/doc/w3m-0.5.3+git20230121/doc/
+usr/doc/w3m-0.5.3+git20230121/doc-de/
+usr/doc/w3m-0.5.3+git20230121/doc-de/FAQ.html
+usr/doc/w3m-0.5.3+git20230121/doc-de/MANUAL.html
+usr/doc/w3m-0.5.3+git20230121/doc-de/README.func
+usr/doc/w3m-0.5.3+git20230121/doc-de/w3m.1
+usr/doc/w3m-0.5.3+git20230121/doc-jp/
+usr/doc/w3m-0.5.3+git20230121/doc-jp/FAQ.html
+usr/doc/w3m-0.5.3+git20230121/doc-jp/HISTORY
+usr/doc/w3m-0.5.3+git20230121/doc-jp/MANUAL.html
+usr/doc/w3m-0.5.3+git20230121/doc-jp/README
+usr/doc/w3m-0.5.3+git20230121/doc-jp/README.SSL
+usr/doc/w3m-0.5.3+git20230121/doc-jp/README.cookie
+usr/doc/w3m-0.5.3+git20230121/doc-jp/README.cygwin
+usr/doc/w3m-0.5.3+git20230121/doc-jp/README.dict
+usr/doc/w3m-0.5.3+git20230121/doc-jp/README.func
+usr/doc/w3m-0.5.3+git20230121/doc-jp/README.img
+usr/doc/w3m-0.5.3+git20230121/doc-jp/README.keymap
+usr/doc/w3m-0.5.3+git20230121/doc-jp/README.m17n
+usr/doc/w3m-0.5.3+git20230121/doc-jp/README.mailcap
+usr/doc/w3m-0.5.3+git20230121/doc-jp/README.menu
+usr/doc/w3m-0.5.3+git20230121/doc-jp/README.migemo
+usr/doc/w3m-0.5.3+git20230121/doc-jp/README.mouse
+usr/doc/w3m-0.5.3+git20230121/doc-jp/README.passwd
+usr/doc/w3m-0.5.3+git20230121/doc-jp/README.pre_form
+usr/doc/w3m-0.5.3+git20230121/doc-jp/README.siteconf
+usr/doc/w3m-0.5.3+git20230121/doc-jp/README.tab
+usr/doc/w3m-0.5.3+git20230121/doc-jp/STORY.html
+usr/doc/w3m-0.5.3+git20230121/doc-jp/keymap.default
+usr/doc/w3m-0.5.3+git20230121/doc-jp/keymap.lynx
+usr/doc/w3m-0.5.3+git20230121/doc-jp/menu.default
+usr/doc/w3m-0.5.3+git20230121/doc-jp/menu.submenu
+usr/doc/w3m-0.5.3+git20230121/doc-jp/w3m.1
+usr/doc/w3m-0.5.3+git20230121/doc/FAQ.html
+usr/doc/w3m-0.5.3+git20230121/doc/HISTORY
+usr/doc/w3m-0.5.3+git20230121/doc/MANUAL.html
+usr/doc/w3m-0.5.3+git20230121/doc/README
+usr/doc/w3m-0.5.3+git20230121/doc/README.SSL
+usr/doc/w3m-0.5.3+git20230121/doc/README.cookie
+usr/doc/w3m-0.5.3+git20230121/doc/README.cygwin
+usr/doc/w3m-0.5.3+git20230121/doc/README.dict
+usr/doc/w3m-0.5.3+git20230121/doc/README.func
+usr/doc/w3m-0.5.3+git20230121/doc/README.img
+usr/doc/w3m-0.5.3+git20230121/doc/README.keymap
+usr/doc/w3m-0.5.3+git20230121/doc/README.m17n
+usr/doc/w3m-0.5.3+git20230121/doc/README.menu
+usr/doc/w3m-0.5.3+git20230121/doc/README.mouse
+usr/doc/w3m-0.5.3+git20230121/doc/README.passwd
+usr/doc/w3m-0.5.3+git20230121/doc/README.pre_form
+usr/doc/w3m-0.5.3+git20230121/doc/README.siteconf
+usr/doc/w3m-0.5.3+git20230121/doc/README.sixel
+usr/doc/w3m-0.5.3+git20230121/doc/README.tab
+usr/doc/w3m-0.5.3+git20230121/doc/STORY.html
+usr/doc/w3m-0.5.3+git20230121/doc/keymap.default
+usr/doc/w3m-0.5.3+git20230121/doc/keymap.lynx
+usr/doc/w3m-0.5.3+git20230121/doc/menu.default
+usr/doc/w3m-0.5.3+git20230121/doc/menu.submenu
+usr/doc/w3m-0.5.3+git20230121/doc/w3m.1
+usr/doc/w3m-0.5.3+git20230121/examples/
+usr/doc/w3m-0.5.3+git20230121/examples/Bonus/
+usr/doc/w3m-0.5.3+git20230121/examples/Bonus/2ch.cgi
+usr/doc/w3m-0.5.3+git20230121/examples/Bonus/README.eng
+usr/doc/w3m-0.5.3+git20230121/examples/Bonus/README.ja
+usr/doc/w3m-0.5.3+git20230121/examples/Bonus/backslash_to_slash.cgi
+usr/doc/w3m-0.5.3+git20230121/examples/Bonus/goodict.cgi
+usr/doc/w3m-0.5.3+git20230121/examples/Bonus/google.cgi
+usr/doc/w3m-0.5.3+git20230121/examples/Bonus/html2latex
+usr/doc/w3m-0.5.3+git20230121/examples/Bonus/htmldump
+usr/doc/w3m-0.5.3+git20230121/examples/Bonus/makeref
+usr/doc/w3m-0.5.3+git20230121/examples/Bonus/oldconfigure.sh
+usr/doc/w3m-0.5.3+git20230121/examples/Bonus/scanhist.rb
+usr/doc/w3m-0.5.3+git20230121/examples/Bonus/smb.cgi
+usr/doc/w3m-0.5.3+git20230121/examples/Bonus/utf8.cgi
+usr/doc/w3m-0.5.3+git20230121/examples/Bonus/wrap3m
+usr/doc/w3m-0.5.3+git20230121/w3m.SlackBuild
+usr/libexec/
+usr/libexec/w3m/
+usr/libexec/w3m/cgi-bin/
+usr/libexec/w3m/cgi-bin/dirlist.cgi
+usr/libexec/w3m/cgi-bin/multipart.cgi
+usr/libexec/w3m/cgi-bin/w3mbookmark
+usr/libexec/w3m/cgi-bin/w3mdict.cgi
+usr/libexec/w3m/cgi-bin/w3mhelp.cgi
+usr/libexec/w3m/cgi-bin/w3mhelperpanel
+usr/libexec/w3m/cgi-bin/w3mmail.cgi
+usr/libexec/w3m/cgi-bin/w3mman2html.cgi
+usr/libexec/w3m/inflate
+usr/libexec/w3m/xface2xpm
+usr/man/
+usr/man/de/
+usr/man/de/man1/
+usr/man/de/man1/w3m.1.gz
+usr/man/de/man1/w3mman.1.gz
+usr/man/ja/
+usr/man/ja/man1/
+usr/man/ja/man1/w3m.1.gz
+usr/man/man1/
+usr/man/man1/w3m.1.gz
+usr/man/man1/w3mman.1.gz
+usr/share/
+usr/share/locale/
+usr/share/locale/de/
+usr/share/locale/de/LC_MESSAGES/
+usr/share/locale/de/LC_MESSAGES/w3m.mo
+usr/share/locale/it/
+usr/share/locale/it/LC_MESSAGES/
+usr/share/locale/it/LC_MESSAGES/w3m.mo
+usr/share/locale/ja/
+usr/share/locale/ja/LC_MESSAGES/
+usr/share/locale/ja/LC_MESSAGES/w3m.mo
+usr/share/locale/sv_SE/
+usr/share/locale/sv_SE/LC_MESSAGES/
+usr/share/locale/sv_SE/LC_MESSAGES/w3m.mo
+usr/share/locale/zh_CN/
+usr/share/locale/zh_CN/LC_MESSAGES/
+usr/share/locale/zh_CN/LC_MESSAGES/w3m.mo
+usr/share/locale/zh_TW/
+usr/share/locale/zh_TW/LC_MESSAGES/
+usr/share/locale/zh_TW/LC_MESSAGES/w3m.mo
+usr/share/w3m/
+usr/share/w3m/w3mhelp-funcdesc.de.pl
+usr/share/w3m/w3mhelp-funcdesc.en.pl
+usr/share/w3m/w3mhelp-funcdesc.ja.pl
+usr/share/w3m/w3mhelp-funcname.pl
+usr/share/w3m/w3mhelp.html
+
+Slackware package /repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3+git20230121-x86_64-1slint.txz created.

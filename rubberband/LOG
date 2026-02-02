@@ -1,0 +1,26 @@
+Rubber Band Library 2.0.0
+
+  Directories
+    prefix              : /usr
+    bindir              : bin
+    libdir              : lib64
+    datadir             : share
+
+  Configuration
+    FFT                 : Built-in
+    Resampler           : libsamplerate
+    Build type          : Release
+    Architecture        : x86_64
+
+  Build targets
+    Static library      : YES
+                          Name: rubberband
+    Shared library      : YES
+                          Name: rubberband
+    JNI library         : NO
+    LADSPA plugin       : YES
+                          Name: ladspa-rubberband
+    Vamp plugin         : YES
+                          Name: vamp-rubberband
+    Command-line utility: YES
+                          Name: rubberband

@@ -1,0 +1,25 @@
+platform:       X86_64
+byte order:     little-endian
+system:         LINUX
+cli:            yes
+libx264:        internal
+shared:         yes
+static:         no
+bashcompletion: no
+asm:            yes
+interlaced:     yes
+avs:            yes
+lavf:           yes
+ffms:           no
+mp4:            no
+gpl:            yes
+thread:         posix
+opencl:         yes
+filters:        resize crop select_every
+lto:            no
+debug:          no
+gprof:          no
+strip:          yes
+PIC:            yes
+bit depth:      all
+chroma format:  all

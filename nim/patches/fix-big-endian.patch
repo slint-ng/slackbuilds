@@ -1,0 +1,25 @@
+Description: Fix big-endian builds
+Author: John Paul Adrian Glaubitz<glaubitz@physik.fu-berlin.de>
+Forwarded: https://github.com/nim-lang/Nim/issues/9690
+
+--- a/lib/pure/times.nim
++++ b/lib/pure/times.nim
+@@ -1660,15 +1660,15 @@
+     of tkLiteral:
+       case token
+       else:
+-        result.patterns.add(FormatPattern.Lit.byte)
++        result.patterns.add(ord(FormatPattern.Lit).byte)
+         if token.len > 255:
+           raise newException(TimeFormatParseError,
+                              "Format literal is to long:" & token)
+         result.patterns.add(token.len.byte)
+         for c in token:
+-          result.patterns.add(c.byte)
++          result.patterns.add(ord(c).byte)
+     of tkPattern:
+-      result.patterns.add(stringToPattern(token).byte)
++      result.patterns.add(ord(stringToPattern(token)).byte)
+ 
+ proc formatPattern(dt: DateTime, pattern: FormatPattern, result: var string,
+     loc: DateTimeLocale) =

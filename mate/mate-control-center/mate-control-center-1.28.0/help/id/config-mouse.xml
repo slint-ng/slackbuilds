@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="config-mouse">
+  <title>Tetikus</title>
+
+  <sect2 id="config-mouse-introduction">
+    <title>Pengantar</title>
+
+    <para>Capplet tetikus di <application>Pusat Kendali MATE</application> membantu mengkonfigurasi properti tetikus. Ini adalah:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>untuk tab <guilabel>Umum</guilabel>: akselerasi tetikus, sensitivitas tetikus, batas waktu klik ganda, ambang batas seret dan lepas, lokasi penunjuk, dan penggunaan tetikus kidal atau tangan kanan</para>
+      </listitem>
+
+      <listitem>
+        <para>untuk tab <guilabel>Aksesibilitas</guilabel>: simulasi klik sekunder dan klik diam</para>
+      </listitem>
+    </itemizedlist>
+  </sect2>
+
+  <sect2 id="config-mouse-general">
+    <title>Tab <guilabel>Umum</guilabel></title>
+
+    <para>Tab <guilabel>Umum</guilabel> menawarkan pengaturan tetikus yang umum digunakan.</para>
+
+    <sect3 id="config-mouse-general-orientation">
+      <title>Orientasi Tetikus</title>
+
+      <para>Pengguna mengontrol tetikus secara berbeda berdasarkan dia yang kidal atau tidak.</para>
+
+      <para>Jika dia bukan kidal, tetikus biasanya terletak di sisi kanan meja. Tombol utama (tombol tindakan) ada di sebelah kiri tetikus, sehingga ia dapat menekannya dengan jari telunjuknya, sedangkan tombol sekunder (tombol menu) ada di sebelah kanan.</para>
+
+      <para>Namun, jika dia kidal, tetikus terletak di sisi kiri meja. Akibatnya, untuk memungkinkan dia mengoperasikan tombol utama dengan jari telunjuk tangan kirinya, tombol utama dan sekunder tetikus harus ditukar.</para>
+
+      <para>Itulah tujuan dari pengaturan <guilabel>Orientasi Tetikus</guilabel>: pilih tombol <guibutton>Tangan kanan</guibutton> jika Anda tidak kidal, atau tombol <guibutton>Kidal</guibutton> jika Anda kidal. Saat menggunakan pengaturan yang sesuai untuknya, pengguna memiliki tombol utama di bawah jari telunjuknya.</para>
+    </sect3>
+
+    <sect3 id="config-mouse-general-cursors-locate">
+      <title>Temukan Penunjuk</title>
+
+      <para>Terkadang, pengguna kehilangan di mana penunjuk berada. Jika dia memilih <guibutton>Tampilkan posisi dari penunjuk ketika tombol Control ditekan</guibutton>, dia dapat membuat penunjuk muncul kembali dengan menekan tombol kontrol.</para>
+    </sect3>
+
+    <sect3 id="config-mouse-general-speed">
+      <title>Kecepatan Penunjuk</title>
+
+      <para>Setiap pengguna memiliki favorit yang berbeda mengenai hubungan antara pergerakan tetikus dan pergerakan penunjuk. Untuk menyesuaikannya dengan seleranya, ia dapat menggunakan pengaturan <guilabel>Akselerasi</guilabel> dan <guilabel>Sensitivitas</guilabel>:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para><guilabel>Akselerasi</guilabel>: ini menetapkan faktor linier antara gerakan tetikus dan gerakan penunjuk</para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Sensitivitas</guilabel>: ia menetapkan kecepatan ambang batas di mana tetikus akan mulai berakselerasi</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Misalnya, dengan mengatur sensitivitas ke level terendah, tetikus akan bergerak sepanjang waktu tanpa penyesuaian akselerasi; dalam hal ini, ada rasio yang sempurna dari jarak tetikus ke jarak piksel.</para>
+    </sect3>
+
+    <sect3 id="config-mouse-general-dnd">
+      <title>Seret dan Jatuhkan</title>
+
+      <para>Seret dan jatuhkan adalah menahan klik objek, dan menyeretnya ke tempat lain di layar, lalu melepas tombol, menyebabkan peristiwa terjadi.</para>
+
+      <para>Anda perlu menyeretnya dalam jarak tertentu sebelum sistem akan mengenalinya sebagai operasi seret dan jatuhkan. Untuk mengonfigurasi seberapa jauh menyeretnya, gerakkan penggeser <guilabel>Ambang</guilabel> ke kiri atau kanan.</para>
+    </sect3>
+
+    <sect3 id="config-mouse-general-double-click">
+      <title>Tundaan Klik Ganda</title>
+
+      <para>Ketika pengguna melakukan dua klik dengan tombol primer, sistem menganggapnya sebagai klik ganda atau dua klik tunggal tergantung pada penundaan yang telah berlalu di antara dua klik tersebut.</para>
+
+      <para>Dengan penggeser <guilabel>Habis waktu</guilabel>, pengguna dapat mengatur penundaan maksimum yang dapat berlalu di antara dua klik agar mereka masih dianggap sebagai klik ganda. Jika penundaan antara dua klik lebih dari penundaan maksimum yang telah ditetapkan, dua klik dianggap sebagai dua klik tunggal, bukan klik ganda.</para>
+
+      <para>Akibatnya: semakin pendek batas waktu, semakin sedikit waktu yang dapat berlalu antara dua klik suatu klik ganda.</para>
+
+      <para>Pengguna dapat menguji batas waktu yang telah ditetapkan dengan mengklik bola lampu, yang akan menyala, jika klik ganda terdeteksi.</para>
+    </sect3>
+  </sect2>
+
+  <sect2>
+    <title id="config-mouse-a11y">Tab Aksesibilitas</title>
+
+    <para>Tab <guilabel>Aksesibilitas</guilabel> membawa fungsi tambahan ke tetikus. Hal ini memungkinkan pengguna untuk melakukan klik sekunder dengan menggunakan tombol utama; ini juga memungkinkan dia untuk melakukan semua jenis klik yang berbeda tanpa menggunakan tombol perangkat keras apa pun.</para>
+
+    <sect3 id="config-mouse-a11y-simulated-secondary-click">
+      <title>Klik Sekunder Tersimulasi</title>
+
+      <para>Ada pengguna yang hanya dapat menggunakan satu tombol tetikus. Dengan mengaktifkan <guilabel>Klik Sekunder Tersimulasi</guilabel>, pengguna ini memiliki cara langsung untuk melakukan klik sekunder dengan tombol tetikus unik mereka. Bahkan, klik sekunder terjadi secara otomatis ketika pengguna menekan tombol utama untuk penundaan yang ditentukan tanpa menggerakkan tetikus.</para>
+
+      <para><guilabel>Klik Sekunder Tersimulasi</guilabel> juga menawarkan penggeser bernama <guilabel>Tundaan</guilabel> untuk mengkonfigurasi berapa lama pengguna harus menekan tombol dan menjaga tetikus tidak bergerak, sebelum klik sekunder secara otomatis dilakukan.</para>
+    </sect3>
+
+    <sect3 id="config-mouse-a11y-dwell">
+      <title>Klik Dwell</title>
+
+      <para>Ada pengguna yang tidak dapat menggunakan tombol perangkat keras apa pun. Dengan mengaktifkan <guilabel>Klik Dwell</guilabel>, mereka dapat meminta tetikus melakukan berbagai klik tanpa menekan tombol tetikus apa pun. Jenis klik yang dapat dilakukan adalah: klik tunggal, klik ganda, klik seret, dan klik sekunder.</para>
+
+      <para>Untuk membuat tetikus melakukan klik tanpa tombol tetikus ditekan, pengguna harus menempatkan tanda di kotak bernama <guilabel>Memulai klik saat menghentikan gerakan penunjuk</guilabel>. Bagaimana klik selesai dan bagaimana jenis klik dipilih tergantung pada mode tinggal apa yang digunakan pengguna. Dua mode yang tersedia adalah:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>penyelesaian klik otomatis dengan jenis klik yang dipilih sebelumnya</para>
+        </listitem>
+
+        <listitem>
+          <para>pilihan penyelesaian klik dan tipe klik dengan gestur tetikus setelah inisiasi klik</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Dengan penggeser <guilabel>Tundaan</guilabel>, pengguna dapat mengkonfigurasi berapa lama penunjuk harus tidak bergerak agar klik dimulai.</para>
+
+      <para>Bagi orang-orang yang mengalami kesulitan untuk menjaga tetikus tidak bergerak, ada penggeser <guilabel>Ambang Gerakan</guilabel>. Ketika penggeser diatur ke arah rendah, bahkan gerakan kecil tetikus dipertimbangkan; namun, dengan menetapkan ambang batas yang lebih tinggi, tetikus harus melintasi jarak yang lebih besar sebelum dianggap bergerak.</para>
+
+      <para>Seperti disebutkan di atas, pengguna dapat memilih antara dua mode untuk pilihan jenis klik dan penyelesaian klik:</para>
+
+      <sect4 id="config-mouse-accessibility-dwell-ctw">
+        <title>Klik Dwell Dengan Penyelesaian Klik Otomatis Dan Pilihan Tipe Klik Sebelumnya</title>
+
+        <para>Mode ini aktif saat pengguna memilih <guilabel>Pilih jenis klik sebelumnya</guilabel>. Bahkan, setelah tetikus tidak bergerak untuk penundaan yang telah ditentukan di atas, sistem akan secara otomatis melakukan jenis klik yang dipilih di Jendela Tipe Klik.</para>
+
+        <para>Setelah klik terjadi, jenis klik tunggal akan dipulihkan secara otomatis. Untuk memilih jenis klik lain, pengguna harus melakukan klik otomatis pada <guibutton>tombol</guibutton> di Jendela Tipe Klik yang sesuai dengan pilihan jenis kliknya.</para>
+
+        <para>Untuk membuat Jendela Tipe Klik muncul di layar, pengguna harus memasukkan tanda ke dalam kotak centang bernama <guilabel>Tampilkan jendela tipe klik</guilabel>. Beberapa pengguna mungkin lebih suka menggunakan <guilabel>Aplet panel Klik Dwell</guilabel> daripada Jendela Tipe Klik. Keuntungan dari aplet panel adalah tidak menutupi jendela yang terbuka di desktop.</para>
+      </sect4>
+
+      <sect4 id="config-mouse-accessibility-dwell-gestures">
+        <title>Klik Dwell Dengan Pilihan Tipe Klik Dan Penyelesaian Klik Oleh Suatu Gestur Tetikus</title>
+
+        <para>Mode ini digunakan ketika pengguna memilih <guilabel>Memilih jenis klik dengan gestur tetikus</guilabel>. Bahkan, setelah tetikus tidak bergerak untuk penundaan yang telah ditentukan di atas, bentuk penunjuk akan berubah untuk sementara waktu:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Jika pengguna menggerakkan tetikus saat menunjukkan bentuk alternatif, klik dilakukan dan penunjuk kembali ke bentuk normalnya. Jenis klik yang dilakukan tergantung pada arah pergerakan tetikus.</para>
+          </listitem>
+
+          <listitem>
+            <para>Jika tetikus tetap tidak bergerak sampai penunjuk kembali ke bentuk normalnya, pengguna dapat menggerakkan tetikus tanpa suatu klik dilakukan. Klik dwell berikutnya dapat dilakukan ketika tetikus berhenti bergerak lagi.</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>Pengguna juga memiliki kemungkinan untuk mencocokkan jenis klik dengan arah gerakan dengan menggunakan 4 <guimenu>popup</guimenu> yang tersedia di bawah mode ini.</para>
+      </sect4>
+    </sect3>
+  </sect2>
+</sect1>

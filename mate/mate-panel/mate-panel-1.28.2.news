@@ -1,0 +1,5 @@
+### mate-panel 1.28.2
+
+* status-notifier: Plug large leak with icons from paths
+* Fix travis deploy
+

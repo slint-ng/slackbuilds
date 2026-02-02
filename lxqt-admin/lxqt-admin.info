@@ -1,0 +1,8 @@
+PRGNAM="lxqt-admin"
+VERSION="2.3.0"
+HOMEPAGE="https://github.com/lxqt/lxqt-about"
+DOWNLOAD="https://github.com/lxqt/lxqt-admin/releases/download/2.3.0/lxqt-admin-2.3.0.tar.xz"
+MD5SUM="904f6d464b52e3a68ca6df9fd7e79d16"
+REQUIRES=""
+MAINTAINER="Frank Honolka"
+EMAIL="slackernetuk@gmail.com"

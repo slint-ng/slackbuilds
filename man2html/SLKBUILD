@@ -1,0 +1,26 @@
+# Packaged by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=$(pwd|sed "s,.*/,,")
+pkgver=1.6g
+pkgrel=2slint
+source=("http://deb.debian.org/debian/pool/main/m/man2html/man2html_1.6g.orig.tar.gz" \
+"README.Slint"
+)
+docs=("copying" "README.Slint")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (An utility to convert man pages to html format)"
+"This is the version shipped in man-1.6g."
+"The program differs from manhtml from Thomas E. Dickey."
+)
+
+build() {
+  cd $SRC/man-$pkgver || return 1
+  ./configure -d
+  make
+  mkdir $PKG/usr/bin
+  cp man2html/man2html $PKG/usr/bin/ 
+}

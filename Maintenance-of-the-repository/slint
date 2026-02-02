@@ -1,0 +1,9 @@
+#!/bin/sh
+(cd /repo/x86_64/slint-15.0/slint
+for i in  double-conversion fltk libev nodejs pdmenu perl-AnyEvent perl-JSON-MaybeXS perl-pango python-i3ipc xcb-util-xrm zulu-openjdk17; do
+find -name ${i}*txz
+#	mv $SLINT/${i}*dep $SLINT/extra/  
+#	mv $SLINT/${i}*txz $SLINT/extra/
+done
+)
+

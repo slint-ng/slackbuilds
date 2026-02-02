@@ -1,0 +1,8 @@
+PRGNAM="lxqt-themes"
+VERSION="2.3.0"
+HOMEPAGE="https://github.com/lxqt/lxqt-themes"
+DOWNLOAD="https://github.com/lxqt/lxqt-themes/releases/download/2.3.0/lxqt-themes-2.2.0.tar.xz"
+MD5SUM="28d01d81463441e37042a34a611b4258"
+REQUIRES=""
+MAINTAINER="Frank Honolka"
+EMAIL="slackernetuk@gmail.com"

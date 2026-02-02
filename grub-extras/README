@@ -1,0 +1,10 @@
+ grub-extras (utilies to be used with grub)
+ 
+ This package includes:
+ grubconfig, script to install and configure grub  in a newly installed
+ system at end of installation, can also be  used in a running system,
+ and the associated wrapper script setup.grubconfig.
+ update-grub is a wrapper script to grub-mkconfig.
+ This package also provides files to make an USB boot stick allowing to 
+ boot an installed Slint system and other OS on the same machine, mostly
+ borrowed to Slackware, thanks to Patrick Volkerding.

@@ -1,0 +1,21 @@
+diff -ru spi-0.5.2/src/spi spi-0.5.2.new/src/spi
+--- spi-0.5.2/src/spi	2021-05-30 17:59:36.000000000 -0000
++++ spi-0.5.2.new/src/spi	2022-11-27 10:15:04.770004504 -0000
+@@ -16,7 +16,7 @@
+ 
+ slaptget = '/usr/sbin/slapt-get'
+ slaptsrc = '/usr/bin/slapt-src'
+-slackbuilds_data = '/usr/src/slapt-src/slackbuilds_data'
++slackbuilds_data = '/var/lib/slapt-src/slackbuilds_data'
+ 
+ class Colours:
+     RED = '\033[01;31m'
+@@ -98,7 +98,7 @@
+ # Returns a list with the names of installed packages (names only)
+ def pkg_installed():
+     pkg_installed = []
+-    for i in os.listdir('/var/log/packages'):
++    for i in os.listdir('/var/lib/pkgtools/packages'):
+         pkg_installed.append(i.rpartition('-')[0].rpartition('-')[0].rpartition('-')[0])
+     return pkg_installed
+ 

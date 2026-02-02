@@ -1,0 +1,44 @@
+#Maintainer: Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=edbrowse
+pkgver=3.8.2.1
+pkgrel=1slint
+source=("${pkgname}-${pkgver}.tar.gz")
+options=("nosrcpack"
+)
+docs=("CHANGES" "COPYING*" "README" "TRANSLATORS" "edbrowse.1" "link_to_ncurses.diff")
+url=http://edbrowse.org/
+repository=https://github.com/CMB/edbrowse
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (a Command Line Editor Browser )"
+"Edbrowse is a combination editor, browser, and mail client 100% text"
+"based. The interface is similar to /bin/ed, though there are many"
+"more features, such as editing multiple files simultaneously, and"
+"rendering html. This program was originally written for blind users,"
+"but many sighted users have taken advantage of the unique scripting"
+"capabilities of this program, which can be found nowhere else. A batch"
+"job, or cron job, can access web pages on the internet, submit forms,"
+"and send email, with no human intervention whatsoever. edbrowse can"
+"tap into databases through odbc. Primarily written by Karl Dahlke."
+)
+
+
+build() {
+	git clone https://github.com/bellard/quickjs
+	cd $startdir/src/$pkgname-$pkgver
+	sh tools/quickjobfixup $startdir/src/quickjs
+	cd ../quickjs
+	make
+	cd $startdir/src/$pkgname-$pkgver/src
+	make
+	make install DESTDIR=$startdir/pkg PREFIX=/usr
+	cd ..
+	mkdir -p $PKG/usr/doc/$pkgname-$pkgver $PKG/usr/man/man1
+	cp $startdir/edbrowse.1 $PKG/usr/man/man1
+	rm doc/*.1
+	cp doc/* $PKG/usr/doc/$pkgname-$pkgver
+	rm -r $PKG/usr/share
+}

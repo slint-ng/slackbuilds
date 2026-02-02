@@ -1,0 +1,103 @@
+Build targets in project: 254
+
+media-session 0.4.1
+
+    systemd conf data: NO
+    libsystemd       : NO
+    intl support     : YES
+
+pipewire 0.3.60
+
+    systemd conf data                       : NO
+    libsystemd                              : NO
+    intl support                            : YES
+    pipewire-alsa                           : YES
+    OpenSSL (for raop-sink)                 : YES
+    lilv (for lv2 plugins)                  : YES
+    Manpage generation                      : YES
+
+  Misc dependencies
+    dbus (Bluetooth, rt, portal, pw-reserve): YES
+    SDL2 (video examples)                   : YES
+    readline (for pw-cli)                   : YES
+    X11 (x11-bell)                          : YES
+    libcanberra (x11-bell)                  : YES
+    GLib-2.0 (Flatpak support)              : YES
+    WebRTC Echo Canceling                   : NO
+
+  pw-cat/pw-play/pw-dump/filter-chain
+    sndfile                                 : YES
+
+  Streaming between daemons
+    libpulse                                : YES
+    Avahi DNS-SD (Zeroconf)                 : NO
+    ROC                                     : NO
+
+  Backend
+    libusb (Bluetooth quirks)               : YES
+    gstreamer-device-provider               : YES
+    ALSA                                    : YES
+    Bluetooth audio                         : YES
+    JACK2                                   : YES
+    libcamera                               : NO
+    Udev                                    : YES
+    V4L2 kernel header                      : YES
+    V4L2 enabled                            : YES
+
+  GStreamer modules
+    gio-2.0                                 : YES
+    gio-unix-2.0                            : YES
+    glib-2.0                                : YES
+    gmodule-2.0                             : YES
+    gobject-2.0                             : YES
+    gstreamer-1.0                           : YES
+    gstreamer-allocators-1.0                : YES
+    gstreamer-audio-1.0                     : YES
+    gstreamer-plugins-base-1.0              : YES
+    gstreamer-video-1.0                     : YES
+
+  Bluetooth audio codecs
+    SBC                                     : YES
+    LDAC                                    : NO
+    LDAC ABR                                : NO
+    aptX                                    : NO
+    AAC                                     : YES
+    LC3plus                                 : NO
+    Opus                                    : YES
+    LC3                                     : NO
+
+  Bluetooth backends
+    ModemManager                            : NO
+
+  Optional programs
+    find (for header testing)               : YES
+    valgrind (test setup)                   : NO
+
+  Session managers
+    Build media-session                     : YES
+    Build wireplumber                       : NO
+    Default session-manager                 : media-session
+
+  pw-cat/pw-play/pw-dump tool
+    Build pw-cat tool                       : YES
+
+  Optional Modules
+    rt                                      : with RTKit
+    portal                                  : YES
+    pulse-tunnel                            : YES
+    zeroconf-discover                       : NO
+    raop-discover (needs Avahi)             : NO
+    raop-sink (requires OpenSSL)            : YES
+    roc-sink                                : NO
+    roc-source                              : NO
+    x11-bell                                : YES
+    avb                                     : YES
+
+  Functional test programs
+    openal-info                             : YES
+    pactl                                   : YES
+
+  Subprojects
+    media-session                           : YES
+
+Option buildtype is: release [default: debugoptimized]

@@ -1,0 +1,13 @@
+Description: Fortify Nimble build
+Author: Federico Ceratto <federico@debian.org>
+Forwarded: https://github.com/nim-lang/nimble/pull/463
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/dist/nimble/src/nimble.nim.cfg
++++ b/dist/nimble/src/nimble.nim.cfg
+@@ -4,3 +4,5 @@
+ --path:"./vendor/nim"
+ -d:ssl
+ -d:nimcore # Enable 'gorge' in Nim's VM. See https://github.com/nim-lang/Nim/issues/8096
++gcc.options.always = "-w -D_FORTIFY_SOURCE=2 -O1 -Wformat -Wformat-security -fPIE -fstack-protector-all"
++gcc.options.linker = "-ldl -fPIE -pie -z relro -z now"

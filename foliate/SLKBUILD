@@ -1,0 +1,37 @@
+# Maintainer: Jerome Leclanche <jerome@leclan.ch>
+
+pkgname=foliate
+pkgver=2.6.4
+pkgrel=2slint
+slackdesc="$pkgname (A simple and modern GTK eBook reader)"
+arch=("x86_64")
+url="https://johnfactotum.github.io/foliate/"
+license=("GPL3")
+depends=("gjs" "iso-codes" "webkit2gtk")
+makedepends=("meson" "ninja" "gettext")
+optdepends=(
+	"dictd: Offline dictionary support"
+	"espeak-ng: Text-to-speech support; also voice package needed"
+	"festival: Text-to-speech support; also voice package needed"
+	"gspell: Spell-checking support"
+	"hyphen: Auto-hyphenation support"
+	"tracker"
+)
+source=("https://github.com/johnfactotum/foliate/archive/$pkgver.tar.gz" "README.Slint")
+sha256sums=("3b5317b96ccb19aaa79a1ff0a751a7cc5f8607649681c42900daf0f02a4da672")
+docs=("COPYING" "README.Slint")
+
+build() {
+	cd "$pkgname-$pkgver"
+	meson build --prefix=/usr
+	ninja -C build
+	DESTDIR="$PKG" ninja -C build install
+	ln -sv com.github.johnfactotum.Foliate "$PKG/usr/bin/foliate"
+}
+
+doinst() {
+	if [ -x /usr/bin/glib-compile-schemas ]; then
+		usr/bin/glib-compile-schemas /usr/share/glib-2.0/schemas/
+	fi
+}
+	

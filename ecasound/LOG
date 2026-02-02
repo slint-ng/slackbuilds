@@ -1,0 +1,41 @@
+-----------------------------------------------------------------
+Following packages are now configured:
+ecasound:               yes (ecasound,libecasound,libecasoundc)
+ecatools:               yes
+pyecasound:             yes (as native Python module)
+rubyecasound:           yes
+libkvutils:             yes
+-----------------------------------------------------------------
+Compiler options:
+CFLAGS:                  -ffast-math -fstrict-aliasing -DNDEBUG -DENABLE_DBC -O2 -fPIC
+CXXFLAGS:                -ffast-math -fstrict-aliasing -std=c++98 -DNDEBUG -DENABLE_DBC -O2 -fPIC
+CPPFLAGS:                -D_REENTRANT -D_XOPEN_SOURCE=600 
+LDFLAGS:                 
+-----------------------------------------------------------------
+Following features were selected:
+Debugging info:         no
+Effects enabled:        yes
+Termcap:                ncurses
+Use system readline:    yes
+Use curses interface:   yes
+Libaudiofile:           yes
+Libsndfile:             yes
+ALSA support:           yes
+OSS support:            yes
+aRts support:           no
+JACK support:           yes
+Libsamplerate support   yes
+LV2 (liblilv) support:  yes
+Liboil support:         yes
+Liblo (OSC) support:    yes
+-----------------------------------------------------------------
+Following directories are used:
+Directory prefix:       /usr
+Python module dir:      /usr/lib64/python2.7/site-packages
+Ruby module dir:        /usr/lib64/ruby/site_ruby/3.0
+Extra headers:           -I/usr/include/liboil-0.3 -I/usr/include/lilv-0 -I/usr/include/sratom-0 -I/usr/include/sord-0 -I/usr/include/serd-0
+Extra libs:             -lsamplerate -laudiofile -lsndfile -lasound -ljack -loil-0.3 -lm -lrt -llilv-0 -ldl -lsratom-0 -lsord-0 -lserd-0 -llo -lpthread
+-------------------------------------------------------------------
+Type 'make' to compile the package and 'make install' to install.
+Remember to use GNU Make, often installed as 'gmake'.
+-------------------------------------------------------------------

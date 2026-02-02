@@ -1,0 +1,28 @@
+  libao 1.2.2:  Automatic configuration OK.
+
+  Backends to be built:
+
+    AU file output: .............. yes
+    RAW file output: ............. yes
+    WAV file output: ............. yes
+
+    AIX live output: ............. no
+    ALSA live output: ............ yes
+    ARTS live output: ............ no
+    ESD live output: ............. yes
+    IRIX live output: ............ no
+    MACOSX live output: .......... no
+    NAS live output: ............. no
+    NULL live output: ............ yes
+    OSS live output: ............. yes
+    PULSE live output: ........... yes
+    ROAR live output: ............ no
+    SNDIO live output: ........... no
+    SUN live output: ............. no
+    Windows WMM live output: ..... no
+
+  Installation paths:
+
+    libao: ....................... /usr/lib64
+    C header files: .............. /usr/include/ao
+    Documentation: ............... /usr/share/doc/libao

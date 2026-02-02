@@ -1,0 +1,8 @@
+PRGNAM="qterminal"
+VERSION="2.3.1"
+HOMEPAGE="https://github.com/lxqt/qterminal"
+DOWNLOAD="https://github.com/lxqt/qterminal/releases/download/2.3.0/qterminal-2.3.0.tar.xz"
+MD5SUM="30afe5f9b06e84f3c8a9264da68c0367"
+REQUIRES=""
+MAINTAINER="Frank Honolka"
+EMAIL="slackernetuk@gmail.com"

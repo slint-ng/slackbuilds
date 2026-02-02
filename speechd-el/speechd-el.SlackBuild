@@ -1,0 +1,53 @@
+#!/bin/sh
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+CWD=$(pwd)
+
+PKGNAM=speechd-el
+VERSION=2.11
+BUILD=${BUILD:-2slint}
+
+if [ -z "$ARCH" ]; then
+  case "$( uname -m )" in
+    i?86) export ARCH=i486 ;;
+       *) export ARCH=$( uname -m ) ;;
+  esac
+fi
+
+TMP=$CWD
+PKG=$TMP/package-${PKGNAM}
+rm -rf $PKG
+mkdir -p $PKG
+
+cd $TMP
+rm -rf ${PKGNAM}-${VERSION}
+tar xvf $CWD/${PKGNAM}-$VERSION.tar.?z* || exit 1
+cd ${PKGNAM}-$VERSION || exit 1
+
+ROOTPKG=$PKG/usr/share/emacs/site-lisp/speechd-el
+mkdir -p $ROOTPKG
+cp *.el $ROOTPKG
+mkdir -p $PKG/usr/bin
+cp speechd-log-extractor $PKG/usr/bin
+chmod -R 755 $PKG/usr/bin
+mkdir -p $PKG/usr/doc/${PKGNAM}-$VERSION/texi
+mkdir -p $PKG/usr/info
+for i in *info; do
+  gzip -c9 $i > $PKG/usr/info/$(basename $i).gz
+done
+cd $PKG/usr/doc/${PKGNAM}-$VERSION/
+find $CWD/${PKGNAM}-$VERSION -name "*.texi" -exec cp $(basename '{}') texi/ ';'
+cd texi
+makeinfo --html speechd-el.texi
+mv speechd-el ../html
+cp -f $CWD/${PKGNAM}-$VERSION/speechd-speak.pdf ./
+cp $CWD/${PKGNAM}-$VERSION/{ANNOUNCE,AUTHORS,COPYING,NEWS,README} ./
+cp $CWD/README.Slint ./
+chown -R root:root $PKG
+mkdir -p $PKG/install
+cat $CWD/slack-desc > $PKG/install/slack-desc
+
+cd $TMP/package-${PKGNAM}
+/sbin/makepkg -l y -c n ../${PKGNAM}-$VERSION-$ARCH-$BUILD.txz
+

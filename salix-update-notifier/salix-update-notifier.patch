@@ -1,0 +1,124 @@
+Adapt to the utility shipped in Slint, remove bashisms, notification=true
+by default run slapt-src -u after slapt-get -u periodically.
+
+
+diff -ru salix-update-notifier-0.8.0/src/salix-update-notifier salix-update-notifier-0.8.0.new/src/salix-update-notifier
+--- salix-update-notifier-0.8.0/src/salix-update-notifier	2021-07-21 10:38:31.000000000 +0200
++++ salix-update-notifier-0.8.0.new/src/salix-update-notifier	2021-12-14 10:30:19.324312070 +0100
+@@ -1,4 +1,4 @@
+-#!/bin/bash
++#!/bin/sh
+ 
+ # The default interval is set to 2 hours
+ DEFAULT_INTERVAL="2h"
+@@ -11,23 +11,20 @@
+ # Gettext internationalization
+ export TEXTDOMAIN="salix-update-notifier"
+ export TEXTDOMAINDIR="/usr/share/locale"
+-. gettext.sh
+ 
+-# Determine if gksu or kdesu will be used
+-if [[ `which gksu 2> /dev/null` ]]; then
+-	SUCOMMAND="gksu"
+-elif [[ `which ktsuss 2> /dev/null` ]]; then
++# Determine if ktsuss or gksu will be used
++if test "$(which ktsuss 2> /dev/null)"; then
+ 	SUCOMMAND="ktsuss -u root"
+-elif [[ `which kdesu 2> /dev/null` ]]; then
+-	SUCOMMAND="kdesu"
++elif test "$(which gksu 2> /dev/null)"; then
++	SUCOMMAND="gksu"
+ else
+-	echo "`eval_gettext 'ERROR: gksu, ktsuss or kdesu are required for salix-update-notifier to work.'`" >&2
++	echo "(gettext 'ERROR: gksu or ktsuss are required for salix-update-notifier to work.')" >&2
+ 	exit 1
+ fi
+ 
+-# Check if zenity is present
+-if [[ ! `which zenity 2> /dev/null` ]]; then
+-	echo "`eval_gettext 'ERROR: zenity must be installed for salix-update-notifier to work.'`" >&2
++# Check if yad is present
++if ! test "$(which yad 2> /dev/null)"; then
++	echo "(gettext 'ERROR: yad must be installed for salix-update-notifier to work.')" >&2
+ 	exit 1
+ fi
+ 
+@@ -37,40 +34,42 @@
+ # possible locations for the configuration file
+ CONFIG_FILE_LOCAL=$HOME/.config/salix-update-notifier
+ CONFIG_FILE_GLOBAL=/etc/salix-update-notifier.conf
+-
++unset NOTIFY
+ # Main loop
++A=$(gettext 'Package updates are available for your system.\n\nSelecting OK will perform the updates using gslapt. Root user privileges will be required in order to do that.\n\nProceed with updating?'|sed 's/\\n/\n/g')
++B=$(gettext 'Package updates are available.')
+ while true; do
+ 	# Check if there is a config file that should be read
+-	if [ -f $CONFIG_FILE_LOCAL ]; then
+-		CONFIG_FILE=$CONFIG_FILE_LOCAL
+-	elif [ -f $CONFIG_FILE_GLOBAL ]; then
+-		CONFIG_FILE=$CONFIG_FILE_GLOBAL
++	if [ -f "$CONFIG_FILE_LOCAL" ]; then
++		CONFIG_FILE="$CONFIG_FILE_LOCAL"
++	elif [ -f "$CONFIG_FILE_GLOBAL" ]; then
++		CONFIG_FILE="$CONFIG_FILE_GLOBAL"
+ 	fi
+ 
+ 	# Read configuration, includes the default interval and wheter to
+ 	# use a notification in addition to the tray icon
+-	NOTIFY_SEND=true
+ 	INTERVAL=$DEFAULT_INTERVAL
+-	if [ ! -z "$CONFIG_FILE" ]; then
+-		INTERVAL=`grep "^interval=" $CONFIG_FILE | \
+-			head -n1 | sed "s/interval=\(.*\)/\1/" `
++	if [ -n "$CONFIG_FILE" ]; then
++		INTERVAL=$(grep "^interval=" $CONFIG_FILE | \
++			head -n1 | sed "s/interval=\(.*\)/\1/")
+ 		grep -q "^notification=true$" $CONFIG_FILE && \
+ 			[ -x /usr/bin/notify-send ] && \
+-			NOTIFY_SEND="notify-send -i salix-update-notifier `eval_gettext 'Package updates are available.'`"
++			NOTIFY="yes"
+ 	fi
+-
+-	if [[ `LANG=C /usr/sbin/slapt-get -s --upgrade | grep "Need to get"` ]]
+-	then
++	if LANG=C /usr/sbin/slapt-get -s --upgrade | grep -q "Need to get"; then
++	    if test "$NOTIFY"; then
++			notify-send -a salix-update-notifier "$B"
++		fi
+ 		/usr/libexec/salix-update-notifier-tray-icon \
+-		&& $NOTIFY_SEND \
+-		&& zenity --question \
+-		--title "`eval_gettext 'Install package updates?'`" \
+-		--text="`eval_gettext 'Package updates are available for your system.\n\nSelecting OK will perform the updates using gslapt. Root user privileges will be required in order to do that.\n\nProceed with updating?'`" \
+-		--window-icon=/usr/share/pixmaps/salix-update-notifier.png \
+-		&& $SUCOMMAND gslapt --upgrade
++		&& yad --notification \
++		--title "$(gettext 'Install package updates?')" \
++		--text="$A" \
++		--image=/usr/share/pixmaps/salix-update-notifier.png \
++		--icon-size 32 \
++		&& $SUCOMMAND "/usr/sbin/gslapt --upgrade"
+ 	fi
+ 
+ 	# Wait until checking for updates again
+-	sleep $INTERVAL || sleep $DEFAULT_INTERVAL
++	sleep "$INTERVAL" || sleep "$DEFAULT_INTERVAL"
+ done
+ 
+diff -ru salix-update-notifier-0.8.0/src/salix-update-notifier.conf salix-update-notifier-0.8.0.new/src/salix-update-notifier.conf
+--- salix-update-notifier-0.8.0/src/salix-update-notifier.conf	2021-07-21 10:38:31.000000000 +0200
++++ salix-update-notifier-0.8.0.new/src/salix-update-notifier.conf	2021-12-14 10:36:50.491283207 +0100
+@@ -1,2 +1,2 @@
+ interval=2h
+-notification=false
++notification=true
+diff -ru salix-update-notifier-0.8.0/src/slapt-get-update salix-update-notifier-0.8.0.new/src/slapt-get-update
+--- salix-update-notifier-0.8.0/src/slapt-get-update	2021-07-21 10:38:31.000000000 +0200
++++ salix-update-notifier-0.8.0.new/src/slapt-get-update	2021-12-14 10:36:01.060286854 +0100
+@@ -4,4 +4,5 @@
+ # placed inside /etc/cron.hourly or another cron directory
+ 
+ slapt-get -u
++slapt-src -u &
+ 

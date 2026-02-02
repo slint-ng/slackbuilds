@@ -1,0 +1,9 @@
+Build configuratioh:
+  Status icon          - yes
+  HTML widget          - yes
+  GtkSourceView        - yes
+  Spell checking       - yes
+  Path to rgb.txt      - /usr/share/X11/rgb.txt
+  Standalone build     - no
+  Tools                - yes
+  Icon browser         - yes

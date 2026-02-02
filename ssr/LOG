@@ -1,0 +1,20 @@
+-- The following REQUIRED packages have been found:
+
+ * OpenGL
+ * Threads
+ * AVFormat
+ * AVCodec
+ * AVUtil
+ * SWScale
+ * X11
+ * V4L2
+ * ALSA
+ * PulseAudio
+ * PkgConfig
+ * Jack
+ * Qt5Core
+ * Qt5Gui
+ * Qt5Widgets
+ * Qt5X11Extras
+ * Qt5 (required version >= 5.7)
+ * Qt5LinguistTools

@@ -1,0 +1,35 @@
+#Packager: George Vlahavas <vlahavas~at~gmail~dot~com>
+#Adapted for Slint by Didier Spaier <didier~at~slint~dot~fr>
+pkgname=claws-mail
+pkgver=4.0.0
+pkgrel=2slint
+source=("claws-mail-4.0.0.tar.xz" "http://www.claws-mail.org/download.php?file=themes/png/claws-mail-theme_gnome-brave.tar.gz")
+url="http://www.claws-mail.org/"
+options=(nosrcpack)
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"Claws Mail (A GTK+ based, lightweight, and fast e-mail client)."
+"Claws Mail - it bites! A GTK+ based, lightweight, and fast e-mail"
+"client and newsreader. Supports POP3, APOP, IMAP, SMTP,AUTH, NNTP,"
+"LDAP. Features multiple accounts, spell-checking, address book SSL,"
+"GPG/PGP, filtering, scoring, i18n, & more."
+)
+
+build() {
+	# default theme
+	cd $startdir/src/
+	mkdir -p $startdir/pkg/usr/share/claws-mail/themes/
+	cp -R gnome-brave $startdir/pkg/usr/share/claws-mail/themes/ || return 1
+	cd $startdir/src/${pkgname}-${pkgver}
+	
+	./configure \
+	  --prefix=/usr \
+	  --libdir=/usr/lib${LIBDIRSUFFIX} \
+	  --mandir=/usr/man \
+	  --docdir=/usr/doc/$pkgname-$pkgver \
+	  --disable-static \
+	  --build=$arch-slackware-linux
+	make -j $numjobs || return 1
+	make DESTDIR=$startdir/pkg/ install
+}

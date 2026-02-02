@@ -1,0 +1,159 @@
+[Toplevel top]
+enable-buttons=false
+size=28
+screen=0
+monitor=0
+expand=true
+orientation=top
+
+[Toplevel bottom]
+enable-buttons=false
+size=28
+screen=0
+monitor=0
+expand=true
+orientation=bottom
+
+[Object menu-bar]
+locked=true
+toplevel-id=top
+position=0
+object-type=menu-bar
+applet-iid=
+panel-right-stick=false
+
+[Object terminal-launcher]
+launcher-location=/usr/share/applications/mate-terminal.desktop
+locked=true
+toplevel-id=top
+position=229
+object-type=launcher
+menu-path=applications:/
+panel-right-stick=false
+
+[Object file-manager-launcher]
+launcher-location=/usr/share/applications/caja.desktop
+locked=true
+toplevel-id=top
+position=262
+object-type=launcher
+menu-path=applications:/
+panel-right-stick=false
+
+[Object web-browser-launcher]
+launcher-location=/usr/share/applications/exo-web-browser.desktop
+locked=true
+toplevel-id=top
+position=0
+object-type=launcher
+menu-path=applications:/
+panel-right-stick=false
+
+[Object mail-reader-launcher]
+launcher-location=/usr/share/applications/exo-mail-reader.desktop
+locked=true
+toplevel-id=top
+position=0
+object-type=launcher
+menu-path=applications:/
+panel-right-stick=false
+
+[Object text-editor-launcher]
+launcher-location=/usr/share/applications/geany.desktop
+locked=true
+toplevel-id=top
+position=321
+object-type=launcher
+menu-path=applications:/
+panel-right-stick=false
+
+[Object notification-area]
+locked=true
+toplevel-id=top
+position=1164
+object-type=applet
+applet-iid=NotificationAreaAppletFactory::NotificationArea
+panel-right-stick=false
+
+[Object clock]
+locked=true
+toplevel-id=top
+position=1222
+object-type=applet
+applet-iid=ClockAppletFactory::ClockApplet
+panel-right-stick=false
+
+[Object lock]
+locked=true
+toplevel-id=top
+position=1384
+object-type=action
+action-type=lock
+panel-right-stick=false
+
+[Object shutdown]
+locked=true
+toplevel-id=top
+position=10
+object-type=action
+action-type=shutdown
+panel-right-stick=true
+
+[Object show-desktop]
+locked=true
+toplevel-id=bottom
+position=4
+object-type=applet
+applet-iid=WnckletFactory::ShowDesktopApplet
+panel-right-stick=false
+
+[Object window-list]
+locked=true
+toplevel-id=bottom
+position=28
+object-type=applet
+applet-iid=WnckletFactory::WindowListApplet
+panel-right-stick=false
+
+[Object workspace-switcher]
+locked=true
+toplevel-id=bottom
+position=1400
+object-type=applet
+applet-iid=WnckletFactory::WorkspaceSwitcherApplet
+panel-right-stick=false
+
+[Object object-0]
+launcher-location=/usr/share/applications/mozilla-firefox.desktop
+locked=true
+toplevel-id=top
+position=283
+object-type=launcher
+menu-path=applications:/
+panel-right-stick=false
+
+[Object object-1]
+launcher-location=/usr/share/applications/firefox.desktop
+locked=true
+toplevel-id=top
+position=292
+object-type=launcher
+menu-path=applications:/
+panel-right-stick=false
+
+[Object object-2]
+locked=true
+toplevel-id=top
+position=1356
+object-type=action
+action-type=logout
+panel-right-stick=false
+
+[Customsetting maximusdecoration]
+mate-maximus-recorded=False
+
+[Customsetting windowcontrollayout]
+mate-general=:minimize,maximize,close
+mate-interface=:minimize,maximize,close
+gnome-wm-preferences=:minimize,maximize,close
+

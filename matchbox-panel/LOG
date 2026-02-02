@@ -1,0 +1,16 @@
+                    Matchbox-panel 0.9.3
+                  =========================
+
+        prefix:                 /usr
+        source code location:   .
+        compiler:               gcc
+
+        Building with Debug:                no
+
+        Building with Startup-Notification: yes
+	Building with NLS:                  yes
+        Building with small icons:          no
+	Building with DNOTIFY:		    yes
+
+        Building mb-applet-battery:         yes, with ACPI
+        Building mb-applet-wireless:        yes

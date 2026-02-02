@@ -1,0 +1,3517 @@
+w3m-0.5.3/
+w3m-0.5.3/scripts/
+w3m-0.5.3/scripts/multipart/
+w3m-0.5.3/scripts/multipart/CVS/
+w3m-0.5.3/scripts/multipart/CVS/Root
+w3m-0.5.3/scripts/multipart/CVS/Repository
+w3m-0.5.3/scripts/multipart/CVS/Entries
+w3m-0.5.3/scripts/multipart/.cvsignore
+w3m-0.5.3/scripts/multipart/Makefile.in
+w3m-0.5.3/scripts/multipart/README
+w3m-0.5.3/scripts/multipart/mailcap
+w3m-0.5.3/scripts/multipart/multipart.cgi.in
+w3m-0.5.3/scripts/bm2menu/
+w3m-0.5.3/scripts/bm2menu/CVS/
+w3m-0.5.3/scripts/bm2menu/CVS/Root
+w3m-0.5.3/scripts/bm2menu/CVS/Repository
+w3m-0.5.3/scripts/bm2menu/CVS/Entries
+w3m-0.5.3/scripts/bm2menu/bm2menu.pl
+w3m-0.5.3/scripts/bm2menu/README
+w3m-0.5.3/scripts/CVS/
+w3m-0.5.3/scripts/CVS/Root
+w3m-0.5.3/scripts/CVS/Repository
+w3m-0.5.3/scripts/CVS/Entries
+w3m-0.5.3/scripts/w3mman/
+w3m-0.5.3/scripts/w3mman/CVS/
+w3m-0.5.3/scripts/w3mman/CVS/Root
+w3m-0.5.3/scripts/w3mman/CVS/Repository
+w3m-0.5.3/scripts/w3mman/CVS/Entries
+w3m-0.5.3/scripts/w3mman/.cvsignore
+w3m-0.5.3/scripts/w3mman/Makefile.in
+w3m-0.5.3/scripts/w3mman/README
+w3m-0.5.3/scripts/w3mman/hlink.cgi
+w3m-0.5.3/scripts/w3mman/w3mman.1.in
+w3m-0.5.3/scripts/w3mman/w3mman.in
+w3m-0.5.3/scripts/w3mman/w3mman2html.cgi.in
+w3m-0.5.3/scripts/.cvsignore
+w3m-0.5.3/scripts/w3mhelp-funcdesc.en.pl.in
+w3m-0.5.3/scripts/w3mhelp-funcdesc.ja.pl.in
+w3m-0.5.3/scripts/w3mhelp-funcname.pl.in
+w3m-0.5.3/scripts/w3mhelp.cgi.in
+w3m-0.5.3/scripts/w3mmail.cgi.in
+w3m-0.5.3/scripts/xface2xbm.in
+w3m-0.5.3/scripts/xface2xpm.in
+w3m-0.5.3/scripts/Makefile.in
+w3m-0.5.3/scripts/dirlist.cgi.in
+w3m-0.5.3/doc-jp/
+w3m-0.5.3/doc-jp/CVS/
+w3m-0.5.3/doc-jp/CVS/Root
+w3m-0.5.3/doc-jp/CVS/Repository
+w3m-0.5.3/doc-jp/CVS/Entries
+w3m-0.5.3/doc-jp/FAQ.html
+w3m-0.5.3/doc-jp/HISTORY
+w3m-0.5.3/doc-jp/MANUAL.html
+w3m-0.5.3/doc-jp/README
+w3m-0.5.3/doc-jp/README.SSL
+w3m-0.5.3/doc-jp/README.cookie
+w3m-0.5.3/doc-jp/README.cygwin
+w3m-0.5.3/doc-jp/README.dict
+w3m-0.5.3/doc-jp/README.func
+w3m-0.5.3/doc-jp/README.img
+w3m-0.5.3/doc-jp/README.keymap
+w3m-0.5.3/doc-jp/README.m17n
+w3m-0.5.3/doc-jp/README.mailcap
+w3m-0.5.3/doc-jp/README.menu
+w3m-0.5.3/doc-jp/README.migemo
+w3m-0.5.3/doc-jp/README.mouse
+w3m-0.5.3/doc-jp/README.pre_form
+w3m-0.5.3/doc-jp/README.tab
+w3m-0.5.3/doc-jp/STORY.html
+w3m-0.5.3/doc-jp/keymap.default
+w3m-0.5.3/doc-jp/keymap.lynx
+w3m-0.5.3/doc-jp/menu.default
+w3m-0.5.3/doc-jp/menu.submenu
+w3m-0.5.3/doc-jp/w3m.1
+w3m-0.5.3/doc-jp/README.passwd
+w3m-0.5.3/gc/
+w3m-0.5.3/gc/CVS/
+w3m-0.5.3/gc/CVS/Root
+w3m-0.5.3/gc/CVS/Repository
+w3m-0.5.3/gc/CVS/Entries
+w3m-0.5.3/gc/Mac_files/
+w3m-0.5.3/gc/Mac_files/CVS/
+w3m-0.5.3/gc/Mac_files/CVS/Root
+w3m-0.5.3/gc/Mac_files/CVS/Repository
+w3m-0.5.3/gc/Mac_files/CVS/Entries
+w3m-0.5.3/gc/cord/
+w3m-0.5.3/gc/cord/CVS/
+w3m-0.5.3/gc/cord/CVS/Root
+w3m-0.5.3/gc/cord/CVS/Repository
+w3m-0.5.3/gc/cord/CVS/Entries
+w3m-0.5.3/gc/cord/private/
+w3m-0.5.3/gc/cord/private/CVS/
+w3m-0.5.3/gc/cord/private/CVS/Root
+w3m-0.5.3/gc/cord/private/CVS/Repository
+w3m-0.5.3/gc/cord/private/CVS/Entries
+w3m-0.5.3/gc/doc/
+w3m-0.5.3/gc/doc/CVS/
+w3m-0.5.3/gc/doc/CVS/Root
+w3m-0.5.3/gc/doc/CVS/Repository
+w3m-0.5.3/gc/doc/CVS/Entries
+w3m-0.5.3/gc/include/
+w3m-0.5.3/gc/include/CVS/
+w3m-0.5.3/gc/include/CVS/Root
+w3m-0.5.3/gc/include/CVS/Repository
+w3m-0.5.3/gc/include/CVS/Entries
+w3m-0.5.3/gc/include/private/
+w3m-0.5.3/gc/include/private/CVS/
+w3m-0.5.3/gc/include/private/CVS/Root
+w3m-0.5.3/gc/include/private/CVS/Repository
+w3m-0.5.3/gc/include/private/CVS/Entries
+w3m-0.5.3/gc/tests/
+w3m-0.5.3/gc/tests/CVS/
+w3m-0.5.3/gc/tests/CVS/Root
+w3m-0.5.3/gc/tests/CVS/Repository
+w3m-0.5.3/gc/tests/CVS/Entries
+w3m-0.5.3/intl/
+w3m-0.5.3/intl/CVS/
+w3m-0.5.3/intl/CVS/Root
+w3m-0.5.3/intl/CVS/Repository
+w3m-0.5.3/intl/CVS/Entries
+w3m-0.5.3/libwc/
+w3m-0.5.3/libwc/map/
+w3m-0.5.3/libwc/map/CVS/
+w3m-0.5.3/libwc/map/CVS/Root
+w3m-0.5.3/libwc/map/CVS/Repository
+w3m-0.5.3/libwc/map/CVS/Entries
+w3m-0.5.3/libwc/map/big5_ucs.map
+w3m-0.5.3/libwc/map/cns11643_ucs.map
+w3m-0.5.3/libwc/map/cp1006_ucs.map
+w3m-0.5.3/libwc/map/cp1250_ucs.map
+w3m-0.5.3/libwc/map/cp1251_ucs.map
+w3m-0.5.3/libwc/map/cp1252_ucs.map
+w3m-0.5.3/libwc/map/cp1253_ucs.map
+w3m-0.5.3/libwc/map/cp1254_ucs.map
+w3m-0.5.3/libwc/map/cp1255_combining.map
+w3m-0.5.3/libwc/map/cp1255_ucs.map
+w3m-0.5.3/libwc/map/cp1256_combining.map
+w3m-0.5.3/libwc/map/cp1256_ucs.map
+w3m-0.5.3/libwc/map/cp1257_ucs.map
+w3m-0.5.3/libwc/map/cp1258_combining.map
+w3m-0.5.3/libwc/map/cp1258_ucs.map
+w3m-0.5.3/libwc/map/cp437_ucs.map
+w3m-0.5.3/libwc/map/cp737_ucs.map
+w3m-0.5.3/libwc/map/sjis_ext_ucs.map
+w3m-0.5.3/libwc/map/cp775_ucs.map
+w3m-0.5.3/libwc/map/cp850_ucs.map
+w3m-0.5.3/libwc/map/cp852_ucs.map
+w3m-0.5.3/libwc/map/cp855_ucs.map
+w3m-0.5.3/libwc/map/cp856_ucs.map
+w3m-0.5.3/libwc/map/cp857_ucs.map
+w3m-0.5.3/libwc/map/cp860_ucs.map
+w3m-0.5.3/libwc/map/cp861_ucs.map
+w3m-0.5.3/libwc/map/cp862_ucs.map
+w3m-0.5.3/libwc/map/cp863_ucs.map
+w3m-0.5.3/libwc/map/cp864_combining.map
+w3m-0.5.3/libwc/map/cp864_ucs.map
+w3m-0.5.3/libwc/map/cp865_ucs.map
+w3m-0.5.3/libwc/map/cp866_ucs.map
+w3m-0.5.3/libwc/map/cp869_ucs.map
+w3m-0.5.3/libwc/map/cp874_combining.map
+w3m-0.5.3/libwc/map/cp874_ucs.map
+w3m-0.5.3/libwc/map/gb12345_ucs.map
+w3m-0.5.3/libwc/map/gb18030_ucs.map
+w3m-0.5.3/libwc/map/gb2312_gbk.map
+w3m-0.5.3/libwc/map/gb2312_ucs.map
+w3m-0.5.3/libwc/map/gbk_ucs.map
+w3m-0.5.3/libwc/map/hkscs_ucs.map
+w3m-0.5.3/libwc/map/hkscs_ucs_p2.map
+w3m-0.5.3/libwc/map/iso885910_ucs.map
+w3m-0.5.3/libwc/map/iso885911_combining.map
+w3m-0.5.3/libwc/map/iso885911_ucs.map
+w3m-0.5.3/libwc/map/iso885913_ucs.map
+w3m-0.5.3/libwc/map/iso885914_ucs.map
+w3m-0.5.3/libwc/map/iso885915_ucs.map
+w3m-0.5.3/libwc/map/iso885916_ucs.map
+w3m-0.5.3/libwc/map/iso88591_ucs.map
+w3m-0.5.3/libwc/map/iso88592_ucs.map
+w3m-0.5.3/libwc/map/iso88593_ucs.map
+w3m-0.5.3/libwc/map/iso88594_ucs.map
+w3m-0.5.3/libwc/map/iso88595_ucs.map
+w3m-0.5.3/libwc/map/iso88596_combining.map
+w3m-0.5.3/libwc/map/iso88596_ucs.map
+w3m-0.5.3/libwc/map/iso88597_ucs.map
+w3m-0.5.3/libwc/map/iso88598_ucs.map
+w3m-0.5.3/libwc/map/iso88599_ucs.map
+w3m-0.5.3/libwc/map/jisx0201k_jisx0208.map
+w3m-0.5.3/libwc/map/jisx0201k_ucs.map
+w3m-0.5.3/libwc/map/jisx0208_jisx02131.map
+w3m-0.5.3/libwc/map/jisx0208x0212x0213_ucs.map
+w3m-0.5.3/libwc/map/jisx02132_sjis.map
+w3m-0.5.3/libwc/map/jisx0213_ucs_p2.map
+w3m-0.5.3/libwc/map/johab_ucs.map
+w3m-0.5.3/libwc/map/koi8r_ucs.map
+w3m-0.5.3/libwc/map/koi8u_ucs.map
+w3m-0.5.3/libwc/map/ksx1001_ucs.map
+w3m-0.5.3/libwc/map/mk_big5_txt.pl
+w3m-0.5.3/libwc/map/mk_big5_ucs_map.pl
+w3m-0.5.3/libwc/map/mk_cns_ucs_map.pl
+w3m-0.5.3/libwc/map/mk_combining_map.pl
+w3m-0.5.3/libwc/map/mk_cp1258_ucs_map.pl
+w3m-0.5.3/libwc/map/mk_cp950_txt.pl
+w3m-0.5.3/libwc/map/mk_gb18030_ucs_map.pl
+w3m-0.5.3/libwc/map/mk_gb_ucs_map.pl
+w3m-0.5.3/libwc/map/mk_gbk_ucs_map.pl
+w3m-0.5.3/libwc/map/mk_hkscs_p2_txt.pl
+w3m-0.5.3/libwc/map/mk_hkscs_txt.pl
+w3m-0.5.3/libwc/map/mk_hkscs_ucs_map.pl
+w3m-0.5.3/libwc/map/mk_hkscs_ucs_p2_map.pl
+w3m-0.5.3/libwc/map/mk_jis_ucs_map.pl
+w3m-0.5.3/libwc/map/mk_jisx0213_ucs_map.pl
+w3m-0.5.3/libwc/map/mk_johab_ucs_map.pl
+w3m-0.5.3/libwc/map/mk_ks_ucs_map.pl
+w3m-0.5.3/libwc/map/mk_sjis_ucs_map.pl
+w3m-0.5.3/libwc/map/mk_tis_ucs_map.pl
+w3m-0.5.3/libwc/map/mk_ucs_map.pl
+w3m-0.5.3/libwc/map/mk_uhc_ucs_map.pl
+w3m-0.5.3/libwc/map/mk_viet_ucs_map.pl
+w3m-0.5.3/libwc/map/nextstep_ucs.map
+w3m-0.5.3/libwc/map/tcvn57123_tcvn5712.map
+w3m-0.5.3/libwc/map/tcvn5712_combining.map
+w3m-0.5.3/libwc/map/tcvn5712_ucs.map
+w3m-0.5.3/libwc/map/ucs_combining.map
+w3m-0.5.3/libwc/map/ucs_fullwidth.map
+w3m-0.5.3/libwc/map/ucs_hangul.map
+w3m-0.5.3/libwc/map/ucs_precompose.map
+w3m-0.5.3/libwc/map/ucs_wide.map
+w3m-0.5.3/libwc/map/uhc_ucs.map
+w3m-0.5.3/libwc/map/viscii11_ucs.map
+w3m-0.5.3/libwc/map/vps_ucs.map
+w3m-0.5.3/libwc/map/mk_ucs_case_map.pl
+w3m-0.5.3/libwc/map/mk_ucs_isdigit_map.pl
+w3m-0.5.3/libwc/map/ucs_ambwidth.map
+w3m-0.5.3/libwc/map/ucs_case.map
+w3m-0.5.3/libwc/map/ucs_isalpha.map
+w3m-0.5.3/libwc/map/ucs_isdigit.map
+w3m-0.5.3/libwc/map/ucs_islower.map
+w3m-0.5.3/libwc/map/ucs_isupper.map
+w3m-0.5.3/libwc/CVS/
+w3m-0.5.3/libwc/CVS/Root
+w3m-0.5.3/libwc/CVS/Repository
+w3m-0.5.3/libwc/CVS/Entries
+w3m-0.5.3/libwc/Makefile.in
+w3m-0.5.3/libwc/big5.c
+w3m-0.5.3/libwc/big5.h
+w3m-0.5.3/libwc/ccs.h
+w3m-0.5.3/libwc/ces.c
+w3m-0.5.3/libwc/ces.h
+w3m-0.5.3/libwc/char_conv.c
+w3m-0.5.3/libwc/charset.c
+w3m-0.5.3/libwc/combining.c
+w3m-0.5.3/libwc/conv.c
+w3m-0.5.3/libwc/detect.c
+w3m-0.5.3/libwc/gb18030.c
+w3m-0.5.3/libwc/gb18030.h
+w3m-0.5.3/libwc/gbk.c
+w3m-0.5.3/libwc/gbk.h
+w3m-0.5.3/libwc/hkscs.c
+w3m-0.5.3/libwc/hkscs.h
+w3m-0.5.3/libwc/hz.c
+w3m-0.5.3/libwc/hz.h
+w3m-0.5.3/libwc/iso2022.c
+w3m-0.5.3/libwc/iso2022.h
+w3m-0.5.3/libwc/jis.c
+w3m-0.5.3/libwc/jis.h
+w3m-0.5.3/libwc/johab.c
+w3m-0.5.3/libwc/johab.h
+w3m-0.5.3/libwc/priv.c
+w3m-0.5.3/libwc/priv.h
+w3m-0.5.3/libwc/putc.c
+w3m-0.5.3/libwc/search.c
+w3m-0.5.3/libwc/search.h
+w3m-0.5.3/libwc/sjis.c
+w3m-0.5.3/libwc/sjis.h
+w3m-0.5.3/libwc/status.c
+w3m-0.5.3/libwc/test.c
+w3m-0.5.3/libwc/ucs.c
+w3m-0.5.3/libwc/ucs.h
+w3m-0.5.3/libwc/ucs.map
+w3m-0.5.3/libwc/uhc.c
+w3m-0.5.3/libwc/uhc.h
+w3m-0.5.3/libwc/utf7.c
+w3m-0.5.3/libwc/utf7.h
+w3m-0.5.3/libwc/utf8.c
+w3m-0.5.3/libwc/utf8.h
+w3m-0.5.3/libwc/viet.c
+w3m-0.5.3/libwc/viet.h
+w3m-0.5.3/libwc/wc.h
+w3m-0.5.3/libwc/wc_types.h
+w3m-0.5.3/libwc/wtf.c
+w3m-0.5.3/libwc/wtf.h
+w3m-0.5.3/libwc/EastAsianWidth.txt
+w3m-0.5.3/libwc/ambwidth_map.awk
+w3m-0.5.3/libwc/.cvsignore
+w3m-0.5.3/po/
+w3m-0.5.3/po/CVS/
+w3m-0.5.3/po/CVS/Root
+w3m-0.5.3/po/CVS/Repository
+w3m-0.5.3/po/CVS/Entries
+w3m-0.5.3/po/.cvsignore
+w3m-0.5.3/po/ChangeLog
+w3m-0.5.3/po/LINGUAS
+w3m-0.5.3/po/Makefile.in.in
+w3m-0.5.3/po/Makevars
+w3m-0.5.3/po/POTFILES.in
+w3m-0.5.3/po/Rules-quot
+w3m-0.5.3/po/boldquot.sed
+w3m-0.5.3/po/en@boldquot.header
+w3m-0.5.3/po/en@quot.header
+w3m-0.5.3/po/insert-header.sin
+w3m-0.5.3/po/ja.po
+w3m-0.5.3/po/quot.sed
+w3m-0.5.3/po/remove-potcdate.sin
+w3m-0.5.3/po/w3m.pot
+w3m-0.5.3/doc/
+w3m-0.5.3/doc/CVS/
+w3m-0.5.3/doc/CVS/Root
+w3m-0.5.3/doc/CVS/Repository
+w3m-0.5.3/doc/CVS/Entries
+w3m-0.5.3/doc/FAQ.html
+w3m-0.5.3/doc/HISTORY
+w3m-0.5.3/doc/MANUAL.html
+w3m-0.5.3/doc/README
+w3m-0.5.3/doc/README.cygwin
+w3m-0.5.3/doc/README.dict
+w3m-0.5.3/doc/README.func
+w3m-0.5.3/doc/README.img
+w3m-0.5.3/doc/README.m17n
+w3m-0.5.3/doc/README.mouse
+w3m-0.5.3/doc/README.pre_form
+w3m-0.5.3/doc/README.tab
+w3m-0.5.3/doc/STORY.html
+w3m-0.5.3/doc/keymap.default
+w3m-0.5.3/doc/keymap.lynx
+w3m-0.5.3/doc/menu.default
+w3m-0.5.3/doc/menu.submenu
+w3m-0.5.3/doc/w3m.1
+w3m-0.5.3/doc/README.cookie
+w3m-0.5.3/doc/README.passwd
+w3m-0.5.3/w3m-doc/
+w3m-0.5.3/w3m-doc/sample/
+w3m-0.5.3/w3m-doc/sample/CVS/
+w3m-0.5.3/w3m-doc/sample/CVS/Root
+w3m-0.5.3/w3m-doc/sample/CVS/Repository
+w3m-0.5.3/w3m-doc/sample/CVS/Entries
+w3m-0.5.3/w3m-doc/sample/define.wd
+w3m-0.5.3/w3m-doc/sample/README
+w3m-0.5.3/w3m-doc/sample/html.wd
+w3m-0.5.3/w3m-doc/sample/keymap.cgi
+w3m-0.5.3/w3m-doc/sample/s.wd
+w3m-0.5.3/w3m-doc/sample/sample.html
+w3m-0.5.3/w3m-doc/sample/sample.wd
+w3m-0.5.3/w3m-doc/sample/w3mdoc.pl
+w3m-0.5.3/w3m-doc/CVS/
+w3m-0.5.3/w3m-doc/CVS/Root
+w3m-0.5.3/w3m-doc/CVS/Repository
+w3m-0.5.3/w3m-doc/CVS/Entries
+w3m-0.5.3/w3m-doc/community.html.in
+w3m-0.5.3/w3m-doc/configuration.html.in
+w3m-0.5.3/w3m-doc/contain.wd
+w3m-0.5.3/w3m-doc/copyright.html.in
+w3m-0.5.3/w3m-doc/define.wd
+w3m-0.5.3/w3m-doc/detail.html.in
+w3m-0.5.3/w3m-doc/development.html.in
+w3m-0.5.3/w3m-doc/faq.html.in
+w3m-0.5.3/w3m-doc/function.html.in
+w3m-0.5.3/w3m-doc/index.html.in
+w3m-0.5.3/w3m-doc/install.html.in
+w3m-0.5.3/w3m-doc/mkdocs
+w3m-0.5.3/w3m-doc/operation.html.in
+w3m-0.5.3/w3m-doc/outline.html.in
+w3m-0.5.3/w3m-doc/prologue.html.in
+w3m-0.5.3/w3m-doc/w3mdoc.pl
+w3m-0.5.3/w3m-doc/README.html
+w3m-0.5.3/w3mimg/
+w3m-0.5.3/w3mimg/CVS/
+w3m-0.5.3/w3mimg/CVS/Root
+w3m-0.5.3/w3mimg/CVS/Repository
+w3m-0.5.3/w3mimg/CVS/Entries
+w3m-0.5.3/w3mimg/fb/
+w3m-0.5.3/w3mimg/fb/CVS/
+w3m-0.5.3/w3mimg/fb/CVS/Root
+w3m-0.5.3/w3mimg/fb/CVS/Repository
+w3m-0.5.3/w3mimg/fb/CVS/Entries
+w3m-0.5.3/w3mimg/fb/.cvsignore
+w3m-0.5.3/w3mimg/fb/Makefile.in
+w3m-0.5.3/w3mimg/fb/fb.c
+w3m-0.5.3/w3mimg/fb/fb.h
+w3m-0.5.3/w3mimg/fb/fb_gdkpixbuf.c
+w3m-0.5.3/w3mimg/fb/fb_img.c
+w3m-0.5.3/w3mimg/fb/fb_img.h
+w3m-0.5.3/w3mimg/fb/fb_imlib2.c
+w3m-0.5.3/w3mimg/fb/fb_w3mimg.c
+w3m-0.5.3/w3mimg/fb/readme.txt
+w3m-0.5.3/w3mimg/x11/
+w3m-0.5.3/w3mimg/x11/CVS/
+w3m-0.5.3/w3mimg/x11/CVS/Root
+w3m-0.5.3/w3mimg/x11/CVS/Repository
+w3m-0.5.3/w3mimg/x11/CVS/Entries
+w3m-0.5.3/w3mimg/x11/.cvsignore
+w3m-0.5.3/w3mimg/x11/Makefile.in
+w3m-0.5.3/w3mimg/x11/x11_w3mimg.c
+w3m-0.5.3/w3mimg/win/
+w3m-0.5.3/w3mimg/win/CVS/
+w3m-0.5.3/w3mimg/win/CVS/Root
+w3m-0.5.3/w3mimg/win/CVS/Repository
+w3m-0.5.3/w3mimg/win/CVS/Entries
+w3m-0.5.3/w3mimg/win/Makefile.in
+w3m-0.5.3/w3mimg/win/win_w3mimg.cpp
+w3m-0.5.3/w3mimg/win/.cvsignore
+w3m-0.5.3/w3mimg/Makefile.in
+w3m-0.5.3/w3mimg/w3mimg.c
+w3m-0.5.3/w3mimg/w3mimg.h
+w3m-0.5.3/w3mimg/.cvsignore
+w3m-0.5.3/Bonus/
+w3m-0.5.3/Bonus/CVS/
+w3m-0.5.3/Bonus/CVS/Root
+w3m-0.5.3/Bonus/CVS/Repository
+w3m-0.5.3/Bonus/CVS/Entries
+w3m-0.5.3/Bonus/2ch.cgi
+w3m-0.5.3/Bonus/README
+w3m-0.5.3/Bonus/README.eng
+w3m-0.5.3/Bonus/backslash_to_slash.cgi
+w3m-0.5.3/Bonus/goodict.cgi
+w3m-0.5.3/Bonus/google.cgi
+w3m-0.5.3/Bonus/html2latex
+w3m-0.5.3/Bonus/htmldump
+w3m-0.5.3/Bonus/makeref
+w3m-0.5.3/Bonus/oldconfigure.sh
+w3m-0.5.3/Bonus/scanhist.rb
+w3m-0.5.3/Bonus/smb.cgi
+w3m-0.5.3/Bonus/utf8.cgi
+w3m-0.5.3/Bonus/wrap3m
+w3m-0.5.3/Patches/
+w3m-0.5.3/Patches/CVS/
+w3m-0.5.3/Patches/CVS/Root
+w3m-0.5.3/Patches/CVS/Repository
+w3m-0.5.3/Patches/CVS/Entries
+w3m-0.5.3/Symbols/
+w3m-0.5.3/Symbols/CVS/
+w3m-0.5.3/Symbols/CVS/Root
+w3m-0.5.3/Symbols/CVS/Repository
+w3m-0.5.3/Symbols/CVS/Entries
+w3m-0.5.3/Symbols/alt.sym
+w3m-0.5.3/Symbols/big5.sym
+w3m-0.5.3/Symbols/cp850.sym
+w3m-0.5.3/Symbols/euccn.sym
+w3m-0.5.3/Symbols/eucjp.sym
+w3m-0.5.3/Symbols/euckr.sym
+w3m-0.5.3/Symbols/euctw.sym
+w3m-0.5.3/Symbols/graph.sym
+w3m-0.5.3/Symbols/sym.pl
+w3m-0.5.3/Symbols/utf8.sym
+w3m-0.5.3/CVS/
+w3m-0.5.3/CVS/Root
+w3m-0.5.3/CVS/Repository
+w3m-0.5.3/CVS/Entries
+w3m-0.5.3/anchor.c
+w3m-0.5.3/backend.c
+w3m-0.5.3/buffer.c
+w3m-0.5.3/charset-list
+w3m-0.5.3/config.guess
+w3m-0.5.3/config.h.dist
+w3m-0.5.3/config.h.in
+w3m-0.5.3/config.rpath
+w3m-0.5.3/config.sub
+w3m-0.5.3/configure
+w3m-0.5.3/configure.ac
+w3m-0.5.3/cookie.c
+w3m-0.5.3/ctrlcode.h
+w3m-0.5.3/etc.c
+w3m-0.5.3/display.c
+w3m-0.5.3/entity.c
+w3m-0.5.3/entity.h
+w3m-0.5.3/entity.tab
+w3m-0.5.3/file.c
+w3m-0.5.3/fm.h
+w3m-0.5.3/form.c
+w3m-0.5.3/form.h
+w3m-0.5.3/frame.c
+w3m-0.5.3/frame.h
+w3m-0.5.3/ftp.c
+w3m-0.5.3/func.c
+w3m-0.5.3/func.h
+w3m-0.5.3/funcname0.awk
+w3m-0.5.3/funcname1.awk
+w3m-0.5.3/funcname2.awk
+w3m-0.5.3/functable.awk
+w3m-0.5.3/hash.c
+w3m-0.5.3/hash.h
+w3m-0.5.3/history.c
+w3m-0.5.3/history.h
+w3m-0.5.3/html.c
+w3m-0.5.3/html.h
+w3m-0.5.3/image.c
+w3m-0.5.3/indep.c
+w3m-0.5.3/indep.h
+w3m-0.5.3/inflate.c
+w3m-0.5.3/install-sh
+w3m-0.5.3/islang.c
+w3m-0.5.3/istream.c
+w3m-0.5.3/istream.h
+w3m-0.5.3/keybind.c
+w3m-0.5.3/keybind_lynx.c
+w3m-0.5.3/linein.c
+w3m-0.5.3/local.c
+w3m-0.5.3/local.h
+w3m-0.5.3/mailcap.c
+w3m-0.5.3/main.c
+w3m-0.5.3/map.c
+w3m-0.5.3/matrix.c
+w3m-0.5.3/matrix.h
+w3m-0.5.3/menu.c
+w3m-0.5.3/menu.h
+w3m-0.5.3/mimehead.c
+w3m-0.5.3/mkinstalldirs
+w3m-0.5.3/mktable.c
+w3m-0.5.3/myctype.c
+w3m-0.5.3/myctype.h
+w3m-0.5.3/news.c
+w3m-0.5.3/parsetag.c
+w3m-0.5.3/parsetag.h
+w3m-0.5.3/proto.h
+w3m-0.5.3/parsetagx.c
+w3m-0.5.3/parsetagx.h
+w3m-0.5.3/rc.c
+w3m-0.5.3/posubst.in
+w3m-0.5.3/regex.c
+w3m-0.5.3/regex.h
+w3m-0.5.3/scrsize.c
+w3m-0.5.3/search.c
+w3m-0.5.3/symbol.c
+w3m-0.5.3/table.c
+w3m-0.5.3/table.h
+w3m-0.5.3/tagtable.tab
+w3m-0.5.3/terms.c
+w3m-0.5.3/terms.h
+w3m-0.5.3/textlist.c
+w3m-0.5.3/textlist.h
+w3m-0.5.3/url.c
+w3m-0.5.3/version.c.in
+w3m-0.5.3/w3mbookmark.c
+w3m-0.5.3/w3mhelp-lynx_en.html.in
+w3m-0.5.3/w3mhelp-lynx_ja.html.in
+w3m-0.5.3/w3mhelp-w3m_en.html.in
+w3m-0.5.3/w3mhelp-w3m_ja.html.in
+w3m-0.5.3/w3mhelperpanel.c
+w3m-0.5.3/.#file.c.1.243
+w3m-0.5.3/.#main.c.1.253
+w3m-0.5.3/w3mimgdisplay.c
+w3m-0.5.3/.cvsignore
+w3m-0.5.3/ABOUT-NLS
+w3m-0.5.3/ChangeLog
+w3m-0.5.3/Makefile.in
+w3m-0.5.3/NEWS
+w3m-0.5.3/README
+w3m-0.5.3/Str.c
+w3m-0.5.3/Str.h
+w3m-0.5.3/TODO
+w3m-0.5.3/acinclude.m4
+w3m-0.5.3/aclocal.m4
+debian/
+debian/README.Debian
+debian/changelog
+debian/control
+debian/copyright
+debian/dirs
+debian/docs
+debian/examples
+debian/gitlog2changelog
+debian/mailcap
+debian/menu
+debian/mime
+debian/patches/
+debian/patches/010_upstream.patch
+debian/patches/020_debian.patch
+debian/patches/series
+debian/postinst
+debian/postrm
+debian/preinst
+debian/prerm
+debian/rules
+debian/source/
+debian/source/format
+debian/w3m-img.dirs
+debian/w3m-img.lintian-overrides
+debian/w3m.doc-base
+debian/w3mconfig
+debian/watch
+Hmm...  Looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|Description: Upstream development snapshot on 2012-05-22
+|Origin: upstream, http://w3m.cvs.sourceforge.net/viewvc/w3m/w3m/
+|
+|diff -urN w3m-0.5.3/ChangeLog w3m/ChangeLog
+|--- w3m-0.5.3/ChangeLog	2011-01-15 16:52:48.000000000 +0900
+|+++ w3m/ChangeLog	2012-05-22 22:11:44.000000000 +0900
+--------------------------
+patching file ChangeLog
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 9319.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff -urN w3m-0.5.3/Makefile.in w3m/Makefile.in
+|--- w3m-0.5.3/Makefile.in	2011-01-04 18:22:18.000000000 +0900
+|+++ w3m/Makefile.in	2012-05-22 22:11:44.000000000 +0900
+--------------------------
+patching file Makefile.in
+Using Plan A...
+Hunk #1 succeeded at 288.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff -urN w3m-0.5.3/doc/STORY.html w3m/doc/STORY.html
+|--- w3m-0.5.3/doc/STORY.html	2001-11-21 13:29:14.000000000 +0900
+|+++ w3m/doc/STORY.html	2012-05-22 22:11:44.000000000 +0900
+--------------------------
+patching file doc/STORY.html
+Using Plan A...
+Hunk #1 succeeded at 182.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff -urN w3m-0.5.3/doc/w3m.1 w3m/doc/w3m.1
+|--- w3m-0.5.3/doc/w3m.1	2011-01-15 15:37:24.000000000 +0900
+|+++ w3m/doc/w3m.1	2012-05-22 22:11:44.000000000 +0900
+--------------------------
+patching file doc/w3m.1
+Using Plan A...
+Hunk #1 succeeded at 245.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff -urN w3m-0.5.3/doc-jp/STORY.html w3m/doc-jp/STORY.html
+|--- w3m-0.5.3/doc-jp/STORY.html	2003-05-14 02:17:54.000000000 +0900
+|+++ w3m/doc-jp/STORY.html	2012-05-22 22:11:44.000000000 +0900
+--------------------------
+patching file doc-jp/STORY.html
+Using Plan A...
+Hunk #1 succeeded at 158.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff -urN w3m-0.5.3/file.c w3m/file.c
+|--- w3m-0.5.3/file.c	2011-01-04 18:22:21.000000000 +0900
+|+++ w3m/file.c	2012-05-22 22:11:44.000000000 +0900
+--------------------------
+patching file file.c
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 5020.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff -urN w3m-0.5.3/html.c w3m/html.c
+|--- w3m-0.5.3/html.c	2011-01-04 18:22:21.000000000 +0900
+|+++ w3m/html.c	2012-05-22 22:11:44.000000000 +0900
+--------------------------
+patching file html.c
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 37.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff -urN w3m-0.5.3/version.c.in w3m/version.c.in
+|--- w3m-0.5.3/version.c.in	2011-01-15 16:52:48.000000000 +0900
+|+++ w3m/version.c.in	2012-05-22 22:11:44.000000000 +0900
+--------------------------
+patching file version.c.in
+Using Plan A...
+Hunk #1 succeeded at 1.
+done
+Hmm...  Looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|Description: Git master branch of Debian's w3m
+|Origin: https://salsa.debian.org/debian/w3m/commits/master
+|
+|diff --git a/Bonus/goodict.cgi b/Bonus/goodict.cgi
+|index 8f443c1..5fb6581 100755
+|--- a/Bonus/goodict.cgi
+|+++ b/Bonus/goodict.cgi
+--------------------------
+patching file Bonus/goodict.cgi
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 23.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/ChangeLog b/ChangeLog
+|index 88358ef..7367d67 100644
+|--- a/ChangeLog
+|+++ b/ChangeLog
+--------------------------
+patching file ChangeLog
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/Makefile.in b/Makefile.in
+|index 7d692f9..453072d 100644
+|--- a/Makefile.in
+|+++ b/Makefile.in
+--------------------------
+patching file Makefile.in
+Using Plan A...
+Hunk #1 succeeded at 111.
+Hunk #2 succeeded at 151.
+Hunk #3 succeeded at 221.
+Hunk #4 succeeded at 253.
+Hunk #5 succeeded at 283.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/NEWS b/NEWS
+|index 66e309d..dac1f5c 100644
+|--- a/NEWS
+|+++ b/NEWS
+--------------------------
+patching file NEWS
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/README b/README
+|index 8778d80..765c996 100644
+|--- a/README
+|+++ b/README
+--------------------------
+patching file README
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/Str.c b/Str.c
+|index e5a0982..61fe3ca 100644
+|--- a/Str.c
+|+++ b/Str.c
+--------------------------
+patching file Str.c
+Using Plan A...
+Hunk #1 succeeded at 48.
+Hunk #2 succeeded at 58.
+Hunk #3 succeeded at 75.
+Hunk #4 succeeded at 89.
+Hunk #5 succeeded at 142.
+Hunk #6 succeeded at 162.
+Hunk #7 succeeded at 182.
+Hunk #8 succeeded at 211.
+Hunk #9 succeeded at 234.
+Hunk #10 succeeded at 280.
+Hunk #11 succeeded at 303.
+Hunk #12 succeeded at 532.
+Hunk #13 succeeded at 545.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/Str.h b/Str.h
+|index f345c74..248815d 100644
+|--- a/Str.h
+|+++ b/Str.h
+--------------------------
+patching file Str.h
+Using Plan A...
+Hunk #1 succeeded at 30.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/acinclude.m4 b/acinclude.m4
+|index e4ccc3d..ed1035d 100644
+|--- a/acinclude.m4
+|+++ b/acinclude.m4
+--------------------------
+patching file acinclude.m4
+Using Plan A...
+Hunk #1 succeeded at 6.
+Hunk #2 succeeded at 331.
+Hunk #3 succeeded at 401.
+Hunk #4 succeeded at 601.
+Hunk #5 succeeded at 650.
+Hunk #6 succeeded at 665.
+Hunk #7 succeeded at 707.
+Hunk #8 succeeded at 730.
+Hunk #9 succeeded at 742.
+Hunk #10 succeeded at 758.
+Hunk #11 succeeded at 868.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/alloc.h b/alloc.h
+|new file mode 100644
+|index 0000000..fa0d391
+|--- /dev/null
+|+++ b/alloc.h
+--------------------------
+patching file alloc.h
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/anchor.c b/anchor.c
+|index 27bbd56..b6d121c 100644
+|--- a/anchor.c
+|+++ b/anchor.c
+--------------------------
+patching file anchor.c
+Using Plan A...
+Hunk #1 succeeded at 11.
+Hunk #2 succeeded at 200.
+Hunk #3 succeeded at 214.
+Hunk #4 succeeded at 551.
+Hunk #5 succeeded at 644.
+Hunk #6 succeeded at 670.
+Hunk #7 succeeded at 686.
+Hunk #8 succeeded at 759.
+Hunk #9 succeeded at 790.
+Hunk #10 succeeded at 812.
+Hunk #11 succeeded at 842.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/buffer.c b/buffer.c
+|index 5afc26a..e70cffe 100644
+|--- a/buffer.c
+|+++ b/buffer.c
+--------------------------
+patching file buffer.c
+Using Plan A...
+Hunk #1 succeeded at 47.
+Hunk #2 succeeded at 707.
+Hunk #3 succeeded at 763.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/config.guess b/config.guess
+|index 51fab47..f50dcdb 100755
+|--- a/config.guess
+|+++ b/config.guess
+--------------------------
+patching file config.guess
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 15.
+Hunk #3 succeeded at 39.
+Hunk #4 succeeded at 50.
+Hunk #5 succeeded at 62.
+Hunk #6 succeeded at 100.
+Hunk #7 succeeded at 119.
+Hunk #8 succeeded at 132.
+Hunk #9 succeeded at 175.
+Hunk #10 succeeded at 211.
+Hunk #11 succeeded at 226.
+Hunk #12 succeeded at 291.
+Hunk #13 succeeded at 365.
+Hunk #14 succeeded at 417.
+Hunk #15 succeeded at 446.
+Hunk #16 succeeded at 492.
+Hunk #17 succeeded at 591.
+Hunk #18 succeeded at 752.
+Hunk #19 succeeded at 1119.
+Hunk #20 succeeded at 1464.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/config.h.dist b/config.h.dist
+|index 844a555..4d9c119 100644
+|--- a/config.h.dist
+|+++ b/config.h.dist
+--------------------------
+patching file config.h.dist
+Using Plan A...
+Hunk #1 succeeded at 9.
+Hunk #2 succeeded at 210.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/config.h.in b/config.h.in
+|index 2f41eed..6ab3008 100644
+|--- a/config.h.in
+|+++ b/config.h.in
+--------------------------
+patching file config.h.in
+Using Plan A...
+Hunk #1 succeeded at 25.
+Hunk #2 succeeded at 85.
+Hunk #3 succeeded at 143.
+Hunk #4 succeeded at 211.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/config.sub b/config.sub
+|index ba33103..1d8e98b 100755
+|--- a/config.sub
+|+++ b/config.sub
+--------------------------
+patching file config.sub
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 53.
+Hunk #3 succeeded at 67.
+Hunk #4 succeeded at 79.
+Hunk #5 succeeded at 94.
+Hunk #6 succeeded at 112.
+Hunk #7 succeeded at 148.
+Hunk #8 succeeded at 169.
+Hunk #9 succeeded at 244.
+Hunk #10 succeeded at 362.
+Hunk #11 succeeded at 470.
+Hunk #12 succeeded at 491.
+Hunk #13 succeeded at 516.
+Hunk #14 succeeded at 531.
+Hunk #15 succeeded at 584.
+Hunk #16 succeeded at 627.
+Hunk #17 succeeded at 740.
+Hunk #18 succeeded at 751.
+Hunk #19 succeeded at 789.
+Hunk #20 succeeded at 808.
+Hunk #21 succeeded at 831.
+Hunk #22 succeeded at 844.
+Hunk #23 succeeded at 895.
+Hunk #24 succeeded at 931.
+Hunk #25 succeeded at 973.
+Hunk #26 succeeded at 990.
+Hunk #27 succeeded at 1009.
+Hunk #28 succeeded at 1053.
+Hunk #29 succeeded at 1087.
+Hunk #30 succeeded at 1098.
+Hunk #31 succeeded at 1119.
+Hunk #32 succeeded at 1178.
+Hunk #33 succeeded at 1242.
+Hunk #34 succeeded at 1278.
+Hunk #35 succeeded at 1315.
+Hunk #36 succeeded at 1323.
+Hunk #37 succeeded at 1337.
+Hunk #38 succeeded at 1407.
+Hunk #39 succeeded at 1421.
+Hunk #40 succeeded at 1459.
+Hunk #41 succeeded at 1472.
+Hunk #42 succeeded at 1481.
+Hunk #43 succeeded at 1496.
+Hunk #44 succeeded at 1544.
+Hunk #45 succeeded at 1559.
+Hunk #46 succeeded at 1595.
+Hunk #47 succeeded at 1617.
+Hunk #48 succeeded at 1662.
+Hunk #49 succeeded at 1677.
+Hunk #50 succeeded at 1728.
+Hunk #51 succeeded at 1786.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/configure b/configure
+|index 4c1bc06..8699b43 100755
+|--- a/configure
+|+++ b/configure
+--------------------------
+patching file configure
+Using Plan A...
+Hunk #1 succeeded at 1486.
+Hunk #2 succeeded at 6755.
+Hunk #3 succeeded at 6811.
+Hunk #4 succeeded at 6826.
+Hunk #5 succeeded at 6927.
+Hunk #6 succeeded at 6956.
+Hunk #7 succeeded at 6972.
+Hunk #8 succeeded at 6992.
+Hunk #9 succeeded at 7345.
+Hunk #10 succeeded at 7978.
+Hunk #11 succeeded at 8767.
+Hunk #12 succeeded at 8987.
+Hunk #13 succeeded at 9077.
+Hunk #14 succeeded at 9085.
+Hunk #15 succeeded at 9812.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/configure.ac b/configure.ac
+|index 7308fc6..ebb3282 100644
+|--- a/configure.ac
+|+++ b/configure.ac
+--------------------------
+patching file configure.ac
+Using Plan A...
+Hunk #1 succeeded at 150.
+Hunk #2 succeeded at 172.
+Hunk #3 succeeded at 181.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/cookie.c b/cookie.c
+|index 8020f6d..705e277 100644
+|--- a/cookie.c
+|+++ b/cookie.c
+--------------------------
+patching file cookie.c
+Using Plan A...
+Hunk #1 succeeded at 22.
+Hunk #2 succeeded at 105.
+Hunk #3 succeeded at 248.
+Hunk #4 succeeded at 321.
+Hunk #5 succeeded at 329.
+Hunk #6 succeeded at 447.
+Hunk #7 succeeded at 501.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/display.c b/display.c
+|index e00eb0c..e62d07f 100644
+|--- a/display.c
+|+++ b/display.c
+--------------------------
+patching file display.c
+Using Plan A...
+Hunk #1 succeeded at 257.
+Hunk #2 succeeded at 487.
+Hunk #3 succeeded at 497.
+Hunk #4 succeeded at 525.
+Hunk #5 succeeded at 541.
+Hunk #6 succeeded at 867.
+Hunk #7 succeeded at 1133.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc-de/FAQ.html b/doc-de/FAQ.html
+|new file mode 100644
+|index 0000000..d88ba64
+|--- /dev/null
+|+++ b/doc-de/FAQ.html
+--------------------------
+patching file doc-de/FAQ.html
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc-de/MANUAL.html b/doc-de/MANUAL.html
+|new file mode 100644
+|index 0000000..f922314
+|--- /dev/null
+|+++ b/doc-de/MANUAL.html
+--------------------------
+patching file doc-de/MANUAL.html
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc-de/README.func b/doc-de/README.func
+|new file mode 100644
+|index 0000000..72d7d45
+|--- /dev/null
+|+++ b/doc-de/README.func
+--------------------------
+patching file doc-de/README.func
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc-de/w3m.1 b/doc-de/w3m.1
+|new file mode 100644
+|index 0000000..7deb203
+|--- /dev/null
+|+++ b/doc-de/w3m.1
+--------------------------
+patching file doc-de/w3m.1
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc-jp/FAQ.html b/doc-jp/FAQ.html
+|index e16a986..86ef05a 100644
+|--- a/doc-jp/FAQ.html
+|+++ b/doc-jp/FAQ.html
+--------------------------
+patching file doc-jp/FAQ.html
+Using Plan A...
+Hunk #1 succeeded at 176.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc-jp/MANUAL.html b/doc-jp/MANUAL.html
+|index 41d70f1..66fdc6e 100644
+|--- a/doc-jp/MANUAL.html
+|+++ b/doc-jp/MANUAL.html
+--------------------------
+patching file doc-jp/MANUAL.html
+Using Plan A...
+Hunk #1 succeeded at 51.
+Hunk #2 succeeded at 83.
+Hunk #3 succeeded at 205.
+Hunk #4 succeeded at 343.
+Hunk #5 succeeded at 483.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc-jp/README b/doc-jp/README
+|index 074766f..e5e59b1 100644
+|--- a/doc-jp/README
+|+++ b/doc-jp/README
+--------------------------
+patching file doc-jp/README
+Using Plan A...
+Hunk #1 succeeded at 122.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc-jp/README.SSL b/doc-jp/README.SSL
+|index 4aedfde..ac3f4a3 100644
+|--- a/doc-jp/README.SSL
+|+++ b/doc-jp/README.SSL
+--------------------------
+patching file doc-jp/README.SSL
+Using Plan A...
+Hunk #1 succeeded at 24.
+Hunk #2 succeeded at 85.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc-jp/README.func b/doc-jp/README.func
+|index 542aaa9..8a5f821 100644
+|--- a/doc-jp/README.func
+|+++ b/doc-jp/README.func
+--------------------------
+patching file doc-jp/README.func
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 36.
+Hunk #3 succeeded at 71.
+Hunk #4 succeeded at 92.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc-jp/README.siteconf b/doc-jp/README.siteconf
+|new file mode 100644
+|index 0000000..90066f7
+|--- /dev/null
+|+++ b/doc-jp/README.siteconf
+--------------------------
+patching file doc-jp/README.siteconf
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc-jp/README.tab b/doc-jp/README.tab
+|index 61f7c58..99a1220 100644
+|--- a/doc-jp/README.tab
+|+++ b/doc-jp/README.tab
+--------------------------
+patching file doc-jp/README.tab
+Using Plan A...
+Hunk #1 succeeded at 38.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc-jp/keymap.lynx b/doc-jp/keymap.lynx
+|index 869c716..e4085c8 100644
+|--- a/doc-jp/keymap.lynx
+|+++ b/doc-jp/keymap.lynx
+--------------------------
+patching file doc-jp/keymap.lynx
+Using Plan A...
+Hunk #1 succeeded at 46.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc-jp/w3m.1 b/doc-jp/w3m.1
+|index 89aacb6..a54e078 100644
+|--- a/doc-jp/w3m.1
+|+++ b/doc-jp/w3m.1
+--------------------------
+patching file doc-jp/w3m.1
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 39.
+Hunk #3 succeeded at 81.
+Hunk #4 succeeded at 318.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc/FAQ.html b/doc/FAQ.html
+|index ed2a704..ca82c67 100644
+|--- a/doc/FAQ.html
+|+++ b/doc/FAQ.html
+--------------------------
+patching file doc/FAQ.html
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc/HISTORY b/doc/HISTORY
+|index b8f5b94..7f7ae2b 100644
+|--- a/doc/HISTORY
+|+++ b/doc/HISTORY
+--------------------------
+patching file doc/HISTORY
+Using Plan A...
+Hunk #1 succeeded at 588.
+Hunk #2 succeeded at 1422.
+Hunk #3 succeeded at 1649.
+Hunk #4 succeeded at 1699.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc/MANUAL.html b/doc/MANUAL.html
+|index aff0189..f0710a7 100644
+|--- a/doc/MANUAL.html
+|+++ b/doc/MANUAL.html
+--------------------------
+patching file doc/MANUAL.html
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc/README b/doc/README
+|index 324ea3e..60d6d19 100644
+|--- a/doc/README
+|+++ b/doc/README
+--------------------------
+patching file doc/README
+Using Plan A...
+Hunk #1 succeeded at 115.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc/README.cookie b/doc/README.cookie
+|index 56cca50..71523e0 100644
+|--- a/doc/README.cookie
+|+++ b/doc/README.cookie
+--------------------------
+patching file doc/README.cookie
+Using Plan A...
+Hunk #1 succeeded at 9.
+Hunk #2 succeeded at 37.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc/README.dict b/doc/README.dict
+|index bd82cdb..88f4b1a 100644
+|--- a/doc/README.dict
+|+++ b/doc/README.dict
+--------------------------
+patching file doc/README.dict
+Using Plan A...
+Hunk #1 succeeded at 2.
+Hunk #2 succeeded at 19.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc/README.func b/doc/README.func
+|index 0b2c034..a3ef3ac 100644
+|--- a/doc/README.func
+|+++ b/doc/README.func
+--------------------------
+patching file doc/README.func
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc/README.img b/doc/README.img
+|index 0c10114..af6d9db 100644
+|--- a/doc/README.img
+|+++ b/doc/README.img
+--------------------------
+patching file doc/README.img
+Using Plan A...
+Hunk #1 succeeded at 11.
+Hunk #2 succeeded at 41.
+Hunk #3 succeeded at 66.
+Hunk #4 succeeded at 75.
+Hunk #5 succeeded at 124.
+Hunk #6 succeeded at 135.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc/README.m17n b/doc/README.m17n
+|index c064d76..da5408b 100644
+|--- a/doc/README.m17n
+|+++ b/doc/README.m17n
+--------------------------
+patching file doc/README.m17n
+Using Plan A...
+Hunk #1 succeeded at 49.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc/README.pre_form b/doc/README.pre_form
+|index 972ef90..dad62f8 100644
+|--- a/doc/README.pre_form
+|+++ b/doc/README.pre_form
+--------------------------
+patching file doc/README.pre_form
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 23.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc/README.siteconf b/doc/README.siteconf
+|new file mode 100644
+|index 0000000..39b1028
+|--- /dev/null
+|+++ b/doc/README.siteconf
+--------------------------
+patching file doc/README.siteconf
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc/README.sixel b/doc/README.sixel
+|new file mode 100644
+|index 0000000..588afc4
+|--- /dev/null
+|+++ b/doc/README.sixel
+--------------------------
+patching file doc/README.sixel
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc/README.tab b/doc/README.tab
+|index 8e98e1c..f237f70 100644
+|--- a/doc/README.tab
+|+++ b/doc/README.tab
+--------------------------
+patching file doc/README.tab
+Using Plan A...
+Hunk #1 succeeded at 39.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc/keymap.lynx b/doc/keymap.lynx
+|index 869c716..e4085c8 100644
+|--- a/doc/keymap.lynx
+|+++ b/doc/keymap.lynx
+--------------------------
+patching file doc/keymap.lynx
+Using Plan A...
+Hunk #1 succeeded at 46.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc/menu.submenu b/doc/menu.submenu
+|index e55193d..e837f46 100644
+|--- a/doc/menu.submenu
+|+++ b/doc/menu.submenu
+--------------------------
+patching file doc/menu.submenu
+Using Plan A...
+Hunk #1 succeeded at 39.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/doc/w3m.1 b/doc/w3m.1
+|index 8f071c6..90488f3 100644
+|--- a/doc/w3m.1
+|+++ b/doc/w3m.1
+--------------------------
+patching file doc/w3m.1
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 14.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/entity.c b/entity.c
+|index fdd8f64..45dc95e 100644
+|--- a/entity.c
+|+++ b/entity.c
+--------------------------
+patching file entity.c
+Using Plan A...
+Hunk #1 succeeded at 44.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/etc.c b/etc.c
+|index 8fe1215..37c4f15 100644
+|--- a/etc.c
+|+++ b/etc.c
+--------------------------
+patching file etc.c
+Using Plan A...
+Hunk #1 succeeded at 498.
+Hunk #2 succeeded at 1365.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/file.c b/file.c
+|index 567d41e..0333e9a 100644
+|--- a/file.c
+|+++ b/file.c
+--------------------------
+patching file file.c
+Using Plan A...
+Hunk #1 succeeded at 26.
+Hunk #2 succeeded at 49.
+Hunk #3 succeeded at 69.
+Hunk #4 succeeded at 81.
+Hunk #5 succeeded at 217.
+Hunk #6 succeeded at 224.
+Hunk #7 succeeded at 491.
+Hunk #8 succeeded at 611.
+Hunk #9 succeeded at 681.
+Hunk #10 succeeded at 1232.
+Hunk #11 succeeded at 1315.
+Hunk #12 succeeded at 1687.
+Hunk #13 succeeded at 1722.
+Hunk #14 succeeded at 1870.
+Hunk #15 succeeded at 2029.
+Hunk #16 succeeded at 2130.
+Hunk #17 succeeded at 2200.
+Hunk #18 succeeded at 2225.
+Hunk #19 succeeded at 2274.
+Hunk #20 succeeded at 2313.
+Hunk #21 succeeded at 2461.
+Hunk #22 succeeded at 2479.
+Hunk #23 succeeded at 2723.
+Hunk #24 succeeded at 2755.
+Hunk #25 succeeded at 2812.
+Hunk #26 succeeded at 3024.
+Hunk #27 succeeded at 3242.
+Hunk #28 succeeded at 3269.
+Hunk #29 succeeded at 3336.
+Hunk #30 succeeded at 3355.
+Hunk #31 succeeded at 3393.
+Hunk #32 succeeded at 3425.
+Hunk #33 succeeded at 3457.
+Hunk #34 succeeded at 3570.
+Hunk #35 succeeded at 3589.
+Hunk #36 succeeded at 3645.
+Hunk #37 succeeded at 3693.
+Hunk #38 succeeded at 3754.
+Hunk #39 succeeded at 4018.
+Hunk #40 succeeded at 4095.
+Hunk #41 succeeded at 4178.
+Hunk #42 succeeded at 4208.
+Hunk #43 succeeded at 4379.
+Hunk #44 succeeded at 4695.
+Hunk #45 succeeded at 4935.
+Hunk #46 succeeded at 4955.
+Hunk #47 succeeded at 5014.
+Hunk #48 succeeded at 5024.
+Hunk #49 succeeded at 5117.
+Hunk #50 succeeded at 5224.
+Hunk #51 succeeded at 5485.
+Hunk #52 succeeded at 5686.
+Hunk #53 succeeded at 5735.
+Hunk #54 succeeded at 5782.
+Hunk #55 succeeded at 5803.
+Hunk #56 succeeded at 5842.
+Hunk #57 succeeded at 5854.
+Hunk #58 succeeded at 5941.
+Hunk #59 succeeded at 5991.
+Hunk #60 succeeded at 6013.
+Hunk #61 succeeded at 6027.
+Hunk #62 succeeded at 6047.
+Hunk #63 succeeded at 6064.
+Hunk #64 succeeded at 6072.
+Hunk #65 succeeded at 6112.
+Hunk #66 succeeded at 6147.
+Hunk #67 succeeded at 6166.
+Hunk #68 succeeded at 6339.
+Hunk #69 succeeded at 6358.
+Hunk #70 succeeded at 6424.
+Hunk #71 succeeded at 6440.
+Hunk #72 succeeded at 6459.
+Hunk #73 succeeded at 6617.
+Hunk #74 succeeded at 6945.
+Hunk #75 succeeded at 6986.
+Hunk #76 succeeded at 7028.
+Hunk #77 succeeded at 7055.
+Hunk #78 succeeded at 7172.
+Hunk #79 succeeded at 7194.
+Hunk #80 succeeded at 7258.
+Hunk #81 succeeded at 7311.
+Hunk #82 succeeded at 7331.
+Hunk #83 succeeded at 7424.
+Hunk #84 succeeded at 7460.
+Hunk #85 succeeded at 7547.
+Hunk #86 succeeded at 7555.
+Hunk #87 succeeded at 7582.
+Hunk #88 succeeded at 7629.
+Hunk #89 succeeded at 7798.
+Hunk #90 succeeded at 7830.
+Hunk #91 succeeded at 7849.
+Hunk #92 succeeded at 7984.
+Hunk #93 succeeded at 8022.
+Hunk #94 succeeded at 8053.
+Hunk #95 succeeded at 8086.
+Hunk #96 succeeded at 8135.
+Hunk #97 succeeded at 8151.
+Hunk #98 succeeded at 8170.
+Hunk #99 succeeded at 8216.
+Hunk #100 succeeded at 8535.
+Hunk #101 succeeded at 8598.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/fm.h b/fm.h
+|index 8378939..96d3ab3 100644
+|--- a/fm.h
+|+++ b/fm.h
+--------------------------
+patching file fm.h
+Using Plan A...
+Hunk #1 succeeded at 76.
+Hunk #2 succeeded at 265.
+Hunk #3 succeeded at 289.
+Hunk #4 succeeded at 373.
+Hunk #5 succeeded at 575.
+Hunk #6 succeeded at 589.
+Hunk #7 succeeded at 612.
+Hunk #8 succeeded at 824.
+Hunk #9 succeeded at 896.
+Hunk #10 succeeded at 921.
+Hunk #11 succeeded at 994.
+Hunk #12 succeeded at 1024.
+Hunk #13 succeeded at 1037.
+Hunk #14 succeeded at 1098.
+Hunk #15 succeeded at 1148.
+Hunk #16 succeeded at 1170.
+Hunk #17 succeeded at 1179.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/form.c b/form.c
+|index b7556ca..bc14d39 100644
+|--- a/form.c
+|+++ b/form.c
+--------------------------
+patching file form.c
+Using Plan A...
+Hunk #1 succeeded at 10.
+Hunk #2 succeeded at 56.
+Hunk #3 succeeded at 123.
+Hunk #4 succeeded at 199.
+Hunk #5 succeeded at 319.
+Hunk #6 succeeded at 442.
+Hunk #7 succeeded at 462.
+Hunk #8 succeeded at 482.
+Hunk #9 succeeded at 492.
+Hunk #10 succeeded at 805.
+Hunk #11 succeeded at 814.
+Hunk #12 succeeded at 844.
+Hunk #13 succeeded at 885.
+Hunk #14 succeeded at 901.
+Hunk #15 succeeded at 926.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/frame.c b/frame.c
+|index b431437..c595c40 100644
+|--- a/frame.c
+|+++ b/frame.c
+--------------------------
+patching file frame.c
+Using Plan A...
+Hunk #1 succeeded at 91.
+Hunk #2 succeeded at 640.
+Hunk #3 succeeded at 769.
+Hunk #4 succeeded at 895.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/ftp.c b/ftp.c
+|index 0002abd..2ca0247 100644
+|--- a/ftp.c
+|+++ b/ftp.c
+--------------------------
+patching file ftp.c
+Using Plan A...
+Hunk #1 succeeded at 123.
+Hunk #2 succeeded at 140.
+Hunk #3 succeeded at 156.
+Hunk #4 succeeded at 170.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/func.c b/func.c
+|index f389e00..8b5deac 100644
+|--- a/func.c
+|+++ b/func.c
+--------------------------
+patching file func.c
+Using Plan A...
+Hunk #1 succeeded at 8.
+Hunk #2 succeeded at 435.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/history.c b/history.c
+|index 951ef83..f2a00b4 100644
+|--- a/history.c
+|+++ b/history.c
+--------------------------
+patching file history.c
+Using Plan A...
+Hunk #1 succeeded at 17.
+Hunk #2 succeeded at 60.
+Hunk #3 succeeded at 80.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/html.c b/html.c
+|index bca227e..d9f08e9 100644
+|--- a/html.c
+|+++ b/html.c
+--------------------------
+patching file html.c
+Using Plan A...
+Hunk #1 succeeded at 56.
+Hunk #2 succeeded at 250.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/html.h b/html.h
+|index 7abbd3b..2a9a431 100644
+|--- a/html.h
+|+++ b/html.h
+--------------------------
+patching file html.h
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 62.
+Hunk #3 succeeded at 215.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/image.c b/image.c
+|index 5f5991a..91034ee 100644
+|--- a/image.c
+|+++ b/image.c
+--------------------------
+patching file image.c
+Using Plan A...
+Hunk #1 succeeded at 44.
+Hunk #2 succeeded at 54.
+Hunk #3 succeeded at 110.
+Hunk #4 succeeded at 176.
+Hunk #5 succeeded at 195.
+Hunk #6 succeeded at 212.
+Hunk #7 succeeded at 276.
+Hunk #8 succeeded at 396.
+Hunk #9 succeeded at 411.
+Hunk #10 succeeded at 427.
+Hunk #11 succeeded at 458.
+Hunk #12 succeeded at 484.
+Hunk #13 succeeded at 513.
+Hunk #14 succeeded at 561.
+Hunk #15 succeeded at 596.
+Hunk #16 succeeded at 641.
+Hunk #17 succeeded at 725.
+Hunk #18 succeeded at 744.
+Hunk #19 succeeded at 758.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/indep.c b/indep.c
+|index 65b04aa..5c5de06 100644
+|--- a/indep.c
+|+++ b/indep.c
+--------------------------
+patching file indep.c
+Using Plan A...
+Hunk #1 succeeded at 357.
+Hunk #2 succeeded at 721.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/indep.h b/indep.h
+|index b3819a3..2809832 100644
+|--- a/indep.h
+|+++ b/indep.h
+--------------------------
+patching file indep.h
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 12.
+Hunk #3 succeeded at 60.
+Hunk #4 succeeded at 73.
+Hunk #5 succeeded at 92.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/istream.c b/istream.c
+|index 8967280..74adac5 100644
+|--- a/istream.c
+|+++ b/istream.c
+--------------------------
+patching file istream.c
+Using Plan A...
+Hunk #1 succeeded at 22.
+Hunk #2 succeeded at 35.
+Hunk #3 succeeded at 68.
+Hunk #4 succeeded at 97.
+Hunk #5 succeeded at 113.
+Hunk #6 succeeded at 133.
+Hunk #7 succeeded at 149.
+Hunk #8 succeeded at 168.
+Hunk #9 succeeded at 189.
+Hunk #10 succeeded at 222.
+Hunk #11 succeeded at 421.
+Hunk #12 succeeded at 479.
+Hunk #13 succeeded at 626.
+Hunk #14 succeeded at 640.
+Hunk #15 succeeded at 665.
+Hunk #16 succeeded at 701.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/istream.h b/istream.h
+|index a220d8b..5a04be0 100644
+|--- a/istream.h
+|+++ b/istream.h
+--------------------------
+patching file istream.h
+Using Plan A...
+Hunk #1 succeeded at 2.
+Hunk #2 succeeded at 20.
+Hunk #3 succeeded at 36.
+Hunk #4 succeeded at 53.
+Hunk #5 succeeded at 119.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/keybind.c b/keybind.c
+|index a490962..fec0c65 100644
+|--- a/keybind.c
+|+++ b/keybind.c
+--------------------------
+patching file keybind.c
+Using Plan A...
+Hunk #1 succeeded at 91.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/keybind_lynx.c b/keybind_lynx.c
+|index 163f6b2..42267ec 100644
+|--- a/keybind_lynx.c
+|+++ b/keybind_lynx.c
+--------------------------
+patching file keybind_lynx.c
+Using Plan A...
+Hunk #1 succeeded at 99.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/libwc/ambwidth_map.awk b/libwc/ambwidth_map.awk
+|index 8544f58..1d9d25f 100644
+|--- a/libwc/ambwidth_map.awk
+|+++ b/libwc/ambwidth_map.awk
+--------------------------
+patching file libwc/ambwidth_map.awk
+Using Plan A...
+Hunk #1 succeeded at 3.
+Hunk #2 succeeded at 21.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/libwc/charset.c b/libwc/charset.c
+|index 3f0b74d..ea79b1c 100644
+|--- a/libwc/charset.c
+|+++ b/libwc/charset.c
+--------------------------
+patching file libwc/charset.c
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/libwc/gb18030.c b/libwc/gb18030.c
+|index c195d49..d5c9018 100644
+|--- a/libwc/gb18030.c
+|+++ b/libwc/gb18030.c
+--------------------------
+patching file libwc/gb18030.c
+Using Plan A...
+Hunk #1 succeeded at 151.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/libwc/iso2022.c b/libwc/iso2022.c
+|index 33d9a19..a191f28 100644
+|--- a/libwc/iso2022.c
+|+++ b/libwc/iso2022.c
+--------------------------
+patching file libwc/iso2022.c
+Using Plan A...
+Hunk #1 succeeded at 405.
+Hunk #2 succeeded at 436.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/libwc/johab.c b/libwc/johab.c
+|index 8d587b8..498b1bb 100644
+|--- a/libwc/johab.c
+|+++ b/libwc/johab.c
+--------------------------
+patching file libwc/johab.c
+Using Plan A...
+Hunk #1 succeeded at 160.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/libwc/map/big5_ucs.map b/libwc/map/big5_ucs.map
+|index 0c6fd12..ac817a9 100644
+|--- a/libwc/map/big5_ucs.map
+|+++ b/libwc/map/big5_ucs.map
+--------------------------
+patching file libwc/map/big5_ucs.map
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/libwc/map/cns11643_ucs.map b/libwc/map/cns11643_ucs.map
+|index b426dd3..fcba334 100644
+|--- a/libwc/map/cns11643_ucs.map
+|+++ b/libwc/map/cns11643_ucs.map
+--------------------------
+patching file libwc/map/cns11643_ucs.map
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 8841.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/libwc/map/gb12345_ucs.map b/libwc/map/gb12345_ucs.map
+|index 55558c7..3fb338d 100644
+|--- a/libwc/map/gb12345_ucs.map
+|+++ b/libwc/map/gb12345_ucs.map
+--------------------------
+patching file libwc/map/gb12345_ucs.map
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/libwc/map/gb2312_ucs.map b/libwc/map/gb2312_ucs.map
+|index 38fb88f..3d37465 100644
+|--- a/libwc/map/gb2312_ucs.map
+|+++ b/libwc/map/gb2312_ucs.map
+--------------------------
+patching file libwc/map/gb2312_ucs.map
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/libwc/map/gbk_ucs.map b/libwc/map/gbk_ucs.map
+|index 5a0d5ba..d092fd7 100644
+|--- a/libwc/map/gbk_ucs.map
+|+++ b/libwc/map/gbk_ucs.map
+--------------------------
+patching file libwc/map/gbk_ucs.map
+Using Plan A...
+Hunk #1 succeeded at 6.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/libwc/map/hkscs_ucs.map b/libwc/map/hkscs_ucs.map
+|index 96d1566..2fbe6b4 100644
+|--- a/libwc/map/hkscs_ucs.map
+|+++ b/libwc/map/hkscs_ucs.map
+--------------------------
+patching file libwc/map/hkscs_ucs.map
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/libwc/map/jisx0208x0212x0213_ucs.map b/libwc/map/jisx0208x0212x0213_ucs.map
+|index 1a1d706..28c2a6c 100644
+|--- a/libwc/map/jisx0208x0212x0213_ucs.map
+|+++ b/libwc/map/jisx0208x0212x0213_ucs.map
+--------------------------
+patching file libwc/map/jisx0208x0212x0213_ucs.map
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 8841.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/libwc/map/ksx1001_ucs.map b/libwc/map/ksx1001_ucs.map
+|index 9a17d61..cb62f98 100644
+|--- a/libwc/map/ksx1001_ucs.map
+|+++ b/libwc/map/ksx1001_ucs.map
+--------------------------
+patching file libwc/map/ksx1001_ucs.map
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/libwc/map/sjis_ext_ucs.map b/libwc/map/sjis_ext_ucs.map
+|index a82995c..cc748ba 100644
+|--- a/libwc/map/sjis_ext_ucs.map
+|+++ b/libwc/map/sjis_ext_ucs.map
+--------------------------
+patching file libwc/map/sjis_ext_ucs.map
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/libwc/map/ucs_ambwidth.map b/libwc/map/ucs_ambwidth.map
+|index 6f03ba8..35ceedb 100644
+|--- a/libwc/map/ucs_ambwidth.map
+|+++ b/libwc/map/ucs_ambwidth.map
+--------------------------
+patching file libwc/map/ucs_ambwidth.map
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 84.
+Hunk #3 succeeded at 122.
+Hunk #4 succeeded at 142.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/libwc/map/uhc_ucs.map b/libwc/map/uhc_ucs.map
+|index b6b43ca..55efc09 100644
+|--- a/libwc/map/uhc_ucs.map
+|+++ b/libwc/map/uhc_ucs.map
+--------------------------
+patching file libwc/map/uhc_ucs.map
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/libwc/status.c b/libwc/status.c
+|index d25c924..4a2ebf8 100644
+|--- a/libwc/status.c
+|+++ b/libwc/status.c
+--------------------------
+patching file libwc/status.c
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/libwc/ucs.c b/libwc/ucs.c
+|index d7b6948..18c3a67 100644
+|--- a/libwc/ucs.c
+|+++ b/libwc/ucs.c
+--------------------------
+patching file libwc/ucs.c
+Using Plan A...
+Hunk #1 succeeded at 100.
+Hunk #2 succeeded at 109.
+Hunk #3 succeeded at 140.
+Hunk #4 succeeded at 153.
+Hunk #5 succeeded at 178.
+Hunk #6 succeeded at 277.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/libwc/ucs.map b/libwc/ucs.map
+|index dfac6d9..bed5dff 100644
+|--- a/libwc/ucs.map
+|+++ b/libwc/ucs.map
+--------------------------
+patching file libwc/ucs.map
+Using Plan A...
+Hunk #1 succeeded at 175.
+Hunk #2 succeeded at 238.
+Hunk #3 succeeded at 297.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/libwc/wtf.c b/libwc/wtf.c
+|index b8cfdc7..94d95c1 100644
+|--- a/libwc/wtf.c
+|+++ b/libwc/wtf.c
+--------------------------
+patching file libwc/wtf.c
+Using Plan A...
+Hunk #1 succeeded at 120.
+Hunk #2 succeeded at 173.
+Hunk #3 succeeded at 397.
+Hunk #4 succeeded at 410.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/libwc/wtf.h b/libwc/wtf.h
+|index ad47973..435526f 100644
+|--- a/libwc/wtf.h
+|+++ b/libwc/wtf.h
+--------------------------
+patching file libwc/wtf.h
+Using Plan A...
+Hunk #1 succeeded at 59.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/linein.c b/linein.c
+|index b7e81b6..d8f9023 100644
+|--- a/linein.c
+|+++ b/linein.c
+--------------------------
+patching file linein.c
+Using Plan A...
+Hunk #1 succeeded at 714.
+Hunk #2 succeeded at 781.
+Hunk #3 succeeded at 1028.
+Hunk #4 succeeded at 1047.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/local.c b/local.c
+|index f5a73a2..56d589d 100644
+|--- a/local.c
+|+++ b/local.c
+--------------------------
+patching file local.c
+Using Plan A...
+Hunk #1 succeeded at 109.
+Hunk #2 succeeded at 168.
+Hunk #3 succeeded at 213.
+Hunk #4 succeeded at 250.
+Hunk #5 succeeded at 359.
+Hunk #6 succeeded at 377.
+Hunk #7 succeeded at 426.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/mailcap.c b/mailcap.c
+|index c0461df..f0c6242 100644
+|--- a/mailcap.c
+|+++ b/mailcap.c
+--------------------------
+patching file mailcap.c
+Using Plan A...
+Hunk #1 succeeded at 72.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/main.c b/main.c
+|index b421943..43e181c 100644
+|--- a/main.c
+|+++ b/main.c
+--------------------------
+patching file main.c
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 12.
+Hunk #3 succeeded at 123.
+Hunk #4 succeeded at 206.
+Hunk #5 succeeded at 222.
+Hunk #6 succeeded at 255.
+Hunk #7 succeeded at 384.
+Hunk #8 succeeded at 416.
+Hunk #9 succeeded at 445.
+Hunk #10 succeeded at 561.
+Hunk #11 succeeded at 693.
+Hunk #12 succeeded at 742.
+Hunk #13 succeeded at 778.
+Hunk #14 succeeded at 875.
+Hunk #15 succeeded at 909.
+Hunk #16 succeeded at 975.
+Hunk #17 succeeded at 1014.
+Hunk #18 succeeded at 1029.
+Hunk #19 succeeded at 1267.
+Hunk #20 succeeded at 1330.
+Hunk #21 succeeded at 1356.
+Hunk #22 succeeded at 1639.
+Hunk #23 succeeded at 1649.
+Hunk #24 succeeded at 1658.
+Hunk #25 succeeded at 1702.
+Hunk #26 succeeded at 1716.
+Hunk #27 succeeded at 1948.
+Hunk #28 succeeded at 2027.
+Hunk #29 succeeded at 2068.
+Hunk #30 succeeded at 2114.
+Hunk #31 succeeded at 2145.
+Hunk #32 succeeded at 2182.
+Hunk #33 succeeded at 2207.
+Hunk #34 succeeded at 2226.
+Hunk #35 succeeded at 2275.
+Hunk #36 succeeded at 2297.
+Hunk #37 succeeded at 2319.
+Hunk #38 succeeded at 2341.
+Hunk #39 succeeded at 2363.
+Hunk #40 succeeded at 2398.
+Hunk #41 succeeded at 2466.
+Hunk #42 succeeded at 2544.
+Hunk #43 succeeded at 2604.
+Hunk #44 succeeded at 2619.
+Hunk #45 succeeded at 2662.
+Hunk #46 succeeded at 2687.
+Hunk #47 succeeded at 2699.
+Hunk #48 succeeded at 2728.
+Hunk #49 succeeded at 2755.
+Hunk #50 succeeded at 2793.
+Hunk #51 succeeded at 2826.
+Hunk #52 succeeded at 2861.
+Hunk #53 succeeded at 2916.
+Hunk #54 succeeded at 2945.
+Hunk #55 succeeded at 3074.
+Hunk #56 succeeded at 3085.
+Hunk #57 succeeded at 3164.
+Hunk #58 succeeded at 3420.
+Hunk #59 succeeded at 3428.
+Hunk #60 succeeded at 3532.
+Hunk #61 succeeded at 3609.
+Hunk #62 succeeded at 3642.
+Hunk #63 succeeded at 3676.
+Hunk #64 succeeded at 3998.
+Hunk #65 succeeded at 4052.
+Hunk #66 succeeded at 4094.
+Hunk #67 succeeded at 4105.
+Hunk #68 succeeded at 4143.
+Hunk #69 succeeded at 4189.
+Hunk #70 succeeded at 4199.
+Hunk #71 succeeded at 4209.
+Hunk #72 succeeded at 4218.
+Hunk #73 succeeded at 4242.
+Hunk #74 succeeded at 4249.
+Hunk #75 succeeded at 4279.
+Hunk #76 succeeded at 4316.
+Hunk #77 succeeded at 4351.
+Hunk #78 succeeded at 4419.
+Hunk #79 succeeded at 4457.
+Hunk #80 succeeded at 4502.
+Hunk #81 succeeded at 4518.
+Hunk #82 succeeded at 4527.
+Hunk #83 succeeded at 4576.
+Hunk #84 succeeded at 4637.
+Hunk #85 succeeded at 4655.
+Hunk #86 succeeded at 4675.
+Hunk #87 succeeded at 4696.
+Hunk #88 succeeded at 4714.
+Hunk #89 succeeded at 4805.
+Hunk #90 succeeded at 4930.
+Hunk #91 succeeded at 4972.
+Hunk #92 succeeded at 4990.
+Hunk #93 succeeded at 5041.
+Hunk #94 succeeded at 5074.
+Hunk #95 succeeded at 5136.
+Hunk #96 succeeded at 5182.
+Hunk #97 succeeded at 5199.
+Hunk #98 succeeded at 5214.
+Hunk #99 succeeded at 5506.
+Hunk #100 succeeded at 5542.
+Hunk #101 succeeded at 5649.
+Hunk #102 succeeded at 5671.
+Hunk #103 succeeded at 5688.
+Hunk #104 succeeded at 5701.
+Hunk #105 succeeded at 5715.
+Hunk #106 succeeded at 5801.
+Hunk #107 succeeded at 5868.
+Hunk #108 succeeded at 5944.
+Hunk #109 succeeded at 5971.
+Hunk #110 succeeded at 6110.
+Hunk #111 succeeded at 6179.
+Hunk #112 succeeded at 6240.
+Hunk #113 succeeded at 6351.
+Hunk #114 succeeded at 6366.
+Hunk #115 succeeded at 6381.
+Hunk #116 succeeded at 6445.
+Hunk #117 succeeded at 6486.
+Hunk #118 succeeded at 6537.
+Hunk #119 succeeded at 6547.
+Hunk #120 succeeded at 6756.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/map.c b/map.c
+|index 90aa35a..bb240ea 100644
+|--- a/map.c
+|+++ b/map.c
+--------------------------
+patching file map.c
+Using Plan A...
+Hunk #1 succeeded at 279.
+Hunk #2 succeeded at 417.
+Hunk #3 succeeded at 454.
+Hunk #4 succeeded at 493.
+Hunk #5 succeeded at 544.
+Hunk #6 succeeded at 573.
+Hunk #7 succeeded at 581.
+Hunk #8 succeeded at 594.
+Hunk #9 succeeded at 605.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/matrix.c b/matrix.c
+|index 64fd0ad..bc7a5be 100644
+|--- a/matrix.c
+|+++ b/matrix.c
+--------------------------
+patching file matrix.c
+Using Plan A...
+Hunk #1 succeeded at 34.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/menu.c b/menu.c
+|index 774b1bd..b0c890d 100644
+|--- a/menu.c
+|+++ b/menu.c
+--------------------------
+patching file menu.c
+Using Plan A...
+Hunk #1 succeeded at 57.
+Hunk #2 succeeded at 117.
+Hunk #3 succeeded at 138.
+Hunk #4 succeeded at 361.
+Hunk #5 succeeded at 1204.
+Hunk #6 succeeded at 1304.
+Hunk #7 succeeded at 1338.
+Hunk #8 succeeded at 1366.
+Hunk #9 succeeded at 1414.
+Hunk #10 succeeded at 1511.
+Hunk #11 succeeded at 1560.
+Hunk #12 succeeded at 1741.
+Hunk #13 succeeded at 1890.
+Hunk #14 succeeded at 1956.
+Hunk #15 succeeded at 2068.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/mimehead.c b/mimehead.c
+|index 78997e0..d16270c 100644
+|--- a/mimehead.c
+|+++ b/mimehead.c
+--------------------------
+patching file mimehead.c
+Using Plan A...
+Hunk #1 succeeded at 63.
+Hunk #2 succeeded at 103.
+Hunk #3 succeeded at 156.
+Hunk #4 succeeded at 186.
+Hunk #5 succeeded at 212.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/news.c b/news.c
+|index 8a1f0e8..c0494b7 100644
+|--- a/news.c
+|+++ b/news.c
+--------------------------
+patching file news.c
+Using Plan A...
+Hunk #1 succeeded at 76.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/parsetagx.c b/parsetagx.c
+|index 6b627d2..1cc7048 100644
+|--- a/parsetagx.c
+|+++ b/parsetagx.c
+--------------------------
+patching file parsetagx.c
+Using Plan A...
+Hunk #1 succeeded at 120.
+Hunk #2 succeeded at 222.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/po/LINGUAS b/po/LINGUAS
+|index 1489115..ddd267b 100644
+|--- a/po/LINGUAS
+|+++ b/po/LINGUAS
+--------------------------
+patching file po/LINGUAS
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/po/Makefile.in.in b/po/Makefile.in.in
+|index 83d8838..9d9691e 100644
+|--- a/po/Makefile.in.in
+|+++ b/po/Makefile.in.in
+--------------------------
+patching file po/Makefile.in.in
+Using Plan A...
+Hunk #1 succeeded at 89.
+Hunk #2 succeeded at 153.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/po/Makevars b/po/Makevars
+|index 2f57810..a60a09d 100644
+|--- a/po/Makevars
+|+++ b/po/Makevars
+--------------------------
+patching file po/Makevars
+Using Plan A...
+Hunk #1 succeeded at 18.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/po/de.po b/po/de.po
+|new file mode 100644
+|index 0000000..b4dcd36
+|--- /dev/null
+|+++ b/po/de.po
+--------------------------
+patching file po/de.po
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/po/ja.po b/po/ja.po
+|index d67c695..95a5341 100644
+|--- a/po/ja.po
+|+++ b/po/ja.po
+--------------------------
+patching file po/ja.po
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 8.
+Hunk #3 succeeded at 907.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/po/w3m.pot b/po/w3m.pot
+|index e164b1e..bf38ef8 100644
+|--- a/po/w3m.pot
+|+++ b/po/w3m.pot
+--------------------------
+patching file po/w3m.pot
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 8.
+Hunk #3 succeeded at 17.
+Hunk #4 succeeded at 906.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/po/zh_CN.po b/po/zh_CN.po
+|new file mode 100644
+|index 0000000..cf25e22
+|--- /dev/null
+|+++ b/po/zh_CN.po
+--------------------------
+patching file po/zh_CN.po
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/po/zh_TW.po b/po/zh_TW.po
+|new file mode 100644
+|index 0000000..44f7a14
+|--- /dev/null
+|+++ b/po/zh_TW.po
+--------------------------
+patching file po/zh_TW.po
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/proto.h b/proto.h
+|index f8a7345..ed8f890 100644
+|--- a/proto.h
+|+++ b/proto.h
+--------------------------
+patching file proto.h
+Using Plan A...
+Hunk #1 succeeded at 11.
+Hunk #2 succeeded at 63.
+Hunk #3 succeeded at 165.
+Hunk #4 succeeded at 201.
+Hunk #5 succeeded at 227.
+Hunk #6 succeeded at 271.
+Hunk #7 succeeded at 393.
+Hunk #8 succeeded at 529.
+Hunk #9 succeeded at 608.
+Hunk #10 succeeded at 636.
+Hunk #11 succeeded at 709.
+Hunk #12 succeeded at 725.
+Hunk #13 succeeded at 751.
+Hunk #14 succeeded at 816.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/rc.c b/rc.c
+|index 8441a39..3fd84ef 100644
+|--- a/rc.c
+|+++ b/rc.c
+--------------------------
+patching file rc.c
+Using Plan A...
+Hunk #1 succeeded at 9.
+Hunk #2 succeeded at 90.
+Hunk #3 succeeded at 143.
+Hunk #4 succeeded at 202.
+Hunk #5 succeeded at 400.
+Hunk #6 succeeded at 573.
+Hunk #7 succeeded at 643.
+Hunk #8 succeeded at 797.
+Hunk #9 succeeded at 855.
+Hunk #10 succeeded at 1199.
+Hunk #11 succeeded at 1227.
+Hunk #12 succeeded at 1279.
+Hunk #13 succeeded at 1287.
+Hunk #14 succeeded at 1330.
+Hunk #15 succeeded at 1517.
+Hunk #16 succeeded at 1533.
+Hunk #17 succeeded at 1594.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/regex.c b/regex.c
+|index 5bee4b2..93406e8 100644
+|--- a/regex.c
+|+++ b/regex.c
+--------------------------
+patching file regex.c
+Using Plan A...
+Hunk #1 succeeded at 77.
+Hunk #2 succeeded at 580.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/scripts/Makefile.in b/scripts/Makefile.in
+|index 4da9ce5..5beb9b0 100644
+|--- a/scripts/Makefile.in
+|+++ b/scripts/Makefile.in
+--------------------------
+patching file scripts/Makefile.in
+Using Plan A...
+Hunk #1 succeeded at 60.
+Hunk #2 succeeded at 87.
+Hunk #3 succeeded at 105.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/scripts/w3mdict.cgi b/scripts/w3mdict.cgi
+|new file mode 100755
+|index 0000000..6b0e62e
+|--- /dev/null
+|+++ b/scripts/w3mdict.cgi
+--------------------------
+patching file scripts/w3mdict.cgi
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/scripts/w3mhelp-funcdesc.de.pl.in b/scripts/w3mhelp-funcdesc.de.pl.in
+|new file mode 100644
+|index 0000000..11539d1
+|--- /dev/null
+|+++ b/scripts/w3mhelp-funcdesc.de.pl.in
+--------------------------
+patching file scripts/w3mhelp-funcdesc.de.pl.in
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/scripts/w3mhelp-funcdesc.en.pl.in b/scripts/w3mhelp-funcdesc.en.pl.in
+|index d854b59..b9f4ed8 100644
+|--- a/scripts/w3mhelp-funcdesc.en.pl.in
+|+++ b/scripts/w3mhelp-funcdesc.en.pl.in
+--------------------------
+patching file scripts/w3mhelp-funcdesc.en.pl.in
+Using Plan A...
+Hunk #1 succeeded at 4.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/scripts/w3mhelp-funcdesc.ja.pl.in b/scripts/w3mhelp-funcdesc.ja.pl.in
+|index 051c888..4ef476e 100644
+|--- a/scripts/w3mhelp-funcdesc.ja.pl.in
+|+++ b/scripts/w3mhelp-funcdesc.ja.pl.in
+--------------------------
+patching file scripts/w3mhelp-funcdesc.ja.pl.in
+Using Plan A...
+Hunk #1 succeeded at 46.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/scripts/w3mhelp.cgi.in b/scripts/w3mhelp.cgi.in
+|index b2fca8f..503dddc 100644
+|--- a/scripts/w3mhelp.cgi.in
+|+++ b/scripts/w3mhelp.cgi.in
+--------------------------
+patching file scripts/w3mhelp.cgi.in
+Using Plan A...
+Hunk #1 succeeded at 48.
+Hunk #2 succeeded at 102.
+Hunk #3 succeeded at 111.
+Hunk #4 succeeded at 138.
+Hunk #5 succeeded at 189.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/scripts/w3mman/Makefile.in b/scripts/w3mman/Makefile.in
+|index 569e2fc..ad1cffe 100644
+|--- a/scripts/w3mman/Makefile.in
+|+++ b/scripts/w3mman/Makefile.in
+--------------------------
+patching file scripts/w3mman/Makefile.in
+Using Plan A...
+Hunk #1 succeeded at 33.
+Hunk #2 succeeded at 55.
+Hunk #3 succeeded at 68.
+Hunk #4 succeeded at 88.
+Hunk #5 succeeded at 103.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/scripts/w3mman/w3mman.1.in b/scripts/w3mman/w3mman.1.in
+|index 1c0361d..68e3afc 100644
+|--- a/scripts/w3mman/w3mman.1.in
+|+++ b/scripts/w3mman/w3mman.1.in
+--------------------------
+patching file scripts/w3mman/w3mman.1.in
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hunk #2 succeeded at 12.
+Hunk #3 succeeded at 69.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/scripts/w3mman/w3mman.de.1.in b/scripts/w3mman/w3mman.de.1.in
+|new file mode 100644
+|index 0000000..d6c5a44
+|--- /dev/null
+|+++ b/scripts/w3mman/w3mman.de.1.in
+--------------------------
+patching file scripts/w3mman/w3mman.de.1.in
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/scripts/w3mman/w3mman.in b/scripts/w3mman/w3mman.in
+|index 6a27e70..fae7a41 100644
+|--- a/scripts/w3mman/w3mman.in
+|+++ b/scripts/w3mman/w3mman.in
+--------------------------
+patching file scripts/w3mman/w3mman.in
+Using Plan A...
+Hunk #1 succeeded at 7.
+Hunk #2 succeeded at 20.
+Hunk #3 succeeded at 29.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/scripts/w3mman/w3mman2html.cgi.in b/scripts/w3mman/w3mman2html.cgi.in
+|index f430307..d660681 100644
+|--- a/scripts/w3mman/w3mman2html.cgi.in
+|+++ b/scripts/w3mman/w3mman2html.cgi.in
+--------------------------
+patching file scripts/w3mman/w3mman2html.cgi.in
+Using Plan A...
+Hunk #1 succeeded at 23.
+Hunk #2 succeeded at 64.
+Hunk #3 succeeded at 131.
+Hunk #4 succeeded at 163.
+Hunk #5 succeeded at 227.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/symbol.c b/symbol.c
+|index 50475ae..c047c56 100644
+|--- a/symbol.c
+|+++ b/symbol.c
+--------------------------
+patching file symbol.c
+Using Plan A...
+Hunk #1 succeeded at 176.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/table.c b/table.c
+|index e1243ff..eb5c9ba 100644
+|--- a/table.c
+|+++ b/table.c
+--------------------------
+patching file table.c
+Using Plan A...
+Hunk #1 succeeded at 188.
+Hunk #2 succeeded at 205.
+Hunk #3 succeeded at 429.
+Hunk #4 succeeded at 760.
+Hunk #5 succeeded at 960.
+Hunk #6 succeeded at 981.
+Hunk #7 succeeded at 1623.
+Hunk #8 succeeded at 1642.
+Hunk #9 succeeded at 1705.
+Hunk #10 succeeded at 1738.
+Hunk #11 succeeded at 2290.
+Hunk #12 succeeded at 2342.
+Hunk #13 succeeded at 2357.
+Hunk #14 succeeded at 2571.
+Hunk #15 succeeded at 2599.
+Hunk #16 succeeded at 2627.
+Hunk #17 succeeded at 2909.
+Hunk #18 succeeded at 3049.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/table.h b/table.h
+|index 83b661f..fdcdef3 100644
+|--- a/table.h
+|+++ b/table.h
+--------------------------
+patching file table.h
+Using Plan A...
+Hunk #1 succeeded at 17.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/tagtable.tab b/tagtable.tab
+|index f9b7b76..f5a2c30 100644
+|--- a/tagtable.tab
+|+++ b/tagtable.tab
+--------------------------
+patching file tagtable.tab
+Using Plan A...
+Hunk #1 succeeded at 176.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/terms.c b/terms.c
+|index 7a3c987..a636ac0 100644
+|--- a/terms.c
+|+++ b/terms.c
+--------------------------
+patching file terms.c
+Using Plan A...
+Hunk #1 succeeded at 12.
+Hunk #2 succeeded at 223.
+Hunk #3 succeeded at 238.
+Hunk #4 succeeded at 467.
+Hunk #5 succeeded at 823.
+Hunk #6 succeeded at 844.
+Hunk #7 succeeded at 861.
+Hunk #8 succeeded at 894.
+Hunk #9 succeeded at 1214.
+Hunk #10 succeeded at 1235.
+Hunk #11 succeeded at 2245.
+Hunk #12 succeeded at 2282.
+Hunk #13 succeeded at 2290.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/url.c b/url.c
+|index ed6062e..1c17e18 100644
+|--- a/url.c
+|+++ b/url.c
+--------------------------
+patching file url.c
+Using Plan A...
+Hunk #1 succeeded at 121.
+Hunk #2 succeeded at 319.
+Hunk #3 succeeded at 342.
+Hunk #4 succeeded at 462.
+Hunk #5 succeeded at 658.
+Hunk #6 succeeded at 683.
+Hunk #7 succeeded at 693.
+Hunk #8 succeeded at 711.
+Hunk #9 succeeded at 819.
+Hunk #10 succeeded at 840.
+Hunk #11 succeeded at 978.
+Hunk #12 succeeded at 1305.
+Hunk #13 succeeded at 1346.
+Hunk #14 succeeded at 1359.
+Hunk #15 succeeded at 1430.
+Hunk #16 succeeded at 1445.
+Hunk #17 succeeded at 1474.
+Hunk #18 succeeded at 1647.
+Hunk #19 succeeded at 1689.
+Hunk #20 succeeded at 1729.
+Hunk #21 succeeded at 1756.
+Hunk #22 succeeded at 1780.
+Hunk #23 succeeded at 1797.
+Hunk #24 succeeded at 1805.
+Hunk #25 succeeded at 2095.
+Hunk #26 succeeded at 2280.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/version.c.in b/version.c.in
+|index 31d30e4..ab25163 100644
+|--- a/version.c.in
+|+++ b/version.c.in
+--------------------------
+patching file version.c.in
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/w3m-doc/install.html.in b/w3m-doc/install.html.in
+|index 8e27f03..610e4be 100644
+|--- a/w3m-doc/install.html.in
+|+++ b/w3m-doc/install.html.in
+--------------------------
+patching file w3m-doc/install.html.in
+Using Plan A...
+Hunk #1 succeeded at 232.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/w3m-doc/outline.html.in b/w3m-doc/outline.html.in
+|index 60bda47..4ed2a59 100644
+|--- a/w3m-doc/outline.html.in
+|+++ b/w3m-doc/outline.html.in
+--------------------------
+patching file w3m-doc/outline.html.in
+Using Plan A...
+Hunk #1 succeeded at 146.
+Hunk #2 succeeded at 257.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/w3m-doc/sample/keymap.cgi b/w3m-doc/sample/keymap.cgi
+|index f68f5fb..d92c60f 100755
+|--- a/w3m-doc/sample/keymap.cgi
+|+++ b/w3m-doc/sample/keymap.cgi
+--------------------------
+patching file w3m-doc/sample/keymap.cgi
+Using Plan A...
+Hunk #1 succeeded at 203.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/w3mbookmark.c b/w3mbookmark.c
+|index 4355536..a306f26 100644
+|--- a/w3mbookmark.c
+|+++ b/w3mbookmark.c
+--------------------------
+patching file w3mbookmark.c
+Using Plan A...
+Hunk #1 succeeded at 79.
+Hunk #2 succeeded at 100.
+Hunk #3 succeeded at 169.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/w3mhelp-lynx_en.html.in b/w3mhelp-lynx_en.html.in
+|index 7448877..d073b0f 100644
+|--- a/w3mhelp-lynx_en.html.in
+|+++ b/w3mhelp-lynx_en.html.in
+--------------------------
+patching file w3mhelp-lynx_en.html.in
+Using Plan A...
+Hunk #1 succeeded at 43.
+Hunk #2 succeeded at 98.
+Hunk #3 succeeded at 121.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/w3mhelp-lynx_ja.html.in b/w3mhelp-lynx_ja.html.in
+|index d160984..828b5a3 100644
+|--- a/w3mhelp-lynx_ja.html.in
+|+++ b/w3mhelp-lynx_ja.html.in
+--------------------------
+patching file w3mhelp-lynx_ja.html.in
+Using Plan A...
+Hunk #1 succeeded at 58.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/w3mhelp-w3m_en.html.in b/w3mhelp-w3m_en.html.in
+|index eb46e8a..a692142 100644
+|--- a/w3mhelp-w3m_en.html.in
+|+++ b/w3mhelp-w3m_en.html.in
+--------------------------
+patching file w3mhelp-w3m_en.html.in
+Using Plan A...
+Hunk #1 succeeded at 47.
+Hunk #2 succeeded at 105.
+Hunk #3 succeeded at 134.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/w3mhelp-w3m_ja.html.in b/w3mhelp-w3m_ja.html.in
+|index 95464ab..72cb849 100644
+|--- a/w3mhelp-w3m_ja.html.in
+|+++ b/w3mhelp-w3m_ja.html.in
+--------------------------
+patching file w3mhelp-w3m_ja.html.in
+Using Plan A...
+Hunk #1 succeeded at 61.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/w3mhelperpanel.c b/w3mhelperpanel.c
+|index 110794b..96b60a0 100644
+|--- a/w3mhelperpanel.c
+|+++ b/w3mhelperpanel.c
+--------------------------
+patching file w3mhelperpanel.c
+Using Plan A...
+Hunk #1 succeeded at 115.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/w3mimg/Makefile.in b/w3mimg/Makefile.in
+|index dfc550c..8e2ad73 100644
+|--- a/w3mimg/Makefile.in
+|+++ b/w3mimg/Makefile.in
+--------------------------
+patching file w3mimg/Makefile.in
+Using Plan A...
+Hunk #1 succeeded at 16.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/w3mimg/fb/fb.c b/w3mimg/fb/fb.c
+|index cd11128..7960584 100644
+|--- a/w3mimg/fb/fb.c
+|+++ b/w3mimg/fb/fb.c
+--------------------------
+patching file w3mimg/fb/fb.c
+Using Plan A...
+Hunk #1 succeeded at 12.
+Hunk #2 succeeded at 50.
+Hunk #3 succeeded at 118.
+Hunk #4 succeeded at 134.
+Hunk #5 succeeded at 142.
+Hunk #6 succeeded at 217.
+Hunk #7 succeeded at 225.
+Hunk #8 succeeded at 262.
+Hunk #9 succeeded at 378.
+Hunk #10 succeeded at 463.
+Hunk #11 succeeded at 476.
+Hunk #12 succeeded at 504.
+Hunk #13 succeeded at 523.
+Hunk #14 succeeded at 547.
+Hunk #15 succeeded at 590.
+Hunk #16 succeeded at 624.
+Hunk #17 succeeded at 683.
+Hunk #18 succeeded at 907.
+Hunk #19 succeeded at 968.
+Hunk #20 succeeded at 985.
+Hunk #21 succeeded at 1027.
+Hunk #22 succeeded at 1037.
+Hunk #23 succeeded at 1054.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/w3mimg/fb/fb.h b/w3mimg/fb/fb.h
+|index 1138bb0..5d86454 100644
+|--- a/w3mimg/fb/fb.h
+|+++ b/w3mimg/fb/fb.h
+--------------------------
+patching file w3mimg/fb/fb.h
+Using Plan A...
+Hunk #1 succeeded at 1.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/w3mimg/fb/fb_gdkpixbuf.c b/w3mimg/fb/fb_gdkpixbuf.c
+|index 36e3b62..f1e8d97 100644
+|--- a/w3mimg/fb/fb_gdkpixbuf.c
+|+++ b/w3mimg/fb/fb_gdkpixbuf.c
+--------------------------
+patching file w3mimg/fb/fb_gdkpixbuf.c
+Using Plan A...
+Hunk #1 succeeded at 6.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/w3mimg/fb/fb_imlib2.c b/w3mimg/fb/fb_imlib2.c
+|index ea36637..1a5151c 100644
+|--- a/w3mimg/fb/fb_imlib2.c
+|+++ b/w3mimg/fb/fb_imlib2.c
+--------------------------
+patching file w3mimg/fb/fb_imlib2.c
+Using Plan A...
+Hunk #1 succeeded at 3.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/w3mimg/fb/fb_w3mimg.c b/w3mimg/fb/fb_w3mimg.c
+|index d3ae5a9..62511f0 100644
+|--- a/w3mimg/fb/fb_w3mimg.c
+|+++ b/w3mimg/fb/fb_w3mimg.c
+--------------------------
+patching file w3mimg/fb/fb_w3mimg.c
+Using Plan A...
+Hunk #1 succeeded at 153.
+Hunk #2 succeeded at 177.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/w3mimg/x11/x11_w3mimg.c b/w3mimg/x11/x11_w3mimg.c
+|index f5be4a8..9a539de 100644
+|--- a/w3mimg/x11/x11_w3mimg.c
+|+++ b/w3mimg/x11/x11_w3mimg.c
+--------------------------
+patching file w3mimg/x11/x11_w3mimg.c
+Using Plan A...
+Hunk #1 succeeded at 14.
+Hunk #2 succeeded at 121.
+Hunk #3 succeeded at 208.
+Hunk #4 succeeded at 226.
+Hunk #5 succeeded at 268.
+Hunk #6 succeeded at 278.
+Hunk #7 succeeded at 330.
+Hunk #8 succeeded at 389.
+Hunk #9 succeeded at 397.
+Hunk #10 succeeded at 407.
+Hunk #11 succeeded at 423.
+Hunk #12 succeeded at 469.
+Hunk #13 succeeded at 512.
+Hunk #14 succeeded at 709.
+Hunk #15 succeeded at 813.
+Hunk #16 succeeded at 868.
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|diff --git a/w3mimgdisplay.c b/w3mimgdisplay.c
+|index 5486a47..ccfa373 100644
+|--- a/w3mimgdisplay.c
+|+++ b/w3mimgdisplay.c
+--------------------------
+patching file w3mimgdisplay.c
+Using Plan A...
+Hunk #1 succeeded at 281.
+done
+checking for g++... g++
+checking whether the C++ compiler works... yes
+checking for C++ compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C++ compiler... yes
+checking whether g++ accepts -g... yes
+checking for gawk... gawk
+checking for gcc... gcc
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to accept ISO C89... none needed
+checking how to run the C preprocessor... gcc -E
+checking for a BSD-compatible install... /usr/bin/ginstall -c
+checking whether ln -s works... yes
+checking whether make sets $(MAKE)... yes
+checking for ranlib... ranlib
+checking for perl... /usr/bin/perl
+checking for nkf... no
+checking for man... /usr/bin/man
+checking build system type... x86_64-slackware-linux-gnu
+checking host system type... x86_64-slackware-linux-gnu
+checking if m17n support is enabled... yes
+checking if unicode support is enabled... yes
+checking if message l10n... no
+checking if japanese support is enabled... no
+checking which charset is used for display... UTF-8
+checking for a thread-safe mkdir -p... /usr/bin/mkdir -p
+checking whether NLS is requested... yes
+checking for msgfmt... /usr/bin/msgfmt
+checking for gmsgfmt... /usr/bin/msgfmt
+checking for xgettext... /usr/bin/xgettext
+checking for msgmerge... /usr/bin/msgmerge
+checking for ld used by GCC... /usr/bin/ld
+checking if the linker (/usr/bin/ld) is GNU ld... yes
+checking for shared library run path origin... done
+checking for grep that handles long lines and -e... /usr/bin/grep
+checking for egrep... /usr/bin/grep -E
+checking for CFPreferencesCopyAppValue... no
+checking for CFLocaleCopyCurrent... no
+checking for GNU gettext in libc... yes
+checking whether to use NLS... yes
+checking where the gettext function comes from... libc
+checking if color escape sequence for kterm/pxvt is enabled... yes
+checking if ansi color escape sequence support is enabled... yes
+checking if background color support is enabled... yes
+checking if image is enabled... no
+checking default keymap... w3m
+checking if popup menu is enabled... no
+checking if mouse operation enabled... no
+checking if URL history is enabled... no
+checking if alarm is enabled... no
+checking if cookie is enabled... no
+checking if nntp is enabled... no
+checking if gopher is enabled... no
+checking if dictionary lookup is enabled... no
+checking if help cgi is enabled... no
+checking if external URI loader is enabled... no
+checking if w3mmail is used... no
+checking if migemo is supported with... migemo -t egrep /usr/local/share/migemo/migemo-dict
+checking which editor is used by default... /usr/bin/vi
+checking which mailer is used by default... /usr/bin/mail
+checking which external browser is used by default... /usr/bin/firefox
+checking for -lbsd... not found
+checking for -lBSD... not found
+checking for -l44bsd... not found
+checking for -lsocket... not found
+checking for -lnsl... found at /usr/lib64
+checking for -ldld... not found
+checking for -ldl... found at /usr/lib64
+checking if IPv6 support is enabled... no
+checking for pkg-config... /usr/bin/pkg-config
+checking pkg-config is at least version 0.9.0... yes
+checking if SSL is suported... yes
+checking for SSL... yes
+checking for SSL_new in -lssl... yes
+checking if SSL certificate verify is enabled... no
+checking if digest auth is enabled... no
+checking for sqrt... no
+checking for sqrt in -lm... yes
+checking terminal library... terminfo ncurses
+checking for tgetent in -lterminfo... no
+checking for tgetent in -lncurses... yes
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking GC library exists... yes
+checking gc.h usability... yes
+checking gc.h presence... yes
+checking for gc.h... yes
+checking for GC_init in -lgc... yes
+checking for zError in -lz... yes
+checking for socklen_t... yes
+checking for dirent.h that defines DIR... yes
+checking for library containing opendir... none required
+checking for ANSI C header files... (cached) yes
+checking for sys/wait.h that is POSIX.1 compatible... yes
+checking termios.h usability... yes
+checking termios.h presence... yes
+checking for termios.h... yes
+checking float.h usability... yes
+checking float.h presence... yes
+checking for float.h... yes
+checking sys/select.h usability... yes
+checking sys/select.h presence... yes
+checking for sys/select.h... yes
+checking locale.h usability... yes
+checking locale.h presence... yes
+checking for locale.h... yes
+checking for stdint.h... (cached) yes
+checking for inttypes.h... (cached) yes
+checking size of long long... 8
+checking for strcasecmp... yes
+checking for strcasestr... yes
+checking for strchr... yes
+checking for memcpy... yes
+checking for strerror... yes
+checking for bcopy... yes
+checking for setpgrp... yes
+checking for chdir... yes
+checking for mkdtemp... yes
+checking for getcwd... yes
+checking for getwd... yes
+checking for readlink... yes
+checking for setenv... yes
+checking for putenv... yes
+checking for strtoll... yes
+checking for stroq... no
+checking for atoll... yes
+checking for atoq... no
+checking for symlink... yes
+checking for readlink... (cached) yes
+checking for lstat... yes
+checking for srand48... yes
+checking for srandom... yes
+checking for getpassphrase... no
+checking for waitpid... yes
+checking for setlocale... yes
+checking for strftime... yes
+checking for wait3 that fills in rusage... yes
+checking whether setpgrp takes no argument... yes
+checking for nl_langinfo and CODESET... yes
+checking for sys_errlist... yes
+checking for sigsetjmp... yes
+checking return type of signal handlers... void
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating posubst
+config.status: creating po/Makefile.in
+config.status: creating scripts/Makefile
+config.status: creating scripts/dirlist.cgi
+config.status: creating scripts/w3mhelp.cgi
+config.status: creating scripts/w3mmail.cgi
+config.status: creating scripts/xface2xpm
+config.status: creating scripts/multipart/Makefile
+config.status: creating scripts/multipart/multipart.cgi
+config.status: creating scripts/w3mman/Makefile
+config.status: creating scripts/w3mman/w3mman
+config.status: creating scripts/w3mman/w3mman.1
+config.status: creating scripts/w3mman/w3mman.de.1
+config.status: creating scripts/w3mman/w3mman2html.cgi
+config.status: creating libwc/Makefile
+config.status: creating w3mimg/Makefile
+config.status: creating w3mimg/fb/Makefile
+config.status: creating w3mimg/x11/Makefile
+config.status: creating w3mimg/win/Makefile
+config.status: creating w3mhelp-w3m_en.html
+config.status: creating w3mhelp-w3m_ja.html
+config.status: creating w3mhelp-lynx_en.html
+config.status: creating w3mhelp-lynx_ja.html
+config.status: creating config.h
+config.status: executing po-directories commands
+config.status: creating po/POTFILES
+config.status: creating po/Makefile
+(echo '#define DEFUN(x,y,z) x y';\
+ sed -ne '/^DEFUN/{p;n;/^[ 	]/p;}' ./main.c ./menu.c) | gcc -E  - | \
+ awk '$1 ~ /^[_A-Za-z]/ { \
+       for (i=2;i<=NF;i++) { print $i, $1} \
+ }' > funcname.tab.tmp
+funcname.tab updated
+sort funcname.tab | gawk -f ./funcname1.awk > funcname1.h
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o main.o main.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o file.o file.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o buffer.o buffer.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o display.o display.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o etc.o etc.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o search.o search.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o linein.o linein.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o table.o table.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o local.o local.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o form.o form.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o map.o map.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o frame.o frame.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o rc.o rc.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o menu.o menu.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o mailcap.o mailcap.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o image.o image.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o symbol.o symbol.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o entity.o entity.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o terms.o terms.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o url.o url.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o ftp.o ftp.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o mimehead.o mimehead.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o regex.o regex.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o news.o news.c
+sort funcname.tab | gawk -f ./funcname0.awk > funcname.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o mktable.o mktable.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\" -DDUMMY -c -o dummy.o entity.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o Str.o Str.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o hash.o hash.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o myctype.o myctype.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\" -o mktable mktable.o dummy.o Str.o hash.o myctype.o  -lm  -lnsl -ldl -lgc
+sort funcname.tab | gawk -f ./functable.awk > functable.tab
+./mktable 100 functable.tab > functable.c
+rm -f functable.tab
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o func.o func.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o cookie.o cookie.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o history.o history.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o backend.o backend.c
+sort funcname.tab | gawk -f ./funcname2.awk > funcname2.h
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o keybind.o keybind.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o anchor.o anchor.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o parsetagx.o parsetagx.c
+./mktable 100 ./tagtable.tab > tagtable.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o tagtable.o tagtable.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o istream.o istream.c
+istream.c: Dans la fonction « ssl_check_cert_ident »:
+istream.c:427:32: attention: l'initialisation abandonne le qualificatif « const » du type pointé [-Wdiscarded-qualifiers]
+  427 |                     char *sn = ASN1_STRING_get0_data(gn->d.ia5);
+      |                                ^~~~~~~~~~~~~~~~~~~~~
+istream.c:447:20: attention: l'affectation abandonne le qualificatif « const » du type pointé [-Wdiscarded-qualifiers]
+  447 |             method = X509V3_EXT_get(ex);
+      |                    ^
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o version.o version.c
+echo '/* $I''d$ */' > entity.h
+./mktable 100 ./entity.tab >> entity.h
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o indep.o indep.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o textlist.o textlist.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o parsetag.o parsetag.c
+ar rv libindep.a Str.o indep.o regex.o textlist.o parsetag.o myctype.o hash.o
+ar: création de libindep.a
+a - Str.o
+a - indep.o
+a - regex.o
+a - textlist.o
+a - parsetag.o
+a - myctype.o
+a - hash.o
+ranlib libindep.a
+(cd libwc && make CC='gcc' OPTS='')
+make[1] : on entre dans le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/libwc »
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o big5.o big5.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o ces.o ces.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o char_conv.o char_conv.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o charset.o charset.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o combining.o combining.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o conv.o conv.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o detect.o detect.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o gb18030.o gb18030.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o gbk.o gbk.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o hkscs.o hkscs.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o hz.o hz.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o iso2022.o iso2022.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o jis.o jis.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o johab.o johab.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o priv.o priv.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o putc.o putc.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o search.o search.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o sjis.o sjis.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o status.o status.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o ucs.o ucs.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o uhc.o uhc.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o utf7.o utf7.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o utf8.o utf8.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o viet.o viet.c
+gcc  -I.. -I.. -I. -O2 -fPIC -I./libwc   -DUSE_UNICODE -I. -I./.. -DHAVE_CONFIG_H   -c -o wtf.o wtf.c
+ar rv libwc.a big5.o ces.o char_conv.o charset.o combining.o conv.o detect.o gb18030.o gbk.o hkscs.o hz.o iso2022.o jis.o johab.o priv.o putc.o search.o sjis.o status.o ucs.o uhc.o utf7.o utf8.o viet.o wtf.o
+ar: création de libwc.a
+a - big5.o
+a - ces.o
+a - char_conv.o
+a - charset.o
+a - combining.o
+a - conv.o
+a - detect.o
+a - gb18030.o
+a - gbk.o
+a - hkscs.o
+a - hz.o
+a - iso2022.o
+a - jis.o
+a - johab.o
+a - priv.o
+a - putc.o
+a - search.o
+a - sjis.o
+a - status.o
+a - ucs.o
+a - uhc.o
+a - utf7.o
+a - utf8.o
+a - viet.o
+a - wtf.o
+ranlib libwc.a
+make[1] : on quitte le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/libwc »
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\" -o w3m main.o file.o buffer.o display.o etc.o search.o linein.o table.o local.o form.o map.o frame.o rc.o menu.o mailcap.o image.o symbol.o entity.o terms.o url.o ftp.o mimehead.o regex.o news.o func.o cookie.o history.o backend.o keybind.o anchor.o parsetagx.o tagtable.o istream.o version.o  -lm  -lnsl -ldl -L. -lindep  -lgc -L./libwc -lwc -lssl -lcrypto -lssl -lcrypto -lncurses
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o w3mbookmark.o w3mbookmark.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\" -o w3mbookmark w3mbookmark.o dummy.o  -lm  -lnsl -ldl -L. -lindep  -lgc
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\"   -c -o w3mhelperpanel.o w3mhelperpanel.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\" -o w3mhelperpanel w3mhelperpanel.o dummy.o  -lm  -lnsl -ldl -L. -lindep  -lgc
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\" -o inflate.o -c ./inflate.c
+gcc  -I. -I. -O2 -fPIC -I./libwc   -DHAVE_CONFIG_H -DAUXBIN_DIR=\"/usr/libexec/w3m\" -DCGIBIN_DIR=\"/usr/libexec/w3m/cgi-bin\" -DHELP_DIR=\"/usr/share/w3m\" -DETC_DIR=\"/etc\" -DCONF_DIR=\"/etc/w3m\" -DRC_DIR=\"~/.w3m\" -DLOCALEDIR=\"/usr/share/locale\" -o inflate inflate.o  -lm  -lnsl -ldl -lz
+for dir in scripts;	\
+do	\
+	(cd $dir && make PERL='/usr/bin/perl' MKDIR='mkdir -p' BIN_DIR='/usr/bin' AUXBIN_DIR='/usr/libexec/w3m' CGIBIN_DIR='/usr/libexec/w3m/cgi-bin' HELP_DIR='/usr/share/w3m' MAN_DIR='/usr/man' ETC_DIR='/etc' CONF_DIR='/etc/w3m' RC_DIR='~/.w3m' DESTDIR='' KEYBIND_SRC='keybind.c'); \
+done
+make[1] : on entre dans le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/scripts »
+generating w3mhelp-funcname.pl...
+done
+generating w3mhelp-funcdesc*.pl...
+done
+for subdir in multipart w3mman; \
+do \
+	(cd $subdir && make); \
+done
+make[2] : on entre dans le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/scripts/multipart »
+make[2]: rien à faire pour « all ».
+make[2] : on quitte le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/scripts/multipart »
+make[2] : on entre dans le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/scripts/w3mman »
+make[2]: rien à faire pour « all ».
+make[2] : on quitte le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/scripts/w3mman »
+for subdir in multipart w3mman; \
+do \
+	(cd $subdir && make); \
+done
+make[2] : on entre dans le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/scripts/multipart »
+make[2]: rien à faire pour « all ».
+make[2] : on quitte le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/scripts/multipart »
+make[2] : on entre dans le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/scripts/w3mman »
+make[2]: rien à faire pour « all ».
+make[2] : on quitte le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/scripts/w3mman »
+make[1] : on quitte le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/scripts »
+(cd po && make)
+make[1] : on entre dans le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/po »
+test ! -f ./w3m.pot || \
+  test -z "ja.gmo de.gmo zh_CN.gmo zh_TW.gmo" || make ja.gmo de.gmo zh_CN.gmo zh_TW.gmo
+make[2] : on entre dans le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/po »
+rm -f ja.gmo && /usr/bin/msgfmt -c --statistics --verbose -o ja.gmo ja.po
+ja.po : 222 messages traduits.
+/usr/bin/msgmerge --update  --lang=de de.po w3m.pot
+...................................... terminé.
+rm -f de.gmo && /usr/bin/msgfmt -c --statistics --verbose -o de.gmo de.po
+de.po : 222 messages traduits.
+rm -f zh_CN.gmo && /usr/bin/msgfmt -c --statistics --verbose -o zh_CN.gmo zh_CN.po
+zh_CN.po : 219 messages traduits, 3 messages non traduits.
+rm -f zh_TW.gmo && /usr/bin/msgfmt -c --statistics --verbose -o zh_TW.gmo zh_TW.po
+zh_TW.po : 219 messages traduits, 3 messages non traduits.
+make[2] : on quitte le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/po »
+touch stamp-po
+make[1] : on quitte le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/po »
+(cd libwc && make CC='gcc' OPTS='')
+make[1] : on entre dans le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/libwc »
+make[1]: rien à faire pour « all ».
+make[1] : on quitte le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/libwc »
+mkdir -p /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/bin
+mkdir -p /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/libexec/w3m
+mkdir -p /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/libexec/w3m/cgi-bin
+mkdir -p /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/share/w3m
+mkdir -p /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/man/man1
+mkdir -p /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/man/ja/man1
+mkdir -p /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/man/de/man1
+/usr/bin/ginstall -c w3m /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/bin/w3m
+/usr/bin/ginstall -c -m 644 w3mhelp-w3m_en.html /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/share/w3m/w3mhelp.html
+/usr/bin/ginstall -c -m 644 ./doc/w3m.1 /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/man/man1/w3m.1
+/usr/bin/ginstall -c -m 644 ./doc-jp/w3m.1 /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/man/ja/man1/w3m.1
+/usr/bin/ginstall -c -m 644 ./doc-de/w3m.1 /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/man/de/man1/w3m.1
+targets="inflate"; for file in $targets; \
+do \
+	case $file in \
+	w3mimgdisplay) /usr/bin/ginstall -c $file \
+		/storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/libexec/w3m/$file;; \
+	*) /usr/bin/ginstall -c $file /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/libexec/w3m/$file;; \
+	esac; \
+done
+for file in w3mbookmark w3mhelperpanel; \
+do \
+	/usr/bin/ginstall -c $file /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/libexec/w3m/cgi-bin/$file; \
+done
+for dir in scripts;	\
+do	\
+	(cd $dir && make PERL='/usr/bin/perl' MKDIR='mkdir -p' BIN_DIR='/usr/bin' AUXBIN_DIR='/usr/libexec/w3m' CGIBIN_DIR='/usr/libexec/w3m/cgi-bin' HELP_DIR='/usr/share/w3m' MAN_DIR='/usr/man' ETC_DIR='/etc' CONF_DIR='/etc/w3m' RC_DIR='~/.w3m' DESTDIR='/storage/repo/x86_64/slint-15.0/source/w3m/package-w3m' KEYBIND_SRC='keybind.c'); \
+done
+make[1] : on entre dans le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/scripts »
+for subdir in multipart w3mman; \
+do \
+	(cd $subdir && make); \
+done
+make[2] : on entre dans le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/scripts/multipart »
+make[2]: rien à faire pour « all ».
+make[2] : on quitte le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/scripts/multipart »
+make[2] : on entre dans le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/scripts/w3mman »
+make[2]: rien à faire pour « all ».
+make[2] : on quitte le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/scripts/w3mman »
+for subdir in multipart w3mman; \
+do \
+	(cd $subdir && make); \
+done
+make[2] : on entre dans le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/scripts/multipart »
+make[2]: rien à faire pour « all ».
+make[2] : on quitte le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/scripts/multipart »
+make[2] : on entre dans le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/scripts/w3mman »
+make[2]: rien à faire pour « all ».
+make[2] : on quitte le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/scripts/w3mman »
+make[1] : on quitte le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/scripts »
+topdir=`pwd`; \
+for dir in scripts;	\
+do	\
+	(cd $dir && make PERL='/usr/bin/perl' MKDIR='mkdir -p' BIN_DIR='/usr/bin' AUXBIN_DIR='/usr/libexec/w3m' CGIBIN_DIR='/usr/libexec/w3m/cgi-bin' HELP_DIR='/usr/share/w3m' MAN_DIR='/usr/man' ETC_DIR='/etc' CONF_DIR='/etc/w3m' RC_DIR='~/.w3m' DESTDIR='/storage/repo/x86_64/slint-15.0/source/w3m/package-w3m' KEYBIND_SRC='keybind.c' install); \
+done
+make[1] : on entre dans le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/scripts »
+mkdir -p /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/libexec/w3m
+mkdir -p /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/libexec/w3m/cgi-bin
+mkdir -p /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/share/w3m
+for file in xface2xpm;     \
+do      \
+	/usr/bin/ginstall -c $file /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/libexec/w3m;  \
+done
+for file in w3mdict.cgi dirlist.cgi w3mhelp.cgi w3mmail.cgi;     \
+do      \
+	/usr/bin/ginstall -c $file /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/libexec/w3m/cgi-bin;  \
+done
+for file in w3mhelp-*.pl; \
+do \
+	/usr/bin/ginstall -c -m 644 $file /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/share/w3m; \
+done
+for subdir in multipart w3mman; \
+do \
+	(cd $subdir && make install); \
+done
+make[2] : on entre dans le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/scripts/multipart »
+mkdir -p /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/libexec/w3m/cgi-bin
+for file in multipart.cgi;	\
+do	\
+	/usr/bin/ginstall -c $file /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/libexec/w3m/cgi-bin;	\
+done
+make[2] : on quitte le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/scripts/multipart »
+make[2] : on entre dans le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/scripts/w3mman »
+mkdir -p /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/bin
+mkdir -p /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/libexec/w3m/cgi-bin
+mkdir -p /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/man/man1
+mkdir -p /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/man/de/man1
+for file in w3mman;     \
+do      \
+	/usr/bin/ginstall -c $file /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/bin;	\
+done
+for file in w3mman2html.cgi;     \
+do      \
+	/usr/bin/ginstall -c $file /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/libexec/w3m/cgi-bin;	\
+done
+for file in w3mman.1; \
+do	\
+	/usr/bin/ginstall -c -m 644 $file /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/man/man1; \
+done
+for file in w3mman.de.1; \
+do	\
+	/usr/bin/ginstall -c -m 644 $file /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/man/de/man1; \
+	f=`echo "$file" | sed -e 's/\.de\././'`; \
+	mv /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/man/de/man1/$file /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/man/de/man1/$f; \
+done
+make[2] : on quitte le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/scripts/w3mman »
+make[1] : on quitte le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/scripts »
+NLSTARGET="po"; for subdir in $NLSTARGET; \
+do \
+ (cd $subdir && make install); \
+done
+make[1] : on entre dans le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/po »
+installing ja.gmo as /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/share/locale/ja/LC_MESSAGES/w3m.mo
+installing de.gmo as /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/share/locale/de/LC_MESSAGES/w3m.mo
+installing zh_CN.gmo as /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/share/locale/zh_CN/LC_MESSAGES/w3m.mo
+installing zh_TW.gmo as /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/share/locale/zh_TW/LC_MESSAGES/w3m.mo
+if test "w3m" = "gettext-tools"; then \
+  /usr/bin/mkdir -p /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/share/gettext/po; \
+  for file in Makefile.in.in remove-potcdate.sin quot.sed boldquot.sed en@quot.header en@boldquot.header insert-header.sin Rules-quot   Makevars.template; do \
+    /usr/bin/ginstall -c -m 644 ./$file \
+		    /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/share/gettext/po/$file; \
+  done; \
+  for file in Makevars; do \
+    rm -f /storage/repo/x86_64/slint-15.0/source/w3m/package-w3m/usr/share/gettext/po/$file; \
+  done; \
+else \
+  : ; \
+fi
+make[1] : on quitte le répertoire « /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3/po »
+
+Slackware package maker, version 3.14159265.
+
+Searching for symbolic links:
+
+No symbolic links were found, so we won't make an installation script.
+You can make your own later in ./install/doinst.sh and rebuild the
+package if you like.
+
+This next step is optional - you can set the directories in your package
+to some sane permissions. If any of the directories in your package have
+special permissions, then DO NOT reset them here!
+
+Would you like to reset all directory permissions to 755 (drwxr-xr-x) and
+directory ownerships to root.root ([y]es, [n]o)? 
+n
+
+Creating Slackware package:  /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3_37-x86_64-1slint.txz
+
+./
+etc/
+etc/w3m/
+etc/w3m/config.new
+etc/w3m/mailcap.new
+install/
+install/doinst.sh
+install/slack-desc
+usr/
+usr/bin/
+usr/bin/w3m
+usr/bin/w3mman
+usr/libexec/
+usr/libexec/w3m/
+usr/libexec/w3m/cgi-bin/
+usr/libexec/w3m/cgi-bin/dirlist.cgi
+usr/libexec/w3m/cgi-bin/multipart.cgi
+usr/libexec/w3m/cgi-bin/w3mbookmark
+usr/libexec/w3m/cgi-bin/w3mdict.cgi
+usr/libexec/w3m/cgi-bin/w3mhelp.cgi
+usr/libexec/w3m/cgi-bin/w3mhelperpanel
+usr/libexec/w3m/cgi-bin/w3mmail.cgi
+usr/libexec/w3m/cgi-bin/w3mman2html.cgi
+usr/libexec/w3m/inflate
+usr/libexec/w3m/xface2xpm
+usr/man/
+usr/man/de/
+usr/man/de/man1/
+usr/man/de/man1/w3m.1.gz
+usr/man/de/man1/w3mman.1.gz
+usr/man/ja/
+usr/man/ja/man1/
+usr/man/ja/man1/w3m.1.gz
+usr/man/man1/
+usr/man/man1/w3m.1.gz
+usr/man/man1/w3mman.1.gz
+usr/share/
+usr/share/locale/
+usr/share/locale/de/
+usr/share/locale/de/LC_MESSAGES/
+usr/share/locale/de/LC_MESSAGES/w3m.mo
+usr/share/locale/ja/
+usr/share/locale/ja/LC_MESSAGES/
+usr/share/locale/ja/LC_MESSAGES/w3m.mo
+usr/share/locale/zh_CN/
+usr/share/locale/zh_CN/LC_MESSAGES/
+usr/share/locale/zh_CN/LC_MESSAGES/w3m.mo
+usr/share/locale/zh_TW/
+usr/share/locale/zh_TW/LC_MESSAGES/
+usr/share/locale/zh_TW/LC_MESSAGES/w3m.mo
+usr/share/w3m/
+usr/share/w3m/w3mhelp-funcdesc.de.pl
+usr/share/w3m/w3mhelp-funcdesc.en.pl
+usr/share/w3m/w3mhelp-funcdesc.ja.pl
+usr/share/w3m/w3mhelp-funcname.pl
+usr/share/w3m/w3mhelp.html
+
+Slackware package /storage/repo/x86_64/slint-15.0/source/w3m/w3m-0.5.3_37-x86_64-1slint.txz created.

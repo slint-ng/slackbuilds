@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=SlackDocs Website
+Type=Application
+Comment=Slackware Documentation Project
+Terminal=false
+Exec=https://docs.slackware.com
+Icon=internet-web-browser
+Categories=System;
+GenericName=Slint Website

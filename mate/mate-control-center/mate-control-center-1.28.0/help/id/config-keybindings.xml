@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="config-keybindings">
+  <title>Pengikatan tombol</title>
+  <para>Pengikatan tombol memungkinkan Anda menggunakan kombinasi penekanan tombol pada papan ketik untuk membantu membuat navigasi Anda di lingkungan desktop Anda lebih cepat dan lebih mudah. Menggunakan pengikatan tombol, Anda kadang-kadang bisa mendapatkan penggunaan komputer Anda menjadi begitu cepat dan efisien, bahwa teman-teman Anda terkesan saat menonton Anda bekerja.</para>
+  <para>Pengikatan tombol yang paling umum dan terkenal adalah pengikatan tombol Simpan dan Keluar: masing-masing Ctrl + S dan Ctrl + Q di <application>Microsoft Windows</application>.</para>
+  <para><application>Mate</application> memungkinkan Anda mengonfigurasi pengikatan tombol apa yang digunakan di banyak tempat di desktop Anda.</para>
+  <sect2 id="config-keybindings-ui">
+    <title>Antarmuka Pengikatan Tombol</title>
+    <para>Antarmuka pengikatan tombol cukup sederhana. Ini memiliki satu opsi untuk mengatur skema pengikatan tombol untuk digunakan dalam aplikasi. Anda memiliki dua opsi: Baku dan emacs.</para>
+    <para>Baku menggunakan Control S dan pengikatan lainnya yang akrab bagi sebagian besar pengguna dari sistem operasi <application>Microsoft Windows</application>.</para>
+    <para>emacs adalah penyunting teks populer untuk sistem berbasis Linux dan Unix. emacs menggunakan pengikatan tombol yang berbeda dari baku. Misalnya, simpan adalah Control X S.</para>
+  </sect2>
+</sect1>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="config-screensaver">
+  <title>Screensaver</title>
+  <para>Screensaver hampir setua komputer. Awalnya, mereka dimaksudkan untuk menjaga agar gambar tidak 'dibakar' ke layar monitor. Ini akan merusak monitor. Saat ini, teknologi telah cukup maju sehingga gambar tidak lagi meninggalkan bekas di monitor Anda. Namun, orang menikmati menggunakan screensaver karena mereka terlihat keren dan menghibur pengunjung.</para>
+  <para><application>Mate</application> menggunakan <application>xscreensaver</application> atau program <application>mate-screensaver</application> untuk menampilkan screensaver. Secara default, <application>Mate</application> hadir dengan puluhan screensaver. Ini semua dapat dikonfigurasi dalam <application>Capplet Pengaturan</application> di <application>Pusat Kendali Mate</application>.</para>
+  <sect2 id="config-screensaver-config">
+    <title>Konfigurasi</title>
+    <para>Antarmuka <application>Capplet Screensaver</application> dibagi menjadi dua bagian utama: <variablelist>
+	<varlistentry>
+	  <term>Opsi Screensaver</term>
+	  <listitem>
+	    <para>Terletak di sisi kiri layar, bagian screensaver memungkinkan Anda mengonfigurasi properti yang memengaruhi perilaku screensaver Anda.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Pratinjau Screensaver</term>
+	  <listitem>
+	    <para>Bagian kanan capplet adalah pratinjau screensaver yang Anda pilih.</para>
+	  </listitem>
+	</varlistentry>
+      </variablelist></para>
+    <sect3 id="config-screensaver-config-basics">
+    <title>Menyiapkan Screensaver</title>
+    <para>Kemungkinannya adalah, Anda akan ingin mengatur screensaver Anda. Di bawah ini adalah langkah-langkah untuk mengatur screensaver Anda: <orderedlist numeration="arabic">
+	<listitem>
+	  <para>Anda dapat memilih mode yang berbeda untuk menampilkan screensaver Anda: <variablelist>
+	      <varlistentry>
+		<term>Nonaktifkan Screen Saver</term>
+		<listitem>
+		  <para>Ini akan mematikan screensaver Anda sepenuhnya.</para>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term>Layar hitam saja</term>
+		<listitem>
+		  <para>Monitor Anda hanya akan menampilkan gambar hitam, bukan animasi. Ini bagus untuk membantu menghemat daya.</para>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term>Satu Screen Saver</term>
+		<listitem>
+		  <para>Hanya menampilkan satu screensaver saat screensaver aktif.</para>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term>Screen Saver Acak</term>
+		<listitem>
+		  <para>Program screensaver dapat menampilkan screensaver secara acak. Opsi ini menampilkan screensaver secara acak. Ini juga menempatkan kotak centang di sebelah screensaver, sehingga Anda dapat memilih mana yang akan ditampilkan.</para>
+		</listitem>
+	      </varlistentry>
+	    </variablelist></para>
+	</listitem>
+	<listitem>
+	  <para>Pilih screensaver yang ingin Anda gunakan.</para>
+	</listitem>
+	<listitem>
+	  <para>Atur preferensi waktu. Opsi yang tersedia adalah: <variablelist>
+		<varlistentry>
+		  <term>Kosong Setelah</term>
+		  <listitem>
+		    <para>Berapa lama menunggu sebelum screensaver Anda dimulai.</para>
+		  </listitem>
+		</varlistentry>		  
+		<varlistentry>
+		  <term>Berganti Setelah</term>
+		  <listitem>
+		    <para>Jika Anda menggunakan beberapa screensaver, atur waktu untuk mengubah screensaver Anda.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>Kunci Layar Setelah</term>
+		  <listitem>
+		    <para>Dengan mengaktifkan penguncian layar, Anda dapat membantu meningkatkan keamanan fisik. Ini mengharuskan pengguna memasukkan kata sandi sebelum screensaver berhenti, memungkinkan mereka untuk menggunakan sistem lagi.</para>
+		  </listitem>
+		</varlistentry>
+	      </variablelist></para>
+	  </listitem>
+	</orderedlist></para>
+      <para>Di bawah jendela pratinjau ada dua tombol: <guibutton>Pratinjau</guibutton> dan <guibutton>Pengaturan</guibutton>.</para>
+      <para>Dengan mengklik tombol <guibutton>Pratinjau</guibutton>, Anda akan dapat melihat seperti apa screensaver di layar penuh. Tekan tombol apa pun untuk menutup screensaver saat Anda melihatnya.</para>
+      <para><guibutton>Pengaturan</guibutton> memungkinkan Anda mengonfigurasi setiap screensaver individual. Isi tombol <guibutton>Pengaturan</guibutton> berada di luar cakupan dokumen ini.</para>
+    </sect3>
+  </sect2>
+  <sect2 id="config-screensaver-advanced">
+    <title>Tab Tingkat Lanjut</title>
+    <para>Tab <guilabel>Lanjutan</guilabel> menyimpan sejumlah besar opsi yang tersedia untuk Anda.</para>
+    <para>Tab <guilabel>Lanjutan</guilabel> dibagi menjadi empat bagian: <variablelist>
+	<varlistentry>
+	  <term>Manipulasi Gambar</term>
+	  <listitem>
+	    <para>Screensaver Anda dapat menangkap tampilan desktop Anda dan sementara menjalankan manipulasi gambar di desktop Anda sebagai screensaver Anda.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Manajemen Daya Tampilan</term>
+	  <listitem>
+	    <para>Sistem Anda dapat membantu menghemat daya dengan mengubah status monitor Anda.</para>
+	  </listitem>
+	</varlistentry>	
+	<varlistentry>
+	  <term>Diagnostik</term>
+	  <listitem>
+	    <para>Terkadang, sistem Anda mungkin memiliki masalah karena screensaver Anda. Gunakan bagian ini untuk mengaktifkan informasi yang akan ditampilkan untuk membantu Anda memperbaiki masalah Anda.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Peta Warna</term>
+	  <listitem>
+	    <para>
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist></para>
+    <sect3 id="config-screensaver-advanced-imgmanip">
+      <title>Bagian Manipulasi Gambar</title>
+      <para>Screensaver Anda memiliki kemampuan untuk mengambil desktop Anda dan untuk sementara menjalankan manipulasi gambar di desktop Anda sebagai screensaver Anda. Ada beberapa opsi bagi Anda untuk mengatur manipulasi gambar Anda. Pilih metode manipulasi gambar yang ingin Anda gunakan. <note>
+	  <para>Jika Anda tidak ingin screensaver Anda menggunakan manipulasi gambar apa pun, batal pilih semua opsi.</para>
+	</note></para>
+    </sect3>
+    <sect3 id="config-screensaver-advanced-apm">
+      <title>Bagian Manajemen Daya Tampilan</title>
+      <para>Manajemen daya dapat membantu menghemat daya dengan mengatur mode monitor Anda. Pilih pengaturan waktu untuk mode yang akan ditata di bagian ini.</para>
+    </sect3>
+    <sect3 id="config-screensaver-advanced-diag">
+      <title>Bagian Diagnostik</title>
+      <para>Terkadang, sistem Anda mungkin memiliki masalah karena screensaver Anda. Gunakan bagian ini untuk mengaktifkan informasi yang akan ditampilkan untuk membantu Anda memperbaiki masalah Anda. <note>
+	  <para>Ini tidak akan memberi Anda jawaban langsung untuk masalah Anda. Namun, administrator sistem Anda mungkin menganggap ini sebagai informasi yang berguna dalam memperbaiki masalah Anda.</para>
+	</note></para>
+    </sect3>
+    <sect3 id="config-screensaver-advanced-color">
+      <title>Bagian Peta Warna</title>
+      <para>Peta warna memungkinkan beberapa pilihan warna sederhana untuk diubah. Atur opsi warna Anda di sini.</para>
+    </sect3>
+  </sect2>
+</sect1>

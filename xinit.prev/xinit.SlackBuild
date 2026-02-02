@@ -1,0 +1,82 @@
+#!/bin/sh
+
+# Maintainer: Didier Spaier <didier~at~slint~dot~fr>
+
+# Arch apply the patch fs25361.patch, coming from:
+# https://bugs.freedesktop.org/show_bug.cgi?id=13462
+# but it was refused upsteram so I won't apply it - Didier
+PRGNAM=xinit
+VERSION=1.4.2
+BUILD=1slint
+CWD=$(pwd)
+TMP=${TMP:-$CWD}
+PKG=$TMP/package-$PRGNAM
+
+if [ -z "$ARCH" ]; then
+  case "$( uname -m )" in
+    i?86) ARCH=i586 ;;
+    arm*) ARCH=arm ;;
+       *) ARCH=$( uname -m ) ;;
+  esac
+fi
+
+if [ "$ARCH" = "x86_64" ]; then
+  SLKCFLAGS="-O2 -fPIC -fcommon"
+  LIBDIRSUFFIX="64"
+else
+  SLKCFLAGS="-O2"
+  LIBDIRSUFFIX=""
+fi
+
+rm -rf $PKG
+mkdir -p $TMP $PKG $OUTPUT
+cd $TMP
+rm -rf $PRGNAM-$VERSION
+tar xf $CWD/$PRGNAM-$VERSION.tar.xz
+cd $PRGNAM-$VERSION
+
+chown -R root:root .
+# I don't think we need this patch from Slacware - Didier
+# zcat $CWD/patch/xinit/xinit.remove.systemd.kludge.diff.gz | patch -p1 || { touch ${SLACK_X_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+patch -p1 --verbose < $CWD/06_move_serverauthfile_into_tmp.diff || exit
+autoreconf -vif
+CFLAGS=$SLKCFLAGS \
+CXXFLAGS=$SLKCFLAGS \
+./configure \
+  --with-xinitdir=/etc/X11/xinit \
+  --prefix=/usr \
+  --libdir=/usr/lib${LIBDIRSUFFIX} \
+  --sysconfdir=/etc \
+  --localstatedir=/var \
+  --infodir=/usr/info \
+  --mandir=/usr/man \
+  --docdir=/usr/doc/${PRGNAM}-$VERSION \
+  --build=$ARCH-slackware-linux
+
+
+make
+make install DESTDIR=$PKG
+(cd $PKG/usr/bin
+patch -p0 --verbose < $CWD/run_setxkbmap_in_.xinitrd.diff || exit
+cp startx newstartx
+patch -p0 --verbose < $CWD/nocurrenttty.diff || exit
+cp startx
+)
+
+find $PKG/usr/man -type f -exec gzip -9 {} \;
+for i in $( find $PKG/usr/man -type l ) ; do ln -s $( readlink $i ).gz $i.gz ; rm $i ; done
+
+mkdir -p $PKG/etc/X11/xinit/
+cp $CWD/README.Xmodmap $PKG/etc/X11/xinit/
+
+mkdir -p $PKG/usr/doc/${PRGNAM}-$VERSION
+cp ChangeLog COPYING INSTALL README.md $PKG/usr/doc/${PRGNAM}-$VERSION
+mv $PKG/etc/X11/xinit/xinitrc $PKG/usr/doc/${PRGNAM}-$VERSION/xinitrc.example
+
+mkdir -p $PKG/install
+cat $CWD/slack-desc > $PKG/install/slack-desc
+cat $CWD/doinst.sh > $PKG/install/doinst.sh
+
+cd $PKG
+/sbin/makepkg -l y -c n $CWD/$PRGNAM-$VERSION-$ARCH-$BUILD.${PKGTYPE:-txz}
+

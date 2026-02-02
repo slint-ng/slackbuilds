@@ -1,0 +1,130 @@
+#!/bin/sh
+
+# Slackware build script for Mumble
+
+# Copyright 2011-2013 James Geboski <jgeboski@gmail.com>
+# Copyright 2014-2015 Edward W. Koenig <kingbeowulf@gmail.com>
+# All rights reserved.
+#
+# Redistribution and use of this script, with or without modification, is
+# permitted provided that the following conditions are met:
+#
+# 1. Redistributions of this script must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#
+#  THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED
+#  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+#  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO
+#  EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+#  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+#  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+#  OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+#  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+#  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+#  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+# New maintainer: Edward W. Koenig <kingbeowulf@gmail.com>
+
+# Adapted to Slint by Didier Spaier <didier~at~slint~dot~fr>
+PRGNAM=mumble
+BUILD=1slint
+
+rm -rf mumble
+
+
+
+if [ -z "$ARCH" ]; then
+  case "$( uname -m )" in
+    i?86) ARCH=i486 ;;
+    arm*) ARCH=arm ;;
+       *) ARCH=$( uname -m ) ;;
+  esac
+fi
+
+CWD=$(pwd)
+TMP=$CWD
+PKG=$TMP/package-$PRGNAM
+
+if [ "$ARCH" = "i486" ]; then
+  SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "i686" ]; then
+  SLKCFLAGS="-O2 -march=i686 -mtune=i686"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "x86_64" ]; then
+  SLKCFLAGS="-O2 -fPIC"
+  LIBDIRSUFFIX="64"
+else
+  SLKCFLAGS="-O2"
+  LIBDIRSUFFIX=""
+fi
+
+set -e
+
+rm -rf $PKG
+mkdir -p $PKG
+
+git clone https://github.com/mumble-voip/mumble.git
+cd $PRGNAM
+git submodule update --init --recursive
+chown -R root:root .
+find -L . \
+ \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
+  -o -perm 511 \) -exec chmod 755 {} \; -o \
+ \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
+  -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
+gitrev=git$(git log -n 1 --format=format:%h .)
+VERSION=$gitrev
+mkdir build
+cd build
+  cmake .. \
+    -DCMAKE_INSTALL_PREFIX='/usr' \
+    -Doverlay='OFF' \
+    -Dice='OFF' \
+    -Dserver='OFF' \
+    -Dbundled-celt='ON' \
+    -Dbundled-opus='OFF' \
+    -Dbundled-speex='OFF'
+  make
+
+cd $CWD
+
+mkdir -p \
+  $PKG/usr/bin \
+  $PKG/usr/lib${LIBDIRSUFFIX}/mumble \
+  $PKG/usr/man/man1 \
+  $PKG/usr/share/{applications,pixmaps}
+
+install -m 755 mumble/build/mumble $PKG/usr/bin
+
+# Mumble's bundled celt is needed:
+# celt-0.7.0 is needed to keep compatibility with other clientse
+cp -a mumble/build/libcelt0.so* $PKG/usr/lib${LIBDIRSUFFIX}/mumble
+
+install -m 644 mumble/man/mumble.1 $PKG/usr/man/man1
+
+install -m 644 mumble/scripts/org.mumble_voip.mumble.desktop $PKG/usr/share/applications/mumble.dekstop
+install -m 644 mumble/icons/mumble.svg $PKG/usr/share/pixmaps
+
+find mumble/plugins -type f -name *.so \
+  -exec install -m 755 {} $PKG/usr/lib${LIBDIRSUFFIX}/mumble \;
+
+find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
+  | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
+
+find $PKG/usr/man -type f -exec gzip -9 {} \;
+for i in $( find $PKG/usr/man -type l ) ; do ln -s $( readlink $i ).gz $i.gz ; rm $i ; done
+
+mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
+(cd mumble
+cp -a AUTHORS LICENSE* $PKG/usr/doc/$PRGNAM-$VERSION
+pandoc -s -f gfm -t html5 -o $PKG/usr/doc/$PRGNAM-$VERSION/README.html README.md
+cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
+)
+
+mkdir -p $PKG/install
+cat $CWD/slack-desc > $PKG/install/slack-desc
+cat $CWD/doinst.sh > $PKG/install/doinst.sh
+
+cd $PKG
+/sbin/makepkg -l y -c n $CWD/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.txz

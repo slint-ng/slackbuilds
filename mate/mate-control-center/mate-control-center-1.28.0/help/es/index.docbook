@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY VERSION "1.10.1">
+<!ENTITY legal SYSTEM "legal.xml">
+<!ENTITY app "<application>MATE Control Center</application>">
+<!ENTITY appname "MATE Control Center">
+<!-- Information about the entities
+       The legal.xml file contains legal information, there is no need to edit the file.
+       Use the appversion entity to specify the version of the application.
+       Use the manrevision entity to specify the revision number of this manual.
+       Use the date entity to specify the release date of this manual.
+       Use the app entity to specify the name of the application. -->]>
+<article id="index" lang="es">
+  
+  <articleinfo>
+    <abstract role="description">
+      <para>El centro de control de MATE proporciona un lugar central para que el usuario configure su expericencia con MATE. Le permite configurar cualquier cosa, desde el comportamiento de los bordes de las ventanas hasta la tipografía predeterminada.</para>
+    </abstract>
+    <title>Manual del Centro de control de MATE</title>
+    <authorgroup>
+      <author><firstname>Proyecto de documentación de MATE</firstname> <surname/> <affiliation> <orgname>Escritorio MATE</orgname> </affiliation></author>
+      <author><firstname>Kevin</firstname><surname>Breit</surname></author>
+    </authorgroup>
+    <copyright><year>2015-2021</year> <holder>Proyecto de documentación de MATE</holder></copyright>
+    <copyright><year>2001, 2002</year> <holder>Ximian, Inc.</holder></copyright>
+
+    <publisher role="maintainer">
+      <publishername>Proyecto de documentación de MATE</publishername>
+    </publisher>
+    <publisher>
+      <publishername>Proyecto de documentación de GNOME</publishername>
+    </publisher>
+    
+    <revhistory>
+      <revision><revnumber>2.15</revnumber> <date>Julio de 2015</date> <firstname>Proyecto de documentación de MATE</firstname> <surname/></revision>
+      <revision><revnumber>2.14</revnumber> <date>Marzo de 2006</date></revision> 
+    </revhistory>
+
+    <!-- This file contains link to license for the
+   documentation (GNU FDL), and other legal stuff such as "NO
+   WARRANTY" statement. Please do not change any of this. -->
+
+    <releaseinfo>Este manual describe la versión 1.10.1 del Centro de control de MATE.</releaseinfo>
+
+    <legalnotice>
+        <title>Comentarios</title>
+        <para>Para informar de un problema o realizar una sugerencia concerniente a la aplicación <application>Centro de control de MATE</application> o a este manual, siga las indicaciones de la <ulink url="help:mate-user-guide/feedback" type="help">página de comentarios de MATE</ulink>.</para>
+<!-- Translators may also add here feedback address for translations -->
+    </legalnotice>
+  
+    <othercredit class="translator">
+      <personname>
+        <firstname>Toni Estevez</firstname>
+      </personname>
+      <email>toni.estevez@gmail.com</email>
+    </othercredit>
+    <copyright>
+      
+        <year>2019</year>
+      
+      <holder>Toni Estevez</holder>
+    </copyright>
+  
+    <othercredit class="translator">
+      <personname>
+        <firstname>Jorge González</firstname>
+      </personname>
+      <email>jorgegonz@svn.gnome.org</email>
+    </othercredit>
+    <copyright>
+      
+        <year>2007-2010</year>
+      
+      <holder>Jorge González</holder>
+    </copyright>
+  
+    <othercredit class="translator">
+      <personname>
+        <firstname>Francisco Javier F. Serrador</firstname>
+      </personname>
+      <email>serrador@cvs.gnome.org</email>
+    </othercredit>
+    <copyright>
+      
+        <year>2003-2006</year>
+      
+      <holder>Francisco Javier F. Serrador</holder>
+    </copyright>
+  
+    <othercredit class="translator">
+      <personname>
+        <firstname>Pablo Gonzalo del Campo</firstname>
+      </personname>
+      <email>pablodc@bigfoot.com</email>
+    </othercredit>
+    <copyright>
+      
+        <year>2002-2003</year>
+      
+      <holder>Pablo Gonzalo del Campo</holder>
+    </copyright>
+  </articleinfo>
+  
+  <sect1 id="intro">
+    <title>Introducción</title>
+    <para>El <application>Centro de control de MATE</application> brinda una ventana única desde la cual iniciar todas las herramientas de preferencias.</para>
+    <note><para>Para obtener ayuda sobre el uso de las herramientas de preferencias, consulte la <ulink type="help" url="help:mate-user-guide/prefs">Guía de usuario</ulink>.</para></note>
+
+<!-- ============= To Start Control Center  ============================ -->
+    <sect2 id="mate-control-center-to-start">
+      <title>Para iniciar el Centro de control de MATE</title>
+      <para>Puede iniciar el <application>Centro de control de MATE</application> de las maneras siguientes:</para>
+      <variablelist>
+        <varlistentry>
+          <term>Menú <guimenu>Sistema</guimenu></term>
+          <listitem>
+            <para>Elija el elemento del menú <menuchoice><guimenu>Centro de control</guimenu></menuchoice>.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Línea de órdenes</term>
+          <listitem>
+            <para>Ejecute esta orden: <command>mate-control-center</command></para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </sect2>
+
+  </sect1>
+  
+  <sect1 id="matecc-interface">
+    <title>Uso</title>
+    <para>La ventana del <application>Centro de control de MATE</application> enumera todas las herramientas de preferencias instaladas en el sistema y las dispone en grupos.</para>
+    <tip><para>Desde el panel de la izquierda es posible acceder con rapidez a una herramienta de preferencias determinada seleccionando primero su grupo o escribiendo una palabra clave en el cuadro de filtro. Además, puede acceder a tareas comunes tales como <guilabel>Cambiar el tema</guilabel> y <guilabel>Establecer las aplicaciones preferidas</guilabel>.</para></tip>
+    <para>Para abrir una herramienta de preferencias, basta con pulsar sobre ella.</para>
+    <tip><para>La descripción de la herramienta de preferencias se muestra al pasar el ratón por encima.</para></tip>
+  </sect1>
+</article>

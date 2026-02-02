@@ -1,0 +1,16 @@
+gst-plugins-base 1.20.4
+
+    GL api     : gles2, gl
+    GL platform: egl, glx
+    GL winsys  : wayland, x11, gbm
+    Plugins    : adder, app, audioconvert, audiomixer, audiorate,
+                 audioresample, audiotestsrc, compositor, encoding, gio,
+                 overlaycomposition, pbtypes, playback, rawparse, subparse,
+                 tcp, typefindfunctions, videoconvert, videorate, videoscale,
+                 videotestsrc, volume, alsa, cdparanoia, opengl, libvisual,
+                 ogg, opus, pango, theora, vorbis, ximagesink, xvimagesink
+
+  Subprojects
+    gl-headers : YES
+
+Option buildtype is: release [default: debugoptimized]

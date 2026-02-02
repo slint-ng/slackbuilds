@@ -1,0 +1,117 @@
+#!/bin/sh
+SPEECHD=/usr/bin/speechd-up
+### Code snippet common to rc.espeakup and rc-speechd-up. ###
+hardlist=$(zgrep SPEAKUP_S /proc/config.gz|grep "[ym]"|grep -v DUMMY| \
+sed 's/CONFIG_SPEAKUP_SYNTH_//;s/..$//'|tr '[:upper:]' '[:lower:]')
+# A hardware synthesizer can be set either in the boot command line or
+# in the configuration file /etc/speakup.conf. In both cases we won't
+# start espeakup or speechd-up that rely on a soft synthsizer, but we
+# restore the speakup settings. 
+if grep -q speakup /proc/cmdline; then
+	HARDCMDLINE=$(sed "s/.*speakup.synth=\([[:alpha:]]\{1,\}\).*/\1/" /proc/cmdline)
+fi
+if [ -f /etc/speakup.conf ]; then
+  . /etc/speakup.conf
+  HARDCONF="$hard"
+fi
+# We give priority to the settings in /etc/espeakup.conf over those on
+# the command line. "hard=none" in the former indicates that the user
+# chose not to use a hard synthesizer. This way the user does not need 
+# to edit the command line to modify a setting, like using another hard
+# synthesizer or use on a soft synthesizer instead of a hard one.
+if [ ! "$HARDCONF" =  "none" ]; then
+	if [ "$HARDCONF" ] ; then
+	# The user ran speak-with and chosen a hard synth
+		modprobe "speakup_$HARDCONF" 2>/dev/null
+		echo "$HARDCONF" > /sys/accessibility/speakup/synth
+		[ -x /usr/sbin/speakup-restore ] && speakup-restore
+		exit
+  
+	elif [ "$HARDCMDLINE" ] && grep -q "$HARDCMDLINE" "$hardlist"; then
+		# The user has not run speak-with to choose a hard synth but
+		# has indicated one in the boot command line
+		modprobe "speakup_$HARDCMDLINE" 2>/dev/null
+		echo "$HARDCMDLINE" > /sys/accessibility/speakup/synth
+		[ -x /usr/sbin/speakup-restore ] && speakup-restore
+		exit
+	fi
+fi
+# We didn't exit yet, so we will manage the daemon of the soft synth. 
+# modprobe won't complain even if the driver is built-in. Else the
+# "echo" command is not necessary but won't hurt. 
+modprobe speakup_soft 2>/dev/null
+echo "soft" > /sys/accessibility/speakup/synth
+sleep 1
+
+chmod 666 /sys/accessibility/speakup/soft/*
+echo 1 > /sys/accessibility/speakup/soft/direct
+### End of the code snippet common to rc.espeakup and rc.speechd-up ###
+# Starts/stops/restart speechd-up
+speechd_up_start() {
+  if [ -f /etc/speechd-up.conf ]; then
+        . /etc/speechd-up.conf 2>/dev/null
+  fi
+  if [ -f /etc/espeakup.conf ]; then
+    . /etc/espeakup.conf
+  fi
+  if [ ! "$(ps -C speechd-up --noheaders|wc -l)" = "0" ]; then
+      echo "speechd-up is already started."
+      speechd_up_status
+      exit
+  fi
+  if [ -x $SPEECHD ]; then
+		echo "Starting speechd-up"
+		sleep 2
+		if [ "$ALSA_CARD" ]; then
+			( export ALSA_CARD=$ALSA_CARD
+			$SPEECHD -d 1>/dev/null 2>/dev/null
+			)
+		else
+			$SPEECHD -d 1>/dev/null 2>/dev/null
+		fi
+		[ -x /usr/sbin/speakup-restore ] && speakup-restore
+	else
+		echo "$SPEECHD not found or non executable."
+	fi
+}
+speechd_up_stop() {
+  NBPROC="$(ps -C speechd-up --noheaders|wc -l)"
+  if [ ! "$NBPROC" = "0" ]; then
+    echo "Stopping speechd-up..."
+    PID="$(ps -C speechd-up --noheaders -o pid)"
+    kill "$PID"
+  else
+    echo "speechd-up is not running."
+   fi
+}
+
+speechd_up_restart() {
+    speechd_up_stop
+    sleep 5
+    speechd_up_start
+}
+
+speechd_up_status() {
+  NBPROC="$(ps -C speechd-up --noheaders|wc -l)"
+  if [ "$NBPROC" = "0" ]; then
+    echo "speechd-up is not running" 
+  elif [ "$NBPROC" = "1" ]; then
+    echo "A speechd-up daemon is running, PID: $(ps -C speechd-up --no-headers -o pid)"
+  else
+    ps -C speechd-up -o pid,args
+  fi
+}
+
+case "$1" in
+    start)
+	    speechd_up_start;;
+    stop)
+		speechd_up_stop;;
+    restart)
+		speechd_up_restart;;
+    status)
+		speechd_up_status;;
+    *)
+        echo "Usage: $0 {start|stop|restart|status}";;
+esac
+

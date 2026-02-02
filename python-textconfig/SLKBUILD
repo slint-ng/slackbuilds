@@ -1,0 +1,25 @@
+#Packager: George Vlahavas <vlahavas~at~gmail~dot~com>
+# Included in Slint by Didier Spaier didieratslintdotfr
+pkgname=python-textconfig
+pkgver=0.2
+pkgrel=1slint
+source=("textconfig-$pkgver.tar.gz")
+docs=("authors" "install" "readme.md" "copying")
+options=('nosrcpack')
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"python-textconfig (Simple configuration file management in python)"
+"This is a class for managing simple configuration files with python."
+"By simple, it means that they are simple text files, there are no"
+"sections and all options in the configuration files use a strict"
+"'OPTION=value' format, with no spaces between 'OPTION', '=' and"
+"'value'. The same 'OPTION' can be used more than once, so you can have"
+"multiple values."
+)
+
+build() {
+	cd $startdir/src/textconfig-$pkgver
+	python3 setup.py install --prefix=/usr --root=$startdir/pkg
+}

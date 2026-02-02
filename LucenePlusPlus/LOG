@@ -1,0 +1,10 @@
+** Build Summary **
+  Version:          3.0.8
+  Prefix:           /usr
+  Build Type:       Release
+  Architecture:     x86_64
+  System:           Linux
+  Boost Include:    /usr/include
+  Boost Libraries:  /usr/lib64
+  Zlib Include:     /usr/include
+  Zlib Library:     /usr/lib64/libz.so

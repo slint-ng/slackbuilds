@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY VERSION "1.10.1">
+<!ENTITY legal SYSTEM "legal.xml">
+<!ENTITY app "<application>MATE Control Center</application>">
+<!ENTITY appname "MATE Control Center">
+<!-- Information about the entities
+       The legal.xml file contains legal information, there is no need to edit the file.
+       Use the appversion entity to specify the version of the application.
+       Use the manrevision entity to specify the revision number of this manual.
+       Use the date entity to specify the release date of this manual.
+       Use the app entity to specify the name of the application. -->]>
+<article id="index" lang="az">
+  
+  <articleinfo>
+    <abstract role="description">
+      <para lang="en">
+        The MATE Control Center provides a central place for the user to setup their MATE experience. It can let you configure anything from the behavior of your window borders to the default font type.
+      </para>
+    </abstract>
+    <title lang="en">MATE Control Center Manual</title>
+    <authorgroup>
+      <author lang="en">
+	  <firstname>MATE Documentation Project</firstname>
+	  <surname/>
+	  <affiliation>
+		 <orgname>MATE Desktop</orgname>
+	  </affiliation>
+      </author>
+      <author lang="en">
+	<firstname>Kevin</firstname><surname>Breit</surname>
+      </author>
+    </authorgroup>
+    <copyright lang="en">
+      <year>2015-2021</year>
+      <holder>MATE Documentation Project</holder>
+    </copyright>
+    <copyright lang="en">
+      <year>2001, 2002</year>
+      <holder>Ximian, Inc.</holder>
+    </copyright>
+
+    <publisher role="maintainer">
+      <publishername lang="en">MATE Documentation Project</publishername>
+    </publisher>
+    <publisher>
+      <publishername lang="en">GNOME Documentation Project</publishername>
+    </publisher>
+    
+    <revhistory>
+      <revision lang="en"> 
+        <revnumber>2.15</revnumber>
+        <date>July 2015</date>
+          <firstname>MATE Documentation Project</firstname>
+          <surname/>
+      </revision>
+      <revision lang="en">
+        <revnumber>2.14</revnumber> 
+        <date>March 2006</date>
+      </revision> 
+    </revhistory>
+
+    <!-- This file contains link to license for the
+   documentation (GNU FDL), and other legal stuff such as "NO
+   WARRANTY" statement. Please do not change any of this. -->
+
+    <releaseinfo lang="en">
+      This manual describes version 1.10.1 of the MATE Control Center.
+    </releaseinfo>
+
+    <legalnotice>
+        <title lang="en">Feedback</title>
+        <para lang="en">To report a bug or make a suggestion regarding the <application>MATE Control Center</application> application or this manual, follow the directions in the
+        <ulink url="help:mate-user-guide/feedback" type="help">MATE Feedback Page</ulink>.
+      </para>
+<!-- Translators may also add here feedback address for translations -->
+    </legalnotice>
+  </articleinfo>
+  
+  <sect1 id="intro">
+    <title lang="en">Introduction</title>
+    <para lang="en">
+      The <application>MATE Control Center</application> provides a single window from which to launch all preference tools.
+    </para>
+    <note><para lang="en">
+      For help on using preference tools, see the <ulink type="help" url="help:mate-user-guide/prefs">User Guide</ulink>.
+    </para></note>
+
+<!-- ============= To Start Control Center  ============================ -->
+    <sect2 id="mate-control-center-to-start">
+      <title lang="en">To Start MATE Control Center</title>
+      <para lang="en">You can start <application>MATE Control Center</application> in the following ways:</para>
+      <variablelist>
+        <varlistentry>
+          <term lang="en"><guimenu>System</guimenu> menu</term>
+          <listitem>
+            <para lang="en">
+              Choose <menuchoice><guimenu>Control Center</guimenu></menuchoice> menu item.
+            </para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Əmr Sətiri</term>
+          <listitem>
+            <para lang="en">
+              Execute the following command: <command>mate-control-center</command></para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </sect2>
+
+  </sect1>
+  
+  <sect1 id="matecc-interface">
+    <title lang="en">Usage</title>
+    <para lang="en">
+      The <application>MATE Control Center</application> window lists all preference tools installed on your system in groups.
+    </para>
+    <tip><para lang="en">
+      From the left pane, you can quickly access to a preference tool by selecting its group first, or type any keyword in the filter box. You can also access to common tasks, such as <guilabel>Change Theme</guilabel>, and <guilabel>Set Preferred Applications</guilabel>.
+    </para></tip>
+    <para lang="en">
+      To open a preference tool, just click on it.
+    </para>
+    <tip><para lang="en">The preference tool description is shown on mouse hover.</para></tip>
+  </sect1>
+</article>

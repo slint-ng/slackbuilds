@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="cfg-html-viewer">
+  <title>Visualizzatore HTML</title>
+  <sect2 id="cfg-html-viewer-introduction">
+    <title>Introduzione</title>
+    <para>il capplet Visualizzatore HTML consente di configurare le preferenze per il motore di visualizzazione di HTML <application>GtkHTML</application>. Viene usato <application>GtkHTML</application> in <application>Evolution</application>, in <application>Centro di Controllo di MATE</application> e in altre applicazioni Mate.</para>
+  </sect2>
+  <sect2 id="cfg-html-viewer-fonts">
+    <title>Caratteri HTML</title>
+    <para><application>GtkHTML</application> può essere impostato per utilizzare tipi di caratteri e loro dimensione per diversi tipi di testo. <variablelist>
+	<varlistentry>
+	  <term>A Video</term>
+	  <listitem>
+	    <para>Configura i caratteri da utilizzare sul vostro monitor <variablelist>
+		<varlistentry>
+		  <term>Larghezza variabile</term>
+		  <listitem>
+		    <para>Un font in cui la dimensione del carattere cambia a seconda del tipo di lettera. Per esempio, il carattere i ha una dimensione inferiore alla w. I caratteri a larghezza fissa vengono spesso impiegati quando l'ampiezza delle colonne deve essere uniforme tra le linee, come ad esempio nelle tabelle.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>Larghezza fissa</term>
+		  <listitem>
+		    <para>Un tipo di carattere in cui la dimensione delle lettere è uniforme per tutte le lettere. Ad esempio, il carattere i occupa la stessa ampiezza della w.</para>
+		  </listitem>
+		</varlistentry>
+	      </variablelist></para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Per la stampa</term>
+	  <listitem>
+	    <para>Configura il tipo di carattere da utilizzare quando si stampa qualcosa sulla vostra stampante da<application>GtkHTML</application>. <variablelist>
+		<varlistentry>
+		  <term>Larghezza variabile</term>
+		  <listitem>
+		    <para>Un font in cui la dimensione del carattere cambia a seconda del tipo di lettera. Per esempio, il carattere i ha una dimensione inferiore alla w. I caratteri a larghezza fissa vengono spesso impiegati quando l'ampiezza delle colonne deve essere uniforme tra le linee, come ad esempio nelle tabelle.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>Larghezza fissa</term>
+		  <listitem>
+		    <para>Un tipo di carattere in cui la dimensione delle lettere è uniforme per tutte le lettere. Ad esempio, il carattere i occupa la stessa ampiezza della w.</para>
+		  </listitem>
+		</varlistentry>
+	      </variablelist></para>
+	  </listitem>
+	</varlistentry>
+      </variablelist> Per modificare il tipo di carattere usato, fare click sul nome del tipo per aprire <application>gfontsel</application>. Da qui è possibile impostare il nome del font, il vostro insieme ISO, la dimensione del carattere e altre sue proprietà.</para>
+  </sect2>
+  <sect2 id="cfg-kbd-shortcuts">
+    <title>Scorciatoie da tastiera</title>
+    <para><application>GtkHTML</application> può utilizzare diversi tasti scorciatoia. Questi permettono di utilizzare la pressione d alcuni tasti per eseguire comandi che altrimenti dovrebbero essere resi operativi con il mouse. Ciò può spesso velocizzare i comandi al punto da impressionare gli altri utenti.</para>
+    <para><application>GtkHTML</application> include tre diverse impostazioni predefinite:<itemizedlist>
+	<listitem>
+	  <para>Tipo Emacs</para>
+	</listitem>
+	<listitem>
+	  <para>Tipo XEmacs</para>
+	</listitem>
+	<listitem>
+	  <para>Tipo MS</para>
+	</listitem>
+      </itemizedlist> Ciascuna di esse è legata scorciatoie di tasti simili a quelle impiegate nei rispettivi ambienti. Un utente che proviene da Microsoft <application>Windows</application> può trovarsi a suo agio nella modalità tipo MS. Per selezionare una modalità predefinita, selezionarla dall'elenco e fare clic su <guibutton>OK</guibutton>.</para>
+    <para>Se nessuna delle impostazioni predefinite si adatta alle vostre esigenze, potete creare le vostre scorciatoie personalizzate. </para>
+  </sect2>
+  <sect2 id="cfg-misc">
+    <title>Impostazioni Varie</title>
+    <para>Ci sono ancora un paio di altre opzioni che possono essere configurate per far funzionare <application>GtkHTML</application> nel modo desiderato. Queste si trovano nella scheda <guilabel>Varie</guilabel>.</para>
+    <para>Nella sezione <guilabel>Comportamento</guilabel>, si hanno a disposizione le seguenti impostazioni: <variablelist>
+	<varlistentry>
+	  <term>Mostra immagini animate</term>
+	  <listitem>
+	    <para>Alcune immagini possono essere animate. Potete lasciare la visualizzazione delle immagini come statica invece che animata deselezionando questa opzione.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Individua i collegamenti automaticamente</term>
+	  <listitem>
+	    <para>Se <application>GtkHTML</application> deduce che si sta scrivendo un URL, il programma può formattare l'URL come un collegamento in modo automatico.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Abilita controllo ortografico</term>
+	  <listitem>
+	    <para>Quando si digita del testo in <application>GtkHTML</application>, è possibile che lo si scriva in modo errato. Se selezionate questa casella, una parola errata verrà sottolineata per mettere in evidenza che la si è scritta in modo errato.</para>
+	    <variablelist>
+	      <varlistentry>
+		<term>Colore</term>
+		<listitem>
+		  <para>Questo imposta il colore della sottolineatura da utilizzare per mostrare un errore ortografico.</para>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term>Lingua</term>
+		<listitem>
+		  <para>Imposta la lingua con cui effettuare il controllo.</para>
+		</listitem>
+	      </varlistentry>
+	    </variablelist>
+	  </listitem>
+	</varlistentry>
+      </variablelist></para>
+  </sect2>
+</sect1>

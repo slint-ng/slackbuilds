@@ -1,0 +1,21 @@
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+
+#_bootstrap_version=3.13.0
+pkgname=python-packaging3.11
+_name=packaging
+export _name
+pkgver=25.0
+pkgrel=1slint
+slackdesc="$pkgame (Core utilities for Python packages)"
+url="https://github.com/pypa/packaging"
+license=('Apache-2.0')
+depends=('python')
+checkdepends=('python-pytest' 'python-pretend')
+source=("https://github.com/pypa/packaging/archive/$pkgver/$pkgname-$pkgver.tar.gz")
+options=("nosrcpack")
+docs=("CHANGELOG.rst" "LICENSE" "LICENSE.APACHE" "LICENSE.BSD" "README.rst")
+build() {
+    cd $_name-$pkgver
+    python3.11 -m build -wn --skip-dependency-check
+    python3.11 -m installer --destdir="$PKG" dist/*.whl
+}

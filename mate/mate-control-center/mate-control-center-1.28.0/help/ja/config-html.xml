@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="cfg-html-viewer">
+  <title>HTML ビューア</title>
+  <sect2 id="cfg-html-viewer-introduction">
+    <title>はじめに</title>
+    <para>HTML ビューア capplet では、HTML レンダリングエンジンの設定を行うことができます。<application>GtkHTML</application>は、Mate アプリケーションの <application>Evolution</application>、<application>MATE コントロールセンタ</application>などで使用されています。</para>
+  </sect2>
+  <sect2 id="cfg-html-viewer-fonts">
+    <title>HTML のフォント</title>
+    <para><application>GtkHTML</application>は、各テキストの種類ごとに、異なるフォントやその大きさを使用するように設定できます。<variablelist>
+	<varlistentry>
+	  <term>スクリーン上で</term>
+	  <listitem>
+	    <para>モニタで使用するフォントの設定<variablelist>
+		<varlistentry>
+		  <term>可変幅</term>
+		  <listitem>
+		    <para>文字の大きさが、その文字が何であるかによって変化するフォントのことです。例えば、i という文字は w よりも幅が小さいということです。固定幅のフォントは、図表のように列の幅が各行で一定にしたい場合によく使われます。</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>固定幅</term>
+		  <listitem>
+		    <para>各文字の大きさが、すべての文字で統一されているフォントのことです。例えば、i の文字は w と同じ幅があります。</para>
+		  </listitem>
+		</varlistentry>
+	      </variablelist></para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>印刷用途で</term>
+	  <listitem>
+	    <para><application>GtkHTML</application>からプリンタで印刷するとき使用するフォントを設定します。<variablelist>
+		<varlistentry>
+		  <term>可変幅</term>
+		  <listitem>
+		    <para>文字の大きさが、その文字が何であるかによって変化するフォントのことです。例えば、i という文字は w よりも幅が小さいということです。固定幅のフォントは、図表のように列の幅が各行で一定にしたい場合によく使われます。</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>固定幅</term>
+		  <listitem>
+		    <para>各文字の大きさが、すべての文字で統一されているフォントのことです。例えば、i の文字は w と同じ幅があります。</para>
+		  </listitem>
+		</varlistentry>
+	      </variablelist></para>
+	  </listitem>
+	</varlistentry>
+      </variablelist> 使用するフォントを変更するには、フォント名をクリックして <application>gfontsel</application> を開きます。そこで、字体、ISO セット、フォントの大きさ、その他のフォント・プロパティを選択できます。</para>
+  </sect2>
+  <sect2 id="cfg-kbd-shortcuts">
+    <title>キーボード・ショートカット</title>
+    <para><application>GtkHTML</application>は、異なるキーバインドを使用することができます。キーストロークを使用すると、マウスを使うときと同じような機能をコマンドを使用して実行できます。これによって、他人が見ても分かるくらいにユーザはコマンド操作が速くできるようになります。</para>
+    <para><application>GtkHTML</application>には、3種類の定義済み設定があります。<itemizedlist>
+	<listitem>
+	  <para>Emacs のように</para>
+	</listitem>
+	<listitem>
+	  <para>XEmacs のように</para>
+	</listitem>
+	<listitem>
+	  <para>マイクロソフト・ウィンドウズのように</para>
+	</listitem>
+      </itemizedlist> 各々のモードには、その環境で使用されているものと同じキーバインドが用意されています。ウィンドウズ <application>ウィンドウ</application>から移ったユーザは、「MS のように」というモードが一番快適だと思うかもしれません。プリセットモードを選択するには、プルダウンメニューから選択して、<guibutton>OK</guibutton> をクリックしてください。</para>
+    <para>好みのプリセットが見つからない場合は、カスタム・キーバインドを作成できます。</para>
+  </sect2>
+  <sect2 id="cfg-misc">
+    <title>その他いろいろな設定</title>
+    <para>他にもいくつかの変更点があり、それを編集することで<application>GtkHTML</application>を思い通りに動作させることができます。これは<guilabel>その他いろいろなこと</guilabel>タブの中にあります。</para>
+    <para><guilabel>動作</guilabel>セクションには、次のような設定があります。<variablelist>
+	<varlistentry>
+	  <term>アニメーションを表示する</term>
+	  <listitem>
+	    <para>画像の中には動画として扱えるものがあります。このボックスのチェックを外すと、画像を動画としてではなく、静止画像として表示させることができます。</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>自動検出されたリンク</term>
+	  <listitem>
+	    <para><application>GtkHTML</application>は、あなたが URL を入力していることを検出すると、自動的にそれををリンクとして取扱います。</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>つづりのチェックを有効にする</term>
+	  <listitem>
+	    <para><application>GtkHTML</application>で入力中に、単語のつづりを間違うことがあるかも知れません。このボックスをチェックすると、間違ったつづりの単語には下線が引かれ、正しくないことを表示します。</para>
+	    <variablelist>
+	      <varlistentry>
+		<term>色</term>
+		<listitem>
+		  <para>これで、つづりの間違いがあったとき使用する下線の色を設定します。</para>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term>言語</term>
+		<listitem>
+		  <para>つづりのチェック対象となる言語を設定します。</para>
+		</listitem>
+	      </varlistentry>
+	    </variablelist>
+	  </listitem>
+	</varlistentry>
+      </variablelist></para>
+  </sect2>
+</sect1>

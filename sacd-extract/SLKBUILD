@@ -1,0 +1,28 @@
+# Maintainer: spider-mario <spidermario@free.fr>
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+pkgname=sacd-extract
+pkgver=0.3.8
+pkgrel=4slint
+slackdesc="$pkgname (Extract DSD files from an SACD image)"
+source=(missing-typedefs.patch)
+url="https://sourceforge.net/p/sacd-ripper/"
+license=('GPL2')
+depends=('glibc')
+makedepends=('cmake' 'svn')
+sha512sums=(SKIP)
+export revision=400	
+export svnurl=http://svn.code.sf.net/p/sacd-ripper/code/trunk
+build() {
+	rm -rf trunk
+	svn co ${svnurl}@$revision
+	cd trunk
+	patch -p1 --verbose < $SRC/missing-typedefs.patch || exit 1
+	mkdir build
+	cd build
+	cmake -DCMAKE_BUILD_TYPE=Release ../tools/sacd_extract/
+	make
+	install -Dm755 sacd_extract "$PKG"/usr/bin/sacd_extract
+	mkdir -p $PKG/usr/doc/${pkgname}-${pkgver}
+	cp $startdir/README $PKG/usr/doc/${pkgname}-${pkgver}/
+}
+

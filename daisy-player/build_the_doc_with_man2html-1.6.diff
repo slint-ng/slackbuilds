@@ -1,0 +1,12 @@
+diff -aNru daisy-player-11.6.1.1/configure.ac daisy-player-11.6.1.1.new/configure.ac
+--- daisy-player-11.6.1.1/configure.ac	2018-09-03 10:44:28.000000000 +0200
++++ daisy-player-11.6.1.1.new/configure.ac	2018-12-02 14:18:09.977949074 +0100
+@@ -45,7 +45,7 @@
+ # Checks for header files.
+ AC_CHECK_HEADERS([fcntl.h libintl.h locale.h stdlib.h string.h strings.h \
+                   sys/ioctl.h unistd.h])
+-#AC_CHECK_HEADERS([cdio/paranoia/cdda.h])
++AC_CHECK_HEADERS([cdio/paranoia/cdda.h])
+ 
+ # Checks for typedefs, structures, and compiler characteristics.
+ AC_C_INLINE

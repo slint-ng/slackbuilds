@@ -1,0 +1,32 @@
+#!/bin/sh
+if [ "$#" = "0" ] || echo "$*"|grep -q "[-]"h || echo "$*"|grep -q "[-][-]"help; then
+echo "Usage: speaktext [OPTIONS] <text>
+  saythis is a wrapper around gtts-cli.
+  Read aloud <text> using Google Translate's Text-to-Speech API.
+
+Options:
+  -f, --file <file>    Read from <file> instead of <text>.
+  -o, --output <file>  Write to <file> instead of stdout.
+  -s, --slow           Read more slowly.
+  -l, --lang <lang>    IETF language tag. Language to speak in. List
+                       documented tags with --all.  [default: en]
+  -t, --tld <tld>      Top-level domain for the Google host, i.e
+                       https://translate.google.<tld>  [default: com]
+  --nocheck            Disable strict IETF language tag checking. Allow
+                       undocumented tags.
+  --all                Print all documented available IETF language tags and
+                       exit.
+  --debug              Show debug information.
+  --version            Show the version and exit.
+  -h, --help           Show this message and exit.
+  
+WARNING for Orca users: edit as root the file:
+/etc/speech-dispatcher/speehcd.conf
+replacing if it exists the line:
+AudioOutputMethod \"libao\"
+by this one:
+AudioOutputMethod \"pulse\".
+Otherwise saythis will not work" 
+	exit
+fi 
+gtts-cli "$@" |play -t mp3 - 2>/dev/null

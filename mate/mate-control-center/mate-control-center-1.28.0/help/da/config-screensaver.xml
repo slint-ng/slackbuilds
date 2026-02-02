@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="config-screensaver">
+  <title>Pauseskærm</title>
+  <para>Pauseskærme er næsten så gamle som computere. Oprindelig var de der for at forhindre at billeder blev brændt fast på skærmen. Dette ville ødelægge skærmen. I dag er teknologien avanceret nok til at billeder ikke længere bliver brændt fast på skærmen. Folk har dog bevaret pauseskærmen da de ser godt ud og underholder besøgende.</para>
+  <para><application>Mate</application> brugen enten programmet  <application>xscreensaver</application> eller programmet <application>mate-screensaver</application> til at vise pauseskærme. Som standard har  <application>Mate</application> en masse pauseskærme. De kan alle konfigureres i <application>Indstillings-capplet</application> i <application>Mate-kontrolcenter</application>.</para>
+  <sect2 id="config-screensaver-config">
+    <title>Konfiguration</title>
+    <para>Grænsefladen <application>Pauseskærm-capplet</application> er opdelt i to hovedafsnit: <variablelist>
+	<varlistentry>
+	  <term>Pauseskærmens indstillinger</term>
+	  <listitem>
+	    <para>Placeret i venstre side af skærmen, pauseskærmens halvdel lader dig konfigurere egenskaber der påvirker din pauseskærms opførsel.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Pauseskærms-forhåndsvisning</term>
+	  <listitem>
+	    <para>Den højre halvdel af capplet'en er en forhåndsvisning af din valgte pauseskærm.</para>
+	  </listitem>
+	</varlistentry>
+      </variablelist></para>
+    <sect3 id="config-screensaver-config-basics">
+    <title>Opsætning af en pauseskærm</title>
+    <para>Sandsynligheden er stor for at du ønsker at indstille din pauseskærm. Nedenfor er trinnene krævet for at opsætte din pauseskærm: <orderedlist numeration="arabic">
+	<listitem>
+	  <para>Du kan vælge forskellige tilstand at vise din pauseskærm i: <variablelist>
+	      <varlistentry>
+		<term>Deaktiver pauseskærm</term>
+		<listitem>
+		  <para>Dette vil helt slukke for din pauseskærm.</para>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term>Kun sort skærm</term>
+		<listitem>
+		  <para>Din skærm vil kun vise et sort billede i stedet for en animation. Dette er en god ting, hvis strømforbruget skal minimeres.</para>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term>En pauseskærm</term>
+		<listitem>
+		  <para>Viser kun en pauseskærm mens pauseskærmen er aktiv.</para>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term>Vilkårlig pauseskærm</term>
+		<listitem>
+		  <para>Programmet screensaver (pauseskærm) kan vise pauseskærme vilkårligt. Denne indstilling viser pauseskærme vilkårligt. Indstillingen placerer også afkrydsningsbokse ved siden af pauseskærmene, så du kan vælge, hvilke der skal vises.</para>
+		</listitem>
+	      </varlistentry>
+	    </variablelist></para>
+	</listitem>
+	<listitem>
+	  <para>Vælg pauseskærmen du ønsker at bruge.</para>
+	</listitem>
+	<listitem>
+	  <para>Angiv tidspræferencerne. De tilgængelige indstillinger er: <variablelist>
+		<varlistentry>
+		  <term>Sort skærm efter</term>
+		  <listitem>
+		    <para>Hvor længe ønsker du at vente før pauseskærmen starter.</para>
+		  </listitem>
+		</varlistentry>		  
+		<varlistentry>
+		  <term>Gå videre efter</term>
+		  <listitem>
+		    <para>Hvis du bruger flere pauseskærme, så angiv tidsperioden før ændring af din pauseskærm.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>Lås skærm efter</term>
+		  <listitem>
+		    <para>Ved at aktivere skærmlås kan du hjælpe med at øge den fysiske sikkerhed. Dette kræver at en bruger skal indtaste en adgangskode før pauseskærmen stopper, og giver dem mulighed for at bruge systemet igen.</para>
+		  </listitem>
+		</varlistentry>
+	      </variablelist></para>
+	  </listitem>
+	</orderedlist></para>
+      <para>Under forhåndsvisningsvinduet er der to knapper: <guibutton>Forhåndsvisning</guibutton> og <guibutton>Indstillinger</guibutton>.</para>
+      <para>Ved at klikke på knappen <guibutton>Forhåndsvisning</guibutton> vil du kunne se hvordan pauseskærmen vil se ud i fuld skærm. Tryk på en tast for at lukke pauseskærmen, når du har kigget på den.</para>
+      <para><guibutton>Indstillinger</guibutton> lader dig konfigurere hver individuel pauseskærm. Indholdet af knappen <guibutton>Indstillinger</guibutton> er udenfor dette dokument.</para>
+    </sect3>
+  </sect2>
+  <sect2 id="config-screensaver-advanced">
+    <title>Det avanceret faneblad</title>
+    <para>Fanebladet <guilabel>Avanceret</guilabel> indeholder et vælg af indstillinger.</para>
+    <para>Fanebladet <guilabel>Avanceret</guilabel> er opdelt i fire afsnit: <variablelist>
+	<varlistentry>
+	  <term>Billedmanipulering</term>
+	  <listitem>
+	    <para>Din pauseskærm kan bruge dit skrivebord og midlertidigt afvikle billedmanipulationer på din skrivebord som din pauseskærm.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Vis strømhåndtering</term>
+	  <listitem>
+	    <para>Dit system kan hjælpe med at spare strøm ved at ændre din skærms status.</para>
+	  </listitem>
+	</varlistentry>	
+	<varlistentry>
+	  <term>Diagnostik</term>
+	  <listitem>
+	    <para>Nogle gange kan dit system have problemer på grund af din pauseskærm. Brug dette afsnit til at aktivere information der kan hjælpe dig med at rette et eventuelt problem.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Farvekort</term>
+	  <listitem>
+	    <para>
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist></para>
+    <sect3 id="config-screensaver-advanced-imgmanip">
+      <title>Afsnittet om billedmanipulering</title>
+      <para>Din pauseskærm kan bruge dit skrivebord og midlertidigt afvikle billedmanipulationer på dit skrivebord som din pauseskærm. Der findes flere indstillinger du kan bruge til at opsætte din billedmanipulering. Vælg metoden for billedmanipulering du ønsker at anvende. <note>
+	  <para>Hvis du ikke ønsker at din pauseskærm skal bruge nogle billedmanipulationer, så fravælg alle indstillingerne.</para>
+	</note></para>
+    </sect3>
+    <sect3 id="config-screensaver-advanced-apm">
+      <title>Afsnittet om strømhåndtering</title>
+      <para>Strømhåndtering kan hjælpe med at spare på strømme ved at indstille tilstande for din skærm. Vælg tiderne for tilstandene til indstilling i dette afsnit.</para>
+    </sect3>
+    <sect3 id="config-screensaver-advanced-diag">
+      <title>Diagnostikafsnittet</title>
+      <para>Nogle gange kan dit system have problemer på grund af din pauseskærm. Brug dette afsnit til at aktivere information der kan hjælpe dig med at rette et eventuelt problem. <note>
+	  <para>Disse giver dig ikke et direkte svar på dit problem. Men din systemadministrator kan bruge disse oplysninger til at rette dit problem.</para>
+	</note></para>
+    </sect3>
+    <sect3 id="config-screensaver-advanced-color">
+      <title>Afsnittet for farvekort</title>
+      <para>Farvekort gør det muligt at ændre nogle få simple indstillinger. Angiv dine farveindstillinger her.</para>
+    </sect3>
+  </sect2>
+</sect1>

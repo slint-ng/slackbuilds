@@ -1,0 +1,45 @@
+  Host setup:       x86_64-slackware-linux-gnu
+  Install prefix:   /usr
+  Compiler:         x86_64-slackware-linux-gcc
+   CFLAGS:          -O2 -fPIC -pipe -fomit-frame-pointer -Werror-implicit-function-declaration -Wno-system-headers -pthread
+   CPPFLAGS:        
+   LDFLAGS:         -L/usr/lib64 -L/usr/lib
+   LIBS:            -lnghttp2 -lidn2 -lrtmp -lpsl -lnettle -lgnutls -lldap -llber -lzstd -lbrotlidec -lz
+
+  curl version:     7.88.0
+  SSL:              enabled (GnuTLS)
+  SSH:              no      (--with-{libssh,libssh2})
+  zlib:             enabled
+  brotli:           enabled (libbrotlidec)
+  zstd:             enabled (libzstd)
+  GSS-API:          no      (--with-gssapi)
+  GSASL:            no      (libgsasl not found)
+  TLS-SRP:          enabled
+  resolver:         POSIX threaded
+  IPv6:             enabled
+  Unix sockets:     enabled
+  IDN:              enabled (libidn2)
+  Build libcurl:    Shared=yes, Static=no
+  Built-in manual:  no      (--enable-manual)
+  --libcurl option: enabled (--disable-libcurl-option)
+  Verbose errors:   enabled (--disable-verbose)
+  Code coverage:    disabled
+  SSPI:             no      (--enable-sspi)
+  ca cert bundle:   no
+  ca cert path:     /etc/ssl/certs
+  ca fallback:      no
+  LDAP:             enabled (OpenLDAP)
+  LDAPS:            enabled
+  RTSP:             enabled
+  RTMP:             enabled (librtmp)
+  PSL:              enabled
+  Alt-svc:          enabled (--disable-alt-svc)
+  Headers API:      enabled (--disable-headers-api)
+  HSTS:             enabled (--disable-hsts)
+  HTTP1:            enabled (internal)
+  HTTP2:            enabled (nghttp2)
+  HTTP3:            no      (--with-ngtcp2, --with-quiche --with-msh3)
+  ECH:              no      (--enable-ech)
+  WebSockets:       no      (--enable-websockets)
+  Protocols:        DICT FILE FTP FTPS GOPHER GOPHERS HTTP HTTPS IMAP IMAPS LDAP LDAPS MQTT POP3 POP3S RTMP RTSP SMB SMBS SMTP SMTPS TELNET TFTP
+  Features:         AsynchDNS HSTS HTTP2 HTTPS-proxy IDN IPv6 Largefile NTLM NTLM_WB PSL SSL TLS-SRP UnixSockets alt-svc brotli libz threadsafe zstd

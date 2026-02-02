@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="config-keyboard">
+  <title>Тастатура</title>
+  <para>Тастатуру користе сви за своје свакодневне задатке. Већина људи мисли да нема много тога за подешавање тастатуре. Баш супротно. Има доста опција тастатуре које се могу подесити да би ваше искуство било пријатније.</para>
+  <sect2 id="config-keyboard-keyboard">
+    <title>Подешавање понашања тастатуре</title>
+    <para>Понашањем тастатуре се управља у језичку „<guilabel>Тастатура</guilabel>“. Доступне су следеће опције: <variablelist>
+	<varlistentry>
+	  <term>Притисци тастера се понављају када се тастер држи притиснут</term>
+	  <listitem>
+	    <para>Све тастатуре имају могућност да брзо понове притисак тастера на екрану ако се исти држи притиснутим.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Застој између понављања:</term>
+	  <listitem>
+	    <para>Обично постоји застој између времена притиска тастера и приказивања понављања на екрану. Можете да изаберете: <itemizedlist>
+		<listitem>
+		  <para>Кратак</para>
+		</listitem>
+		<listitem>
+		  <para>Средње</para>
+		</listitem>
+		<listitem>
+		  <para>Дуг</para>
+		</listitem>
+		<listitem>
+		  <para>Врло дуг</para>
+		</listitem>
+	      </itemizedlist></para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Брзина понављања</term>
+	  <listitem>
+	    <para>Док се притисак тастера понавља, можете да управљате његовом брзином понављања. Доступне брзине су: <itemizedlist>
+		<listitem>
+		  <para>Мала</para>
+		</listitem>
+		<listitem>
+		  <para>Средње</para>
+		</listitem>
+		<listitem>
+		  <para>Велика</para>
+		</listitem>
+		<listitem>
+		  <para>Врло брзо</para>
+		</listitem>
+	      </itemizedlist></para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Курсор трепће у пољима за унос текста</term>
+	  <listitem>
+	    <para>Курзор тастатуре понекад трепће како би вам помогао да видите где се налази. Трептање се може искључити потпуно поништавањем избора ове опције.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Брзина трептања</term>
+	  <listitem>
+	    <para>Можете да подесите брзину којом курзор трешће. Премицањем овога на десно ће довести до тога да курзор трепће брже, док ће га превлачење на лево успорити.</para>
+	  </listitem>
+	</varlistentry>
+      </variablelist></para>
+  </sect2>
+  <sect2 id="config-kbd-sound">
+    <title>Опције звука тастатуре</title>
+    <para>Тастатура понекад емитује звуке како би привукла пажњу корисника. Звуци се могу подесити у језичку „<guilabel>Звук</guilabel>“. <variablelist>
+	<varlistentry>
+	  <term>Притисак тастера ствара звук</term>
+	  <listitem>
+	    <para>Можете да подесите вашу тастатуру тако да се чује звук када притиснете тастер. Кликните на ово дугме да укључите то.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Јачина звука</term>
+	  <listitem>
+	    <para>Можете такође да управљате гласношћу клика. Померите клизач на десно за највећу гласност а на лево за најмању.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Искључено звоно тастатуре</term>
+	  <listitem>
+	    <para>Ако желите да искључите звоно тастатуре, изаберите ово радио дугме. Ово је добро у приликама када вам је потребна тишина, на пример у разреду или у библиотеци.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Укључено звоно тастатуре</term>
+	  <listitem>
+	    <para>Изаберите ово радио дугме да укључите звоно тастатуре. Ово ће учинити да звучник рачунара запишти када захтева вашу пажњу.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Произвољно звоно тастатуре</term>
+	  <listitem>
+	    <para>Можете да одредите да систем пушта произвољан звук уместо основног системског писка. Изаберите ово радио дугме и притисните дугме „<guibutton>Разгледај</guibutton>“ да изаберете датотеку коју желите. Притиснитедугме „<guibutton>Готово</guibutton>“ да примените ваше измене.</para>
+	  </listitem>
+	</varlistentry>	  
+      </variablelist></para>
+  </sect2>
+</sect1>

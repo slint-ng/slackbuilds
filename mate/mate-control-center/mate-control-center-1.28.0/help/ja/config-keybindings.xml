@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="config-keybindings">
+  <title>キーバインディング</title>
+  <para>キーバインドとは、キーボード上のキーストロークの組み合わせを利用して、デスクトップ環境における操作をより速く、簡単にすることが目的です。キーバインドを使えば、コンピュータの使い方が非常に速く、効率的になるので、その作業を見ている友だちが感心するほど役立つことでしょう。</para>
+  <para>最も一般的かつ良く知られたキーバインドは、「保存」のキーバインドと「中止」のキーバインドです。<application>マイクロソフト・ウィンドウズ</application>ではそれぞれ「Ctrl + S」と「Ctrl + Q」です。</para>
+  <para><application>Mate</application> は、デスクトップの様々な場所で使用するキーバインドを設定できます。</para>
+  <sect2 id="config-keybindings-ui">
+    <title>キーバインドのインタフェース</title>
+    <para>キーバインドのインタフェースは非常にシンプルです。各アプリケーションで使用するキーバインド方式を設定するオプションがあります。既定と Emacs の2つのオプションがあります。</para>
+    <para>既定では、Control Sやその他<application>マイクロソフト・ウィンドウズ</application>オペレーティング・システムでよく知られたバインディングが使用されています。</para>
+    <para>Emacs は、Linux や Unix ベースのシステムで人気あるテキストエディタです。Emacs は、既定とは異なるキーバインドを使用します。例えば、保存操作は Control X S です。</para>
+  </sect2>
+</sect1>

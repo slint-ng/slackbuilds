@@ -1,0 +1,24 @@
+# Maintainer: Antonio Rojas <arojas@archlinux.org>
+# Contributor: Alexander Susha <isushik94@gmail.com>
+# Contributor: Fredrik Tegenfeldt <tegenf@gmail.com>
+# Included in Slint by Didier Spaier didieratslintdotfr
+pkgname=xsimd
+pkgver=8.0.5
+pkgrel=2slint
+slackdesc=(\
+"$pkgname (QuantStack tools library)"
+"Multi-dimensional arrays with broadcasting and lazy computing"
+)
+url='https://github.com/QuantStack/xsimd'
+license=(BSD)
+depends=()
+makedepends=(cmake gtest)
+source=(https://github.com/QuantStack/$pkgname/archive/$pkgver/$pkgname-$pkgver.tar.gz)
+sha512sums=('165ca307bcaccc226dd518562a9269aa9fc44c70fab299ea0827d7a0a9cf58ec493b381fcf2c4d9d1f6edfda8fa309643c63b17fb20d9de78a4be19eb70e30b3')
+docs=(LICENSE README.md)
+build() {
+  cmake -B build -S $pkgname-$pkgver \
+    -DCMAKE_INSTALL_PREFIX=/usr
+  cmake --build build
+  DESTDIR=$PKG cmake --install build
+}

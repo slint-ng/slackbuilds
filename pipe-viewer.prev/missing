@@ -1,0 +1,9 @@
+-perl-CPAN-Requirements-Dynamic
+perl-File-ShareDir-Install
+-perl-HTTP-CookieJar
+-perl-Meta-Requirements-Range
+-perl-Test-Deep
+-perl-Test-Harness
+-perl-Test-Requires
+perl-Types-Serializer
+perl-perl-www-robotrules

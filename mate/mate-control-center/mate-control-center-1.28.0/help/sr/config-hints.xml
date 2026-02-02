@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="config-hints">
+  <title>Савети покретања</title>
+  <para>Савети покретања су постали уопштене појаве у многим програмима, а „<application>Мејт</application>“ је један од њих. Савети покретања се отварају приликом покретања програма, приказују савете за програм како би учинили корисниково искуство бољим.</para>
+  <para>У „<application>Мејт</application>“, савет покретања може бити подешен. Ово подешавање ступа на снагу у прозорчету „<application>Савет покретања</application>“ програма „<application>Мејтов управљачки центар</application>“.</para>
+  <sect2 id="config-hints-window">
+    <title>Подешавање</title>
+    <para>Понекад ће корисник пожелети да се прозор савета не прикаже. Да га укључите или искључите, кликните на дугме <guibutton>Укључи савете пријављивања</guibutton>. <variablelist>
+	<varlistentry>
+	  <term>Прикажи уобичајене савете</term>
+	  <listitem>
+	    <para>Савети покретања ће приказати уобичајене савете покретања.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Прикажи колачиће уместо савета</term>
+	  <listitem>
+	    <para>„<application>колачићи</application>“ је мали програм који приказује насумичне цитате. Програм Мејтових савета покретања може да прикаже „<application>колачићи</application>“ цитате уместо савета.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Прикажи поруку дана уместо савета</term>
+	  <listitem>
+	    <para>Често пута ће администратори направити „поруку дана“ да би обавестили кориснике о важним догађајима. Програм Мејтових савета покретања може приказати ту поруку уместо савета.</para>
+	    <para>Често, „<filename>/etc/motd</filename>“ садржи поруку дана. Ако се датотека разликује од „<filename>/etc/motd</filename>“, можете то да уредите у пољу „<guilabel>Датотека поруке дана за коришћење</guilabel>“.</para>
+	  </listitem>
+	</varlistentry>
+      </variablelist></para>
+  </sect2>
+</sect1>

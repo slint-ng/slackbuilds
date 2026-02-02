@@ -1,0 +1,31 @@
+#Packager: Name <email@address.com>
+#Former Packager(s): Name <email@address.com>
+#Anything commented is optional and can be deleted
+
+pkgname=
+pkgver=
+pkgrel=
+#arch=noarch
+source=()
+#sourcetemplate=http://people.salixos.org/yournick/$pkgname/$pkgver/
+#docs=("authors" "install" "readme" "copying")
+#url=
+#dotnew=()
+#CFLAGS=
+#CXXFLAGS=
+#options=('noextract')
+
+#doinst() {
+#
+#}
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+""
+)
+
+build() {
+	cd $startdir/src/$pkgname-$pkgver
+	python setup.py install --prefix=/usr --root=$startdir/pkg
+}

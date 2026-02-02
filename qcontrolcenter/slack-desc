@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.
+# Line up the first '|' above the ':' following the base package name, and
+# the '|' on the right side marks the last column you can put a character in.
+# You must make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':' except on otherwise blank lines.
+
+              |-----handy-ruler------------------------------------------------------|
+qcontrolcenter: qcontrolcenter (Easy to customize Control Center)
+qcontrolcenter:
+qcontrolcenter: qcontrolcenter has been written initially by Thierry Deseez.
+qcontrolcenter:
+qcontrolcenter: qcontrolcenter lets you easily and quickly build a control
+qcontrolcenter: center for your distribution.
+qcontrolcenter:
+qcontrolcenter: This can be useful if you don't like the control center of your
+qcontrolcenter: distribution, or if you distribution doesn't have any.
+qcontrolcenter:
+qcontrolcenter:

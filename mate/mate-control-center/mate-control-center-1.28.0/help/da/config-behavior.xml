@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="config-behavior">
+  <title>Værktøjslinjer og menuer</title>
+  <para><application>Mate</application> giver brugeren mulighed for at konfigurere mange indstillinger for deres skrivebord. Alt fra baggrundsbilledet til hvor knapperne befinder sig kan indstilles. Vinduet <guilabel>Opførsel</guilabel> er ansvarlig for en masse af finjusteringerne.</para>
+  <para>Hvis du åbner vinduet <guilabel>Opførsel</guilabel>, så finder du nogle få indstillinger som gør din <application>Mate</application>-oplevelse bedre.</para>
+  <sect2 id="config-behavior-toolbar">
+    <title>Indstillinger for værktøjslinjen</title>
+    <para>Den øverste halvdel af vinduet viser dig indstillingerne for værktøjslinjen.</para>
+    <para>I afsnittet <guilabel>Værktøjslinjer har</guilabel> vi du se tre tilgængelige indstillinger: ikoner og tekst, kun ikoner, kun tekst.</para>
+    <para>ikoner og tekst gør at værktøjslinjen viser både ikoner og tekst. Selvom det bruger mest plads, er det også den mest informative.</para>
+    <para>Kun ikoner gør at værktøjslinjen kun viser ikoner. Det er ikke den mest deskriptive metode, men hjælper med at spare på pladsen.</para>
+    <para>Kun tekst er den mest simple indstilling . Det er dog stadig den mest deskriptive indstilling.</para>
+    <para>Under den indstilling er en knap kaldt <guibutton>Værktøjslinjer kan løsnes og flyttes omkring</guibutton>. Denne gør det muligt at fjerne en værktøjslinje fra vinduet og placere den hvor du ønsker det på skærmen. Du kan se en demo af dette i <guilabel>Eksempel på værktøjslinje</guilabel> nedenfor. På den venstre side er en tekstlinje. Klik på den og træk den omkring på skærmen. Den værktøjslinje vil frakoble sig og blive placeret hvor du slipper markøren.</para>
+  </sect2>
+  <sect2 id="config-behavior-menus">
+    <title>Menuindstillinger</title>
+    <para>Menuer kan også konfigureres. Du kan give menuelementer ikoner. Dette er en god hjælp til at identificere hvad ting gør.</para>
+  </sect2>
+</sect1>

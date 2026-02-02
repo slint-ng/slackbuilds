@@ -1,0 +1,49 @@
+# Orca and Cthulhu: When to use each
+
+Cthulhu is a fork of Orca, developed with a focus on lightweight environments, greater flexibility, and an inclusive development community. Both screen readers provide critical accessibility tools for visually impaired users, but they cater to slightly different needs and workflows.
+
+## How to toggle betwwen Orca and Cthulhu
+
+  In Mate, to toggle between Orca and Cthulhu (assuming that both are installed) press Shift-Alt-v.
+  You can change this keyboard shortcut running mate-keybinding-properties.
+
+## Key Differences
+
+### Target Environments
+- **Orca**: Optimized for full-featured desktop environments like Gnome or Mate, especially where newer features like sleep mode (to silence Orca temporarily) are important.
+- **Cthulhu**: Ideal for lightweight desktop environments or standalone window managers such as the I3 project, where performance and compatibility with simpler setups are prioritized.
+
+### Application Compatibility
+- **Cthulhu**: Works well with Mozilla based applications, e.g. Firefox and Thunderbird as well as with some older QT applications such as qjoypad. Those using Orca with Gnome or Mate should not have any problems with Firefox or Thunderbird, but light weight Window managers such as I3 struggle with Orca and those applications.
+
+### Plugin Support
+- **Orca**: Relies on built-in functionality and GNOME-aligned development.
+- **Cthulhu**: Offers two plugin systems:
+  - **libpeas** for traditional, structured plugin development.
+  - A simple, versatile system supporting scripts written in almost any language (e.g., Bash), allowing developers to implement custom features with minimal overhead.
+
+### Development Philosophy
+- **Orca**: Developed within the GNOME project, with changes and contributions primarily aligned to GNOME roadmap.
+- **Cthulhu**: Encourages a more open and collaborative development process, welcoming contributions and customization from users and developers alike.
+
+## Who Should Use Orca?
+- **Users in Feature-Rich Desktop Environments**:
+  Orca shines in GNOME or other full desktops such as KDE or Mate.
+- **General Users**:
+  Those who prefer stability and alignment with GNOME official updates and features.
+  Those who do not want to use rapidly changing, bleeding edge code.
+
+## Who Should Use Cthulhu?
+
+1. **Lightweight Desktop or Window Manager Users**:
+   If you are  using minimal environments like Xfce, LXQt, or a tiling window manager, Cthulhu will be more compatible.
+
+2. **Mozilla Application Users**:
+   For those relying heavily on Firefox and Thunderbird, Cthulhu provides superior performance and interaction in lightweight or non-standard setups.
+
+3. **Developers and Tinkerers**:
+   Cthulhu is perfect for those interested in writing plugins, as it supports both structured development via libpeas and rapid, versatile scripting in languages like Bash.
+   Contributions to the code are welcome and in fact encouraged.
+
+## Conclusion
+Orca and Cthulhu are complementary tools, each excelling in different contexts. It is perfectly fine to switch between the 2 screen readers during your daily workflow.

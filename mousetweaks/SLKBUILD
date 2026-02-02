@@ -1,0 +1,28 @@
+# Maintainer: Jan Alexander Steffens (heftig) <jan.steffens@gmail.com> 
+# Contributor: Jan de Groot <jgc@archlinux.org>
+
+#Included in Slint by Didier Spaier didieratslintdotfr
+pkgname=mousetweaks
+pkgver=3.32.0
+commit=9e0ad918
+pkgrel=1slint
+slackdesc="$pkgname (Mouse accessibility enhancements)"
+docs=("copying" "authors" "README.html")
+options=("nosrcpack")
+source="https://download.gnome.org/sources/mousetweaks/3.32/mousetweaks-3.32.0.tar.xz"
+license=(GPL3 FDL)
+depends=(libxtst gtk3 gsettings-desktop-schemas)
+makedepends=(python git)
+sha256sums=('SKIP')
+doinst() {
+	if [ -x /usr/bin/update-desktop-database ]; then
+	/usr/bin/update-desktop-database /usr/share/applications 1> /dev/null 2> /dev/null
+	fi
+}
+build() {
+  cd $pkgname-$pkgver
+[ -f README.md ] && pandoc -f gfm -t html5 -o README.html README.md
+  ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var
+  make
+  DESTDIR="$PKG" make install
+}

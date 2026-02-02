@@ -1,0 +1,4 @@
+VA-API version ................... : 1.13.0
+VA-API drivers path .............. : /usr/lib64/dri
+Windowing systems ................ : drm x11 wayland
+Build tests ...................... : no

@@ -1,0 +1,29 @@
+#Maintainer: George Vlahavas <vlahavas~at~gmail~dot~com>
+
+pkgname=dotnew
+pkgver=2.0.0
+	pkgrel=2slint
+arch=noarch
+source=($pkgver.tar.?z)
+docs=("readme" "install" "copying" "changelog" "authors" "news" "todo" "translations")
+options=('nosrcpack')
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"dotnew-gtk (a utility to manage .new system configuration files)"
+"dotnew-gtk is a utility to help with management of .new system"
+"configuration files in slackware and slackware based systems."
+"The graphical interface uses dialog to present the user with a menu"
+"each new configuration file present in his system. It uses the GTK+2"
+"toolkit. The user is allowed to replace the old configuration file"
+"with the new one, delete the new configuration file, view a diff"
+"between the two files or merge diffs between the files using gvimdiff."
+)
+
+
+build() {
+	cd $startdir/src/$pkgname-$pkgver
+	make
+	make install DESTDIR=$startdir/pkg/
+}

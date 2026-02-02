@@ -1,0 +1,33 @@
+#Packager: George Vlahavas <vlahavas~at~gmail~dot~com>
+
+pkgname=wheel-sudo
+pkgver=1
+pkgrel=2slint
+arch=noarch
+source=("10-wheel" "wheel-path.sh" "wheel-path.csh")
+options=('noautodotnew' 'nosrcpack')
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"wheel-sudo (allows users in the wheel group to access sudo)"
+"This package makes it possible for any user in the wheel group to"
+"launch commands as a priviliged user using sudo. It also adds"
+"/usr/local/sbin, /sbin and /usr/sbin to the default path of any user"
+"in the wheel group. The user wil be requested root's password"
+)
+
+
+build() {
+	# sudoers
+	mkdir -p $startdir/pkg/etc/sudoers.d
+	chmod 750 $startdir/pkg/etc/sudoers.d
+	cp $startdir/src/10-wheel $startdir/pkg/etc/sudoers.d/
+	chmod 440 $startdir/pkg/etc/sudoers.d/10-wheel
+	# sh and csh paths
+	mkdir -p $startdir/pkg/etc/profile.d
+	cp $startdir/src/wheel-path.sh $startdir/pkg/etc/profile.d/
+	cp $startdir/src/wheel-path.csh $startdir/pkg/etc/profile.d/
+	chmod 755 $startdir/pkg/etc/profile.d/wheel-path.sh
+	chmod 755 $startdir/pkg/etc/profile.d/wheel-path.csh
+} 

@@ -1,0 +1,129 @@
+#!/bin/sh
+# Didier Spaier didieratslintdotfr
+VERSION=15.0
+PKG="slint-docs"
+PKG2="slint-doc-installer"
+rm -rf pkg pkg2
+TAG=slint
+BUILD=11
+ARCH="noarch"
+PKGNAME="${PKG}-${VERSION}-${ARCH}-${BUILD}$TAG"
+PKGNAME2="${PKG2}-${VERSION}-${ARCH}-${BUILD}$TAG"
+CWD=$(pwd)
+TARGET="$CWD"/pkg/usr/doc/slint-"${VERSION}"
+mkdir -p "$TARGET"
+mkdir -p "$CWD"/pkg/bin
+mkdir -p "$CWD"/pkg/usr/bin
+mkdir -p "$CWD"/pkg/install
+mkdir -p "$CWD"/pkg/usr/share/applications
+mkdir -p "$CWD"/pkg2/bin
+mkdir -p "$CWD"/pkg2/usr/docinstaller
+mkdir -p "$CWD"/pkg2/install
+cp "$CWD"/start-slint-doc "$CWD"/pkg/bin || exit
+cp "$CWD"/slint-documentation.desktop "$CWD"/pkg/usr/share/applications/ || exit
+rm -rf slint-translations
+git clone https://github.com/DidierSpaier/slint-translations.git
+SLINTDOCS="$CWD"/slint-translations
+asciidoctor "$SLINTDOCS"/sources/HandBook/HandBook.adoc -o "$TARGET"/en_US.HandBook.html
+cp "$SLINTDOCS"/sources/HandBook/HandBook.adoc "$TARGET"/
+cd "$SLINTDOCS"/po/HandBook || exit
+for handbookpo in *.HandBook.po; do
+	ll_TT="${handbookpo%.*.*}"
+	po4a-translate -M UTF-8 -m "$SLINTDOCS"/sources/HandBook/HandBook.adoc -f asciidoc -p "$handbookpo" -l "$TARGET"/"${ll_TT}".HandBook.adoc
+	[ -f "$TARGET"/"${ll_TT}".HandBook.adoc ] && asciidoctor "$TARGET"/"${ll_TT}".HandBook.adoc -o "$TARGET"/"${ll_TT}".HandBook.html
+done
+rm "$TARGET"/*.adoc
+# shellcheck disable=SC2016
+echo '#!/bin/sh
+
+(cd /usr/doc/slint-15.0
+if [ "$(tty|grep tty)" ]; then
+	if ls | grep -q ${LANG%.*}; then
+		w3m -o confirm_qq=0 ${LANG%.*}.HandBook.html
+	else
+		w3m -o confirm_qq=0 en_US.HandBook.html
+	fi
+else
+	if ls | grep -q ${LANG%.*}; then
+		firefox ${LANG%.*}.HandBook.html
+	else
+		firefox en_US.HandBook.html
+	fi
+fi
+)'>"$CWD"/pkg/usr/bin/slint-doc
+chmod -R 755 "$CWD"/pkg/usr/bin
+chmod 755 "$CWD"/pkg/usr/share/applications
+chmod 644 "$CWD"/pkg/usr/share/applications/slint-documentation.desktop
+(cd "$CWD"/pkg
+cat << EOF > install/slack-desc
+#          |-----handy-ruler------------------------------------------------------|
+slint-docs: slint-doc (documentation about Slint).
+slint-docs:
+slint-docs: Visit our website: http://slint.fr
+slint-docs:
+slint-docs:
+slint-docs:
+slint-docs:
+slint-docs:
+slint-docs:
+slint-docs:
+slint-docs:
+EOF
+/sbin/makepkg -l y -c n ../"${PKGNAME}".txz
+)
+# Now build the package slint-doc-installer
+cd "$SLINTDOCS/translations/HandBook" || exit
+cp "$SLINTDOCS/sources/HandBook/HandBook.adoc" en_US.HandBook.adoc || exit
+for handbook in *.HandBook.adoc; do
+	ll_TT="${handbook%.*.*}"
+	echo "$ll_TT ..."
+	sleep 1
+	{
+	echo \
+":toc: left
+:toclevels: 1
+:toc-title:
+" >> "${ll_TT}".adoc
+	# Chapter Overview of Slint installation
+	sed -n '\@// Overview@,\@// Usage@p' "$handbook"|head -n -1
+	# Chapter Usage of the installer
+	sed -n "\@// Usage_installer@,\@// Encryption@p" "$handbook"|head -n -1
+	# Chapter Prepare partitions for Slnt
+	sed -n '\@// Prepare@,\@// Installation@p' "$handbook"
+	# Chapter Encryption
+	sed -n "\@// Encryption@,\@// Speakup@p" "$handbook"|head -n -1
+	# Chapter Speakup
+	sed -n "\@// Speakup@,\@// First_steps@p" "$handbook"| head -n -1
+	# Chapter first steps
+	sed -n "\@// First_steps@,\@// Usage@p" "$handbook"|head -n -1
+	sed -n '\@// Glossary@,$p' "$handbook"
+	} >> "${ll_TT}".adoc
+	# Chapter Glossary.
+	# Normalize the headers' levels not the same in the installer doc as in the HandBook
+	sed 's/^== /==== /' "${ll_TT}".adoc > bof && mv bof "${ll_TT}".adoc
+	sed 's/^===== /=== /' "${ll_TT}".adoc > bof && mv bof "${ll_TT}".adoc
+	sed 's/^==== /== /' "${ll_TT}".adoc > bof && mv bof "${ll_TT}".adoc
+	asciidoctor "${ll_TT}".adoc
+	mv "${ll_TT}".html "$CWD"/pkg2/usr/docinstaller || exit
+done
+# Include the documentation about installation and its translation
+cp "$CWD"/doc "$CWD"/pkg2/bin/
+chmod 0755 "$CWD"/pkg2/bin/doc
+chmod 0644 "$CWD"/pkg2/usr/docinstaller/*
+(cd "$CWD"/pkg2
+cat << EOF > install/slack-desc
+#          |-----handy-ruler------------------------------------------------------|
+slint-docs: slint-doc-installer (documentation available during slint installetio).
+slint-docs:
+slint-docs: Visit our website: http://slint.fr
+slint-docs:
+slint-docs:
+slint-docs:
+slint-docs:
+slint-docs:
+slint-docs:
+slint-docs:
+slint-docs:
+EOF
+/sbin/makepkg -l y -c n ../"${PKGNAME2}".txz
+)

@@ -1,0 +1,23 @@
+# Maintainer: Maxime Gauduin <alucryd@archlinux.org>
+# Contributor: Daniel Bermond <danielbermond@yahoo.com>
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=ffnvcodec-headers
+pkgver=11.1.5.1
+pkgrel=2slint
+slackdesc="$pkgname (FFmpeg headers for Nvidias codec APIs)"
+url=https://git.videolan.org/?p=ffmpeg/nv-codec-headers.git
+license=(MIT)
+makedepends=(git)
+_tag=b641a195edbe3ac9788e681e22c2e2fad8aacddb
+source=("nv-codec-headers-${pkgver}.tar.gz" "LICENSES")
+sha256sums=(SKIP)
+docs=(README LICENSES)
+options=("nosrcpack")
+echo
+build() {
+  cd nv-codec-headers-$pkgver
+  make PREFIX=/usr
+  make install PREFIX=/usr DESTDIR="$PKG" LIBDIR=lib64
+}

@@ -1,0 +1,29 @@
+--- startx	2025-05-19 19:43:07.846343171 +0200
++++ startx.new	2025-05-19 20:03:31.452629878 +0200
+@@ -213,16 +213,16 @@
+ if [ "$server" = "" ]; then
+     server="$defaultserver"
+ 
+-if [ "$(uname -s)" = "Linux" ] ; then
+-    # When starting the defaultserver start X on the current tty to avoid
+-    # the startx session being seen as inactive:
+-    # "https://bugzilla.redhat.com/show_bug.cgi?id=806491"
+-    tty=$(tty)
+-    if expr "$tty" : '/dev/tty[0-9][0-9]*$' > /dev/null; then
+-        tty_num="${tty#/dev/tty}"
+-        vtarg="vt$tty_num -keeptty"
+-    fi
+-fi
++# if [ "$(uname -s)" = "Linux" ] ; then
++#     # When starting the defaultserver start X on the current tty to avoid
++#     # the startx session being seen as inactive:
++#     # "https://bugzilla.redhat.com/show_bug.cgi?id=806491"
++#     tty=$(tty)
++#     if expr "$tty" : '/dev/tty[0-9][0-9]*$' > /dev/null; then
++#         tty_num="${tty#/dev/tty}"
++#         vtarg="vt$tty_num -keeptty"
++#     fi
++# fi
+ 
+     # For compatibility reasons, only use xserverrc if there were no server command line arguments
+     if [ "$serverargs" = "" ] && [ "$display" = "" ]; then

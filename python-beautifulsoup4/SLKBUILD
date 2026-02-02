@@ -1,0 +1,23 @@
+#Packager: George Vlahavas <gapan~at~gmail~dot~com>
+#Installed in Slint Didier Spaier <didier~at~slint~dot~fr>
+pkgname=python-beautifulsoup4
+pkgver=4.10.0
+pkgrel=1slint
+source=('https://www.crummy.com/software/BeautifulSoup/bs4/download/4.10/beautifulsoup4-4.10.0.tar.gz')
+sourcetemplate=http://people.salixos.org/laprjns/$pkgname/$pkgver/
+docs=("readme.txt" "copying.txt" "authors.txt" "news.txt" "todo.txt")
+url='http://www.crummy.com/software/BeautifulSoup/'
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Python HTML/XML parser)"
+"Beautiful Soup is a Python HTML/XML parser designed for quick"
+"turnaround projects like screen-scraping."
+)
+
+
+build() {
+	cd $startdir/src/beautifulsoup4-$pkgver
+	python3 setup.py install --prefix=/usr --root=$startdir/pkg || return 1
+}

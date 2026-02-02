@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="cfg-default-applications">
+  <title>Default Applications</title>
+  <sect2 id="cfg-default-applications-introduction">
+    <title>介绍</title>
+    <para>
+      The <application>Default Applications</application> capplet
+      sets up some default programs to use for different
+      events.
+    </para>
+  </sect2>
+  <sect2 id="cfg-default-applications-txt-editor">
+    <title>Text Editor Defaults</title>
+    <para>
+      Your default text editor is used when a plain text file needs to
+      be opened for either viewing or editing.
+      </para>
+    <para>
+      By default, <application>Pluma</application> is used as the text
+      editor. However, as text editors are installed, more options are
+      added to the <guilabel>Text Editor</guilabel> drop-down list.
+      Choose your preferred <guilabel>Text Editor</guilabel> by
+      selecting the right item in the <guilabel>System</guilabel>
+      section.
+    </para>
+  </sect2>
+  <sect2 id="cfg-default-applications-www">
+    <title>Web Browser Defaults</title>
+    <para>
+      Your default web browser is referred to when you click on a link
+      that directs to a website.
+    </para>
+    <para>
+      By default, <application>Firefox</application> is used to view
+      HTML files. However, as more browsers are installed, more
+      choices will become available to use. Choose your preferred
+      <guilabel>Web Browser</guilabel> by selecting the right item in
+      the <guilabel>Internet</guilabel> section.
+    </para>
+  </sect2>
+  <sect2 id="cfg-default-apps-terminal">
+    <title>Terminal Defaults</title>
+    <para>
+      Your terminal window will sometimes be brought up to execute
+      commands. For example, if you select to have an application be
+      brought up in the console, the terminal defaults will be
+      called. Numerous defaults for terminals exist; the default
+      being <application>MATE Terminal</application>. Choose
+      your preferred <guilabel>Terminal Emulator</guilabel> by
+      selecting the right item in the <guilabel>System</guilabel>
+      section. 
+    </para>
+  </sect2>
+</sect1>

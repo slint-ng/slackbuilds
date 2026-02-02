@@ -1,0 +1,15 @@
+Architecture: Linux
+
+Configuration done:
+  Debugging disabled.
+  AddressSanitizer (ASAN) disabled.
+  Building PIE executable
+  Binary stripping disabled.
+  Off-the-Record (OTR) Messaging enabled.
+  systemd disabled.
+  Using event handler: glib
+  Using SSL library: gnutls
+  Building with these protocols: purple twitter
+    Note that BitlBee-libpurple is supported on a best-effort basis. It's
+    not *fully* compatible with normal BitlBee. Don't use it unless you
+    absolutely need it (i.e. support for a certain protocol or feature).

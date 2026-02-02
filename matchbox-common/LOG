@@ -1,0 +1,8 @@
+                    matchbox-common 0.9.1
+                  ==========================
+
+        prefix:                 /usr
+        source code location:   .
+
+	Installing PNGs         yes
+	Installing PDA Folders  yes

@@ -1,0 +1,4340 @@
+#!/usr/bin/perl
+
+# Copyright (C) 2010-2025 Trizen <echo dHJpemVuQHByb3Rvbm1haWwuY29tCg== | base64 -d>.
+#
+# This program is free software; you can redistribute it and/or modify it
+# under the terms of either: the GNU General Public License as published
+# by the Free Software Foundation; or the Artistic License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+#
+# See https://dev.perl.org/licenses/ for more information.
+#
+#-------------------------------------------------------
+#  GTK Pipe Viewer
+#  Fork: 30 October 2020
+#  Edit: 29 March 2025
+#  https://github.com/trizen/pipe-viewer
+#-------------------------------------------------------
+
+# This is a fork of straw-viewer:
+#   https://github.com/trizen/straw-viewer
+
+use utf8;
+use 5.016;
+
+use warnings;
+no warnings 'once';
+
+use File::Spec::Functions qw(
+  rel2abs
+  catdir
+  catfile
+  curdir
+  path
+  splitdir
+  file_name_is_absolute
+);
+
+my $DEVEL;
+BEGIN { $DEVEL = -w __FILE__ }
+
+sub devel_path {
+    require FindBin;
+    my @dirs = splitdir($FindBin::RealBin);
+    pop(@dirs);
+    return @dirs;
+}
+
+use if $DEVEL, lib => $DEVEL && catdir(devel_path(), 'lib');
+
+use WWW::PipeViewer v0.5.5;
+use WWW::PipeViewer::DiskCache;
+use WWW::PipeViewer::ParseJSON;
+use WWW::PipeViewer::RegularExpressions;
+use WWW::PipeViewer::Utils;
+use WWW::PipeViewer::Worker;
+
+use Gtk3         qw(-init);
+use Storable     qw();
+use Scalar::Util qw(looks_like_number);
+use List::Util   qw(any max min pairs);
+
+binmode(STDOUT, ':utf8');
+binmode(STDERR, ':utf8');
+
+my $appname = 'GTK+ Pipe Viewer';
+my $version = $WWW::PipeViewer::VERSION;
+
+# Saved and subscribed channels
+my %channels;
+my %subscribed_channels;
+
+# Share directory
+my $share_dir =
+  ($DEVEL and -d catdir(devel_path(), 'share'))
+  ? catdir(devel_path(), 'share')
+  : do { require File::ShareDir; File::ShareDir::dist_dir('WWW-PipeViewer') };
+
+# Configuration dir/file
+my $home_dir;
+my $xdg_config_home = $ENV{XDG_CONFIG_HOME};
+
+if ($xdg_config_home and -d -w $xdg_config_home) {
+    require File::Basename;
+    $home_dir = File::Basename::dirname($xdg_config_home);
+
+    if (not -d -w $home_dir) {
+        $home_dir = $ENV{HOME} || curdir();
+    }
+}
+else {
+    $home_dir =
+         $ENV{HOME}
+      || $ENV{LOGDIR}
+      || ($^O eq 'MSWin32' ? '\Local Settings\Application Data' : ((getpwuid($<))[7] || `echo -n ~`));
+
+    if (not -d -w $home_dir) {
+        $home_dir = curdir();
+    }
+
+    $xdg_config_home = catdir($home_dir, '.config');
+}
+
+# Configuration dirs
+my $config_dir          = catdir($xdg_config_home, 'pipe-viewer');
+my $local_playlists_dir = catdir($config_dir,      'playlists');
+
+# Config files
+my $config_file              = catfile($config_dir, "gtk-pipe-viewer.conf");
+my $saved_channels_file      = catfile($config_dir, 'users.txt');
+my $subscribed_channels_file = catfile($config_dir, 'subscribed_channels.txt');
+my $history_file             = catfile($config_dir, 'gtk-history.txt');
+my $session_file             = catfile($config_dir, 'session.dat');
+my $watched_file             = catfile($config_dir, 'watched.txt');
+
+# Special local playlists
+my $watch_history_data_file       = catfile($local_playlists_dir, 'watched_videos.dat');
+my $liked_videos_data_file        = catfile($local_playlists_dir, 'liked_videos.dat');
+my $disliked_videos_data_file     = catfile($local_playlists_dir, 'disliked_videos.dat');
+my $favorite_videos_data_file     = catfile($local_playlists_dir, 'favorite_videos.dat');
+my $subscription_videos_data_file = catfile($local_playlists_dir, "subscriptions.dat");
+
+# Create the configuration directory
+foreach my $dir ($config_dir, $local_playlists_dir) {
+    if (not -d $dir) {
+        require File::Path;
+        eval { File::Path::make_path($dir) }
+          or warn "[!] Can't create dir <<$dir>>: $!";
+    }
+}
+
+# Create the special playlist files
+foreach my $file ($watch_history_data_file, $liked_videos_data_file, $disliked_videos_data_file, $favorite_videos_data_file,) {
+    if (not -s $file) {
+        Storable::store([], $file);
+    }
+}
+
+# Video queue for the enqueue feature
+my @VIDEO_QUEUE;
+
+# Keep track of watched videos
+my %WATCHED_VIDEOS;
+
+sub which_command {
+    my ($cmd) = @_;
+
+    if (file_name_is_absolute($cmd)) {
+        return $cmd;
+    }
+
+    state $paths = [path()];
+    foreach my $path (@{$paths}) {
+        if (-e (my $cmd_path = catfile($path, $cmd))) {
+            return $cmd_path;
+        }
+    }
+    return;
+}
+
+my %symbols = (
+               thumbs_up => '👍',
+               type      => '💡',
+               author    => '😃',
+               author_id => '🤖',
+               average   => '📊',
+               category  => '🗃️',
+               play      => '▶️',
+               views     => '👀',
+               heart     => '❤️',
+               published => '⏱️',
+               updated   => '✨',
+               numero    => '#️⃣',
+               video     => '🎞️',
+               subs      => '👪',
+              );
+
+# Main configuration
+my %CONFIG = (
+
+    video_players => {
+                      vlc => {
+                              cmd   => q{vlc},
+                              srt   => q{--sub-file=*SUB*},
+                              audio => q{--input-slave=*AUDIO*},
+                              fs    => q{--fullscreen},
+                              arg   => q{--quiet --play-and-exit --no-video-title-show --input-title-format=*TITLE* *VIDEO*},
+                             },
+                      mpv => {
+                              cmd   => q{mpv},
+                              srt   => q{--sub-file=*SUB*},
+                              audio => q{--audio-file=*AUDIO*},
+                              fs    => q{--fullscreen},
+                              arg   => q{--really-quiet --force-media-title=*TITLE* --no-ytdl --no-terminal *VIDEO*},
+                             },
+                      mpvraw => {
+                                 cmd => q{mpv},
+                                 arg => q{--ytdl-raw-options-append="format-sort=ext,res:*RESOLUTION*" --no-terminal *URL*},
+                                 fs  => q{--fullscreen},
+                                 srt => q{--sub-file=*SUB*},
+                                },
+                     },
+                      mplayer => {
+                              cmd   => q{mplayer},
+                              srt   => q{-sub *SUB*},
+                              audio => q{-audiofile *AUDIO*},
+                              fs    => q{-fs},
+                              arg   => q{-prefer-ipv4 -really-quiet -title *TITLE* *VIDEO*},
+                             },
+    video_player_selected => undef,    # autodetect it later
+
+    # GUI options
+    show_thumbs           => 1,
+    thumbnail_size        => '224x126',
+    clear_search_list     => 1,
+    default_notebook_page => 'settings',
+    mainw_size            => '700x400',
+    mainw_maximized       => 0,
+    mainw_fullscreen      => 0,
+    mainw_centered        => 0,
+    hpaned_width          => 250,
+    hpaned_position       => 420,
+
+    # Pipe options
+    split_videos     => 1,
+    dash             => 1,             # may load slow
+    prefer_mp4       => 0,
+    prefer_av1       => 0,
+    ignore_av1       => 0,
+    prefer_m4a       => 0,
+    prefer_invidious => 0,
+    force_fallback   => 0,
+    maxResults       => 10,
+    hfr              => 1,             # true to prefer high frame rate (HFR) videos
+    resolution       => 'best',
+    audio_quality    => 'best',
+    videoDuration    => undef,
+    features         => undef,
+    search_for       => 'video',
+    order            => 'relevance',
+    date             => 'anytime',
+    region           => undef,
+
+    comments_order              => 'top',    # valid values: top, new
+    comments_author_color       => undef,
+    comments_date_color         => undef,
+    comments_body_color         => undef,
+    comments_load_more_color    => undef,
+    comments_show_replies_color => undef,
+
+    # API
+    api_host => "auto",
+
+    # URI options
+    youtube_video_url    => 'https://www.youtube.com/watch?v=%s',
+    youtube_playlist_url => 'https://www.youtube.com/playlist?list=%s',
+    youtube_channel_url  => 'https://www.youtube.com/channel/%s',
+
+    # Subtitle options
+    srt_languages => ['en', 'es'],
+    get_captions  => 1,
+    auto_captions => 0,
+    cache_dir     => undef,          # will be defined later
+
+    # Others
+    env_proxy   => 1,
+    http_proxy  => undef,
+    timeout     => undef,
+    user_agent  => undef,
+    cookie_file => undef,
+    prefer_fork => (($^O eq 'linux') ? 0 : 1),
+    debug       => 0,
+    fullscreen  => 0,
+    audio_only  => 0,
+
+    autoscroll_to_end => 0,
+    single_click_play => 0,
+
+    # yt-dlp / youtube-dl support
+    ytdl     => 1,
+    ytdl_cmd => undef,    # auto-detect
+
+    # yt-dlp comment options
+    ytdlp_comments     => 1,
+    ytdlp_max_comments => 20,
+    ytdlp_max_replies  => 3,
+
+    tooltips        => 1,
+    tooltip_max_len => 512,    # max length of description in tooltips
+
+    thousand_separator => q{,},
+    downloads_dir      => curdir(),
+    web_browser        => undef,        # defaults to $ENV{WEBBROWSER} or xdg-open
+    terminal           => undef,        # autodetect it later
+    terminal_exec      => q{-e '%s'},
+    pipe_viewer        => undef,
+    pipe_viewer_args   => [],
+
+    bypass_age_gate_native     => 0,
+    bypass_age_gate_with_proxy => 0,
+    ignored_projections        => [],
+
+    # Watch history
+    watch_history       => 1,
+    watch_history_color => 'blue',
+    watch_history_file  => $watched_file,
+
+    # Subscribed channels
+    subscription_results     => 'uploads',                   # valid values: uploads, streams, shorts (comma-separated)
+    subscriptions_limit      => 10_000,
+    subscriptions_lifetime   => 600,
+    saved_channels_file      => $saved_channels_file,
+    subscribed_channels_file => $subscribed_channels_file,
+
+    history        => 1,
+    history_limit  => 100_000,
+    history_file   => $history_file,
+    recent_history => 10,
+
+    remember_session       => 1,
+    remember_session_depth => 10,
+
+    entry_completion_limit => 10,
+    local_playlist_limit   => -1,
+    cache_thumbnails       =>  1,
+
+    # Save titles
+    save_titles_to_history  => 0,
+    save_watched_to_history => 0,
+);
+
+{
+    my $config_documentation = <<"EOD";
+#!/usr/bin/perl
+
+# $appname $version - configuration file
+
+use utf8;
+
+EOD
+
+    # Save hash config to file
+    sub dump_configuration {
+        require Data::Dump;
+        open my $config_fh, '>', $config_file
+          or do { warn "[!] Can't open '${config_file}' for write: $!"; return };
+
+        my $dumped_config = q{our $CONFIG = } . Data::Dump::pp(\%CONFIG) . "\n";
+
+        if ($home_dir eq $ENV{HOME}) {
+            $dumped_config =~ s/\Q$home_dir\E/\$ENV{HOME}/g;
+        }
+
+        print $config_fh $config_documentation, $dumped_config;
+        close $config_fh;
+    }
+}
+
+# Creating config unless it exists
+if (not -e $config_file or -z _) {
+    dump_configuration();
+}
+
+local $SIG{TERM} = \&on_mainw_destroy;
+local $SIG{INT}  = \&on_mainw_destroy;
+
+# Locating the .glade interface file and icons dir
+my $glade_file = catfile($share_dir, "gtk-pipe-viewer.glade");
+my $icons_path = catdir($share_dir, 'icons');
+
+# Defining GUI
+my $gui = 'Gtk3::Builder'->new;
+$gui->add_from_file($glade_file);
+$gui->connect_signals(undef);
+
+# -------------  Get GUI objects ------------- #
+
+my %objects = (
+
+    # Windows
+    '__MAIN__'           => \my $mainw,
+    'users_list_window'  => \my $users_list_window,
+    'help_window'        => \my $help_window,
+    'preferences_window' => \my $preferences_window,
+    'errors_window'      => \my $errors_window,
+    'aboutdialog1'       => \my $about_window,
+    'warnings_window'    => \my $warnings_window,
+
+    # Comments window
+    'feeds_window'  => \my $feeds_window,
+    'feeds_title'   => \my $feeds_title,
+    'comments_view' => \my $comments_view,
+
+    # Details window
+    'details_window'       => \my $details_window,
+    'details_flowbox1'     => \my $details_flowbox1,
+    'details_flowbox2'     => \my $details_flowbox2,
+    'details_spinner'      => \my $details_spinner,
+    'details_title'        => \my $details_title,
+    'description_textview' => \my $description_textview,
+
+    # Others
+    'treeview1'                => \my $users_treeview,
+    'treeview2'                => \my $treeview,
+    'treeview3'                => \my $cat_treeview,
+    'liststore1'               => \my $liststore,
+    'liststore2'               => \my $users_liststore,
+    'liststore4'               => \my $cats_liststore,
+    'textview3'                => \my $config_view,
+    'warnings_textview'        => \my $warnings_textview,
+    'errors_textview'          => \my $errors_textview,
+    'search_entry'             => \my $search_entry,
+    'treeviewcolumn2'          => \my $thumbs_column,
+    'textview2'                => \my $textview_help,
+    'from_author_entry'        => \my $from_author_entry,
+    'notebook1'                => \my $notebook,
+    'comboboxtext9'            => \my $resolution_combobox,
+    'comboboxtext8'            => \my $duration_combobox,
+    'comboboxtext1'            => \my $published_within_combobox,
+    'comboboxtext2'            => \my $order_combobox,
+    'comboboxtext10'           => \my $search_for_combobox,
+    'spinbutton1'              => \my $spin_results,
+    'spinbutton2'              => \my $spin_start_with_page,
+    'thumbs_checkbutton'       => \my $thumbs_checkbutton,
+    'fullscreen_checkbutton'   => \my $fullscreen_checkbutton,
+    'clear_list_checkbutton'   => \my $clear_list_checkbutton,
+    'dash_checkbutton'         => \my $dash_checkbutton,
+    'split_videos_checkbutton' => \my $split_videos_checkbutton,
+    'audio_only_checkbutton'   => \my $audio_only_checkbutton,
+    'hbox2'                    => \my $hbox2,
+    'main-menu-history-menu'   => \my $history_menu,
+    'features_flowbox'         => \my $features_flowbox,
+    'progressbar'              => \my $progressbar,
+              );
+
+while (my ($key, $value) = each %objects) {
+    my $object = $gui->get_object($key);
+    if (defined $object) {
+        ${$value} = $object;
+    }
+    else {
+        print STDERR "[WARN] undefined object: $key\n";
+    }
+}
+
+# __WARN__ handle
+local $SIG{__WARN__} = sub {
+    my $warning = strip_spaces(join('', @_));
+
+    say STDERR $warning;
+
+    return if $warning =~ / at \(eval /;
+    return if $warning =~ /\bunhandled exception in callback:/;
+    return if $warning =~ /, or \} expected while parsing object\/hash/;
+
+    $warning = "[" . localtime(time) . "]: " . $warning . "\n";
+
+    set_text($warnings_textview, $warning, append => 1);
+};
+
+# __DIE__ handle
+local $SIG{__DIE__} = sub {
+    my $caller = [caller]->[0];
+    my $error  = strip_spaces(join('', @_));
+
+    say STDERR $error;
+
+    # Ignore harmless errors
+    return if $error =~ / at \(eval /;
+    return if $error =~ /, or \} expected while parsing object\/hash/;
+
+    # Ignore third-party errors
+    if (not $caller =~ /^(?:main\z|WWW::PipeViewer\b)/) {
+        return;
+    }
+
+    set_text(
+        $errors_textview,
+        $error . do {
+            if ($error =~ /^Can't locate (.+?)\.pm\b/) {
+                my $module = $1;
+                $module =~ s{[/\\]+}{::}g;
+                return if $module eq 'LWP::UserAgent::Cached';
+                "\nThe module $module is required!\n\nTo install it, just type in terminal:\n\tsudo cpan $module\n";
+            }
+          }
+          . "\n\n=>> Previous warnings:\n" . get_text($warnings_textview)
+    );
+
+    warn "$error\n";
+    $errors_window->show;
+    return 1;
+};
+
+#---------------------- LOAD IMAGES ----------------------#
+my $app_icon_pixbuf       = 'Gtk3::Gdk::Pixbuf'->new_from_file(catfile($icons_path, "gtk-pipe-viewer.png"));
+my $user_icon_pixbuf      = 'Gtk3::Gdk::Pixbuf'->new_from_file_at_size(catfile($icons_path, "user.png"),          16,  16);
+my $feed_icon_pixbuf      = 'Gtk3::Gdk::Pixbuf'->new_from_file_at_size(catfile($icons_path, "feed.png"),          16,  16);
+my $feed_icon_gray_pixbuf = 'Gtk3::Gdk::Pixbuf'->new_from_file_at_size(catfile($icons_path, "feed_gray.png"),     16,  16);
+my $default_thumb         = 'Gtk3::Gdk::Pixbuf'->new_from_file_at_size(catfile($icons_path, "default_thumb.jpg"), 160, 90);
+
+my $left_arrow_pixbuf  = 'Gtk3::Gdk::Pixbuf'->new_from_file_at_size(catfile($icons_path, "left_arrow.png"),  24, 24);
+my $right_arrow_pixbuf = 'Gtk3::Gdk::Pixbuf'->new_from_file_at_size(catfile($icons_path, "right_arrow.png"), 24, 24);
+
+my $webp_supported = any { $_->get_name eq 'webp' } Gtk3::Gdk::Pixbuf::get_formats();
+
+# Setting application title and icon
+$mainw->set_title("$appname $version");
+$mainw->set_icon($app_icon_pixbuf);
+$about_window->set_program_name("$appname $version");
+$about_window->set_logo($app_icon_pixbuf);
+
+# Tweak search entries: allow clicking the search primary
+# icon to activate, and disable said icon for other entries.
+$search_entry->set_icon_sensitive('primary', 1);
+$search_entry->set_icon_activatable('primary', 1);
+$from_author_entry->set_icon_from_pixbuf('primary');
+
+our $CONFIG;
+require $config_file;    # Load the configuration file
+
+if (ref $CONFIG ne 'HASH') {
+    die "ERROR: Invalid configuration file!\n\t\$CONFIG is not an HASH ref!";
+}
+
+# Rename `watched_file` to `watch_history_file`
+if (exists $CONFIG->{watched_file}) {
+    $CONFIG->{watch_history_file} = delete $CONFIG->{watched_file};
+}
+
+# Rename `youtube_users_file` to `saved_channels_file`
+if (exists $CONFIG->{youtube_users_file}) {
+    $CONFIG->{saved_channels_file} = delete $CONFIG->{youtube_users_file};
+}
+
+# Backward compatibility with old config format.
+if (!exists $CONFIG->{resolution} && exists $CONFIG->{active_resolution_combobox}) {
+    $CONFIG->{resolution} = $CONFIG->{active_resolution_combobox};
+}
+delete $CONFIG->{active_resolution_combobox};
+
+# Backward compatibility with old config format.
+{
+    my $default_notebook_page = $CONFIG->{default_notebook_page};
+    if (defined $default_notebook_page && looks_like_number($default_notebook_page)) {
+        my %index_to_page_name = (
+                                  1 => 'settings',
+                                  2 => 'channel',
+                                  3 => 'categories',
+                                  4 => 'playlists',
+                                 );
+        $default_notebook_page = $index_to_page_name{$default_notebook_page} // 'settings';
+        $CONFIG->{default_notebook_page} = $default_notebook_page;
+    }
+}
+
+# Features handling.
+my @FEATURES;
+
+sub toggle_features {
+    my ($enabled, @list) = @_;
+
+    if ($enabled) {
+        @FEATURES = sort(do {
+                my %seen;
+                grep { !$seen{$_}++ } (@FEATURES, @list);
+            }
+        );
+    }
+    else {
+        my %enabled;
+        @enabled{@FEATURES} = ();
+        foreach my $feature (@list) {
+            delete($enabled{$feature});
+        }
+        @FEATURES = sort(keys %enabled);
+    }
+    $CONFIG->{features} = \@FEATURES;
+}
+
+toggle_features(1, @{$CONFIG->{features}});
+
+do {
+    my @feature_options = qw(
+      videoCaption     1                 subtitles
+      videoCaption     true              subtitles
+      videoDefinition  high              hd
+      videoDimension   3d                3d
+      videoLicense     creative_commons  creative_commons
+    );
+
+    while (scalar @feature_options) {
+        my ($option_name, $option_value, $feature) = splice(@feature_options, 0, 3);
+        if (($CONFIG->{$option_name} // '') eq $option_value) {
+            toggle_features(1, $feature);
+        }
+    }
+};
+
+# Get valid config keys
+my @valid_keys = grep { exists $CONFIG{$_} } keys %{$CONFIG};
+@CONFIG{@valid_keys} = @{$CONFIG}{@valid_keys};
+
+my $DEBUG = $CONFIG{debug};
+
+# Define the cache directory
+if (not defined $CONFIG{cache_dir}) {
+
+    my $cache_dir =
+      ($ENV{XDG_CACHE_HOME} and -d -w $ENV{XDG_CACHE_HOME})
+      ? $ENV{XDG_CACHE_HOME}
+      : catdir($home_dir, '.cache');
+
+    if (not -d -w $cache_dir) {
+        $cache_dir = catdir(curdir(), '.cache');
+    }
+
+    $CONFIG{cache_dir} = catdir($cache_dir, 'pipe-viewer');
+}
+
+# Create the cache directory (if needed)
+foreach my $path ($CONFIG{cache_dir}) {
+    next if -d $path;
+    require File::Path;
+    eval { File::Path::make_path($path) }
+      or warn "[!] Can't create path <<$path>>: $!";
+}
+
+# Initialize the thumbnails' cache.
+my $THUMBNAILS_CACHE = WWW::PipeViewer::DiskCache->new($CONFIG{cache_dir}, '.thumb');
+
+# Expected thumbnail size
+my @THUMBNAILS_SIZE = split(/x/i, $CONFIG{thumbnail_size}, 2);
+
+{
+    my $split_string = sub {
+        grep { $_ ne '' } split(/\W+/, CORE::fc($_[0]));
+    };
+
+    my %history_dict;
+
+    sub update_history_dict {
+        my (@entries) = @_;
+
+        foreach my $str (@entries) {
+            my $str_ref = \$str;
+
+            # Create models from each word of the string
+            foreach my $word ($split_string->($str)) {
+                my $ref = \%history_dict;
+                foreach my $char (split(//, $word)) {
+                    $ref = $ref->{$char} //= {};
+                    push @{$ref->{values}}, $str_ref;
+                }
+            }
+        }
+    }
+
+    my $completion;
+
+    sub analyze_text {
+        my ($buffer) = @_;
+
+        $completion // return;
+        my $text   = $buffer->get_text;
+        my @tokens = $split_string->($text);
+
+        my (@words, @matches, %analyzed);
+        foreach my $word (@tokens) {
+
+            my $ref = \%history_dict;
+            foreach my $char (split(//, $word)) {
+                if (exists $ref->{$char}) {
+                    $ref = $ref->{$char};
+                }
+                else {
+                    $ref = undef;
+                    last;
+                }
+            }
+
+            if (defined $ref and exists $ref->{values}) {
+                push @words, $word;
+                foreach my $match (@{$ref->{values}}) {
+                    if (not exists $analyzed{$match}) {
+                        undef $analyzed{$match};
+                        unshift @matches, $$match;
+                    }
+                }
+            }
+            else {
+                @matches = ();    # don't include partial matches
+                last;
+            }
+        }
+
+        foreach my $token (@tokens) {
+            @matches = grep { index(CORE::fc($_), $token) != -1 } @matches;
+        }
+
+        my $store = Gtk3::ListStore->new(['Glib::String']);
+
+        my $i = 0;
+        foreach my $str (
+            map  { $_->[0] }
+            sort { $b->[1] <=> $a->[1] }
+            map {
+                my @parts = $split_string->($_);
+
+                my $end_w = $#words;
+                my $end_p = $#parts;
+
+                my $min_end = $end_w < $end_p ? $end_w : $end_p;
+
+                my $order_score = 0;
+                for (my $i = 0 ; $i <= $min_end ; ++$i) {
+                    my $word = $words[$i];
+
+                    for (my $j = $i ; $j <= $end_p ; ++$j) {
+
+                        my $matched;
+                        my $continue = 1;
+
+                        my $part = $parts[$j];
+
+                        while ($part eq $word) {
+                            $order_score += 1 - 1 / (length($word) + 1)**2;
+                            $matched ||= 1;
+                            $part = $parts[++$j] // do { $continue = 0; last };
+                            $word = $words[++$i] // do { $continue = 0; last };
+                        }
+
+                        if ($matched) {
+                            if ($continue and index($part, $word) == 0) {
+                                $order_score += 1 - 1 / (length($word) + 1);
+                            }
+                            last;
+                        }
+                        elsif (index($part, $word) == 0) {
+                            $order_score += length($word) / length($part);
+                            last;
+                        }
+                    }
+                }
+
+                my $prefix_score = 0;
+                foreach my $i (0 .. $min_end) {
+                    (
+                     ($parts[$i] eq $words[$i])
+                     ? do {
+                         $prefix_score += 1;
+                         1;
+                       }
+                     : (index($parts[$i], $words[$i]) == 0) ? do {
+                         $prefix_score += length($words[$i]) / length($parts[$i]);
+                         0;
+                       }
+                     : 0
+                    )
+                      || last;
+                }
+
+                ## printf("score('@parts', '@words') = %.4g + %.4g = %.4g\n",
+                ##        $order_score, $prefix_score, $order_score + $prefix_score);
+
+                [$_, $order_score + $prefix_score]
+            } @matches
+          ) {
+            my $iter = $store->append;
+            $store->set($iter, [0], [$str]);
+            last if ++$i == $CONFIG{entry_completion_limit};
+        }
+
+        $completion->set_model($store);
+    }
+
+    my %history;
+    my $history_fh;
+
+    sub set_history {
+        defined($history_fh) && return 1;
+
+        # Open the history file for appending
+        if (open($history_fh, '>>:utf8', $CONFIG{history_file})) {
+            select((select($history_fh), $| = 1)[0]);    # autoflush
+        }
+        else {
+            warn "[!] Can't open history file `$CONFIG{history_file}' for appending: $!";
+            return;
+        }
+
+        # Slurp the history file into memory
+        my @history;
+        my @search_history;
+
+        if (open(my $fh, '<:utf8', $CONFIG{history_file})) {
+            chomp(@history = <$fh>);
+        }
+
+        foreach my $line (@history) {
+            if (substr($line, 0, 1) eq '~') {
+                $line = substr($line, 1);
+            }
+            else {
+                unshift @search_history, $line;
+            }
+            undef $history{CORE::fc($line)};
+        }
+
+        # Keep only the most recent non-duplicated entries
+        @history = reverse(
+            do {
+                my %seen;
+                grep { !$seen{$_}++ } reverse(@history);
+            }
+        );
+        @search_history = do {
+            my %seen;
+            grep { !$seen{$_}++ } @search_history;
+        };
+
+        # Set entry completion
+        $completion = Gtk3::EntryCompletion->new;
+        $completion->set_match_func(sub { 1 });
+        $completion->set_text_column(0);
+        $search_entry->set_completion($completion);
+
+        # Create the completion dictionary
+        update_history_dict(@history);
+
+        my $recent_top = $CONFIG{recent_history};
+
+        if ($recent_top > scalar(@search_history)) {
+            $recent_top = scalar(@search_history);
+        }
+
+        my @recent_history = grep { defined($_) } @search_history[0 .. $recent_top - 1];
+
+        if (not @recent_history or $recent_top <= 0) {
+            $gui->get_object('main-menu-history')->set_visible(0);
+        }
+
+        foreach my $text (@recent_history) {
+
+            my $label = $text;
+            if (length($label) > 30) {
+                $label = substr($label, 0, 30) . '...';
+            }
+
+            my $item = 'Gtk3::ImageMenuItem'->new($label);
+            $item->signal_connect(
+                activate => sub {
+                    $search_entry->set_text($text);
+                    $search_entry->set_position(length($text));
+                    search();
+                }
+            );
+            $item->set_property(tooltip_text => "Search for „${text}”");
+            $item->set_image('Gtk3::Image'->new_from_icon_name("system-search", q{menu}));
+            $item->show;
+            $history_menu->append($item);
+        }
+
+        # Keep only the most recent half of the history file when the limit has been reached
+        if ($CONFIG{history_limit} > 0 and $#history >= $CONFIG{history_limit}) {
+
+            # Try to create a backup, first
+            require File::Copy;
+            File::Copy::cp($CONFIG{history_file}, "$CONFIG{history_file}.bak");
+
+            # Now, try to rewrite the history file
+            if (open(my $fh, '>:utf8', $CONFIG{history_file})) {
+
+                # Keep only the most recent half part of the history file
+                say {$fh} join("\n", @history[($CONFIG{history_limit} >> 1) .. $#history]);
+                close $fh;
+            }
+        }
+
+        return 1;
+    }
+
+    sub append_to_history {
+        my ($text, $is_search_keyword) = @_;
+
+        my $str = join(' ', split(' ', $text));
+
+        if ($is_search_keyword or not exists $history{CORE::fc($str)}) {
+            if (set_history()) {
+
+                if ($is_search_keyword) {
+                    say {$history_fh} $str;
+                }
+                else {
+                    say {$history_fh} "~" . $str;
+                }
+            }
+            undef $history{CORE::fc($str)};
+            update_history_dict($str);
+        }
+    }
+}
+
+# Locate yt-dlp or youtube-dl
+if (not defined($CONFIG{ytdl_cmd})) {
+
+    foreach my $ytdl (qw(yt-dlp youtube-dl)) {
+        my $ytdl_path = which_command($ytdl);
+
+        if (defined($ytdl_path)) {
+            $CONFIG{ytdl_cmd} //= $ytdl_path;
+            last;
+        }
+    }
+
+    $CONFIG{ytdl_cmd} //= 'yt-dlp';
+}
+
+# Locate video player
+if (not $CONFIG{video_player_selected}) {
+
+    foreach my $key (sort keys %{$CONFIG{video_players}}) {
+        if (defined(my $abs_player_path = which_command($CONFIG{video_players}{$key}{cmd}))) {
+            $CONFIG{video_players}{$key}{cmd} = $abs_player_path;
+            $CONFIG{video_player_selected} = $key;
+            last;
+        }
+    }
+
+    if (not $CONFIG{video_player_selected}) {
+        warn "\n[!] Please install a supported video player! (e.g.: mpv)\n\n";
+        $CONFIG{video_player_selected} = 'mpv';
+    }
+}
+
+{
+    my $update_config = 0;
+
+    foreach my $key (keys %CONFIG) {
+        if (not exists $CONFIG->{$key}) {
+            $update_config = 1;
+            last;
+        }
+    }
+
+    dump_configuration() if $update_config;
+}
+
+# Locate a terminal
+if (not defined $CONFIG{terminal}) {
+    foreach my $term (
+                      'gnome-terminal', 'lxterminal', 'terminal',  'xfce4-terminal', 'sakura', 'st',
+                      'lilyterm',       'evilvte',    'superterm', 'terminator',     'kterm',  'mlterm',
+                      'mrxvt',          'rxvt',       'urxvt',     'termite',        'termit', 'fbterm',
+                      'stjerm',         'yakuake',    'tilix',     'roxterm',        'xterm',
+      ) {
+        if (defined(my $abs_path = which_command($term))) {
+            $CONFIG{terminal} = $abs_path;
+
+            # Some terminals require changing the default value of `terminal_exec`.
+            # Probably more terminals require this modification. PRs are welcome.
+            if (   $term eq 'st'
+                or $term eq 'lxterminal') {
+                $CONFIG{terminal_exec} = '-e %s';
+            }
+
+            last;
+        }
+    }
+
+    $CONFIG{terminal} //= $ENV{TERM} || 'xterm';
+}
+
+my %ResultsHistory = (
+                      current  => -1,
+                      results  => [],
+                      position => [],
+                     );
+
+# Locate CLI pipe-viewer
+$CONFIG{pipe_viewer} //= which_command('pipe-viewer') // 'pipe-viewer';
+
+my $yv_obj = WWW::PipeViewer->new(
+                                  cache_dir  => $CONFIG{cache_dir},
+                                  env_proxy  => $CONFIG{env_proxy},
+                                  http_proxy => $CONFIG{http_proxy},
+                                 );
+
+my $yv_utils = WWW::PipeViewer::Utils->new(
+                                           youtube_video_url_format    => $CONFIG{youtube_video_url},
+                                           youtube_channel_url_format  => $CONFIG{youtube_channel_url},
+                                           youtube_playlist_url_format => $CONFIG{youtube_playlist_url},
+                                           thousand_separator          => $CONFIG{thousand_separator},
+                                          );
+
+# Spin button start with page
+$spin_start_with_page->set_value(1);
+
+sub apply_combobox_configuration {
+    my ($combo, $option) = @_;
+    my $value = $CONFIG{$option};
+
+    if (!$combo->set_active_id($value) && looks_like_number($value)) {
+
+        # For backward compatibility with old config format.
+        $combo->set_active($value);
+    }
+
+    if ($combo->get_active == -1) {
+
+        # Default to first item.
+        $combo->set_active(0);
+    }
+}
+
+my $worker = WWW::PipeViewer::Worker->new(max(0, $DEBUG - 1));
+
+sub apply_configuration {
+
+    # Fullscreen mode
+    $fullscreen_checkbutton->set_active($CONFIG{fullscreen});
+
+    # Audio-only mode
+    $audio_only_checkbutton->set_active($CONFIG{audio_only});
+
+    # DASH mode
+    $dash_checkbutton->set_active($CONFIG{dash});
+
+    # Split A/V videos
+    $split_videos_checkbutton->set_active($CONFIG{split_videos});
+
+    $clear_list_checkbutton->set_active($CONFIG{clear_search_list});
+
+    # Maximum number of results per page
+    $spin_results->set_value($CONFIG{maxResults});
+
+    # Enable/disable thumbnails
+    $thumbs_checkbutton->set_active($CONFIG{show_thumbs});
+
+    # Set default combobox values
+    apply_combobox_configuration($search_for_combobox,       "search_for");
+    apply_combobox_configuration($resolution_combobox,       "resolution");
+    apply_combobox_configuration($duration_combobox,         "videoDuration");
+    apply_combobox_configuration($order_combobox,            "order");
+    apply_combobox_configuration($published_within_combobox, "date");
+
+    # Resize the main window
+    $mainw->set_default_size(split(/x/i, $CONFIG{mainw_size}, 2));
+
+    # Center the main window
+    if ($CONFIG{mainw_centered}) {
+        $mainw->set_position("center");
+    }
+
+    $mainw->reshow_with_initial_size;
+
+    if ($CONFIG{mainw_maximized}) {
+        $mainw->maximize();
+    }
+
+    if ($CONFIG{mainw_fullscreen}) {
+        maximize_unmaximize_mainw();
+    }
+
+    # Support for history input
+    if ($CONFIG{history}) {
+        set_history();
+    }
+
+    # HPaned position correction
+    if ($CONFIG{hpaned_position} >= ($mainw->get_size)[0] - 200) {
+        $CONFIG{hpaned_position} = ($mainw->get_size)[0] - $CONFIG{hpaned_width};
+    }
+
+    # Set HPaned position
+    $hbox2->set_position($CONFIG{hpaned_position});
+
+    # Select text from text entry
+    $search_entry->select_region(0, -1);
+
+    my %config = (
+                  config_dir  => $config_dir,
+                  debug       => $DEBUG,
+                  escape_utf8 => 1,
+                 );
+
+    foreach my $option_name (
+                             qw(
+                             api_host cache_dir comments_order
+                             cookie_file debug env_proxy force_fallback http_proxy prefer_av1
+                             prefer_invidious prefer_mp4 region timeout user_agent ytdl ytdl_cmd
+                             ytdlp_comments ytdlp_max_comments ytdlp_max_replies
+                             bypass_age_gate_native bypass_age_gate_with_proxy
+                             )
+      ) {
+        $config{$option_name} = $CONFIG{$option_name};
+    }
+
+    $worker->send_request(sub { }, 'setup', \%config);
+    $worker->process_next_reply();
+}
+
+# Apply the configuration file
+apply_configuration();
+
+foreach my $pair (
+    pairs(
+#<<<
+            'live'            , 'Live',
+            '4k'              , '4K',
+            'hd'              , 'HD',
+            'subtitles'       , 'Subtitles/CC',
+            'creative_commons', 'Creative Commons',
+            '360'             , '360°',
+            'vr180'           , 'VR180',
+            '3d'              , '3D',
+            'hdr'             , 'HDR',
+#>>>
+    )
+  ) {
+    my ($feat, $label) = @$pair;
+    my $button = Gtk3::CheckButton->new_with_label($label);
+    $features_flowbox->add($button);
+    $button->set_visible(1);
+    $button->signal_connect(
+        'toggled',
+        sub {
+            toggle_features($button->get_active, $feat);
+        }
+    );
+    $button->set_active(any { $feat eq $_ } @FEATURES);
+}
+
+# YouTube usernames
+set_usernames();
+
+sub donate {
+    open_external_url('https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=75FUVBE6Q73T8');
+}
+
+# Set text to a 'textview' object
+sub set_text {
+    my ($object, $text, %args) = @_;
+    my $object_buffer = $object->get_buffer;
+
+    require Encode;
+
+    if (!Encode::is_utf8($text)) {
+        $text = Encode::decode_utf8($text);
+    }
+
+    if ($args{append}) {
+        my $iter = $object_buffer->get_end_iter;
+        $object_buffer->insert($iter, $text);
+    }
+    else {
+        $object_buffer->set_text($text);
+    }
+    $object->set_buffer($object_buffer);
+    return 1;
+}
+
+# Get text from a 'textview' object
+sub get_text {
+    my ($object)      = @_;
+    my $object_buffer = $object->get_buffer;
+    my $start_iter    = $object_buffer->get_start_iter;
+    my $end_iter      = $object_buffer->get_end_iter;
+    $object_buffer->get_text($start_iter, $end_iter, undef);
+}
+
+# Setting application icons
+{
+    $gui->get_object('username_list')->get_image->set_from_pixbuf($user_icon_pixbuf);
+    $gui->get_object('subscription_videos')->get_image->set_from_pixbuf($feed_icon_pixbuf);
+    $gui->get_object('left_button_image')->set_from_pixbuf($left_arrow_pixbuf);
+    $gui->get_object('right_button_image')->set_from_pixbuf($right_arrow_pixbuf);
+}
+
+# Treeview signals
+{
+    $treeview->set_activate_on_single_click($CONFIG{single_click_play});
+    $treeview->signal_connect('size-allocate', \&treeview_scroll_to_end) if $CONFIG{autoscroll_to_end};
+    $treeview->{'get-popup-menu'}       = \&get_treeview_popup_menu;
+    $users_treeview->{'get-popup-menu'} = \&get_users_list_popup_menu;
+}
+
+# Scroll treeview to end
+sub treeview_scroll_to_end {
+    my ($widget) = @_;
+    my $adj = $widget->get_vadjustment;
+    $adj->set_value($adj->get_upper - $adj->get_page_size);
+}
+
+sub get_treeview_popup_menu {
+    my ($iter) = @_;
+
+    my $type = $liststore->get($iter, 7);
+
+    # No popup-menu on 'next-page' entry
+    return if $type eq 'next_page';
+
+    # Create the main right-click menu
+    my $menu = 'Gtk3::Menu'->new;
+
+    # More details
+    {
+        my $item = 'Gtk3::ImageMenuItem'->new("Show more details");
+        $item->set_image('Gtk3::Image'->new_from_icon_name("window-new", q{menu}));
+        $item->signal_connect(activate => \&show_details_window);
+        $item->show;
+        $menu->append($item);
+    }
+
+    # Video menu
+    if ($type eq 'video') {
+
+        my $video_id   = $liststore->get($iter, 3);
+        my $video_data = parse_json_string($liststore->get($iter, 8));
+
+        # Youtube comments
+        {
+            my $item = 'Gtk3::ImageMenuItem'->new("YouTube comments");
+            $item->set_image('Gtk3::Image'->new_from_icon_name("edit-copy", q{menu}));
+            $item->signal_connect(activate => \&show_comments_window);
+            $item->show;
+            $menu->append($item);
+        }
+
+        # Separator
+        {
+            my $item = 'Gtk3::SeparatorMenuItem'->new;
+            $item->show;
+            $menu->append($item);
+        }
+
+        # Video submenu
+        {
+            my $video = 'Gtk3::Menu'->new;
+            my $cat   = 'Gtk3::ImageMenuItem'->new("Video");
+            $cat->set_image('Gtk3::Image'->new_from_icon_name("video-x-generic", q{menu}));
+            $cat->show;
+
+            # Play
+            {
+                my $item = 'Gtk3::ImageMenuItem'->new("Play");
+                $item->signal_connect(activate => \&get_code);
+                $item->set_property(tooltip_text => "Play the video");
+                $item->set_image('Gtk3::Image'->new_from_icon_name("media-playback-start-symbolic", q{menu}));
+                $item->show;
+                $video->append($item);
+            }
+
+            # Enqueue
+            {
+                my $item = 'Gtk3::ImageMenuItem'->new("Enqueue");
+                $item->signal_connect(activate => sub { enqueue_video() });
+                $item->set_property(tooltip_text => "Enqueue video to play it later");
+                $item->set_image('Gtk3::Image'->new_from_icon_name("list-add-symbolic", q{menu}));
+                $item->show;
+                $video->append($item);
+            }
+
+            # Favorite
+            {
+                my $item = 'Gtk3::ImageMenuItem'->new("Favorite");
+                $item->set_property(tooltip_text => "Save the video in the playlist of favorite videos");
+                $item->signal_connect(
+                    activate => sub {
+                        say(":: Favorite video: ", $yv_utils->get_title($video_data)) if $DEBUG;
+                        prepend_video_data_to_file($video_data, $favorite_videos_data_file);
+                    }
+                );
+                $item->set_image('Gtk3::Image'->new_from_icon_name("starred-symbolic", q{menu}));
+                $item->show;
+                $video->append($item);
+            }
+
+            # Download
+            {
+                my $item = 'Gtk3::ImageMenuItem'->new("Download");
+                $item->set_property(tooltip_text => "Download the video");
+                $item->signal_connect(activate => \&download_video);
+                $item->set_image('Gtk3::Image'->new_from_icon_name("document-save-symbolic", q{menu}));
+                $item->show;
+                $video->append($item);
+            }
+
+            # Separator
+            {
+                my $item = 'Gtk3::SeparatorMenuItem'->new;
+                $item->show;
+                $video->append($item);
+            }
+
+            # Like
+            {
+                my $item = 'Gtk3::ImageMenuItem'->new("Like");
+                $item->set_property(tooltip_text => "Save video in the playlist of liked videos");
+                $item->signal_connect(
+                    activate => sub {
+                        say(":: Liking video: ", $yv_utils->get_title($video_data)) if $DEBUG;
+                        prepend_video_data_to_file($video_data, $liked_videos_data_file);
+                    }
+                );
+                $item->set_image('Gtk3::Image'->new_from_icon_name("go-up-symbolic", q{menu}));
+                $item->show;
+                $video->append($item);
+            }
+
+            # Disike
+            {
+                my $item = 'Gtk3::ImageMenuItem'->new("Dislike");
+                $item->set_property(tooltip_text => "Save video in the playlist of disliked videos");
+                $item->signal_connect(
+                    activate => sub {
+                        say(":: Disliking video: ", $yv_utils->get_title($video_data)) if $DEBUG;
+                        prepend_video_data_to_file($video_data, $disliked_videos_data_file);
+                    }
+                );
+                $item->set_image('Gtk3::Image'->new_from_icon_name("go-down-symbolic", q{menu}));
+                $item->show;
+                $video->append($item);
+            }
+
+            # Separator
+            {
+                my $item = 'Gtk3::SeparatorMenuItem'->new;
+                $item->show;
+                $video->append($item);
+            }
+
+            # Related videos
+            {
+                my $item = 'Gtk3::ImageMenuItem'->new("Related videos");
+                $item->set_property(tooltip_text => "Display videos that are related to this video");
+                $item->signal_connect(activate => \&show_related_videos);
+                $item->set_image('Gtk3::Image'->new_from_icon_name("video-x-generic-symbolic", q{menu}));
+                $item->show;
+                $video->append($item);
+            }
+
+            # Open the YouTube video page
+            {
+                my $item = 'Gtk3::ImageMenuItem'->new("YouTube page");
+                $item->signal_connect(activate => sub { open_external_url(make_youtube_url('video', $video_id)) });
+                $item->set_property(tooltip_text => "Open the YouTube page of this video");
+                $item->set_image('Gtk3::Image'->new_from_icon_name("web-browser-symbolic", q{menu}));
+                $item->show;
+                $video->append($item);
+            }
+
+            $cat->set_submenu($video);
+            $menu->append($cat);
+        }
+    }
+    elsif ($type eq 'playlist') {
+
+        my $playlist_id = $liststore->get($iter, 3);
+
+        # Playlist videos
+        {
+            my $item = 'Gtk3::ImageMenuItem'->new("Videos");
+            $item->set_property(tooltip_text => "Display the videos from this playlist");
+            $item->signal_connect(activate => sub { list_playlist($playlist_id) });
+            $item->set_image('Gtk3::Image'->new_from_icon_name("folder-open", q{menu}));
+            $item->show;
+            $menu->append($item);
+        }
+
+        # Separator
+        {
+            my $item = 'Gtk3::SeparatorMenuItem'->new;
+            $item->show;
+            $menu->append($item);
+        }
+    }
+
+    my $channel_id = $liststore->get($iter, 6);
+
+    # Author submenu
+    {
+        my $author = 'Gtk3::Menu'->new;
+        my $cat    = 'Gtk3::ImageMenuItem'->new("Author");
+        $cat->set_image('Gtk3::Image'->new_from_pixbuf($user_icon_pixbuf));
+        $cat->show;
+
+        # Recent uploads from this author
+        {
+            my $item = 'Gtk3::ImageMenuItem'->new("Uploads");
+            $item->signal_connect(activate => sub { list_channel_videos($channel_id) });
+            $item->set_property(tooltip_text => "Show the most recent videos from this author");
+            $item->set_image('Gtk3::Image'->new_from_icon_name("emblem-videos-symbolic", q{menu}));
+            $item->show;
+            $author->append($item);
+        }
+
+        # Recent shorts from this author
+        {
+            my $item = 'Gtk3::ImageMenuItem'->new("Shorts");
+            $item->signal_connect(activate => sub { list_channel_shorts($channel_id) });
+            $item->set_property(tooltip_text => "Show the most recent shorts from this author");
+            $item->set_image('Gtk3::Image'->new_from_icon_name("emblem-shared-symbolic", q{menu}));
+            $item->show;
+            $author->append($item);
+        }
+
+        # Recent streams from this author
+        {
+            my $item = 'Gtk3::ImageMenuItem'->new("Streams");
+            $item->signal_connect(activate => sub { list_channel_streams($channel_id) });
+            $item->set_property(tooltip_text => "Show the most recent streams from this author");
+            $item->set_image('Gtk3::Image'->new_from_icon_name("media-record-symbolic", q{menu}));
+            $item->show;
+            $author->append($item);
+        }
+
+        # Playlists created by this author
+        {
+            my $item = 'Gtk3::ImageMenuItem'->new("Playlists");
+            $item->signal_connect(activate => sub { list_channel_playlists($channel_id) });
+            $item->set_property(tooltip_text => "Show playlists created by this author");
+            $item->set_image('Gtk3::Image'->new_from_icon_name("emblem-documents-symbolic", q{menu}));
+            $item->show;
+            $author->append($item);
+        }
+
+        # Separator
+        {
+            my $item = 'Gtk3::SeparatorMenuItem'->new;
+            $item->show;
+            $author->append($item);
+        }
+
+        # Most popular videos from this author
+        {
+            my $item = 'Gtk3::ImageMenuItem'->new("Popular videos");
+            $item->signal_connect(activate => sub { popular_uploads($channel_id) });
+            $item->set_property(tooltip_text => "Show the most popular videos from this author");
+            $item->set_image('Gtk3::Image'->new_from_icon_name("emblem-favorite", q{menu}));
+            $item->show;
+            $author->append($item);
+        }
+
+        # Most popular streams from this author
+        {
+            my $item = 'Gtk3::ImageMenuItem'->new("Popular streams");
+            $item->signal_connect(activate => sub { popular_streams($channel_id) });
+            $item->set_property(tooltip_text => "Show the most popular livestreams from this author");
+            $item->set_image('Gtk3::Image'->new_from_icon_name("media-record", q{menu}));
+            $item->show;
+            $author->append($item);
+        }
+
+        # Separator
+        {
+            my $item = 'Gtk3::SeparatorMenuItem'->new;
+            $item->show;
+            $author->append($item);
+        }
+
+        my $channel_data = parse_json_string($liststore->get($iter, 8));
+        my $channel_name = $yv_utils->get_channel_title($channel_data);
+
+        # Subscribe to channel
+        {
+            my $item = 'Gtk3::ImageMenuItem'->new("Subscribe");
+            $item->signal_connect(activate => sub { save_channel($channel_id, $channel_name, subscribe => 1) });
+            $item->set_property(tooltip_text => "Subscribe to this channel");
+            $item->set_image('Gtk3::Image'->new_from_pixbuf($feed_icon_gray_pixbuf));
+            $item->show;
+            $author->append($item);
+        }
+
+        # Save channel in the user-list
+        {
+            my $item = 'Gtk3::ImageMenuItem'->new("Save channel");
+            $item->set_property(tooltip_text => "Save the channel in the user-list");
+            $item->signal_connect(activate => sub { save_channel($channel_id, $channel_name) });
+            $item->set_image('Gtk3::Image'->new_from_icon_name("star-new-symbolic", q{menu}));
+            $item->show;
+            $author->append($item);
+        }
+
+        # Open the YouTube channel page
+        {
+            my $item = 'Gtk3::ImageMenuItem'->new("YouTube page");
+            $item->signal_connect(activate => sub { open_external_url(make_youtube_url('channel', $channel_id)) });
+            $item->set_property(tooltip_text => "Open the YouTube page of this channel");
+            $item->set_image('Gtk3::Image'->new_from_icon_name("web-browser-symbolic", q{menu}));
+            $item->show;
+            $author->append($item);
+        }
+
+        if ($type eq 'video' or $type eq 'playlist') {
+            $cat->set_submenu($author);
+            $menu->append($cat);
+        }
+        else {
+            $menu = $author;
+        }
+    }
+
+    # Separator
+    {
+        my $item = 'Gtk3::SeparatorMenuItem'->new;
+        $item->show;
+        $menu->append($item);
+    }
+
+    # Copy YouTube URL
+    {
+        my $item = 'Gtk3::ImageMenuItem'->new("Copy YouTube URL");
+        $item->set_property(tooltip_text => "Copy the YouTube URL for this entry");
+        $item->set_image('Gtk3::Image'->new_from_icon_name("edit-copy-symbolic", q{menu}));
+        $item->signal_connect(
+            activate => sub {
+                my $id        = $liststore->get($iter, 3);
+                my $display   = Gtk3::Gdk::Display::get_default();
+                my $clipboard = Gtk3::Clipboard::get_default($display);
+                $clipboard->set_text(make_youtube_url($type, $id));
+            }
+        );
+        $item->show;
+        $menu->append($item);
+    }
+
+    if (@VIDEO_QUEUE) {
+
+        # Separator
+        {
+            my $item = 'Gtk3::SeparatorMenuItem'->new;
+            $item->show;
+            $menu->append($item);
+        }
+
+        # Play enqueued videos
+        {
+            my $item = 'Gtk3::ImageMenuItem'->new("Play enqueued videos");
+            $item->signal_connect(activate => \&play_enqueued_videos);
+            $item->set_property(tooltip_text => "Play the enqueued videos (if any)");
+            $item->set_image('Gtk3::Image'->new_from_icon_name("media-playback-start", q{menu}));
+            $item->show;
+            $menu->append($item);
+        }
+    }
+
+    if ($type eq 'video' or $type eq 'playlist') {
+
+        # Separator
+        {
+            my $item = 'Gtk3::SeparatorMenuItem'->new;
+            $item->show;
+            $menu->append($item);
+        }
+
+        # Play as audio
+        {
+            my $item = 'Gtk3::ImageMenuItem'->new("Play as audio");
+            $item->signal_connect(activate => sub { play_selected_with_cli(audio_only => 1) });
+            $item->set_property(tooltip_text => "Play as audio in a new terminal");
+            $item->set_image('Gtk3::Image'->new_from_icon_name("audio-headphones", q{menu}));
+            $item->show;
+            $menu->append($item);
+        }
+
+        # Play with CLI pipe-viewer
+        {
+            my $item = 'Gtk3::ImageMenuItem'->new("Play in terminal");
+            $item->signal_connect(activate => sub { play_selected_with_cli() });
+            $item->set_property(tooltip_text => "Play with pipe-viewer in a new terminal");
+            $item->set_image('Gtk3::Image'->new_from_icon_name("computer", q{menu}));
+            $item->show;
+            $menu->append($item);
+        }
+    }
+
+    return $menu;
+}
+
+sub get_users_list_popup_menu {
+    my ($iter) = @_;
+
+    my $channel_id   = $users_liststore->get($iter, 0);
+    my $channel_name = $users_liststore->get($iter, 1);
+
+    # Create the main right-click menu
+    my $menu = 'Gtk3::Menu'->new;
+
+    # Videos from channel
+    {
+        my $item = 'Gtk3::ImageMenuItem'->new("Videos");
+        $item->set_image('Gtk3::Image'->new_from_icon_name("applications-multimedia", q{menu}));
+        $item->set_property(tooltip_text => "List the latest videos from this channel");
+        $item->signal_connect(activate => \&videos_from_selected_username);
+        $item->show;
+        $menu->append($item);
+    }
+
+    # Recent shorts from this author
+    {
+        my $item = 'Gtk3::ImageMenuItem'->new("Shorts");
+        $item->signal_connect(activate => sub { list_channel_shorts($channel_id) });
+        $item->set_property(tooltip_text => "Show the most recent shorts from this author");
+        $item->set_image('Gtk3::Image'->new_from_icon_name("emblem-shared-symbolic", q{menu}));
+        $item->show;
+        $menu->append($item);
+    }
+
+    # Recent streams from this author
+    {
+        my $item = 'Gtk3::ImageMenuItem'->new("Streams");
+        $item->signal_connect(activate => sub { list_channel_streams($channel_id) });
+        $item->set_property(tooltip_text => "Show the most recent streams from this author");
+        $item->set_image('Gtk3::Image'->new_from_icon_name("media-record-symbolic", q{menu}));
+        $item->show;
+        $menu->append($item);
+    }
+
+    # Playlists created by this author
+    {
+        my $item = 'Gtk3::ImageMenuItem'->new("Playlists");
+        $item->signal_connect(activate => sub { list_channel_playlists($channel_id) });
+        $item->set_property(tooltip_text => "Show playlists created by this author");
+        $item->set_image('Gtk3::Image'->new_from_icon_name("emblem-documents-symbolic", q{menu}));
+        $item->show;
+        $menu->append($item);
+    }
+
+    # Separator
+    {
+        my $item = 'Gtk3::SeparatorMenuItem'->new;
+        $item->show;
+        $menu->append($item);
+    }
+
+    # Most popular videos from this author
+    {
+        my $item = 'Gtk3::ImageMenuItem'->new("Popular videos");
+        $item->signal_connect(activate => sub { popular_uploads($channel_id) });
+        $item->set_property(tooltip_text => "Show the most popular videos from this author");
+        $item->set_image('Gtk3::Image'->new_from_icon_name("emblem-favorite", q{menu}));
+        $item->show;
+        $menu->append($item);
+    }
+
+    # Most popular streams from this author
+    {
+        my $item = 'Gtk3::ImageMenuItem'->new("Popular streams");
+        $item->signal_connect(activate => sub { popular_streams($channel_id) });
+        $item->set_property(tooltip_text => "Show the most popular livestreams from this author");
+        $item->set_image('Gtk3::Image'->new_from_icon_name("media-record", q{menu}));
+        $item->show;
+        $menu->append($item);
+    }
+
+    # Separator
+    {
+        my $item = 'Gtk3::SeparatorMenuItem'->new;
+        $item->show;
+        $menu->append($item);
+    }
+
+    # Subscribe / unsubscribe from channel
+    {
+        my $item = 'Gtk3::ImageMenuItem'->new($subscribed_channels{$channel_id} ? "Unsubscribe" : "Subscribe");
+        $subscribed_channels{$channel_id}
+          ? $item->set_image('Gtk3::Image'->new_from_pixbuf($feed_icon_gray_pixbuf))
+          : $item->set_image('Gtk3::Image'->new_from_pixbuf($feed_icon_pixbuf));
+        $item->signal_connect(activate => \&subscribe_toggle_selected_username);
+        $item->show;
+        $menu->append($item);
+    }
+
+    # Rename the channel
+    {
+        my $item = 'Gtk3::ImageMenuItem'->new("Rename");
+        $item->set_image('Gtk3::Image'->new_from_icon_name("accessories-text-editor", q{menu}));
+        $item->set_property(tooltip_text => "Rename the channel");
+        $item->signal_connect(
+            activate => sub {
+                Glib::Timeout->add(
+                    100,
+                    sub {
+                        # Ugly, but if the "Rename" menu entry happens to be
+                        # positioned outside the user list window, over the
+                        # main window, and the window manager is configured
+                        # to have focus follow the mouse pointer, then when
+                        # the popup menu is unmapped, the main window will
+                        # get focused, cancelling the editing…
+                        $users_list_window->present();
+                        rename_selected_username();
+                        return 0;
+                    },
+                );
+            }
+        );
+        $item->show;
+        $menu->append($item);
+    }
+
+    # Remove the channel
+    {
+        my $item = 'Gtk3::ImageMenuItem'->new("Remove");
+        $item->set_image('Gtk3::Image'->new_from_icon_name("edit-delete", q{menu}));
+        $item->set_property(tooltip_text => "Remove the channel from this list");
+        $item->signal_connect(activate => \&remove_selected_username);
+        $item->show;
+        $menu->append($item);
+    }
+
+    # Separator
+    {
+        my $item = 'Gtk3::SeparatorMenuItem'->new;
+        $item->show;
+        $menu->append($item);
+    }
+
+    # Open the YouTube channel page
+    {
+        my $item = 'Gtk3::ImageMenuItem'->new("YouTube page");
+        $item->signal_connect(activate => sub { open_external_url(make_youtube_url('channel', $channel_id)) });
+        $item->set_property(tooltip_text => "Open the YouTube page of this channel");
+        $item->set_image('Gtk3::Image'->new_from_icon_name("web-browser-symbolic", q{menu}));
+        $item->show;
+        $menu->append($item);
+    }
+
+    return $menu;
+}
+
+# Setting help text
+set_text(
+    $textview_help, <<"HELP_TEXT"
+
+# Key binds
+
+    CTRL+H : help window
+    CTRL+P : preferences window
+    CTRL+Y : start CLI Pipe Viewer
+    CTRL+E : enqueue the selected video
+
+    CTRL+N : show subscription videos
+    CTRL+W : show the watched videos
+    CTRL+U : show the saved user-list
+    CTRL+D : show more details for a selected entry
+    CTRL+R : show related videos for a selected video
+    CTRL+M : show videos from the author of a selected video
+    CTRL+K : show playlists from the author of a selected video
+    CTRL+B : play the selected entry as audio-only
+    CTRL+S : add the author of a selected video to the user-list
+    CTRL+Q : close the application
+
+    DEL    : remove the selected entry from the list
+    F11    : minimize-maximize the main window
+
+HELP_TEXT
+);
+
+{
+    my $font = Pango::FontDescription::from_string('Monospace 8');
+    $textview_help->modify_font($font);
+}
+
+# ------------------- Accels ------------------- #
+
+{
+    # Main window
+    my $accel = Gtk3::AccelGroup->new;
+
+    # 'CTRL+...' keybinds
+    $accel->connect(ord('e'), ['control-mask'], ['visible'], \&enqueue_video);
+    $accel->connect(ord('q'), ['control-mask'], ['visible'], \&on_mainw_destroy);
+    $accel->connect(ord('y'), ['control-mask'], ['visible'], \&run_cli);
+    $accel->connect(ord('d'), ['control-mask'], ['visible'], \&show_details_window);
+    ##$accel->connect(ord('c'), ['control-mask'], ['visible'], \&show_comments_window);
+    $accel->connect(ord('s'), ['control-mask'], ['visible'], \&add_user_to_favorites);
+    $accel->connect(ord('r'), ['control-mask'], ['visible'], \&show_related_videos);
+    $accel->connect(ord('m'), ['control-mask'], ['visible'], \&show_videos_from_selected_author);
+    $accel->connect(ord('k'), ['control-mask'], ['visible'], \&show_playlists_from_selected_author);
+    $accel->connect(ord('b'), ['control-mask'], ['visible'], sub { play_selected_with_cli(audio_only => 1) });
+
+    # 'DEL' key
+    $accel->connect(0xffff, ['lock-mask'], ['visible'], \&remove_selected_row);
+
+    # 'F11' key
+    $accel->connect(0xffc8, ['lock-mask'], ['visible'], \&maximize_unmaximize_mainw);
+
+    $mainw->add_accel_group($accel);
+}
+
+{
+    # "Saved channels" window
+    my $accel = Gtk3::AccelGroup->new;
+
+    # 'DEL' key
+    $accel->connect(0xffff, ['lock-mask'], ['visible'], \&remove_selected_username);
+
+    $users_list_window->add_accel_group($accel);
+}
+
+# Support for navigating back and forth using the side buttons of the mouse
+$mainw->signal_connect(
+    'button-release-event' => sub {
+        my (undef, $event) = @_;
+
+        my $button = $event->button;
+
+        if ($button == 8) {
+            display_previous_results();
+        }
+        elsif ($button == 9) {
+            display_next_results();
+        }
+    }
+);
+
+# ---------------- Worker setup ------------------------------- #
+
+my $worker_watch = Glib::IO->add_watch(
+    $worker->fileno(),
+    ['in'],
+    sub {
+        eval { $worker->process_next_reply() };
+        return 1;
+    }
+);
+
+# ---------------- Requests handling -------------------------- #
+
+# Request priorities (lower value -> higher priority).
+use constant {
+              REQUEST_PRIORITY_INFO           => 0,
+              REQUEST_PRIORITY_COMMENTS       => 1,
+              REQUEST_PRIORITY_DETAILS        => 1,
+              REQUEST_PRIORITY_DETAILS_THUMBS => 2,
+              REQUEST_PRIORITY_SEARCH         => 3,
+              REQUEST_PRIORITY_RESULTS_THUMBS => 4,
+             };
+
+my $search_request;
+my $search_progress;
+my $results_thumbs_request;
+my $details_request;
+my $details_thumbs_request;
+
+sub toggle_progress {
+    my ($mode, $enable) = @_;
+    my $step = $enable ? 1 : -1;
+    state $bar_count   = 0;
+    state $pulse_count = 0;
+    state $pulse_timer = 0;
+    if ($mode eq 'bar') {
+        $bar_count += $step;
+        die unless $bar_count >= 0;
+    }
+    elsif ($mode eq 'pulse') {
+        $pulse_count += $step;
+        die unless $pulse_count >= 0;
+    }
+    else {
+        die "invalid progress mode: $mode";
+    }
+    if ($pulse_count && !$pulse_timer) {
+        $progressbar->pulse();
+        $pulse_timer = Glib::Timeout->add(
+            80,
+            sub {
+                $progressbar->pulse();
+                return 1;
+            }
+        );
+    }
+    elsif (!$pulse_count && $pulse_timer) {
+        $progressbar->set_fraction($progressbar->get_fraction());
+        Glib::Source->remove($pulse_timer);
+        $pulse_timer = 0;
+    }
+    if ($pulse_count || $bar_count) {
+        $progressbar->set_sensitive(1);
+    }
+    else {
+        $progressbar->set_sensitive(0);
+        $progressbar->set_fraction(0.0);
+        $progressbar->set_text('');
+    }
+}
+
+sub clear_search_requests {
+    toggle_progress($search_progress, 0) if $search_progress;
+    $worker->abort_requests($search_request, $results_thumbs_request);
+    $search_progress = $search_request = $results_thumbs_request = undef;
+    return;
+}
+
+sub send_search_request {
+    my ($error_message, $method, $args, %options) = @_;
+    save_search_results_position();
+    clear_search_requests();
+    toggle_progress($search_progress = 'pulse', 1);
+    $worker->abort_requests($search_request);
+    $search_request = $worker->send_request(
+        sub {
+            my ($result, $request) = @_;
+            toggle_progress('pulse', 0);
+            $search_progress = $search_request = undef;
+            die "$error_message\n" unless ($yv_utils->has_entries($result));
+            display_results($result);
+        },
+        $method,
+        $args,
+        %options,
+        priority => REQUEST_PRIORITY_SEARCH,
+    );
+    return;
+}
+
+sub fetch_thumbnails {
+    my ($setter, $thumbnails, $request_ref, %request_options) = @_;
+    $worker->abort_requests($$request_ref);
+    return unless scalar @$thumbnails;
+
+    # Group by URL, and build request arguments.
+    my %thumbs_by_url;
+    my @request_args;
+    for my $thumb (@$thumbnails) {
+        $thumb->{url} // next;
+        if ($thumbs_by_url{$thumb->{url}}) {
+            push @{$thumbs_by_url{$thumb->{url}}}, $thumb;
+        }
+        else {
+            $thumbs_by_url{$thumb->{url}} = [$thumb];
+            push @request_args,
+              {
+                url  => $thumb->{url},
+                path => $thumb->{path},
+              };
+        }
+    }
+
+    # Request missing thumbnails.
+    $$request_ref = $worker->send_request(
+        sub {
+            my ($url, $request) = @_;
+            unless ($request->{keep_alive}) {
+                $$request_ref = undef;
+            }
+            for my $thumb (@{delete $thumbs_by_url{$url}}) {
+                $setter->($thumb);
+            }
+        },
+        'fetch_multiple_thumbnails',
+        \@request_args,
+        %request_options
+    );
+    return;
+}
+
+# ---------------- Generic GTK signal handlers ---------------- #
+
+sub gtk_widget_grab_focus {
+    my $widget = $_[-1] // $_[0];
+    $widget->grab_focus;
+    return 1;
+}
+
+sub gtk_widget_show {
+    my $widget = $_[-1] // $_[0];
+    $widget->show;
+    return 1;
+}
+
+sub gtk_widget_hide {
+    my $widget = $_[-1] // $_[0];
+    $widget->hide;
+    return 1;
+}
+
+sub gtk_treeview_button_press {
+    my ($widget, $event) = @_;
+    return 0 if $event->button != 3;
+    my $path = ($widget->get_path_at_pos($event->x, $event->y))[0] // return 0;
+    $widget->set_cursor($path, undef, 0);
+    $widget->grab_focus();
+    my $iter = $widget->get_model()->get_iter($path);
+    my $menu = $widget->{'get-popup-menu'}->($iter) // return 0;
+    $menu->popup(undef, undef, undef, undef, $event->button, $event->time);
+    return 1;
+}
+
+sub gtk_treeview_popup_menu {
+    my ($widget)  = @_;
+    my $selection = $widget->get_selection;
+    my $iter      = $selection->get_selected()           // return 0;
+    my $menu      = $widget->{'get-popup-menu'}->($iter) // return 0;
+    my $path      = $widget->get_model->get_path($iter);
+    my $column    = $widget->get_column(1);
+
+    # Ensure the selected row is visible.
+    $widget->scroll_to_cell($path, $column, 0, 0, 0);
+    my $rect = $widget->get_cell_area($path, $column);
+
+    # When Gtk animations are enabled (`gtk-enable-animations=true`),
+    # the coordinates reported won't be correct if the cell was not
+    # already fully visible…
+    if ($rect->{y} < 0) {
+
+        # The cell was hiden, before the visible area,
+        # or partially visible at the top of said area.
+        $rect->{y} = 0;
+    }
+    elsif ($rect->{y} > $widget->get_bin_window->get_height) {
+
+        # The cell was hiden, after the visible area,
+        # or partially visible at the end of said area.
+        $rect->{y} = $widget->get_bin_window->get_height - $rect->{height};
+    }
+    $menu->popup_at_rect($widget->get_window(), $rect, 'center', 'north_west', undef);
+    return 1;
+}
+
+# ------------------ Showing/Hidding windows ------------------ #
+
+# Main window
+sub maximize_unmaximize_mainw {
+    state $maximized = 0;
+    $maximized++ % 2
+      ? $mainw->unfullscreen
+      : $mainw->fullscreen;
+}
+
+sub reset_details_spinner {
+    $details_spinner->stop();
+    $details_spinner->{startcount} = 0;
+    return;
+}
+
+sub start_details_spinner {
+    $details_spinner->start() unless $details_spinner->{startcount}++;
+    return;
+}
+
+sub stop_details_spinner {
+    die                      unless $details_spinner->{startcount} >= 0;
+    $details_spinner->stop() unless --$details_spinner->{startcount};
+    return;
+}
+
+# Details window
+sub show_details_window {
+    my ($id, $iter) = get_selected_entry_code();
+    $id // return;
+
+    my $type = $liststore->get($iter, 7);
+
+    if ($type eq 'next_page') {
+        return 1;
+    }
+
+    reset_details_spinner();
+    $worker->abort_requests($details_request, $details_thumbs_request);
+    $details_request = $details_thumbs_request = undef;
+    set_entry_details($id, $iter);
+    $details_window->show;
+
+    return 1;
+}
+
+# Preferences window
+sub show_preferences_window {
+    require Data::Dump;
+    get_main_window_size();
+    my $config_view_buffer = $config_view->get_buffer;
+    $config_view_buffer->set_text(Data::Dump::dump({map { ($_, $CONFIG{$_}) } grep { not /^active_/ } keys %CONFIG}));
+    $config_view->set_buffer($config_view_buffer);
+    state $font = Pango::FontDescription::from_string('Monospace 8');
+    $config_view->modify_font($font);
+    $preferences_window->show;
+    return 1;
+}
+
+# Save plaintext config to file
+sub save_configuration {
+    my $config = get_text($config_view);
+
+    my $hash_ref = eval $config;
+
+    print STDERR $@ if $@;
+    die $@          if $@;
+
+    %CONFIG = (%CONFIG, %{$hash_ref});
+    dump_configuration();
+
+    apply_configuration();
+    $preferences_window->hide;
+    return 1;
+}
+
+sub remove_selected_row {
+    my (undef, $iter) = get_selected_entry_code();
+    $iter // return;
+    $liststore->remove($iter);
+    return 1;
+}
+
+# Combo boxes changes
+
+sub combobox_changed {
+    my ($combo, $option) = @_;
+    $CONFIG{$option} = $combo->get_active_id();
+}
+
+sub combobox_search_for_changed {
+    combobox_changed($search_for_combobox, "search_for");
+}
+
+sub combobox_order_changed {
+    combobox_changed($order_combobox, "order");
+}
+
+sub combobox_resolution_changed {
+    combobox_changed($resolution_combobox, "resolution");
+}
+
+sub combobox_duration_changed {
+    combobox_changed($duration_combobox, "videoDuration");
+}
+
+sub combobox_published_within_changed {
+    combobox_changed($published_within_combobox, "date");
+}
+
+# Spin buttons changes
+sub spin_results_per_page_changed {
+    $CONFIG{maxResults} = $spin_results->get_value();
+}
+
+# Clear search list
+sub toggled_clear_search_list {
+    $CONFIG{clear_search_list} = $clear_list_checkbutton->get_active() || 0;
+}
+
+# Fullscreen mode
+sub toggled_fullscreen {
+    $CONFIG{fullscreen} = $fullscreen_checkbutton->get_active() || 0;
+}
+
+# Audio-only mode
+sub toggled_audio_only {
+    $CONFIG{audio_only} = $audio_only_checkbutton->get_active() || 0;
+}
+
+# Split A/V videos
+sub toggled_split_videos {
+    $CONFIG{split_videos} = $split_videos_checkbutton->get_active() || 0;
+}
+
+# DASH mode
+sub toggled_dash_support {
+    $CONFIG{dash} = $dash_checkbutton->get_active() || 0;
+}
+
+# Check buttons toggles
+sub toggled_thumbs_checkbutton {
+    $CONFIG{show_thumbs} = ($_[0]->get_active() || 0);
+    $thumbs_column->set_visible($CONFIG{show_thumbs});
+}
+
+# Get main window size
+sub get_main_window_size {
+    $CONFIG{mainw_size} = join('x', $mainw->get_size);
+}
+
+sub main_window_state_events {
+    my (undef, $state) = @_;
+
+    my $windowstate = $state->new_window_state();
+    my @states      = split(' ', $windowstate);
+
+    $CONFIG{mainw_maximized}  = (grep { $_ eq 'maximized' } @states)  ? 1 : 0;
+    $CONFIG{mainw_fullscreen} = (grep { $_ eq 'fullscreen' } @states) ? 1 : 0;
+
+    return 1;
+}
+
+sub append_categories {
+    my ($categories, $type) = @_;
+
+    foreach my $category (@$categories) {
+
+        my $label = $category->{title};
+        my $id    = $category->{id};
+
+        $label =~ s{&}{&amp;}g;
+
+        my $iter = $cats_liststore->append;
+
+        $cats_liststore->set(
+                             $iter,
+                             0 => $label,
+                             1 => $id,
+                             2 => $feed_icon_pixbuf,
+                             3 => $type,
+                            );
+    }
+    return 1;
+}
+
+append_categories($yv_obj->video_categories, 'cat');
+
+my $tops_liststore = $gui->get_object('liststore6');
+my $tops_treeview  = $gui->get_object('treeview4');
+
+sub add_top_row {
+    my ($top_name, $top_type) = @_;
+
+    (my $top_label = ucfirst $top_name) =~ tr/_/ /;
+    my $iter = $tops_liststore->append;
+
+    $tops_liststore->set(
+                         $iter,
+                         0 => $top_label,
+                         1 => $feed_icon_pixbuf,
+                         2 => $top_name,
+                         3 => $top_type,
+                        );
+}
+
+my $playlists_liststore = $gui->get_object('liststore6');
+my $playlists_treeview  = $gui->get_object('treeview4');
+
+sub add_local_playlist_row {
+    my ($playlist_name, $playlist_file) = @_;
+
+    my $iter = $playlists_liststore->append;
+
+    $playlists_liststore->set(
+                              $iter,
+                              0 => encode_entities($playlist_name),
+                              1 => $feed_icon_gray_pixbuf,
+                              2 => $playlist_name,
+                              3 => $playlist_file,
+                             );
+}
+
+sub set_local_playlists {
+    my ($top_time, $main_label) = @_;
+
+    my @playlist_files = reverse $yv_utils->get_local_playlist_filenames($local_playlists_dir);
+
+    foreach my $file (@playlist_files) {
+        my $snippet = $yv_utils->local_playlist_snippet($file);
+        add_local_playlist_row($yv_utils->get_title($snippet), $file);
+    }
+}
+
+set_local_playlists();
+
+# ------------ Usernames list window ------------ #
+sub set_usernames {
+
+    if (-e $CONFIG{saved_channels_file}) {
+        %channels = ((map { @$_ } $yv_utils->read_channels_from_file($CONFIG{saved_channels_file})), %channels);
+    }
+    else {
+        %channels = map { @$_ } $yv_utils->default_channels;
+    }
+
+    if (-e $CONFIG{subscribed_channels_file}) {
+        %subscribed_channels =
+          ((map { @$_ } $yv_utils->read_channels_from_file($CONFIG{subscribed_channels_file})), %subscribed_channels,);
+    }
+
+    $users_liststore->clear;    # clear the list
+
+    foreach my $channel (sort { CORE::fc($channels{$a} // $a) cmp CORE::fc($channels{$b} // $b) } keys %channels) {
+        my $iter = $users_liststore->append;
+
+        $channels{$channel} // next;
+
+        $users_liststore->set(
+                              $iter,
+                              0 => $channel,
+                              1 => $channels{$channel},
+                              2 => (
+                                    exists($subscribed_channels{$channel})
+                                    ? $feed_icon_pixbuf
+                                    : $user_icon_pixbuf
+                                   ),
+                             );
+    }
+}
+
+sub users_list_button_press {
+    my ($widget, $event) = @_;
+    if ($event->button != 1) {
+        return gtk_treeview_button_press($widget, $event);
+    }
+
+    # Manually handle left clicks to prevent triggering editing
+    # a username on double-click (instead of activating the row).
+    my $path          = ($users_treeview->get_path_at_pos($event->x, $event->y))[0] // return 0;
+    my $selected_path = $path->to_string;
+    state $double_click_time  = Gtk3::Settings::get_default->get_property('gtk-double-click-time');
+    state $prev_selected_path = -1;
+    state $trigger_edit_timeout;
+    if ($trigger_edit_timeout) {
+        Glib::Source->remove($trigger_edit_timeout);
+        $trigger_edit_timeout = undef;
+    }
+    if ($event->type eq 'button-press') {
+        if ($prev_selected_path == $selected_path) {
+            $trigger_edit_timeout = Glib::Timeout->add(
+                $double_click_time + 20,
+                sub {
+                    $trigger_edit_timeout = undef;
+                    rename_selected_username();
+                    return 0;
+                }
+            );
+        }
+        else {
+            $users_treeview->set_cursor($path, undef, 0);
+            $prev_selected_path = $selected_path;
+        }
+    }
+    elsif ($event->type eq '2button-press') {
+        $users_treeview->row_activated($path, $users_treeview->get_column(1));
+    }
+    return 1;
+}
+
+sub update_saved_channel_name {
+    my ($edit, $path, $new_name) = @_;
+    my $iter = $users_liststore->get_iter_from_string($path);
+    if ($new_name =~ /\S/ && $new_name ne $users_liststore->get($iter, 1)) {
+        my $channel_id = $users_liststore->get($iter, 0);
+        $users_liststore->set($iter, [1], [$new_name]);
+        if (exists $subscribed_channels{$channel_id}) {
+            $subscribed_channels{$channel_id} = $new_name;
+            write_channels_to_file(\%subscribed_channels, $CONFIG{subscribed_channels_file});
+        }
+        $channels{$channel_id} = $new_name;
+        write_channels_to_file(\%channels, $CONFIG{saved_channels_file});
+    }
+    return 1;
+}
+
+sub save_channel {
+    my ($channel_id, $channel_name, %args) = @_;
+    die unless $yv_utils->is_channelID($channel_id) and $channel_name =~ /\S/;
+
+    if ($args{subscribe} and not exists($subscribed_channels{$channel_id})) {
+        say ":: Subscribed channel: $channel_name [$channel_id]" if $DEBUG;
+        $subscribed_channels{$channel_id} = $channel_name;
+        write_channels_to_file(\%subscribed_channels, $CONFIG{subscribed_channels_file});
+    }
+
+    # Channel ID already exists in the list
+    if (exists($channels{$channel_id})) {
+        set_usernames() if $args{subscribe};
+        return;
+    }
+
+    # Save channel to file
+    say ":: Saving channel: $channel_name [$channel_id]" if $DEBUG;
+    $channels{$channel_id} = $channel_name;
+    write_channels_to_file(\%channels, $CONFIG{saved_channels_file});
+    set_usernames();
+}
+
+sub add_user_to_favorites {
+    my $selection = $treeview->get_selection() // return;
+    my $iter      = $selection->get_selected() // return;
+
+    my $info = parse_json_string($liststore->get($iter, 8));
+
+    my $channel_id   = $liststore->get($iter, 6);
+    my $channel_name = $yv_utils->get_channel_title($info);
+
+    save_channel($channel_id, $channel_name);
+}
+
+sub subscribe_toggle_selected_username {
+
+    my $selection = $users_treeview->get_selection // return;
+    my $iter      = $selection->get_selected       // return;
+
+    my $channel_id   = $users_liststore->get($iter, 0);
+    my $channel_name = $users_liststore->get($iter, 1);
+
+    if (exists $subscribed_channels{$channel_id}) {
+        delete $subscribed_channels{$channel_id};
+        $users_liststore->set($iter, [2], [$user_icon_pixbuf]);
+    }
+    else {
+        $subscribed_channels{$channel_id} = $channel_name;
+        $users_liststore->set($iter, [2], [$feed_icon_pixbuf]);
+    }
+
+    write_channels_to_file(\%subscribed_channels, $CONFIG{subscribed_channels_file});
+}
+
+sub rename_selected_username {
+    my $iter   = $users_treeview->get_selection->get_selected;
+    my $path   = $users_liststore->get_path($iter);
+    my $column = $users_treeview->get_column(1);
+    $users_treeview->set_cursor($path, $column, 1);
+    return;
+}
+
+sub remove_selected_username {
+
+    my $selection  = $users_treeview->get_selection // return;
+    my $iter       = $selection->get_selected       // return;
+    my $channel_id = $users_liststore->get($iter, 0);
+
+    delete $channels{$channel_id};
+    delete $subscribed_channels{$channel_id};
+
+    $users_liststore->remove($iter);
+
+    write_channels_to_file(\%channels,            $CONFIG{saved_channels_file});
+    write_channels_to_file(\%subscribed_channels, $CONFIG{subscribed_channels_file});
+}
+
+sub write_channels_to_file {
+    my ($channels, $file) = @_;
+
+    open(my $fh, '>:utf8', $file) or return;
+
+    foreach my $channel (
+                         sort { CORE::fc($channels->{$a} // $a) cmp CORE::fc($channels->{$b} // $b) }
+                         keys %$channels
+      ) {
+        if (defined($channels->{$channel})) {
+            say $fh "$channel $channels->{$channel}";
+        }
+        else {
+            say $fh "$channel $channel";
+        }
+    }
+
+    close $fh;
+}
+
+sub save_usernames_to_file {
+
+    set_usernames();    # update channels
+
+    write_channels_to_file(\%channels,            $CONFIG{saved_channels_file});
+    write_channels_to_file(\%subscribed_channels, $CONFIG{subscribed_channels_file});
+}
+
+# Get playlists from username
+sub playlists_from_selected_username {
+    my $selection = $users_treeview->get_selection() // return;
+    my $iter      = $selection->get_selected()       // return;
+    list_channel_playlists($users_liststore->get($iter, 0));
+}
+
+sub videos_from_selected_username {
+    my $selection = $users_treeview->get_selection() // return;
+    my $iter      = $selection->get_selected()       // return;
+    list_channel_videos($users_liststore->get($iter, 0));
+}
+
+sub videos_from_saved_channel {
+    $users_list_window->hide;
+    videos_from_selected_username();
+}
+
+sub popular_uploads {
+    my ($channel_id) = @_;
+    send_search_request("No popular uploads for channel: <<$channel_id>>", 'popular_videos', [$channel_id]);
+    return;
+}
+
+sub popular_streams {
+    my ($channel_id) = @_;
+    send_search_request("No popular livestreams for channel: <<$channel_id>>", 'popular_streams', [$channel_id]);
+    return;
+}
+
+sub get_selected_entry_code {
+    my (%options) = @_;
+    my $iter = $treeview->get_selection->get_selected // return;
+
+    if (exists $options{type}) {
+        my $type = $liststore->get($iter, 7) // return;
+        $type eq $options{type} or return;
+    }
+
+    my $code = $liststore->get($iter, 3);
+    return wantarray ? ($code, $iter) : $code;
+}
+
+sub check_keywords {
+    my ($key) = @_;
+
+    if ($key =~ /$get_video_id_re/o) {
+        toggle_progress('pulse', 1);
+        $worker->send_request(
+            sub {
+                my ($info) = @_;
+                if (ref($info) eq 'HASH' and keys %$info) {
+                    play_video($info);
+                }
+
+                # Note: we do that after calling `play_video`,
+                # to ensure the pulse does not stutter (since
+                # it will be kept enabled while retrieving the
+                # streaming URLs).
+                toggle_progress('pulse', 0);
+            },
+            'video_details',
+            [$+{video_id}],
+            priority => REQUEST_PRIORITY_INFO,
+        );
+    }
+    elsif ($yv_utils->is_channelID($key)) {
+        list_channel_videos($key);
+    }
+    elsif ($yv_utils->is_playlistID($key)) {
+        list_playlist($key);
+    }
+    elsif ($key =~ /$get_playlist_id_re/o) {
+        list_playlist($+{playlist_id});
+    }
+    elsif ($key =~ /$get_channel_playlists_id_re/) {
+        list_channel_playlists($+{channel_id});
+    }
+    elsif ($key =~ /$get_channel_videos_id_re/) {
+        list_channel_videos($+{channel_id});
+    }
+    elsif ($key =~ /$get_username_playlists_re/) {
+        list_channel_playlists($+{username});
+    }
+    elsif ($key =~ /$get_username_videos_re/) {
+        list_channel_videos($+{username});
+    }
+    else {
+        return;
+    }
+
+    return 1;
+}
+
+sub search {
+    my $keywords = $search_entry->get_text();
+
+    return if check_keywords($keywords);
+
+    # Remember the input text when "history" is enabled
+    if ($CONFIG{history}) {
+        append_to_history($keywords, 1);
+    }
+
+    send_search_request(
+                        "No results for: $keywords",
+                        'search_for',
+                        [$CONFIG{search_for}, $keywords],
+                        config => {
+                                   'channelId'     => $from_author_entry->get_text() || undef,
+                                   'date'          => $CONFIG{date},
+                                   'features'      => $CONFIG{features},
+                                   'maxResults'    => $CONFIG{maxResults},
+                                   'order'         => $CONFIG{order},
+                                   'page'          => $spin_start_with_page->get_value(),
+                                   'videoDuration' => $CONFIG{videoDuration},
+                                  }
+                       );
+
+    return 1;
+}
+
+sub search_or_focus {
+    my ($entry, $position) = @_;
+    if ($position eq 'primary') {
+        search();
+    }
+    elsif ($position eq 'secondary') {
+        $entry->grab_focus();
+    }
+    return 0;
+}
+
+sub encode_entities {
+    my ($text) = @_;
+
+    return q{} if not defined $text;
+
+    $text =~ s/&/&amp;/g;
+    $text =~ s/</&lt;/g;
+    $text =~ s/>/&gt;/g;
+
+    return $text;
+}
+
+sub decode_entities {
+    my ($text) = @_;
+
+    return q{} if not defined $text;
+
+    $text =~ s/&amp;/&/g;
+    $text =~ s/&lt;/</g;
+    $text =~ s/&gt;/>/g;
+
+    return $text;
+}
+
+sub get_code {
+    my ($code, $iter) = get_selected_entry_code();
+
+    $code // return;
+
+    my $type = $liststore->get($iter, 7);
+
+    if ($type eq 'playlist') {
+        list_playlist($code);
+        return;
+    }
+
+    if ($type eq 'channel') {
+        list_channel_videos($code);
+        return;
+    }
+
+    if ($type eq 'video') {
+        if ($CONFIG{audio_only}) {
+            execute_cli("--id=$code")
+              && highlight_watched_video($liststore, $iter);
+        }
+        else {
+            play_video(parse_json_string($liststore->get($iter, 8)), $iter);
+        }
+        return;
+    }
+
+    if ($type ne 'next_page' or $code eq '') {
+        return;
+    }
+
+    my $next_page_token = $liststore->get($iter, 5);
+
+    if (defined($next_page_token) and substr($next_page_token, 0, 4) eq 'json') {
+        my ($format, $json_data) = split(' ', $next_page_token, 2);
+
+        if ($format eq 'json-deflate') {
+            state $has_rawinflate = do {
+                require MIME::Base64;
+                require IO::Uncompress::RawInflate;
+            };
+            say STDERR ":: Decompressing JSON data with RawInflate..." if $DEBUG;
+            IO::Uncompress::RawInflate::rawinflate(\MIME::Base64::decode_base64($json_data), \my $buffer)
+              or die "rawinflate failed: $IO::Uncompress::RawInflate::RawInflateError\n";
+            $json_data = $buffer;
+        }
+
+        my $data        = parse_json_string($json_data);
+        my $new_results = get_results_from_list(%$data);
+
+        if ($yv_utils->has_entries($new_results)) {
+            my $label = '<big><b>' . ('=' x 20) . '</b></big>';
+            $liststore->set($iter, 0 => $label, 3 => "");
+            display_results($new_results);
+        }
+        else {
+            $liststore->remove($iter);
+            die "No more results\n";
+        }
+    }
+    else {
+        send_search_request('No more results', 'next_page', [$code, $next_page_token], append => 1);
+    }
+
+    return;
+}
+
+sub make_row_description {
+    join(q{ }, split(q{ }, $_[0])) =~ s/(.)\1{3,}/$1/sgr;
+}
+
+sub append_next_page {
+    my ($url, $token) = @_;
+
+    $url // return;
+
+    if (not defined $token) {
+        $url =~ m{^https://} or return;
+    }
+
+    my $iter = $liststore->append;
+
+    $liststore->set(
+                    $iter,
+                    0 => "<big><b>NEXT PAGE</b></big>",
+                    1 => $right_arrow_pixbuf,
+                    3 => $url,
+                    5 => $token,
+                    7 => 'next_page',
+                   );
+
+    return $iter;
+}
+
+sub fit_to_dimensions {
+    my ($width, $height, $max_width, $max_height) = @_;
+    my $scale = min($max_width / $width, $max_height / $height);
+    if ($scale < 1.0) {
+        $width  *= $scale;
+        $height *= $scale;
+    }
+    return ($width, $height);
+}
+
+sub load_thumbnail {
+    my ($path, $width, $height) = @_;
+    my $pixbuf = Gtk3::Gdk::Pixbuf->new_from_file_at_size($path, $width, $height) // return;
+    utime undef, undef, $path
+      or warn "[!] Can't touch path <<$path>>: $!";
+    return $pixbuf;
+}
+
+sub get_results_from_list {
+    my (%args) = @_;
+
+    $args{entries} //= [];
+    $args{page}    //= $spin_start_with_page->get_value();
+
+    my @results = @{$args{entries}};
+
+    my $maxResults   = $CONFIG{maxResults};
+    my $totalResults = scalar(@results);
+
+    if ($args{page} >= 1 and scalar(@results) >= $maxResults) {
+        @results = grep { defined } @results[($args{page} - 1) * $maxResults .. $args{page} * $maxResults - 1];
+    }
+
+    my %results;
+    my @entries;
+
+    foreach my $entry (@results) {
+        if (defined($args{callback})) {
+            push @entries, $args{callback}($entry);
+        }
+        else {
+            push @entries, $entry;
+        }
+    }
+
+    $results{entries} = \@entries;
+
+    #$results{pageInfo} = {resultsPerPage => scalar(@entries), totalResults => $totalResults};
+
+    if ($args{page} * $maxResults < $totalResults) {
+
+        my $json_str = make_json_string(
+                                        {
+                                         %args, page => $args{page} + 1,
+                                        }
+                                       );
+
+        state $has_rawdeflate = $CONFIG{remember_session} && eval {
+            require MIME::Base64;
+            require IO::Compress::RawDeflate;
+            require IO::Uncompress::RawInflate;
+            1;
+        };
+
+        if ($has_rawdeflate) {
+            say STDERR ":: Compressing JSON data with RawDeflate..." if $DEBUG;
+            IO::Compress::RawDeflate::rawdeflate(\$json_str, \my $json_raw_deflate)
+              or die "rawdeflate failed: $IO::Compress::RawDeflate::RawDeflateError\n";
+            $results{continuation} = 'json-deflate ' . MIME::Base64::encode_base64($json_raw_deflate);
+        }
+        else {
+            $results{continuation} = 'json ' . $json_str;
+        }
+    }
+
+    scalar {results => \%results, url => 'file'};
+}
+
+sub videos_from_data_file {
+    my ($file, %args) = @_;
+
+    my $videos = eval { Storable::retrieve($file) } // [];
+
+    if ($args{reverse}) {
+        $videos = [reverse @$videos];
+    }
+
+    foreach my $entry (@$videos) {
+        if (ref($entry->{timestamp} // '') eq 'Time::Piece') {
+            $entry->{timestamp} = [@{$entry->{timestamp}}];
+        }
+    }
+
+    get_results_from_list(entries => $videos);
+}
+
+sub refresh_subscription_video_results {
+    my ($method) = @_;
+
+    my @channels = $yv_utils->read_channels_from_file($CONFIG{subscribed_channels_file});
+
+    if (not @channels) {
+        die "\n[!] No subscribed channels...\n";
+        return get_results_from_list(entries => []);
+    }
+
+    my $channel_index   = 0;
+    my $update_progress = sub {
+        $progressbar->set_text(sprintf("[%u/%u] Retrieving info for “%s”...", $channel_index + 1, scalar @channels, $channels[$channel_index][1]));
+        $progressbar->set_fraction($channel_index / scalar @channels);
+    };
+
+    toggle_progress($search_progress = 'bar', 1);
+    $update_progress->();
+
+    my @items;
+    my @request_args = map { $_->[0] } @channels;
+
+    $search_request = $worker->send_request(
+        sub {
+            my ($result, $request) = @_;
+            push @items, @{$yv_utils->get_entries($result)};
+            if ($request->{keep_alive}) {
+                ++$channel_index;
+                $update_progress->();
+            }
+            else {
+                $search_progress = $search_request = undef;
+                $progressbar->set_fraction(1.0);
+                Glib::Idle->add(
+                    sub {
+                        update_subscriptions(\@items);
+                        display_subscription_videos(0);
+                        toggle_progress('bar', 0);
+                    },
+                    [],
+                    Glib::G_PRIORITY_LOW
+                );
+            }
+        },
+        'fetch_' . $method,
+        \@request_args,
+        priority => REQUEST_PRIORITY_SEARCH,
+    );
+
+    return;
+}
+
+sub update_subscriptions {
+    my ($items) = @_;
+
+    require Time::Piece;
+    my $time = Time::Piece->new();
+
+    my %subscriptions;
+
+    for my $video (@$items) {
+        my $channel_id = $yv_utils->get_channel_id($video);
+        $subscriptions{$channel_id}     = 1;
+        $subscriptions{lc($channel_id)} = 1;
+        $video->{timestamp}             = [@$time];
+    }
+
+    my $subscriptions_data = [];
+
+    if (-f $subscription_videos_data_file) {
+        $subscriptions_data = eval { Storable::retrieve($subscription_videos_data_file) } // [];
+    }
+
+    unshift @$subscriptions_data, @$items;
+
+    # Remove duplicates
+    @$subscriptions_data = do {
+        my %seen;
+        grep { !$seen{$yv_utils->get_video_id($_)}++ } @$subscriptions_data;
+    };
+
+    # Remove videos from unsubscribed channels
+    @$subscriptions_data =
+      grep { exists($subscriptions{$yv_utils->get_channel_id($_)}) or exists($subscriptions{lc($yv_utils->get_channel_title($_) // '')}) } @$subscriptions_data;
+
+    # Order videos by newest first
+    @$subscriptions_data =
+      map  { $_->[0] }
+      sort { $b->[1] <=> $a->[1] }
+      map  { [$_, $yv_utils->get_publication_time($_)] } @$subscriptions_data;
+
+    # Remove results from the end when the list becomes too large
+    my $subscriptions_limit = $CONFIG{subscriptions_limit} // 1e4;
+    if ($subscriptions_limit > 0 and scalar(@$subscriptions_data) > $subscriptions_limit) {
+        $#$subscriptions_data = $subscriptions_limit;
+    }
+
+    foreach my $entry (@$subscriptions_data) {
+        if (ref($entry->{timestamp} // '') eq 'Time::Piece') {
+            $entry->{timestamp} = [@{$entry->{timestamp}}];
+        }
+    }
+
+    if (@$subscriptions_data) {
+        Storable::store([grep { $yv_utils->get_time($_) ne 'LIVE' } @$subscriptions_data], $subscription_videos_data_file);
+    }
+
+    return;
+}
+
+sub get_watched_video_results {
+    videos_from_data_file($watch_history_data_file);
+}
+
+sub display_watched_videos {
+    clear_search_requests();
+    display_results(get_watched_video_results());
+}
+
+sub display_subscription_videos {
+    my ($refresh) = @_;
+    $refresh //= 1;
+
+    clear_search_requests();
+
+    state $t0 = time;
+    state $d0 = $t0;
+
+    # Reuse the subscription file if it's less than 10 minutes old
+    if (    $t0 != $d0
+        and (time - $t0 <= $CONFIG{subscriptions_lifetime})
+        and (-f $subscription_videos_data_file)
+        and (-M $subscription_videos_data_file) < ((-M $CONFIG{subscribed_channels_file}) // 0)) {
+        display_results(videos_from_data_file($subscription_videos_data_file));
+        return;
+    }
+
+    $t0 = time + 1;
+
+    if ($refresh) {
+        foreach my $method (grep { /^\w+\z/ } map { split(/,/, $_) } split(' ', $CONFIG{subscription_results})) {
+            say STDERR ":: Fetching: $method" if $DEBUG;
+            refresh_subscription_video_results($method);
+        }
+    }
+
+    return;
+}
+
+sub save_search_results_position {
+    return if $ResultsHistory{current} < 0;
+    my $position = $treeview->get_vadjustment->get_value;
+    $ResultsHistory{position}[$ResultsHistory{current}] = $position;
+    return;
+}
+
+sub restore_search_results_position {
+    my $position = $ResultsHistory{position}[$ResultsHistory{current}] // 0;
+    $treeview->get_vadjustment->set_value($position);
+    return;
+}
+
+sub display_results {
+    my ($results, $from_history) = @_;
+
+    my $url = $results->{url};
+
+    my $items = $yv_utils->get_entries($results);
+
+    if ($CONFIG{clear_search_list}) {
+        $liststore->clear();
+        $treeview->get_vadjustment->set_value(0);
+    }
+
+    if (@$items) {
+        add_results_to_history($results) if not $from_history;
+    }
+
+    my @missing_thumbs;
+
+    foreach my $i (0 .. $#{$items}) {
+        my $item = $items->[$i];
+        my $iter;
+
+        if ($yv_utils->is_playlist($item)) {
+            $iter = add_playlist_entry($item);
+        }
+        elsif ($yv_utils->is_channel($item)) {
+            $iter = add_channel_entry($item);
+        }
+        elsif ($yv_utils->is_video($item)) {
+
+            # Store the video title to history (when `save_titles_to_history` is true)
+            if ($CONFIG{save_titles_to_history}) {
+                append_to_history($yv_utils->get_title($item), 0);
+            }
+
+            $iter = add_video_entry($item);
+        }
+
+        if ($CONFIG{show_thumbs}) {
+            my $pixbuf;
+            my $thumb = get_thumbnail_info($item);
+            $thumb->{path} = $THUMBNAILS_CACHE->path($thumb->{url});
+            if (defined($thumb->{path}) and -e $thumb->{path}) {
+                $pixbuf = load_thumbnail($thumb->{path}, $thumb->{width}, $thumb->{height});
+            }
+            else {
+                $thumb->{row} = $liststore->get_string_from_iter($iter);
+                push @missing_thumbs, $thumb;
+            }
+            $liststore->set($iter, [1, 10, 11], [$pixbuf // $default_thumb, $thumb->{width}, $thumb->{height}]);
+        }
+    }
+
+    if ($CONFIG{show_thumbs}) {
+        fetch_thumbnails(
+            sub {
+                my ($thumb) = @_;
+                return unless -e $thumb->{path};
+                my $pixbuf = load_thumbnail($thumb->{path}, $thumb->{width}, $thumb->{height}) // return;
+                my $iter   = $liststore->get_iter_from_string($thumb->{row});
+                $liststore->set($iter, [1], [$pixbuf]);
+            },
+            \@missing_thumbs,
+            \$results_thumbs_request,
+            priority => REQUEST_PRIORITY_RESULTS_THUMBS,
+        );
+    }
+
+    if (ref($results->{results}) eq 'HASH' and exists($results->{results}{continuation})) {
+        if (defined $results->{results}{continuation}) {
+            append_next_page($url, $results->{results}{continuation});
+        }
+    }
+    else {
+        append_next_page($url);
+    }
+}
+
+sub set_entry_tooltip {
+    my ($iter, $title, $description) = @_;
+
+    $CONFIG{tooltips} || return 1;
+
+    if ($CONFIG{tooltip_max_len} > 0 and length($description) > $CONFIG{tooltip_max_len}) {
+        $description = substr($description, 0, $CONFIG{tooltip_max_len}) . '...';
+    }
+
+    $description =~ s/(?:\R\s*\R)+/\n\n/g;    # replace 2+ consecutive newlines with "\n\n"
+
+    $liststore->set($iter, [9], ["<b>" . encode_entities($title) . "</b>" . "\n\n" . encode_entities($description)]);
+}
+
+sub get_thumbnail_info {
+    my ($entry, $xsize, $ysize) = @_;
+
+    unless ($xsize && $ysize) {
+        ($xsize, $ysize) = @THUMBNAILS_SIZE;
+    }
+    my %thumb = %{$yv_utils->get_thumbnail($entry, $xsize, $ysize) || return};
+
+    ($thumb{width}, $thumb{height}) = fit_to_dimensions($thumb{width}, $thumb{height}, $xsize, $ysize);
+
+    # Clean URL of trackers and other junk (breaks some thumbnails)
+    $thumb{url} =~ s/\.(?:jpg|png|webp)\K\?.*//;
+
+    # Replace `mqdefault_custom_X.jpg` with `mqdefault.jpg`
+    $thumb{url} =~ s{default\K_custom_\d+(\.\w+)\z}{$1};
+
+    # Prefer JPEG format over WebP if the later is not supported.
+    if (not $webp_supported) {
+        $thumb{url} =~ s/\.webp\z/.jpg/
+          and $thumb{url} =~ s{/vi_webp/}{/vi/};
+    }
+
+    return \%thumb;
+}
+
+sub reflow_text {
+    my ($text) = @_;
+    $text =~ s/^/&#x200e;/gmr;
+}
+
+sub highlight_watched_video {
+    my ($liststore, $iter) = @_;
+
+    my $video_id = $liststore->get($iter, 3);
+
+    if (exists $WATCHED_VIDEOS{$video_id}) {
+
+        my $title = $liststore->get($iter, 0);
+        my $info  = $liststore->get($iter, 2);
+
+        foreach my $ref (\$title, \$info) {
+            $$ref = "<span color=\"$CONFIG{watch_history_color}\">$$ref</span>";
+        }
+
+        $liststore->set(
+                        $iter,
+                        0 => $title,
+                        2 => $info,
+                       );
+
+        return 1;
+    }
+
+    return 0;
+}
+
+sub add_video_entry {
+    my ($video) = @_;
+
+    my $iter            = $liststore->append;
+    my $title           = $yv_utils->get_title($video);
+    my $video_id        = $yv_utils->get_video_id($video);
+    my $channel_id      = $yv_utils->get_channel_id($video);
+    my $description     = $yv_utils->get_description($video);
+    my $row_description = make_row_description($description);
+
+    set_entry_tooltip($iter, $title, $description);
+
+    my $title_label = reflow_text(
+                                  sprintf("<big><b>%s</b></big>", encode_entities($title)) . "\n\n"
+                                    . join(
+                                           "\n",
+                                           map { sprintf("%s   %s", $_->[0], $_->[1]) } (
+                                                                                    [$symbols{author} => encode_entities($yv_utils->get_channel_title($video))],
+                                                                                    [$symbols{published} => ($yv_utils->get_publication_date($video) // 'N/A')],
+                                           )
+                                          )
+                                    . "\n\n"
+                                    . sprintf("<i>%s</i>", encode_entities($row_description))
+                                 );
+
+    my $info_label = reflow_text(
+                         join("\n",
+                              map { sprintf("%s   %s", $_->[0], $_->[1]) }
+                                ([$symbols{play} => $yv_utils->get_time($video)], [$symbols{views} => $yv_utils->set_thousands($yv_utils->get_views($video))],))
+    );
+
+    $liststore->set(
+                    $iter,
+                    0 => $title_label,
+                    2 => $info_label,
+                    3 => $video_id,
+                    4 => encode_entities($description),
+                    6 => $channel_id,
+                    7 => 'video',
+                    8 => make_json_string($video),
+                   );
+
+    highlight_watched_video($liststore, $iter);
+
+    return $iter;
+}
+
+sub add_channel_entry {
+    my ($channel) = @_;
+
+    my $iter            = $liststore->append;
+    my $title           = $yv_utils->get_channel_title($channel);
+    my $channel_id      = $yv_utils->get_channel_id($channel);
+    my $description     = $yv_utils->get_description($channel);
+    my $row_description = make_row_description($description);
+
+    set_entry_tooltip($iter, $title, $description);
+
+    my $title_label = reflow_text(
+        sprintf(
+            "<big><b>%s</b></big>
+
+$symbols{author}\t %s
+$symbols{author_id}\t %s
+
+<i>%s</i>",
+            encode_entities($title),
+            encode_entities($title),
+            encode_entities($channel_id),
+            encode_entities($row_description),
+               )
+    );
+
+    my $type_label = reflow_text(
+        sprintf(
+            "$symbols{type}\t Channel
+$symbols{video}\t %s videos
+$symbols{subs}\t %s subs",
+
+            $yv_utils->set_thousands($yv_utils->get_video_count($channel)),
+            $yv_utils->short_human_number($yv_utils->get_subscriber_count($channel)),
+               )
+    );
+
+    $liststore->set(
+                    $iter,
+                    0 => $title_label,
+                    2 => $type_label,
+                    3 => $channel_id,
+                    4 => encode_entities($description),
+                    6 => $channel_id,
+                    7 => 'channel',
+                    8 => make_json_string($channel),
+                   );
+
+    return $iter;
+}
+
+sub add_playlist_entry {
+    my ($playlist) = @_;
+
+    my $iter            = $liststore->append;
+    my $title           = $yv_utils->get_title($playlist);
+    my $channel_id      = $yv_utils->get_channel_id($playlist);
+    my $channel_title   = $yv_utils->get_channel_title($playlist);
+    my $description     = $yv_utils->get_description($playlist);
+    my $playlist_id     = $yv_utils->get_playlist_id($playlist);
+    my $row_description = make_row_description($description);
+
+    set_entry_tooltip($iter, $title, $description);
+
+    my $title_label = reflow_text(
+        sprintf(
+            "<big><b>%s</b></big>
+
+$symbols{author}\t %s
+$symbols{play}\t %s
+
+<i>%s</i>",
+
+            encode_entities($title),
+            encode_entities($channel_title),
+            encode_entities($playlist_id),
+            encode_entities($row_description),
+               )
+    );
+
+    my $type_label = reflow_text(
+        sprintf(
+            "$symbols{type}\t Playlist
+$symbols{video}\t %s videos",
+            $yv_utils->set_thousands($yv_utils->get_playlist_video_count($playlist) // 0)
+               )
+    );
+
+    $liststore->set(
+                    $iter,
+                    0 => $title_label,
+                    2 => $type_label,
+                    3 => $playlist_id,
+                    4 => encode_entities($description),
+                    6 => $channel_id,
+                    7 => 'playlist',
+                    8 => make_json_string($playlist),
+                   );
+
+    return $iter;
+}
+
+sub list_playlist {
+    my ($playlist_id) = @_;
+    send_search_request("[!] Inexistent playlist...", 'videos_from_playlist_id', [$playlist_id]);
+    return;
+}
+
+sub list_channel_videos {
+    my ($channel) = @_;
+    send_search_request("[!] No videos for channel: $channel", 'uploads', [$channel]);
+    return;
+}
+
+sub list_channel_streams {
+    my ($channel) = @_;
+    send_search_request("[!] No livestreams for channel: $channel", 'streams', [$channel]);
+    return;
+}
+
+sub list_channel_shorts {
+    my ($channel) = @_;
+    send_search_request("[!] No short videos for channel: $channel", 'shorts', [$channel]);
+    return;
+}
+
+sub list_channel_playlists {
+    my ($channel) = @_;
+    send_search_request("[!] No playlists for channel: $channel", 'playlists', [$channel]);
+    return;
+}
+
+sub strip_spaces {
+    my ($text) = @_;
+    $text =~ s/^\s+//;
+    return unpack 'A*', $text;
+}
+
+#---------------------- PLAY AN YOUTUBE VIDEO ----------------------#
+sub get_player_command {
+    my ($streaming, $video) = @_;
+
+    my %player_args;
+    my $player = $CONFIG{video_players}{$CONFIG{video_player_selected}};
+
+    if (ref($player) ne 'HASH') {
+        die ":: The selected video player does not exist! Check the configuration file.";
+    }
+
+    $player_args{fullscreen} = $CONFIG{fullscreen} ? $player->{fs} : undef;
+    $player_args{arguments}  = $player->{arg};
+
+    my $cmd = join(
+        q{ },
+        (
+            # Video player
+            $player->{cmd},
+
+            (    # Audio file (https://)
+              (ref($streaming->{streaming}{__AUDIO__}) eq 'HASH' && defined($player->{audio}))
+              ? $player->{audio}
+              : ()
+            ),
+
+            (    # Caption file (.srt)
+              (defined($streaming->{srt_file}) && defined($player->{srt}))
+              ? $player->{srt}
+              : ()
+            ),
+
+            # Rest of the arguments
+            (grep { defined($_) and /\S/ } values %player_args)
+        )
+    );
+
+    my $has_video = $cmd =~ /\*(?:VIDEO|URL)\*/;
+
+    $cmd = $yv_utils->format_text(
+                                  streaming => $streaming,
+                                  info      => $video,
+                                  text      => $cmd,
+                                  escape    => 1,
+                                 );
+
+    if ($streaming->{streaming}{url} =~ m{^https://www\.youtube\.com/watch\?v=}) {
+        $cmd =~ s{\s*--no-ytdl\b}{ }g;
+    }
+
+    $has_video ? $cmd : join(' ', $cmd, quotemeta($streaming->{streaming}{url}));
+}
+
+sub prepend_video_data_to_file {
+    my ($video_data, $file) = @_;
+
+    my $videos = eval { Storable::retrieve($file) } // [];
+
+    if (ref($video_data) ne 'HASH') {
+        return;
+    }
+
+    $yv_utils->get_video_id($video_data) // return;
+
+    unshift(@$videos, $video_data);
+
+    my %seen;
+    @$videos = grep { !$seen{$yv_utils->get_video_id($_)}++ } @$videos;
+
+    if ($CONFIG{local_playlist_limit} > 0 and scalar(@$videos) > $CONFIG{local_playlist_limit}) {
+        if ($DEBUG) {
+            say STDERR ":: Resizing the playlist <<$file>> from $#$videos+1 to $CONFIG{local_playlist_limit} entries.";
+        }
+        $#$videos = $CONFIG{local_playlist_limit} - 1;
+    }
+
+    Storable::store($videos, $file);
+    return 1;
+}
+
+sub save_watched_video {
+    my ($info, $iter) = @_;
+
+    my $video_id = $yv_utils->get_video_id($info);
+
+    # Store the video title to history (when `save_watched_to_history` is true)
+    if ($CONFIG{save_watched_to_history}) {
+        append_to_history($yv_utils->get_title($info), 0);
+    }
+
+    if ($CONFIG{watch_history}) {
+
+        say ":: Saving video <<$video_id>> to watch history..." if $DEBUG;
+
+        if (not exists($WATCHED_VIDEOS{$video_id})) {
+
+            $WATCHED_VIDEOS{$video_id} = 1;
+
+            open my $fh, '>>', $CONFIG{watch_history_file} or return;
+            say {$fh} $video_id;
+            close $fh;
+        }
+
+        prepend_video_data_to_file($info, $watch_history_data_file);
+    }
+
+    $WATCHED_VIDEOS{$video_id} = 1;
+    highlight_watched_video($liststore, $iter) if $iter;
+
+    return 1;
+}
+
+sub play_video {
+    my ($info, $iter) = @_;
+
+    my $video_id = $yv_utils->get_video_id($info);
+
+    my %options = (
+        get_captions  => $CONFIG{get_captions},
+        auto_captions => $CONFIG{auto_captions},
+        captions_dir  => $CONFIG{cache_dir},
+        srt_languages => $CONFIG{srt_languages},
+
+        resolution => $CONFIG{resolution},
+
+        hfr        => $CONFIG{hfr},
+        ignore_av1 => $CONFIG{ignore_av1},
+
+        split_videos  => $CONFIG{split_videos},
+        prefer_m4a    => $CONFIG{prefer_m4a},
+        audio_quality => $CONFIG{audio_quality},
+        dash          => $CONFIG{dash},
+
+        ignored_projections => $CONFIG{ignored_projections},
+    );
+
+    toggle_progress('pulse', 1);
+
+    $worker->send_request(
+        sub {
+            my ($streaming) = @_;
+
+            toggle_progress('pulse', 0);
+
+            if (ref($streaming->{streaming}) ne 'HASH') {
+                die "[!] Can't play this video: no streaming URL has been found!\n";
+            }
+
+            if (    not defined($streaming->{streaming}{url})
+                and defined($streaming->{info}{status})
+                and $streaming->{info}{status} =~ /(?:error|fail)/i) {
+                die "[!] Error on: " . sprintf($CONFIG{youtube_video_url}, $video_id) . "\n", "[*] Reason: " . $streaming->{info}{reason} =~ tr/+/ /r . "\n";
+            }
+
+            my $command = get_player_command($streaming, $info);
+
+            if ($DEBUG) {
+                say "-> Resolution: $streaming->{resolution}";
+                say "-> Video itag: $streaming->{streaming}{itag}";
+                say "-> Audio itag: $streaming->{streaming}{__AUDIO__}{itag}"
+                  if exists $streaming->{streaming}{__AUDIO__};
+                say "-> Video type: $streaming->{streaming}{type}";
+                say "-> Audio type: $streaming->{streaming}{__AUDIO__}{type}"
+                  if exists $streaming->{streaming}{__AUDIO__};
+            }
+
+            my $code = execute_external_program($command);
+            if ($code) {
+                warn "[!] Can't play this video -- player exited with code: $code\n";
+                return;
+            }
+
+            save_watched_video($info, $iter);
+        },
+        'fetch_streaming_urls',
+        [$video_id, \%options],
+        priority => REQUEST_PRIORITY_INFO,
+    );
+}
+
+sub list_category {
+    my $iter   = $cat_treeview->get_selection->get_selected;
+    my $cat_id = $cats_liststore->get($iter, 1);
+    send_search_request("No video found for categoryID: <$cat_id>", 'trending_videos_from_category', [$cat_id]);
+    return;
+}
+
+sub list_local_playlist {
+    my $iter = $playlists_treeview->get_selection->get_selected;
+
+    my $reverse_playlist = $gui->get_object('reverse_playlist')->get_active;
+    my $playlist_file    = $playlists_liststore->get($iter, 3);
+
+    my $results = videos_from_data_file($playlist_file, reverse => $reverse_playlist);
+    display_results($results);
+}
+
+sub run_cli {
+    execute_cli('--interactive');
+}
+
+sub get_options_as_arguments {
+    my @args;
+    my %options = (
+                   'no-interactive' => q{},
+                   'resolution'     => $CONFIG{resolution},
+                   'download-dir'   => quotemeta(rel2abs($CONFIG{downloads_dir})),
+                   'fullscreen'     => $CONFIG{fullscreen} ? q{}   : undef,
+                   'no-dash'        => $CONFIG{dash}       ? undef : q{},
+                   'no-video'       => $CONFIG{audio_only} ? q{}   : undef,
+                  );
+
+    while (my ($argv, $value) = each %options) {
+        push(
+            @args,
+            do {
+                $value              ? '--' . $argv . '=' . $value
+                  : defined($value) ? '--' . $argv
+                  :                   next;
+            }
+        );
+    }
+    return @args;
+}
+
+sub execute_external_program {
+    my ($cmd) = @_;
+
+    if ($CONFIG{prefer_fork} and defined(my $pid = fork())) {
+        if ($pid == 0) {
+            say "** Forking process: $cmd" if $DEBUG;
+            $yv_obj->proxy_exec($cmd);
+        }
+        return 0;
+    }
+    else {
+        say "** Backgrounding process: $cmd" if $DEBUG;
+        $yv_obj->proxy_system($cmd . ' &');
+        return $?;
+    }
+
+    return 1;
+}
+
+sub make_youtube_url {
+    my ($type, $code) = @_;
+
+    my $format = (
+                    $type eq 'channel'  ? $CONFIG{youtube_channel_url}
+                  : $type eq 'video'    ? $CONFIG{youtube_video_url}
+                  : $type eq 'playlist' ? $CONFIG{youtube_playlist_url}
+                  :                       ()
+                 );
+
+    if (defined $format) {
+        return sprintf($format, $code);
+    }
+
+    return "https://www.youtube.com";
+}
+
+sub open_external_url {
+    my ($url) = @_;
+
+    my $exit_code =
+      execute_external_program(join(q{ }, $CONFIG{web_browser} // $ENV{WEBBROWSER} // 'xdg-open', quotemeta($url)));
+
+    if ($exit_code != 0) {
+        warn "Can't open URL <<$url>> -- exit code: $exit_code\n";
+        return 0;
+    }
+
+    return 1;
+}
+
+sub enqueue_video {
+    my $video_id = get_selected_entry_code(type => 'video') // return;
+    print "[*] Added: <$video_id>\n" if $DEBUG;
+    push @VIDEO_QUEUE, $video_id;
+    return 1;
+}
+
+sub play_enqueued_videos {
+    if (@VIDEO_QUEUE) {
+        execute_cli('--video-ids=' . join(q{,}, splice @VIDEO_QUEUE));
+    }
+    return 1;
+}
+
+sub play_selected_with_cli {
+    my %args = @_;
+
+    my ($id, $iter) = get_selected_entry_code();
+    $id // return;
+
+    my $type    = $liststore->get($iter, 7);
+    my $options = $args{audio_only} ? '--no-video' : '';
+
+    if ($type eq 'video') {
+        if (execute_cli("$options --video-id=$id")) {
+            my $info = parse_json_string($liststore->get($iter, 8));
+            save_watched_video($info, $iter);
+        }
+    }
+    elsif ($type eq 'playlist') {
+        execute_cli("$options --pp=$id");
+    }
+    else {
+        warn "Can't play $type: $id\n";
+        return 0;
+    }
+
+    return 1;
+}
+
+sub execute_cli {
+    my @arguments = @_;
+
+    my $command = join(q{ },
+                      $CONFIG{terminal},
+                      sprintf($CONFIG{terminal_exec}, join(q{ }, $CONFIG{pipe_viewer}, get_options_as_arguments(), @arguments, @{$CONFIG{pipe_viewer_args}}),));
+    my $code = execute_external_program($command);
+
+    say $command if $DEBUG;
+
+    if ($code != 0) {
+        warn "pipe-viewer - exit code: $code\n";
+        return 0;
+    }
+
+    return 1;
+}
+
+sub download_video {
+    my ($id, $iter) = get_selected_entry_code(type => 'video');
+    $id // return;
+    execute_cli("--video-id=$id", '--download');
+    my $info = parse_json_string($liststore->get($iter, 8));
+    save_watched_video($info, $iter);
+    return 1;
+}
+
+sub get_channel_id_for_selected_video {
+    my $selection = $treeview->get_selection() // return;
+    my $iter      = $selection->get_selected() // return;
+    $liststore->get($iter, 6);
+}
+
+sub show_related_videos {
+    my $video_id = get_selected_entry_code(type => 'video') // return;
+    send_search_request("No related video for videoID: <$video_id>", 'related_to_videoID', [$video_id]);
+    return;
+}
+
+# -------------  Comments window ------------- #
+
+my $REPLIES_INDICATOR_EXPAND   = '▾';
+my $REPLIES_INDICATOR_COLLAPSE = '▴';
+
+# Note: the behavior when multiple tags with conflicting
+# attributes are applied to the same range is undefined.
+# FIXME: figure out why 'ltr' doesn't work and make it work. (#137)
+my @COMMENTS_TAGS = (
+                     author => {
+                                foreground         => $CONFIG{comments_author_color},
+                                pixels_above_lines => 8,
+                                pixels_below_lines => 8,
+                                scale              => 1.2,
+                                weight             => 700,
+                                direction          => 'ltr',
+                               },
+                     date => {
+                              foreground => $CONFIG{comments_date_color},
+                              style      => 'italic',
+                             },
+                     body => {
+                              foreground   => $CONFIG{comments_body_color},
+                              right_margin => 16,
+                              direction    => 'ltr',
+                             },
+                     hotspot      => {},
+                     show_replies => {
+                                      foreground         => $CONFIG{comments_show_replies_color},
+                                      pixels_above_lines => 8,
+                                      weight             => 700,
+                                     },
+                     replies   => {},
+                     load_more => {
+                                   foreground         => $CONFIG{comments_load_more_color},
+                                   pixels_above_lines => 8,
+                                   weight             => 700,
+                                  },
+                     hidden => {
+                                invisible => 1,
+                               },
+                     indent_0 => {
+                                  left_margin => 8,
+                                 },
+                     indent_1 => {
+                                  left_margin => 16,
+                                 },
+                     indent_2 => {
+                                  left_margin => 32,
+                                 },
+                     indent_3 => {
+                                  left_margin => 40,
+                                 },
+                    );
+
+my $comments_buffer;
+my %comments_requests;
+
+sub comments_buffer_delete_at_mark {
+    my ($mark, $movement, @movement_args) = @_;
+    my $start_iter = $comments_buffer->get_iter_at_mark($mark);
+    my $end_iter   = $start_iter->copy();
+    $end_iter->can($movement)->($end_iter, @movement_args);
+    $comments_buffer->delete($start_iter, $end_iter);
+    return;
+}
+
+sub comments_spinner_insert {
+    my ($mark, $indent) = @_;
+
+    my $iter        = $comments_buffer->get_iter_at_mark($mark);
+    my $indent_tag  = $comments_buffer->{"indent_${indent}_tag"};
+    my $left_margin = $indent_tag->get_property('left_margin');
+    my $spinner     = Gtk3::Spinner->new();
+
+    $spinner->{mark} = $mark;
+    $spinner->set_margin_left($left_margin);
+    $spinner->set_margin_bottom(4);
+    $spinner->set_margin_top(8);
+    $spinner->show();
+    $comments_view->add_child_at_anchor($spinner, $comments_buffer->create_child_anchor($iter));
+
+    # For some reason, starting the spinner directly does not always work…
+    Glib::Idle->add(sub { $spinner->start() });
+    return $spinner;
+}
+
+sub comments_spinner_delete {
+    my ($spinner) = @_;
+    comments_buffer_delete_at_mark($spinner->{mark}, 'forward_char');
+    return;
+}
+
+sub comments_buffer_reset {
+
+    # Swap buffer with a new pristine one.
+    $comments_buffer = Gtk3::TextBuffer->new();
+    $comments_view->set_buffer($comments_buffer);
+
+    # And create all the necessary tags.
+    for my $tag_spec (pairs(@COMMENTS_TAGS)) {
+        my ($name, $attrs) = @$tag_spec;
+        $comments_buffer->{"${name}_tag"} = $comments_buffer->create_tag($name, %$attrs);
+    }
+}
+
+sub comments_load {
+    my ($request_method, $request_params, %args) = @_;
+    $args{mark}   //= $comments_buffer->create_mark(undef, $comments_buffer->get_end_iter(), 1);
+    $args{indent} //= 0;
+    my $spinner = comments_spinner_insert($args{mark}, $args{indent});
+    $comments_requests{
+        $worker->send_request(
+            sub {
+                my ($results, $request) = @_;
+                my $error = $args{error};
+                comments_spinner_delete($spinner);
+                delete $comments_requests{$request->{id}};
+                if ($yv_utils->has_entries($results)) {
+                    display_comments($results, $args{mark}, $args{indent});
+                    $error = undef;
+                }
+                $comments_buffer->delete_mark($args{mark});
+                die "$error\n" if $error;
+                return;
+            },
+            $request_method,
+            $request_params,
+            priority => REQUEST_PRIORITY_COMMENTS,
+        )
+    } = 1;
+}
+
+sub comments_vscroll_value_changed_cb {
+    comments_check_for_hotspot_at_pos();
+    return 0;
+}
+
+sub comments_view_button_press_event_cb {
+    my ($widget, $event) = @_;
+    return 0 if $event->button != 1;
+    my ($x, $y) = $widget->window_to_buffer_coords('text', $event->x, $event->y);
+    my $iter = $widget->get_iter_at_location($x, $y);
+    return 0 unless $iter->has_tag($comments_buffer->{hotspot_tag});
+    $iter->forward_to_tag_toggle($comments_buffer->{hotspot_tag});
+    for my $mark (@{$iter->get_marks() // []}) {
+        my $code = $mark->{code} // next;
+        $code->($mark);
+    }
+    return 1;
+}
+
+sub comments_check_for_hotspot_at_pos {
+    my ($x, $y) = @_;
+    state $pointer_cursor = Gtk3::Gdk::Cursor->new_from_name($comments_view->get_display(), 'pointer');
+    state $text_cursor    = Gtk3::Gdk::Cursor->new_from_name($comments_view->get_display(), 'text');
+    unless (defined $x and defined $y) {
+        ($x, $y) = $comments_view->get_pointer();
+        my $size = $comments_view->get_allocation();
+        return if $x < 0 or $y < 0 or $x >= $size->{width} or $y >= $size->{height};
+    }
+    ($x, $y) = $comments_view->window_to_buffer_coords('text', $x, $y);
+    my $iter   = $comments_view->get_iter_at_location($x, $y);
+    my $cursor = $iter->has_tag($comments_buffer->{hotspot_tag}) ? $pointer_cursor : $text_cursor;
+    $comments_view->get_window('text')->set_cursor($cursor);
+    return;
+}
+
+sub comments_view_motion_notify_event_cb {
+    my ($widget, $event) = @_;
+    comments_check_for_hotspot_at_pos($event->x, $event->y);
+    return 0;
+}
+
+sub comments_view_focus_in_event_cb {
+    comments_check_for_hotspot_at_pos();
+    return 0;
+}
+
+sub comments_replies_toggle {
+    my ($mark) = @_;
+    $mark->{expanded} = not $mark->{expanded};
+
+    # Update the indicator.
+    comments_buffer_delete_at_mark($mark, 'forward_char');
+    my $iter      = $comments_buffer->get_iter_at_mark($mark);
+    my $indicator = $mark->{expanded} ? $REPLIES_INDICATOR_COLLAPSE : $REPLIES_INDICATOR_EXPAND;
+    $comments_buffer->insert_with_tags($iter, $indicator, @{$iter->get_toggled_tags(1)});
+
+    # Toggle the replies' visibility.
+    $iter->forward_to_tag_toggle($comments_buffer->{replies_tag});
+    (my $end_iter = $iter->copy())->forward_to_tag_toggle($comments_buffer->{replies_tag});
+    $comments_buffer->can(($mark->{expanded} ? 'remove' : 'apply') . '_tag_by_name')->($comments_buffer, 'hidden', $iter, $end_iter);
+
+    # Ditto with the spinner if present.
+    $end_iter->backward_line();
+    my $spinner = ($end_iter->get_child_anchor() // return)->get_widgets()->[0];
+    $spinner->can($mark->{expanded} ? 'show' : 'hide')->($spinner);
+    return;
+}
+
+sub display_comments {
+    my ($results, $start_mark, $indent) = @_;
+
+    return 1 if ref($results) ne 'HASH';
+
+    my $url          = $results->{url};
+    my $video_id     = $results->{results}{videoId};
+    my $continuation = $results->{results}{continuation};
+    my $comments     = $results->{results}{comments} // [];
+
+    my $iter   = $comments_buffer->get_iter_at_mark($start_mark);
+    my $insert = sub {
+        my ($text, @tags) = @_;
+        $comments_buffer->insert_with_tags_by_name($iter, $text, "indent_$indent", @tags);
+    };
+    my $insert_hotspot = sub {
+        my ($text, @tags) = @_;
+        $insert->($text, 'hotspot', @tags);
+        return $comments_buffer->create_mark(undef, $iter, 1);
+    };
+
+    foreach my $comment (@{$comments}) {
+
+        next if $comment->{_hidden};
+
+        $insert->("\n") unless $iter->starts_line();
+
+        my $comment_id = $yv_utils->get_comment_id($comment);
+
+        # Author
+        $insert->($yv_utils->get_author($comment), qw(author));
+        $insert->(q{  });
+
+        # Date
+        {
+            my $comment_url = sprintf("https://www.youtube.com/watch?v=%s&lc=%s", $video_id, $comment_id);
+            my $comment_age = $yv_utils->get_publication_age($comment);
+            if ($comment_age) {
+                $comment_age = "$comment_age ago" if $comment_age !~ / ago\b/;
+            }
+            else {
+                $comment_age = $yv_utils->get_publication_date($comment) // 'N/A';
+            }
+            my $mark = $insert_hotspot->($comment_age, qw(date));
+            $mark->{code} = sub { open_external_url($comment_url) };
+            $insert->("\n");
+        }
+
+        # Body
+        $indent += 1;
+        $insert->($yv_utils->get_comment_content($comment) // q{}, qw(body));
+        $indent -= 1;
+
+        my $replies_count;
+        my $replies_continuation;
+
+        # Replies from yt-dlp (with `ytdlp_comments => 1`)
+        if (defined($comment->{replies}) and ref($comment->{replies}) eq 'ARRAY') {
+            $replies_count        = scalar @{$comment->{replies}};
+            $replies_continuation = {results => {comments => $comment->{replies}, videoId => $video_id}};
+        }
+
+        # Replies from invidious
+        elsif (defined($comment->{replies}) and ref($comment->{replies}) eq 'HASH') {
+            $replies_count        = $comment->{replies}{replyCount};
+            $replies_continuation = $comment->{replies}{continuation};
+        }
+
+        if ($replies_count) {
+            $indent += 1;
+            $insert->("\n");
+            my $replies_header =
+              sprintf('%s  %s %s', $REPLIES_INDICATOR_EXPAND, $replies_count, (($replies_count > 1) ? 'REPLIES' : 'REPLY'));
+            my $mark1 = $comments_buffer->create_mark(undef, $iter, 1);
+            $mark1->{expanded} = 0;
+            my $mark2          = $insert_hotspot->($replies_header, qw(show_replies));
+            my $replies_indent = $indent += 1;
+            $insert->("\n", qw(hidden replies));
+            my $mark3 = $comments_buffer->create_mark(undef, $iter, 1);
+            $mark2->{code} = sub {
+                comments_replies_toggle($mark1);
+                $mark2->{code} = sub { comments_replies_toggle($mark1) };
+                $comments_buffer->insert_with_tags_by_name($comments_buffer->get_iter_at_mark($mark3), "\n", qw(replies));
+                if (ref($replies_continuation) eq 'HASH') {
+                    display_comments($replies_continuation, $mark3, $replies_indent);
+                }
+                else {
+                    comments_load(
+                                  'next_page_with_token',
+                                  [$url, $replies_continuation],
+                                  error  => 'Failed to fetch replies.',
+                                  indent => $replies_indent,
+                                  mark   => $mark3,
+                                 );
+                }
+            };
+            $indent -= 2;
+        }
+    }
+
+    # "Load more" button
+    if (defined $continuation) {
+        $insert->("\n") unless $iter->starts_line();
+        my $mark1 = $insert_hotspot->('LOAD MORE', qw(load_more));
+        $mark1->{code} = sub {
+            comments_buffer_delete_at_mark($mark1, 'set_line_offset', 0);
+            comments_load(
+                          'next_page_with_token', [$url, $continuation],
+                          error  => 'Failed to fetch more comments.',
+                          indent => $indent,
+                          mark   => $mark1,
+                         );
+        };
+    }
+
+    Glib::Idle->add(\&comments_check_for_hotspot_at_pos);
+
+    return 1;
+}
+
+sub set_comments {
+    my $videoID = get_selected_entry_code(type => 'video') // return;
+    $worker->abort_requests(keys %comments_requests);
+    %comments_requests = ();
+    comments_buffer_reset();
+    comments_load('comments_from_video_id', [$videoID]);
+}
+
+sub show_comments_window {
+    my ($videoID, $iter) = get_selected_entry_code(type => 'video');
+
+    $videoID // return;
+
+    my $info        = parse_json_string($liststore->get($iter, 8));
+    my $video_title = encode_entities($yv_utils->get_title($info));
+
+    $feeds_title->set_markup(reflow_text("<big><big><b>$video_title</b></big></big>"));
+    $feeds_title->set_tooltip_markup("$video_title");
+    $feeds_window->show;
+
+    set_comments();
+    return 1;
+}
+
+# -------------------------------------------- #
+
+sub save_session {
+    $CONFIG{remember_session} || return;
+
+    my $curr        = $ResultsHistory{current};
+    my $curr_result = $ResultsHistory{results}[$curr] // return;
+
+    save_search_results_position();
+
+    my @results = @{$ResultsHistory{results}};
+
+    my $max   = $CONFIG{remember_session_depth};
+    my @left  = @results[max(0, $curr - $max) .. $curr - 1];
+    my @right = @results[$curr + 1 .. min($#results, $curr + $max)];
+
+    if ($DEBUG) {
+        say "Session total: ", scalar(@results);
+        say "Session left : ", scalar(@left);
+        say "Session right: ", scalar(@right);
+    }
+
+    $ResultsHistory{current} = $#left + 1;
+    $ResultsHistory{results} = [@left, $curr_result, @right];
+
+    Storable::store(
+                    {
+                     keyword => $search_entry->get_text,
+                     history => \%ResultsHistory,
+                    },
+                    $session_file
+                   );
+
+    # Delete all entries older than 3 days when keeping the cache.
+    $THUMBNAILS_CACHE->clean($CONFIG{cache_thumbnails} ? 259200 : -1);
+}
+
+sub add_results_to_history {
+    my ($results) = @_;
+    my $results_copy = $results;
+    $ResultsHistory{current}++;
+    splice @{$ResultsHistory{results}}, $ResultsHistory{current}, 0, $results_copy;
+    set_prev_next_results_sensitivity();
+}
+
+sub display_previous_results {
+    if ($ResultsHistory{current} > 0) {
+        save_search_results_position();
+        $ResultsHistory{current}--;
+        display_relative_results($ResultsHistory{current});
+    }
+}
+
+sub display_next_results {
+    if ($ResultsHistory{current} < $#{$ResultsHistory{results}}) {
+        save_search_results_position();
+        $ResultsHistory{current}++;
+        display_relative_results($ResultsHistory{current});
+    }
+}
+
+sub display_relative_results {
+    my ($nth_item) = @_;
+    my $results_copy = $ResultsHistory{results}[$nth_item];
+    clear_search_requests();
+    display_results($results_copy, 1);
+    set_prev_next_results_sensitivity();
+
+    # Restore vertical scrolling position: first reset it to zero,
+    # and wait for the `size-allocate` signal before restoring the
+    # final position, as the vertical adjustment is not yet properly
+    # configured for the new list size.
+    $treeview->get_vadjustment->set_value(0);
+    my $connection;
+    $connection = $treeview->signal_connect(
+        'size-allocate',
+        sub {
+            $treeview->signal_handler_disconnect($connection);
+            restore_search_results_position();
+        }
+    );
+}
+
+sub set_prev_next_results_sensitivity {
+    my $prev_sensitivity = $ResultsHistory{current} > 0;
+    my $next_sensitivity = $ResultsHistory{current} < $#{$ResultsHistory{results}};
+
+    $gui->get_object('show_prev_results')->set_sensitive($prev_sensitivity);
+    $gui->get_object('show_next_results')->set_sensitive($next_sensitivity);
+
+    $gui->get_object('show_prev_results_button')->set_sensitive($prev_sensitivity);
+    $gui->get_object('show_next_results_button')->set_sensitive($next_sensitivity);
+}
+
+sub show_videos_from_selected_author {
+    list_channel_videos(get_channel_id_for_selected_video() || return);
+}
+
+sub show_playlists_from_selected_author {
+    list_channel_playlists(get_channel_id_for_selected_video() || return);
+}
+
+sub set_entry_details {
+    my ($code, $iter, $extra_info) = @_;
+
+    my $type = $liststore->get($iter, 7);
+    my $info = parse_json_string($liststore->get($iter, 8));
+
+    # Setting title
+    my $title = $yv_utils->get_title($info);
+
+    if ($type eq 'channel') {
+        $title = $yv_utils->get_channel_title($info);
+    }
+
+    $title = encode_entities($title);
+
+    $details_title->set_markup(reflow_text("<big><big><b>$title</b></big></big>"));
+    $details_title->set_tooltip_markup("<b>$title</b>");
+
+    my $text_info;
+    my @details1;
+    my @details2;
+
+    if ($type eq 'video') {
+
+        if ($extra_info) {
+            foreach my $key (keys %$extra_info) {
+                $info->{$key} = $extra_info->{$key};
+            }
+        }
+        else {
+            start_details_spinner();
+            $worker->abort_requests($details_request);
+            $details_request = $worker->send_request(
+                sub {
+                    my ($extra_info, $request) = @_;
+                    stop_details_spinner();
+                    $details_request = undef;
+                    $extra_info // return;
+                    set_entry_details($code, $iter, $extra_info);
+                },
+                'video_details',
+                [$yv_utils->get_video_id($info)],
+                priority => REQUEST_PRIORITY_DETAILS,
+            );
+        }
+
+        @details1 = (
+                     author    => $yv_utils->get_channel_title($info),
+                     author_id => $yv_utils->get_channel_id($info),
+                    );
+        @details2 = (
+                     published => $yv_utils->get_publication_date($info),
+                     play      => $yv_utils->get_time($info),
+                     thumbs_up => $yv_utils->get_likes($info),
+                     views     => $yv_utils->get_views($info),
+                     average   => $yv_utils->get_rating($info),
+                    );
+    }
+    elsif ($type eq 'playlist') {
+        @details1 = (
+                     author    => $yv_utils->get_channel_title($info),
+                     author_id => $yv_utils->get_channel_id($info),
+                     play      => $yv_utils->get_playlist_id($info),
+                    );
+        @details2 = (video => $yv_utils->get_playlist_video_count($info),);
+    }
+    elsif ($type eq 'channel') {
+        @details1 = (
+                     author    => $yv_utils->get_channel_title($info),
+                     author_id => $yv_utils->get_channel_id($info),
+                    );
+        @details2 = (
+                     video => $yv_utils->get_playlist_video_count($info),
+                     subs  => $yv_utils->get_subscriber_count($info),
+                    );
+    }
+
+    my %humanize_number_fields = (
+                                  likes     => 1,
+                                  subs      => 1,
+                                  thumbs_up => 1,
+                                  views     => 1,
+                                 );
+
+    for my $pair (pairs($details_flowbox1, \@details1, $details_flowbox2, \@details2)) {
+        my ($flowbox, $fields) = @$pair;
+        for my $child ($flowbox->get_children) {
+            $child->destroy;
+        }
+        foreach my $field (pairs(@$fields)) {
+            my ($symbol, $value) = @$field;
+            my $tooltip;
+            $value //= 'N/A';
+            if (looks_like_number($value) && exists $humanize_number_fields{$symbol}) {
+                my $raw_value = $value;
+                $value   = $yv_utils->short_human_number($value);
+                $tooltip = $yv_utils->set_thousands($raw_value) if $value ne $raw_value;
+            }
+            my $label = Gtk3::Label->new();
+            $value = encode_entities($value);
+            $label->set_markup(reflow_text("$symbols{$symbol}  <b>$value</b>"));
+            $label->set_tooltip_text($tooltip) if $tooltip;
+            $label->set_selectable(1);
+            $label->set_xalign(0.0);
+            $label->show();
+            $flowbox->add($label);
+        }
+    }
+
+    # Setting the link button
+    my $url        = make_youtube_url($type, $code);
+    my $linkbutton = $gui->get_object('linkbutton1');
+
+    $linkbutton->set_label($url);
+    $linkbutton->set_uri($url);
+
+    if (not $extra_info) {
+
+        my @missing_thumbs;
+
+        # Getting thumbs (start, middle, end).
+        foreach my $nr (1 .. 3) {
+
+            my $thumb  = get_thumbnail_info($info, 320, 180);
+            my $widget = $gui->get_object("image$nr");
+            $widget->set_size_request($thumb->{width}, $thumb->{height});
+
+            if ($thumb->{url} =~ /_live\.\w+\z/) {
+                ## no extra thumbnails available while video is LIVE
+            }
+            else {
+                $thumb->{url} =~ s{/(\w*)default\.(\w+)\z}{/$1$nr.$2};
+            }
+            $thumb->{path} = $THUMBNAILS_CACHE->path($thumb->{url});
+
+            my $pixbuf;
+            if (-e $thumb->{path}) {
+                $pixbuf = load_thumbnail($thumb->{path}, $thumb->{width}, $thumb->{height});
+            }
+            else {
+                $thumb->{widget} = $widget;
+                push @missing_thumbs, $thumb;
+                start_details_spinner();
+            }
+            $widget->set_from_pixbuf($pixbuf // $default_thumb);
+        }
+
+        fetch_thumbnails(
+            sub {
+                my ($thumb) = @_;
+                stop_details_spinner();
+                return unless -e $thumb->{path};
+                my $pixbuf = load_thumbnail($thumb->{path}, $thumb->{width}, $thumb->{height}) // return;
+                $thumb->{widget}->set_from_pixbuf($pixbuf);
+            },
+            \@missing_thumbs,
+            \$details_thumbs_request,
+            priority => REQUEST_PRIORITY_DETAILS_THUMBS,
+        );
+    }
+
+    # Setting textview description
+    set_text($description_textview, $yv_utils->get_description($info));
+
+    return 1;
+}
+
+sub on_mainw_destroy {
+
+    Glib::Source->remove($worker_watch);
+    $worker->stop();
+
+    # Save hpaned position
+    $CONFIG{hpaned_position} = $hbox2->get_position;
+
+    get_main_window_size();
+    dump_configuration();
+    save_usernames_to_file();
+    save_session();
+
+    'Gtk3'->main_quit;
+}
+
+{
+    my $default_notebook_page = $CONFIG->{default_notebook_page};
+    for my $index (0 .. $notebook->get_n_pages - 1) {
+        my $page = $notebook->get_nth_page($index);
+        if ($page->get('name') eq $default_notebook_page) {
+            $notebook->set_current_page($index);
+            last;
+        }
+    }
+}
+
+if ($CONFIG{watch_history} and -f $CONFIG{watch_history_file}) {
+    if (open my $fh, '<', $CONFIG{watch_history_file}) {
+        chomp(my @video_ids = <$fh>);
+        @WATCHED_VIDEOS{@video_ids} = ();
+        close $fh;
+    }
+    else {
+        warn "[!] Can't open the watched file `$CONFIG{watch_history_file}' for reading: $!";
+    }
+}
+
+if ($CONFIG{remember_session} and -f $session_file) {
+
+    my $session = eval { Storable::retrieve($session_file) };
+
+    if (ref($session) eq 'HASH') {
+        %ResultsHistory = %{$session->{history}};
+        $search_entry->set_text($session->{keyword});
+        $search_entry->set_position(length($session->{keyword}));
+        $search_entry->select_region(0, -1);
+
+        if (not @ARGV) {
+            Glib::Idle->add(
+                sub {
+                    display_relative_results($ResultsHistory{current});
+                    return 0;
+                },
+                [],
+                Glib::G_PRIORITY_LOW
+            );
+        }
+    }
+    else {
+        warn "[!] Failed to load previous session...\n";
+        warn "[!] Reason: $@\n" if $@;
+    }
+}
+
+if (@ARGV) {
+    my $text = join(' ', @ARGV);
+    $search_entry->set_text($text);
+    $search_entry->set_position(length($text));
+    Glib::Idle->add(sub { search(); return 0 }, [], Glib::G_PRIORITY_LOW);
+}
+
+'Gtk3'->main;

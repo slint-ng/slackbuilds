@@ -1,0 +1,52 @@
+#Packager: Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=orca-plugin
+commit=f53bb14d
+commit=21c8113f
+pkgver=git$commit
+pkgrel=1slint
+
+#source=("$pkgname-$pkgver.tar.xz")
+docs=("AUTHORS" "COPYING" "ChangeLog" "INSTALL" "MAINTAINERS" "NEWS" "README" "TODO" )
+url=http://live.gnome.org/Orca/
+options=('nosrcpack')
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"orca (screen reader)"
+"Orca is a free, open source, flexible, and extensible screen reader."
+"The xdesktop version is to be used in enviromments other than Gnome3."
+""
+"Homepage: http://live.gnome.org/Orca/"
+)
+
+build() {
+	git clone https://github.com/chrys87/orca-plugin
+	cd orca-plugin
+	git checkout -b plugin-system
+	git checkout $commit
+#	cd $startdir/src/$pkgname-$pkgver
+	autoreconf -vif
+  ./configure \
+  --prefix=/usr \
+  --libdir=/usr/lib${LIBDIRSUFFIX} \
+  --sysconfdir=/etc \
+  --localstatedir=/var \
+  --mandir=/usr/man \
+  --docdir=/usr/doc/$pkgname-$pkgver \
+  --build=$arch-slackware-linux
+	make
+	make install DESTDIR=$startdir/pkg
+	# No autostart but orca will be started:
+	# - at system level by gdm or lightdm if wished
+	# - by the user in graphical environments if ~/autostart/startorca.desktop
+	#   shipped in the slint-user-settings package has not Hidden=true
+	# The a11y parameters are copied from orcaprofile in ~/.profile
+	# by usersettings during installation if sound was used, or by the
+	# script orca-on shipped in the slint-misc package.
+    rm -rf $startdir/pkg/etc/xdg
+	mkdir -p $startdir/pkg/usr/share/orca
+	chmod -R 755 $startdir/pkg/usr/share
+	cp $startdir/orcaprofile $startdir/pkg/usr/share/orca/
+	chmod -R 644 $startdir/pkg/usr/share/orca/orcaprofile
+}

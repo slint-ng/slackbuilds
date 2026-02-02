@@ -1,0 +1,21 @@
+# Maintainer: Tomislav Ivek <tomislav dot ivek at gmail dot com>
+# Included in Slint by Didier Spaier didieratslintdotfr
+pkgname=python-patch-ng
+pkgver=1.18.1
+pkgrel=slint
+slackdesc="$pkgname (library to parse and apply unified diffs)"
+url="https://github.com/conan-io/python-patch/"
+license=('MIT')
+depends=('python')
+makedepends=('python-setuptools')
+_name=${pkgname#python-}
+source=("https://pypi.io/packages/source/${_name::1}/$_name/$_name-$pkgver.tar.gz")
+#        "https://raw.githubusercontent.com/conan-io/python-patch-ng/${pkgver}/LICENSE")
+md5sums=('6e9371b9e6531ccdfb43e7ad883b3ff5')
+
+build() {
+  cd "patch-ng-$pkgver"
+  python setup.py build
+  python3 setup.py install --optimize=1 --root "$PKG"
+  # install -Dm644 "LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

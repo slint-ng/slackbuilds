@@ -1,0 +1,31 @@
+#Maintainer: George Vlahavas <vlahavas~at~gmail~dot~com>
+
+# Included in Slint by Didier Spaier didieraslintdotfr
+pkgname=spkg
+pkgver=1.6
+pkgrel=2slint
+source=("spkg-$pkgver.tar.gz")
+url=https:"//github.com/megous/spkg"
+options=("txz" "nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (package manager)"
+"spkg is a package manager for Slackware that is implemented in C and"
+"optimized for speed."
+)
+
+build() {
+	cd $startdir/src/spkg-$pkgver
+	./autogen.sh
+	./configure \
+		--prefix=/usr \
+		--bindir=/sbin \
+		--libdir=/usr/lib${LIBDIRSUFFIX} \
+		--mandir=/usr/man \
+		--enable-static-spkg=only \
+		--build=$arch-slackware-linux
+	make || return 1
+	make DESTDIR=$startdir/pkg install
+}

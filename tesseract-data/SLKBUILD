@@ -1,0 +1,39 @@
+# Packaged for Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=tesseract-data
+pkgver=4.0.0
+pkgrel=7slint
+options=(nosrcpack)
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Language data for Tesseract Open Source OCR Engine)"
+"This package contains the per language data for Tesseract." 
+"The lead developer is Ray Smith. The maintainer is Zdenko Podobny."
+)
+
+doinst() {
+	(
+	cd usr/share/tessdata
+	ln -sf Latin.traineddata eng.traineddata
+	)
+}
+
+# The source archive contents selected files taken from:
+# https://github.com/tesseract-ocr/tessdata_fast/tree/4.0.0/script
+
+source=(tesseract_data_fast_selected_scripts-20181220.tar.xz README.md SLKBUILD COPYING)
+
+docs=(SLKBUILD COPYING)
+
+build() {
+	cd $SRC/tesseract_data_fast_selected_scripts-20181220
+	mkdir -p $PKG/usr/share/tessdata
+	cp * -p $PKG/usr/share/tessdata/
+	mkdir -p $PKG/usr/doc/${pkgname}-$pkgver
+	pandoc -s -f gfm $SRC/README.md -o $PKG/usr/doc/${pkgname}-$pkgver/README.html
+	(
+	 cd $startdir/pkg/usr/share/tessdata
+	 ln -s Latin.traineddata eng.traineddata
+	)
+}

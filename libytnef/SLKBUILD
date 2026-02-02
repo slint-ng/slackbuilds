@@ -1,0 +1,29 @@
+# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+# Contributor: Andre Klitzing <aklitzing () online () de>
+#Adapted for Slint by Didier Spaier <didier~at~slint~dot~fr>
+pkgname=libytnef
+pkgver=2.0
+pkgrel=1slint
+epoch=1
+slackdesc="$pkgname (Yerase's TNEF Stream Reader library, decodes winmail.dat)"
+url="https://github.com/Yeraze/ytnef"
+license=(GPL)
+arch=(x86_64)
+depends=(glibc)
+makedepends=(perl git)
+optdepends=('perl: ytnefprocess')
+provides=(libytnef.so)
+_commit=f80f624d373997afa3e3bfc074948b26d171d210  # tags/v2.0
+source=("ytnef-2.0.tar.gz")
+sha256sums=('SKIP')
+
+
+build() {
+  cd ytnef-$pkgver
+  ./autogen.sh
+  ./configure --prefix=/usr --disable-static
+  make
+  make DESTDIR="$PKG" install
+  rm -f $PKG/usr/lib*/*.la
+}

@@ -1,0 +1,7 @@
+#!/bin/sh
+unset ORCA
+grep -q "Hidden=false" ~/.config/autostart/startorca.desktop && orca -r && ORCA_PID=$! &
+CAGE_PID=$(ps -o pid --noheaders -C cage)
+"$@"
+[ "$ORCA_PID" ] && kill $ORCA_PID
+kill $CAGE_PID

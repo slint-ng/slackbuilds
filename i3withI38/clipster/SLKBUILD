@@ -1,0 +1,24 @@
+# Maintainer: Alexander Kempen <alexander dot kempen at posteo dot de>
+# Contributor: Samuel Walladge <samuel at swalladge dot id dot au>
+# Included in Slint by Didier Spaier didieratslintdotfr
+pkgname=clipster
+commit=53899b1
+pkgver=git$commit
+pkgrel=1slint
+slackdesc="clipster (Python clipboard manager)"
+url="https://github.com/mrichar1/clipster"
+license=("AGPL")
+depends=("python" "python-gobject" "python-pip" "libwnck3")
+makedepends=("git" "python-setuptools")
+sha256sums=("SKIP")
+provides=("clipster")
+conflicts=("clipster-git")
+docs=("README.html" "LICENSE.md")
+build() {
+  git clone https://github.com/mrichar1/clipster.git
+  cd clipster
+  git checkout 53899b1
+  pandoc -f gfm -t html5 README.md -o README.html
+  python3 setup.py install --root="$PKG" --optimize=1
+  rm -r "$PKG"/usr/share
+}

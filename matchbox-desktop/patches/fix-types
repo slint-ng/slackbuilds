@@ -1,0 +1,13 @@
+Index: matchbox-desktop-2.2+git20200512/src/main.c
+===================================================================
+--- matchbox-desktop-2.2+git20200512.orig/src/main.c	2025-03-12 12:24:05.000000000 +0000
++++ matchbox-desktop-2.2+git20200512/src/main.c	2025-03-12 12:50:24.838301385 +0000
+@@ -80,7 +80,7 @@
+   DesktopMode mode = MODE_DESKTOP;
+ 
+   if (1) {
+-    Display *display;
++    GdkDisplay *display;
+     display = gdk_display_get_default ();
+   }
+ 

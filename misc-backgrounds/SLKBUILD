@@ -1,0 +1,18 @@
+pkgname=misc-backgrounds
+pkgver=15.0
+pkgrel=1slint
+arch=noarch
+options=('noautodotnew')
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgbame (miscellaneous backgrounds gathered for Slint)"
+"This package provides backgrounds usable as wallpapers, including but"
+"not limited to the MATE desktop"
+)
+build() {
+	mkdir -p $PKG/usr/share/backgrounds/misc
+	mkdir -p $PKG/usr/share/mate-background-properties
+	cp $startdir/collection/* $PKG/usr/share/backgrounds/misc || exit
+	cp $startdir/misc.xml  $PKG/usr/share/mate-background-properties/ || exit
+}

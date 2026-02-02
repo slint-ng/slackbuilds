@@ -1,0 +1,19 @@
+pkgname=flite-voice-$VOICE
+pkgver=2.1
+pkgrel=1slint
+# alternate download URL:
+# http://tts.speech.cs.cmu.edu/festvox.org/flite/
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname ($VOICELANG voice for flite)"
+"This voice is named $VOICE in spd-say, orca and chromevox."
+"This package has been built build using a file downloaded from"
+"http://www.festvox.org/flite/packed/flite-2.1/voices/"
+)
+options=("nosrcpack")
+source=("voices/$FILE")
+build(){
+	mkdir -p $PKG/usr/share/flite/voices/
+	cp $srcdir/$FILE $PKG/usr/share/flite/voices/$VOICE
+}

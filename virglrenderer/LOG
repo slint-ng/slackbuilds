@@ -1,0 +1,28 @@
+virglrenderer 0.10.4
+
+  Directories
+    prefix              : /usr
+    libdir              : lib64
+
+  Configuration
+    c_args              : -O2 -fPIC
+    egl                 : True
+    glx                 : True
+    minigbm_alloc       : False
+    venus               : False
+    drm-msm             : False
+    render server       : False
+    render server worker: none
+    video               : False
+    tests               : False
+    fuzzer              : False
+    tracing             : none
+
+  User defined options
+    buildtype           : release
+    infodir             : /usr/info
+    libdir              : /usr/lib64
+    localstatedir       : /var
+    mandir              : /usr/man
+    prefix              : /usr
+    sysconfdir          : /etc

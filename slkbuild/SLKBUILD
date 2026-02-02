@@ -1,0 +1,25 @@
+#Maintainer: George Vlahavas (vlahavas~at~gmail~dot~com)
+
+pkgname=slkbuild
+pkgver=1.2
+pkgrel=2slint
+arch=noarch
+source=(slkbuild-$pkgver.tar.xz)
+options=('nosrcpack')
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"slkbuild (arch-like wrapper script for easy packaging)"
+"slkbuild is a script inspired by makepkg from Arch which greatly"
+"simplifies the package building process in Slackware and derivatives."
+"It parses an easy to create SLKBUILD meta-file and from that creates"
+"slackware packages."
+)
+
+
+build() {
+	cd $startdir/src/$pkgname-$pkgver
+	make
+	make install DESTDIR=$startdir/pkg PREFIX=/usr
+} 

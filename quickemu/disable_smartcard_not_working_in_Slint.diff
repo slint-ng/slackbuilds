@@ -1,0 +1,24 @@
+diff -ru quickemu-4.9.6/quickemu quickemu-4.9.6.new/quickemu
+--- quickemu-4.9.6/quickemu	2024-07-04 17:24:26.000000000 +0200
++++ quickemu-4.9.6.new/quickemu	2024-10-27 22:20:27.624768517 +0100
+@@ -1225,13 +1225,13 @@
+             -device pci-ohci,id=smartpass
+             -device usb-ccid)
+ 
+-        if ${QEMU} -device help | grep -q "passthrough smartcard"; then
+-            # shellcheck disable=SC2054
+-            args+=(-chardev spicevmc,id=ccid,name=smartcard
+-                  -device ccid-card-passthru,chardev=ccid)
+-        else
+-            echo " - WARNING!  ${QEMU} or SPICE was not compiled with support for smartcard devices"
+-        fi
++#        if ${QEMU} -device help | grep -q "passthrough smartcard"; then
++#            # shellcheck disable=SC2054
++#            args+=(-chardev spicevmc,id=ccid,name=smartcard
++#                  -device ccid-card-passthru,chardev=ccid)
++#        else
++#            echo " - WARNING!  ${QEMU} or SPICE was not compiled with support for smartcard devices"
++#        fi
+     fi
+ 
+     # setup usb-controller

@@ -1,0 +1,3 @@
+needs rust16 for building
+run ../slintify.sh to get the many deps
+you will probbaly need to wget https://static.crates.io/crates/filenamegen/filenamegen-0.2.4.crate too

@@ -1,0 +1,20 @@
+#Packager: Didier Spaier didierspaieratslintdotfr
+
+pkgname=$SBONAME
+pkgver=1
+pkgrel=2slint
+arch=noarch
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$SBONAME (alias $SLINTNAME)"
+"This is just a metapackage for installing $SLINTNAME"
+"It is useful when other packages are looking for a"
+"\"$SBONAME\" package as a dependency."
+)
+
+
+build() {
+	cd $startdir/src/
+} 

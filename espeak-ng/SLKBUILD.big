@@ -1,0 +1,103 @@
+# Maintainer: Dimitris Tzemos <djemos~at~slackel~dot~gr>
+# modified by Didier Spaier <didier~at~slint~dot~fr>
+# The symlinks in doinst allow espeak-ng to act as a replacement of
+# The legacy espeak when running espeakup that rely on it.
+
+
+# note to self:
+# Run make-git-tarball.sh first
+# rubygem-ronn and its dependencies:
+# rubygem-hpricot,rubygem-mustache,rubygem-rdiscount
+# are needed to build the doc in html and man format using the ronn
+# application.
+
+# lin the .so files libespeak-ng.so -> libespeak.so
+pkgname=espeak-ng
+pkgver=1.52.0
+pkgrel=1slint
+source=("README.mbrola" "list_of_mbrola_voices" "${pkgname}-$pkgver.tar.gz")
+docs=("CHANGELOG.html" "COPYING" "COPYING.APACHE" "COPYING.BSD2" "FAQ" "NEWS" "README.mbrola" "list_of_mbrola_voices")
+options=("nosrcpack")
+url=http://espeak.sourceforge.net/
+
+slackdesc=\
+(
+ #|-----handy-ruler------------------------------------------------------|
+ "espeak-ng (Next Generation Text-to-Speech program)"
+ "open source speech synthesizer supporting 100 languages and accents."
+ "It is based on the eSpeak engine created by Jonathan Duddington. It"
+ "uses spectral formant synthesis by default which sounds robotic, but"
+ "can be configured to use Klatt formant synthesis or MBROLA to give it"
+ "a more natural sound."
+ ""
+ "HomePage:https://github.com/rhdunn/espeak/"
+)
+build() {
+  ( cd "${pkgname}-$pkgver"/src
+  ronn -m *ronn
+  )
+  cmake -B build -S "${pkgname}-$pkgver" -DCMAKE_INSTALL_PREFIX=/usr \
+        -DCMAKE_BUILD_TYPE='None' \
+        -DFETCHCONTENT_FULLY_DISCONNECTED=ON \
+        -DBUILD_SHARED_LIBS=ON \
+        -DESPEAK_COMPAT=ON \
+        -DESPEAK_BUILD_MANPAGES=OFF \
+        -Wno-dev
+  cmake --build build
+  DESTDIR="$PKG" cmake --install build
+#  rm -rf "$PKG"/usr/include/espeak
+#  PKG2="$startdir/pkgvariants/usr/share/espeak-ng-data/voices/"
+#  rm -rf $PKG2
+#  mkdir -p $PKG2
+#  mv $PKG/usr/share/espeak-ng-data/voices/'!v' $PKG2/ || exit 1
+#  PRGNAM=espeak-ng-variants
+#  VERSION=$pkgver
+#  ARCH=noarch
+#  BUILD=$pkgrel
+#  OUTPUT=$(cd $startdir && cd .. && cd espeak-ng-variants && pwd)
+#  cd $startdir/pkgvariants || exit 1
+#  mkdir install
+#  echo  \
+#"espeak-ng-variants:espeak-ng-variants (voices variants for espeak-ng)
+#espeak-ng-variants:
+#espeak-ng-variants:This packages complement espeak-ng providing variants
+#espeak-ng-variants:for the included voices.
+#espeak-ng-variants:
+#espeak-ng-variants:
+#espeak-ng-variants:
+#espeak-ng-variants:
+#espeak-ng-variants:
+#espeak-ng:-variants" >  install/slack-desc
+#  /sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD.txz
+#  cd $SRC/"${pkgname}-$pkgver"
+#  mkdir -p $PKG/usr/bin
+#  DOCSDIR=$startdir/pkg/usr/doc/${pkgname}-$pkgver
+#  mkdir -p $DOCSDIR
+#  pandoc -s README.md > $DOCSDIR/README.html
+#  pandoc -s ChangeLog.md > $DOCSDIR/CHANGELOG.html
+#  mkdir -p $PKG/usr/man/man1
+#  (cd src
+#  ronn espeak-ng.1.ronn
+#  gzip espeak-ng.1
+#  cp espeak-ng.1.gz $PKG/usr/man/man1 || exit 1
+#  echo "$PKG/man/man1"
+#  ls $PKG/man/man1
+#  )
+#  mv $PKG/usr/lib $PKG/usr/lib64 || exit 1
+#  cd docs
+#  for i in $(find -name "*.md"); do
+#	pandoc -s $i >  ${i%.md}.html 2> /dev/null
+#	if [ "$(echo $i|grep dictionary.md)" = "" ]; then
+#		rm $i
+#	fi
+#	done
+#	mkdir -p 
+#  cp -r * $DOCSDIR
+#  cd $DOCSDIR
+#  sed "s,src/espeak-ng.1.ronn,espeak-ng.1.html,;s,src/speak-ng.1.ronn,speak-ng.1.html," README.html > bof
+#  mv bof README.html
+#  for i in $(ls *.html); do
+#	sed "s\.md.htmlg;s\.\./../${pkgname}-$pkgver/" $i > bof
+#	mv bof $i
+#  done
+}

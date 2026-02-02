@@ -1,0 +1,4 @@
+sed '
+/with-privsep-user/a\
+my new line
+' cmake-template.SlackBuild|most

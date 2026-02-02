@@ -1,0 +1,35 @@
+#Packager: George Vlahavas <vlahavas~at~gmail~dot~com>
+
+pkgname=neovim
+pkgver=0.7.2
+pkgrel=1gv
+source=("https://github.com/neovim/neovim/archive/refs/tags/v$pkgver.tar.gz")
+docs=("readme" "install" "copying" "changelog" "authors" "news" "todo")
+url=https://github.com/neovim/neovim
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"neovim (Vim-fork focused on extensibility and usability)"
+"Neovim is a project that seeks to aggressively refactor Vim in order"
+"to:"
+" * Simplify maintenance and encourage contributions"
+" * Split the work between multiple developers"
+" * Enable advanced UIs without modifications to the core"
+" * Maximize extensibility"
+)
+
+
+build() {
+	cd $startdir/src/$pkgname-$pkgver
+	
+	make \
+		CMAKE_BUILD_TYPE=Release \
+		CMAKE_INSTALL_PREFIX=/usr \
+		CMAKE_C_FLAGS=$FLAGS
+	make install DESTDIR=$startdir/pkg
+	
+	# we don't really need the menu entry and icon
+	rm -rf $startdir/pkg/usr/share/applications
+	rm -rf $startdir/pkg/usr/share/icons
+} 

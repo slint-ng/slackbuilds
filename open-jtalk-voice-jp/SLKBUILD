@@ -1,0 +1,29 @@
+#Packager:Didier Spaier didieratslintdotfr
+
+pkgname=open-jtalk-voice-jp
+export srcname=hts_voice_nitech_jp_atr503_m001
+pkgver=1.05
+pkgrel=1slint
+#arch=noarch
+source=(
+"https://sourceforge.net/projects/open-jtalk/files/HTS%20voice/hts_voice_nitech_jp_atr503_m001-1.05/hts_voice_nitech_jp_atr503_m001-1.05.tar.gz"
+)
+docs=("COPYING" "INSTALL" "README"
+)
+url=https://sourceforge.net/projects/open-jtalk/files/HTS%20voice/hts_voice_nitech_jp_atr503_m001-1.05/
+
+options=('noautodotnew')
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Japanese male voice for Open JTalk)"
+"url: https://sourceforge.net/projects/open-jtalk/files/HTS%20voice/"
+)
+
+
+build() {
+	cd $startdir/src/$srcname-$pkgver || exit 1
+	mkdir -p $PKG/usr/share/hts-voice/nitech-jp-atr503-m001/
+	cp nitech_jp_atr503_m001.htsvoice $PKG/usr/share/hts-voice/nitech-jp-atr503-m001/
+}

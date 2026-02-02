@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.
+# Line up the first '|' above the ':' following the base package name, and
+# the '|' on the right side marks the last column you can put a character in.
+# You must make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':' except on otherwise blank lines.
+
+     |-----handy-ruler------------------------------------------------------|
+python-wheel3.11: python-wheel3.11 (A built-package format for Python)
+python-wheel3.11:
+python-wheel3.11: A python-wheel is a ZIP-format archive with a specially formatted filename
+python-wheel3.11: and the .whl extension. It is designed to contain all the files for
+python-wheel3.11: a PEP 376 compatible install in a way that is very close to the
+python-wheel3.11: on-disk format.
+python-wheel3.11:
+python-wheel3.11: Homepage: https://bitbucket.org/pypa/python-wheel3.11/
+python-wheel3.11:
+python-wheel3.11:
+python-wheel3.11:

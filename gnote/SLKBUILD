@@ -1,0 +1,77 @@
+# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+# Contributor: Jan de Groot <jgc@archlinux.org>
+# Contributor: Ionut Biru <ibiru@archlinux.org>
+# Contributor: uastasi <uastasi@archlinux.us>
+# Included in Slint by Didier Spaier didieratslintdotfr
+pkgname=gnote
+pkgver=44.2
+pkgrel=2slint
+slackdesc=("$pkgname (Gnote is a simple note-taking application.)"
+"Gnote is a simple note-taking application."
+"It allows you to capture your ideas, link them together using"
+"WikiWiki style links")
+url="https://wiki.gnome.org/Apps/Gnote"
+source="gnote-${pkgver}.tar.xz"
+arch=(x86_64)
+license=(GPL-3.0-or-later)
+depends=(
+  cairomm-1.16
+  dconf
+  gcc-libs
+  glib2
+  glibc
+  glibmm-2.68
+  gtk4
+  gtkmm-4.0
+  hicolor-icon-theme
+  libadwaita
+  libsecret
+  libsigc++-3.0
+  libxml2
+  libxslt
+  pango
+  pangomm-2.48
+  util-linux-libs
+)
+makedepends=(
+  git
+  meson
+  yelp-tools
+)
+doinst() {
+# Update any existing icon cache files:
+if find /usr/share/icons -maxdepth 2 2> /dev/null | grep -q icon-theme.cache ; then
+  for theme_dir in /usr/share/icons/* ; do
+    if [ -r ${theme_dir}/icon-theme.cache ]; then
+      /usr/bin/gtk-update-icon-cache -t -f ${theme_dir} 1> /dev/null 2> /dev/null &
+    fi
+  done
+  # This would be a large file and probably shouldn't be there.
+  if [ -r /usr/share/icons/icon-theme.cache ]; then
+    rm -f /usr/share/icons/icon-theme.cache
+  fi
+fi
+# Update desktop database:
+if [ -x /usr/bin/update-desktop-database ]; then
+  /usr/bin/update-desktop-database /usr/share/applications 1> /dev/null 2> /dev/null
+fi
+}
+build() {
+cd ${pkgname}-$pkgver
+mkdir build
+  CFLAGS="$SLKCFLAGS" \
+  CXXFLAGS="$SLKCFLAGS" \
+  meson setup \
+    --buildtype=release \
+    --infodir=/usr/info \
+    --libdir=/usr/lib${LIBDIRSUFFIX} \
+    --localstatedir=/var \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+   build
+   meson compile -C build
+   meson install -C build --destdir "$PKG"
+cd ..
+}
+
+# vim:set sw=2 sts=-1 et:

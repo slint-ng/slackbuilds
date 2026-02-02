@@ -1,0 +1,42 @@
+# Maintainer: Christian Hesse <arch@eworm.de>
+# Contributor: speps <speps at aur dot archlinux dot org>
+
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+#Note to self: run in this order
+#fakeroot slkbuild
+#sh fix_build_script
+#fakeroot build-apulse.sh -x 2>&1|tee LOG
+
+
+pkgname=apulse
+pkgver=gitc4ce36
+pkgrel=2slint
+options=("nosrcpack")
+docs=("README.md" "LICENSE.MIT")
+slackdesc="apulse (PulseAudio emulation for ALSA)"
+
+arch=('x86_64')
+url='https://github.com/i-rinat/apulse'
+depends=('alsa-lib' 'glib2')
+makedepends=('cmake')
+#install=apulse.install
+source=('asoundrc.sample')
+
+build() {
+	git clone https://github.com/i-rinat/apulse.git
+	cd apulse
+	git checkout c4ce36
+	mkdir -p build
+	cd build
+	cmake .. \
+	-DCMAKE_INSTALL_PREFIX=/usr \
+	-DCMAKE_BUILD_TYPE=Release \
+	-DAPULSEPATH=/usr/share/lib64/apulse \
+	-DAPULSE_SEARCH_PATHS=/usr/share/lib64/apulse
+	make
+	make DESTDIR=$PKG install
+	# sample asoundrc
+	install -Dm644 $SRC/asoundrc.sample \
+		"$PKG/usr/share/${pkgname}-$pkgver/asoundrc.sample"
+}
+

@@ -1,0 +1,30 @@
+slackdesc='(synctex-kapathsea) shared libraries from texlive needed by atril'
+pkgname=synctex-kapathsea
+pkgver=2023.230322
+pkgrel=1slint
+# This SLKBUILD extracts the synctex shared libraries and header files
+# needed by atril from a Slackware texlive package.
+source=("texlive-2023.230322-x86_64-1_slack15.0.txz")
+doinst() {
+	# Update all the shared library links:
+	# for some reason symlinking .so is needed even after ldconfig...
+if [ -x /sbin/ldconfig ]; then
+  /sbin/ldconfig
+  (cd /usr/lib64
+  rm -f libkpathsea.so 
+  ln -s libkpathsea.so.6.3.5 libkpathsea.so
+  rm -f libsynctex.so
+  ln -s libsynctex.so.2.0.0 libsynctex.so
+  )
+fi
+}
+options=("nosrcpack")
+build() {
+find .|sed "s#..##"|grep -e kpathsea -e synctex > files
+while read f; do
+	if [ -f $f ]; then
+		mkdir -p $PKG/$(dirname "$f")
+		cp $f $PKG/$(dirname "$f")
+	fi
+done < files
+}

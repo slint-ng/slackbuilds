@@ -1,0 +1,978 @@
+Automatically setting arch to x86_64
+magic-wormhole-0.12.0.tar.gz found in current directory
+build-magic-wormhole.sh has been created
+tar -xf magic-wormhole-0.12.0.tar.gz
+running install
+/usr/lib/python3.11/site-packages/setuptools/_distutils/cmd.py:66: SetuptoolsDeprecationWarning: setup.py install is deprecated.
+!!
+
+        ********************************************************************************
+        Please avoid running ``setup.py`` directly.
+        Instead, use pypa/build, pypa/installer or other
+        standards-based tools.
+
+        See https://blog.ganssle.io/articles/2021/10/setup-py-deprecated.html for details.
+        ********************************************************************************
+
+!!
+  self.initialize_options()
+running build
+running build_py
+creating build
+creating build/lib
+creating build/lib/wormhole
+copying src/wormhole/__init__.py -> build/lib/wormhole
+copying src/wormhole/__main__.py -> build/lib/wormhole
+copying src/wormhole/_allocator.py -> build/lib/wormhole
+copying src/wormhole/_boss.py -> build/lib/wormhole
+copying src/wormhole/_code.py -> build/lib/wormhole
+copying src/wormhole/_hints.py -> build/lib/wormhole
+copying src/wormhole/_input.py -> build/lib/wormhole
+copying src/wormhole/_interfaces.py -> build/lib/wormhole
+copying src/wormhole/_key.py -> build/lib/wormhole
+copying src/wormhole/_lister.py -> build/lib/wormhole
+copying src/wormhole/_mailbox.py -> build/lib/wormhole
+copying src/wormhole/_nameplate.py -> build/lib/wormhole
+copying src/wormhole/_order.py -> build/lib/wormhole
+copying src/wormhole/_receive.py -> build/lib/wormhole
+copying src/wormhole/_rendezvous.py -> build/lib/wormhole
+copying src/wormhole/_rlcompleter.py -> build/lib/wormhole
+copying src/wormhole/_send.py -> build/lib/wormhole
+copying src/wormhole/_terminator.py -> build/lib/wormhole
+copying src/wormhole/_version.py -> build/lib/wormhole
+copying src/wormhole/_wordlist.py -> build/lib/wormhole
+copying src/wormhole/errors.py -> build/lib/wormhole
+copying src/wormhole/eventual.py -> build/lib/wormhole
+copying src/wormhole/ipaddrs.py -> build/lib/wormhole
+copying src/wormhole/journal.py -> build/lib/wormhole
+copying src/wormhole/observer.py -> build/lib/wormhole
+copying src/wormhole/timing.py -> build/lib/wormhole
+copying src/wormhole/tor_manager.py -> build/lib/wormhole
+copying src/wormhole/transit.py -> build/lib/wormhole
+copying src/wormhole/util.py -> build/lib/wormhole
+copying src/wormhole/wormhole.py -> build/lib/wormhole
+copying src/wormhole/xfer_util.py -> build/lib/wormhole
+creating build/lib/wormhole/cli
+copying src/wormhole/cli/__init__.py -> build/lib/wormhole/cli
+copying src/wormhole/cli/cli.py -> build/lib/wormhole/cli
+copying src/wormhole/cli/cmd_receive.py -> build/lib/wormhole/cli
+copying src/wormhole/cli/cmd_send.py -> build/lib/wormhole/cli
+copying src/wormhole/cli/cmd_ssh.py -> build/lib/wormhole/cli
+copying src/wormhole/cli/public_relay.py -> build/lib/wormhole/cli
+copying src/wormhole/cli/welcome.py -> build/lib/wormhole/cli
+creating build/lib/wormhole/_dilation
+copying src/wormhole/_dilation/__init__.py -> build/lib/wormhole/_dilation
+copying src/wormhole/_dilation/_noise.py -> build/lib/wormhole/_dilation
+copying src/wormhole/_dilation/connection.py -> build/lib/wormhole/_dilation
+copying src/wormhole/_dilation/connector.py -> build/lib/wormhole/_dilation
+copying src/wormhole/_dilation/encode.py -> build/lib/wormhole/_dilation
+copying src/wormhole/_dilation/inbound.py -> build/lib/wormhole/_dilation
+copying src/wormhole/_dilation/manager.py -> build/lib/wormhole/_dilation
+copying src/wormhole/_dilation/outbound.py -> build/lib/wormhole/_dilation
+copying src/wormhole/_dilation/roles.py -> build/lib/wormhole/_dilation
+copying src/wormhole/_dilation/subchannel.py -> build/lib/wormhole/_dilation
+creating build/lib/wormhole/test
+copying src/wormhole/test/__init__.py -> build/lib/wormhole/test
+copying src/wormhole/test/common.py -> build/lib/wormhole/test
+copying src/wormhole/test/run_trial.py -> build/lib/wormhole/test
+copying src/wormhole/test/test_args.py -> build/lib/wormhole/test
+copying src/wormhole/test/test_cli.py -> build/lib/wormhole/test
+copying src/wormhole/test/test_eventual.py -> build/lib/wormhole/test
+copying src/wormhole/test/test_hints.py -> build/lib/wormhole/test
+copying src/wormhole/test/test_hkdf.py -> build/lib/wormhole/test
+copying src/wormhole/test/test_ipaddrs.py -> build/lib/wormhole/test
+copying src/wormhole/test/test_journal.py -> build/lib/wormhole/test
+copying src/wormhole/test/test_keys.py -> build/lib/wormhole/test
+copying src/wormhole/test/test_machines.py -> build/lib/wormhole/test
+copying src/wormhole/test/test_observer.py -> build/lib/wormhole/test
+copying src/wormhole/test/test_rlcompleter.py -> build/lib/wormhole/test
+copying src/wormhole/test/test_ssh.py -> build/lib/wormhole/test
+copying src/wormhole/test/test_tor_manager.py -> build/lib/wormhole/test
+copying src/wormhole/test/test_transit.py -> build/lib/wormhole/test
+copying src/wormhole/test/test_util.py -> build/lib/wormhole/test
+copying src/wormhole/test/test_wordlist.py -> build/lib/wormhole/test
+copying src/wormhole/test/test_wormhole.py -> build/lib/wormhole/test
+copying src/wormhole/test/test_xfer_util.py -> build/lib/wormhole/test
+creating build/lib/wormhole/test/dilate
+copying src/wormhole/test/dilate/__init__.py -> build/lib/wormhole/test/dilate
+copying src/wormhole/test/dilate/common.py -> build/lib/wormhole/test/dilate
+copying src/wormhole/test/dilate/test_connect.py -> build/lib/wormhole/test/dilate
+copying src/wormhole/test/dilate/test_connection.py -> build/lib/wormhole/test/dilate
+copying src/wormhole/test/dilate/test_connector.py -> build/lib/wormhole/test/dilate
+copying src/wormhole/test/dilate/test_encoding.py -> build/lib/wormhole/test/dilate
+copying src/wormhole/test/dilate/test_endpoints.py -> build/lib/wormhole/test/dilate
+copying src/wormhole/test/dilate/test_framer.py -> build/lib/wormhole/test/dilate
+copying src/wormhole/test/dilate/test_full.py -> build/lib/wormhole/test/dilate
+copying src/wormhole/test/dilate/test_inbound.py -> build/lib/wormhole/test/dilate
+copying src/wormhole/test/dilate/test_manager.py -> build/lib/wormhole/test/dilate
+copying src/wormhole/test/dilate/test_outbound.py -> build/lib/wormhole/test/dilate
+copying src/wormhole/test/dilate/test_parse.py -> build/lib/wormhole/test/dilate
+copying src/wormhole/test/dilate/test_record.py -> build/lib/wormhole/test/dilate
+copying src/wormhole/test/dilate/test_subchannel.py -> build/lib/wormhole/test/dilate
+UPDATING build/lib/wormhole/_version.py
+set build/lib/wormhole/_version.py to '0.12.0'
+running install_lib
+creating /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib
+creating /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11
+creating /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages
+creating /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/__init__.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/__main__.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/_allocator.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/_boss.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/_code.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/_hints.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/_input.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/_interfaces.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/_key.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/_lister.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/_mailbox.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/_nameplate.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/_order.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/_receive.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/_rendezvous.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/_rlcompleter.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/_send.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/_terminator.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/_wordlist.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/errors.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/eventual.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/ipaddrs.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/journal.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/observer.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/timing.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/tor_manager.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/transit.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/util.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/wormhole.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+copying build/lib/wormhole/xfer_util.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+creating /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/cli
+copying build/lib/wormhole/cli/__init__.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/cli
+copying build/lib/wormhole/cli/cli.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/cli
+copying build/lib/wormhole/cli/cmd_receive.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/cli
+copying build/lib/wormhole/cli/cmd_send.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/cli
+copying build/lib/wormhole/cli/cmd_ssh.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/cli
+copying build/lib/wormhole/cli/public_relay.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/cli
+copying build/lib/wormhole/cli/welcome.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/cli
+creating /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_dilation
+copying build/lib/wormhole/_dilation/__init__.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_dilation
+copying build/lib/wormhole/_dilation/_noise.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_dilation
+copying build/lib/wormhole/_dilation/connection.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_dilation
+copying build/lib/wormhole/_dilation/connector.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_dilation
+copying build/lib/wormhole/_dilation/encode.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_dilation
+copying build/lib/wormhole/_dilation/inbound.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_dilation
+copying build/lib/wormhole/_dilation/manager.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_dilation
+copying build/lib/wormhole/_dilation/outbound.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_dilation
+copying build/lib/wormhole/_dilation/roles.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_dilation
+copying build/lib/wormhole/_dilation/subchannel.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_dilation
+creating /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test
+copying build/lib/wormhole/test/__init__.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test
+copying build/lib/wormhole/test/common.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test
+copying build/lib/wormhole/test/run_trial.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test
+copying build/lib/wormhole/test/test_args.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test
+copying build/lib/wormhole/test/test_cli.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test
+copying build/lib/wormhole/test/test_eventual.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test
+copying build/lib/wormhole/test/test_hints.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test
+copying build/lib/wormhole/test/test_hkdf.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test
+copying build/lib/wormhole/test/test_ipaddrs.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test
+copying build/lib/wormhole/test/test_journal.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test
+copying build/lib/wormhole/test/test_keys.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test
+copying build/lib/wormhole/test/test_machines.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test
+copying build/lib/wormhole/test/test_observer.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test
+copying build/lib/wormhole/test/test_rlcompleter.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test
+copying build/lib/wormhole/test/test_ssh.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test
+copying build/lib/wormhole/test/test_tor_manager.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test
+copying build/lib/wormhole/test/test_transit.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test
+copying build/lib/wormhole/test/test_util.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test
+copying build/lib/wormhole/test/test_wordlist.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test
+copying build/lib/wormhole/test/test_wormhole.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test
+copying build/lib/wormhole/test/test_xfer_util.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test
+creating /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate
+copying build/lib/wormhole/test/dilate/__init__.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate
+copying build/lib/wormhole/test/dilate/common.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate
+copying build/lib/wormhole/test/dilate/test_connect.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate
+copying build/lib/wormhole/test/dilate/test_connection.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate
+copying build/lib/wormhole/test/dilate/test_connector.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate
+copying build/lib/wormhole/test/dilate/test_encoding.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate
+copying build/lib/wormhole/test/dilate/test_endpoints.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate
+copying build/lib/wormhole/test/dilate/test_framer.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate
+copying build/lib/wormhole/test/dilate/test_full.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate
+copying build/lib/wormhole/test/dilate/test_inbound.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate
+copying build/lib/wormhole/test/dilate/test_manager.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate
+copying build/lib/wormhole/test/dilate/test_outbound.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate
+copying build/lib/wormhole/test/dilate/test_parse.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate
+copying build/lib/wormhole/test/dilate/test_record.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate
+copying build/lib/wormhole/test/dilate/test_subchannel.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate
+copying build/lib/wormhole/_version.py -> /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/__init__.py to __init__.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/__main__.py to __main__.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_allocator.py to _allocator.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_boss.py to _boss.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_code.py to _code.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_hints.py to _hints.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_input.py to _input.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_interfaces.py to _interfaces.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_key.py to _key.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_lister.py to _lister.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_mailbox.py to _mailbox.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_nameplate.py to _nameplate.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_order.py to _order.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_receive.py to _receive.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_rendezvous.py to _rendezvous.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_rlcompleter.py to _rlcompleter.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_send.py to _send.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_terminator.py to _terminator.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_wordlist.py to _wordlist.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/errors.py to errors.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/eventual.py to eventual.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/ipaddrs.py to ipaddrs.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/journal.py to journal.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/observer.py to observer.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/timing.py to timing.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/tor_manager.py to tor_manager.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/transit.py to transit.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/util.py to util.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/wormhole.py to wormhole.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/xfer_util.py to xfer_util.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/cli/__init__.py to __init__.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/cli/cli.py to cli.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/cli/cmd_receive.py to cmd_receive.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/cli/cmd_send.py to cmd_send.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/cli/cmd_ssh.py to cmd_ssh.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/cli/public_relay.py to public_relay.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/cli/welcome.py to welcome.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_dilation/__init__.py to __init__.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_dilation/_noise.py to _noise.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_dilation/connection.py to connection.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_dilation/connector.py to connector.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_dilation/encode.py to encode.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_dilation/inbound.py to inbound.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_dilation/manager.py to manager.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_dilation/outbound.py to outbound.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_dilation/roles.py to roles.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_dilation/subchannel.py to subchannel.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/__init__.py to __init__.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/common.py to common.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/run_trial.py to run_trial.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/test_args.py to test_args.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/test_cli.py to test_cli.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/test_eventual.py to test_eventual.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/test_hints.py to test_hints.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/test_hkdf.py to test_hkdf.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/test_ipaddrs.py to test_ipaddrs.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/test_journal.py to test_journal.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/test_keys.py to test_keys.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/test_machines.py to test_machines.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/test_observer.py to test_observer.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/test_rlcompleter.py to test_rlcompleter.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/test_ssh.py to test_ssh.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/test_tor_manager.py to test_tor_manager.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/test_transit.py to test_transit.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/test_util.py to test_util.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/test_wordlist.py to test_wordlist.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/test_wormhole.py to test_wormhole.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/test_xfer_util.py to test_xfer_util.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate/__init__.py to __init__.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate/common.py to common.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate/test_connect.py to test_connect.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate/test_connection.py to test_connection.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate/test_connector.py to test_connector.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate/test_encoding.py to test_encoding.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate/test_endpoints.py to test_endpoints.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate/test_framer.py to test_framer.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate/test_full.py to test_full.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate/test_inbound.py to test_inbound.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate/test_manager.py to test_manager.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate/test_outbound.py to test_outbound.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate/test_parse.py to test_parse.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate/test_record.py to test_record.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate/test_subchannel.py to test_subchannel.cpython-311.pyc
+byte-compiling /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_version.py to _version.cpython-311.pyc
+writing byte-compilation script '/tmp/tmpv0o8ronj.py'
+/usr/bin/python3 /tmp/tmpv0o8ronj.py
+removing /tmp/tmpv0o8ronj.py
+running install_egg_info
+running egg_info
+creating src/magic_wormhole.egg-info
+writing src/magic_wormhole.egg-info/PKG-INFO
+writing dependency_links to src/magic_wormhole.egg-info/dependency_links.txt
+writing entry points to src/magic_wormhole.egg-info/entry_points.txt
+writing requirements to src/magic_wormhole.egg-info/requires.txt
+writing top-level names to src/magic_wormhole.egg-info/top_level.txt
+writing manifest file 'src/magic_wormhole.egg-info/SOURCES.txt'
+listing git files failed - pretending there aren't any
+reading manifest file 'src/magic_wormhole.egg-info/SOURCES.txt'
+reading manifest template 'MANIFEST.in'
+adding license file 'LICENSE'
+writing manifest file 'src/magic_wormhole.egg-info/SOURCES.txt'
+Copying src/magic_wormhole.egg-info to /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/magic_wormhole-0.12.0-py3.11.egg-info
+running install_scripts
+Installing wormhole script to /repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/bin
+[WARNING] This document format requires a nonempty <title> element.
+  Defaulting to 'README' as the title.
+  To specify a title, use 'title' in metadata or --metadata title="...".
+[WARNING] This document format requires a nonempty <title> element.
+  Defaulting to 'NEWS' as the title.
+  To specify a title, use 'title' in metadata or --metadata title="...".
+/repo/x86_64/slint-15.0/source/magic-wormhole/pkg:
+total 0
+drwxr-xr-x 1 root root 20 avril  2 14:07 install
+drwxr-xr-x 1 root root 24 avril  2 14:07 usr
+
+/repo/x86_64/slint-15.0/source/magic-wormhole/pkg/install:
+total 4
+-rw-r--r-- 1 root root 244 avril  2 14:07 slack-desc
+
+/repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr:
+total 0
+drwxr-xr-x 1 root root 16 avril  2 14:07 bin
+drwxr-xr-x 1 root root 42 avril  2 14:07 doc
+drwxr-xr-x 1 root root 20 avril  2 14:07 lib
+drwxr-xr-x 1 root root 42 avril  2 14:07 src
+
+/repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/bin:
+total 4
+-rwxr-xr-x 1 root root 984 avril  2 14:07 wormhole
+
+/repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/doc:
+total 0
+drwxr-xr-x 1 root root 54 avril  2 14:07 magic-wormhole-0.12.0
+
+/repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/doc/magic-wormhole-0.12.0:
+total 48
+-rw-r--r-- 1 root root  1080 avril  2 14:07 LICENSE
+-rw-r--r-- 1 root root 33637 avril  2 14:07 NEWS.html
+-rw-r--r-- 1 root root  6550 avril  2 14:07 README.html
+
+/repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib:
+total 0
+drwxr-xr-x 1 root root 26 avril  2 14:07 python3.11
+
+/repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11:
+total 0
+drwxr-xr-x 1 root root 90 avril  2 14:07 site-packages
+
+/repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages:
+total 0
+drwxr-xr-x 1 root root 160 avril  2 14:07 magic_wormhole-0.12.0-py3.11.egg-info
+drwxr-xr-x 1 root root 718 avril  2 14:07 wormhole
+
+/repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/magic_wormhole-0.12.0-py3.11.egg-info:
+total 24
+-rw-r--r-- 1 root root 3981 avril  2 14:07 PKG-INFO
+-rw-r--r-- 1 root root 3950 avril  2 14:07 SOURCES.txt
+-rw-r--r-- 1 root root    1 avril  2 14:07 dependency_links.txt
+-rw-r--r-- 1 root root   55 avril  2 14:07 entry_points.txt
+-rw-r--r-- 1 root root  298 avril  2 14:07 requires.txt
+-rw-r--r-- 1 root root    9 avril  2 14:07 top_level.txt
+
+/repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole:
+total 248
+-rw-r--r-- 1 root root   152 avril  5  2020 __init__.py
+-rw-r--r-- 1 root root   221 avril  5  2020 __main__.py
+drwxr-xr-x 1 root root  3312 avril  2 14:07 __pycache__
+-rw-r--r-- 1 root root  2702 avril  5  2020 _allocator.py
+-rw-r--r-- 1 root root 16146 avril  5  2020 _boss.py
+-rw-r--r-- 1 root root  3520 avril  5  2020 _code.py
+drwxr-xr-x 1 root root   234 avril  2 14:07 _dilation
+-rw-r--r-- 1 root root  5829 avril  5  2020 _hints.py
+-rw-r--r-- 1 root root 10763 avril  5  2020 _input.py
+-rw-r--r-- 1 root root 14788 avril  5  2020 _interfaces.py
+-rw-r--r-- 1 root root  6776 avril  5  2020 _key.py
+-rw-r--r-- 1 root root  3172 avril  5  2020 _lister.py
+-rw-r--r-- 1 root root  6741 avril  5  2020 _mailbox.py
+-rw-r--r-- 1 root root  5632 avril  5  2020 _nameplate.py
+-rw-r--r-- 1 root root  2509 avril  5  2020 _order.py
+-rw-r--r-- 1 root root  3264 avril  5  2020 _receive.py
+-rw-r--r-- 1 root root 12316 avril  5  2020 _rendezvous.py
+-rw-r--r-- 1 root root  9558 avril  5  2020 _rlcompleter.py
+-rw-r--r-- 1 root root  2289 avril  5  2020 _send.py
+-rw-r--r-- 1 root root  3732 avril  5  2020 _terminator.py
+-rw-r--r-- 1 root root   498 avril  2 14:07 _version.py
+-rw-r--r-- 1 root root 11238 avril  5  2020 _wordlist.py
+drwxr-xr-x 1 root root   176 avril  2 14:07 cli
+-rw-r--r-- 1 root root  3558 avril  5  2020 errors.py
+-rw-r--r-- 1 root root  1595 avril  5  2020 eventual.py
+-rw-r--r-- 1 root root  2927 avril  5  2020 ipaddrs.py
+-rw-r--r-- 1 root root  1179 avril  5  2020 journal.py
+-rw-r--r-- 1 root root  2805 avril  5  2020 observer.py
+drwxr-xr-x 1 root root   624 avril  2 14:07 test
+-rw-r--r-- 1 root root  2124 avril  5  2020 timing.py
+-rw-r--r-- 1 root root  4628 avril  5  2020 tor_manager.py
+-rw-r--r-- 1 root root 34474 avril  5  2020 transit.py
+-rw-r--r-- 1 root root  1540 avril  5  2020 util.py
+-rw-r--r-- 1 root root 10366 avril  5  2020 wormhole.py
+-rw-r--r-- 1 root root  4276 avril  5  2020 xfer_util.py
+
+/repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/__pycache__:
+total 720
+-rw-r--r-- 1 root root   361 avril  2 14:07 __init__.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root   361 avril  2 14:07 __init__.cpython-311.pyc
+-rw-r--r-- 1 root root   443 avril  2 14:07 __main__.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root   443 avril  2 14:07 __main__.cpython-311.pyc
+-rw-r--r-- 1 root root  5920 avril  2 14:07 _allocator.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  5920 avril  2 14:07 _allocator.cpython-311.pyc
+-rw-r--r-- 1 root root 25928 avril  2 14:07 _boss.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 25928 avril  2 14:07 _boss.cpython-311.pyc
+-rw-r--r-- 1 root root  8224 avril  2 14:07 _code.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  8224 avril  2 14:07 _code.cpython-311.pyc
+-rw-r--r-- 1 root root  7228 avril  2 14:07 _hints.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  7228 avril  2 14:07 _hints.cpython-311.pyc
+-rw-r--r-- 1 root root 17810 avril  2 14:07 _input.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 17810 avril  2 14:07 _input.cpython-311.pyc
+-rw-r--r-- 1 root root 21382 avril  2 14:07 _interfaces.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 21382 avril  2 14:07 _interfaces.cpython-311.pyc
+-rw-r--r-- 1 root root 14797 avril  2 14:07 _key.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 14797 avril  2 14:07 _key.cpython-311.pyc
+-rw-r--r-- 1 root root  4941 avril  2 14:07 _lister.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  4941 avril  2 14:07 _lister.cpython-311.pyc
+-rw-r--r-- 1 root root 14013 avril  2 14:07 _mailbox.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 14013 avril  2 14:07 _mailbox.cpython-311.pyc
+-rw-r--r-- 1 root root 10480 avril  2 14:07 _nameplate.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 10480 avril  2 14:07 _nameplate.cpython-311.pyc
+-rw-r--r-- 1 root root  5872 avril  2 14:07 _order.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  5872 avril  2 14:07 _order.cpython-311.pyc
+-rw-r--r-- 1 root root  7496 avril  2 14:07 _receive.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  7496 avril  2 14:07 _receive.cpython-311.pyc
+-rw-r--r-- 1 root root 20375 avril  2 14:07 _rendezvous.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 20375 avril  2 14:07 _rendezvous.cpython-311.pyc
+-rw-r--r-- 1 root root  8425 avril  2 14:07 _rlcompleter.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  8425 avril  2 14:07 _rlcompleter.cpython-311.pyc
+-rw-r--r-- 1 root root  5390 avril  2 14:07 _send.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  5390 avril  2 14:07 _send.cpython-311.pyc
+-rw-r--r-- 1 root root  7711 avril  2 14:07 _terminator.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  7711 avril  2 14:07 _terminator.cpython-311.pyc
+-rw-r--r-- 1 root root   569 avril  2 14:07 _version.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root   569 avril  2 14:07 _version.cpython-311.pyc
+-rw-r--r-- 1 root root 18710 avril  2 14:07 _wordlist.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 18710 avril  2 14:07 _wordlist.cpython-311.pyc
+-rw-r--r-- 1 root root  7588 avril  2 14:07 errors.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  7588 avril  2 14:07 errors.cpython-311.pyc
+-rw-r--r-- 1 root root  3228 avril  2 14:07 eventual.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  3228 avril  2 14:07 eventual.cpython-311.pyc
+-rw-r--r-- 1 root root  3111 avril  2 14:07 ipaddrs.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  3111 avril  2 14:07 ipaddrs.cpython-311.pyc
+-rw-r--r-- 1 root root  2628 avril  2 14:07 journal.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  2628 avril  2 14:07 journal.cpython-311.pyc
+-rw-r--r-- 1 root root  6011 avril  2 14:07 observer.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  6011 avril  2 14:07 observer.cpython-311.pyc
+-rw-r--r-- 1 root root  3868 avril  2 14:07 timing.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  3868 avril  2 14:07 timing.cpython-311.pyc
+-rw-r--r-- 1 root root  5479 avril  2 14:07 tor_manager.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  5479 avril  2 14:07 tor_manager.cpython-311.pyc
+-rw-r--r-- 1 root root 44013 avril  2 14:07 transit.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 44013 avril  2 14:07 transit.cpython-311.pyc
+-rw-r--r-- 1 root root  3465 avril  2 14:07 util.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  3465 avril  2 14:07 util.cpython-311.pyc
+-rw-r--r-- 1 root root 15380 avril  2 14:07 wormhole.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 15380 avril  2 14:07 wormhole.cpython-311.pyc
+-rw-r--r-- 1 root root  5146 avril  2 14:07 xfer_util.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  5146 avril  2 14:07 xfer_util.cpython-311.pyc
+
+/repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_dilation:
+total 128
+-rw-r--r-- 1 root root     0 avril  5  2020 __init__.py
+drwxr-xr-x 1 root root  1064 avril  2 14:07 __pycache__
+-rw-r--r-- 1 root root   432 avril  5  2020 _noise.py
+-rw-r--r-- 1 root root 21836 avril  5  2020 connection.py
+-rw-r--r-- 1 root root 18473 avril  5  2020 connector.py
+-rw-r--r-- 1 root root   427 avril  5  2020 encode.py
+-rw-r--r-- 1 root root  5547 avril  5  2020 inbound.py
+-rw-r--r-- 1 root root 24618 avril  5  2020 manager.py
+-rw-r--r-- 1 root root 17443 avril  5  2020 outbound.py
+-rw-r--r-- 1 root root   199 avril  5  2020 roles.py
+-rw-r--r-- 1 root root 14784 avril  5  2020 subchannel.py
+
+/repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/_dilation/__pycache__:
+total 320
+-rw-r--r-- 1 root root   173 avril  2 14:07 __init__.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root   173 avril  2 14:07 __init__.cpython-311.pyc
+-rw-r--r-- 1 root root  1040 avril  2 14:07 _noise.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  1040 avril  2 14:07 _noise.cpython-311.pyc
+-rw-r--r-- 1 root root 30913 avril  2 14:07 connection.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 30913 avril  2 14:07 connection.cpython-311.pyc
+-rw-r--r-- 1 root root 24541 avril  2 14:07 connector.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 24541 avril  2 14:07 connector.cpython-311.pyc
+-rw-r--r-- 1 root root  1292 avril  2 14:07 encode.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  1292 avril  2 14:07 encode.cpython-311.pyc
+-rw-r--r-- 1 root root  7735 avril  2 14:07 inbound.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  7735 avril  2 14:07 inbound.cpython-311.pyc
+-rw-r--r-- 1 root root 33178 avril  2 14:07 manager.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 33178 avril  2 14:07 manager.cpython-311.pyc
+-rw-r--r-- 1 root root 13130 avril  2 14:07 outbound.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 13130 avril  2 14:07 outbound.cpython-311.pyc
+-rw-r--r-- 1 root root   832 avril  2 14:07 roles.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root   832 avril  2 14:07 roles.cpython-311.pyc
+-rw-r--r-- 1 root root 25190 avril  2 14:07 subchannel.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 25190 avril  2 14:07 subchannel.cpython-311.pyc
+
+/repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/cli:
+total 64
+-rw-r--r-- 1 root root     0 avril  5  2020 __init__.py
+drwxr-xr-x 1 root root   756 avril  2 14:07 __pycache__
+-rw-r--r-- 1 root root 10123 avril  5  2020 cli.py
+-rw-r--r-- 1 root root 17920 avril  5  2020 cmd_receive.py
+-rw-r--r-- 1 root root 19687 avril  5  2020 cmd_send.py
+-rw-r--r-- 1 root root  3908 avril  5  2020 cmd_ssh.py
+-rw-r--r-- 1 root root   213 avril  5  2020 public_relay.py
+-rw-r--r-- 1 root root   926 avril  5  2020 welcome.py
+
+/repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/cli/__pycache__:
+total 176
+-rw-r--r-- 1 root root   167 avril  2 14:07 __init__.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root   167 avril  2 14:07 __init__.cpython-311.pyc
+-rw-r--r-- 1 root root 16374 avril  2 14:07 cli.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 16374 avril  2 14:07 cli.cpython-311.pyc
+-rw-r--r-- 1 root root 26539 avril  2 14:07 cmd_receive.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 26539 avril  2 14:07 cmd_receive.cpython-311.pyc
+-rw-r--r-- 1 root root 20630 avril  2 14:07 cmd_send.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 20630 avril  2 14:07 cmd_send.cpython-311.pyc
+-rw-r--r-- 1 root root  7706 avril  2 14:07 cmd_ssh.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  7706 avril  2 14:07 cmd_ssh.cpython-311.pyc
+-rw-r--r-- 1 root root   290 avril  2 14:07 public_relay.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root   290 avril  2 14:07 public_relay.cpython-311.pyc
+-rw-r--r-- 1 root root  1231 avril  2 14:07 welcome.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  1231 avril  2 14:07 welcome.cpython-311.pyc
+
+/repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test:
+total 300
+-rw-r--r-- 1 root root     0 avril  5  2020 __init__.py
+drwxr-xr-x 1 root root  2524 avril  2 14:07 __pycache__
+-rw-r--r-- 1 root root  5103 avril  5  2020 common.py
+drwxr-xr-x 1 root root   462 avril  2 14:07 dilate
+-rw-r--r-- 1 root root   658 avril  5  2020 run_trial.py
+-rw-r--r-- 1 root root  7267 avril  5  2020 test_args.py
+-rw-r--r-- 1 root root 52117 avril  5  2020 test_cli.py
+-rw-r--r-- 1 root root  1891 avril  5  2020 test_eventual.py
+-rw-r--r-- 1 root root  8074 avril  5  2020 test_hints.py
+-rw-r--r-- 1 root root  1791 avril  5  2020 test_hkdf.py
+-rw-r--r-- 1 root root  6587 avril  5  2020 test_ipaddrs.py
+-rw-r--r-- 1 root root  1062 avril  5  2020 test_journal.py
+-rw-r--r-- 1 root root  3594 avril  5  2020 test_keys.py
+-rw-r--r-- 1 root root 57816 avril  5  2020 test_machines.py
+-rw-r--r-- 1 root root  4144 avril  5  2020 test_observer.py
+-rw-r--r-- 1 root root 16125 avril  5  2020 test_rlcompleter.py
+-rw-r--r-- 1 root root  2719 avril  5  2020 test_ssh.py
+-rw-r--r-- 1 root root  6306 avril  5  2020 test_tor_manager.py
+-rw-r--r-- 1 root root 57344 avril  5  2020 test_transit.py
+-rw-r--r-- 1 root root  2175 avril  5  2020 test_util.py
+-rw-r--r-- 1 root root  1475 avril  5  2020 test_wordlist.py
+-rw-r--r-- 1 root root 29891 avril  5  2020 test_wormhole.py
+-rw-r--r-- 1 root root  1854 avril  5  2020 test_xfer_util.py
+
+/repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/__pycache__:
+total 1016
+-rw-r--r-- 1 root root    168 avril  2 14:07 __init__.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root    168 avril  2 14:07 __init__.cpython-311.pyc
+-rw-r--r-- 1 root root   8719 avril  2 14:07 common.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root   8719 avril  2 14:07 common.cpython-311.pyc
+-rw-r--r-- 1 root root    385 avril  2 14:07 run_trial.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root    385 avril  2 14:07 run_trial.cpython-311.pyc
+-rw-r--r-- 1 root root  16273 avril  2 14:07 test_args.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  16273 avril  2 14:07 test_args.cpython-311.pyc
+-rw-r--r-- 1 root root  79577 avril  2 14:07 test_cli.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  79577 avril  2 14:07 test_cli.cpython-311.pyc
+-rw-r--r-- 1 root root   4311 avril  2 14:07 test_eventual.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root   4311 avril  2 14:07 test_eventual.cpython-311.pyc
+-rw-r--r-- 1 root root  12052 avril  2 14:07 test_hints.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  12052 avril  2 14:07 test_hints.cpython-311.pyc
+-rw-r--r-- 1 root root   2101 avril  2 14:07 test_hkdf.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root   2101 avril  2 14:07 test_hkdf.cpython-311.pyc
+-rw-r--r-- 1 root root   9201 avril  2 14:07 test_ipaddrs.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root   9201 avril  2 14:07 test_ipaddrs.cpython-311.pyc
+-rw-r--r-- 1 root root   2873 avril  2 14:07 test_journal.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root   2873 avril  2 14:07 test_journal.cpython-311.pyc
+-rw-r--r-- 1 root root   5518 avril  2 14:07 test_keys.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root   5518 avril  2 14:07 test_keys.cpython-311.pyc
+-rw-r--r-- 1 root root 102769 avril  2 14:07 test_machines.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 102769 avril  2 14:07 test_machines.cpython-311.pyc
+-rw-r--r-- 1 root root  10152 avril  2 14:07 test_observer.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  10152 avril  2 14:07 test_observer.cpython-311.pyc
+-rw-r--r-- 1 root root  26714 avril  2 14:07 test_rlcompleter.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  26714 avril  2 14:07 test_rlcompleter.cpython-311.pyc
+-rw-r--r-- 1 root root   6434 avril  2 14:07 test_ssh.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root   6434 avril  2 14:07 test_ssh.cpython-311.pyc
+-rw-r--r-- 1 root root  12951 avril  2 14:07 test_tor_manager.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  12951 avril  2 14:07 test_tor_manager.cpython-311.pyc
+-rw-r--r-- 1 root root 103058 avril  2 14:07 test_transit.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 103058 avril  2 14:07 test_transit.cpython-311.pyc
+-rw-r--r-- 1 root root   4801 avril  2 14:07 test_util.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root   4801 avril  2 14:07 test_util.cpython-311.pyc
+-rw-r--r-- 1 root root   3333 avril  2 14:07 test_wordlist.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root   3333 avril  2 14:07 test_wordlist.cpython-311.pyc
+-rw-r--r-- 1 root root  53955 avril  2 14:07 test_wormhole.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  53955 avril  2 14:07 test_wormhole.cpython-311.pyc
+-rw-r--r-- 1 root root   3167 avril  2 14:07 test_xfer_util.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root   3167 avril  2 14:07 test_xfer_util.cpython-311.pyc
+
+/repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate:
+total 180
+-rw-r--r-- 1 root root     0 avril  5  2020 __init__.py
+drwxr-xr-x 1 root root  1840 avril  2 14:07 __pycache__
+-rw-r--r-- 1 root root   422 avril  5  2020 common.py
+-rw-r--r-- 1 root root  2917 avril  5  2020 test_connect.py
+-rw-r--r-- 1 root root 12789 avril  5  2020 test_connection.py
+-rw-r--r-- 1 root root 21234 avril  5  2020 test_connector.py
+-rw-r--r-- 1 root root   970 avril  5  2020 test_encoding.py
+-rw-r--r-- 1 root root 13346 avril  5  2020 test_endpoints.py
+-rw-r--r-- 1 root root  4328 avril  5  2020 test_framer.py
+-rw-r--r-- 1 root root 11999 avril  5  2020 test_full.py
+-rw-r--r-- 1 root root  6597 avril  5  2020 test_inbound.py
+-rw-r--r-- 1 root root 24065 avril  5  2020 test_manager.py
+-rw-r--r-- 1 root root 26802 avril  5  2020 test_outbound.py
+-rw-r--r-- 1 root root  2402 avril  5  2020 test_parse.py
+-rw-r--r-- 1 root root 12672 avril  5  2020 test_record.py
+-rw-r--r-- 1 root root  9088 avril  5  2020 test_subchannel.py
+
+/repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__:
+total 592
+-rw-r--r-- 1 root root   175 avril  2 14:07 __init__.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root   175 avril  2 14:07 __init__.cpython-311.pyc
+-rw-r--r-- 1 root root  1174 avril  2 14:07 common.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  1174 avril  2 14:07 common.cpython-311.pyc
+-rw-r--r-- 1 root root  5441 avril  2 14:07 test_connect.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  5441 avril  2 14:07 test_connect.cpython-311.pyc
+-rw-r--r-- 1 root root 20188 avril  2 14:07 test_connection.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 20188 avril  2 14:07 test_connection.cpython-311.pyc
+-rw-r--r-- 1 root root 36144 avril  2 14:07 test_connector.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 36144 avril  2 14:07 test_connector.cpython-311.pyc
+-rw-r--r-- 1 root root  2836 avril  2 14:07 test_encoding.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  2836 avril  2 14:07 test_encoding.cpython-311.pyc
+-rw-r--r-- 1 root root 25298 avril  2 14:07 test_endpoints.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 25298 avril  2 14:07 test_endpoints.cpython-311.pyc
+-rw-r--r-- 1 root root 10115 avril  2 14:07 test_framer.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 10115 avril  2 14:07 test_framer.cpython-311.pyc
+-rw-r--r-- 1 root root 20663 avril  2 14:07 test_full.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 20663 avril  2 14:07 test_full.cpython-311.pyc
+-rw-r--r-- 1 root root 12365 avril  2 14:07 test_inbound.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 12365 avril  2 14:07 test_inbound.cpython-311.pyc
+-rw-r--r-- 1 root root 42313 avril  2 14:07 test_manager.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 42313 avril  2 14:07 test_manager.cpython-311.pyc
+-rw-r--r-- 1 root root 48585 avril  2 14:07 test_outbound.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 48585 avril  2 14:07 test_outbound.cpython-311.pyc
+-rw-r--r-- 1 root root  4984 avril  2 14:07 test_parse.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root  4984 avril  2 14:07 test_parse.cpython-311.pyc
+-rw-r--r-- 1 root root 17393 avril  2 14:07 test_record.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 17393 avril  2 14:07 test_record.cpython-311.pyc
+-rw-r--r-- 1 root root 18980 avril  2 14:07 test_subchannel.cpython-311.opt-1.pyc
+-rw-r--r-- 1 root root 18980 avril  2 14:07 test_subchannel.cpython-311.pyc
+
+/repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/src:
+total 0
+drwxr-xr-x 1 root root 16 avril  2 14:07 magic-wormhole-0.12.0
+
+/repo/x86_64/slint-15.0/source/magic-wormhole/pkg/usr/src/magic-wormhole-0.12.0:
+total 4
+-rw-r--r-- 1 root root 1475 avril  2 14:07 SLKBUILD
+
+Slackware package maker, version 3.14159265.
+
+Searching for symbolic links:
+
+No symbolic links were found, so we won't make an installation script.
+You can make your own later in ./install/doinst.sh and rebuild the
+package if you like.
+
+This next step is optional - you can set the directories in your package
+to some sane permissions. If any of the directories in your package have
+special permissions, then DO NOT reset them here!
+
+Would you like to reset all directory permissions to 755 (drwxr-xr-x) and
+directory ownerships to root.root ([y]es, [n]o)? 
+n
+
+Creating Slackware package:  /repo/x86_64/slint-15.0/source/magic-wormhole/magic-wormhole-0.12.0-x86_64-1slinttest.txz
+
+./
+install/
+install/slack-desc
+usr/
+usr/bin/
+usr/bin/wormhole
+usr/doc/
+usr/doc/magic-wormhole-0.12.0/
+usr/doc/magic-wormhole-0.12.0/LICENSE
+usr/doc/magic-wormhole-0.12.0/NEWS.html
+usr/doc/magic-wormhole-0.12.0/README.html
+usr/lib/
+usr/lib/python3.11/
+usr/lib/python3.11/site-packages/
+usr/lib/python3.11/site-packages/magic_wormhole-0.12.0-py3.11.egg-info/
+usr/lib/python3.11/site-packages/magic_wormhole-0.12.0-py3.11.egg-info/PKG-INFO
+usr/lib/python3.11/site-packages/magic_wormhole-0.12.0-py3.11.egg-info/SOURCES.txt
+usr/lib/python3.11/site-packages/magic_wormhole-0.12.0-py3.11.egg-info/dependency_links.txt
+usr/lib/python3.11/site-packages/magic_wormhole-0.12.0-py3.11.egg-info/entry_points.txt
+usr/lib/python3.11/site-packages/magic_wormhole-0.12.0-py3.11.egg-info/requires.txt
+usr/lib/python3.11/site-packages/magic_wormhole-0.12.0-py3.11.egg-info/top_level.txt
+usr/lib/python3.11/site-packages/wormhole/
+usr/lib/python3.11/site-packages/wormhole/__init__.py
+usr/lib/python3.11/site-packages/wormhole/__main__.py
+usr/lib/python3.11/site-packages/wormhole/__pycache__/
+usr/lib/python3.11/site-packages/wormhole/__pycache__/__init__.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/__init__.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/__main__.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/__main__.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_allocator.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_allocator.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_boss.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_boss.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_code.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_code.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_hints.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_hints.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_input.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_input.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_interfaces.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_interfaces.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_key.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_key.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_lister.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_lister.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_mailbox.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_mailbox.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_nameplate.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_nameplate.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_order.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_order.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_receive.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_receive.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_rendezvous.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_rendezvous.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_rlcompleter.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_rlcompleter.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_send.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_send.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_terminator.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_terminator.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_version.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_version.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_wordlist.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/_wordlist.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/errors.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/errors.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/eventual.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/eventual.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/ipaddrs.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/ipaddrs.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/journal.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/journal.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/observer.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/observer.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/timing.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/timing.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/tor_manager.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/tor_manager.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/transit.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/transit.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/util.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/util.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/wormhole.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/wormhole.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/xfer_util.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/__pycache__/xfer_util.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/_allocator.py
+usr/lib/python3.11/site-packages/wormhole/_boss.py
+usr/lib/python3.11/site-packages/wormhole/_code.py
+usr/lib/python3.11/site-packages/wormhole/_dilation/
+usr/lib/python3.11/site-packages/wormhole/_dilation/__init__.py
+usr/lib/python3.11/site-packages/wormhole/_dilation/__pycache__/
+usr/lib/python3.11/site-packages/wormhole/_dilation/__pycache__/__init__.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/_dilation/__pycache__/__init__.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/_dilation/__pycache__/_noise.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/_dilation/__pycache__/_noise.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/_dilation/__pycache__/connection.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/_dilation/__pycache__/connection.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/_dilation/__pycache__/connector.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/_dilation/__pycache__/connector.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/_dilation/__pycache__/encode.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/_dilation/__pycache__/encode.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/_dilation/__pycache__/inbound.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/_dilation/__pycache__/inbound.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/_dilation/__pycache__/manager.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/_dilation/__pycache__/manager.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/_dilation/__pycache__/outbound.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/_dilation/__pycache__/outbound.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/_dilation/__pycache__/roles.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/_dilation/__pycache__/roles.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/_dilation/__pycache__/subchannel.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/_dilation/__pycache__/subchannel.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/_dilation/_noise.py
+usr/lib/python3.11/site-packages/wormhole/_dilation/connection.py
+usr/lib/python3.11/site-packages/wormhole/_dilation/connector.py
+usr/lib/python3.11/site-packages/wormhole/_dilation/encode.py
+usr/lib/python3.11/site-packages/wormhole/_dilation/inbound.py
+usr/lib/python3.11/site-packages/wormhole/_dilation/manager.py
+usr/lib/python3.11/site-packages/wormhole/_dilation/outbound.py
+usr/lib/python3.11/site-packages/wormhole/_dilation/roles.py
+usr/lib/python3.11/site-packages/wormhole/_dilation/subchannel.py
+usr/lib/python3.11/site-packages/wormhole/_hints.py
+usr/lib/python3.11/site-packages/wormhole/_input.py
+usr/lib/python3.11/site-packages/wormhole/_interfaces.py
+usr/lib/python3.11/site-packages/wormhole/_key.py
+usr/lib/python3.11/site-packages/wormhole/_lister.py
+usr/lib/python3.11/site-packages/wormhole/_mailbox.py
+usr/lib/python3.11/site-packages/wormhole/_nameplate.py
+usr/lib/python3.11/site-packages/wormhole/_order.py
+usr/lib/python3.11/site-packages/wormhole/_receive.py
+usr/lib/python3.11/site-packages/wormhole/_rendezvous.py
+usr/lib/python3.11/site-packages/wormhole/_rlcompleter.py
+usr/lib/python3.11/site-packages/wormhole/_send.py
+usr/lib/python3.11/site-packages/wormhole/_terminator.py
+usr/lib/python3.11/site-packages/wormhole/_version.py
+usr/lib/python3.11/site-packages/wormhole/_wordlist.py
+usr/lib/python3.11/site-packages/wormhole/cli/
+usr/lib/python3.11/site-packages/wormhole/cli/__init__.py
+usr/lib/python3.11/site-packages/wormhole/cli/__pycache__/
+usr/lib/python3.11/site-packages/wormhole/cli/__pycache__/__init__.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/cli/__pycache__/__init__.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/cli/__pycache__/cli.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/cli/__pycache__/cli.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/cli/__pycache__/cmd_receive.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/cli/__pycache__/cmd_receive.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/cli/__pycache__/cmd_send.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/cli/__pycache__/cmd_send.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/cli/__pycache__/cmd_ssh.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/cli/__pycache__/cmd_ssh.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/cli/__pycache__/public_relay.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/cli/__pycache__/public_relay.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/cli/__pycache__/welcome.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/cli/__pycache__/welcome.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/cli/cli.py
+usr/lib/python3.11/site-packages/wormhole/cli/cmd_receive.py
+usr/lib/python3.11/site-packages/wormhole/cli/cmd_send.py
+usr/lib/python3.11/site-packages/wormhole/cli/cmd_ssh.py
+usr/lib/python3.11/site-packages/wormhole/cli/public_relay.py
+usr/lib/python3.11/site-packages/wormhole/cli/welcome.py
+usr/lib/python3.11/site-packages/wormhole/errors.py
+usr/lib/python3.11/site-packages/wormhole/eventual.py
+usr/lib/python3.11/site-packages/wormhole/ipaddrs.py
+usr/lib/python3.11/site-packages/wormhole/journal.py
+usr/lib/python3.11/site-packages/wormhole/observer.py
+usr/lib/python3.11/site-packages/wormhole/test/
+usr/lib/python3.11/site-packages/wormhole/test/__init__.py
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/__init__.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/__init__.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/common.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/common.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/run_trial.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/run_trial.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_args.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_args.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_cli.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_cli.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_eventual.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_eventual.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_hints.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_hints.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_hkdf.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_hkdf.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_ipaddrs.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_ipaddrs.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_journal.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_journal.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_keys.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_keys.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_machines.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_machines.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_observer.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_observer.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_rlcompleter.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_rlcompleter.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_ssh.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_ssh.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_tor_manager.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_tor_manager.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_transit.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_transit.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_util.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_util.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_wordlist.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_wordlist.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_wormhole.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_wormhole.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_xfer_util.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/__pycache__/test_xfer_util.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/common.py
+usr/lib/python3.11/site-packages/wormhole/test/dilate/
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__init__.py
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/__init__.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/__init__.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/common.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/common.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/test_connect.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/test_connect.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/test_connection.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/test_connection.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/test_connector.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/test_connector.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/test_encoding.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/test_encoding.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/test_endpoints.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/test_endpoints.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/test_framer.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/test_framer.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/test_full.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/test_full.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/test_inbound.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/test_inbound.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/test_manager.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/test_manager.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/test_outbound.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/test_outbound.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/test_parse.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/test_parse.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/test_record.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/test_record.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/test_subchannel.cpython-311.opt-1.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/__pycache__/test_subchannel.cpython-311.pyc
+usr/lib/python3.11/site-packages/wormhole/test/dilate/common.py
+usr/lib/python3.11/site-packages/wormhole/test/dilate/test_connect.py
+usr/lib/python3.11/site-packages/wormhole/test/dilate/test_connection.py
+usr/lib/python3.11/site-packages/wormhole/test/dilate/test_connector.py
+usr/lib/python3.11/site-packages/wormhole/test/dilate/test_encoding.py
+usr/lib/python3.11/site-packages/wormhole/test/dilate/test_endpoints.py
+usr/lib/python3.11/site-packages/wormhole/test/dilate/test_framer.py
+usr/lib/python3.11/site-packages/wormhole/test/dilate/test_full.py
+usr/lib/python3.11/site-packages/wormhole/test/dilate/test_inbound.py
+usr/lib/python3.11/site-packages/wormhole/test/dilate/test_manager.py
+usr/lib/python3.11/site-packages/wormhole/test/dilate/test_outbound.py
+usr/lib/python3.11/site-packages/wormhole/test/dilate/test_parse.py
+usr/lib/python3.11/site-packages/wormhole/test/dilate/test_record.py
+usr/lib/python3.11/site-packages/wormhole/test/dilate/test_subchannel.py
+usr/lib/python3.11/site-packages/wormhole/test/run_trial.py
+usr/lib/python3.11/site-packages/wormhole/test/test_args.py
+usr/lib/python3.11/site-packages/wormhole/test/test_cli.py
+usr/lib/python3.11/site-packages/wormhole/test/test_eventual.py
+usr/lib/python3.11/site-packages/wormhole/test/test_hints.py
+usr/lib/python3.11/site-packages/wormhole/test/test_hkdf.py
+usr/lib/python3.11/site-packages/wormhole/test/test_ipaddrs.py
+usr/lib/python3.11/site-packages/wormhole/test/test_journal.py
+usr/lib/python3.11/site-packages/wormhole/test/test_keys.py
+usr/lib/python3.11/site-packages/wormhole/test/test_machines.py
+usr/lib/python3.11/site-packages/wormhole/test/test_observer.py
+usr/lib/python3.11/site-packages/wormhole/test/test_rlcompleter.py
+usr/lib/python3.11/site-packages/wormhole/test/test_ssh.py
+usr/lib/python3.11/site-packages/wormhole/test/test_tor_manager.py
+usr/lib/python3.11/site-packages/wormhole/test/test_transit.py
+usr/lib/python3.11/site-packages/wormhole/test/test_util.py
+usr/lib/python3.11/site-packages/wormhole/test/test_wordlist.py
+usr/lib/python3.11/site-packages/wormhole/test/test_wormhole.py
+usr/lib/python3.11/site-packages/wormhole/test/test_xfer_util.py
+usr/lib/python3.11/site-packages/wormhole/timing.py
+usr/lib/python3.11/site-packages/wormhole/tor_manager.py
+usr/lib/python3.11/site-packages/wormhole/transit.py
+usr/lib/python3.11/site-packages/wormhole/util.py
+usr/lib/python3.11/site-packages/wormhole/wormhole.py
+usr/lib/python3.11/site-packages/wormhole/xfer_util.py
+usr/src/
+usr/src/magic-wormhole-0.12.0/
+usr/src/magic-wormhole-0.12.0/SLKBUILD
+WARNING:  zero length file usr/lib/python3.11/site-packages/wormhole/cli/__init__.py
+WARNING:  zero length file usr/lib/python3.11/site-packages/wormhole/_dilation/__init__.py
+WARNING:  zero length file usr/lib/python3.11/site-packages/wormhole/test/__init__.py
+WARNING:  zero length file usr/lib/python3.11/site-packages/wormhole/test/dilate/__init__.py
+
+Slackware package /repo/x86_64/slint-15.0/source/magic-wormhole/magic-wormhole-0.12.0-x86_64-1slinttest.txz created.
+Package has been built.

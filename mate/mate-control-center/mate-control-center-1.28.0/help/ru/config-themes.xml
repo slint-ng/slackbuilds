@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="config-theme">
+  <title>Инструмент выбора темы Gtk+</title>
+  <para>Рабочая среда <application>Mate</application> работает под управлением <application>Gtk+</application>. <application>Gtk+</application> позволяет изменять внешний вид большей части элементов рабочего стола для приведения в соответствие с используемой темой. <application>Инструмент выбора темы Gtk+</application> позволяет выбирать тему для использования.</para>
+  <sect2 id="config-theme-setting">
+    <title>Настройка параметров темы</title>
+    <para><application>Инструмент выбора темы Gtk+</application> в верхней части содержит список установленных тем. Для внесения изменений достаточно щёлкнуть по какой-либо теме.</para>
+    <para>В нижней половине окна возможен интерактивный просмотр всех виджетов, содержащихся в выбранной теме.</para>
+  </sect2>
+  <sect2 id="config-theme-add">
+    <title>Добавление темы</title>
+    <para>Для добавления темы необходимо выполнить следующие действия: <orderedlist numeration="arabic">
+	<listitem>
+	  <para>Нажмите кнопку <guibutton>Установка новой темы</guibutton>.</para>
+	</listitem>
+	<listitem>
+	  <para>Перейдите в каталог, где установлена тема.</para>
+	</listitem>
+	<listitem>
+	  <para>Откройте файл gtkrc, в котором содержится описание параметров темы.</para>
+	</listitem>
+      </orderedlist></para>
+  </sect2>
+</sect1>

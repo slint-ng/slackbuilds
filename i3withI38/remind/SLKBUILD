@@ -1,0 +1,33 @@
+# Maintainer: Lukas Fleischer <lfleischer@archlinux.org>
+# Contributor: Jeff 'codemac' Mickey <jeff@archlinux.org>
+# Contributor: Sebastian Sontberg <ssontberg@h3c.de>
+# Contributor: Daniel J Griffiths <ghost1227@archlinux.us>
+# Included in Slint by Didier Spaier didieratslintdotfr
+pkgname=remind
+pkgver=05.04.01
+pkgrel=1
+slackdesc="$pkgname (A sophisticated calendar and alarm program.)"
+arch=('x86_64')
+url='https://dianne.skoll.ca/projects/remind/'
+license=('GPL2')
+optdepends=('tk: for tkremind')
+source=("remind-05.04.01.tar.gz")
+options=("nosrcpack")
+sha256sums=('b861a1d5e44f4fa6c6605e05f5eefd0fe68c9e9390ba492d96625bc8cdae45ca'
+            'SKIP')
+validpgpkeys=('738E4D954052902C147D07B2685A5A5E511D30E2') # Dianne Skoll
+docs=("COPYRIGHT" "examples")
+build() {
+  cd "${pkgname}-${pkgver}"
+
+./configure \
+  --prefix=/usr \
+  --libdir=/usr/lib${LIBDIRSUFFIX} \
+  --sysconfdir=/etc \
+  --localstatedir=/var \
+  --mandir=/usr/man \
+  --docdir=/usr/doc/$PRGNAM-$VERSION \
+  --build=$ARCH-slackware-linux
+  make
+  make DESTDIR="${PKG}" install
+}

@@ -1,0 +1,33 @@
+#Packager: George Vlahavas <vlahavas~at~gmail~dot~com>
+# Inlcuded in Sint by Didier Spaier didieratslintdotfr
+pkgname=gnsu
+pkgver=0.3.1
+pkgrel=1slint
+arch=noarch
+source=("gnsu-$pkgver.tar.xz" "ask_root_password.diff")
+docs=("readme.md" "install" "copying" "changelog" "authors" "news" "todo")
+options=('nosrcpack')
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"gnsu (Gnsu's Not SU)"
+"gnsu allows a permitted user to execute a command with superuser"
+"priveleges. gnsu shows a graphical dialog requesting the user"
+"password to allow the execution of the specified command. gnsu uses"
+"sudo as its backend."
+)
+
+
+build() {
+	cd $startdir/src/$pkgname-$pkgver
+	patch -p1 --verbose < ../ask_root_password.diff || exit 1
+	make || exit 1
+	make install DESTDIR=$startdir/pkg PREFIX=/usr
+
+	(
+	 cd $startdir/pkg/usr/bin
+	 ln -s gnsu gksu
+	 ln -s gnsu gksudo
+	)
+} 

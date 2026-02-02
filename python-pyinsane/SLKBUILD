@@ -1,0 +1,23 @@
+# Pcakaged by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=python-pyinsane
+pkgver=1.4.0
+pkgrel=1slint
+source=("https://github.com/jflesch/pyinsane/archive/v1.4.0.zip")
+docs=("COPYING" "ChangeLog")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Python library to access and use image scanners)"
+"This library is used by LIOS-4"
+"Author: Jerome Flesh."
+)
+
+build() {
+  cd $SRC/pyinsane-$pkgver || return 1
+  python3 setup.py install --install-data=/usr --root=$PKG || return 1
+  mkdir -p $PKG/usr/doc/${pkgname}-$pkgver
+  pandoc -s -f gfm README.md > $PKG/usr/doc/${pkgname}-$pkgver/README.html
+}

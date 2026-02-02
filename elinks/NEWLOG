@@ -1,0 +1,62 @@
+Feature summary:
+Documentation Tools ............. AsciiDoc, XmlTo, Pod2HTML
+Manual Formats .................. HTML (one file), HTML (multiple files)
+Man Page Formats ................ HTML, man (groff)
+API Documentation ............... no
+gpm ............................. yes
+terminfo ........................ no
+zlib ............................ yes
+bzlib ........................... yes
+zstd ............................ yes
+brotli .......................... no
+lzma ............................ no
+idn ............................. yes
+Bookmarks ....................... yes
+XBEL bookmarks .................. yes
+ECMAScript (JavaScript) ......... no
+Browser scripting ............... no
+libev ........................... yes
+libevent ........................ no
+SSL ............................. GNUTLS
+Native Language Support ......... yes
+System gettext .................. no
+Cookies ......................... yes
+Form history .................... yes
+Global history .................. yes
+Mailcap ......................... yes
+Mimetypes files ................. yes
+IPv6 ............................ yes
+BitTorrent protocol ............. yes
+Data protocol ................... yes
+URI rewriting ................... yes
+Local CGI ....................... no
+DOS Gateway Interface ........... no
+Finger protocol ................. no
+FSP protocol .................... no
+FTP protocol .................... yes
+Gemini protocol ................. no
+Gopher protocol ................. no
+NNTP protocol ................... no
+Samba protocol .................. no
+Mouse handling .................. yes
+BSD sysmouse .................... no
+88 colors ....................... no
+256 colors ...................... yes
+true color ...................... yes
+Exmode interface ................ no
+LEDs ............................ yes
+Marks ........................... yes
+Cascading Style Sheets .......... yes
+HTML highlighting ............... yes
+DOM engine ...................... HTML highlighting
+Backtrace ....................... yes
+No root exec .................... no
+Debug mode ...................... no
+Fast mode ....................... no
+Own libc stubs .................. no
+Small binary .................... no
+UTF-8 ........................... yes
+Combining characters ............ no
+Reproducible builds ............. no
+Check codepoints ................ no
+Regexp searching ................ no (explicitly disabled)

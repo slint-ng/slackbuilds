@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="cfg-default-applications">
+  <title>Standardprogrammer</title>
+  <sect2 id="cfg-default-applications-introduction">
+    <title>Introduktion</title>
+    <para><application>Standardprogrammer</application>-capplet'en opsætter nogle standardprogrammer til brug for forskellige hændelser.</para>
+  </sect2>
+  <sect2 id="cfg-default-applications-txt-editor">
+    <title>Standarder for tekstredigeringsprogram</title>
+    <para>Din valgte standard for tekstredigeringsprogram bruges når en gængs tekstfil skal åbnes for enten visning eller redigering.</para>
+    <para>Som standard bruges <application>Pluma</application> som tekstredigeringsprogram. Efterhånden som tekstredigeringsprogrammer installeres tilføjes flere muligheder til rullegardinet <guilabel>Tekstredigeringsprogram</guilabel>. Vælg dit foretrukne <guilabel>Tekstredigeringsprogram</guilabel> ved at vælge det korrekte element i sektionen <guilabel>System</guilabel>.</para>
+  </sect2>
+  <sect2 id="cfg-default-applications-www">
+    <title>Internetbrowserens standarder</title>
+    <para>Din standardbrowsere er refereret når du klikke på en henvisning som peger på en hjemmeside.</para>
+    <para>Som standard bruges <application>Firefox</application> til at vise HTML-filer. Efterhånden som flere browsere installeres tilføjes flere muligheder. Vælg dit foretrukne <guilabel>Internetbrowser</guilabel> ved at vælge det korrekte element i sektionen <guilabel>Internet</guilabel>.</para>
+  </sect2>
+  <sect2 id="cfg-default-apps-terminal">
+    <title>Terminalens standarder</title>
+    <para>Dit terminalvindue vil undertiden blive vist for at afvikle kommandoer. For eksempel, hvis du vælger at få en program vist i konsollen, så vil terminalens standarder blive anvendt. Utallige standarder for terminaler findes; standarden her er <application>Mate-terminal</application>. Vælg din fortrukne <guilabel>Terminal</guilabel> ved at vælge det korrekte element i sektionen <guilabel>System</guilabel>.</para>
+  </sect2>
+</sect1>

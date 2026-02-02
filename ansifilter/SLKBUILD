@@ -1,0 +1,34 @@
+
+# Maintainer: Didier Spaier <didier~slint~dot~fr>
+pkgname='ansifilter'
+pkgver=2.18
+pkgrel=1slint
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (ANSI filter and converter)"
+"Ansifilter handles text files containing ANSI terminal escape codes."
+"The command sequences may be stripped or be interpreted to generate"
+"formatted output (HTML, RTF, TeX, LaTeX, BBCode, Pango)"
+"Author: André Simon"
+"Home page: http://www.andre-simon.de/doku/ansifilter/en/ansifilter.php"
+)
+
+
+source=("http://www.andre-simon.de/zip/ansifilter-2.18.tar.bz2")
+
+build() {
+  cd $SRC/${pkgname}-$pkgver
+  sed "s;QMAKE=qmake;QMAKE=qmake-qt5;" makefile > bof
+  mv bof makefile
+  make
+  make gui
+  make install \
+  DESTDIR=$PKG  \
+  man_dir=/usr/man/man1/ \
+  doc_dir=/usr/doc/${pkgname}-$pkgver
+  make install-gui \
+  DESTDIR=$PKG  \
+  man_dir=/usr/man/man1/ \
+  doc_dir=/usr/doc/${pkgname}-$pkgver
+}

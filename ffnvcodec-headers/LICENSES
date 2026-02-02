@@ -1,0 +1,6 @@
+The licenses are included in the header files tho which they applies:
+/usr/include/ffnvcodec/dynlink_cuda.h
+/usr/include/ffnvcodec/dynlink_cuviddec.h
+/usr/include/ffnvcodec/dynlink_loader.h
+/usr/include/ffnvcodec/dynlink_nvcuvid.h
+/usr/include/nvEncodeAPI.h

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="config-cd">
+  <title>CD Audio</title>
+  <para>Mate boleh memainkan CD di dalam komputer anda. Anda boleh tetapkan keutamaan CD anda dalam capplet <guibutton>Sifat CD</guibutton> pada seksyen <guilabel>Lanjutan</guilabel> <application>Pusat Kawalan Mate</application>.</para>
+  <para>Bila dibuka, anda dapati tetingkap dipisah kepada dua seksyen: CD Data dan CD Audio.</para>
+  <sect2 id="config-cd-data">
+    <title>CD Data</title>
+    <para>CD Data ialah CD yang menyimpan maklumat di mana sistem boleh lakukan. Biasanya CD yang mengandungi program atau perisian serta CD yang mengandungi gambar keluarga anda.</para>
+    <para>Pilihan pertama ialah <guibutton>Lekap CD secara automatik bila disisip masuk</guibutton>. Dengan membenarkan pilihan ini, anda boleh biarkan CD diauto-kesan bila ia disisip masuk ke dalam komputer.</para>
+    <tip>
+      <title>Apa itu lekap atau mount</title>
+      <para>Linux dan sistem Unix menggunakan terma mounting atau lekap untuk mengenal pasti sesebuah peranti. Jika anda "lekap" CD-ROM anda, ia bermaksud sistem anda dapat mengenal pasti CD-ROM dan anda boleh berinteraksi dengannya. Jika ia dinyahlekap atau unmounted, maka sistem tidak tahu kewujudannya dan tidak dapat buat apa-apa dengannya.</para>
+    </tip>
+    <para>Pilihan kedua, <guibutton>Mulakan program auto-jalan secara automatik bila CD mula dilekapkan</guibutton> membolehkan sistem menjalankan program terhadap CD secara automatik ketika cakera mula dilekapkan.</para>
+    <para>Pilihan terakhir, <guibutton>Buka tetingkap pengurus fail jika CD mula dilekapkan</guibutton> memberitahu sistem untuk membuka pengurus fail (<application>Caja</application> secara lalai) ketika CD dilekapkan. Ia berguna jika anda mempunyai CD yang mengandungi gambar yang anda mahu layari. Ia akan membuka dalam <application>Caja</application> yang mana dapat dilihat paparan lakaran kenitnya.</para>
+  </sect2>
+  <sect2 id="config-cd-audio">
+    <title>CD Audio</title>
+    <para>Seksyen <guilabel>CD Audio</guilabel> hanya mempunyai satu pilihan. Iaitu membolehkan sistem memuatkan pemain CD ketika anda menyisip CD. Anda hanya mengklik kotak tanda dan masukkan perintah yang mahu dijalankan dalam dialog input.</para>
+    <note>
+      <para>CD Audio tidak perlu dilekapkan untuk memainkan CD.</para>
+    </note>
+  </sect2>
+</sect1>

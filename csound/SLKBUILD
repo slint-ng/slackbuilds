@@ -1,0 +1,31 @@
+#Maintainer: Didier Spaier <didier~at~slint~dot~fr>
+# Beware! openjdk-8 is needed to build this package.EDIT. No (6 mai 2021)
+# build deps: faust,portmidi,libmicrohttpd,fltk,liblo,portaudio,jack-audio-connection-kit,swig,fluidsynth,alsa,pulseaudio,openjdk
+pkgname=csound
+pkgver=6.17.0
+pkgrel=1slint
+source=("https://github.com/csound/csound/archive/6.17.0.tar.gz" "README.doc")
+docs=("AUTHORS" "COPYING" "README.doc")
+url="http://csound.com/"
+options=("nosrcpack")
+
+slackdesc=\
+(
+ #|-----handy-ruler------------------------------------------------------|
+ "$pkgname (A sound and music computing system.)"
+ "Homepage: http://csound.com"
+)
+
+build() {
+LIBDIRSUFFIX=64
+cd $SRC/$pkgname-$pkgver || return 1
+mkdir build
+cd build
+cmake \
+-DCMAKE_INSTALL_PREFIX=/usr \
+-DUSE_LIB64=ON \
+-DPYTHON_MODULE_INSTALL_DIR=/usr/lib64/python3.9/site-packages \
+..
+make install DESTDIR=$PKG
+cd ..
+}

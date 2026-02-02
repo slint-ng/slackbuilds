@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="slint">
+  <schema id="toggle.screenreader" path="/toggle/screenreader/">
+    <key name="binding" type="s">
+        <default>'&lt;Shift&gt;&lt;Alt&gt;v'</default>
+        <summary>Keybinding</summary>
+        <description>Keybinding associated to toggle screen reader.</description>
+    </key>
+    <key name="action" type="s">
+        <default>'/usr/libexec/toggle_screenreader.sh 1>/dev/null'</default>
+        <summary>Command</summary>
+        <description>Command to toggle the screen reader between orca and cthulhu.</description>
+    </key>
+    <key name="name" type="s">
+        <default>'Toggle screenreader'</default>
+        <summary>Name</summary>
+        <description>Description associated to toggle screen reader.</description>
+    </key>
+  </schema>
+</schemalist>

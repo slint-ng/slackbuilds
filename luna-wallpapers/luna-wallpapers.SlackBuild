@@ -1,0 +1,127 @@
+#!/bin/bash
+
+# Slackware build script for luna-wallpapers
+
+# Written by Niki Kovacs <info@microlinux.fr>
+#
+# Thanks to Antonio Hernàndez Blas for contributing to the wallpaper preview.
+#
+# All rights reserved.
+#
+# Redistribution and use of this script, with or without modification, is
+# permitted provided that the following conditions are met:
+#
+# 1. Redistributions of this script must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#
+#  THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED
+#  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+#  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO
+#  EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+#  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+#  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+#  OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+#  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+#  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+#  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+# Adapted to Slint by Didier Spaier didieratslintdotfr
+
+cd $(dirname $0) ; CWD=$(pwd)
+
+PRGNAM=luna-wallpapers
+VERSION=15.0
+BUILD=2
+TAG=slint
+PKGTYPE=${PKGTYPE:-txz}
+
+ARCH=noarch
+
+# If the variable PRINT_PACKAGE_NAME is set, then this script will report what
+# the name of the created package would be, and then exit. This information
+# could be useful to other scripts.
+if [ ! -z "${PRINT_PACKAGE_NAME}" ]; then
+  echo "$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.$PKGTYPE"
+  exit 0
+fi
+
+TMP=$CWD
+PKG=$TMP/package-$PRGNAM
+OUTPUT=$CWD
+
+set -e
+
+rm -rf $PKG
+mkdir -p $TMP $PKG $OUTPUT
+cd $TMP
+
+# Xfce 
+mkdir -p $PKG/usr/share/backgrounds/xfce
+#lxqt
+mkdir -p $PKG/usr/share/backgrounds/lxqt
+# MATE
+mkdir -p $PKG/usr/share/backgrounds/luna
+# KDE
+mkdir -p $PKG/usr/share/wallpapers
+
+( cd $PKG/usr/share/wallpapers/
+	tar xf $CWD/images.tar.xz
+	mv images/* .
+	rmdir images 
+)
+
+chown -R root:root $PKG
+find -L $PKG \
+ \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
+  -o -perm 511 \) -exec chmod 755 {} \; -o \
+ \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
+  -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
+
+
+for desktop in xfce lxqt; do
+	( cd $PKG/usr/share/backgrounds/$desktop
+		ls -1 $PKG/usr/share/wallpapers/ | while read file; do
+		ln $PKG/usr/share/wallpapers/"$file" .
+	done
+	)
+done
+( cd $PKG/usr/share/backgrounds/luna
+	ls -1 $PKG/usr/share/wallpapers/ | while read file; do
+	ln $PKG/usr/share/wallpapers/"$file" .
+	done
+)
+
+mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
+cp $CWD/LICENSE $CWD/copyright $PKG/usr/doc/$PRGNAM-$VERSION
+cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
+
+mkdir -p $PKG/install
+cat $CWD/slack-desc > $PKG/install/slack-desc
+
+# Wallpaper preview for MATE
+mkdir -p $PKG/usr/share/backgrounds/luna
+( cd $PKG/usr/share/backgrounds/luna
+  mkdir -p $PKG/usr/share/mate-background-properties
+  cat << EOF > $PKG/usr/share/mate-background-properties/luna.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE wallpapers SYSTEM "mate-wp-list.dtd">
+<wallpapers>
+EOF
+  ls -1 *.* | while read file; do
+  cat << EOF >> $PKG/usr/share/mate-background-properties/luna.xml
+  <wallpaper deleted="false">
+    <name>$file</name>
+    <filename>/usr/share/backgrounds/luna/$file</filename>
+    <pcolor>#27587E</pcolor>
+    <scolor>#627F5A</scolor>
+    <options>zoom</options>
+  </wallpaper>
+EOF
+  done
+
+  cat << EOF >> $PKG/usr/share/mate-background-properties/luna.xml
+</wallpapers>
+EOF
+)
+cd $PKG
+/sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.$PKGTYPE

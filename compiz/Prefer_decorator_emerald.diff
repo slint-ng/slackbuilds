@@ -1,0 +1,13 @@
+Prefer the emerald decorator if available
+diff -ru compiz-core-v0.8.18/plugins/compiz-decorator compiz-core-v0.8.18.new/plugins/compiz-decorator
+--- compiz-core-v0.8.18/plugins/compiz-decorator	2020-04-04 20:24:41.000000000 +0200
++++ compiz-core-v0.8.18.new/plugins/compiz-decorator	2024-02-19 20:03:47.413665565 +0100
+@@ -48,7 +48,7 @@
+ 
+ # Find a decorator.
+ if [ -z "$DECORATOR" ] || [ ! -x "$(which "$DECORATOR" 2> /dev/null)" ]; then
+-    for DECORATOR in gtk-window-decorator emerald; do
++    for DECORATOR in emerald gtk-window-decorator; do
+         if [ -x "$(which "$DECORATOR" 2> /dev/null)" ]; then
+             verbose "Found $DECORATOR decorator.\n"
+             break

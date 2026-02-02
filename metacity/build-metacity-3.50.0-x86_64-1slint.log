@@ -1,0 +1,601 @@
+tar -xf metacity-3.50.0.tar.xz
+patching file src/ui/frames.c
+checking whether to enable debugging... no
+checking for a sed that does not truncate output... /usr/bin/sed
+checking for gcc... gcc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether the compiler supports GNU C... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to enable C11 features... none needed
+checking whether gcc understands -c and -o together... yes
+checking whether C compiler accepts -Werror=unknown-warning-option... no
+checking whether C compiler accepts -Wno-suggest-attribute=format... yes
+checking whether C compiler accepts -fno-strict-aliasing... yes
+checking whether C compiler accepts -Wnested-externs... yes
+checking whether C compiler accepts -Wmissing-prototypes... yes
+checking whether C compiler accepts -Wstrict-prototypes... yes
+checking whether C compiler accepts -Wdeclaration-after-statement... yes
+checking whether C compiler accepts -Wimplicit-function-declaration... yes
+checking whether C compiler accepts -Wold-style-definition... yes
+checking whether C compiler accepts -Wjump-misses-init... yes
+checking whether C compiler accepts -Wall... yes
+checking whether C compiler accepts -Wextra... yes
+checking whether C compiler accepts -Wundef... yes
+checking whether C compiler accepts -Wwrite-strings... yes
+checking whether C compiler accepts -Wpointer-arith... yes
+checking whether C compiler accepts -Wmissing-declarations... yes
+checking whether C compiler accepts -Wredundant-decls... yes
+checking whether C compiler accepts -Wno-unused-parameter... yes
+checking whether C compiler accepts -Wno-missing-field-initializers... yes
+checking whether C compiler accepts -Wformat=2... yes
+checking whether C compiler accepts -Wcast-align... yes
+checking whether C compiler accepts -Wformat-nonliteral... yes
+checking whether C compiler accepts -Wformat-security... yes
+checking whether C compiler accepts -Wsign-compare... yes
+checking whether C compiler accepts -Wstrict-aliasing... yes
+checking whether C compiler accepts -Wshadow... yes
+checking whether C compiler accepts -Winline... yes
+checking whether C compiler accepts -Wpacked... yes
+checking whether C compiler accepts -Wmissing-format-attribute... yes
+checking whether C compiler accepts -Wmissing-noreturn... yes
+checking whether C compiler accepts -Winit-self... yes
+checking whether C compiler accepts -Wredundant-decls... (cached) yes
+checking whether C compiler accepts -Wmissing-include-dirs... yes
+checking whether C compiler accepts -Wunused-but-set-variable... yes
+checking whether C compiler accepts -Warray-bounds... yes
+checking whether C compiler accepts -Wreturn-type... yes
+checking whether C compiler accepts -Wswitch-enum... yes
+checking whether C compiler accepts -Wswitch-default... yes
+checking whether C compiler accepts -Wduplicated-cond... yes
+checking whether C compiler accepts -Wduplicated-branches... yes
+checking whether C compiler accepts -Wlogical-op... yes
+checking whether C compiler accepts -Wrestrict... yes
+checking whether C compiler accepts -Wnull-dereference... yes
+checking whether C compiler accepts -Wdouble-promotion... yes
+checking whether C compiler accepts -Wno-error=unused-parameter... yes
+checking whether C compiler accepts -Wno-error=missing-field-initializers... yes
+checking whether C compiler accepts -Werror=unknown-warning-option... (cached) no
+checking whether the linker accepts -Wl,--as-needed... yes
+checking whether the linker accepts -Wl,--as-needed... yes
+checking whether the linker accepts -Wl,-z,relro... yes
+checking whether the linker accepts -Wl,-z,relro... yes
+checking whether the linker accepts -Wl,-z,now... yes
+checking whether the linker accepts -Wl,-z,now... yes
+checking whether the linker accepts -Wl,-z,noexecstack... yes
+checking whether the linker accepts -Wl,-z,noexecstack... yes
+checking whether the linker accepts -Wl,--no-as-needed... yes
+checking whether the linker accepts -Wl,--fatal-warnings... yes
+checking whether the linker accepts -Wl,-fatal_warnings... no
+checking whether the linker accepts -Wl,--no-as-needed... yes
+checking for a BSD-compatible install... /usr/bin/ginstall -c
+checking whether build environment is sane... yes
+checking for a race-free mkdir -p... /usr/bin/mkdir -p
+checking for gawk... gawk
+checking whether make sets $(MAKE)... yes
+checking whether make supports the include directive... yes (GNU style)
+checking whether make supports nested variables... yes
+checking whether UID '0' is supported by ustar format... yes
+checking whether GID '0' is supported by ustar format... yes
+checking how to create a ustar tar archive... gnutar
+checking dependency style of gcc... gcc3
+checking whether to enable maintainer-specific portions of Makefiles... yes
+checking whether make supports nested variables... (cached) yes
+checking build system type... x86_64-pc-linux-gnu
+checking host system type... x86_64-pc-linux-gnu
+checking how to print strings... printf
+checking for a sed that does not truncate output... (cached) /usr/bin/sed
+checking for grep that handles long lines and -e... /usr/bin/grep
+checking for egrep... /usr/bin/grep -E
+checking for fgrep... /usr/bin/grep -F
+checking for ld used by gcc... /usr/bin/ld
+checking if the linker (/usr/bin/ld) is GNU ld... yes
+checking for BSD- or MS-compatible name lister (nm)... /usr/bin/nm -B
+checking the name lister (/usr/bin/nm -B) interface... BSD nm
+checking whether ln -s works... yes
+checking the maximum length of command line arguments... 1572864
+checking how to convert x86_64-pc-linux-gnu file names to x86_64-pc-linux-gnu format... func_convert_file_noop
+checking how to convert x86_64-pc-linux-gnu file names to toolchain format... func_convert_file_noop
+checking for /usr/bin/ld option to reload object files... -r
+checking for file... file
+checking for objdump... objdump
+checking how to recognize dependent libraries... pass_all
+checking for dlltool... dlltool
+checking how to associate runtime and link libraries... printf %s\n
+checking for ar... ar
+checking for archiver @FILE support... @
+checking for strip... strip
+checking for ranlib... ranlib
+checking command to parse /usr/bin/nm -B output from gcc object... ok
+checking for sysroot... no
+checking for a working dd... /usr/bin/dd
+checking how to truncate binary pipes... /usr/bin/dd bs=4096 count=1
+checking for mt... mt
+checking if mt is a manifest tool... no
+checking for stdio.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for strings.h... yes
+checking for sys/stat.h... yes
+checking for sys/types.h... yes
+checking for unistd.h... yes
+checking for dlfcn.h... yes
+checking for objdir... .libs
+checking if gcc supports -fno-rtti -fno-exceptions... no
+checking for gcc option to produce PIC... -fPIC -DPIC
+checking if gcc PIC flag -fPIC -DPIC works... yes
+checking if gcc static flag -static works... yes
+checking if gcc supports -c -o file.o... yes
+checking if gcc supports -c -o file.o... (cached) yes
+checking whether the gcc linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
+checking whether -lc should be explicitly linked in... no
+checking dynamic linker characteristics... GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... yes
+checking whether to build static libraries... no
+checking for cos in -lm... yes
+checking for glib-mkenums... /usr/bin/glib-mkenums
+checking for glib-compile-resources... /usr/bin/glib-compile-resources
+checking whether NLS is requested... yes
+checking for msgfmt... /usr/bin/msgfmt
+checking for gmsgfmt... /usr/bin/msgfmt
+checking for xgettext... /usr/bin/xgettext
+checking for msgmerge... /usr/bin/msgmerge
+checking for ld used by gcc... /usr/bin/ld -m elf_x86_64
+checking if the linker (/usr/bin/ld -m elf_x86_64) is GNU ld... yes
+checking for shared library run path origin... done
+checking how to run the C preprocessor... gcc -E
+checking for CFPreferencesCopyAppValue... no
+checking for CFLocaleCopyCurrent... no
+checking for GNU gettext in libc... yes
+checking whether to use NLS... yes
+checking where the gettext function comes from... libc
+checking for pkg-config... /usr/bin/pkg-config
+checking pkg-config is at least version 0.9.0... yes
+checking for
+  glib-2.0 >= 2.67.3
+  gtk+-3.0 >= 3.24.6
+... yes
+checking for
+  glib-2.0 >= 2.67.3
+  gtk+-3.0 >= 3.24.6
+... yes
+checking for gcc... (cached) gcc
+checking whether the compiler supports GNU C... (cached) yes
+checking whether gcc accepts -g... (cached) yes
+checking for gcc option to enable C11 features... (cached) none needed
+checking whether gcc understands -c and -o together... (cached) yes
+checking size of char... 1
+checking size of short... 2
+checking size of long... 8
+checking size of int... 4
+checking size of void *... 8
+checking size of long long... 8
+checking size of __int64... 0
+checking whether byte ordering is bigendian... no
+checking for pkg-config... (cached) /usr/bin/pkg-config
+checking pkg-config is at least version 0.16... yes
+checking for glib-2.0 >= 2.67.3 gthread-2.0 >= 2.67.3... yes
+checking for gtk+-3.0 >= 3.24.6... yes
+checking Startup notification library >= 0.7... yes
+Building with libstartup-notification
+checking Xcursor... yes
+Building with Xcursor
+checking libgtop... yes
+Building with libgtop
+checking for gtk+-3.0 >= 3.24.6 gio-2.0 >= 2.67.3 pango >= 1.2.0 gsettings-desktop-schemas >= 3.3.0 xcomposite >= 0.3 xfixes xrender xdamage xres >= 1.2 xpresent libcanberra-gtk3 libstartup-notification-1.0 >= 0.7 xcursor libgtop-2.0... yes
+checking for X... libraries , headers 
+checking for gethostbyname... yes
+checking for connect... yes
+checking for remove... yes
+checking for shmat... yes
+checking for IceConnectionNumber in -lICE... yes
+checking for XineramaQueryExtension in -lXinerama... yes
+checking for X11/extensions/Xinerama.h... yes
+checking Xinerama... yes
+checking for XkbQueryExtension in -lX11... yes
+checking for X11/XKBlib.h... yes
+checking for XRRUpdateConfiguration in -lXrandr... yes
+checking for X11/extensions/Xrandr.h... yes
+checking for SmcSaveYourselfDone in -lSM... yes
+checking for X11/SM/SMlib.h... yes
+checking for zenity... /usr/bin/zenity
+checking for library containing dlsym... -ldl
+checking that generated files are newer than configure... done
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating data/Makefile
+config.status: creating data/applications/Makefile
+config.status: creating data/keybindings/Makefile
+config.status: creating data/pkgconfig/Makefile
+config.status: creating data/pkgconfig/libmetacity.pc
+config.status: creating data/schemas/Makefile
+config.status: creating data/ui/Makefile
+config.status: creating doc/Makefile
+config.status: creating doc/man/Makefile
+config.status: creating libmetacity/Makefile
+config.status: creating src/Makefile
+config.status: creating src/tools/Makefile
+config.status: creating theme-viewer/Makefile
+config.status: creating po/Makefile.in
+config.status: creating config.h
+config.status: executing depfiles commands
+config.status: executing libtool commands
+config.status: executing po-directories commands
+config.status: creating po/POTFILES
+config.status: creating po/Makefile
+
+  Metacity 3.50.0
+  ===============
+
+  srcdir ......................: .
+
+  compiler ....................: gcc
+  cflags ......................: -O2 -fPIC
+
+  prefix ......................: /usr
+  exec_prefix .................: ${prefix}
+  libdir ......................: ${exec_prefix}/lib
+  sysconfdir ..................: ${prefix}/etc
+  libexecdir ..................: ${exec_prefix}/libexec
+
+  Canberra ....................: yes
+  Xinerama ....................: yes
+  Startup notification ........: yes
+  Session management ..........: yes
+  Resize-and-rotate ...........: yes
+  Xcursor .....................: yes
+  Vulkan ......................: no
+
+make  all-recursive
+make[1] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0 »
+Making all in data
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data »
+Making all in applications
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/applications »
+  GEN      metacity.desktop
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/applications »
+Making all in keybindings
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/keybindings »
+make[3]: rien à faire pour « all ».
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/keybindings »
+Making all in pkgconfig
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/pkgconfig »
+make[3]: rien à faire pour « all ».
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/pkgconfig »
+Making all in schemas
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/schemas »
+  GEN      org.gnome.metacity.enums.xml
+  GEN      org.gnome.metacity.gschema.valid
+  GEN      org.gnome.metacity.keybindings.gschema.valid
+  GEN      org.gnome.metacity.theme.gschema.valid
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/schemas »
+Making all in ui
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/ui »
+make[3]: rien à faire pour « all ».
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/ui »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data »
+make[3]: rien à faire pour « all-am ».
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data »
+Making all in libmetacity
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/libmetacity »
+make  all-am
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/libmetacity »
+  CC       libmetacity_la-meta-button.lo
+  CC       libmetacity_la-meta-button-layout.lo
+  CC       libmetacity_la-meta-color.lo
+  CC       libmetacity_la-meta-color-spec.lo
+meta-color-spec.c: In function 'meta_color_spec_new_gtk':
+meta-color-spec.c:221:14: warning: array subscript 'MetaColorSpec {aka struct _MetaColorSpec}[0]' is partly outside array bounds of 'unsigned char[16]' [-Warray-bounds]
+  221 |   spec->type = type;
+      |   ~~~~~~~~~~~^~~~~~
+meta-color-spec.c:219:10: note: referencing an object of size 16 allocated by 'g_malloc0'
+  219 |   spec = g_malloc0 (size);
+      |          ^~~~~~~~~~~~~~~~
+meta-color-spec.c:496:7: warning: array subscript 'MetaColorSpec {aka struct _MetaColorSpec}[0]' is partly outside array bounds of 'unsigned char[16]' [-Warray-bounds]
+  496 |   spec->data.gtk.component = component;
+      |       ^~
+meta-color-spec.c:219:10: note: referencing an object of size 16 allocated by 'g_malloc0'
+  219 |   spec = g_malloc0 (size);
+      |          ^~~~~~~~~~~~~~~~
+meta-color-spec.c:497:7: warning: array subscript 'MetaColorSpec {aka struct _MetaColorSpec}[0]' is partly outside array bounds of 'unsigned char[16]' [-Warray-bounds]
+  497 |   spec->data.gtk.state = state;
+      |       ^~
+meta-color-spec.c:219:10: note: referencing an object of size 16 allocated by 'g_malloc0'
+  219 |   spec = g_malloc0 (size);
+      |          ^~~~~~~~~~~~~~~~
+meta-color-spec.c: In function 'meta_color_spec_new_from_string':
+meta-color-spec.c:221:14: warning: array subscript 'MetaColorSpec {aka struct _MetaColorSpec}[0]' is partly outside array bounds of 'unsigned char[40]' [-Warray-bounds]
+  221 |   spec->type = type;
+      |   ~~~~~~~~~~~^~~~~~
+meta-color-spec.c:219:10: note: referencing an object of size 40 allocated by 'g_malloc0'
+  219 |   spec = g_malloc0 (size);
+      |          ^~~~~~~~~~~~~~~~
+meta-color-spec.c:221:14: warning: array subscript 'MetaColorSpec {aka struct _MetaColorSpec}[0]' is partly outside array bounds of 'unsigned char[56]' [-Warray-bounds]
+  221 |   spec->type = type;
+      |   ~~~~~~~~~~~^~~~~~
+meta-color-spec.c:219:10: note: referencing an object of size 56 allocated by 'g_malloc0'
+  219 |   spec = g_malloc0 (size);
+      |          ^~~~~~~~~~~~~~~~
+meta-color-spec.c:467:11: warning: array subscript 'MetaColorSpec {aka struct _MetaColorSpec}[0]' is partly outside array bounds of 'unsigned char[56]' [-Warray-bounds]
+  467 |       spec->data.shade.factor = factor;
+      |           ^~
+meta-color-spec.c:219:10: note: referencing an object of size 56 allocated by 'g_malloc0'
+  219 |   spec = g_malloc0 (size);
+      |          ^~~~~~~~~~~~~~~~
+meta-color-spec.c:468:11: warning: array subscript 'MetaColorSpec {aka struct _MetaColorSpec}[0]' is partly outside array bounds of 'unsigned char[56]' [-Warray-bounds]
+  468 |       spec->data.shade.base = base;
+      |           ^~
+meta-color-spec.c:219:10: note: referencing an object of size 56 allocated by 'g_malloc0'
+  219 |   spec = g_malloc0 (size);
+      |          ^~~~~~~~~~~~~~~~
+meta-color-spec.c:221:14: warning: array subscript 'MetaColorSpec {aka struct _MetaColorSpec}[0]' is partly outside array bounds of 'unsigned char[16]' [-Warray-bounds]
+  221 |   spec->type = type;
+      |   ~~~~~~~~~~~^~~~~~
+meta-color-spec.c:219:10: note: referencing an object of size 16 allocated by 'g_malloc0'
+  219 |   spec = g_malloc0 (size);
+      |          ^~~~~~~~~~~~~~~~
+meta-color-spec.c:352:11: warning: array subscript 'MetaColorSpec {aka struct _MetaColorSpec}[0]' is partly outside array bounds of 'unsigned char[16]' [-Warray-bounds]
+  352 |       spec->data.gtk.state = state;
+      |           ^~
+meta-color-spec.c:219:10: note: referencing an object of size 16 allocated by 'g_malloc0'
+  219 |   spec = g_malloc0 (size);
+      |          ^~~~~~~~~~~~~~~~
+meta-color-spec.c:353:11: warning: array subscript 'MetaColorSpec {aka struct _MetaColorSpec}[0]' is partly outside array bounds of 'unsigned char[16]' [-Warray-bounds]
+  353 |       spec->data.gtk.component = component;
+      |           ^~
+meta-color-spec.c:219:10: note: referencing an object of size 16 allocated by 'g_malloc0'
+  219 |   spec = g_malloc0 (size);
+      |          ^~~~~~~~~~~~~~~~
+meta-color-spec.c:221:14: warning: array subscript 'MetaColorSpec {aka struct _MetaColorSpec}[0]' is partly outside array bounds of 'unsigned char[24]' [-Warray-bounds]
+  221 |   spec->type = type;
+      |   ~~~~~~~~~~~^~~~~~
+meta-color-spec.c:219:10: note: referencing an object of size 24 allocated by 'g_malloc0'
+  219 |   spec = g_malloc0 (size);
+      |          ^~~~~~~~~~~~~~~~
+meta-color-spec.c:292:11: warning: array subscript 'MetaColorSpec {aka struct _MetaColorSpec}[0]' is partly outside array bounds of 'unsigned char[24]' [-Warray-bounds]
+  292 |       spec->data.gtkcustom.color_name = color_name;
+      |           ^~
+meta-color-spec.c:219:10: note: referencing an object of size 24 allocated by 'g_malloc0'
+  219 |   spec = g_malloc0 (size);
+      |          ^~~~~~~~~~~~~~~~
+meta-color-spec.c:293:11: warning: array subscript 'MetaColorSpec {aka struct _MetaColorSpec}[0]' is partly outside array bounds of 'unsigned char[24]' [-Warray-bounds]
+  293 |       spec->data.gtkcustom.fallback = fallback;
+      |           ^~
+meta-color-spec.c:219:10: note: referencing an object of size 24 allocated by 'g_malloc0'
+  219 |   spec = g_malloc0 (size);
+      |          ^~~~~~~~~~~~~~~~
+  CC       libmetacity_la-meta-css-provider.lo
+  CC       libmetacity_la-meta-draw-op.lo
+  CC       libmetacity_la-meta-draw-spec.lo
+  CC       libmetacity_la-meta-frame-borders.lo
+  CC       libmetacity_la-meta-frame-layout.lo
+  CC       libmetacity_la-meta-frame-style.lo
+  CC       libmetacity_la-meta-gradient-spec.lo
+  CC       libmetacity_la-meta-hsla.lo
+  CC       libmetacity_la-meta-style-info.lo
+  CC       libmetacity_la-meta-theme.lo
+  CC       libmetacity_la-meta-theme-gtk.lo
+  CC       libmetacity_la-meta-theme-impl.lo
+  CC       libmetacity_la-meta-theme-metacity.lo
+  CC       libmetacity_la-meta-enum-types.lo
+  CCLD     libmetacity.la
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/libmetacity »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/libmetacity »
+Making all in theme-viewer
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/theme-viewer »
+make  all-am
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/theme-viewer »
+  CC       metacity_theme_viewer-theme-viewer-main.o
+  CC       metacity_theme_viewer-theme-viewer-window.o
+  CC       metacity_theme_viewer-theme-viewer-resources.o
+  CCLD     metacity-theme-viewer
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/theme-viewer »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/theme-viewer »
+Making all in doc
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/doc »
+Making all in man
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/doc/man »
+make[3]: rien à faire pour « all ».
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/doc/man »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/doc »
+make[3]: rien à faire pour « all-am ».
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/doc »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/doc »
+Making all in src
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/src »
+make  all-recursive
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/src »
+Making all in tools
+make[4] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/src/tools »
+  CC       metacity_message-metacity-message.o
+  CCLD     metacity-message
+make[4] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/src/tools »
+make[4] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/src »
+  CC       compositor/metacity-meta-compositor.o
+  CC       compositor/metacity-meta-compositor-external.o
+  CC       compositor/metacity-meta-compositor-none.o
+  CC       compositor/metacity-meta-compositor-xpresent.o
+  CC       compositor/metacity-meta-compositor-xrender.o
+  CC       compositor/metacity-meta-shadow-xrender.o
+  CC       compositor/metacity-meta-surface.o
+  CC       compositor/metacity-meta-surface-xrender.o
+  CC       core/metacity-above-tab-keycode.o
+  CC       core/metacity-async-getprop.o
+  CC       core/metacity-bell.o
+  CC       core/metacity-boxes.o
+  CC       core/metacity-constraints.o
+  CC       core/metacity-core.o
+  CC       core/metacity-delete.o
+  CC       core/metacity-display.o
+  CC       core/metacity-edge-resistance.o
+  CC       core/metacity-effects.o
+  CC       core/metacity-errors.o
+  CC       core/metacity-frame.o
+  CC       core/metacity-group.o
+  CC       core/metacity-group-props.o
+  CC       core/metacity-iconcache.o
+  CC       core/metacity-keybindings.o
+  CC       core/metacity-main.o
+  CC       core/metacity-place.o
+  CC       core/metacity-prefs.o
+  CC       core/metacity-screen.o
+  CC       core/metacity-session.o
+  CC       core/metacity-stack.o
+  CC       core/metacity-stack-tracker.o
+  CC       core/metacity-util.o
+  CC       core/metacity-window.o
+  CC       core/metacity-window-props.o
+  CC       core/metacity-workspace.o
+  CC       core/metacity-xprops.o
+  CC       ui/metacity-draw-workspace.o
+  CC       ui/metacity-fixedtip.o
+  CC       ui/metacity-frames.o
+ui/frames.c: Dans la fonction « get_color_scheme_variant »:
+ui/frames.c:690:23: erreur: « G_DESKTOP_COLOR_SCHEME_PREFER_DARK » non déclaré (première utilisation dans cette fonction)
+  690 |   if (color_scheme == G_DESKTOP_COLOR_SCHEME_PREFER_DARK)
+      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ui/frames.c:690:23: note: chaque identificateur non déclaré est rapporté une seule fois pour chaque fonction dans laquelle il apparaît
+make[4]: *** [Makefile:1600 : ui/metacity-frames.o] Erreur 1
+make[4] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/src »
+make[3]: *** [Makefile:1878 : all-recursive] Erreur 1
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/src »
+make[2]: *** [Makefile:724 : all] Erreur 2
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/src »
+make[1]: *** [Makefile:514 : all-recursive] Erreur 1
+make[1] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0 »
+make: *** [Makefile:446 : all] Erreur 2
+Making install in data
+make[1] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data »
+Making install in applications
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/applications »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/applications »
+make[3]: rien à faire pour « install-exec-am ».
+ /usr/bin/mkdir -p '/repo/x86_64/slint-15.0/source/metacity/pkg/usr/share/applications'
+ /usr/bin/ginstall -c -m 644 metacity.desktop '/repo/x86_64/slint-15.0/source/metacity/pkg/usr/share/applications'
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/applications »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/applications »
+Making install in keybindings
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/keybindings »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/keybindings »
+make[3]: rien à faire pour « install-exec-am ».
+ /usr/bin/mkdir -p '/repo/x86_64/slint-15.0/source/metacity/pkg/usr/share/gnome-control-center/keybindings'
+ /usr/bin/ginstall -c -m 644 50-metacity-navigation.xml 50-metacity-system.xml 50-metacity-windows.xml '/repo/x86_64/slint-15.0/source/metacity/pkg/usr/share/gnome-control-center/keybindings'
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/keybindings »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/keybindings »
+Making install in pkgconfig
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/pkgconfig »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/pkgconfig »
+make[3]: rien à faire pour « install-exec-am ».
+ /usr/bin/mkdir -p '/repo/x86_64/slint-15.0/source/metacity/pkg/usr/lib/pkgconfig'
+ /usr/bin/ginstall -c -m 644 libmetacity.pc '/repo/x86_64/slint-15.0/source/metacity/pkg/usr/lib/pkgconfig'
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/pkgconfig »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/pkgconfig »
+Making install in schemas
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/schemas »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/schemas »
+make[3]: rien à faire pour « install-exec-am ».
+if test -n "org.gnome.metacity.gschema.xml org.gnome.metacity.keybindings.gschema.xml org.gnome.metacity.theme.gschema.xml org.gnome.metacity.enums.xml"; then \
+	test -z "/usr/share/glib-2.0/schemas" || /usr/bin/mkdir -p "/repo/x86_64/slint-15.0/source/metacity/pkg/usr/share/glib-2.0/schemas"; \
+	/usr/bin/ginstall -c -m 644 org.gnome.metacity.gschema.xml org.gnome.metacity.keybindings.gschema.xml org.gnome.metacity.theme.gschema.xml org.gnome.metacity.enums.xml "/repo/x86_64/slint-15.0/source/metacity/pkg/usr/share/glib-2.0/schemas"; \
+	test -n "/repo/x86_64/slint-15.0/source/metacity/pkg" || /usr/bin/glib-compile-schemas /usr/share/glib-2.0/schemas; \
+fi
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/schemas »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/schemas »
+Making install in ui
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/ui »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/ui »
+make[3]: rien à faire pour « install-exec-am ».
+make[3]: rien à faire pour « install-data-am ».
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/ui »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data/ui »
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data »
+make[3]: rien à faire pour « install-exec-am ».
+make[3]: rien à faire pour « install-data-am ».
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data »
+make[1] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/data »
+Making install in libmetacity
+make[1] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/libmetacity »
+make  install-am
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/libmetacity »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/libmetacity »
+ /usr/bin/mkdir -p '/repo/x86_64/slint-15.0/source/metacity/pkg/usr/lib'
+ /bin/sh ../libtool   --mode=install /usr/bin/ginstall -c   libmetacity.la '/repo/x86_64/slint-15.0/source/metacity/pkg/usr/lib'
+libtool: install: /usr/bin/ginstall -c .libs/libmetacity.so.3.0.0 /repo/x86_64/slint-15.0/source/metacity/pkg/usr/lib/libmetacity.so.3.0.0
+libtool: install: (cd /repo/x86_64/slint-15.0/source/metacity/pkg/usr/lib && { ln -s -f libmetacity.so.3.0.0 libmetacity.so.3 || { rm -f libmetacity.so.3 && ln -s libmetacity.so.3.0.0 libmetacity.so.3; }; })
+libtool: install: (cd /repo/x86_64/slint-15.0/source/metacity/pkg/usr/lib && { ln -s -f libmetacity.so.3.0.0 libmetacity.so || { rm -f libmetacity.so && ln -s libmetacity.so.3.0.0 libmetacity.so; }; })
+libtool: install: /usr/bin/ginstall -c .libs/libmetacity.lai /repo/x86_64/slint-15.0/source/metacity/pkg/usr/lib/libmetacity.la
+libtool: warning: remember to run 'libtool --finish /usr/lib'
+ /usr/bin/mkdir -p '/repo/x86_64/slint-15.0/source/metacity/pkg/usr/include/metacity/libmetacity'
+ /usr/bin/ginstall -c -m 644 meta-button.h meta-color.h meta-frame-borders.h meta-frame-enums.h meta-theme.h '/repo/x86_64/slint-15.0/source/metacity/pkg/usr/include/metacity/libmetacity'
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/libmetacity »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/libmetacity »
+make[1] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/libmetacity »
+Making install in theme-viewer
+make[1] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/theme-viewer »
+make  install-am
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/theme-viewer »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/theme-viewer »
+ /usr/bin/mkdir -p '/repo/x86_64/slint-15.0/source/metacity/pkg/usr/bin'
+  /bin/sh ../libtool   --mode=install /usr/bin/ginstall -c metacity-theme-viewer '/repo/x86_64/slint-15.0/source/metacity/pkg/usr/bin'
+libtool: warning: '../libmetacity/libmetacity.la' has not been installed in '/usr/lib'
+libtool: install: /usr/bin/ginstall -c .libs/metacity-theme-viewer /repo/x86_64/slint-15.0/source/metacity/pkg/usr/bin/metacity-theme-viewer
+make[3]: rien à faire pour « install-data-am ».
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/theme-viewer »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/theme-viewer »
+make[1] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/theme-viewer »
+Making install in doc
+make[1] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/doc »
+Making install in man
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/doc/man »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/doc/man »
+make[3]: rien à faire pour « install-exec-am ».
+ /usr/bin/mkdir -p '/repo/x86_64/slint-15.0/source/metacity/pkg/usr/share/man/man1'
+ /usr/bin/ginstall -c -m 644 metacity.1 metacity-message.1 metacity-theme-viewer.1 '/repo/x86_64/slint-15.0/source/metacity/pkg/usr/share/man/man1'
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/doc/man »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/doc/man »
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/doc »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/doc »
+make[3]: rien à faire pour « install-exec-am ».
+make[3]: rien à faire pour « install-data-am ».
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/doc »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/doc »
+make[1] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/doc »
+Making install in src
+make[1] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/src »
+make  install-recursive
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/src »
+Making install in tools
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/src/tools »
+make[4] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/src/tools »
+ /usr/bin/mkdir -p '/repo/x86_64/slint-15.0/source/metacity/pkg/usr/bin'
+  /bin/sh ../../libtool   --mode=install /usr/bin/ginstall -c metacity-message '/repo/x86_64/slint-15.0/source/metacity/pkg/usr/bin'
+libtool: install: /usr/bin/ginstall -c metacity-message /repo/x86_64/slint-15.0/source/metacity/pkg/usr/bin/metacity-message
+make[4]: rien à faire pour « install-data-am ».
+make[4] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/src/tools »
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/src/tools »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/src »
+  CC       ui/metacity-frames.o
+ui/frames.c: Dans la fonction « get_color_scheme_variant »:
+ui/frames.c:690:23: erreur: « G_DESKTOP_COLOR_SCHEME_PREFER_DARK » non déclaré (première utilisation dans cette fonction)
+  690 |   if (color_scheme == G_DESKTOP_COLOR_SCHEME_PREFER_DARK)
+      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ui/frames.c:690:23: note: chaque identificateur non déclaré est rapporté une seule fois pour chaque fonction dans laquelle il apparaît
+make[3]: *** [Makefile:1600 : ui/metacity-frames.o] Erreur 1
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/src »
+make[2]: *** [Makefile:1878 : install-recursive] Erreur 1
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/src »
+make[1]: *** [Makefile:2037 : install] Erreur 2
+make[1] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/metacity/src/metacity-3.50.0/src »
+make: *** [Makefile:514 : install-recursive] Erreur 1
+build() failed.

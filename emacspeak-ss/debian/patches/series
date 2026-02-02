@@ -1,0 +1,3 @@
+010_ping-apollo.c_stdlib.h+string.h.diff
+tcl.diff
+fix-makefile-to-honor-DESTDIR.patch

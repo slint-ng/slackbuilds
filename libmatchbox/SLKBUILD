@@ -1,0 +1,30 @@
+# Contributor: Sergej Pupykin <pupykin.s+arch@gmail.com>
+# Contributor: Henrique C. Alves <hcarvalhoalves@gmail.com>
+
+# Included in Slint by didieratslintdotfr
+
+pkgname=libmatchbox
+pkgver=1.14
+pkgrel=1slint
+slackdesc="$pkgname (Base library for Matchbox WM)"
+arch=('x86_64')
+license=('LGPL')
+depends=('pango' 'libpng' 'libjpeg-turbo' 'xsettings-client' 'libxext')
+url="https://www.yoctoproject.org/software-item/matchbox/"
+source=("https://git.yoctoproject.org/libmatchbox/snapshot/libmatchbox-${pkgver}.tar.gz")
+
+#source=("http://deb.debian.org/debian/pool/main/libm/libmatchbox/libmatchbox_1.12+git20170224.orig.tar.xz")
+sha256sums=('648d7e1af82e69b79c0932ff9f85e6781584eada5da8662f70196916dd208f55')
+docs=("AUTHORS" "COPYING" "COPYING.HPND" "README")
+
+build() {
+  cd "$pkgname-$pkgver"
+ 	# Patches from Debian
+	while read -r i; do
+		patch -p1 --verbose < $startdir/patches/$i || exit
+	done < $startdir/patches/series
+  autoreconf -vif
+  ./configure --prefix=/usr --libdir=/usr/lib64  --enable-pango --enable-jpeg --disable-static
+  make
+  make DESTDIR="$PKG" install
+}

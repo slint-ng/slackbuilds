@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="config-behavior">
+  <title>Bilah Alat dan Menu</title>
+  <para><application>Mate</application> memungkinkan pengguna untuk mengonfigurasi banyak pengaturan desktop mereka. Apa pun dari gambar latar belakang sampai tempat tombol berada dapat diatur. Jendela <guilabel>Perilaku</guilabel> bertanggung jawab atas banyak pengaturan yang lebih halus.</para>
+  <para>Jika Anda membuka jendela <guilabel>Perilaku</guilabel>, Anda akan menemukan beberapa opsi yang Anda inginkan untuk membuat pengalaman <application>Mate</application> Anda lebih baik.</para>
+  <sect2 id="config-behavior-toolbar">
+    <title>Opsi Bilah Alat</title>
+    <para>Separuh bagian atas jendela menampilkan opsi bilah alat.</para>
+    <para>Di bagian <guilabel>Bilah alat memiliki</guilabel>, Anda akan melihat tiga opsi yang tersedia: Ikon dan Teks, Hanya Ikon, Hanya Teks.</para>
+    <para>Ikon dan Teks membuat bilah alat menampilkan ikon dan teks. Meskipun ini memakan ruang paling banyak, ini adalah yang paling informatif.</para>
+    <para>Opsi Hanya Ikon membuat bilah alat hanya menampilkan ikon. Ini bukan yang paling deskriptif, tetapi membantu menghemat ruang.</para>
+    <para>Opsi Hanya Teks adalah opsi paling sederhana. Namun, ini adalah pilihan yang paling deskriptif.</para>
+    <para>Di bawah opsi itu adalah tombol yang disebut <guibutton>Bilah alat dapat dilepas dan dipindahkan</guibutton>. Hal ini memungkinkan Anda untuk melepas bilah alat dari jendela dan menempatkannya di mana saja di layar yang Anda inginkan. Anda dapat mendemonstrasikan ini di <guilabel>Bilah Alat Sampel</guilabel> di bawah. Di sisi kiri adalah bilah bertekstur. Klik itu dan seret di sekitar layar. Bilah alat akan terlepas dan dijatuhkan di tempat Anda melepaskan kursor.</para>
+  </sect2>
+  <sect2 id="config-behavior-menus">
+    <title>Opsi Menu</title>
+    <para>Menu juga dapat dikonfigurasi. Anda dapat memiliki butir menu yang memiliki ikon. Ini bagus untuk membantu mengidentifikasi hal-hal apa yang dilakukan.</para>
+  </sect2>
+</sect1>

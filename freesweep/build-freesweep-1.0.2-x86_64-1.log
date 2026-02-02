@@ -1,0 +1,339 @@
+tar -xf v1.0.2.tar.gz
+./build-freesweep.sh: ligne 218 : cd: freesweep-1.0.2: Aucun fichier ou dossier de ce type
+checking build system type... x86_64-unknown-linux-gnu
+checking host system type... x86_64-unknown-linux-gnu
+checking for gcc... gcc
+checking for C compiler default output... a.out
+checking whether the C compiler works... yes
+checking whether we are cross compiling... no
+checking for executable suffix... 
+checking for object suffix... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking whether ln -s works... yes
+checking whether make sets ${MAKE}... yes
+checking for tar... /usr/bin/tar
+checking for gzip... /usr/bin/gzip
+checking for rm... /usr/bin/rm
+checking for initscr in -lncurses... yes
+checking for ncurses include dir... /usr/include/ncurses
+checking for main in -lm... yes
+checking how to run the C preprocessor... gcc -E
+checking for ANSI C header files... yes
+checking for limits.h... yes
+checking for string.h... yes
+checking for unistd.h... yes
+checking for sys/file.h... yes
+checking for getopt.h... yes
+checking for errno.h... yes
+checking for sys/types.h... yes
+checking for gcc option to accept ANSI C... none needed
+checking for an ANSI C-conforming const... yes
+checking for sys/types.h... (cached) yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... (cached) yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... (cached) yes
+checking for size_t... yes
+checking return type of signal handlers... void
+checking for strdup... yes
+checking for memset... yes
+checking for memmove... yes
+checking for fileno... yes
+checking for lockf... yes
+checking for flock... yes
+checking for get_current_dir_name... yes
+checking for strncpy... yes
+checking for strncat... yes
+checking for snprintf... yes
+checking for vsnprintf... yes
+checking for getopt_long... yes
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating sweep.h
+config.status: creating freesweep.6
+config.status: creating config.h
+gcc -Wall -DVERSION=\"1.0.2\" -O2 -fPIC -c clear.c
+Dans le fichier inclus depuis clear.c:13:
+sweep.h:66: attention: « USE_GROUP_BEST_FILE » redéfini
+   66 | #define USE_GROUP_BEST_FILE
+      | 
+Dans le fichier inclus depuis sweep.h:8,
+                 depuis clear.c:13:
+config.h:29: note: ceci est l'emplacement d’une précédente définition
+   29 | #define USE_GROUP_BEST_FILE 1
+      | 
+gcc -Wall -DVERSION=\"1.0.2\" -O2 -fPIC -c drawing.c
+Dans le fichier inclus depuis drawing.c:11:
+sweep.h:66: attention: « USE_GROUP_BEST_FILE » redéfini
+   66 | #define USE_GROUP_BEST_FILE
+      | 
+Dans le fichier inclus depuis sweep.h:8,
+                 depuis drawing.c:11:
+config.h:29: note: ceci est l'emplacement d’une précédente définition
+   29 | #define USE_GROUP_BEST_FILE 1
+      | 
+gcc -Wall -DVERSION=\"1.0.2\" -O2 -fPIC -c error.c
+Dans le fichier inclus depuis error.c:11:
+sweep.h:66: attention: « USE_GROUP_BEST_FILE » redéfini
+   66 | #define USE_GROUP_BEST_FILE
+      | 
+Dans le fichier inclus depuis sweep.h:8,
+                 depuis error.c:11:
+config.h:29: note: ceci est l'emplacement d’une précédente définition
+   29 | #define USE_GROUP_BEST_FILE 1
+      | 
+gcc -Wall -DVERSION=\"1.0.2\" -O2 -fPIC -c fgui.c
+Dans le fichier inclus depuis fgui.c:11:
+sweep.h:66: attention: « USE_GROUP_BEST_FILE » redéfini
+   66 | #define USE_GROUP_BEST_FILE
+      | 
+Dans le fichier inclus depuis sweep.h:8,
+                 depuis fgui.c:11:
+config.h:29: note: ceci est l'emplacement d’une précédente définition
+   29 | #define USE_GROUP_BEST_FILE 1
+      | 
+fgui.c: Dans la fonction « Display »:
+fgui.c:313:17: attention: cette instruction « while » ne protège pas… [-Wmisleading-indentation]
+  313 |                 while(*p != '/') p--; p++; /* there will always be a / in it */
+      |                 ^~~~~
+fgui.c:313:39: note: …cette instruction, mais l'indentation de cette dernière est trompeuse car elle fait croire qu'elle est gardée par le « while »
+  313 |                 while(*p != '/') p--; p++; /* there will always be a / in it */
+      |                                       ^
+gcc -Wall -DVERSION=\"1.0.2\" -O2 -fPIC -c files.c
+Dans le fichier inclus depuis files.c:11:
+sweep.h:66: attention: « USE_GROUP_BEST_FILE » redéfini
+   66 | #define USE_GROUP_BEST_FILE
+      | 
+Dans le fichier inclus depuis sweep.h:8,
+                 depuis files.c:11:
+config.h:29: note: ceci est l'emplacement d’une précédente définition
+   29 | #define USE_GROUP_BEST_FILE 1
+      | 
+gcc -Wall -DVERSION=\"1.0.2\" -O2 -fPIC -c game.c
+Dans le fichier inclus depuis game.c:11:
+sweep.h:66: attention: « USE_GROUP_BEST_FILE » redéfini
+   66 | #define USE_GROUP_BEST_FILE
+      | 
+Dans le fichier inclus depuis sweep.h:8,
+                 depuis game.c:11:
+config.h:29: note: ceci est l'emplacement d’une précédente définition
+   29 | #define USE_GROUP_BEST_FILE 1
+      | 
+game.c: Dans la fonction « ReReadyGame »:
+game.c:481:58: attention: variable « HViewable » définie mais non utilisée [-Wunused-but-set-variable]
+  481 |         int MinesToSet=0, RandX=0, RandY=0, VViewable=0, HViewable=0;
+      |                                                          ^~~~~~~~~
+game.c:481:45: attention: variable « VViewable » définie mais non utilisée [-Wunused-but-set-variable]
+  481 |         int MinesToSet=0, RandX=0, RandY=0, VViewable=0, HViewable=0;
+      |                                             ^~~~~~~~~
+gcc -Wall -DVERSION=\"1.0.2\" -O2 -fPIC -c gpl.c
+Dans le fichier inclus depuis gpl.c:11:
+sweep.h:66: attention: « USE_GROUP_BEST_FILE » redéfini
+   66 | #define USE_GROUP_BEST_FILE
+      | 
+Dans le fichier inclus depuis sweep.h:8,
+                 depuis gpl.c:11:
+config.h:29: note: ceci est l'emplacement d’une précédente définition
+   29 | #define USE_GROUP_BEST_FILE 1
+      | 
+gcc -Wall -DVERSION=\"1.0.2\" -O2 -fPIC -c main.c
+Dans le fichier inclus depuis main.c:11:
+sweep.h:66: attention: « USE_GROUP_BEST_FILE » redéfini
+   66 | #define USE_GROUP_BEST_FILE
+      | 
+Dans le fichier inclus depuis sweep.h:8,
+                 depuis main.c:11:
+config.h:29: note: ceci est l'emplacement d’une précédente définition
+   29 | #define USE_GROUP_BEST_FILE 1
+      | 
+gcc -Wall -DVERSION=\"1.0.2\" -O2 -fPIC -c pbests.c
+Dans le fichier inclus depuis pbests.c:11:
+sweep.h:66: attention: « USE_GROUP_BEST_FILE » redéfini
+   66 | #define USE_GROUP_BEST_FILE
+      | 
+Dans le fichier inclus depuis sweep.h:8,
+                 depuis pbests.c:11:
+config.h:29: note: ceci est l'emplacement d’une précédente définition
+   29 | #define USE_GROUP_BEST_FILE 1
+      | 
+gcc -Wall -DVERSION=\"1.0.2\" -O2 -fPIC -c play.c
+Dans le fichier inclus depuis play.c:11:
+sweep.h:66: attention: « USE_GROUP_BEST_FILE » redéfini
+   66 | #define USE_GROUP_BEST_FILE
+      | 
+Dans le fichier inclus depuis sweep.h:8,
+                 depuis play.c:11:
+config.h:29: note: ceci est l'emplacement d’une précédente définition
+   29 | #define USE_GROUP_BEST_FILE 1
+      | 
+gcc -Wall -DVERSION=\"1.0.2\" -O2 -fPIC -c sl.c
+Dans le fichier inclus depuis sl.c:11:
+sweep.h:66: attention: « USE_GROUP_BEST_FILE » redéfini
+   66 | #define USE_GROUP_BEST_FILE
+      | 
+Dans le fichier inclus depuis sweep.h:8,
+                 depuis sl.c:11:
+config.h:29: note: ceci est l'emplacement d’une précédente définition
+   29 | #define USE_GROUP_BEST_FILE 1
+      | 
+gcc -Wall -DVERSION=\"1.0.2\" -O2 -fPIC -c stats.c
+Dans le fichier inclus depuis stats.c:11:
+sweep.h:66: attention: « USE_GROUP_BEST_FILE » redéfini
+   66 | #define USE_GROUP_BEST_FILE
+      | 
+Dans le fichier inclus depuis sweep.h:8,
+                 depuis stats.c:11:
+config.h:29: note: ceci est l'emplacement d’une précédente définition
+   29 | #define USE_GROUP_BEST_FILE 1
+      | 
+gcc -Wall -DVERSION=\"1.0.2\" -O2 -fPIC -c tick.c
+Dans le fichier inclus depuis tick.c:11:
+sweep.h:66: attention: « USE_GROUP_BEST_FILE » redéfini
+   66 | #define USE_GROUP_BEST_FILE
+      | 
+Dans le fichier inclus depuis sweep.h:8,
+                 depuis tick.c:11:
+config.h:29: note: ceci est l'emplacement d’une précédente définition
+   29 | #define USE_GROUP_BEST_FILE 1
+      | 
+gcc -Wall -DVERSION=\"1.0.2\" -O2 -fPIC -c utils.c
+Dans le fichier inclus depuis utils.c:11:
+sweep.h:66: attention: « USE_GROUP_BEST_FILE » redéfini
+   66 | #define USE_GROUP_BEST_FILE
+      | 
+Dans le fichier inclus depuis sweep.h:8,
+                 depuis utils.c:11:
+config.h:29: note: ceci est l'emplacement d’une précédente définition
+   29 | #define USE_GROUP_BEST_FILE 1
+      | 
+gcc -Wall -DVERSION=\"1.0.2\" -O2 -fPIC -c image.c
+Dans le fichier inclus depuis image.c:11:
+sweep.h:66: attention: « USE_GROUP_BEST_FILE » redéfini
+   66 | #define USE_GROUP_BEST_FILE
+      | 
+Dans le fichier inclus depuis sweep.h:8,
+                 depuis image.c:11:
+config.h:29: note: ceci est l'emplacement d’une précédente définition
+   29 | #define USE_GROUP_BEST_FILE 1
+      | 
+gcc -Wall -DVERSION=\"1.0.2\" -O2 -fPIC clear.o drawing.o error.o fgui.o files.o game.o gpl.o main.o pbests.o play.o sl.o stats.o tick.o utils.o image.o  -lm -lncurses  -o freesweep
+/repo/x86_64/slint-15.0/source/freesweep/pkg:
+total 0
+drwxr-xr-x 1 root root 22 juil.  7 21:00 etc
+drwxr-xr-x 1 root root 38 juil.  7 21:00 install
+drwxr-xr-x 1 root root 28 juil.  7 21:00 usr
+drwxr-xr-x 1 root root  6 juil.  7 21:00 var
+
+/repo/x86_64/slint-15.0/source/freesweep/pkg/etc:
+total 4
+-rw-r--r-- 1 root root 67 juil.  7 21:00 sweeprc.new
+
+/repo/x86_64/slint-15.0/source/freesweep/pkg/install:
+total 8
+-rw-r--r-- 1 root root 261 juil.  7 21:00 doinst.sh
+-rw-r--r-- 1 root root 185 juil.  7 21:00 slack-desc
+
+/repo/x86_64/slint-15.0/source/freesweep/pkg/usr:
+total 0
+drwxr-xr-x 1 root root 18 juil.  7 21:00 bin
+drwxr-xr-x 1 root root  8 juil.  7 21:00 man
+drwxr-xr-x 1 root root  6 juil.  7 21:00 share
+drwxr-xr-x 1 root root 30 juil.  7 21:00 src
+
+/repo/x86_64/slint-15.0/source/freesweep/pkg/usr/bin:
+total 80
+-rwxr-xr-x 1 root root 79728 juil.  7 21:00 freesweep
+
+/repo/x86_64/slint-15.0/source/freesweep/pkg/usr/man:
+total 0
+drwxr-xr-x 1 root root 28 juil.  7 21:00 man6
+
+/repo/x86_64/slint-15.0/source/freesweep/pkg/usr/man/man6:
+total 4
+-rw-r--r-- 1 root root 2504 juil.  7 21:00 freesweep.6.gz
+
+/repo/x86_64/slint-15.0/source/freesweep/pkg/usr/share:
+total 0
+drwxr-xr-x 1 root root 18 juil.  7 21:00 doc
+
+/repo/x86_64/slint-15.0/source/freesweep/pkg/usr/share/doc:
+total 0
+drwxr-xr-x 1 root root 26 juil.  7 21:00 freesweep
+
+/repo/x86_64/slint-15.0/source/freesweep/pkg/usr/share/doc/freesweep:
+total 8
+-rw-r--r-- 1 root root 1254 juil.  7 21:00 README.md
+-rw-r--r-- 1 root root  908 juil.  7 21:00 TODO
+
+/repo/x86_64/slint-15.0/source/freesweep/pkg/usr/src:
+total 0
+drwxr-xr-x 1 root root 16 juil.  7 21:00 freesweep-1.0.2
+
+/repo/x86_64/slint-15.0/source/freesweep/pkg/usr/src/freesweep-1.0.2:
+total 4
+-rw-r--r-- 1 root root 2017 juil.  7 21:00 SLKBUILD
+
+/repo/x86_64/slint-15.0/source/freesweep/pkg/var:
+total 0
+drwxr-xr-x 1 root root 18 juil.  7 21:00 lib
+
+/repo/x86_64/slint-15.0/source/freesweep/pkg/var/lib:
+total 0
+drwxrwxr-x 1 root games 20 juil.  7 21:00 freesweep
+
+/repo/x86_64/slint-15.0/source/freesweep/pkg/var/lib/freesweep:
+total 0
+-rw-rw-r-- 1 root games 0 juil.  7 21:00 sweeptimes
+
+Slackware package maker, version 3.14159265.
+
+Searching for symbolic links:
+
+No symbolic links were found, so we won't make an installation script.
+You can make your own later in ./install/doinst.sh and rebuild the
+package if you like.
+
+This next step is optional - you can set the directories in your package
+to some sane permissions. If any of the directories in your package have
+special permissions, then DO NOT reset them here!
+
+Would you like to reset all directory permissions to 755 (drwxr-xr-x) and
+directory ownerships to root:root ([y]es, [n]o)? n
+
+
+Creating Slackware package:  /repo/x86_64/slint-15.0/source/freesweep/freesweep-1.0.2-x86_64-1.txz
+
+./
+etc/
+etc/sweeprc.new
+install/
+install/doinst.sh
+install/slack-desc
+usr/
+usr/bin/
+usr/bin/freesweep
+usr/man/
+usr/man/man6/
+usr/man/man6/freesweep.6.gz
+usr/share/
+usr/share/doc/
+usr/share/doc/freesweep/
+usr/share/doc/freesweep/README.md
+usr/share/doc/freesweep/TODO
+usr/src/
+usr/src/freesweep-1.0.2/
+usr/src/freesweep-1.0.2/SLKBUILD
+var/
+var/lib/
+var/lib/freesweep/
+var/lib/freesweep/sweeptimes
+WARNING:  zero length file var/lib/freesweep/sweeptimes
+
+Slackware package /repo/x86_64/slint-15.0/source/freesweep/freesweep-1.0.2-x86_64-1.txz created.
+
+Package has been built.

@@ -1,0 +1,12 @@
+Start mate-terminal presisng ctrl-alt-t
+diff -ru compiz-core-v0.8.18/metadata/matecompat.xml.in compiz-core-v0.8.18.new/metadata/matecompat.xml.in
+--- compiz-core-v0.8.18/metadata/matecompat.xml.in	2020-04-04 20:24:41.000000000 +0200
++++ compiz-core-v0.8.18.new/metadata/matecompat.xml.in	2024-02-21 22:08:25.207255024 +0100
+@@ -46,6 +46,7 @@
+ 		<option name="run_command_terminal_key" type="key">
+ 		    <short>Open a terminal</short>
+ 		    <long>Open a terminal</long>
++		    <default>&lt;Control&gt;&lt;Primary&gt;&lt;Alt&gt;t</default>
+ 		</option>
+ 	    </group>
+ 	</display>

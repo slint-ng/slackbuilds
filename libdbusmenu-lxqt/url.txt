@@ -1,0 +1,1 @@
+https://github.com/lxqt/libdbusmenu-lxqt/archive/refs/tags/0.1.0.tar.gz

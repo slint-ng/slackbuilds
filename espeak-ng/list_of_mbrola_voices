@@ -1,0 +1,93 @@
+This document list all voices for mbrola that can be used selecting the
+espeak-ng-mbrola-generic synthesize in Orca, spd-say or Chromevox
+
+The list includes following columns, fom left to right:
+The abbreviated voice name
+The language and gender of the voice
+The size of the installed voice
+The author or provider of the voice
+
+a * before voice name means that the file is installed by default
+a - before the voice name means that the voice is not (yet) supported by
+espeak-ng, hence is not usable. For these no package has been built.
+
+Other voices can be installed with slapt-get. The package name for a
+voice is mbrola-voice-<voice name>. For instance to install the br2
+voice one would type:
+slapt-get -i mbrola-voice-br2
+
+af1:Afrikaans Male:6.6Mb:Daan Wissing
+*us1:American English Female:6.8Mb:Babel Technology
+us2:American English Male:6.3Mb:Babel Technology
+*us3:American English Male:6.1Mb:Mike Macon
+ar1:Arabic Male:5.1Mb:Faculte Polytech. De Mons
+ar2:Arabic Male:5.6Mb:Abdel Muez Abukhalaf
+*br1:Brazilian Portuguese Male:5.0Mb:Denis R.Costa
+br2:Brazilian Portuguese Male:8.3Mb:Denis R.Costa
+br3:Brazilian Portuguese Male:8.6Mb:Denis R.Costa
+*br4:Brazilian Portuguese Female:4.8Mb:Dilson Jose Dos Santos
+-bz1:Breton Female:25.0Mb !:Jean Pierre Messager
+*en1:British English Male:5.7Mb:Alan V. Black
+ca1:Canadian French Male:12.8Mb:Vincent Arnaud
+ca2:Canadian French Male:9.8Mb:Silex Creations Inc.
+cn1:Mandarin Chinese Female:5Mb:Liu Ning
+cr1:Croation Male:2.9Mb:Juraj Bakran
+cz1:Czech Female:2.2Mb:Mikulas Pinos
+cz2:Czech Male:8Mb:Mikulas Pinos
+nl1:Small Dutch Male:0.4Mb:Arthur Dirksen
+*nl2:Dutch Male:13Mb:Arthur Dirksen
+*nl3:Dutch Female:8.6Mb:Raymond Veldhuis
+nz1:Maori Male:2.3Mb:Mark R. Laws
+ee1:Estonian Male:9.2Mb:Meelis Mihkla
+*pt1:European Portuguese Female:7.8Mb:Babel Technology
+*fr1:French Male:4.4Mb:Faculte Polytech. De Mons
+*fr2:French Female:4.8Mb:Celine Egea
+fr3:French Male:4.8Mb:Babel Technology
+fr4:French Female:5.4Mb:Babel Technology
+fr5:French Belgian:4.8Mb:Faculte Polytech. De Mons
+fr6:French Male:4.4Mb:Faculte Polytech. De Mons
+fr7:French Belgian:3.7Mb:Faculte Polytech. De Mons
+*de1:German Female:9.9Mb:Fred Englert
+*de2:German Male:9.3Mb:ATIP
+de3:German Female:10.4Mb:ATIP
+de4:German Male:18.6Mb:University of Stuttgart
+de5:German Female:13.3Mb:ATIP
+de6:German Male:48.5Mb:Saarland University
+de7:German Female:46.5Mb:DFKI
+de8:German-Bavarian Male:9.7Mb:Markus Binsteiner
+es1:Spanish Male:2.1Mb:Alistair Conkie
+*es2:Spanish Male:5.1Mb:TCC Communications Corp.
+es3:Spanish Female:1.9Mb:Universidad Carlos III de Madrid
+es4:Spanish Male:2.8Mb:Universidad de Valladolid
+gr1:Greek Male:1.6Mb:George Sergiadis
+*gr2:Greek Male:5.6Mb:Gerasimos Xydas
+-hb1:Hebrew Male:3.4Mb:Yoram Meron
+-hb2:Hebrew Female:5.6Mb:Esther Raizen
+-hn1:Korean Male:9.9Mb:Kyongsok Gim
+*hu1:Hungarian Female:8.9Mb:Eleonora Klein
+ic1:Icelandic Male:9.9Mb:Bj�rn Kristinsson
+*id1:Indonesian Male:4Mb:Arry Arman
+in1:Hindi Male:3.6Mb:Amin Charaniya
+in2:Hindi Female:3.7Mb:Amin Charaniya
+*ir1:Iranian Male:5Mb:Alireza Farhadi
+it1:Italian Male:5.2Mb:Claudia Citta
+it2:Italian Female:5.2Mb:Claudia Citta
+*it3:Italian Male:5.1Mb:Piero Cosi
+*it4:Italian Female:4.9Mb:ITC-irst
+jp1:Japanese Male:1.8Mb:Yoram Meron
+*jp2:Japanese Female:5.6Mb:Tomohisa Tachiki
+jp3:Japanese Female:1.7Mb:Yoram Meron
+la1:Classical Latin Male:7.6Mb:Olivier Bianchi
+lt1:Lithuanian Male:22.7Mb:Pijus Kasparaitis & Aleksas Girdenis
+lt2:Lithuanian Male:18.3Mb:Pijus Kasparaitis & Aleksas Girdenis
+ma1:Malay Female:2.9Mb:Kow Weng Onn
+*pl1:Polish Female:4.0Mb:PJWSTK
+mx1:Spanish Mexican Male:1.8Mb:Oregon Gr.Inst.Sci.Tech.
+mx2:Spanish Mexican Male:3.5Mb:Humberto Prez Espinosa
+*ro1:Romanian Male:2.9Mb:Marian Boldea
+*sw1:Swedish Male:9.3Mb:Marcus Filipsson
+*sw2:Swedish Female:5.6Mb:Adina Svensson
+tl1:Telugu Female:6.9Mb:Kalpana Reddy KVK
+*tr1:Turkish Male:3.7Mb:Faculte Polytech. De Mons
+*tr2:Turkish Female:4.3Mb:Faculte Polytech. De Mons
+vz1:Venezuelan Spanish Male:2.3Mb:Manuel Rodriguez Hourcadette

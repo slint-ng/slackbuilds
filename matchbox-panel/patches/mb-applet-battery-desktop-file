@@ -1,0 +1,13 @@
+Description: Enable installation of mb-applet-battery.desktop
+--- a/applets/dotdesktop/Makefile.am
++++ b/applets/dotdesktop/Makefile.am
+@@ -11,6 +11,9 @@
+ if WANT_APM
+    files += mb-applet-battery.desktop
+ endif
++if WANT_ACPI
++   files += mb-applet-battery.desktop
++endif
+ 
+ if WANT_WIFI
+    files +=  mb-applet-wireless.desktop 

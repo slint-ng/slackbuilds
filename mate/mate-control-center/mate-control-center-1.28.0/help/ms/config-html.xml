@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="cfg-html-viewer">
+  <title>Pelihat HTML</title>
+  <sect2 id="cfg-html-viewer-introduction">
+    <title>Pengenalan</title>
+    <para>Capplet Pelihat HTML membolehkan anda konfigur keutamaan untuk enjin penerapan HTML <application>GtkHTML</application>. <application>GtkHTML</application> digunakan di dalam <application>Evolution</application>, <application>Pusat Kawalan Mate</application>, dan lain-lain aplikasi Mate.</para>
+  </sect2>
+  <sect2 id="cfg-html-viewer-fonts">
+    <title>Fon-Fon HTML</title>
+    <para><application>GtkHTML</application> boleh ditetapkan untuk menggunakan fon-fon dan jenis-jenis fon berbeza bagi jenis-jenis teks yang berlainan. <variablelist>
+	<varlistentry>
+	  <term>Atas Skrin</term>
+	  <listitem>
+	    <para>Konfigur fon-fon yang digunakan pada monitor komputer anda <variablelist>
+		<varlistentry>
+		  <term>Lebar pembolehubah</term>
+		  <listitem>
+		    <para>Sebuah fon yang mana saiz aksaranya berubah mengikut perkataan di dalamnya. Sebagai contoh, aksara i mempunyai lebar lebih kecil berbanding w. Oleh itu fon-fon lebar tetap biasanya digunakan ketika lebar lajur perlu seragam di antara baris, seperti carta.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>Lebar tetap</term>
+		  <listitem>
+		    <para>Sebuah fon yang mana saiz aksaranya seragam merentasi semua aksara. Sebagai contoh, aksara i mempunyai lebar yang sama dengan w.</para>
+		  </listitem>
+		</varlistentry>
+	      </variablelist></para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Untuk percetakan</term>
+	  <listitem>
+	    <para>Konfigur fon-fon yang digunakan ketika anda mencetak sesuatu dengan pencetak anda melalui <application>GtkHTML</application>. <variablelist>
+		<varlistentry>
+		  <term>Lebar pembolehubah</term>
+		  <listitem>
+		    <para>Sebuah fon yang mana saiz aksaranya berubah mengikut perkataan di dalamnya. Sebagai contoh, aksara i mempunyai lebar lebih kecil berbanding w. Oleh itu fon-fon lebar tetap biasanya digunakan ketika lebar lajur perlu seragam di antara baris, seperti carta.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>Lebar tetap</term>
+		  <listitem>
+		    <para>Sebuah fon yang mana saiz aksaranya seragam merentasi semua aksara. Sebagai contoh, aksara i mempunyai lebar yang sama dengan w.</para>
+		  </listitem>
+		</varlistentry>
+	      </variablelist></para>
+	  </listitem>
+	</varlistentry>
+      </variablelist> Untuk mengubah fon-fon yang telah digunakan, klik pada nama fon untuk membuka <application>gfontsel</application>.  Di sini, anda boleh memilih rupa huruf anda, set ISO anda, saiz fon, dan lain-lain sifat fon.</para>
+  </sect2>
+  <sect2 id="cfg-kbd-shortcuts">
+    <title>Pintasan Papan Kekunci</title>
+    <para><application>GtkHTML</application> boleh menggunakan pengikatan kekunci yang berbeza. Pengikatan kekunci membolehkan pengguna menggunakan ketukan kekunci untuk buat perintah yang memerlukan tetikus. Ia dapat melajukan perintah-perintah pengguna seterusnya dapat mengagumkan pihak lain.</para>
+    <para><application>GtkHTML</application> melibatkan tiga tetapan pratakrif yang berlainan: <itemizedlist>
+	<listitem>
+	  <para>seakan Emacs</para>
+	</listitem>
+	<listitem>
+	  <para>seakan XEmacs</para>
+	</listitem>
+	<listitem>
+	  <para>seakan MS</para>
+	</listitem>
+      </itemizedlist> Setiapnya disertakan dengan pengikatan kekunci yang serupa dalam persekitaran masing-masing. Seorang pengguna Microsoft <application>Windows</application> mendapati lebih selesa dalam mod seakan MS. Untuk memilih satu mod praset, hanya pilih ia melalui menu tarik-turun, kemudian klik <guibutton>OK</guibutton>.</para>
+    <para>Jika tiada praset yang menepati citarasa anda, anda boleh hasilkan sendiri pengikatan kekunci suai.</para>
+  </sect2>
+  <sect2 id="cfg-misc">
+    <title>Tetapan Pelbagai</title>
+    <para>Terdapat beberapa perubahan lain yang boleh disunting supaya <application>GtkHTML</application> berfungsi seperti mana yang dikehendaki. Ia berada di dalam tab <guilabel>Pelbagai</guilabel>.</para>
+    <para>Dalam seksyen <guilabel>Kelakuan</guilabel>, anda mempunyai keutamaan berikut: <variablelist>
+	<varlistentry>
+	  <term>Tunjuk imej beranimasi</term>
+	  <listitem>
+	    <para>Sesetengah imej boleh dianimasikan. Anda boleh jadikan imej statik selain dari imej beranimasi dengan menyahtanda pada kotak tanda.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Kesan pautan secara automatik</term>
+	  <listitem>
+	    <para>Jika <application>GtkHTML</application> ketahui anda menaip satu URL, ia akan memformatkan URL tersebut sebagai pautan secara automatik.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Benarkan semakan ejaan</term>
+	  <listitem>
+	    <para>Ketika menaip di dalam <application>GtkHTML</application>, anda mungkin tersilap taip. Jika anda menanda kotak tanda ini, mana-mana perkataan tersalah taip akan digarisbawahkan untuk menunjukkannya tersilap eja.</para>
+	    <variablelist>
+	      <varlistentry>
+		<term>Warna</term>
+		<listitem>
+		  <para>Tindakan ini menetapkan warna garis bawah yang digunakan ketika ada ralat ejaan.</para>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term>Bahasa</term>
+		<listitem>
+		  <para>Tetapkan bahasa yang digunakan untuk semakan ejaan.</para>
+		</listitem>
+	      </varlistentry>
+	    </variablelist>
+	  </listitem>
+	</varlistentry>
+      </variablelist></para>
+  </sect2>
+</sect1>

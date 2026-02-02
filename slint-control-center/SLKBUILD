@@ -1,0 +1,29 @@
+#Maintainer: Didier Spaier didieratslintdotfr
+
+pkgname=slint-control-center
+pkgver=15.0
+pkgrel=2slint
+arch=noarch
+options=('noautodotnew' 'nosrcpack')
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"slint-control-center (Slint Control Center)"
+"This package provides a default structure /etc/skel/.qcontrolcenter,"
+"fed with categories and .desktop files to set the default Slint"
+"Control Center, powered by the qControlCenter application, shipped in"
+"Slint. This default structure will be copied as ~/.qcontrolcenter upon"
+"each user account creation. The user can then customize it as at will."
+)
+build() {
+	cd ..
+	cd $pkgname || exit 
+	mkdir -p $startdir/pkg/etc
+	cp -r etc/skel $startdir/pkg/etc/
+	cp -r etc/profile.d $startdir/pkg/etc/
+	chmod -R 755 $startdir/pkg/etc/profile.d
+	chown -R root:root $startdir/pkg/
+	mkdir -p $PKG/usr/share/applications
+	cp $startdir/qcontrolcenter.desktop $PKG/usr/share/applications/  || exit 1
+}

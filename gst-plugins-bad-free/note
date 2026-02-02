@@ -1,0 +1,47 @@
+gst-plugins-bad-free doesn't build anymore on -current.
+
+Code:
+
+/usr/include/string.h:156:32: note:   initializing argument 1 of 'int strcmp(const char*, const char*)'
+  156 | extern int strcmp (const char *__s1, const char *__s2)
+      |                    ~~~~~~~~~~~~^~~~
+/usr/include/glib-2.0/glib/ghash.h:165:60: error: invalid conversion from 'const void*' to 'const char*' [-fpermissive]
+  165 | #define g_str_equal(v1, v2) (strcmp ((gconstpointer) (v1), (gconstpointer) (v2)) == 0)
+      |                                                            ^~~~~~~~~~~~~~~~~~~~
+      |                                                            |
+      |                                                            const void*
+../sys/decklink/gstdecklinkaudiosrc.cpp:371:11: note: in expansion of macro 'g_str_equal'
+  371 |       if (g_str_equal (format, "S16LE")) {
+      |           ^~~~~~~~~~~
+/usr/include/string.h:156:50: note:   initializing argument 2 of 'int strcmp(const char*, const char*)'
+  156 | extern int strcmp (const char *__s1, const char *__s2)
+      |                                      ~~~~~~~~~~~~^~~~
+[557/1111] Compiling C object sys/ipcpipeline/libgstipcpipeline.so.p/gstipcpipelinecomm.c.o
+ninja: build stopped: subcommand failed.
+
+A small modification in the SlackBuild solves the problem:
+
+Code:
+
+elif [ "$ARCH" = "s390" ]; then
+  SLKCFLAGS="-O2"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "x86_64" ]; then
+  SLKCFLAGS="-O2 -fPIC -fpermissive" **********************ajout de -fpermissive
+  LIBDIRSUFFIX="64"
+else
+  SLKCFLAGS="-O2"
+  LIBDIRSUFFIX=""
+fi
+
+linux nobodino is offline   	Report This Post Reply With Quote Multi-Quote This Message
+  
+
+
+Reply
+
+Edit Tags
+Tags
+None
+
+Quick Reply

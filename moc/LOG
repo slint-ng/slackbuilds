@@ -1,0 +1,15 @@
+-----------------------------------------------------------------------
+MOC will be compiled with:
+
+Decoder plugins:   aac ffmpeg flac modplug mp3 musepack sidplay2
+                   sndfile speex vorbis wavpack
+Sound Drivers:     OSS ALSA JACK
+DEBUG:             yes
+RCC:               no
+Network streams:   yes
+Resampling:        yes
+MIME magic:        yes
+-----------------------------------------------------------------------
+
+WARNING: MOC will soon require librcc version 0.2.10 or later;
+         plan to upgrade your RCC library soon.

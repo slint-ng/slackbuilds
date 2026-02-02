@@ -1,0 +1,18 @@
+libmanette 0.2.6
+
+  Demos and tests
+    Demos        : True
+    Build tests  : True
+    Install tests: False
+
+  Documentation and introspection
+    Documentation: False
+    Introspection: True
+    Vala bindings: True
+
+  Optional dependencies
+    gudev        : False
+
+  Directories
+    prefix       : /usr
+    libexecdir   : /usr/libexec

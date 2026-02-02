@@ -1,0 +1,19 @@
+(16:15:32) Le sujet de #aerc-dev est : aerc development chat - https://aerc-mail.org - end-user support available in #aerc
+(16:15:32) Topic for #aerc-dev set by ddevault!znc@sourcehut/staff/ddevault at 19:50:39 on 14/07/2019
+(16:16:02) Didier_Spaier: howdy,
+(16:18:13) Didier_Spaier: Last time I checked a few months ago, aerc was not very accessible with speech using a console screen reader like espeakup, speechd-up or fenrir. Did that change?
+(16:18:29) ddevault: the UI hasn't changed much
+(16:18:39) ddevault: but I think with some changes from the defaults you could get something fairly usable
+(16:27:38) Didier_Spaier: Which changes? I am ready to test as I would like to ship aerc in Slint, which is an accessible distribution cf. https://slint.fr. We have alpine and mutt among others, but mutt is frightening for newcomers, esp. if used to Thunderbird or such.
+(16:28:24) ddevault: I would recommend setting ui.sidebar-width to 0
+(16:28:43) ddevault: and considering if you want to set a different ui.index-format or ui.dirlist-format from the defaults
+(16:28:48) ddevault: see man aerc-config
+(16:29:12) ddevault: and I think the account configuration UI is probably going to be difficult to use with a screen reader, I would recommend writing accounts.conf by hand in a text editor (it's just an ini file)
+(16:31:09) ddevault: I can think of a few improvements which would require some minimal coding work to complete, let me know if you want to be walked through writing some patches
+(16:34:32) Didier_Spaier: Yes, though I be not really a coder, rather a systems' integrator, so some guidance is welcome. Meanwhile  I will play with the settings you suggested and post a request for testing on our mailing list https://www.freelists.org/list/slint
+(16:34:58) ddevault: anyone can write Go, it's the easiest programming language to learn
+(16:36:10) ddevault: I would reckon that adding %C to ui.index-format, and then implementing something which allows you to specify a message to work on by typing its number instead of by selecting it visually, would be a boon
+(16:37:22) Didier_Spaier: I will try to do my best. Could you please send me hints @ didier at slint dot fr when you get the time?
+(16:37:38) ddevault: maybe if you post to the mailing list asking for tips I can reply to that
+(16:37:49) ddevault: ~sircmpwn/aerc@lists.sr.ht
+(16:38:33) Didier_Spaier: Will do, thanks.

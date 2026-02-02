@@ -1,0 +1,11 @@
+Hmm...  Looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|--- a/shell/source/unix/misc/senddoc.sh	2017-06-15 15:44:22.000000000 +0200
+|+++ b/shell/source/unix/misc/senddoc.sh	2017-06-25 01:00:08.525435930 +0200
+--------------------------
+patching file shell/source/unix/misc/senddoc.sh
+Using Plan A...
+Hunk #1 succeeded at 369 (offset -20 lines).
+Hmm...  Ignoring the trailing garbage.
+done

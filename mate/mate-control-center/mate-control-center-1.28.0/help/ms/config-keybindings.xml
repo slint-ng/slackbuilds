@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="config-keybindings">
+  <title>Pengikatan Kunci</title>
+  <para>Pengikatan kekunci membolehkan anda guna gabungan ketukan kekunci pada papan kekunci untuk bantu proses navigasi persekitaran desktop menjadi lebih pantas dan mudah. Dengan menggunakan pengikatan kekunci, anda boleh menjadikan komputer lebih pantas dan efisyen, dan rakan anda akan kagum ketika anda mengendalinya.</para>
+  <para>Pengikatan kekunci paling umum dan biasa-digunakan ialah pengikatan kekunci Save atau simpan dan Quit atau keluar: Ctrl + S dan Ctrl + Q di dalam <application>Microsoft Windows</application>.</para>
+  <para><application>Mate</application> membolehkan anda konfigur apakah pengikatan kekunci yang banyak digunakan dalam desktop anda.</para>
+  <sect2 id="config-keybindings-ui">
+    <title>Antaramuka Pengikatan Kekunci</title>
+    <para>Antaramuka pengikatan kekunci adalah ringkas. Ia mempunyai satu pilihan untuk menetapkan skema pengikatan kekunci yang akan digunakan terhadap aplikasi. Anda mempunyai dua pilihan: Lalai dan emacs.</para>
+    <para>Lalai menggunakan Control S dan lain-lain pengikatan yang biasa digunakan oleh para pengguna daripada sistem pengoperasian <application>Microsoft Windows</application>.</para>
+    <para>emacs pula ialah penyunting teks terkenal Linux dan sistem berasaskan Unix. emacs menggunakan pengikatan kekunci berbeza dengan yang lalai. Sebagai contoh, simpan atau save ialah Control X S.</para>
+  </sect2>
+</sect1>

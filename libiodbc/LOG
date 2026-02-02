@@ -1,0 +1,23 @@
+[1miODBC Driver Manager 3.52.15 configuration summary(B[m
+==================================================
+
+[1mInstallation variables(B[m
+  layout		default
+  prefix		/usr
+  exec_prefix		${prefix}
+
+[1mInstallation paths(B[m
+  programs		${exec_prefix}/bin
+  include files		${prefix}/include
+  libraries		/usr/lib64
+  manual pages		/usr/man
+
+[1mConfiguration files(B[m
+  odbc.ini		/etc/odbc.ini
+  odbcinst.ini		/etc/odbcinst.ini
+  default FILEDSN path	/etc/ODBCDataSources
+
+[1mExtensions(B[m
+  ODBC Version		3
+  GUI Extensions	false
+  ThreadSafe		true

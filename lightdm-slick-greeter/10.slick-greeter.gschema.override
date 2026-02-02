@@ -1,0 +1,6 @@
+[x.dm.slick-greeter]
+background="/usr/share/backgrounds/slint/santorini-greece.jpg"
+theme-name="Qogir-dark"
+icon-theme-name="Papirus-dark"
+font-name="Clear sans 11"
+cursor-theme-name="Adwaita"

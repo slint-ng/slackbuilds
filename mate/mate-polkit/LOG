@@ -1,0 +1,24 @@
+    polkit-mate 1.28.0
+    ==================
+
+    prefix ...................: /usr
+    libdir ...................: /usr/lib64
+    libexecdir ...............: ${exec_prefix}/libexec
+    bindir ...................: ${exec_prefix}/bin
+    sbindir ..................: ${exec_prefix}/sbin
+    datadir ..................: ${datarootdir}
+    sysconfdir ...............: /etc
+    localstatedir ............: /var
+
+    compiler .................: gcc
+    cflags ...................: -O2 -fPIC
+    cppflags .................: 
+    Warning flags ............: -Wall -Wmissing-prototypes
+
+    Accountsservice ..........: yes
+
+    AppIndicator enabled:              yes
+    Ayatana AppIndicator (preferred)   no
+    Ubuntu AppIndicator (legacy)       yes
+
+    Maintainer mode ..........: yes

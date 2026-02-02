@@ -1,0 +1,40 @@
+#Packager:Didier Spaier didieratslintdotfr
+
+
+pkgname=mtg
+pkgver=0.1.1
+pkgrel=1slint
+export commit=7bdb60d
+#arch=noarch
+source=()
+docs=("LICENSE")
+url=https://github.com/RastislavKish/mtg
+#dotnew=()
+#CFLAGS=
+#CXXFLAGS=
+options=('nosrcpack')
+
+#doinst() {
+#
+#}
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (A utility for toggling the monitor state on Linux)"
+"Author: Rastislav Kish rastislavdotkishatprotonmail.com"
+"Repository: https://github.com/RastislavKish/mtg"
+)
+
+
+build() {
+	git clone https://github.com/RastislavKish/mtg.git
+	cd mtg
+	git checkout $commit
+	cargo build --release
+	mkdir -p $PKG/usr/bin
+	cp target/release/mtg $PKG/usr/bin/|| exit 1
+	mkdir -p $PKG/usr/doc/${pkgname}-$pkgver
+	pandoc -f gfm -t html5 \
+	-o $PKG/usr/doc/${pkgname}-$pkgver/README.html README.md
+} 

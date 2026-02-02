@@ -1,0 +1,12 @@
+                   Light Display Manager 1.32.0
+                    ===========================
+
+        prefix:                   /usr
+        Greeter session:          lightdm-gtk-greeter
+        Greeter user:             gdm
+        User session:             default
+        GObject introspection:    yes
+        Vala bindings:            yes
+        liblightdm-qt5:           no
+        libaudit support:         no
+        Enable tests:             no

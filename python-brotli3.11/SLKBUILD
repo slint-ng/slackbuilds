@@ -1,0 +1,40 @@
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+# Maintainer: Levente Polyak <anthraxx[at]archlinux[dot]org>
+# Contributor: Lex Black <autumn-wind at web dot de>
+# Contributor: TingPing <tingping@tingping.se>
+# Contributor: Guillaume Horel <guillaume.horel@gmail.com>
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgbase=brotli
+export pkgbase
+pkgname=python-brotli3.11
+_gitcommit=ed738e842d2fbdf2d6459e39267a633c4a9b2f5d
+pkgver=1.0.9
+pkgrel=1slint
+slackdesc="$pkgname (python bindings for the brotli algorithm)"
+url='https://github.com/google/brotli'
+arch=('x86_64')
+license=('MIT')
+makedepends=(
+  git
+  cmake
+  python-setuptools
+  python-build
+  python-installer
+  python-wheel
+)
+source=("${pkgbase}-${pkgver}.tar.gz")
+sha512sums=('SKIP')
+docs=('LICENSE')
+options=("nosrcpack")
+build() {
+  cd ${pkgbase}-${pkgver}
+  python3.11 -m build --wheel --no-isolation
+  cmake -S . -B build \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DBUILD_SHARED_LIBS=True \
+    -DCMAKE_C_FLAGS="$CFLAGS -ffat-lto-objects"
+  cmake --build build -v
+  python3.11 -m installer --destdir="$PKG" dist/*.whl
+}

@@ -1,0 +1,1 @@
+Include update-grub in next package (and maybe grubconfig) and remove the package grub-extras

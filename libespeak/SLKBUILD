@@ -1,0 +1,32 @@
+# Maintainer: SanskritFritz (gmail)
+# Contributor: Alexander F Rødseth <xyproto@archlinux.org>
+# Contributor: Mateusz Herych <heniekk@gmail.com>
+# Contributor: Christoph Siegenthaler <csi@gmx.ch>
+#Included in Slint by Didier Spaier dideratslintdotfr
+
+pkgname=libespeak
+export srcnam=espeak
+pkgver=1.48.04
+pkgrel=1slint
+slackdesc='libespeak (shared library of the espeak speech synthesizer)'
+url='http://espeak.sourceforge.net/'
+license=('GPL')
+depends=('portaudio' 'libpulse')
+options=('nosrcpack')
+source=("https://downloads.sourceforge.net/$srcnam/$srcnam-$pkgver-source.zip")
+sha256sums=('bf9a17673adffcc28ff7ea18764f06136547e97bbd9edf2ec612f09b207f0659')
+docs=("license.txt")
+
+build() {
+  cd "$srcnam-$pkgver-source/src"
+  cp portaudio19.h portaudio.h
+  make CXXFLAGS="$CXXFLAGS -w -std=c++98" AUDIO=runtime
+#  make CXXFLAGS="$CXXFLAGS -w -std=c++98"
+  make DESTDIR="$PKG" install
+  cd $PKG/usr
+  rm -r bin share
+  mv lib lib64
+  rm lib64/libespeak.a
+}
+
+# vim:set ts=2 sw=2 et:

@@ -1,0 +1,16 @@
+the following optional plugins will be compiled:
+  glib:                      yes
+  dbus:                      yes
+  annotate:                  yes
+  svg:                       yes
+  inotify:                   yes
+  fuse:                      yes
+  matecompat:                yes
+
+and the following optional features will be used:
+  XI2 events:                yes
+  gtk:                       yes (3.0)
+  marco:                     no
+  marco >=1.22.2 support:    no
+  gwd gsettings support:     yes
+  desktop menu entries:      yes

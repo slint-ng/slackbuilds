@@ -1,0 +1,115 @@
+# Vietnamese translation for emacspeak-ss.
+# Copyright © 2010 Free Software Foundation, Inc.
+# Clytie Siddall <clytie@riverland.net.au>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: emacspeak-ss\n"
+"Report-Msgid-Bugs-To: emacspeak@packages.debian.org\n"
+"POT-Creation-Date: 2008-12-09 07:29+0100\n"
+"PO-Revision-Date: 2010-04-05 18:28+0930\n"
+"Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
+"Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: LocFactoryEditor 1.8\n"
+
+#. Type: select
+#. Description
+#: ../templates:3001
+msgid "Default speech server:"
+msgstr "Máy phục vụ giọng nói mặc định:"
+
+#. Type: select
+#. Description
+#: ../templates:3001
+msgid "The /etc/emacspeak.conf file will be configured so that the command '/usr/bin/emacspeak' will start Emacs with emacspeak support using this server."
+msgstr "Tập tin « /etc/emacspeak.conf » sẽ được cấu hình để mà lệnh « /usr/bin/emacspeak » khởi chạy Emacs với hỗ trợ emacspeak dùng máy phục vụ này."
+
+#. Type: select
+#. Description
+#: ../templates:3001
+msgid "You may change the selection later by running 'dpkg-reconfigure emacspeak' as root, or temporarily override the selection by setting the environment variable DTK_PROGRAM."
+msgstr "Bạn cũng có thể sửa đổi thiết lập về sau bằng cách chạy câu lệnh cấu hình lại « dpkg-reconfigure emacspeak » dưới người chủ, hoặc tạm thời có quyền cao hơn lựa chọn bằng cách lập biến môi trường « DTK_PROGRAM »."
+
+#. Type: string
+#. Description
+#: ../templates:4001
+msgid "Hardware port of the speech generation device:"
+msgstr "Cổng phần cứng của thiết bị phát giọng nói:"
+
+#. Type: string
+#. Description
+#: ../templates:4001
+msgid "If a hardware device is used to generate speech, please enter the Unix device file associated with it, such as '/dev/ttyS0' or '/dev/ttyUSB0'."
+msgstr "Nếu một thiết bị phần cứng được dùng để phát giọng nói, hãy nhập tập tin thiết bị UNIX tương ứng, v.d. « /dev/ttyS0 » hay « /dev/ttyUSB0 »."
+
+#. Type: string
+#. Description
+#. Translators, please do not translate "none"
+#: ../templates:4001
+msgid "If you use a software method to generate speech, please enter 'none'."
+msgstr "Nếu bạn sử dụng một phương pháp phần mềm để phát giọng nói thì gõ « none » (không có)."
+
+#. Type: error
+#. Description
+#: ../templates:5001
+msgid "${port} is not a character special device"
+msgstr "${port} không phải là một thiết bị đặc biệt ký tự"
+
+#. Type: string
+#. Description
+#: ../templates:6001
+msgid "Users of speech server:"
+msgstr "Người dùng máy phục vụ giọng nói:"
+
+#. Type: string
+#. Description
+#: ../templates:6001
+msgid "Users must be members of group ${group} to access the speech server connected to ${port}. Please review the space-separated list of current members of that group, and add or remove usernames if needed."
+msgstr "Người dùng phải thuộc về nhóm ${group} để có quyền truy cập đến máy phục vụ giọng nói được kết nối đến cổng ${port}. Hãy xem lại danh sách định giới bằng dấu cách chứa các bộ phạn hiện thời của nhóm đó, và thêm hoặc gỡ bỏ tên người dùng như thích hợp."
+
+#. Type: string
+#. Description
+#: ../templates:6001
+msgid "If you later add users to the system, you can either reconfigure the emacspeak package afterwards, or enroll the user in ${group} with 'adduser ${group} <user>'."
+msgstr "Một khi thêm người dùng nào vào hệ thống về sau, bạn nên cấu hình lại gói emacspeak, hoặc thêm người dùng đó vào nhóm ${group} dùng câu lệnh « adduser ${group} tên_người_dùng »."
+
+#. Type: string
+#. Description
+#: ../templates:6001
+msgid "Group membership is checked at login time, so new members must log out and log in again before using the speech server."
+msgstr "Tình trạng về nhóm được kiểm tra vào lúc đăng nhập, do đó người mới thêm vào nhóm cũng phải đăng xuất và đăng nhập lại trước khi sử dụng máy phục vụ giọng nói."
+
+#. Type: error
+#. Description
+#: ../templates:7001
+msgid "Invalid username ${user}"
+msgstr "Tên người dùng sai ${user}"
+
+#. Type: error
+#. Description
+#: ../templates:7001
+msgid "There is no user named ${user}, so no such user could be added to ${group}."
+msgstr "Không có người dùng tên ${user} thì không thể thêm vào ${group} người dùng như vậy."
+
+#. Type: error
+#. Description
+#: ../templates:8001
+msgid "${port} non-writable by unprivileged users"
+msgstr "${port} không cho phép ghi nếu người dùng không có quyền đặc biệt"
+
+#. Type: error
+#. Description
+#: ../templates:8001
+msgid "Since the speech device is connected to ${port}, unprivileged users must have read/write access to that device."
+msgstr "Vì thiết bị giọng nói được kết nối đến cổng ${port}, người dùng không có quyền đặc biệt cần phải được cấp quyền đọc/ghi đối với thiết bị đó."
+
+#. Type: error
+#. Description
+#: ../templates:8001
+msgid "You should modify the device permissions with 'chmod a+rw ${port}' or modify the device group with 'chown root:dialout ${port}', then reconfigure emacspeak with 'dpkg-reconfigure emacspeak'."
+msgstr "Bạn nên sửa đổi quyền hạn về thiết bị dùng câu lệnh « chmod a+rw ${port} » hoặc sửa đổi nhóm thiết bị dùng « chown root:dialout ${port} », sau đó cấu hình lại gói emacspeak dùng « dpkg-reconfigure emacspeak »."
+

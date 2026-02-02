@@ -1,0 +1,68 @@
+#Packager: George Vlahavas <vlahavas~at~gmail~dot~com>
+
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=slapt-get
+pkgver=0.11.11
+pkgrel=3slint
+source=(
+	"${pkgname}-${pkgver}.tar.gz"
+	"slapt-get-spkg.diff"
+	"wrapper_for_upgradepkg.diff"
+	"remove_not_allowed.diff"
+	"no_remove_in_man_pages.diff"
+	"wrapupgradepkg"
+	"wrapinstallpkg"
+	"README.slaptgetrc.Slint"
+	"slapt-getrc"
+	)
+url=http://software.jaos.org/
+dotnew=(etc/slapt-get/slapt-getrc)
+options=("nosrcpack")
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"slapt-get (an apt like system for Slackware package management)"
+"slapt-get allows one to search slackware and compatible repositories"
+"for packages, compare them with installed packages, install new"
+"packages or upgrade installed packages all with a few simple commands."
+"* See /usr/doc/slapt-get-$pkgver/ for complete documentation."
+"* Support:"
+"  http://software.jaos.org/cgi-bin/mailman/listinfo/slapt-get-user"
+"* Please translate:"
+"  http://software.jaos.org/git/slapt-get/tree/po"
+"  then send to slapt-get-devel@software.jaos.org"
+)
+
+build() {
+	cd ${pkgname}-${pkgver}
+	patch -p1 --verbose < ../remove_not_allowed.diff || exit  1
+	patch -p1 --verbose < ../no_remove_in_man_pages.diff || exit 1
+	patch -p1 --verbose < ../slapt-get-spkg.diff || exit 1
+	mkdir build
+	cd build
+	meson .. \
+    --mandir=/usr/man \
+    --prefix=/usr \
+    --sysconfdir=/etc
+     ninja
+  DESTDIR=$PKG ninja install
+	cd ..
+
+	cp $SRC/slapt-getrc $PKG/etc/slapt-get || exit 1
+	chown root:root $PKG/etc/slapt-get/slapt-getrc
+	mkdir -p $PKG/sbin
+	cp $SRC/wrapupgradepkg $PKG/sbin || exit 1
+	cp $SRC/wrapinstallpkg $PKG/sbin || exit 1
+	chmod 755 $PKG/sbin/wrapupgradepkg
+	chmod 755 $PKG/sbin/wrapinstallpkg
+	mv $PKG/usr/share/doc /$PKG/usr
+
+	# Don't ship the example- and default- slapt-get, to avoid confusing
+	# Slint users
+	rm $PKG/usr/doc/${pkgname}-$pkgver/{default*,example*}
+
+	mkdir -p $PKG/usr/doc/${pkgname}-${pkgver}
+	cp $SRC/README.slaptgetrc.Slint $PKG/usr/doc/${pkgname}-${pkgver} || exit 1
+	chown root:root $PKG/usr/doc/${pkgname}-${pkgver}/README.slaptgetrc.Slint
+}

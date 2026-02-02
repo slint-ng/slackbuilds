@@ -1,0 +1,5 @@
+3.54.5 - 2025-10-18
+-------------------
+
+* Backport: GLib 2.86/GioUnix compatibility :mr:`461`
+

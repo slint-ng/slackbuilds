@@ -1,0 +1,13 @@
+Index: emacspeak-ss/ping-apollo.c
+===================================================================
+--- emacspeak-ss.orig/ping-apollo.c	1998-12-07 01:57:06.000000000 +0100
++++ emacspeak-ss/ping-apollo.c	2012-11-30 15:46:51.394257750 +0100
+@@ -9,6 +9,8 @@
+ #include <sys/time.h>
+ #include <unistd.h>
+ #include <linux/serial.h>
++#include <stdlib.h>
++#include <string.h>
+ 
+ #define DEFAULT_DEVICE "/dev/ttyS0"
+ #define MAXCHARS 128

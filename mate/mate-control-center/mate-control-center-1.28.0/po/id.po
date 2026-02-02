@@ -1,0 +1,5182 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR MATE Desktop Environment team
+# This file is distributed under the same license as the mate-control-center package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+# Translators:
+# airinuxazis <azis.naufal@gmail.com>, 2018
+# se7entime <se7entime@disroot.org>, 2018
+# Febrian Setianto (Feber) <febrian.setianto@gmail.com>, 2018
+# Arif Budiman <arifpedia@gmail.com>, 2018
+# Martin Wimpress <code@flexion.org>, 2018
+# Ibnu Daru Aji, 2018
+# zk, 2018
+# Kukuh Syafaat <syafaatkukuh@gmail.com>, 2018
+# Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>, 2019
+# La Ode Muh. Fadlun Akbar <fadlun.net@gmail.com>, 2019
+# hpiece 8 <hpiece8@gmail.com>, 2020
+# Willy Sudiarto Raharjo <willysr@slackware-id.org>, 2023
+# Muhammad Herdiansyah <herdiansyah@openmailbox.org>, 2023
+# Stefano Karapetsas <stefano@karapetsas.com>, 2023
+# Andika Triwidada <andika@gmail.com>, 2023
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: mate-control-center 1.27.0\n"
+"Report-Msgid-Bugs-To: http://www.mate-desktop.org/\n"
+"POT-Creation-Date: 2024-02-22 17:40+0000\n"
+"PO-Revision-Date: 2018-03-11 10:35+0000\n"
+"Last-Translator: Andika Triwidada <andika@gmail.com>, 2023\n"
+"Language-Team: Indonesian (https://app.transifex.com/mate/teams/13566/id/)\n"
+"Language: id\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: org.mate.control-center.gschema.xml.in:5
+#, fuzzy
+msgid ""
+"[ 'Change Theme;mate-appearance-properties.desktop', 'Set Preferred "
+"Applications;mate-default-applications-properties.desktop', 'Mate System "
+"Info;mate-system-info.desktop' ]"
+msgstr ""
+"[ 'Ganti Tema;mate-appearance-properties.desktop', 'Tentukan Aplikasi "
+"Pilihan;mate-default-applications-properties.desktop' ]"
+
+#: org.mate.control-center.gschema.xml.in:6
+msgid "Task names and associated .desktop files"
+msgstr "Nama tugas dan berkas .dekstop terkait"
+
+#: org.mate.control-center.gschema.xml.in:7
+msgid ""
+"The task name to be displayed in the control-center followed by a \";\" "
+"separator then the filename of an associated .desktop file to launch for "
+"that task."
+msgstr ""
+"Nama tugas yang akan ditampilkan dalam pusat-kontrol yang diikuti dengan "
+"pemisah \";\"  kemudian berkas .desktop yang berkaitan untuk memulai tugas."
+
+#: org.mate.control-center.gschema.xml.in:11
+msgid "Close the control-center when a task is activated"
+msgstr "Tutup pusat kendali ketika sebuah tugas diaktifkan"
+
+#: org.mate.control-center.gschema.xml.in:12
+msgid ""
+"if true, the control-center will close when a \"Common Task\" is activated."
+msgstr ""
+"Jika berisi true, control-center akan menutup ketika \"Task Umum\" "
+"diaktifkan."
+
+#: org.mate.control-center.gschema.xml.in:16
+msgid "Exit shell on start action performed"
+msgstr "Keluar shell ketika aksi start telah dilangsungkan"
+
+#: org.mate.control-center.gschema.xml.in:17
+msgid "Indicates whether to close the shell when a start action is performed."
+msgstr ""
+"Menunjukkan apakah akan menutup tempurung bila tindakan mulai dilakukan."
+
+#: org.mate.control-center.gschema.xml.in:21
+msgid "Exit shell on help action performed"
+msgstr "Keluar shell ketika aksi bantuan telah dilangsungkan"
+
+#: org.mate.control-center.gschema.xml.in:22
+msgid "Indicates whether to close the shell when a help action is performed."
+msgstr ""
+"Mengindikasikan apakah akan menutup shell ketika sebuah aksi bantuan "
+"dijalankan."
+
+#: org.mate.control-center.gschema.xml.in:26
+msgid "Exit shell on add or remove action performed"
+msgstr "Keluar shell ketika aksi tambah atau hapus telah dilangsungkan"
+
+#: org.mate.control-center.gschema.xml.in:27
+msgid ""
+"Indicates whether to close the shell when an add or remove action is "
+"performed."
+msgstr ""
+"Mengindikasikan apakah akan menutup shell ketika aksi tambah atau hapus "
+"dijalankan."
+
+#: org.mate.control-center.gschema.xml.in:31
+msgid "Exit shell on upgrade or uninstall action performed"
+msgstr "Keluar shell ketika aksi peningkatan atau pencopotan telah dilakukan"
+
+#: org.mate.control-center.gschema.xml.in:32
+msgid ""
+"Indicates whether to close the shell when an upgrade or uninstall action is "
+"performed."
+msgstr ""
+"Mengindikasikan apakah akan menutup shell ketika sebuah aksi upgrade atau "
+"uninstall dijalankan."
+
+#: org.mate.control-center.gschema.xml.in:38
+msgid "More backgrounds URL"
+msgstr "URL latar belakang lain"
+
+#: org.mate.control-center.gschema.xml.in:39
+msgid ""
+"URL for where to get more desktop backgrounds. If set to an empty string the "
+"link will not appear."
+msgstr ""
+"URL untuk memperoleh lebih banyak latar belakang desktop. Bila dikosongkan, "
+"taut tidak akan muncul."
+
+#: org.mate.control-center.gschema.xml.in:43
+msgid "More themes URL"
+msgstr "URL tema lain"
+
+#: org.mate.control-center.gschema.xml.in:44
+msgid ""
+"URL for where to get more desktop themes. If set to an empty string the link "
+"will not appear."
+msgstr ""
+"URL untuk memperoleh lebih banyak tema desktop. Bila dikosongkan, taut tidak "
+"akan muncul."
+
+#: org.mate.control-center.keybinding.gschema.xml.in:5
+msgid "Keybinding"
+msgstr "Keybinding"
+
+#: org.mate.control-center.keybinding.gschema.xml.in:6
+msgid "Keybinding associated with a custom shortcut."
+msgstr "Keybinding diasosiasikan dengan jalan pintas ubahan"
+
+#: org.mate.control-center.keybinding.gschema.xml.in:10
+msgid "Command"
+msgstr "Perintah"
+
+#: org.mate.control-center.keybinding.gschema.xml.in:11
+msgid "Command associated with a custom keybinding."
+msgstr "Perintah yang diasosiasikan dengan keybinding ubahan"
+
+#: org.mate.control-center.keybinding.gschema.xml.in:15
+#: font-viewer/font-view.c:202
+msgid "Name"
+msgstr "Nama"
+
+#: org.mate.control-center.keybinding.gschema.xml.in:16
+msgid "Description associated with a custom keybinding."
+msgstr "Deskripsi yang diasosiasikan dengan keybinding ubahan."
+
+#: capplets/about-me/mate-about-me.c:293
+msgid "Select Image"
+msgstr "Pilih Gambar"
+
+#: capplets/about-me/mate-about-me.c:296
+msgid "No Image"
+msgstr "Tanpa Gambar"
+
+#: capplets/about-me/mate-about-me.c:324
+#: capplets/appearance/appearance-desktop.c:647
+msgid "Images"
+msgstr "Citra"
+
+#: capplets/about-me/mate-about-me.c:328
+#: capplets/appearance/theme-installer.c:839
+msgid "All Files"
+msgstr "Semua Berkas"
+
+#: capplets/about-me/mate-about-me.c:501
+#, c-format
+msgid "About %s"
+msgstr "Tentang %s"
+
+#: capplets/about-me/mate-about-me-dialog.ui:39
+#: capplets/about-me/mate-about-me.desktop.in:3
+msgid "About Me"
+msgstr "Tentang Saya"
+
+#: capplets/about-me/mate-about-me-dialog.ui:54
+#: capplets/about-me/mate-about-me-password.ui:54
+#: capplets/accessibility/at-properties/at-enable-dialog.ui:119
+#: capplets/appearance/data/appearance.ui:101
+#: capplets/appearance/data/appearance.ui:1255
+#: capplets/appearance/data/appearance.ui:2109
+#: capplets/default-applications/mate-default-applications-properties.ui:55
+#: capplets/display/display-capplet.ui:106
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:140
+#: capplets/mouse/mate-mouse-properties.ui:140
+#: capplets/windows/window-properties.ui:83
+#: capplets/time-admin/src/time-admin.ui:386
+#: capplets/time-admin/src/time-zone.c:481
+msgid "_Close"
+msgstr "_Tutup"
+
+#: capplets/about-me/mate-about-me-dialog.ui:100
+msgid "Select your photo"
+msgstr "Pilih foto Anda"
+
+#: capplets/about-me/mate-about-me-dialog.ui:116
+msgid "Full Name"
+msgstr "Nama Lengkap"
+
+#: capplets/about-me/mate-about-me-dialog.ui:147
+msgid "User name:"
+msgstr "Nama pengguna:"
+
+#: capplets/about-me/mate-about-me-dialog.ui:176
+msgid "Change Passwo_rd..."
+msgstr "Ganti Sand_i..."
+
+#: capplets/about-me/mate-about-me-dialog.ui:190
+msgid "Enable _Fingerprint Login..."
+msgstr "_Fungsikan Login Sidik Jari..."
+
+#: capplets/about-me/mate-about-me-dialog.ui:203
+msgid "Disable _Fingerprint Login..."
+msgstr "Matikan Login _Sidik Jari..."
+
+#: capplets/about-me/mate-about-me.desktop.in:4
+msgid "Set your personal information"
+msgstr "Masukkan informasi pribadi Anda"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: capplets/about-me/mate-about-me.desktop.in:13
+msgid "mate-control-center;MATE;personal;information;"
+msgstr "mate-control-center;MATE;pribadi;informasi;"
+
+#: capplets/about-me/mate-about-me-fingerprint.c:123
+msgid ""
+"You are not allowed to access the device. Contact your system administrator."
+msgstr ""
+"Anda tidak diijinkan mengakses perangkat. Hubungi administrator sistem Anda."
+
+#: capplets/about-me/mate-about-me-fingerprint.c:125
+msgid "The device is already in use."
+msgstr "Perangkat telah dipakai."
+
+#: capplets/about-me/mate-about-me-fingerprint.c:127
+msgid "An internal error occurred"
+msgstr "Terjadi kesalahan internal"
+
+#: capplets/about-me/mate-about-me-fingerprint.c:270
+msgid "Delete registered fingerprints?"
+msgstr "Hapus sidik jari yang telah terdaftar?"
+
+#: capplets/about-me/mate-about-me-fingerprint.c:273
+msgid "_Delete Fingerprints"
+msgstr "Hapus Si_dik Jari"
+
+#: capplets/about-me/mate-about-me-fingerprint.c:280
+msgid ""
+"Do you want to delete your registered fingerprints so fingerprint login is "
+"disabled?"
+msgstr ""
+"Apakah Anda ingin menghapus sidik jari yang telah terdaftar sehingga login "
+"memakai sidik jari dimatikan?"
+
+#: capplets/about-me/mate-about-me-fingerprint.c:445
+#: capplets/about-me/mate-about-me-fingerprint.ui:344
+msgid "Done!"
+msgstr "Selesai!"
+
+#: capplets/about-me/mate-about-me-fingerprint.c:520
+#: capplets/about-me/mate-about-me-fingerprint.c:565
+#, c-format
+msgid "Could not access '%s' device"
+msgstr "Tidak dapat mengakses perangkat '%s'"
+
+#: capplets/about-me/mate-about-me-fingerprint.c:626
+#, c-format
+msgid "Could not start finger capture on '%s' device"
+msgstr "Tidak dapat memulai penangkapan sidik jari pada perangkat '%s'"
+
+#: capplets/about-me/mate-about-me-fingerprint.c:696
+msgid "Could not access any fingerprint readers"
+msgstr "Tidak dapat mengakses sebarang pembaca sidik jari"
+
+#: capplets/about-me/mate-about-me-fingerprint.c:697
+msgid "Please contact your system administrator for help."
+msgstr "Silahkan hubungi administrator sistem Anda untuk bantuan."
+
+#: capplets/about-me/mate-about-me-fingerprint.c:761
+#: capplets/about-me/mate-about-me-fingerprint.ui:66
+msgid "Enable Fingerprint Login"
+msgstr "Fungsikan Login Sidik Jari"
+
+#: capplets/about-me/mate-about-me-fingerprint.c:798
+#, c-format
+msgid ""
+"To enable fingerprint login, you need to save one of your fingerprints, "
+"using the '%s' device."
+msgstr ""
+"Untuk memfungsikan login sidik jari, anda perlu menyimpan sidik jari Anda, "
+"memakai perangkat '%s'."
+
+#: capplets/about-me/mate-about-me-fingerprint.c:807
+msgid "Swipe finger on reader"
+msgstr "Gesekkan jari ke pembaca"
+
+#: capplets/about-me/mate-about-me-fingerprint.c:809
+msgid "Place finger on reader"
+msgstr "Letakkan jari pada pembaca"
+
+#: capplets/about-me/mate-about-me-fingerprint.ui:38
+msgid "Left thumb"
+msgstr "Jempol kiri"
+
+#: capplets/about-me/mate-about-me-fingerprint.ui:41
+msgid "Left middle finger"
+msgstr "Jari tengah kiri"
+
+#: capplets/about-me/mate-about-me-fingerprint.ui:44
+msgid "Left ring finger"
+msgstr "Jari manis kiri"
+
+#: capplets/about-me/mate-about-me-fingerprint.ui:47
+msgid "Left little finger"
+msgstr "Kelingking kiri"
+
+#: capplets/about-me/mate-about-me-fingerprint.ui:50
+msgid "Right thumb"
+msgstr "Jempol kanan"
+
+#: capplets/about-me/mate-about-me-fingerprint.ui:53
+msgid "Right middle finger"
+msgstr "Jari tengah kanan"
+
+#: capplets/about-me/mate-about-me-fingerprint.ui:56
+msgid "Right ring finger"
+msgstr "Jari manis kanan"
+
+#: capplets/about-me/mate-about-me-fingerprint.ui:59
+msgid "Right little finger"
+msgstr "Kelingking kanan"
+
+#: capplets/about-me/mate-about-me-fingerprint.ui:125
+msgid "Right index finger"
+msgstr "Telunjuk kanan"
+
+#: capplets/about-me/mate-about-me-fingerprint.ui:142
+msgid "Left index finger"
+msgstr "Telunjuk kiri"
+
+#: capplets/about-me/mate-about-me-fingerprint.ui:163
+msgid "Other finger: "
+msgstr "Jari lain: "
+
+#: capplets/about-me/mate-about-me-fingerprint.ui:214
+msgid "Select finger"
+msgstr "Pilih jari"
+
+#: capplets/about-me/mate-about-me-fingerprint.ui:339
+msgid ""
+"Your fingerprint was successfully saved. You should now be able to log in "
+"using your fingerprint reader."
+msgstr ""
+"Sidik jari Anda telah berhasil disimpan. Anda sekarang dapat masuk memakai "
+"pembaca sidik jari Anda."
+
+#: capplets/about-me/mate-about-me-password.c:166
+msgid "Child exited unexpectedly"
+msgstr "Anak keluar tak terduga"
+
+#: capplets/about-me/mate-about-me-password.c:296
+#, c-format
+msgid "Could not shutdown backend_stdin IO channel: %s"
+msgstr "Tidak bisa mematikan backend_stdin IO channel: %s"
+
+#: capplets/about-me/mate-about-me-password.c:309
+#, c-format
+msgid "Could not shutdown backend_stdout IO channel: %s"
+msgstr "Tidak bisa mematikan backend_stdout IO channel: %s"
+
+#: capplets/about-me/mate-about-me-password.c:322
+#, c-format
+msgid "Could not shutdown backend_stderr IO channel: %s"
+msgstr "Tidak bisa mematikan backend_stderr IO channel: %s"
+
+#: capplets/about-me/mate-about-me-password.c:428
+msgid "Authenticated!"
+msgstr "Terotentikasi!"
+
+#: capplets/about-me/mate-about-me-password.c:491
+#: capplets/about-me/mate-about-me-password.c:579
+msgid ""
+"Your password has been changed since you initially authenticated! Please re-"
+"authenticate."
+msgstr ""
+"Kata sandi Anda telah diganti karena Anda telah terotentikasi! Silahkan "
+"otentikasi ulang."
+
+#: capplets/about-me/mate-about-me-password.c:493
+msgid "That password was incorrect."
+msgstr "Kata sandinya salah."
+
+#: capplets/about-me/mate-about-me-password.c:547
+msgid "Your password has been changed."
+msgstr "Kata sandi Anda telah diganti."
+
+#: capplets/about-me/mate-about-me-password.c:557
+#, c-format
+msgid "System error: %s."
+msgstr "Galat sistem: %s."
+
+#: capplets/about-me/mate-about-me-password.c:560
+msgid "The password is too short."
+msgstr "Sandinya terlalu singkat."
+
+#: capplets/about-me/mate-about-me-password.c:564
+msgid "The password is too simple."
+msgstr "Sandinya terlalu sederhana."
+
+#: capplets/about-me/mate-about-me-password.c:569
+msgid "The old and new passwords are too similar."
+msgstr "Sandi lama dan barunya terlalu mirip."
+
+#: capplets/about-me/mate-about-me-password.c:571
+msgid "The new password must contain numeric or special character(s)."
+msgstr "Harus berisi angka atau karakter istimewa."
+
+#: capplets/about-me/mate-about-me-password.c:574
+msgid "The old and new passwords are the same."
+msgstr "Sandi lama dan baru sama."
+
+#: capplets/about-me/mate-about-me-password.c:576
+msgid "The new password has already been used recently."
+msgstr "Sandi baru telah pernah dipakai baru-baru ini."
+
+#: capplets/about-me/mate-about-me-password.c:862
+#, c-format
+msgid "Unable to launch %s: %s"
+msgstr "Gagal meluncurkan %s: %s"
+
+#: capplets/about-me/mate-about-me-password.c:866
+msgid "Unable to launch backend"
+msgstr "Tak bisa meluncurkan backend"
+
+#: capplets/about-me/mate-about-me-password.c:867
+msgid "A system error has occurred"
+msgstr "Ada kesalahan pada sistem"
+
+#: capplets/about-me/mate-about-me-password.c:887
+msgid "Checking password..."
+msgstr "Memeriksa sandi..."
+
+#: capplets/about-me/mate-about-me-password.c:971
+msgid "Click <b>Change password</b> to change your password."
+msgstr "Klik <b>Ganti sandi</b> untuk mengganti kata sandi."
+
+#: capplets/about-me/mate-about-me-password.c:974
+msgid "Please type your password in the <b>New password</b> field."
+msgstr "Silakan tik sandinya pada ruas <b>Kata sandi baru</b>."
+
+#: capplets/about-me/mate-about-me-password.c:977
+#: capplets/about-me/mate-about-me-password.ui:348
+msgid ""
+"Please type your password again in the <b>Retype new password</b> field."
+msgstr "Silakantik lagi kata sandinya pada ruas <b>Tik ulang kata sandi</b>."
+
+#: capplets/about-me/mate-about-me-password.c:980
+msgid "The two passwords are not equal."
+msgstr "Kedua kata sandi tidak sama."
+
+#: capplets/about-me/mate-about-me-password.ui:38
+msgid "Change password"
+msgstr "Ganti sandi"
+
+#: capplets/about-me/mate-about-me-password.ui:70
+msgid "Change pa_ssword"
+msgstr "Ganti _sandi"
+
+#: capplets/about-me/mate-about-me-password.ui:124
+msgid "Change your password"
+msgstr "Ubah kata sandi Anda"
+
+#: capplets/about-me/mate-about-me-password.ui:142
+msgid ""
+"To change your password, enter your current password in the field below and "
+"click <b>Authenticate</b>.\n"
+"After you have authenticated, enter your new password, retype it for "
+"verification and click <b>Change password</b>."
+msgstr ""
+"Untuk mengganti kata sandi Anda, masukkan kata sandi sekarang di bawah dan "
+"klik <b>Otentikasi<b>.\n"
+"Setelah Anda terotentikasi, masukkan kata sandi baru, ketik lagi untuk "
+"memastikan dan klik <b>Ganti kata sandi</b>."
+
+#: capplets/about-me/mate-about-me-password.ui:171
+msgid "Current _password:"
+msgstr "Sandi _sekarang:"
+
+#: capplets/about-me/mate-about-me-password.ui:187
+msgid "_New password:"
+msgstr "Sa_ndi baru:"
+
+#: capplets/about-me/mate-about-me-password.ui:203
+msgid "_Retype new password:"
+msgstr "Silakan _tik ulang sandinya:"
+
+#: capplets/about-me/mate-about-me-password.ui:276
+msgid "_Authenticate"
+msgstr "Otentik_asi"
+
+#: capplets/accessibility/at-properties/at-enable-dialog.ui:70
+msgid "Assistive Technologies Preferences"
+msgstr "Preferensi Teknologi Pemandu"
+
+#: capplets/accessibility/at-properties/at-enable-dialog.ui:86
+#: capplets/appearance/data/appearance.ui:1238
+#: capplets/appearance/data/appearance.ui:2091
+#: capplets/default-applications/mate-default-applications-properties.ui:38
+#: capplets/display/display-capplet.ui:58
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:123
+#: capplets/mouse/mate-mouse-properties.ui:124
+#: capplets/windows/window-properties.ui:67
+msgid "_Help"
+msgstr "_Bantuan"
+
+#: capplets/accessibility/at-properties/at-enable-dialog.ui:102
+msgid "Close and _Log Out"
+msgstr "Tutup dan Ke_luar"
+
+#: capplets/accessibility/at-properties/at-enable-dialog.ui:165
+#: capplets/accessibility/at-properties/mate-at-properties.desktop.in:3
+msgid "Assistive Technologies"
+msgstr "Teknologi Pemandu"
+
+#: capplets/accessibility/at-properties/at-enable-dialog.ui:202
+msgid "_Preferred Applications"
+msgstr "A_plikasi Kesukaan"
+
+#: capplets/accessibility/at-properties/at-enable-dialog.ui:210
+msgid "Jump to Preferred Applications dialog"
+msgstr "Lompat ke dialog Aplikasi Kesukaan"
+
+#: capplets/accessibility/at-properties/at-enable-dialog.ui:222
+msgid "_Enable assistive technologies"
+msgstr "Aktifkan t_eknologi bantuan"
+
+#: capplets/accessibility/at-properties/at-enable-dialog.ui:230
+msgid ""
+"Changes to enable assistive technologies will not take effect until your "
+"next log in."
+msgstr ""
+"Perubahan untuk mengaktifkan teknologi bantu tidak akan berefek sampai masuk "
+"berikutnya."
+
+#: capplets/accessibility/at-properties/at-enable-dialog.ui:284
+#: capplets/time-admin/src/time-admin.ui:185
+msgid "Preferences"
+msgstr "Preferensi"
+
+#: capplets/accessibility/at-properties/at-enable-dialog.ui:325
+msgid "_Keyboard Accessibility"
+msgstr "Kemudahan Papan _Ketik"
+
+#: capplets/accessibility/at-properties/at-enable-dialog.ui:333
+msgid "Jump to the Keyboard Accessibility dialog"
+msgstr "Pindah ke dialog Kemudahan Papan Ketik"
+
+#: capplets/accessibility/at-properties/at-enable-dialog.ui:346
+msgid "_Mouse Accessibility"
+msgstr "Ke_mudahan Akses Tetikus"
+
+#: capplets/accessibility/at-properties/at-enable-dialog.ui:354
+msgid "Jump to the Mouse Accessibility dialog"
+msgstr "Lompat ke dialog Kemudahan Akses Tetikus"
+
+#: capplets/accessibility/at-properties/at-enable-dialog.ui:367
+msgid "Accessible Lo_gin"
+msgstr "Mas_uk Mudah"
+
+#: capplets/accessibility/at-properties/at-enable-dialog.ui:375
+msgid "Jump to the Accessible Login dialog"
+msgstr "Pindah ke dialog Masuk Mudah"
+
+#: capplets/accessibility/at-properties/mate-at-properties.desktop.in:4
+msgid "Choose which accessibility features to enable when you log in"
+msgstr "Pilih fitur kemudahan akses yang Anda inginkan untuk aktif saat login"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: capplets/accessibility/at-properties/mate-at-properties.desktop.in:13
+msgid "mate-control-center;MATE;accessibility;features;"
+msgstr "mate-control-center;MATE;aksesibilitas;fitur;"
+
+#: capplets/appearance/appearance-desktop.c:616
+msgid "Add Wallpaper"
+msgstr "Tambahkan Gambar Dinding"
+
+#: capplets/appearance/appearance-desktop.c:651
+msgid "All files"
+msgstr "Semua berkas"
+
+#: capplets/appearance/appearance-font.c:614
+msgid "Select Font"
+msgstr "Pilih Fonta"
+
+#: capplets/appearance/appearance-font.c:617
+#: capplets/appearance/data/appearance.ui:991
+msgid "_Cancel"
+msgstr "_Batal"
+
+#: capplets/appearance/appearance-font.c:619
+#: capplets/appearance/data/appearance.ui:3539
+#: capplets/common/theme-thumbnail.c:220 capplets/common/theme-thumbnail.c:302
+msgid "_Open"
+msgstr "B_uka"
+
+#: capplets/appearance/appearance-font.c:624
+#: capplets/appearance/data/appearance.ui:3115
+msgid "Fonts"
+msgstr "Fonta"
+
+#: capplets/appearance/appearance-main.c:146
+msgid "Specify the filename of a theme to install"
+msgstr "Nyatakan nama berkas tema untuk dipasang"
+
+#: capplets/appearance/appearance-main.c:147
+msgid "filename"
+msgstr "nama berkas"
+
+#: capplets/appearance/appearance-main.c:154
+msgid "Specify the name of the page to show (theme|background|fonts|interface)"
+msgstr ""
+"Nyatakan nama halaman untuk ditampilkan (tema|gambar-latar|huruf|tampilan)"
+
+#: capplets/appearance/appearance-main.c:155
+#: capplets/default-applications/mate-da-capplet.c:782
+#: capplets/mouse/mate-mouse-properties.c:414
+msgid "page"
+msgstr "halaman"
+
+#: capplets/appearance/appearance-main.c:162
+msgid "[WALLPAPER...]"
+msgstr "[WALLPAPER...]"
+
+#: capplets/appearance/appearance-style.c:173
+#: capplets/common/mate-theme-info.c:506
+msgid "Default Pointer"
+msgstr "Penunjuk Baku"
+
+#: capplets/appearance/appearance-style.c:235
+#: capplets/appearance/appearance-themes.c:658
+#: capplets/appearance/theme-installer.c:395 font-viewer/font-view.c:298
+#: font-viewer/font-view.c:608
+msgid "Install"
+msgstr "Pasang"
+
+#: capplets/appearance/appearance-themes.c:646
+msgid "Apply Background"
+msgstr "Terapkan Gambar Latar"
+
+#: capplets/appearance/appearance-themes.c:650
+msgid "Apply Font"
+msgstr "Terapkan Fonta"
+
+#: capplets/appearance/appearance-themes.c:654
+msgid "Revert Font"
+msgstr "Kembali ke Font asal"
+
+#: capplets/appearance/appearance-themes.c:687
+msgid ""
+"The current theme suggests a background and a font. Also, the last applied "
+"font suggestion can be reverted."
+msgstr ""
+"Tema saat ini menyarankan sebuah background dan sebuah font. Juga, font "
+"terakhir yang diterapkan dapat dikembalikan ke asal."
+
+#: capplets/appearance/appearance-themes.c:689
+msgid ""
+"The current theme suggests a background. Also, the last applied font "
+"suggestion can be reverted."
+msgstr ""
+"Tema saat ini menyarankan sebuah background. Juga, font terakhir yang "
+"diterapkan dapat dikembalikan ke asal."
+
+#: capplets/appearance/appearance-themes.c:691
+msgid "The current theme suggests a background and a font."
+msgstr "Tema saat ini menganjurkan sebuah gambar latar dan sebuah fonta."
+
+#: capplets/appearance/appearance-themes.c:693
+msgid ""
+"The current theme suggests a font. Also, the last applied font suggestion "
+"can be reverted."
+msgstr ""
+"Tema saat ini menyarankan sebuah font. Juga, font terakhir yang diterapkan "
+"dapat dikembalikan ke asal."
+
+#: capplets/appearance/appearance-themes.c:695
+msgid "The current theme suggests a background."
+msgstr "Tema saat ini menganjurkan sebuah gambar latar."
+
+#: capplets/appearance/appearance-themes.c:697
+msgid "The last applied font suggestion can be reverted."
+msgstr "Font terakhir yang diterapkan dapat dikembalikan ke asal."
+
+#: capplets/appearance/appearance-themes.c:699
+msgid "The current theme suggests a font."
+msgstr "Tema saat ini menganjurkan sebuah fonta."
+
+#: capplets/appearance/appearance-themes.c:1010
+#: capplets/windows/mate-window-properties.c:248
+msgid "Custom"
+msgstr "Kustom"
+
+#: capplets/appearance/data/appearance.ui:85
+msgid "Font Rendering Details"
+msgstr "Detil Penggambaran Fonta"
+
+#: capplets/appearance/data/appearance.ui:142
+msgid "R_esolution"
+msgstr "R_esolusi"
+
+#: capplets/appearance/data/appearance.ui:165
+msgid "Dots per inch (DPI):"
+msgstr "Dot per inci (DPI):"
+
+#: capplets/appearance/data/appearance.ui:201
+msgid "This resets the font DPI to the auto-detected value from Xserver."
+msgstr "Ini mereset DPI fonta ke nilai yang terdeteksi otomatis dari Xserver."
+
+#: capplets/appearance/data/appearance.ui:202
+msgid "Automatic detection:"
+msgstr "Deteksi otomatis:"
+
+#: capplets/appearance/data/appearance.ui:246
+msgid "Smoothing"
+msgstr "Penghalusan"
+
+#: capplets/appearance/data/appearance.ui:280
+msgid "Gra_yscale"
+msgstr "Skala _abu-abu"
+
+#: capplets/appearance/data/appearance.ui:326
+msgid "Sub_pixel (LCDs)"
+msgstr "Sub_piksel (untuk LCD)"
+
+#: capplets/appearance/data/appearance.ui:372
+msgid "_None"
+msgstr "_Tidak ada"
+
+#. font hinting
+#: capplets/appearance/data/appearance.ui:452
+msgid "Hinting"
+msgstr "Hinting"
+
+#: capplets/appearance/data/appearance.ui:485
+msgid "N_one"
+msgstr "Tak Satup_un"
+
+#: capplets/appearance/data/appearance.ui:530
+msgid "_Slight"
+msgstr "_Sedikit"
+
+#: capplets/appearance/data/appearance.ui:576
+msgid "_Full"
+msgstr "_Penuh"
+
+#: capplets/appearance/data/appearance.ui:622
+msgid "_Medium"
+msgstr "_Sedang"
+
+#: capplets/appearance/data/appearance.ui:701
+msgid "Subpixel Order"
+msgstr "Urutan Subpiksel"
+
+#. pixel order red, green, blue
+#: capplets/appearance/data/appearance.ui:732
+msgid "_RGB"
+msgstr "_RGB"
+
+#. pixel order blue, green, red
+#: capplets/appearance/data/appearance.ui:771
+msgid "_BGR"
+msgstr "_BGR"
+
+#. vertical hinting, pixel order blue, green, red
+#: capplets/appearance/data/appearance.ui:811
+msgid "VB_GR"
+msgstr "VB_GR"
+
+#. vertical hinting, pixel order red, green, blue
+#: capplets/appearance/data/appearance.ui:851
+msgid "_VRGB"
+msgstr "_VRGB"
+
+#: capplets/appearance/data/appearance.ui:975
+msgid "Save Theme As..."
+msgstr "Simpan Tema Sebagai..."
+
+#: capplets/appearance/data/appearance.ui:1008
+#: capplets/appearance/data/appearance.ui:3548
+#: capplets/time-admin/src/time-admin.ui:370
+msgid "_Save"
+msgstr "_Simpan"
+
+#: capplets/appearance/data/appearance.ui:1073
+msgid "Save _background image"
+msgstr "Simpan gam_bar latar"
+
+#: capplets/appearance/data/appearance.ui:1087
+msgid "Save _notification theme"
+msgstr "Simpan tema _notifikasi"
+
+#: capplets/appearance/data/appearance.ui:1104
+#: capplets/keybindings/mate-keybinding-properties.ui:80
+msgid "_Name:"
+msgstr "_Nama:"
+
+#: capplets/appearance/data/appearance.ui:1119
+msgid "_Description:"
+msgstr "_Deskripsi:"
+
+#: capplets/appearance/data/appearance.ui:1197
+msgid "Text below items"
+msgstr "Teks di bawah objek"
+
+#: capplets/appearance/data/appearance.ui:1200
+msgid "Text beside items"
+msgstr "Teks di samping objek"
+
+#: capplets/appearance/data/appearance.ui:1203
+msgid "Icons only"
+msgstr "Hanya ikon"
+
+#: capplets/appearance/data/appearance.ui:1206
+msgid "Text only"
+msgstr "Hanya teks"
+
+#: capplets/appearance/data/appearance.ui:1219
+msgid "Customize Theme"
+msgstr "Atur Sendiri Tema"
+
+#: capplets/appearance/data/appearance.ui:1341
+#: capplets/appearance/data/appearance.ui:1711
+#: capplets/appearance/data/appearance.ui:1794
+#: capplets/appearance/data/appearance.ui:1953
+#: capplets/appearance/data/appearance.ui:2197
+msgid "_Delete"
+msgstr "Menghapus"
+
+#: capplets/appearance/data/appearance.ui:1371
+msgid "Controls"
+msgstr "Kendali"
+
+#: capplets/appearance/data/appearance.ui:1408
+msgid "The current controls theme does not support color schemes."
+msgstr "Pengatur tema saat ini tidak mendukung skema warna."
+
+#: capplets/appearance/data/appearance.ui:1464
+msgid "_Tooltips:"
+msgstr "_Tooltip:"
+
+#: capplets/appearance/data/appearance.ui:1550
+msgid "Text"
+msgstr "Teks"
+
+#: capplets/appearance/data/appearance.ui:1562
+#: capplets/appearance/data/appearance.ui:2613
+msgid "Background"
+msgstr "Latar Belakang"
+
+#: capplets/appearance/data/appearance.ui:1574
+msgid "_Selected items:"
+msgstr "Objek yang dipilih:"
+
+#: capplets/appearance/data/appearance.ui:1588
+msgid "_Input boxes:"
+msgstr "_Kotak masukan:"
+
+#: capplets/appearance/data/appearance.ui:1602
+msgid "_Windows:"
+msgstr "_Jendela:"
+
+#: capplets/appearance/data/appearance.ui:1629
+msgid "_Reset to Defaults"
+msgstr "Atur Ulang ke Standa_r"
+
+#: capplets/appearance/data/appearance.ui:1661
+msgid "Colors"
+msgstr "Warna"
+
+#: capplets/appearance/data/appearance.ui:1744
+msgid "Window Border"
+msgstr "Bingkai Jendela"
+
+#: capplets/appearance/data/appearance.ui:1827
+msgid "Icons"
+msgstr "Ikon"
+
+#: capplets/appearance/data/appearance.ui:1877
+msgid "_Size:"
+msgstr "_Ukuran:"
+
+#. small threshold
+#: capplets/appearance/data/appearance.ui:1898
+#: capplets/mouse/mate-mouse-properties.ui:680
+msgid "Small"
+msgstr "Kecil"
+
+#. large threshold
+#: capplets/appearance/data/appearance.ui:1928
+#: capplets/mouse/mate-mouse-properties.ui:717
+msgid "Large"
+msgstr "Besar"
+
+#: capplets/appearance/data/appearance.ui:1994
+msgid "Pointer"
+msgstr "Penunjuk"
+
+#: capplets/appearance/data/appearance.ui:2027
+msgid "Solid color"
+msgstr "Warna rata"
+
+#: capplets/appearance/data/appearance.ui:2030
+msgid "Horizontal gradient"
+msgstr "Gradien mendatar"
+
+#: capplets/appearance/data/appearance.ui:2033
+msgid "Vertical gradient"
+msgstr "Gradien tegak"
+
+#: capplets/appearance/data/appearance.ui:2049
+msgid "Tile"
+msgstr "Ubin"
+
+#: capplets/appearance/data/appearance.ui:2052
+msgid "Zoom"
+msgstr "Zum"
+
+#: capplets/appearance/data/appearance.ui:2055
+msgid "Center"
+msgstr "Tengah"
+
+#: capplets/appearance/data/appearance.ui:2058
+msgid "Scale"
+msgstr "Skala"
+
+#: capplets/appearance/data/appearance.ui:2061
+msgid "Stretch"
+msgstr "Regangkan"
+
+#: capplets/appearance/data/appearance.ui:2064
+msgid "Span"
+msgstr "Melingkupi"
+
+#: capplets/appearance/data/appearance.ui:2072
+msgid "Appearance Preferences"
+msgstr "Preferensi Penampilan"
+
+#: capplets/appearance/data/appearance.ui:2215
+msgid "Save _As..."
+msgstr "Simp_an Sebagai..."
+
+#: capplets/appearance/data/appearance.ui:2233
+msgid "C_ustomize..."
+msgstr "At_ur..."
+
+#: capplets/appearance/data/appearance.ui:2250
+msgid "_Install..."
+msgstr "_Pasang..."
+
+#: capplets/appearance/data/appearance.ui:2278
+msgid "Get more themes online"
+msgstr "Dapatkan lebih banyak tema daring"
+
+#: capplets/appearance/data/appearance.ui:2308
+msgid "Theme"
+msgstr "Tema"
+
+#: capplets/appearance/data/appearance.ui:2378
+msgid "_Style:"
+msgstr "_Gaya:"
+
+#: capplets/appearance/data/appearance.ui:2422
+msgid "C_olors:"
+msgstr "Warn_a:"
+
+#: capplets/appearance/data/appearance.ui:2462
+#: capplets/appearance/data/appearance.ui:2478
+msgid "Open a dialog to specify the color"
+msgstr "Buka dialog untuk memilih warna"
+
+#: capplets/appearance/data/appearance.ui:2533
+msgid "Get more backgrounds online"
+msgstr "Dapatkan lebih banyak latar belakang daring"
+
+#: capplets/appearance/data/appearance.ui:2573
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:703
+msgid "_Add..."
+msgstr "Tamb_ah..."
+
+#: capplets/appearance/data/appearance.ui:2709
+msgid "_Application font:"
+msgstr "Fonta _aplikasi:"
+
+#: capplets/appearance/data/appearance.ui:2724
+msgid "_Document font:"
+msgstr "Fonta _dokumen:"
+
+#: capplets/appearance/data/appearance.ui:2738
+msgid "Des_ktop font:"
+msgstr "Fonta des_ktop:"
+
+#: capplets/appearance/data/appearance.ui:2753
+msgid "_Window title font:"
+msgstr "Fonta judul _jendela:"
+
+#: capplets/appearance/data/appearance.ui:2768
+msgid "_Fixed width font:"
+msgstr "_Fonta lebar tetap:"
+
+#: capplets/appearance/data/appearance.ui:2808
+msgid "Add new f_ont..."
+msgstr "Tambah f_onta baru..."
+
+#: capplets/appearance/data/appearance.ui:2839
+msgid "Rendering"
+msgstr "Rendering"
+
+#: capplets/appearance/data/appearance.ui:2871
+msgid "Sub_pixel smoothing (LCDs)"
+msgstr "Penghalusan sub_piksel (untuk LCD)"
+
+#: capplets/appearance/data/appearance.ui:2917
+msgid "Best _shapes"
+msgstr "Ben_tuk terbaik"
+
+#: capplets/appearance/data/appearance.ui:2963
+msgid "_Monochrome"
+msgstr "_Monokrom"
+
+#: capplets/appearance/data/appearance.ui:3008
+msgid "Best co_ntrast"
+msgstr "Ko_ntras terbaik"
+
+#: capplets/appearance/data/appearance.ui:3085
+msgid "D_etails..."
+msgstr "D_etil..."
+
+#: capplets/appearance/data/appearance.ui:3140
+msgid "Menus and Toolbars"
+msgstr "Menu dan Toolbar"
+
+#: capplets/appearance/data/appearance.ui:3175
+msgid "Show _icons in menus"
+msgstr "Tampilkan _ikon pada menu"
+
+#: capplets/appearance/data/appearance.ui:3192
+msgid "_Editable menu shortcut keys"
+msgstr "Kunci jalan pintas m_enu"
+
+#: capplets/appearance/data/appearance.ui:3215
+msgid "Toolbar _button labels:"
+msgstr "Label tombol tool_bar:"
+
+#: capplets/appearance/data/appearance.ui:3283
+msgid "Buttons"
+msgstr "Tombol"
+
+#: capplets/appearance/data/appearance.ui:3312
+msgid "Show icons on buttons"
+msgstr "Tampilkan ikon pada tombol"
+
+#: capplets/appearance/data/appearance.ui:3316
+msgid "Whether buttons may display an icon in addition to the button text"
+msgstr "Apakah tombol dapat menampilkan ikon selain tombol teks"
+
+#: capplets/appearance/data/appearance.ui:3353
+msgid "File Chooser"
+msgstr "Pemilih Berkas"
+
+#: capplets/appearance/data/appearance.ui:3388
+msgid "Show hidden items"
+msgstr "Tampilkan butir tersembunyi"
+
+#: capplets/appearance/data/appearance.ui:3405
+msgid "Show size column"
+msgstr "Tampilkan kolom ukuran"
+
+#: capplets/appearance/data/appearance.ui:3421
+msgid "Show type column"
+msgstr "Tampilkan kolom tipe"
+
+#: capplets/appearance/data/appearance.ui:3437
+msgid "Sort directories first"
+msgstr "Urutkan direktori terlebih dahulu"
+
+#: capplets/appearance/data/appearance.ui:3483
+msgid "Preview"
+msgstr "Preview"
+
+#: capplets/appearance/data/appearance.ui:3523
+msgid "_File"
+msgstr "_Berkas"
+
+#: capplets/appearance/data/appearance.ui:3530
+msgid "_New"
+msgstr "_Baru"
+
+#: capplets/appearance/data/appearance.ui:3563
+msgid "_Print"
+msgstr "_Cetak"
+
+#: capplets/appearance/data/appearance.ui:3578
+msgid "_Quit"
+msgstr "_Keluar"
+
+#: capplets/appearance/data/appearance.ui:3593
+msgid "Edit"
+msgstr "Edit"
+
+#: capplets/appearance/data/appearance.ui:3600
+msgid "cu_T"
+msgstr "Po_tong"
+
+#: capplets/appearance/data/appearance.ui:3609
+msgid "_Copy"
+msgstr "_Salin"
+
+#: capplets/appearance/data/appearance.ui:3618
+msgid "_Paste"
+msgstr "Tem_pel"
+
+#: capplets/appearance/data/appearance.ui:3650
+msgid "New"
+msgstr "Baru"
+
+#: capplets/appearance/data/appearance.ui:3723
+msgid "Interface"
+msgstr "Antarmuka"
+
+#: capplets/appearance/data/mate-appearance-properties.desktop.in:3
+msgid "Appearance"
+msgstr "Penampilan"
+
+#: capplets/appearance/data/mate-appearance-properties.desktop.in:4
+msgid "Customize the look of the desktop"
+msgstr "Kostumisasi tampilan desktop"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: capplets/appearance/data/mate-appearance-properties.desktop.in:13
+msgid "mate-control-center;MATE;appearance;properties;desktop;customize;look;"
+msgstr "mate-control-center;MATE;penampilan;properti;desktop;sesuaikan;"
+
+#: capplets/appearance/data/mate-theme-installer.desktop.in:3
+msgid "Theme Installer"
+msgstr "Pemasang Tema"
+
+#: capplets/appearance/data/mate-theme-installer.desktop.in:4
+msgid "Installs themes packages for various parts of the desktop"
+msgstr "Pasang paket tema untuk berbagai bagian desktop"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: capplets/appearance/data/mate-theme-installer.desktop.in:14
+msgid "mate-control-center;MATE;install;desktop;themes;"
+msgstr "mate-control-center;MATE;install;pasang;desktop;tema;"
+
+#: capplets/appearance/data/mate-theme-package.xml.in:5
+msgid "Mate Theme Package"
+msgstr "Paket Tema Mate"
+
+#: capplets/appearance/mate-wp-info.c:51
+msgid "No Desktop Background"
+msgstr "Tanpa Latar Belakang Desktop"
+
+#: capplets/appearance/mate-wp-item.c:288
+msgid "unknown"
+msgstr "Tidak diketahui"
+
+#: capplets/appearance/mate-wp-item.c:295
+msgid "Slide Show"
+msgstr "Deretan Gambar"
+
+#: capplets/appearance/mate-wp-item.c:297
+msgid "Image"
+msgstr "Gambar"
+
+#: capplets/appearance/mate-wp-item.c:303
+msgid "multiple sizes"
+msgstr "ukuran berganda"
+
+#: capplets/appearance/mate-wp-item.c:306
+#, c-format
+msgid "%d %s by %d %s"
+msgstr "%d %s kali %d %s"
+
+#: capplets/appearance/mate-wp-item.c:308
+#: capplets/appearance/mate-wp-item.c:310
+msgid "pixel"
+msgid_plural "pixels"
+msgstr[0] "piksel"
+
+#: capplets/appearance/mate-wp-item.c:319
+#, c-format
+msgid ""
+"<b>%s</b>\n"
+"%s, %s\n"
+"Folder: %s\n"
+"Artist: %s"
+msgstr ""
+"<b>%s</b>\n"
+"%s, %s\n"
+"Folder: %s\n"
+"Artis: %s"
+
+#: capplets/appearance/mate-wp-item.c:334
+#, c-format
+msgid ""
+"<b>%s</b>\n"
+"%s\n"
+"Folder: %s\n"
+"Artist: %s"
+msgstr ""
+"<b>%s</b>\n"
+"%s\n"
+"Folder: %s\n"
+"Artis: %s"
+
+#: capplets/appearance/mate-wp-item.c:339
+msgid "Image missing"
+msgstr "Gambar tak ditemukan"
+
+#: capplets/appearance/theme-installer.c:190
+#: capplets/appearance/theme-installer.c:246
+msgid "Cannot install theme"
+msgstr "Tidak dapat memasang tema"
+
+#: capplets/appearance/theme-installer.c:192
+#, c-format
+msgid "The %s utility is not installed."
+msgstr "Utilitas %s belum terpasang."
+
+#: capplets/appearance/theme-installer.c:248
+msgid "There was a problem while extracting the theme."
+msgstr "Ada masalah saat mengekstrak tema."
+
+#: capplets/appearance/theme-installer.c:278
+msgid "There was an error installing the selected file"
+msgstr "Ada kesalahan dalam memasang berkas yang dipilih"
+
+#: capplets/appearance/theme-installer.c:279
+#, c-format
+msgid "\"%s\" does not appear to be a valid theme."
+msgstr "\"%s\" sepertinya bukan tema yang valid."
+
+#: capplets/appearance/theme-installer.c:280
+#, c-format
+msgid ""
+"\"%s\" does not appear to be a valid theme. It may be a theme engine which "
+"you need to compile."
+msgstr ""
+"\"%s\" sepertinya bukan tema yang valid. Mungkin itu sebuah mesin tema yang "
+"perlu Anda kompail."
+
+#: capplets/appearance/theme-installer.c:379
+#, c-format
+msgid "The theme \"%s\" already exists."
+msgstr "Tema \"%s\" sudah ada."
+
+#: capplets/appearance/theme-installer.c:389
+msgid "Do you want to install it again?"
+msgstr "Apakah Anda hendak memasangnya lagi?"
+
+#: capplets/appearance/theme-installer.c:392
+msgid "Cancel"
+msgstr "Batal"
+
+#: capplets/appearance/theme-installer.c:413
+#: capplets/appearance/theme-util.c:122
+msgid "Theme cannot be deleted"
+msgstr "Tema tidak bisa dihapus"
+
+#: capplets/appearance/theme-installer.c:431
+#, c-format
+msgid "Installation for theme \"%s\" failed."
+msgstr "Pemasangan tema \"%s\" gagal."
+
+#: capplets/appearance/theme-installer.c:470
+#, c-format
+msgid "The theme \"%s\" has been installed."
+msgstr "Tema \"%s\" telah terpasang."
+
+#: capplets/appearance/theme-installer.c:480
+msgid "Would you like to apply it now, or keep your current theme?"
+msgstr ""
+"Apakah Anda hendak menerapkannya sekarang, atau tetap memakai tema kini?"
+
+#: capplets/appearance/theme-installer.c:483
+msgid "Keep Current Theme"
+msgstr "Tetap Tema Kini"
+
+#: capplets/appearance/theme-installer.c:486
+msgid "Apply New Theme"
+msgstr "Terapkan Tema Baru"
+
+#: capplets/appearance/theme-installer.c:538
+#, c-format
+msgid "MATE Theme %s correctly installed"
+msgstr "Tema MATE %s terpasang dengan benar"
+
+#: capplets/appearance/theme-installer.c:616
+msgid "Failed to create temporary directory"
+msgstr "Gagal membuat direktori sementara"
+
+#: capplets/appearance/theme-installer.c:673
+msgid "New themes have been successfully installed."
+msgstr "Tema baru telah berhasil dipasang."
+
+#: capplets/appearance/theme-installer.c:718
+msgid "No theme file location specified to install"
+msgstr "Anda belum menentukan lokasi berkas tema yang hendak dipasang"
+
+#: capplets/appearance/theme-installer.c:742
+#, c-format
+msgid ""
+"Insufficient permissions to install the theme in:\n"
+"%s"
+msgstr ""
+"Hak akses tidak cukup untuk memasang tema pada:\n"
+"%s"
+
+#: capplets/appearance/theme-installer.c:820
+msgid "Select Theme"
+msgstr "Pilih Tema"
+
+#: capplets/appearance/theme-installer.c:831
+msgid "Theme Packages"
+msgstr "Paket Tema"
+
+#: capplets/appearance/theme-save.c:94
+msgid "Theme name must be present"
+msgstr "Nama tema harus ada"
+
+#: capplets/appearance/theme-save.c:157
+msgid "The theme already exists. Would you like to replace it?"
+msgstr "Tema telah ada. Anda ingin menimpanya?"
+
+#: capplets/appearance/theme-save.c:158
+#: capplets/common/file-transfer-dialog.c:436
+msgid "_Overwrite"
+msgstr "_Timpa"
+
+#: capplets/appearance/theme-util.c:71
+msgid "Would you like to delete this theme?"
+msgstr "Apakah Anda yakin hendak menghapus tema ini?"
+
+#: capplets/appearance/theme-util.c:282
+msgid "Could not install theme engine"
+msgstr "Tidak dapat memasang mesin tema"
+
+#: capplets/common/activate-settings-daemon.c:15
+msgid ""
+"Unable to start the settings manager 'mate-settings-daemon'.\n"
+"Without the MATE settings manager running, some preferences may not take "
+"effect. This could indicate a problem with DBus, or a non-MATE (e.g. KDE) "
+"settings manager may already be active and conflicting with the MATE "
+"settings manager."
+msgstr ""
+"Program pengatur 'mate-settings-daemon' tidak dapat dijalankan.\n"
+"Tanpa program ini, beberapa layanan pengaturan sistem tidak dapat dilakukan. "
+"Biasanya ini karena adanya masalah dengan DBus atau sudah ada manajer "
+"pengaturan non-MATE (misalnya dari KDE) yang sedang jalan dan menjadi "
+"konflik dengan manajer pengaturan MATE."
+
+#: capplets/common/capplet-util.c:82
+#, c-format
+msgid "There was an error displaying help: %s"
+msgstr "Terjadi error ketika menampilkan layar bantuan: %s"
+
+#: capplets/common/file-transfer-dialog.c:96
+#, c-format
+msgid "Copying file: %u of %u"
+msgstr "Menyalin berkas: %u dari %u"
+
+#: capplets/common/file-transfer-dialog.c:143
+#, c-format
+msgid "Copying '%s'"
+msgstr "Menyalin '%s'"
+
+#: capplets/common/file-transfer-dialog.c:183
+#: capplets/common/file-transfer-dialog.c:308
+msgid "Copying files"
+msgstr "Menyalin berkas"
+
+#: capplets/common/file-transfer-dialog.c:222
+msgid "Parent Window"
+msgstr "Jendela Induk"
+
+#: capplets/common/file-transfer-dialog.c:223
+msgid "Parent window of the dialog"
+msgstr "Jendela induk dari dialog"
+
+#: capplets/common/file-transfer-dialog.c:229
+msgid "From URI"
+msgstr "URI asal"
+
+#: capplets/common/file-transfer-dialog.c:230
+msgid "URI currently transferring from"
+msgstr "URI asal transfer"
+
+#: capplets/common/file-transfer-dialog.c:237
+msgid "To URI"
+msgstr "URI tujuan"
+
+#: capplets/common/file-transfer-dialog.c:238
+msgid "URI currently transferring to"
+msgstr "URI tujuan transfer"
+
+#: capplets/common/file-transfer-dialog.c:245
+msgid "Fraction completed"
+msgstr "Persentase selesai"
+
+#: capplets/common/file-transfer-dialog.c:246
+msgid "Fraction of transfer currently completed"
+msgstr "Persentase transfer yang sudah selesai"
+
+#: capplets/common/file-transfer-dialog.c:253
+msgid "Current URI index"
+msgstr "Indeks URI kini"
+
+#: capplets/common/file-transfer-dialog.c:254
+msgid "Current URI index - starts from 1"
+msgstr "Indeks URI kini - mulai dari 1"
+
+#: capplets/common/file-transfer-dialog.c:261
+msgid "Total URIs"
+msgstr "Total URI"
+
+#: capplets/common/file-transfer-dialog.c:262
+msgid "Total number of URIs"
+msgstr "Total jumlah URI"
+
+#: capplets/common/file-transfer-dialog.c:430
+#, c-format
+msgid "File '%s' already exists. Do you want to overwrite it?"
+msgstr "Berkas '%s' sudah ada. Apakah Anda ingin menimpanya?"
+
+#: capplets/common/file-transfer-dialog.c:433
+msgid "_Skip"
+msgstr "Lewati"
+
+#: capplets/common/file-transfer-dialog.c:434
+msgid "Overwrite _All"
+msgstr "Timp_a Semua"
+
+#: capplets/common/mate-theme-info.c:1606
+#, c-format
+msgid ""
+"This theme will not look as intended because the required GTK+ theme '%s' is "
+"not installed."
+msgstr ""
+"Tema ini tidak akan tampak seperti yang diinginkan karena tema GTK+ '%s' "
+"yang diperlukan tidak terpasang."
+
+#: capplets/common/mate-theme-info.c:1614
+#, c-format
+msgid ""
+"This theme will not look as intended because the required window manager "
+"theme '%s' is not installed."
+msgstr ""
+"Tema ini tidak akan tampak seperti yang diinginkan karena tema manajer "
+"jendela '%s' yang diperlukan tidak terpasang."
+
+#: capplets/common/mate-theme-info.c:1621
+#, c-format
+msgid ""
+"This theme will not look as intended because the required icon theme '%s' is "
+"not installed."
+msgstr ""
+"Tema ini tidak akan tampak seperti yang diinginkan karena tema ikon '%s' "
+"yang diperlukan tidak terpasang."
+
+#: capplets/default-applications/mate-default-applications-properties.desktop.in:3
+#: capplets/default-applications/mate-default-applications-properties.ui:23
+msgid "Preferred Applications"
+msgstr "Aplikasi Pilihan"
+
+#: capplets/default-applications/mate-default-applications-properties.desktop.in:4
+msgid "Select your default applications"
+msgstr "Silakan pilih aplikasi baku"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: capplets/default-applications/mate-default-applications-properties.desktop.in:13
+msgid "mate-control-center;MATE;default;preferred;applications;"
+msgstr "mate-control-center;MATE;default;baku;aplikasi;"
+
+#: capplets/default-applications/mate-da-capplet.c:781
+msgid "Specify the name of the page to show (internet|multimedia|system|a11y)"
+msgstr ""
+"Tentukan nama halaman yang akan ditampilkan (internet|multimedia|system|a11y)"
+
+#: capplets/default-applications/mate-da-capplet.c:789
+msgid "- MATE Default Applications"
+msgstr "- Aplikasi Baku MATE"
+
+#: capplets/default-applications/mate-default-applications-properties.ui:147
+msgid "Web Browser"
+msgstr "Peramban Web"
+
+#: capplets/default-applications/mate-default-applications-properties.ui:217
+msgid "Mail Reader"
+msgstr "Pembaca Surat"
+
+#: capplets/default-applications/mate-default-applications-properties.ui:287
+msgid "Instant Messenger"
+msgstr "Instant Messenger"
+
+#: capplets/default-applications/mate-default-applications-properties.ui:306
+msgid "Internet"
+msgstr "Internet"
+
+#: capplets/default-applications/mate-default-applications-properties.ui:376
+msgid "Image Viewer"
+msgstr "Penampil Citra"
+
+#: capplets/default-applications/mate-default-applications-properties.ui:446
+msgid "Multimedia Player"
+msgstr "Pemutar Multimedia"
+
+#: capplets/default-applications/mate-default-applications-properties.ui:516
+msgid "Video Player"
+msgstr "Pemutar Video"
+
+#: capplets/default-applications/mate-default-applications-properties.ui:538
+msgid "Multimedia"
+msgstr "Multimedia"
+
+#: capplets/default-applications/mate-default-applications-properties.ui:609
+msgid "Text Editor"
+msgstr "Penyunting Teks"
+
+#: capplets/default-applications/mate-default-applications-properties.ui:679
+msgid "Terminal Emulator"
+msgstr "Emulator Terminal"
+
+#: capplets/default-applications/mate-default-applications-properties.ui:749
+msgid "File Manager"
+msgstr "Manajer Berkas"
+
+#: capplets/default-applications/mate-default-applications-properties.ui:819
+msgid "Calculator"
+msgstr "Kalkulator"
+
+#: capplets/default-applications/mate-default-applications-properties.ui:841
+msgid "System"
+msgstr "Sistem"
+
+#: capplets/default-applications/mate-default-applications-properties.ui:912
+msgid "Document Viewer"
+msgstr "Penampil Dokumen"
+
+#: capplets/default-applications/mate-default-applications-properties.ui:982
+msgid "Word Processor"
+msgstr "Pengolah Kata"
+
+#: capplets/default-applications/mate-default-applications-properties.ui:1052
+msgid "Spreadsheet Editor"
+msgstr "Penyunting Lembar Kerja"
+
+#: capplets/default-applications/mate-default-applications-properties.ui:1074
+msgid "Office"
+msgstr "Kantor"
+
+#: capplets/default-applications/mate-default-applications-properties.ui:1133
+msgid "_Run at start"
+msgstr "_Jalankan pada saat mulai"
+
+#: capplets/default-applications/mate-default-applications-properties.ui:1161
+msgid "Visual"
+msgstr "Visual"
+
+#: capplets/default-applications/mate-default-applications-properties.ui:1219
+msgid "Run at st_art"
+msgstr "Jalankan saat st_art"
+
+#: capplets/default-applications/mate-default-applications-properties.ui:1247
+msgid "Mobility"
+msgstr "Mobilitas"
+
+#: capplets/default-applications/mate-default-applications-properties.ui:1269
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1562
+msgid "Accessibility"
+msgstr "Kemudahan"
+
+#: capplets/display/display-capplet.ui:22 capplets/display/xrandr-capplet.c:310
+#: capplets/display/xrandr-capplet.c:349
+msgid "Normal"
+msgstr "Normal"
+
+#: capplets/display/display-capplet.ui:25 capplets/display/xrandr-capplet.c:311
+#: capplets/windows/window-properties.ui:616
+msgid "Left"
+msgstr "Kiri"
+
+#: capplets/display/display-capplet.ui:28 capplets/display/xrandr-capplet.c:312
+#: capplets/windows/window-properties.ui:615
+msgid "Right"
+msgstr "Kanan"
+
+#: capplets/display/display-capplet.ui:31
+msgid "Upside-down"
+msgstr "Terjungkir"
+
+#: capplets/display/display-capplet.ui:43
+msgid "Monitor Preferences"
+msgstr "Preferensi Monitor"
+
+#: capplets/display/display-capplet.ui:75
+msgid "Apply system-wide"
+msgstr "Berlakukan pada semua siste"
+
+#: capplets/display/display-capplet.ui:79
+msgid ""
+"Applies the current configuration for other MATE users on the computer. Note "
+"that this doesn't affect login screens or other desktop environments."
+msgstr ""
+"Gunakan konfigurasi saat ini untuk semua pengguna MATE pada komputer. "
+"Perhatikan bahwa hal ini tidak mempengaruhi layar login atau lingkungan "
+"desktop yang lain."
+
+#: capplets/display/display-capplet.ui:90
+msgid "_Apply"
+msgstr "Ter_apkan"
+
+#: capplets/display/display-capplet.ui:162
+msgid "Sa_me image in all monitors"
+msgstr "Citra yang sa_ma di semua monitor"
+
+#: capplets/display/display-capplet.ui:177
+msgid "_Detect monitors"
+msgstr "_Deteksi monitor"
+
+#: capplets/display/display-capplet.ui:220
+msgid "_Resolution:"
+msgstr "_Resolution:"
+
+#: capplets/display/display-capplet.ui:234
+msgid "Re_fresh rate:"
+msgstr "Laju penyega_ran:"
+
+#: capplets/display/display-capplet.ui:271
+msgid "On"
+msgstr "Hidup"
+
+#: capplets/display/display-capplet.ui:287
+msgid "Off"
+msgstr "Mati"
+
+#: capplets/display/display-capplet.ui:326
+msgid "Include _panel"
+msgstr "Sertakan _panel"
+
+#: capplets/display/display-capplet.ui:352
+msgid "Set as primary"
+msgstr "Tentukan sebagai utama"
+
+#: capplets/display/display-capplet.ui:357
+msgid "Sets the selected monitor as primary."
+msgstr "Tentukan monitor yang terpilih sebagai utama."
+
+#: capplets/display/display-capplet.ui:369
+msgid "R_otation:"
+msgstr "R_otasi:"
+
+#: capplets/display/display-capplet.ui:388
+#: capplets/display/xrandr-capplet.c:648
+msgid "Monitor"
+msgstr "Monitor"
+
+#: capplets/display/display-capplet.ui:426
+msgid "Panel icon"
+msgstr "Ikon panel"
+
+#: capplets/display/display-capplet.ui:445
+msgid "_Show monitors in panel"
+msgstr "_Perlihatkan monitor di panel"
+
+#: capplets/display/display-capplet.ui:477
+msgid "Scaling"
+msgstr "Atur Skala"
+
+#: capplets/display/mate-display-properties.desktop.in:3
+msgid "Displays"
+msgstr "Tampilan"
+
+#: capplets/display/mate-display-properties.desktop.in:4
+msgid "Change resolution and position of monitors and projectors"
+msgstr "Ubah resolusi dan posisi monitor dan proyektor"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: capplets/display/mate-display-properties.desktop.in:13
+msgid ""
+"mate-control-center;MATE;resolution;position;monitors;display;properties;"
+msgstr "mate-control-center;MATE;resolusi;posisi;monitor;tampilan;properti;"
+
+#: capplets/display/mate-display-properties-install-systemwide.c:46
+#, c-format
+msgid ""
+"Usage: %s SOURCE_FILE DEST_NAME\n"
+"\n"
+"This program installs a RANDR profile for multi-monitor setups into\n"
+"a systemwide location.  The resulting profile will get used when\n"
+"the RANDR plug-in gets run in mate-settings-daemon.\n"
+"\n"
+"SOURCE_FILE - a full pathname, typically /home/username/.config/monitors."
+"xml\n"
+"\n"
+"DEST_NAME - relative name for the installed file.  This will get put in\n"
+"            the systemwide directory for RANDR configurations,\n"
+"            so the result will typically be %s/DEST_NAME\n"
+msgstr ""
+"Cara pakai: %s BERKAS_SUMBER NAMA_TUJUAN\n"
+"\n"
+"Program ini memasang suatu profil RANDR bagi tatanan monitor berganda\n"
+"ke suatu lokasi sistem-lebar. Profil hasil akan dipakai ketika plug-in\n"
+"RANDR dijalankan di mate-settings-daemon.\n"
+"\n"
+"BERKAS_SUMBER - suatu nama path lengkap, biasanya /home/namapengguna/.config/"
+"monitors.xml\n"
+"\n"
+"NAMA_TUJUAN - nama relatif bagi berkas yang dipasang. Ini akan diletakkan\n"
+"              ke suatu direktori sistem lebar bagi konfigurasi RANDR, \n"
+"              sehingga hasilnya biasanya %s/NAMA_TUJUAN\n"
+
+#. Translators: only able to install RANDR profiles as root
+#: capplets/display/mate-display-properties-install-systemwide.c:155
+msgid "This program can only be used by the root user"
+msgstr "Program ini hanya bisa dipakai oleh pengguna root"
+
+#: capplets/display/mate-display-properties-install-systemwide.c:172
+msgid "The source filename must be absolute"
+msgstr "Nama berkas sumber mesti absolut"
+
+#. Translators: first %s is a filename; second %s is an error message
+#: capplets/display/mate-display-properties-install-systemwide.c:183
+#, c-format
+msgid "Could not open %s: %s\n"
+msgstr "Tidak bisa membuka %s: %s\n"
+
+#. Translators: first %s is a filename; second %s is an error message
+#: capplets/display/mate-display-properties-install-systemwide.c:192
+#, c-format
+msgid "Could not get information for %s: %s\n"
+msgstr "Tidak bisa mendapatkan informasi bagi %s: %s\n"
+
+#: capplets/display/mate-display-properties-install-systemwide.c:199
+#, c-format
+msgid "%s must be a regular file\n"
+msgstr "%s mesti berupa berkas biasa\n"
+
+#: capplets/display/mate-display-properties-install-systemwide.c:208
+msgid "This program must only be run through pkexec(1)"
+msgstr "Program ini hanya boleh dijalankan melalui pkexec(1)"
+
+#: capplets/display/mate-display-properties-install-systemwide.c:213
+msgid "PKEXEC_UID must be set to an integer value"
+msgstr "PKEXEC_UID mesti ditata ke suatu nilai bulat"
+
+#. Translators: we are complaining that a file must be really owned by the user who called this program
+#: capplets/display/mate-display-properties-install-systemwide.c:219
+#, c-format
+msgid "%s must be owned by you\n"
+msgstr "%s mesti milik Anda\n"
+
+#. Translators: here we are saying that a plain filename must look like "filename", not like "some_dir/filename"
+#: capplets/display/mate-display-properties-install-systemwide.c:227
+#, c-format
+msgid "%s must not have any directory components\n"
+msgstr "%s tak boleh memiliki sebarang komponen direktori\n"
+
+#: capplets/display/mate-display-properties-install-systemwide.c:235
+#, c-format
+msgid "%s must be a directory\n"
+msgstr "%s mesti merupakan direktori\n"
+
+#. Translators: the first %s/%s is a directory/filename; the last %s is an error message
+#: capplets/display/mate-display-properties-install-systemwide.c:246
+#, c-format
+msgid "Could not open %s/%s: %s\n"
+msgstr "Tak bisa membuka %s/%s: %s\n"
+
+#: capplets/display/mate-display-properties-install-systemwide.c:266
+#, c-format
+msgid "Could not rename %s to %s: %s\n"
+msgstr "Tak bisa mengubah nama %s menjadi %s: %s\n"
+
+#: capplets/display/org.mate.randr.policy.in:17
+msgid "Install multi-monitor settings for the whole system"
+msgstr "Pasang tatanan monitor berganda bagi seluruh sistem"
+
+#: capplets/display/org.mate.randr.policy.in:18
+msgid ""
+"Authentication is required to install multi-monitor settings for all users"
+msgstr ""
+"Perlu otentikasi untuk memasang tatanan monitor berganda bagi semua pengguna"
+
+#: capplets/display/xrandr-capplet.c:313
+msgid "Upside Down"
+msgstr "Terjungkir"
+
+#: capplets/display/xrandr-capplet.c:355
+#, c-format
+msgid "%d Hz"
+msgstr "%d Hz"
+
+#: capplets/display/xrandr-capplet.c:553
+msgid "auto detect"
+msgstr "deteksi otomatis"
+
+#: capplets/display/xrandr-capplet.c:553
+msgid "100%"
+msgstr "100%"
+
+#: capplets/display/xrandr-capplet.c:553
+msgid "200%"
+msgstr "200%"
+
+#. Translators:  this is the feature where what you see on your laptop's
+#. * screen is the same as your external monitor.  Here, "Mirror" is being
+#. * used as an adjective, not as a verb.  For example, the Spanish
+#. * translation could be "Pantallas en Espejo", *not* "Espejar Pantallas".
+#.
+#: capplets/display/xrandr-capplet.c:637 capplets/display/xrandr-capplet.c:1709
+msgid "Mirror Screens"
+msgstr "Layar Kembar"
+
+#: capplets/display/xrandr-capplet.c:639
+#, c-format
+msgid "Monitor: %s"
+msgstr "Monitor: %s"
+
+#: capplets/display/xrandr-capplet.c:705
+#, c-format
+msgid "%u x %u"
+msgstr "%u x %u"
+
+#: capplets/display/xrandr-capplet.c:1565
+msgid ""
+"Select a monitor to change its properties; drag it to rearrange its "
+"placement."
+msgstr ""
+"Pilih suatu monitor untuk mengubah propertinya; seret dia untuk menata ulang "
+"penempatannya."
+
+#: capplets/display/xrandr-capplet.c:2162
+msgid "Could not save the monitor configuration"
+msgstr "Tidak dapat menyimpan konfigurasi monitor"
+
+#: capplets/display/xrandr-capplet.c:2183
+msgid "Could not get session bus while applying display configuration"
+msgstr "Tidak dapat mendapatkan bus sesi saat menerapkan konfigurasi tampilan"
+
+#: capplets/display/xrandr-capplet.c:2202
+msgid "Could not detect displays"
+msgstr "Tidak dapat mendeteksi tampilan"
+
+#: capplets/display/xrandr-capplet.c:2384
+msgid "The monitor configuration has been saved"
+msgstr "Konfigurasi monitor telah disimpan"
+
+#: capplets/display/xrandr-capplet.c:2386
+msgid "This configuration will be used the next time someone logs in."
+msgstr ""
+"Konfigurasi ini akan dipakai ketika seseorang log masuk di saat mendatang."
+
+#: capplets/display/xrandr-capplet.c:2395
+msgid "Could not set the default configuration for monitors"
+msgstr "Tidak dapat menata konfigurasi baku untuk monitor"
+
+#: capplets/display/xrandr-capplet.c:2466
+msgid "Could not get screen information"
+msgstr "Tidak mendapatkan informasi layar"
+
+#: capplets/display/xrandr-capplet.c:2585
+msgid "Could not open help content"
+msgstr "Tidak bisa membuka isi bantuan"
+
+#: capplets/keybindings/00-multimedia-key.xml.in:2
+msgid "Sound"
+msgstr "Suara"
+
+#: capplets/keybindings/00-multimedia-key.xml.in:4
+msgid "Volume mute"
+msgstr "Volume bisu"
+
+#: capplets/keybindings/00-multimedia-key.xml.in:6
+msgid "Volume down"
+msgstr "Kecilkan suara"
+
+#: capplets/keybindings/00-multimedia-key.xml.in:8
+msgid "Volume up"
+msgstr "Besarkan suara"
+
+#: capplets/keybindings/00-multimedia-key.xml.in:10
+msgid "Volume mute quietly"
+msgstr "Volume bisu diam-diam"
+
+#: capplets/keybindings/00-multimedia-key.xml.in:12
+msgid "Volume down quietly"
+msgstr "Volume turun diam-diam"
+
+#: capplets/keybindings/00-multimedia-key.xml.in:14
+msgid "Volume up quietly"
+msgstr "Volume naik diam-diam"
+
+#: capplets/keybindings/00-multimedia-key.xml.in:16
+msgid "Microphone mute"
+msgstr "Mikrofon bisu"
+
+#: capplets/keybindings/00-multimedia-key.xml.in:18
+msgid "Launch media player"
+msgstr "Luncurkan pemutar media"
+
+#: capplets/keybindings/00-multimedia-key.xml.in:20
+msgid "Play (or play/pause)"
+msgstr "Putar (atau putar/istirahat)"
+
+#: capplets/keybindings/00-multimedia-key.xml.in:22
+msgid "Pause playback"
+msgstr "Jeda memutar"
+
+#: capplets/keybindings/00-multimedia-key.xml.in:24
+msgid "Stop playback"
+msgstr "Berhenti memutar"
+
+#: capplets/keybindings/00-multimedia-key.xml.in:26
+msgid "Previous track"
+msgstr "Trek sebelumnya"
+
+#: capplets/keybindings/00-multimedia-key.xml.in:28
+msgid "Next track"
+msgstr "Trek selanjutnya"
+
+#: capplets/keybindings/00-multimedia-key.xml.in:30
+msgid "Eject"
+msgstr "Keluarkan Media"
+
+#: capplets/keybindings/01-desktop-key.xml.in:2 shell/bookmark-agent.c:1173
+msgid "Desktop"
+msgstr "Desktop"
+
+#: capplets/keybindings/01-desktop-key.xml.in:4
+msgid "Launch help browser"
+msgstr "Tampilkan layar bantuan"
+
+#: capplets/keybindings/01-desktop-key.xml.in:6
+msgid "Launch calculator"
+msgstr "Luncurkan kalkulator"
+
+#: capplets/keybindings/01-desktop-key.xml.in:8
+msgid "Launch email client"
+msgstr "Luncurkan klien surel"
+
+#: capplets/keybindings/01-desktop-key.xml.in:10
+msgid "Launch instant messenger"
+msgstr "Luncurkan perpesanan instan"
+
+#: capplets/keybindings/01-desktop-key.xml.in:12
+msgid "Launch web browser"
+msgstr "Tampilkan perambah web"
+
+#: capplets/keybindings/01-desktop-key.xml.in:14
+msgid "Log out"
+msgstr "Keluar"
+
+#: capplets/keybindings/01-desktop-key.xml.in:16
+msgid "Shut down"
+msgstr "Matikan"
+
+#: capplets/keybindings/01-desktop-key.xml.in:18
+msgid "Lock screen"
+msgstr "Kunci layar"
+
+#: capplets/keybindings/01-desktop-key.xml.in:20
+msgid "Home folder"
+msgstr "Folder rumah"
+
+#: capplets/keybindings/01-desktop-key.xml.in:22 font-viewer/font-view.c:882
+#: shell/bookmark-agent.c:1212
+msgid "Search"
+msgstr "Pencarian"
+
+#: capplets/keybindings/01-desktop-key.xml.in:24
+msgid "Launch settings"
+msgstr "Pengaturan peluncuran"
+
+#: capplets/keybindings/eggcellrendererkeys.c:12
+msgid "New shortcut..."
+msgstr "Cara singkat baru"
+
+#: capplets/keybindings/eggcellrendererkeys.c:147
+#: capplets/keybindings/eggcellrendererkeys.c:148
+msgid "Accelerator key"
+msgstr "Tombol akselerator"
+
+#: capplets/keybindings/eggcellrendererkeys.c:157
+#: capplets/keybindings/eggcellrendererkeys.c:158
+msgid "Accelerator modifiers"
+msgstr "Pengait akselerator"
+
+#: capplets/keybindings/eggcellrendererkeys.c:166
+#: capplets/keybindings/eggcellrendererkeys.c:167
+msgid "Accelerator keycode"
+msgstr "Kode tombol akselerator"
+
+#: capplets/keybindings/eggcellrendererkeys.c:177
+msgid "Accel Mode"
+msgstr "Moda Akselerator"
+
+#: capplets/keybindings/eggcellrendererkeys.c:178
+msgid "The type of accelerator."
+msgstr "Jenis akselerator."
+
+#: capplets/keybindings/eggcellrendererkeys.c:220
+#: capplets/keybindings/mate-keybinding-properties.c:117
+#: capplets/mouse/mate-mouse-properties.c:356
+msgid "Disabled"
+msgstr "Tidak aktif"
+
+#: capplets/keybindings/mate-keybinding-properties.c:199
+msgid "<Unknown Action>"
+msgstr "<Tindakan Tidak Diketahui>"
+
+#: capplets/keybindings/mate-keybinding-properties.c:1015
+#: capplets/keybindings/mate-keybinding-properties.c:1622
+msgid "Custom Shortcuts"
+msgstr "Tombol Pintas Gubahan"
+
+#: capplets/keybindings/mate-keybinding-properties.c:1203
+msgid "Error saving the new shortcut"
+msgstr "Kesalahan saat menyimpan tombol pintas baru"
+
+#: capplets/keybindings/mate-keybinding-properties.c:1279
+#, c-format
+msgid ""
+"The shortcut \"%s\" cannot be used because it will become impossible to type "
+"using this key.\n"
+"Please try with a key such as Control, Alt or Shift at the same time."
+msgstr ""
+"Tombol pintas itu \"%s\" tidak dapat digunakan karena tidak mungkin mengetik "
+"menggunakan tombol ini.\n"
+"Silakan coba dengan rangkaian tombol seperti Control, Alt atau Shift secara "
+"bersamaan."
+
+#: capplets/keybindings/mate-keybinding-properties.c:1311
+#, c-format
+msgid ""
+"The shortcut \"%s\" is already used for\n"
+"\"%s\""
+msgstr ""
+"Tombol pintas itu \"%s\" sudah digunakan untuk\n"
+"\"%s\""
+
+#: capplets/keybindings/mate-keybinding-properties.c:1318
+#, c-format
+msgid ""
+"If you reassign the shortcut to \"%s\", the \"%s\" shortcut will be disabled."
+msgstr ""
+"Jika Anda memfungsikan ulang cara pintas untuk \"%s\", cara \"%s\"  ini akan "
+"dinonaktifkan."
+
+#: capplets/keybindings/mate-keybinding-properties.c:1323
+msgid "_Reassign"
+msgstr "Alih _Fungsikan"
+
+#: capplets/keybindings/mate-keybinding-properties.c:1577
+msgid "Too many custom shortcuts"
+msgstr "Terlalu banyak tombol pintas gubahan"
+
+#: capplets/keybindings/mate-keybinding-properties.c:1891
+msgid "Action"
+msgstr "Aksi"
+
+#: capplets/keybindings/mate-keybinding-properties.c:1913
+msgid "Shortcut"
+msgstr "Pintas"
+
+#: capplets/keybindings/mate-keybinding-properties.ui:13
+msgid "Custom Shortcut"
+msgstr "Tombol Pintas Gubahan"
+
+#: capplets/keybindings/mate-keybinding-properties.ui:108
+msgid "C_ommand:"
+msgstr "P_erintah:"
+
+#: capplets/keybindings/mate-keybinding-properties.ui:132
+msgid "_Browse applications..."
+msgstr "_Buka aplikasi..."
+
+#: capplets/keybindings/mate-keybinding-properties.ui:194
+#: capplets/keybindings/mate-keybinding.desktop.in:3
+msgid "Keyboard Shortcuts"
+msgstr "Tombol Pintas"
+
+#: capplets/keybindings/mate-keybinding-properties.ui:339
+msgid ""
+"To edit a shortcut key, double-click on the corresponding row and type a new "
+"key combination, or press backspace to clear."
+msgstr ""
+"Untuk menyunting suatu tombol pintas, klik ganda pada kolom yang sesuai dan "
+"ketikkan kombinasi tombol baru, atau tekan backspace untuk menghapus."
+
+#: capplets/keybindings/mate-keybinding.desktop.in:4
+msgid "Assign shortcut keys to commands"
+msgstr "Pasang tombol singkat untuk perintah tertentu"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: capplets/keybindings/mate-keybinding.desktop.in:13
+msgid "mate-control-center;MATE;assign;keyboard;shortcuts;keybindings;"
+msgstr ""
+"mate-control-center;MATE;tugaskan;papan ketik;pintasan;pengikatan tombol;"
+
+#: capplets/keyboard/mate-keyboard-properties.c:141
+#: capplets/keyboard/mate-keyboard-properties.c:146
+msgid ""
+"Just apply settings and quit (compatibility only; now handled by daemon)"
+msgstr ""
+"Terapkan konfigurasi dan keluar (hanya untuk kompatibilitas saja, sekarang "
+"sudah ditangani oleh program daemon sendiri)"
+
+#: capplets/keyboard/mate-keyboard-properties.c:151
+msgid "Start the page with the typing break settings showing"
+msgstr "Langsung tampilkan pengaturan istirahat mengetik"
+
+#: capplets/keyboard/mate-keyboard-properties.c:156
+msgid "Start the page with the accessibility settings showing"
+msgstr "Mulai halaman ini dengan memperlihatkan pengaturan yang terterima"
+
+#: capplets/keyboard/mate-keyboard-properties.c:161
+msgid "- MATE Keyboard Preferences"
+msgstr "- Preferensi Papan Ketik MATE"
+
+#: capplets/keyboard/mate-keyboard-properties-a11y-notifications.ui:14
+msgid "Keyboard Accessibility Audio Feedback"
+msgstr "Pantulan Audio Terkait Papan Tuts"
+
+#: capplets/keyboard/mate-keyboard-properties-a11y-notifications.ui:86
+msgid "Beep when _accessibility features are turned on or off"
+msgstr "Tit ketika fitur _aksesibilitas dinyalakan atau dimatikan"
+
+#: capplets/keyboard/mate-keyboard-properties-a11y-notifications.ui:102
+msgid "Beep when a _toggle key is pressed"
+msgstr "Tit ketika kunci _toggle ditekan"
+
+#: capplets/keyboard/mate-keyboard-properties-a11y-notifications.ui:123
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:645
+#: capplets/mouse/mate-mouse-properties.ui:277
+#: capplets/mouse/mate-mouse-properties.ui:1009
+msgid "General"
+msgstr "Umum"
+
+#: capplets/keyboard/mate-keyboard-properties-a11y-notifications.ui:152
+msgid "Beep when a _modifier key is pressed"
+msgstr "Tit ketika kunci pengubah ditekan"
+
+#: capplets/keyboard/mate-keyboard-properties-a11y-notifications.ui:173
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1054
+msgid "Sticky Keys"
+msgstr "Tombol Lengket"
+
+#: capplets/keyboard/mate-keyboard-properties-a11y-notifications.ui:201
+msgid "Show _visual feedback for the alert sound"
+msgstr "Tunjukkan umpan balik _visual untuk untuk tanda suara"
+
+#: capplets/keyboard/mate-keyboard-properties-a11y-notifications.ui:224
+msgid "Flash _window titlebar"
+msgstr "Kedipkan judul _jendela"
+
+#: capplets/keyboard/mate-keyboard-properties-a11y-notifications.ui:241
+msgid "Flash entire _screen"
+msgstr "Kedipkan _seluruh layar"
+
+#: capplets/keyboard/mate-keyboard-properties-a11y-notifications.ui:270
+msgid "Visual cues for sounds"
+msgstr "Petunjuk visual bagi suara"
+
+#: capplets/keyboard/mate-keyboard-properties-a11y-notifications.ui:298
+msgid "Beep when a key is pr_essed"
+msgstr "Tit ketika kunci dit_ekan"
+
+#: capplets/keyboard/mate-keyboard-properties-a11y-notifications.ui:314
+msgid "Beep when key is _accepted"
+msgstr "Tit ketika kunci diterim_a"
+
+#: capplets/keyboard/mate-keyboard-properties-a11y-notifications.ui:330
+msgid "Beep when key is _rejected"
+msgstr "Tit ketika kunci ditola_k"
+
+#: capplets/keyboard/mate-keyboard-properties-a11y-notifications.ui:351
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1175
+msgid "Slow Keys"
+msgstr "Tombol Lambat"
+
+#: capplets/keyboard/mate-keyboard-properties-a11y-notifications.ui:379
+msgid "Beep when a key is reje_cted"
+msgstr "Tit ketika kunci ditola_k"
+
+#: capplets/keyboard/mate-keyboard-properties-a11y-notifications.ui:400
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1356
+msgid "Bounce Keys"
+msgstr "Tombol Pantul"
+
+#: capplets/keyboard/mate-keyboard-properties-a11y-notifications.ui:429
+msgid "Beep when pressing a key while Caps_Lock is active"
+msgstr "Bunyi bip ketika menekan suatu tombol saat Caps_Lock sedang aktif"
+
+#: capplets/keyboard/mate-keyboard-properties-a11y-notifications.ui:451
+msgid "Caps Lock"
+msgstr "Caps Lock"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:106
+msgid "Keyboard Preferences"
+msgstr "Preferensi Papan Tik"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:195
+msgid "Repeat Keys"
+msgstr "Tombol Pengulangan"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:230
+msgid "Key presses _repeat when key is held down"
+msgstr "Tombol akan diulangi saat tombol te_rsebut ditekan dalam beberapa saat"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:260
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1238
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1811
+msgid "_Delay:"
+msgstr "Je_da:"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:276
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1796
+msgid "_Speed:"
+msgstr "_Speed:"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:307
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1261
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1442
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1733
+#: capplets/mouse/mate-mouse-properties.ui:827
+msgid "Short"
+msgstr "Pendek"
+
+#. slow acceleration
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:326
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:592
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1637
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1716
+#: capplets/mouse/mate-mouse-properties.ui:436
+#: capplets/mouse/mate-mouse-properties.ui:1414
+msgid "Slow"
+msgstr "Lambat"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:372
+msgid "Repeat keys speed"
+msgstr "Kecepatan pengulangan kunci"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:400
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1296
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1477
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1764
+#: capplets/mouse/mate-mouse-properties.ui:862
+msgid "Long"
+msgstr "Panjang"
+
+#. fast acceleration
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:417
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:557
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1654
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1699
+#: capplets/mouse/mate-mouse-properties.ui:468
+#: capplets/mouse/mate-mouse-properties.ui:1446
+msgid "Fast"
+msgstr "Cepat"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:475
+msgid "Cursor Blinking"
+msgstr "Kursor Berkedip"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:510
+msgid "Cursor _blinks in text fields"
+msgstr "Pendaran _kursor di area teks"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:534
+msgid "S_peed:"
+msgstr "S_peed:"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:577
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1281
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1462
+#: capplets/mouse/mate-mouse-properties.ui:703
+#: capplets/mouse/mate-mouse-properties.ui:848
+msgid "Cursor blinks speed"
+msgstr "Kecepatan kedip kursor"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:674
+msgid "List of keyboard layouts selected for usage"
+msgstr "Daftar tata letak papan tik yang dipilih untuk dipakai"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:707
+msgid "Select a keyboard layout to be added to the list"
+msgstr "Pilih suatu tata letak papan tik untuk ditambahkan ke daftar"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:720
+msgid "_Remove"
+msgstr "_Menghapus"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:724
+msgid "Remove the selected keyboard layout from the list"
+msgstr "Hapus tata letak papan tik yang dipilih dari daftar"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:751
+msgid "Move _Up"
+msgstr "Pindah ke _Atas"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:755
+msgid "Move the selected keyboard layout up in the list"
+msgstr "Pindahkan tata letak papan tik ke atas pada daftar"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:766
+msgid "Move _Down"
+msgstr "Pin_dah ke Bawah"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:770
+msgid "Move the selected keyboard layout down in the list"
+msgstr "Pindahkan tata letak papan tik ke bawah pada daftar"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:795
+msgid "_Show..."
+msgstr "_Tampilkan..."
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:799
+msgid "Print a diagram of the selected keyboard layout"
+msgstr "Cetak diagram tata letak papan tik yang dipilih"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:835
+msgid "_Separate layout for each window"
+msgstr "Tata letak terpi_sah untuk masing-masing jendela"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:851
+msgid "New windows u_se active window's layout"
+msgstr "Jendela baru _memakai tata letak jendela aktif"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:882
+msgid "Keyboard _model:"
+msgstr "_Model papan tik:"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:920
+msgid "_Options..."
+msgstr "_Opsi..."
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:925
+msgid "View and edit keyboard layout options"
+msgstr "Tilik dan sunting opsi tata letak papan tik"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:936
+msgid "Reset to De_faults"
+msgstr "Atur ulang ke Baku"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:940
+msgid ""
+"Replace the current keyboard layout settings with the\n"
+"default settings"
+msgstr ""
+"Ganti tatanan tata letak papan tik kini dengan\n"
+"tatanan baku"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:969
+msgid "Layouts"
+msgstr "Tata Letak"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1005
+msgid "_Accessibility features can be toggled with keyboard shortcuts"
+msgstr "_Fitur terkait dapat digunakan bersama cara pintas papan tuts"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1092
+msgid "_Simulate simultaneous keypresses"
+msgstr "_Simulasi penekanan tombol secara serempak"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1109
+msgid "Disa_ble sticky keys if two keys are pressed together"
+msgstr ""
+"Nona_ktifkan tombol-tombol yang sudah dibuat jika dua tombol ditekan "
+"bersamaan"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1126
+msgid "_Latch modifiers when pressed twice"
+msgstr "Tahan pengubah ketika ditekan dua ka_li"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1213
+msgid "_Only accept long keypresses"
+msgstr "_Hanya menerima tekanan tombol yang lama"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1394
+msgid "_Ignore fast duplicate keypresses"
+msgstr "_Abaikan tekanan cepat tombol yang sama"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1419
+msgid "D_elay:"
+msgstr "T_unda"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1532
+msgid "Audio _Feedback..."
+msgstr "Pantulan _Audio..."
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1585
+msgid "_Pointer can be controlled using the keypad"
+msgstr "_Kursor dapat dikendalikan menggunakan tombol anak panah"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1781
+#: capplets/mouse/mate-mouse-properties.ui:414
+#: capplets/mouse/mate-mouse-properties.ui:1392
+msgid "_Acceleration:"
+msgstr "_Acceleration:"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1859
+msgid "Mouse Keys"
+msgstr "Tombol Tetikus"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1887
+msgid "_Lock screen to enforce typing break"
+msgstr "_Kunci layar untuk menjalankan jeda pengetikan"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1891
+msgid ""
+"Lock screen after a certain duration to help prevent repetitive keyboard use "
+"injuries"
+msgstr ""
+"Kunci layar setelah durasi tertentu untuk mencegah cedera lengan akibat "
+"terlalu banyak mengetik"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1940
+msgid "_Work interval lasts:"
+msgstr "Lama _waktu kerja:"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1955
+msgid "_Break interval lasts:"
+msgstr "Je_da istirahat:"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:1987
+msgid "Duration of work before forcing a break"
+msgstr "Lama bekerja sebelum memaksa istirahat dilakukan"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:2001
+msgid "Duration of the break when typing is disallowed"
+msgstr "Lama istirahat saat papan tik dimatikan"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:2029
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:2042
+msgid "minutes"
+msgstr "menit"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:2073
+msgid "All_ow postponing of breaks"
+msgstr "B_olehkan penundaan istirahat"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:2077
+msgid "Check if breaks are allowed to be postponed"
+msgstr "Beri tanda centang bila ingin memperbolehkan penundaan istirahat"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:2125
+msgid "Typing Break"
+msgstr "Istirahat Mengetik"
+
+#: capplets/keyboard/mate-keyboard-properties-dialog.ui:2148
+msgid "_Type to test settings:"
+msgstr "_Tikkan sesuatu untuk mencoba:"
+
+#: capplets/keyboard/mate-keyboard-properties-layout-chooser.ui:15
+msgid "Choose a Layout"
+msgstr "Choose a Layout"
+
+#: capplets/keyboard/mate-keyboard-properties-layout-chooser.ui:134
+msgid "_Country:"
+msgstr "_Negara:"
+
+#: capplets/keyboard/mate-keyboard-properties-layout-chooser.ui:148
+#: capplets/keyboard/mate-keyboard-properties-layout-chooser.ui:225
+msgid "_Variants:"
+msgstr "_Varian:"
+
+#: capplets/keyboard/mate-keyboard-properties-layout-chooser.ui:165
+msgid "By _country"
+msgstr "Oleh_negara"
+
+#: capplets/keyboard/mate-keyboard-properties-layout-chooser.ui:211
+msgid "_Language:"
+msgstr "_Bahasa:"
+
+#: capplets/keyboard/mate-keyboard-properties-layout-chooser.ui:245
+msgid "By _language"
+msgstr "Oleh_bahasa"
+
+#: capplets/keyboard/mate-keyboard-properties-layout-chooser.ui:278
+msgid "Preview:"
+msgstr "Pratilik:"
+
+#: capplets/keyboard/mate-keyboard-properties-model-chooser.ui:15
+msgid "Choose a Keyboard Model"
+msgstr "Choose a Keyboard Model"
+
+#: capplets/keyboard/mate-keyboard-properties-model-chooser.ui:81
+msgid "_Vendors:"
+msgstr "_Penyedia"
+
+#: capplets/keyboard/mate-keyboard-properties-model-chooser.ui:118
+msgid "_Models:"
+msgstr "_Models:"
+
+#: capplets/keyboard/mate-keyboard-properties-options-dialog.ui:14
+msgid "Keyboard Layout Options"
+msgstr "Pilihan-pilihan Tata Letak Keyboard"
+
+#: capplets/keyboard/mate-keyboard-properties-xkb.c:83
+msgid "Unknown"
+msgstr "Tidak diketahui"
+
+#: capplets/keyboard/mate-keyboard-properties-xkblt.c:239
+msgid "Layout"
+msgstr "Tata Letak"
+
+#: capplets/keyboard/mate-keyboard-properties-xkbmc.c:173
+msgid "Vendors"
+msgstr "Para Penyedia"
+
+#: capplets/keyboard/mate-keyboard-properties-xkbmc.c:237
+msgid "Models"
+msgstr "Models"
+
+#: capplets/keyboard/mate-keyboard-properties-xkbot.c:237
+#: capplets/mouse/mate-mouse-properties.ui:587
+msgid "Default"
+msgstr "Standar"
+
+#: capplets/keyboard/mate-keyboard.desktop.in:3
+msgid "Keyboard"
+msgstr "Papan Ketik"
+
+#: capplets/keyboard/mate-keyboard.desktop.in:4
+msgid "Set your keyboard preferences"
+msgstr "Atur preferensi papan tik Anda"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: capplets/keyboard/mate-keyboard.desktop.in:13
+msgid "mate-control-center;MATE;keyboard;preferences;"
+msgstr "mate-control-center;MATE;papan ketik;preferensi;"
+
+#: capplets/mouse/mate-mouse-properties.c:356
+msgid "Left button"
+msgstr "Tombol kiri"
+
+#: capplets/mouse/mate-mouse-properties.c:356
+msgid "Middle button"
+msgstr "Tombol tengah"
+
+#: capplets/mouse/mate-mouse-properties.c:356
+msgid "Right button"
+msgstr "Tombol kanan"
+
+#: capplets/mouse/mate-mouse-properties.c:413
+msgid "Specify the name of the page to show (general)"
+msgstr "Spesifikasikan nama dari halaman yang akan ditampilkan (umum)"
+
+#: capplets/mouse/mate-mouse-properties.c:418
+msgid "- MATE Mouse Preferences"
+msgstr "- Pengaturan Tetikus MATE"
+
+#: capplets/mouse/mate-mouse-properties.ui:107
+msgid "Mouse Preferences"
+msgstr "Preferensi Tetikus"
+
+#: capplets/mouse/mate-mouse-properties.ui:187
+msgid "Mouse Orientation"
+msgstr "Orientasi Tetikus"
+
+#: capplets/mouse/mate-mouse-properties.ui:214
+msgid "_Right-handed"
+msgstr "Tangan _Kanan"
+
+#: capplets/mouse/mate-mouse-properties.ui:232
+msgid "_Left-handed"
+msgstr "Tangan _Kidal"
+
+#: capplets/mouse/mate-mouse-properties.ui:297
+msgid "Sh_ow position of pointer when the Control key is pressed"
+msgstr "Tampilkan posisi pointer ketika kunci Control ditekan"
+
+#: capplets/mouse/mate-mouse-properties.ui:322
+msgid "Emulate middle button through simultaneous left and right click"
+msgstr "Emulasikan tombol tengah melalui klik kiri dan kanan simultan"
+
+#: capplets/mouse/mate-mouse-properties.ui:348
+msgid "Enable middlemouse paste"
+msgstr "Fungsikan penempelan tombol tengah tetikus"
+
+#: capplets/mouse/mate-mouse-properties.ui:385
+#: capplets/mouse/mate-mouse-properties.ui:1363
+msgid "Pointer Speed"
+msgstr "Kecepatan Penunjuk"
+
+#. low sensitivity
+#: capplets/mouse/mate-mouse-properties.ui:499
+#: capplets/mouse/mate-mouse-properties.ui:1477
+msgid "Low"
+msgstr "Rendah"
+
+#. high sensitivity
+#: capplets/mouse/mate-mouse-properties.ui:531
+#: capplets/mouse/mate-mouse-properties.ui:1509
+msgid "High"
+msgstr "Tinggi"
+
+#: capplets/mouse/mate-mouse-properties.ui:555
+#: capplets/mouse/mate-mouse-properties.ui:1533
+msgid "_Sensitivity:"
+msgstr "_Sensitivity:"
+
+#: capplets/mouse/mate-mouse-properties.ui:570
+msgid "Acceleration _Profile:"
+msgstr "_Profil Akselerasi:"
+
+#: capplets/mouse/mate-mouse-properties.ui:588
+msgid "Adaptive"
+msgstr "Adaptif"
+
+#: capplets/mouse/mate-mouse-properties.ui:589
+msgid "Flat"
+msgstr "Rata"
+
+#: capplets/mouse/mate-mouse-properties.ui:625
+msgid "Drag and Drop"
+msgstr "Seret dan Letakkan"
+
+#: capplets/mouse/mate-mouse-properties.ui:659
+msgid "Thr_eshold:"
+msgstr "Ambang:"
+
+#: capplets/mouse/mate-mouse-properties.ui:772
+msgid "Double-Click Timeout"
+msgstr "Timeout Klik Ganda"
+
+#: capplets/mouse/mate-mouse-properties.ui:806
+msgid "_Timeout:"
+msgstr "Waktu _timeout:"
+
+#: capplets/mouse/mate-mouse-properties.ui:902
+msgid ""
+"To test your double-click settings, try to double-click on the triangle and "
+"you must see the mate desktop logo with both rings showing."
+msgstr ""
+"Untuk menguji pengaturan klik ganda Anda, cobalah mengklik ganda pada segi "
+"tiga dan Anda mesti melihat logo desktop mate dengan kedua cincin tampak."
+
+#: capplets/mouse/mate-mouse-properties.ui:964
+#: capplets/mouse/mate-settings-mouse.desktop.in:3
+msgid "Mouse"
+msgstr "Tetikus"
+
+#: capplets/mouse/mate-mouse-properties.ui:981
+msgid "Enable _touchpad"
+msgstr "Aktifkan _touchpad"
+
+#: capplets/mouse/mate-mouse-properties.ui:1029
+msgid "Disable touchpad _while typing"
+msgstr "Matikan touchpad _ketika mengetik"
+
+#: capplets/mouse/mate-mouse-properties.ui:1056
+msgid "Enable _mouse clicks with touchpad"
+msgstr "_Mengaktifkan klik tetikus dengan touchpad"
+
+#: capplets/mouse/mate-mouse-properties.ui:1093
+msgid "Two-finger click emulation:"
+msgstr "Emulasi klik dua-jari:"
+
+#: capplets/mouse/mate-mouse-properties.ui:1133
+msgid "Three-finger click emulation:"
+msgstr "Emulasi klik tiga-jari:"
+
+#: capplets/mouse/mate-mouse-properties.ui:1172
+msgid "Warning: multi-finger emulation may disable software buttons"
+msgstr "Peringatan: emulasi ini mungkin menonaktifkan tombol perangkat lunak"
+
+#: capplets/mouse/mate-mouse-properties.ui:1203
+msgid "Scrolling"
+msgstr "Menggulung"
+
+#: capplets/mouse/mate-mouse-properties.ui:1223
+msgid "_Vertical edge scrolling"
+msgstr "Tepi _vertikal scrolling"
+
+#: capplets/mouse/mate-mouse-properties.ui:1249
+msgid "H_orizontal edge scrolling"
+msgstr "Tepi _Horisontal scrolling"
+
+#: capplets/mouse/mate-mouse-properties.ui:1275
+msgid "V_ertical two-finger scrolling"
+msgstr "Dua jari v_ertikal scrolling"
+
+#: capplets/mouse/mate-mouse-properties.ui:1301
+msgid "Hor_izontal two-finger scrolling"
+msgstr "Dua jari Hor_isontal scrolling"
+
+#: capplets/mouse/mate-mouse-properties.ui:1327
+msgid "Enable _natural scrolling"
+msgstr "Aktifkan _natural scrolling"
+
+#: capplets/mouse/mate-mouse-properties.ui:1584
+msgid "Touchpad"
+msgstr "Touchpad"
+
+#: capplets/mouse/mate-settings-mouse.desktop.in:4
+msgid "Set your mouse preferences"
+msgstr "Atur preferensi tetikus Anda"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: capplets/mouse/mate-settings-mouse.desktop.in:13
+msgid "mate-control-center;MATE;mouse;preferences;"
+msgstr "mate-control-center;MATE;tetikus;preferensi;"
+
+#: capplets/system-info/mate-system-info.c:133
+msgid "Device Name"
+msgstr ""
+
+#: capplets/system-info/mate-system-info.c:134
+msgid "Hardware Model"
+msgstr ""
+
+#: capplets/system-info/mate-system-info.c:135
+msgid "Memory"
+msgstr ""
+
+#: capplets/system-info/mate-system-info.c:136
+#, fuzzy
+msgid "Processor"
+msgstr "Pengolah Kata"
+
+#: capplets/system-info/mate-system-info.c:137
+msgid "Graphics"
+msgstr ""
+
+#: capplets/system-info/mate-system-info.c:138
+msgid "Disk Capacity"
+msgstr ""
+
+#: capplets/system-info/mate-system-info.c:139
+#, fuzzy
+msgid "Kernel Version"
+msgstr "Versi"
+
+#: capplets/system-info/mate-system-info.c:140
+msgid "Virtualization"
+msgstr ""
+
+#: capplets/system-info/mate-system-info.c:141
+#, fuzzy
+msgid "Windowing System"
+msgstr "Jendela"
+
+#: capplets/system-info/mate-system-info.c:142
+#, fuzzy
+msgid "MATE Version"
+msgstr "Versi"
+
+#: capplets/system-info/mate-system-info.c:143
+#, fuzzy
+msgid "OS Name"
+msgstr "Nama"
+
+#: capplets/system-info/mate-system-info.c:144
+#, fuzzy
+msgid "OS Type"
+msgstr "Tipe"
+
+#: capplets/system-info/mate-system-info.c:467
+#, fuzzy
+msgctxt "Windowing system (Wayland, X11, or Unknown)"
+msgid "Unknown"
+msgstr "Tidak diketahui"
+
+#: capplets/system-info/mate-system-info.c:753
+msgid "Mate System Info"
+msgstr ""
+
+#: capplets/system-info/mate-system-info.desktop.in:3
+msgid "system-info"
+msgstr ""
+
+#: capplets/system-info/mate-system-info.desktop.in:4
+msgid "View mate desktop system info"
+msgstr ""
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: capplets/system-info/mate-system-info.desktop.in:13
+#, fuzzy
+msgid "mate-control-center;MATE;system;preferences;"
+msgstr "mate-control-center;MATE;tetikus;preferensi;"
+
+#: capplets/network/mate-network-properties.desktop.in:3
+msgid "Network Proxy"
+msgstr "Proksi Jaringan"
+
+#: capplets/network/mate-network-properties.desktop.in:4
+msgid "Set your network proxy preferences"
+msgstr "Atur preferensi proksi jaringan Anda"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: capplets/network/mate-network-properties.desktop.in:13
+msgid "mate-control-center;MATE;network;http;socks;proxy;"
+msgstr "mate-control-center;MATE;jaringan;http;socks;proksi;"
+
+#: capplets/network/mate-network-properties.ui:34
+msgid "Network Proxy Preferences"
+msgstr "Preferensi Proksi Jaringan"
+
+#: capplets/network/mate-network-properties.ui:113
+msgid "<b>Di_rect internet connection</b>"
+msgstr "<b>Koneksi inte_rnet langsung</b>"
+
+#: capplets/network/mate-network-properties.ui:150
+msgid "<b>_Manual proxy configuration</b>"
+msgstr "<b>Konfigurasi proksi _manual</b>"
+
+#: capplets/network/mate-network-properties.ui:238
+#: capplets/network/mate-network-properties.ui:253
+#: capplets/network/mate-network-properties.ui:268
+#: capplets/network/mate-network-properties.ui:283
+msgid "Port:"
+msgstr "Port:"
+
+#: capplets/network/mate-network-properties.ui:363
+msgid "_Details"
+msgstr "_Detil"
+
+#: capplets/network/mate-network-properties.ui:379
+msgid "H_TTP proxy:"
+msgstr "Proksi H_TTP:"
+
+#: capplets/network/mate-network-properties.ui:393
+msgid "_Secure HTTP proxy:"
+msgstr "Proksi HTTP_S:"
+
+#: capplets/network/mate-network-properties.ui:407
+msgid "_FTP proxy:"
+msgstr "Proksi _FTP:"
+
+#: capplets/network/mate-network-properties.ui:421
+msgid "S_ocks host:"
+msgstr "Host s_ocks:"
+
+#: capplets/network/mate-network-properties.ui:479
+msgid "<b>_Automatic proxy configuration</b>"
+msgstr "<b>Konfigur_asi proksi otomatis</b>"
+
+#: capplets/network/mate-network-properties.ui:517
+msgid "Autoconfiguration _URL:"
+msgstr "_URL konfigurasi otomatis:"
+
+#: capplets/network/mate-network-properties.ui:574
+msgid "Proxy Configuration"
+msgstr "Konfigurasi Proksi"
+
+#: capplets/network/mate-network-properties.ui:592
+msgid "Ignore Host List"
+msgstr "Abaikan Daftar Host"
+
+#: capplets/network/mate-network-properties.ui:730
+msgid "Ignored Hosts"
+msgstr "Alamat yang diabaikan"
+
+#: capplets/network/mate-network-properties.ui:758
+msgid "HTTP Proxy Details"
+msgstr "Detil Proksi HTTP"
+
+#: capplets/network/mate-network-properties.ui:829
+msgid "<b>_Use authentication</b>"
+msgstr "<b>G_unakan otentikasi</b>"
+
+#: capplets/network/mate-network-properties.ui:869
+msgid "U_sername:"
+msgstr "Nama _pengguna:"
+
+#: capplets/network/mate-network-properties.ui:908
+msgid "_Password:"
+msgstr "_Password:"
+
+#: capplets/windows/mate-metacity-support.c:43
+msgid "Metacity Preferences"
+msgstr "Preferensi Metacity"
+
+#: capplets/windows/mate-metacity-support.c:54
+#: capplets/windows/window-properties.ui:733
+msgid "Compositing Manager"
+msgstr "Manajer Pengkomposisian"
+
+#: capplets/windows/mate-metacity-support.c:61
+msgid "Enable software _compositing window manager"
+msgstr "Sediakan perangkat lunak pengkomposisi pengelola jendela"
+
+#: capplets/windows/mate-window-properties.c:316
+msgid "The current window manager is unsupported"
+msgstr "Window manager saat ini tidak didukung"
+
+#: capplets/windows/mate-window-properties.c:629
+msgid "_Alt"
+msgstr "_Alt"
+
+#: capplets/windows/mate-window-properties.c:635
+msgid "H_yper"
+msgstr "H_yper"
+
+#: capplets/windows/mate-window-properties.c:642
+msgid "S_uper (or \"Windows logo\")"
+msgstr "S_uper (atau \"Logo Windows\")"
+
+#: capplets/windows/mate-window-properties.c:649
+msgid "_Meta"
+msgstr "_Meta"
+
+#: capplets/windows/mate-window-properties.desktop.in:3
+msgid "Windows"
+msgstr "Jendela"
+
+#: capplets/windows/mate-window-properties.desktop.in:4
+msgid "Set your window properties"
+msgstr "Atur properti jendela Anda"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: capplets/windows/mate-window-properties.desktop.in:13
+msgid "mate-control-center;MATE;window;manager;properties;marco;preferences;"
+msgstr "mate-control-center;MATE;jendela;manajer;properti;marco;preferensi;"
+
+#: capplets/windows/window-properties.ui:49
+msgid "Window Preferences"
+msgstr "Preferensi Jendela"
+
+#: capplets/windows/window-properties.ui:132
+msgid "_Select windows when the mouse moves over them"
+msgstr "Pilih jendela _saat tetikus berada di atasnya"
+
+#: capplets/windows/window-properties.ui:148
+msgid "U_nselect windows when the mouse leaves them"
+msgstr "T_idak memilih jendela ketika mouse meninggalkan"
+
+#: capplets/windows/window-properties.ui:171
+msgid "_Raise selected windows after"
+msgstr "_Angkat jendela yang dipilih setelahnya"
+
+#: capplets/windows/window-properties.ui:207
+msgid "seconds"
+msgstr "detik"
+
+#: capplets/windows/window-properties.ui:229
+msgid "Window Selection"
+msgstr "Pemilihan Jendela"
+
+#: capplets/windows/window-properties.ui:264
+msgid "_Double-click titlebar action:"
+msgstr "Aksi klik gan_da bilah judul:"
+
+#: capplets/windows/window-properties.ui:279
+msgid "Roll up"
+msgstr "Gulung ke atas"
+
+#: capplets/windows/window-properties.ui:280
+msgid "Maximize"
+msgstr "Maksimalkan"
+
+#: capplets/windows/window-properties.ui:281
+msgid "Maximize Horizontally"
+msgstr "Besarkan secara horizontal"
+
+#: capplets/windows/window-properties.ui:282
+msgid "Maximize Vertically"
+msgstr "Besarkan secara vertikal"
+
+#: capplets/windows/window-properties.ui:283
+msgid "Minimize"
+msgstr "Minimalkan"
+
+#: capplets/windows/window-properties.ui:284
+msgid "None"
+msgstr "Nihil"
+
+#: capplets/windows/window-properties.ui:308
+msgid "Titlebar Action"
+msgstr "Aksi Batang Judul"
+
+#: capplets/windows/window-properties.ui:335
+msgid "Show _thumbnails in Alt-Tab"
+msgstr "_Tampilkan gambar mini dalam Alt-Tab"
+
+#: capplets/windows/window-properties.ui:350
+msgid "Show window _border in Alt-Tab"
+msgstr "Tampilkan _batas jendela dalam Alt-Tab"
+
+#: capplets/windows/window-properties.ui:370
+msgid "Alt-Tab"
+msgstr "Alt-Tab"
+
+#: capplets/windows/window-properties.ui:400
+msgid "To move a window, press-and-hold this key then grab the window:"
+msgstr ""
+"Untuk memindahkan jendela, tekan dan tahan tombol ini, kemudian gerakkan "
+"jendelanya:"
+
+#: capplets/windows/window-properties.ui:431
+msgid "Movement Key"
+msgstr "Tombol Pergerakan"
+
+#: capplets/windows/window-properties.ui:450
+msgid "Behaviour"
+msgstr "Perilaku"
+
+#: capplets/windows/window-properties.ui:479
+msgid "Centre _new windows"
+msgstr "Pusatkan je_ndela baru"
+
+#: capplets/windows/window-properties.ui:499
+msgid "New Windows"
+msgstr "Jendela Baru"
+
+#: capplets/windows/window-properties.ui:527
+msgid "Enable window _tiling"
+msgstr "Fungsikan pengu_binan jendela"
+
+#: capplets/windows/window-properties.ui:542
+msgid "Allow t_op tiling"
+msgstr "Izinkan pengubin_an puncak"
+
+#: capplets/windows/window-properties.ui:563
+msgid "Window Snapping"
+msgstr "Window Snapping"
+
+#: capplets/windows/window-properties.ui:598
+msgid "_Position of titlebar buttons:"
+msgstr "_Posisi tombol-tombol bilah judul:"
+
+#: capplets/windows/window-properties.ui:613
+msgid "Right (with menu)"
+msgstr "Kanan (dengan menu)"
+
+#: capplets/windows/window-properties.ui:614
+msgid "Left (with menu)"
+msgstr "Kiri (dengan menu)"
+
+#: capplets/windows/window-properties.ui:640
+msgid "Titlebar Buttons"
+msgstr "Tombol Bilah Judul"
+
+#: capplets/windows/window-properties.ui:662
+msgid "Placement"
+msgstr "Penempatan"
+
+#: capplets/windows/window-properties.ui:691
+msgid "Enable _software compositing window manager"
+msgstr "Fungsikan manajer jendela pengkompo_sisian perangkat lunak"
+
+#: capplets/windows/window-properties.ui:711
+msgid "Software Compositing"
+msgstr "Pengkomposisian Perangkat Lunak"
+
+#: capplets/time-admin/src/main.c:34
+#, c-format
+msgctxt "timezone loc"
+msgid "%s"
+msgstr "%s"
+
+#: capplets/time-admin/src/main.c:190 capplets/time-admin/src/main.c:233
+msgid "open file"
+msgstr "buka berkas"
+
+#: capplets/time-admin/src/main.c:190
+msgid "Create pid file failed"
+msgstr "Pembuatan berkas pid gagal"
+
+#: capplets/time-admin/src/main.c:199
+msgid "write file"
+msgstr "tulis berkas"
+
+#: capplets/time-admin/src/main.c:199
+msgid "write pid file failed"
+msgstr "menulis berkas pid gagal"
+
+#: capplets/time-admin/src/main.c:233
+msgid "open pid file failed"
+msgstr "membuka berkas pid gagal"
+
+#: capplets/time-admin/src/main.c:238
+msgid "read file"
+msgstr "baca berkas"
+
+#: capplets/time-admin/src/main.c:238
+msgid "read pid file failed"
+msgstr "membaca berkas pid gagal"
+
+#: capplets/time-admin/src/time-admin.ui:58
+msgid "Time and Date Manager"
+msgstr "Manajer Waktu dan Tanggal"
+
+#: capplets/time-admin/src/time-admin.ui:96
+msgid "NTP sync"
+msgstr "Selaras NTP"
+
+#: capplets/time-admin/src/time-admin.ui:123
+msgid "Time zone"
+msgstr "Zona waktu"
+
+#: capplets/time-admin/src/time-admin.ui:161
+msgid "Click the button to edit time zone."
+msgstr "Klik tombol untuk menyunting zona waktu."
+
+#: capplets/time-admin/src/time-admin.ui:283
+msgid "Time"
+msgstr "Waktu"
+
+#: capplets/time-admin/src/time-admin.ui:329
+msgid "Date"
+msgstr "Tanggal"
+
+#: capplets/time-admin/src/time-admin.ui:368
+msgid "Click to save the specified date and time."
+msgstr "Klik untuk menyimpan tanggal dan waktu yang dinyatakan."
+
+#: capplets/time-admin/src/time-tool.c:135
+msgid "GetNtpState"
+msgstr "GetNtpState"
+
+#: capplets/time-admin/src/time-tool.c:198
+msgid "Set time zone"
+msgstr "Atur zona waktu"
+
+#: capplets/time-admin/src/time-tool.c:230
+#: capplets/time-admin/src/time-tool.c:277
+msgid "Set Ntp sync"
+msgstr "Atur penyelarasan NTP"
+
+#: capplets/time-admin/src/time-share.c:49
+msgid ""
+"Network time synchronization has been set up. Manual time/date setting is "
+"disabled."
+msgstr ""
+"Penyelarasan waktu jaringan telah disiapkan. Pengaturan waktu/tanggal manual "
+"dinonaktifkan."
+
+#: capplets/time-admin/src/time-zone.c:276
+#, c-format
+msgctxt "timezone loc"
+msgid "%s, %s"
+msgstr "%s, %s"
+
+#: capplets/time-admin/src/time-zone.c:302
+msgid "Error: timezone identifier cannot be parsed or loaded"
+msgstr "Galat: identifier zona waktu tidak dapat diurai atau dimuat"
+
+#: capplets/time-admin/src/time-zone.c:312
+msgid "UTC%:::z"
+msgstr "UTC%:::z"
+
+#: capplets/time-admin/src/time-zone.c:317
+msgid "%R"
+msgstr "%R"
+
+#: capplets/time-admin/src/time-zone.c:387
+msgid "Time Zone"
+msgstr "Zona Waktu"
+
+#: capplets/time-admin/src/time-zone.c:474
+msgid "Time Zone Selection"
+msgstr "Pemilihan Zona Waktu"
+
+#: capplets/time-admin/src/time-zone.c:489
+msgid "Con_firm"
+msgstr "Kon_firmasi"
+
+#: capplets/time-admin/src/time-zones.h:27
+msgid "Africa/Abidjan"
+msgstr "Afrika/Abidjan"
+
+#: capplets/time-admin/src/time-zones.h:28
+msgid "Africa/Accra"
+msgstr "Afrika/Akra"
+
+#: capplets/time-admin/src/time-zones.h:29
+msgid "Africa/Addis_Ababa"
+msgstr "Afrika/Addis_Ababa"
+
+#: capplets/time-admin/src/time-zones.h:30
+msgid "Africa/Algiers"
+msgstr "Afrika/Aljazair"
+
+#: capplets/time-admin/src/time-zones.h:31
+msgid "Africa/Asmara"
+msgstr "Afrika/Asmara"
+
+#: capplets/time-admin/src/time-zones.h:32
+msgid "Africa/Bamako"
+msgstr "Afrika/Bamako"
+
+#: capplets/time-admin/src/time-zones.h:33
+msgid "Africa/Bangui"
+msgstr "Afrika/Bangui"
+
+#: capplets/time-admin/src/time-zones.h:34
+msgid "Africa/Banjul"
+msgstr "Afrika/Banjul"
+
+#: capplets/time-admin/src/time-zones.h:35
+msgid "Africa/Bissau"
+msgstr "Afrika/Bissau"
+
+#: capplets/time-admin/src/time-zones.h:36
+msgid "Africa/Blantyre"
+msgstr "Afrika/Blantyre"
+
+#: capplets/time-admin/src/time-zones.h:37
+msgid "Africa/Brazzaville"
+msgstr "Afrika/Brazzaville"
+
+#: capplets/time-admin/src/time-zones.h:38
+msgid "Africa/Bujumbura"
+msgstr "Afrika/Bujumbura"
+
+#: capplets/time-admin/src/time-zones.h:39
+msgid "Africa/Cairo"
+msgstr "Afrika/Kairo"
+
+#: capplets/time-admin/src/time-zones.h:40
+msgid "Africa/Casablanca"
+msgstr "Afrika/Casablanca"
+
+#: capplets/time-admin/src/time-zones.h:41
+msgid "Africa/Ceuta"
+msgstr "Afrika/Ceuta"
+
+#: capplets/time-admin/src/time-zones.h:42
+msgid "Africa/Conakry"
+msgstr "Afrika/Conakry"
+
+#: capplets/time-admin/src/time-zones.h:43
+msgid "Africa/Dakar"
+msgstr "Afrika/Dakar"
+
+#: capplets/time-admin/src/time-zones.h:44
+msgid "Africa/Dar_es_Salaam"
+msgstr "Afrika/Dar_es_Salaam"
+
+#: capplets/time-admin/src/time-zones.h:45
+msgid "Africa/Djibouti"
+msgstr "Afrika/Djibouti"
+
+#: capplets/time-admin/src/time-zones.h:46
+msgid "Africa/Douala"
+msgstr "Afrika/Douala"
+
+#: capplets/time-admin/src/time-zones.h:47
+msgid "Africa/El_Aaiun"
+msgstr "Afrika/El_Aaiun"
+
+#: capplets/time-admin/src/time-zones.h:48
+msgid "Africa/Freetown"
+msgstr "Afrika/Freetown"
+
+#: capplets/time-admin/src/time-zones.h:49
+msgid "Africa/Gaborone"
+msgstr "Afrika/Gaborone"
+
+#: capplets/time-admin/src/time-zones.h:50
+msgid "Africa/Harare"
+msgstr "Afrika/Harare"
+
+#: capplets/time-admin/src/time-zones.h:51
+msgid "Africa/Johannesburg"
+msgstr "Afrika/Johannesburg"
+
+#: capplets/time-admin/src/time-zones.h:52
+msgid "Africa/Juba"
+msgstr "Afrika/Juba"
+
+#: capplets/time-admin/src/time-zones.h:53
+msgid "Africa/Kampala"
+msgstr "Afrika/Kampala"
+
+#: capplets/time-admin/src/time-zones.h:54
+msgid "Africa/Khartoum"
+msgstr "Afrika/Khartoum"
+
+#: capplets/time-admin/src/time-zones.h:55
+msgid "Africa/Kigali"
+msgstr "Afrika/Kigali"
+
+#: capplets/time-admin/src/time-zones.h:56
+msgid "Africa/Kinshasa"
+msgstr "Afrika/Kinshasa"
+
+#: capplets/time-admin/src/time-zones.h:57
+msgid "Africa/Lagos"
+msgstr "Afrika/Lagos"
+
+#: capplets/time-admin/src/time-zones.h:58
+msgid "Africa/Libreville"
+msgstr "Afrika/Libreville"
+
+#: capplets/time-admin/src/time-zones.h:59
+msgid "Africa/Lome"
+msgstr "Afrika/Lome"
+
+#: capplets/time-admin/src/time-zones.h:60
+msgid "Africa/Luanda"
+msgstr "Afrika/Luanda"
+
+#: capplets/time-admin/src/time-zones.h:61
+msgid "Africa/Lubumbashi"
+msgstr "Afrika/Lubumbashi"
+
+#: capplets/time-admin/src/time-zones.h:62
+msgid "Africa/Lusaka"
+msgstr "Afrika/Lusaka"
+
+#: capplets/time-admin/src/time-zones.h:63
+msgid "Africa/Malabo"
+msgstr "Afrika/Malabo"
+
+#: capplets/time-admin/src/time-zones.h:64
+msgid "Africa/Maputo"
+msgstr "Afrika/Maputo"
+
+#: capplets/time-admin/src/time-zones.h:65
+msgid "Africa/Maseru"
+msgstr "Afrika/Maseru"
+
+#: capplets/time-admin/src/time-zones.h:66
+msgid "Africa/Mbabane"
+msgstr "Afrika/Mbabane"
+
+#: capplets/time-admin/src/time-zones.h:67
+msgid "Africa/Mogadishu"
+msgstr "Afrika/Mogadishu"
+
+#: capplets/time-admin/src/time-zones.h:68
+msgid "Africa/Monrovia"
+msgstr "Afrika/Monrovia"
+
+#: capplets/time-admin/src/time-zones.h:69
+msgid "Africa/Nairobi"
+msgstr "Afrika/Nairobi"
+
+#: capplets/time-admin/src/time-zones.h:70
+msgid "Africa/Ndjamena"
+msgstr "Afrika/Ndjamena"
+
+#: capplets/time-admin/src/time-zones.h:71
+msgid "Africa/Niamey"
+msgstr "Afrika/Niamey"
+
+#: capplets/time-admin/src/time-zones.h:72
+msgid "Africa/Nouakchott"
+msgstr "Afrika/Nouakchott"
+
+#: capplets/time-admin/src/time-zones.h:73
+msgid "Africa/Ouagadougou"
+msgstr "Afrika/Ouagadougou"
+
+#: capplets/time-admin/src/time-zones.h:74
+msgid "Africa/Porto-Novo"
+msgstr "Afrika/Porto-Novo"
+
+#: capplets/time-admin/src/time-zones.h:75
+msgid "Africa/Sao_Tome"
+msgstr "Afrika/Sao_Tome"
+
+#: capplets/time-admin/src/time-zones.h:76
+msgid "Africa/Tripoli"
+msgstr "Afrika/Tripoli"
+
+#: capplets/time-admin/src/time-zones.h:77
+msgid "Africa/Tunis"
+msgstr "Afrika/Tunisia"
+
+#: capplets/time-admin/src/time-zones.h:78
+msgid "Africa/Windhoek"
+msgstr "Afrika/Windhoek"
+
+#: capplets/time-admin/src/time-zones.h:79
+msgid "America/Adak"
+msgstr "Amerika/Adak"
+
+#: capplets/time-admin/src/time-zones.h:80
+msgid "America/Anchorage"
+msgstr "Amerika/Anchorage"
+
+#: capplets/time-admin/src/time-zones.h:81
+msgid "America/Anguilla"
+msgstr "Amerika/Anguilla"
+
+#: capplets/time-admin/src/time-zones.h:82
+msgid "America/Antigua"
+msgstr "Amerika/Antigua"
+
+#: capplets/time-admin/src/time-zones.h:83
+msgid "America/Araguaina"
+msgstr "Amerika/Araguaina"
+
+#: capplets/time-admin/src/time-zones.h:84
+msgid "America/Argentina/Buenos_Aires"
+msgstr "Amerika/Argentina/Buenos_Aires"
+
+#: capplets/time-admin/src/time-zones.h:85
+msgid "America/Argentina/Catamarca"
+msgstr "Amerika/Argentina/Catamarca"
+
+#: capplets/time-admin/src/time-zones.h:86
+msgid "America/Argentina/Cordoba"
+msgstr "Amerika/Argentina/Kordoba"
+
+#: capplets/time-admin/src/time-zones.h:87
+msgid "America/Argentina/Jujuy"
+msgstr "Amerika/Argentina/Jujuy"
+
+#: capplets/time-admin/src/time-zones.h:88
+msgid "America/Argentina/La_Rioja"
+msgstr "Amerika/Argentina/La_Rioja"
+
+#: capplets/time-admin/src/time-zones.h:89
+msgid "America/Argentina/Mendoza"
+msgstr "Amerika/Argentina/Mendoza"
+
+#: capplets/time-admin/src/time-zones.h:90
+msgid "America/Argentina/Rio_Gallegos"
+msgstr "Amerika/Argentina/Rio_Gallegos"
+
+#: capplets/time-admin/src/time-zones.h:91
+msgid "America/Argentina/Salta"
+msgstr "Amerika/Argentina/Salta"
+
+#: capplets/time-admin/src/time-zones.h:92
+msgid "America/Argentina/San_Juan"
+msgstr "Amerika/Argentina/San_Juan"
+
+#: capplets/time-admin/src/time-zones.h:93
+msgid "America/Argentina/San_Luis"
+msgstr "Amerika/Argentina/San_Luis"
+
+#: capplets/time-admin/src/time-zones.h:94
+msgid "America/Argentina/Tucuman"
+msgstr "Amerika/Argentina/Tucuman"
+
+#: capplets/time-admin/src/time-zones.h:95
+msgid "America/Argentina/Ushuaia"
+msgstr "Amerika/Argentina/Ushuaia"
+
+#: capplets/time-admin/src/time-zones.h:96
+msgid "America/Aruba"
+msgstr "Amerika/Aruba"
+
+#: capplets/time-admin/src/time-zones.h:97
+msgid "America/Asuncion"
+msgstr "Amerika/Asuncion"
+
+#: capplets/time-admin/src/time-zones.h:98
+msgid "America/Atikokan"
+msgstr "Amerika/Atikokan"
+
+#: capplets/time-admin/src/time-zones.h:99
+msgid "America/Bahia"
+msgstr "Amerika/Bahia"
+
+#: capplets/time-admin/src/time-zones.h:100
+msgid "America/Bahia_Banderas"
+msgstr "Amerika/Bahia_Banderas"
+
+#: capplets/time-admin/src/time-zones.h:101
+msgid "America/Barbados"
+msgstr "Amerika/Barbados"
+
+#: capplets/time-admin/src/time-zones.h:102
+msgid "America/Belem"
+msgstr "Amerika/Belem"
+
+#: capplets/time-admin/src/time-zones.h:103
+msgid "America/Belize"
+msgstr "Amerika/Belize"
+
+#: capplets/time-admin/src/time-zones.h:104
+msgid "America/Blanc-Sablon"
+msgstr "Amerika/Blanc-Sablon"
+
+#: capplets/time-admin/src/time-zones.h:105
+msgid "America/Boa_Vista"
+msgstr "Amerika/Boa_Vista"
+
+#: capplets/time-admin/src/time-zones.h:106
+msgid "America/Bogota"
+msgstr "Amerika/Bogota"
+
+#: capplets/time-admin/src/time-zones.h:107
+msgid "America/Boise"
+msgstr "Amerika/Boise"
+
+#: capplets/time-admin/src/time-zones.h:108
+msgid "America/Cambridge_Bay"
+msgstr "Amerika/Cambridge_Bay"
+
+#: capplets/time-admin/src/time-zones.h:109
+msgid "America/Campo_Grande"
+msgstr "Amerika/Campo_Grande"
+
+#: capplets/time-admin/src/time-zones.h:110
+msgid "America/Cancun"
+msgstr "Amerika/Cancun"
+
+#: capplets/time-admin/src/time-zones.h:111
+msgid "America/Caracas"
+msgstr "Amerika/Karakas"
+
+#: capplets/time-admin/src/time-zones.h:112
+msgid "America/Cayenne"
+msgstr "Amerika/Cayenne"
+
+#: capplets/time-admin/src/time-zones.h:113
+msgid "America/Cayman"
+msgstr "Amerika/Cayman"
+
+#: capplets/time-admin/src/time-zones.h:114
+msgid "America/Chicago"
+msgstr "Amerika/Chicago"
+
+#: capplets/time-admin/src/time-zones.h:115
+msgid "America/Chihuahua"
+msgstr "Amerika/Chihuahua"
+
+#: capplets/time-admin/src/time-zones.h:116
+msgid "America/Costa_Rica"
+msgstr "Amerika/Kosta_Rika"
+
+#: capplets/time-admin/src/time-zones.h:117
+msgid "America/Creston"
+msgstr "Amerika/Creston"
+
+#: capplets/time-admin/src/time-zones.h:118
+msgid "America/Cuiaba"
+msgstr "Amerika/Cuiaba"
+
+#: capplets/time-admin/src/time-zones.h:119
+msgid "America/Curacao"
+msgstr "Amerika/Curacao"
+
+#: capplets/time-admin/src/time-zones.h:120
+msgid "America/Danmarkshavn"
+msgstr "Amerika/Danmarkshavn"
+
+#: capplets/time-admin/src/time-zones.h:121
+msgid "America/Dawson"
+msgstr "Amerika/Dawson"
+
+#: capplets/time-admin/src/time-zones.h:122
+msgid "America/Dawson_Creek"
+msgstr "Amerika/Dawson_Creek"
+
+#: capplets/time-admin/src/time-zones.h:123
+msgid "America/Denver"
+msgstr "Amerika/Denver"
+
+#: capplets/time-admin/src/time-zones.h:124
+msgid "America/Detroit"
+msgstr "Amerika/Detroit"
+
+#: capplets/time-admin/src/time-zones.h:125
+msgid "America/Dominica"
+msgstr "Amerika/Dominica"
+
+#: capplets/time-admin/src/time-zones.h:126
+msgid "America/Edmonton"
+msgstr "Amerika/Edmonton"
+
+#: capplets/time-admin/src/time-zones.h:127
+msgid "America/Eirunepe"
+msgstr "Amerika/Eirunepe"
+
+#: capplets/time-admin/src/time-zones.h:128
+msgid "America/El_Salvador"
+msgstr "Amerika/El_Salvador"
+
+#: capplets/time-admin/src/time-zones.h:129
+msgid "America/Fortaleza"
+msgstr "Amerika/Fortaleza"
+
+#: capplets/time-admin/src/time-zones.h:130
+msgid "America/Fort_Nelson"
+msgstr "Amerika/Fort_Nelson"
+
+#: capplets/time-admin/src/time-zones.h:131
+msgid "America/Glace_Bay"
+msgstr "Amerika/Glace_Bay"
+
+#: capplets/time-admin/src/time-zones.h:132
+msgid "America/Godthab"
+msgstr "Amerika/Godthab"
+
+#: capplets/time-admin/src/time-zones.h:133
+msgid "America/Goose_Bay"
+msgstr "Amerika/Goose_Bay"
+
+#: capplets/time-admin/src/time-zones.h:134
+msgid "America/Grand_Turk"
+msgstr "Amerika/Grand_Turk"
+
+#: capplets/time-admin/src/time-zones.h:135
+msgid "America/Grenada"
+msgstr "Amerika/Grenada"
+
+#: capplets/time-admin/src/time-zones.h:136
+msgid "America/Guadeloupe"
+msgstr "Amerika/Guadeloupe"
+
+#: capplets/time-admin/src/time-zones.h:137
+msgid "America/Guatemala"
+msgstr "Amerika/Guatemala"
+
+#: capplets/time-admin/src/time-zones.h:138
+msgid "America/Guayaquil"
+msgstr "Amerika/Guayaquil"
+
+#: capplets/time-admin/src/time-zones.h:139
+msgid "America/Guyana"
+msgstr "Amerika/Guyana"
+
+#: capplets/time-admin/src/time-zones.h:140
+msgid "America/Halifax"
+msgstr "Amerika/Halifax"
+
+#: capplets/time-admin/src/time-zones.h:141
+msgid "America/Havana"
+msgstr "Amerika/Havana"
+
+#: capplets/time-admin/src/time-zones.h:142
+msgid "America/Hermosillo"
+msgstr "Amerika/Hermosillo"
+
+#: capplets/time-admin/src/time-zones.h:143
+msgid "America/Indiana/Indianapolis"
+msgstr "Amerika/Indiana/Indianapolis"
+
+#: capplets/time-admin/src/time-zones.h:144
+msgid "America/Indiana/Knox"
+msgstr "Amerika/Indiana/Knox"
+
+#: capplets/time-admin/src/time-zones.h:145
+msgid "America/Indiana/Marengo"
+msgstr "Amerika/Indiana/Marengo"
+
+#: capplets/time-admin/src/time-zones.h:146
+msgid "America/Indiana/Petersburg"
+msgstr "Amerika/Indiana/Petersburg"
+
+#: capplets/time-admin/src/time-zones.h:147
+msgid "America/Indiana/Tell_City"
+msgstr "Amerika/Indiana/Tell_City"
+
+#: capplets/time-admin/src/time-zones.h:148
+msgid "America/Indiana/Vevay"
+msgstr "Amerika/Indiana/Vevay"
+
+#: capplets/time-admin/src/time-zones.h:149
+msgid "America/Indiana/Vincennes"
+msgstr "Amerika/Indiana/Vincennes"
+
+#: capplets/time-admin/src/time-zones.h:150
+msgid "America/Indiana/Winamac"
+msgstr "Amerika/Indiana/Winamac"
+
+#: capplets/time-admin/src/time-zones.h:151
+msgid "America/Inuvik"
+msgstr "Amerika/Inuvik"
+
+#: capplets/time-admin/src/time-zones.h:152
+msgid "America/Iqaluit"
+msgstr "Amerika/Iqaluit"
+
+#: capplets/time-admin/src/time-zones.h:153
+msgid "America/Jamaica"
+msgstr "Amerika/Jamaika"
+
+#: capplets/time-admin/src/time-zones.h:154
+msgid "America/Juneau"
+msgstr "Amerika/Juneau"
+
+#: capplets/time-admin/src/time-zones.h:155
+msgid "America/Kentucky/Louisville"
+msgstr "Amerika/Kentucky/Louisville"
+
+#: capplets/time-admin/src/time-zones.h:156
+msgid "America/Kentucky/Monticello"
+msgstr "Amerika/Kentucky/Monticello"
+
+#: capplets/time-admin/src/time-zones.h:157
+msgid "America/Kralendijk"
+msgstr "Amerika/Kralendijk"
+
+#: capplets/time-admin/src/time-zones.h:158
+msgid "America/La_Paz"
+msgstr "Amerika/La_Paz"
+
+#: capplets/time-admin/src/time-zones.h:159
+msgid "America/Lima"
+msgstr "Amerika/Lima"
+
+#: capplets/time-admin/src/time-zones.h:160
+msgid "America/Los_Angeles"
+msgstr "Amerika/Los_Angeles"
+
+#: capplets/time-admin/src/time-zones.h:161
+msgid "America/Lower_Princes"
+msgstr "Amerika/Lower_Princes"
+
+#: capplets/time-admin/src/time-zones.h:162
+msgid "America/Maceio"
+msgstr "Amerika/Maceio"
+
+#: capplets/time-admin/src/time-zones.h:163
+msgid "America/Managua"
+msgstr "Amerika/Managua"
+
+#: capplets/time-admin/src/time-zones.h:164
+msgid "America/Manaus"
+msgstr "Amerika/Manaus"
+
+#: capplets/time-admin/src/time-zones.h:165
+msgid "America/Marigot"
+msgstr "Amerika/Marigot"
+
+#: capplets/time-admin/src/time-zones.h:166
+msgid "America/Martinique"
+msgstr "Amerika/Martinique"
+
+#: capplets/time-admin/src/time-zones.h:167
+msgid "America/Matamoros"
+msgstr "Amerika/Matamoros"
+
+#: capplets/time-admin/src/time-zones.h:168
+msgid "America/Mazatlan"
+msgstr "Amerika/Mazatlan"
+
+#: capplets/time-admin/src/time-zones.h:169
+msgid "America/Menominee"
+msgstr "Amerika/Menominee"
+
+#: capplets/time-admin/src/time-zones.h:170
+msgid "America/Merida"
+msgstr "Amerika/Merida"
+
+#: capplets/time-admin/src/time-zones.h:171
+msgid "America/Metlakatla"
+msgstr "Amerika/Metlakatla"
+
+#: capplets/time-admin/src/time-zones.h:172
+msgid "America/Mexico_City"
+msgstr "Amerika/Mexico_City"
+
+#: capplets/time-admin/src/time-zones.h:173
+msgid "America/Miquelon"
+msgstr "Amerika/Miquelon"
+
+#: capplets/time-admin/src/time-zones.h:174
+msgid "America/Moncton"
+msgstr "Amerika/Moncton"
+
+#: capplets/time-admin/src/time-zones.h:175
+msgid "America/Monterrey"
+msgstr "Amerika/Monterrey"
+
+#: capplets/time-admin/src/time-zones.h:176
+msgid "America/Montevideo"
+msgstr "Amerika/Montevideo"
+
+#: capplets/time-admin/src/time-zones.h:177
+msgid "America/Montserrat"
+msgstr "Amerika/Montserrat"
+
+#: capplets/time-admin/src/time-zones.h:178
+msgid "America/Nassau"
+msgstr "Amerika/Nassau"
+
+#: capplets/time-admin/src/time-zones.h:179
+msgid "America/New_York"
+msgstr "Amerika/New_York"
+
+#: capplets/time-admin/src/time-zones.h:180
+msgid "America/Nipigon"
+msgstr "Amerika/Nipigon"
+
+#: capplets/time-admin/src/time-zones.h:181
+msgid "America/Nome"
+msgstr "Amerika/Nome"
+
+#: capplets/time-admin/src/time-zones.h:182
+msgid "America/Noronha"
+msgstr "Amerika/Noronha"
+
+#: capplets/time-admin/src/time-zones.h:183
+msgid "America/North_Dakota/Beulah"
+msgstr "Amerika/North_Dakota/Beulah"
+
+#: capplets/time-admin/src/time-zones.h:184
+msgid "America/North_Dakota/Center"
+msgstr "Amerika/NOrth_Dakota/Center"
+
+#: capplets/time-admin/src/time-zones.h:185
+msgid "America/North_Dakota/New_Salem"
+msgstr "Amerika/North_Dakota/New_Salem"
+
+#: capplets/time-admin/src/time-zones.h:186
+msgid "America/Ojinaga"
+msgstr "Amerika/Ojinaga"
+
+#: capplets/time-admin/src/time-zones.h:187
+msgid "America/Panama"
+msgstr "Amerika/Panama"
+
+#: capplets/time-admin/src/time-zones.h:188
+msgid "America/Pangnirtung"
+msgstr "Amerika/Pangnirtung"
+
+#: capplets/time-admin/src/time-zones.h:189
+msgid "America/Paramaribo"
+msgstr "Amerika/Paramaribo"
+
+#: capplets/time-admin/src/time-zones.h:190
+msgid "America/Phoenix"
+msgstr "Amerika/Phoenix"
+
+#: capplets/time-admin/src/time-zones.h:191
+msgid "America/Port-au-Prince"
+msgstr "Amerika/Port-au-Prince"
+
+#: capplets/time-admin/src/time-zones.h:192
+msgid "America/Port_of_Spain"
+msgstr "Amerika/Port_of_Spain"
+
+#: capplets/time-admin/src/time-zones.h:193
+msgid "America/Porto_Velho"
+msgstr "Amerika/Porto_Velho"
+
+#: capplets/time-admin/src/time-zones.h:194
+msgid "America/Puerto_Rico"
+msgstr "Amerika/Puerto_Rico"
+
+#: capplets/time-admin/src/time-zones.h:195
+msgid "America/Punta_Arenas"
+msgstr "Amerika/Punta_Arenas"
+
+#: capplets/time-admin/src/time-zones.h:196
+msgid "America/Rainy_River"
+msgstr "Amerika/Rainy_River"
+
+#: capplets/time-admin/src/time-zones.h:197
+msgid "America/Rankin_Inlet"
+msgstr "Amerika/Rankin_Inlet"
+
+#: capplets/time-admin/src/time-zones.h:198
+msgid "America/Recife"
+msgstr "Amerika/Recife"
+
+#: capplets/time-admin/src/time-zones.h:199
+msgid "America/Regina"
+msgstr "Amerika/Regina"
+
+#: capplets/time-admin/src/time-zones.h:200
+msgid "America/Resolute"
+msgstr "Amerika/Resolute"
+
+#: capplets/time-admin/src/time-zones.h:201
+msgid "America/Rio_Branco"
+msgstr "Amerika/Rio_Branco"
+
+#: capplets/time-admin/src/time-zones.h:202
+msgid "America/Santarem"
+msgstr "Amerika/Santarem"
+
+#: capplets/time-admin/src/time-zones.h:203
+msgid "America/Santiago"
+msgstr "Amerika/Santiago"
+
+#: capplets/time-admin/src/time-zones.h:204
+msgid "America/Santo_Domingo"
+msgstr "Amerika/Santo_Domingo"
+
+#: capplets/time-admin/src/time-zones.h:205
+msgid "America/Sao_Paulo"
+msgstr "Amerika/Sao_Paulo"
+
+#: capplets/time-admin/src/time-zones.h:206
+msgid "America/Scoresbysund"
+msgstr "Amerika/Scoresbysund"
+
+#: capplets/time-admin/src/time-zones.h:207
+msgid "America/Sitka"
+msgstr "Amerika/Sitka"
+
+#: capplets/time-admin/src/time-zones.h:208
+msgid "America/St_Barthelemy"
+msgstr "Amerika/St_Barthelemy"
+
+#: capplets/time-admin/src/time-zones.h:209
+msgid "America/St_Johns"
+msgstr "Amerika/St_Johns"
+
+#: capplets/time-admin/src/time-zones.h:210
+msgid "America/St_Kitts"
+msgstr "Amerika/St_Kitts"
+
+#: capplets/time-admin/src/time-zones.h:211
+msgid "America/St_Lucia"
+msgstr "Amerika/St_Lucia"
+
+#: capplets/time-admin/src/time-zones.h:212
+msgid "America/St_Thomas"
+msgstr "Amerika/St_Thomas"
+
+#: capplets/time-admin/src/time-zones.h:213
+msgid "America/St_Vincent"
+msgstr "Amerika/St_Vincent"
+
+#: capplets/time-admin/src/time-zones.h:214
+msgid "America/Swift_Current"
+msgstr "Amerika/Swift_Current"
+
+#: capplets/time-admin/src/time-zones.h:215
+msgid "America/Tegucigalpa"
+msgstr "Amerika/Tegucigalpa"
+
+#: capplets/time-admin/src/time-zones.h:216
+msgid "America/Thule"
+msgstr "Amerika/Thule"
+
+#: capplets/time-admin/src/time-zones.h:217
+msgid "America/Thunder_Bay"
+msgstr "Amerika/Thunder_Bay"
+
+#: capplets/time-admin/src/time-zones.h:218
+msgid "America/Tijuana"
+msgstr "Amerika/Tijuana"
+
+#: capplets/time-admin/src/time-zones.h:219
+msgid "America/Toronto"
+msgstr "Amerika/Toronto"
+
+#: capplets/time-admin/src/time-zones.h:220
+msgid "America/Tortola"
+msgstr "Amerika/Tortola"
+
+#: capplets/time-admin/src/time-zones.h:221
+msgid "America/Vancouver"
+msgstr "Amerika/Vancouver"
+
+#: capplets/time-admin/src/time-zones.h:222
+msgid "America/Whitehorse"
+msgstr "Amerika/Whitehorse"
+
+#: capplets/time-admin/src/time-zones.h:223
+msgid "America/Winnipeg"
+msgstr "Amerika/Winnipeg"
+
+#: capplets/time-admin/src/time-zones.h:224
+msgid "America/Yakutat"
+msgstr "Amerika/Yakutat"
+
+#: capplets/time-admin/src/time-zones.h:225
+msgid "America/Yellowknife"
+msgstr "Amerika/Yellowknife"
+
+#: capplets/time-admin/src/time-zones.h:226
+msgid "Antarctica/Casey"
+msgstr "Antartika/Casey"
+
+#: capplets/time-admin/src/time-zones.h:227
+msgid "Antarctica/Davis"
+msgstr "Antartika/Davis"
+
+#: capplets/time-admin/src/time-zones.h:228
+msgid "Antarctica/DumontDUrville"
+msgstr "Antartika/DumontDUrville"
+
+#: capplets/time-admin/src/time-zones.h:229
+msgid "Antarctica/Macquarie"
+msgstr "Antartika/Macquarie"
+
+#: capplets/time-admin/src/time-zones.h:230
+msgid "Antarctica/Mawson"
+msgstr "Antartika/Mawson"
+
+#: capplets/time-admin/src/time-zones.h:231
+msgid "Antarctica/McMurdo"
+msgstr "Antartika/McMurdo"
+
+#: capplets/time-admin/src/time-zones.h:232
+msgid "Antarctica/Palmer"
+msgstr "Antartika/Palmer"
+
+#: capplets/time-admin/src/time-zones.h:233
+msgid "Antarctica/Rothera"
+msgstr "Antartika/Rothera"
+
+#: capplets/time-admin/src/time-zones.h:234
+msgid "Antarctica/Syowa"
+msgstr "Antartika/Syowa"
+
+#: capplets/time-admin/src/time-zones.h:235
+msgid "Antarctica/Troll"
+msgstr "Antartika/Troll"
+
+#: capplets/time-admin/src/time-zones.h:236
+msgid "Antarctica/Vostok"
+msgstr "Antartika/Vostok"
+
+#: capplets/time-admin/src/time-zones.h:237
+msgid "Arctic/Longyearbyen"
+msgstr "Artik/Longyearbyen"
+
+#: capplets/time-admin/src/time-zones.h:238
+msgid "Asia/Aden"
+msgstr "Asia/Aden"
+
+#: capplets/time-admin/src/time-zones.h:239
+msgid "Asia/Almaty"
+msgstr "Asia/Almaty"
+
+#: capplets/time-admin/src/time-zones.h:240
+msgid "Asia/Amman"
+msgstr "Asia/Amman"
+
+#: capplets/time-admin/src/time-zones.h:241
+msgid "Asia/Anadyr"
+msgstr "Asia/Anadyr"
+
+#: capplets/time-admin/src/time-zones.h:242
+msgid "Asia/Aqtau"
+msgstr "Asia/Aqtau"
+
+#: capplets/time-admin/src/time-zones.h:243
+msgid "Asia/Aqtobe"
+msgstr "Asia/Aqtobe"
+
+#: capplets/time-admin/src/time-zones.h:244
+msgid "Asia/Ashgabat"
+msgstr "Asia/Ashgabat"
+
+#: capplets/time-admin/src/time-zones.h:245
+msgid "Asia/Atyrau"
+msgstr "Asia/Atyrau"
+
+#: capplets/time-admin/src/time-zones.h:246
+msgid "Asia/Baghdad"
+msgstr "Asia/Baghdad"
+
+#: capplets/time-admin/src/time-zones.h:247
+msgid "Asia/Bahrain"
+msgstr "Asia/Bahrain"
+
+#: capplets/time-admin/src/time-zones.h:248
+msgid "Asia/Baku"
+msgstr "Asia/Baku"
+
+#: capplets/time-admin/src/time-zones.h:249
+msgid "Asia/Bangkok"
+msgstr "Asia/Bangkok"
+
+#: capplets/time-admin/src/time-zones.h:250
+msgid "Asia/Barnaul"
+msgstr "Asia/Barnaul"
+
+#: capplets/time-admin/src/time-zones.h:251
+msgid "Asia/Beirut"
+msgstr "Asia/Beirut"
+
+#: capplets/time-admin/src/time-zones.h:252
+msgid "Asia/Bishkek"
+msgstr "Asia/Bishkek"
+
+#: capplets/time-admin/src/time-zones.h:253
+msgid "Asia/Brunei"
+msgstr "Asia/Brunei"
+
+#: capplets/time-admin/src/time-zones.h:254
+msgid "Asia/Chita"
+msgstr "Asia/Chita"
+
+#: capplets/time-admin/src/time-zones.h:255
+msgid "Asia/Choibalsan"
+msgstr "Asia/Choibalsan"
+
+#: capplets/time-admin/src/time-zones.h:256
+msgid "Asia/Colombo"
+msgstr "Asia/Kolombo"
+
+#: capplets/time-admin/src/time-zones.h:257
+msgid "Asia/Damascus"
+msgstr "Asia/Damaskus"
+
+#: capplets/time-admin/src/time-zones.h:258
+msgid "Asia/Dhaka"
+msgstr "Asia/Dhaka"
+
+#: capplets/time-admin/src/time-zones.h:259
+msgid "Asia/Dili"
+msgstr "Asia/Dili"
+
+#: capplets/time-admin/src/time-zones.h:260
+msgid "Asia/Dubai"
+msgstr "Asia/Dubai"
+
+#: capplets/time-admin/src/time-zones.h:261
+msgid "Asia/Dushanbe"
+msgstr "Asia/Dushanbe"
+
+#: capplets/time-admin/src/time-zones.h:262
+msgid "Asia/Famagusta"
+msgstr "Asia/Famagusta"
+
+#: capplets/time-admin/src/time-zones.h:263
+msgid "Asia/Gaza"
+msgstr "Asia/Gaza"
+
+#: capplets/time-admin/src/time-zones.h:264
+msgid "Asia/Hebron"
+msgstr "Asia/Hebron"
+
+#: capplets/time-admin/src/time-zones.h:265
+msgid "Asia/Ho_Chi_Minh"
+msgstr "Asia/Ho_Chi_Minh"
+
+#: capplets/time-admin/src/time-zones.h:266
+msgid "Asia/Hong_Kong"
+msgstr "Asia/Hong_Kong"
+
+#: capplets/time-admin/src/time-zones.h:267
+msgid "Asia/Hovd"
+msgstr "Asia/Hovd"
+
+#: capplets/time-admin/src/time-zones.h:268
+msgid "Asia/Irkutsk"
+msgstr "Asia/Irkutsk"
+
+#: capplets/time-admin/src/time-zones.h:269
+msgid "Asia/Jakarta"
+msgstr "Asia/Jakarta"
+
+#: capplets/time-admin/src/time-zones.h:270
+msgid "Asia/Jayapura"
+msgstr "Asia/Jayapura"
+
+#: capplets/time-admin/src/time-zones.h:271
+msgid "Asia/Jerusalem"
+msgstr "Asia/Jerusalem"
+
+#: capplets/time-admin/src/time-zones.h:272
+msgid "Asia/Kabul"
+msgstr "Asia/Kabul"
+
+#: capplets/time-admin/src/time-zones.h:273
+msgid "Asia/Kamchatka"
+msgstr "Asia/Kamchatka"
+
+#: capplets/time-admin/src/time-zones.h:274
+msgid "Asia/Karachi"
+msgstr "Asia/Karachi"
+
+#: capplets/time-admin/src/time-zones.h:275
+msgid "Asia/Kathmandu"
+msgstr "Asia/Kathmandu"
+
+#: capplets/time-admin/src/time-zones.h:276
+msgid "Asia/Khandyga"
+msgstr "Asia/Khandyga"
+
+#: capplets/time-admin/src/time-zones.h:277
+msgid "Asia/Kolkata"
+msgstr "Asia/Kalkuta"
+
+#: capplets/time-admin/src/time-zones.h:278
+msgid "Asia/Krasnoyarsk"
+msgstr "Asia/Krasnoyarsk"
+
+#: capplets/time-admin/src/time-zones.h:279
+msgid "Asia/Kuala_Lumpur"
+msgstr "Asia/Kuala_Lumpur"
+
+#: capplets/time-admin/src/time-zones.h:280
+msgid "Asia/Kuching"
+msgstr "Asia/Kuching"
+
+#: capplets/time-admin/src/time-zones.h:281
+msgid "Asia/Kuwait"
+msgstr "Asia/Kuwait"
+
+#: capplets/time-admin/src/time-zones.h:282
+msgid "Asia/Macau"
+msgstr "Asia/Makau"
+
+#: capplets/time-admin/src/time-zones.h:283
+msgid "Asia/Magadan"
+msgstr "Asia/Magadan"
+
+#: capplets/time-admin/src/time-zones.h:284
+msgid "Asia/Makassar"
+msgstr "Asia/Makasar"
+
+#: capplets/time-admin/src/time-zones.h:285
+msgid "Asia/Manila"
+msgstr "Asia/Manila"
+
+#: capplets/time-admin/src/time-zones.h:286
+msgid "Asia/Muscat"
+msgstr "Asia/Muscat"
+
+#: capplets/time-admin/src/time-zones.h:287
+msgid "Asia/Nicosia"
+msgstr "Asia/Nicosia"
+
+#: capplets/time-admin/src/time-zones.h:288
+msgid "Asia/Novokuznetsk"
+msgstr "Asia/Novokuznetsk"
+
+#: capplets/time-admin/src/time-zones.h:289
+msgid "Asia/Novosibirsk"
+msgstr "Asia/Novosibirsk"
+
+#: capplets/time-admin/src/time-zones.h:290
+msgid "Asia/Omsk"
+msgstr "Asia/Omsk"
+
+#: capplets/time-admin/src/time-zones.h:291
+msgid "Asia/Oral"
+msgstr "Asia/Oral"
+
+#: capplets/time-admin/src/time-zones.h:292
+msgid "Asia/Phnom_Penh"
+msgstr "Asia/Phnom_Penh"
+
+#: capplets/time-admin/src/time-zones.h:293
+msgid "Asia/Pontianak"
+msgstr "Asia/Pontianak"
+
+#: capplets/time-admin/src/time-zones.h:294
+msgid "Asia/Pyongyang"
+msgstr "Asia/Pyongyang"
+
+#: capplets/time-admin/src/time-zones.h:295
+msgid "Asia/Qatar"
+msgstr "Asia/Qatar"
+
+#: capplets/time-admin/src/time-zones.h:296
+msgid "Asia/Qostanay"
+msgstr "Asia/Qostanay"
+
+#: capplets/time-admin/src/time-zones.h:297
+msgid "Asia/Qyzylorda"
+msgstr "Asia/Qyzylorda"
+
+#: capplets/time-admin/src/time-zones.h:298
+msgid "Asia/Riyadh"
+msgstr "Asia/Riyadh"
+
+#: capplets/time-admin/src/time-zones.h:299
+msgid "Asia/Sakhalin"
+msgstr "Asia/Sakhalin"
+
+#: capplets/time-admin/src/time-zones.h:300
+msgid "Asia/Samarkand"
+msgstr "Asia/Samarkand"
+
+#: capplets/time-admin/src/time-zones.h:301
+msgid "Asia/Seoul"
+msgstr "Asia/Seoul"
+
+#: capplets/time-admin/src/time-zones.h:302
+msgid "Asia/Shanghai"
+msgstr "Asia/Shanghai"
+
+#: capplets/time-admin/src/time-zones.h:303
+msgid "Asia/Singapore"
+msgstr "Asia/Singapura"
+
+#: capplets/time-admin/src/time-zones.h:304
+msgid "Asia/Srednekolymsk"
+msgstr "Asia/Srednekolymsk"
+
+#: capplets/time-admin/src/time-zones.h:305
+msgid "Asia/Taipei"
+msgstr "Asia/Taipei"
+
+#: capplets/time-admin/src/time-zones.h:306
+msgid "Asia/Tashkent"
+msgstr "Asia/Tashkent"
+
+#: capplets/time-admin/src/time-zones.h:307
+msgid "Asia/Tbilisi"
+msgstr "Asia/Tbilisi"
+
+#: capplets/time-admin/src/time-zones.h:308
+msgid "Asia/Tehran"
+msgstr "Asia/Tehran"
+
+#: capplets/time-admin/src/time-zones.h:309
+msgid "Asia/Thimphu"
+msgstr "Asia/Thimphu"
+
+#: capplets/time-admin/src/time-zones.h:310
+msgid "Asia/Tokyo"
+msgstr "Asia/Tokyo"
+
+#: capplets/time-admin/src/time-zones.h:311
+msgid "Asia/Tomsk"
+msgstr "Asia/Tomsk"
+
+#: capplets/time-admin/src/time-zones.h:312
+msgid "Asia/Ulaanbaatar"
+msgstr "Asia/Ulaanbaatar"
+
+#: capplets/time-admin/src/time-zones.h:313
+msgid "Asia/Urumqi"
+msgstr "Asia/Urumqi"
+
+#: capplets/time-admin/src/time-zones.h:314
+msgid "Asia/Ust-Nera"
+msgstr "Asia/Ust-Nera"
+
+#: capplets/time-admin/src/time-zones.h:315
+msgid "Asia/Vientiane"
+msgstr "Asia/Vientiane"
+
+#: capplets/time-admin/src/time-zones.h:316
+msgid "Asia/Vladivostok"
+msgstr "Asia/Vladivostok"
+
+#: capplets/time-admin/src/time-zones.h:317
+msgid "Asia/Yakutsk"
+msgstr "Asia/Yakutsk"
+
+#: capplets/time-admin/src/time-zones.h:318
+msgid "Asia/Yangon"
+msgstr "Asia/Yangon"
+
+#: capplets/time-admin/src/time-zones.h:319
+msgid "Asia/Yekaterinburg"
+msgstr "Asia/Yekaterinburg"
+
+#: capplets/time-admin/src/time-zones.h:320
+msgid "Asia/Yerevan"
+msgstr "Asia/Yerevan"
+
+#: capplets/time-admin/src/time-zones.h:321
+msgid "Atlantic/Azores"
+msgstr "Atlantik/Azores"
+
+#: capplets/time-admin/src/time-zones.h:322
+msgid "Atlantic/Bermuda"
+msgstr "Atlantik/Bermuda"
+
+#: capplets/time-admin/src/time-zones.h:323
+msgid "Atlantic/Canary"
+msgstr "Atlantik/Canary"
+
+#: capplets/time-admin/src/time-zones.h:324
+msgid "Atlantic/Cape_Verde"
+msgstr "Atlantik/Cape_Verde"
+
+#: capplets/time-admin/src/time-zones.h:325
+msgid "Atlantic/Faroe"
+msgstr "Atlantik/Faroe"
+
+#: capplets/time-admin/src/time-zones.h:326
+msgid "Atlantic/Madeira"
+msgstr "Atlantik/Madeira"
+
+#: capplets/time-admin/src/time-zones.h:327
+msgid "Atlantic/Reykjavik"
+msgstr "Atlantik/Reykjavik"
+
+#: capplets/time-admin/src/time-zones.h:328
+msgid "Atlantic/South_Georgia"
+msgstr "Atlantik/South_Georgia"
+
+#: capplets/time-admin/src/time-zones.h:329
+msgid "Atlantic/Stanley"
+msgstr "Atlantik/Stanley"
+
+#: capplets/time-admin/src/time-zones.h:330
+msgid "Atlantic/St_Helena"
+msgstr "Atlantik/St_Helena"
+
+#: capplets/time-admin/src/time-zones.h:331
+msgid "Australia/Adelaide"
+msgstr "Australia/Adelaide"
+
+#: capplets/time-admin/src/time-zones.h:332
+msgid "Australia/Brisbane"
+msgstr "Australia/Brisbane"
+
+#: capplets/time-admin/src/time-zones.h:333
+msgid "Australia/Broken_Hill"
+msgstr "Australia/Broken_Hill"
+
+#: capplets/time-admin/src/time-zones.h:334
+msgid "Australia/Currie"
+msgstr "Australia/Currie"
+
+#: capplets/time-admin/src/time-zones.h:335
+msgid "Australia/Darwin"
+msgstr "Australia/Darwin"
+
+#: capplets/time-admin/src/time-zones.h:336
+msgid "Australia/Eucla"
+msgstr "Australia/Eucla"
+
+#: capplets/time-admin/src/time-zones.h:337
+msgid "Australia/Hobart"
+msgstr "Australia/Hobart"
+
+#: capplets/time-admin/src/time-zones.h:338
+msgid "Australia/Lindeman"
+msgstr "Australia/Lindeman"
+
+#: capplets/time-admin/src/time-zones.h:339
+msgid "Australia/Lord_Howe"
+msgstr "Australia/Lord_Howe"
+
+#: capplets/time-admin/src/time-zones.h:340
+msgid "Australia/Melbourne"
+msgstr "Australia/Melbourne"
+
+#: capplets/time-admin/src/time-zones.h:341
+msgid "Australia/Perth"
+msgstr "Australia/Perth"
+
+#: capplets/time-admin/src/time-zones.h:342
+msgid "Australia/Sydney"
+msgstr "Australia/Sydney"
+
+#: capplets/time-admin/src/time-zones.h:343
+msgid "Europe/Amsterdam"
+msgstr "Eropa/Amsterdam"
+
+#: capplets/time-admin/src/time-zones.h:344
+msgid "Europe/Andorra"
+msgstr "Eropa/Andorra"
+
+#: capplets/time-admin/src/time-zones.h:345
+msgid "Europe/Astrakhan"
+msgstr "Eropa/Astrakhan"
+
+#: capplets/time-admin/src/time-zones.h:346
+msgid "Europe/Athens"
+msgstr "Eropa/Athena"
+
+#: capplets/time-admin/src/time-zones.h:347
+msgid "Europe/Belgrade"
+msgstr "Eropa/Beograd"
+
+#: capplets/time-admin/src/time-zones.h:348
+msgid "Europe/Berlin"
+msgstr "Eropa/Berlin"
+
+#: capplets/time-admin/src/time-zones.h:349
+msgid "Europe/Bratislava"
+msgstr "Eropa/Bratislava"
+
+#: capplets/time-admin/src/time-zones.h:350
+msgid "Europe/Brussels"
+msgstr "Eropa/Brussels"
+
+#: capplets/time-admin/src/time-zones.h:351
+msgid "Europe/Bucharest"
+msgstr "Eropa/Bucharest"
+
+#: capplets/time-admin/src/time-zones.h:352
+msgid "Europe/Budapest"
+msgstr "Eropa/Budapest"
+
+#: capplets/time-admin/src/time-zones.h:353
+msgid "Europe/Busingen"
+msgstr "Eropa/Busingen"
+
+#: capplets/time-admin/src/time-zones.h:354
+msgid "Europe/Chisinau"
+msgstr "Eropa/Chisinau"
+
+#: capplets/time-admin/src/time-zones.h:355
+msgid "Europe/Copenhagen"
+msgstr "Eropa/Kopenhagen"
+
+#: capplets/time-admin/src/time-zones.h:356
+msgid "Europe/Dublin"
+msgstr "Eropa/Dublin"
+
+#: capplets/time-admin/src/time-zones.h:357
+msgid "Europe/Gibraltar"
+msgstr "Eropa/Gibraltar"
+
+#: capplets/time-admin/src/time-zones.h:358
+msgid "Europe/Guernsey"
+msgstr "Eropa/Guernsey"
+
+#: capplets/time-admin/src/time-zones.h:359
+msgid "Europe/Helsinki"
+msgstr "Eropa/Helsinki"
+
+#: capplets/time-admin/src/time-zones.h:360
+msgid "Europe/Isle_of_Man"
+msgstr "Eropa/Isle_of_Man"
+
+#: capplets/time-admin/src/time-zones.h:361
+msgid "Europe/Istanbul"
+msgstr "Eropa/Istanbul"
+
+#: capplets/time-admin/src/time-zones.h:362
+msgid "Europe/Jersey"
+msgstr "Eropa/Jersey"
+
+#: capplets/time-admin/src/time-zones.h:363
+msgid "Europe/Kaliningrad"
+msgstr "Eropa/Kaliningrad"
+
+#: capplets/time-admin/src/time-zones.h:364
+msgid "Europe/Kiev"
+msgstr "Eropa/Kiev"
+
+#: capplets/time-admin/src/time-zones.h:365
+msgid "Europe/Kirov"
+msgstr "Eropa/Kirov"
+
+#: capplets/time-admin/src/time-zones.h:366
+msgid "Europe/Lisbon"
+msgstr "Eropa/Lisbon"
+
+#: capplets/time-admin/src/time-zones.h:367
+msgid "Europe/Ljubljana"
+msgstr "Eropa/Ljubljana"
+
+#: capplets/time-admin/src/time-zones.h:368
+msgid "Europe/London"
+msgstr "Eropa/London"
+
+#: capplets/time-admin/src/time-zones.h:369
+msgid "Europe/Luxembourg"
+msgstr "Eropa/Luxembourg"
+
+#: capplets/time-admin/src/time-zones.h:370
+msgid "Europe/Madrid"
+msgstr "Eropa/Madrid"
+
+#: capplets/time-admin/src/time-zones.h:371
+msgid "Europe/Malta"
+msgstr "Eropa/Malta"
+
+#: capplets/time-admin/src/time-zones.h:372
+msgid "Europe/Mariehamn"
+msgstr "Eropa/Mariehamn"
+
+#: capplets/time-admin/src/time-zones.h:373
+msgid "Europe/Minsk"
+msgstr "Eropa/Minsk"
+
+#: capplets/time-admin/src/time-zones.h:374
+msgid "Europe/Monaco"
+msgstr "Eropa/Monako"
+
+#: capplets/time-admin/src/time-zones.h:375
+msgid "Europe/Moscow"
+msgstr "Eropa/Moskow"
+
+#: capplets/time-admin/src/time-zones.h:376
+msgid "Europe/Oslo"
+msgstr "Eropa/Oslo"
+
+#: capplets/time-admin/src/time-zones.h:377
+msgid "Europe/Paris"
+msgstr "Eropa/Paris"
+
+#: capplets/time-admin/src/time-zones.h:378
+msgid "Europe/Podgorica"
+msgstr "Eropa/Podgorica"
+
+#: capplets/time-admin/src/time-zones.h:379
+msgid "Europe/Prague"
+msgstr "Eropa/Praha"
+
+#: capplets/time-admin/src/time-zones.h:380
+msgid "Europe/Riga"
+msgstr "Eropa/Riga"
+
+#: capplets/time-admin/src/time-zones.h:381
+msgid "Europe/Rome"
+msgstr "Eropa/Roma"
+
+#: capplets/time-admin/src/time-zones.h:382
+msgid "Europe/Samara"
+msgstr "Eropa/Samara"
+
+#: capplets/time-admin/src/time-zones.h:383
+msgid "Europe/San_Marino"
+msgstr "Eropa/San_Marino"
+
+#: capplets/time-admin/src/time-zones.h:384
+msgid "Europe/Sarajevo"
+msgstr "Eropa/Sarajevo"
+
+#: capplets/time-admin/src/time-zones.h:385
+msgid "Europe/Saratov"
+msgstr "Eropa/Saratov"
+
+#: capplets/time-admin/src/time-zones.h:386
+msgid "Europe/Simferopol"
+msgstr "Eropa/Simferopol"
+
+#: capplets/time-admin/src/time-zones.h:387
+msgid "Europe/Skopje"
+msgstr "Eropa/Skopje"
+
+#: capplets/time-admin/src/time-zones.h:388
+msgid "Europe/Sofia"
+msgstr "Eropa/Sofia"
+
+#: capplets/time-admin/src/time-zones.h:389
+msgid "Europe/Stockholm"
+msgstr "Eropa/Stockholm"
+
+#: capplets/time-admin/src/time-zones.h:390
+msgid "Europe/Tallinn"
+msgstr "Eropa/Tallinn"
+
+#: capplets/time-admin/src/time-zones.h:391
+msgid "Europe/Tirane"
+msgstr "Eropa/Tirane"
+
+#: capplets/time-admin/src/time-zones.h:392
+msgid "Europe/Ulyanovsk"
+msgstr "Eropa/Ulyanovsk"
+
+#: capplets/time-admin/src/time-zones.h:393
+msgid "Europe/Uzhgorod"
+msgstr "Eropa/Uzhgorod"
+
+#: capplets/time-admin/src/time-zones.h:394
+msgid "Europe/Vaduz"
+msgstr "Eropa/Vaduz"
+
+#: capplets/time-admin/src/time-zones.h:395
+msgid "Europe/Vatican"
+msgstr "Eropa/Vatikan"
+
+#: capplets/time-admin/src/time-zones.h:396
+msgid "Europe/Vienna"
+msgstr "Eropa/Wina"
+
+#: capplets/time-admin/src/time-zones.h:397
+msgid "Europe/Vilnius"
+msgstr "Eropa/Vilnius"
+
+#: capplets/time-admin/src/time-zones.h:398
+msgid "Europe/Volgograd"
+msgstr "Eropa/Volgograd"
+
+#: capplets/time-admin/src/time-zones.h:399
+msgid "Europe/Warsaw"
+msgstr "Eropa/Warsawa"
+
+#: capplets/time-admin/src/time-zones.h:400
+msgid "Europe/Zagreb"
+msgstr "Eropa/Zagreb"
+
+#: capplets/time-admin/src/time-zones.h:401
+msgid "Europe/Zaporozhye"
+msgstr "Eropa/Zaporozhye"
+
+#: capplets/time-admin/src/time-zones.h:402
+msgid "Europe/Zurich"
+msgstr "Eropa/Zurich"
+
+#: capplets/time-admin/src/time-zones.h:403
+msgid "Indian/Antananarivo"
+msgstr "Hindia/Antananarivo"
+
+#: capplets/time-admin/src/time-zones.h:404
+msgid "Indian/Chagos"
+msgstr "Hindia/Chagos"
+
+#: capplets/time-admin/src/time-zones.h:405
+msgid "Indian/Christmas"
+msgstr "Hindia/Christmas"
+
+#: capplets/time-admin/src/time-zones.h:406
+msgid "Indian/Cocos"
+msgstr "Hindia/Cocos"
+
+#: capplets/time-admin/src/time-zones.h:407
+msgid "Indian/Comoro"
+msgstr "Hindia/Komoro"
+
+#: capplets/time-admin/src/time-zones.h:408
+msgid "Indian/Kerguelen"
+msgstr "Hindia/Kerguelen"
+
+#: capplets/time-admin/src/time-zones.h:409
+msgid "Indian/Mahe"
+msgstr "Hindia/Mahe"
+
+#: capplets/time-admin/src/time-zones.h:410
+msgid "Indian/Maldives"
+msgstr "Hindia/Maladewa"
+
+#: capplets/time-admin/src/time-zones.h:411
+msgid "Indian/Mauritius"
+msgstr "Hindia/Mauritius"
+
+#: capplets/time-admin/src/time-zones.h:412
+msgid "Indian/Mayotte"
+msgstr "Hindia/Mayotte"
+
+#: capplets/time-admin/src/time-zones.h:413
+msgid "Indian/Reunion"
+msgstr "Hindia/Reunion"
+
+#: capplets/time-admin/src/time-zones.h:414
+msgid "Pacific/Apia"
+msgstr "Pasifik/Apia"
+
+#: capplets/time-admin/src/time-zones.h:415
+msgid "Pacific/Auckland"
+msgstr "Pasifik/Auckland"
+
+#: capplets/time-admin/src/time-zones.h:416
+msgid "Pacific/Bougainville"
+msgstr "Pasifik/Bougainville"
+
+#: capplets/time-admin/src/time-zones.h:417
+msgid "Pacific/Chatham"
+msgstr "Pasifik/Chatham"
+
+#: capplets/time-admin/src/time-zones.h:418
+msgid "Pacific/Chuuk"
+msgstr "Pasifik/Chuuk"
+
+#: capplets/time-admin/src/time-zones.h:419
+msgid "Pacific/Easter"
+msgstr "Pasifik/Easter"
+
+#: capplets/time-admin/src/time-zones.h:420
+msgid "Pacific/Efate"
+msgstr "Pasifik/Efate"
+
+#: capplets/time-admin/src/time-zones.h:421
+msgid "Pacific/Enderbury"
+msgstr "Pasifik/Enderbury"
+
+#: capplets/time-admin/src/time-zones.h:422
+msgid "Pacific/Fakaofo"
+msgstr "Pasifik/Fakaofo"
+
+#: capplets/time-admin/src/time-zones.h:423
+msgid "Pacific/Fiji"
+msgstr "Pasifik/Fiji"
+
+#: capplets/time-admin/src/time-zones.h:424
+msgid "Pacific/Funafuti"
+msgstr "Pasifik/Funafuti"
+
+#: capplets/time-admin/src/time-zones.h:425
+msgid "Pacific/Galapagos"
+msgstr "Pasifik/Galapagos"
+
+#: capplets/time-admin/src/time-zones.h:426
+msgid "Pacific/Gambier"
+msgstr "Pasifik/Gambier"
+
+#: capplets/time-admin/src/time-zones.h:427
+msgid "Pacific/Guadalcanal"
+msgstr "Pasifik/Guadalcanal"
+
+#: capplets/time-admin/src/time-zones.h:428
+msgid "Pacific/Guam"
+msgstr "Pasifik/Guam"
+
+#: capplets/time-admin/src/time-zones.h:429
+msgid "Pacific/Honolulu"
+msgstr "Pasifik/Honolulu"
+
+#: capplets/time-admin/src/time-zones.h:430
+msgid "Pacific/Kiritimati"
+msgstr "Pasifik/Kiritimati"
+
+#: capplets/time-admin/src/time-zones.h:431
+msgid "Pacific/Kosrae"
+msgstr "Pasifik/Kosrae"
+
+#: capplets/time-admin/src/time-zones.h:432
+msgid "Pacific/Kwajalein"
+msgstr "Pasifik/Kwajalein"
+
+#: capplets/time-admin/src/time-zones.h:433
+msgid "Pacific/Majuro"
+msgstr "Pasifik/Majuro"
+
+#: capplets/time-admin/src/time-zones.h:434
+msgid "Pacific/Marquesas"
+msgstr "Pasifik/Marquesas"
+
+#: capplets/time-admin/src/time-zones.h:435
+msgid "Pacific/Midway"
+msgstr "Pasifik/Midway"
+
+#: capplets/time-admin/src/time-zones.h:436
+msgid "Pacific/Nauru"
+msgstr "Pasifik/Nauru"
+
+#: capplets/time-admin/src/time-zones.h:437
+msgid "Pacific/Niue"
+msgstr "Pasifik/Niue"
+
+#: capplets/time-admin/src/time-zones.h:438
+msgid "Pacific/Norfolk"
+msgstr "Pasifik/Norfolk"
+
+#: capplets/time-admin/src/time-zones.h:439
+msgid "Pacific/Noumea"
+msgstr "Pasifik/Noumea"
+
+#: capplets/time-admin/src/time-zones.h:440
+msgid "Pacific/Pago_Pago"
+msgstr "Pasifik/Pago_Pago"
+
+#: capplets/time-admin/src/time-zones.h:441
+msgid "Pacific/Palau"
+msgstr "Pasifik/Palau"
+
+#: capplets/time-admin/src/time-zones.h:442
+msgid "Pacific/Pitcairn"
+msgstr "Pasifik/Pitcairn"
+
+#: capplets/time-admin/src/time-zones.h:443
+msgid "Pacific/Pohnpei"
+msgstr "Pasifik/Pohnpei"
+
+#: capplets/time-admin/src/time-zones.h:444
+msgid "Pacific/Port_Moresby"
+msgstr "Pasifik/Port_Moresby"
+
+#: capplets/time-admin/src/time-zones.h:445
+msgid "Pacific/Rarotonga"
+msgstr "Pasifik/Rarotonga"
+
+#: capplets/time-admin/src/time-zones.h:446
+msgid "Pacific/Saipan"
+msgstr "Pasifik/Saipan"
+
+#: capplets/time-admin/src/time-zones.h:447
+msgid "Pacific/Tahiti"
+msgstr "Pasifik/Tahiti"
+
+#: capplets/time-admin/src/time-zones.h:448
+msgid "Pacific/Tarawa"
+msgstr "Pasifik/Tarawa"
+
+#: capplets/time-admin/src/time-zones.h:449
+msgid "Pacific/Tongatapu"
+msgstr "Pasifik/Tongatapu"
+
+#: capplets/time-admin/src/time-zones.h:450
+msgid "Pacific/Wake"
+msgstr "Pasifik/Wake"
+
+#: capplets/time-admin/src/time-zones.h:451
+msgid "Pacific/Wallis"
+msgstr "Pasifik/Wallis"
+
+#: capplets/time-admin/data/mate-time-admin.desktop.in:3
+msgid "Time And Date Manager"
+msgstr "Manajer Waktu dan Tanggal"
+
+#: capplets/time-admin/data/mate-time-admin.desktop.in:4
+msgid "Setting the time and date of the local system"
+msgstr "Menata waktu dan tanggal sistem lokal"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: capplets/time-admin/data/mate-time-admin.desktop.in:13
+msgid "mate-control-center;MATE;clock;date;time;preferences;"
+msgstr "mate-control-center;MATE;jam;tanggal;waktu;preferensi;"
+
+#: shell/control-center.c:58
+#, c-format
+msgid "%s key is empty\n"
+msgstr "kunci %s kosong\n"
+
+#: shell/control-center.c:137
+msgid "Filter"
+msgstr "Penyaringan"
+
+#: shell/control-center.c:137
+msgid "Groups"
+msgstr "Kelompok"
+
+#: shell/control-center.c:137
+msgid "Common Tasks"
+msgstr "Tugas Umum"
+
+#: shell/control-center.c:145 shell/matecc.desktop.in:3
+#: shell/matecc.directory.desktop.in:3
+msgid "Control Center"
+msgstr "Pusat Pengaturan"
+
+#: shell/control-center.c:164
+msgid "Hide on start (useful to preload the shell)"
+msgstr "Sembunyikan saat awal (berguna untuk pramuat shell)"
+
+#: shell/matecc.desktop.in:4
+msgid "The MATE configuration tool"
+msgstr "Perkakas konfigurasi MATE"
+
+#: shell/matecc.desktop.in:5
+msgid "Configure MATE settings"
+msgstr "Konfigurasikan pengaturan MATE"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: shell/matecc.desktop.in:14
+msgid "MATE;control;center;configuration;tool;desktop;preferences;"
+msgstr "MATE;kendali;pusat;konfigurasi;alat;perkakas;desktop;preferensi;"
+
+#: typing-break/drw-break-window.c:179
+msgid "_Postpone Break"
+msgstr "Tunda Instirahat"
+
+#: typing-break/drw-break-window.c:238
+msgid "Take a break!"
+msgstr "Istirahat dulu!"
+
+#: typing-break/drwright.c:326
+#, c-format
+msgid "Take a break now (next in %dm)"
+msgstr "Istirahat sekarang (berikutnya dalam %dm)"
+
+#: typing-break/drwright.c:328
+msgid "Take a break now (next in less than one minute)"
+msgstr "Istirahat sekarang (berikutnya dalam kurang dari semenit)"
+
+#: typing-break/drwright.c:413
+#, c-format
+msgid ""
+"Unable to bring up the typing break properties dialog with the following "
+"error: %s"
+msgstr ""
+"Dialog pengaturan istirahat pengetikan tidak dapat ditampilkan. Pesan error: "
+"%s"
+
+#: typing-break/drwright.c:432
+msgid "Written by Richard Hult <richard@imendio.com>"
+msgstr "Ditulis oleh Richard Hult <richard@imendio.com>"
+
+#: typing-break/drwright.c:433
+msgid "Eye candy added by Anders Carlsson"
+msgstr "Pernak-pernik dibuat oleh Anders Carlsson"
+
+#: typing-break/drwright.c:442
+msgid "A computer break reminder."
+msgstr "Program pengingat istirahat."
+
+#: typing-break/drwright.c:444 font-viewer/font-view.c:825
+msgid "translator-credits"
+msgstr ""
+"Mohammad DAMT <mdamt@bisnisweb.com>\n"
+"Ahmad Riza H Nst  <ari@160c.afraid.org>\n"
+"Dirgita <dirgita@gmail.com>\n"
+"Tim MATE Indonesia <http://id.mate.org>\n"
+"Kukuh Syafaat <syafaatkukuh@gmail.com>, 2017.\n"
+"Andika Triwidada <andika@gmail.com>, 2020, 2021, 2023."
+
+#: typing-break/main.c:74
+msgid "Enable debugging code"
+msgstr "Aktifkan kode pencarian kesalahan"
+
+#: typing-break/main.c:76
+msgid "Don't check whether the notification area exists"
+msgstr "Jangan memeriksa apakah wilayah pemberitahuan telah ada"
+
+#: typing-break/main.c:104
+msgid "Typing Monitor"
+msgstr "Pemantauan Pengetikan"
+
+#: typing-break/main.c:120
+msgid ""
+"The typing monitor uses the notification area to display information. You "
+"don't seem to have a notification area on your panel. You can add it by "
+"right-clicking on your panel and choosing 'Add to panel', selecting "
+"'Notification area' and clicking 'Add'."
+msgstr ""
+"Program pemantau ketik menggunakan area notifikasi untuk menampilkan "
+"informasi. Sepertinya Anda belum memasang area notifikasi. Silakan tambah "
+"dulu area notifikasi ke panel dengan cara mengklik kanan pada panel dan "
+"pilih 'Tambahkan ke panel' kemudian 'Area notifikasi' dan tekan tombol "
+"'Tambah'."
+
+#: font-viewer/font-view.c:205
+msgid "Style"
+msgstr "Gaya"
+
+#: font-viewer/font-view.c:215
+msgid "Type"
+msgstr "Tipe"
+
+#: font-viewer/font-view.c:261 font-viewer/font-view.c:276
+msgid "Version"
+msgstr "Versi"
+
+#: font-viewer/font-view.c:266 font-viewer/font-view.c:278
+msgid "Copyright"
+msgstr "Hak Cipta"
+
+#: font-viewer/font-view.c:271
+msgid "Description"
+msgstr "Deskripsi:"
+
+#: font-viewer/font-view.c:289
+msgid "Install Failed"
+msgstr "Pemasangan Gagal"
+
+#: font-viewer/font-view.c:295
+msgid "Installed"
+msgstr "Terpasang"
+
+#: font-viewer/font-view.c:431
+msgid "This font could not be displayed."
+msgstr "Fonta ini tidak dapat ditampilkan."
+
+#: font-viewer/font-view.c:494 font-viewer/font-view.c:601
+msgid "Info"
+msgstr "Info"
+
+#: font-viewer/font-view.c:614
+msgid "Back"
+msgstr "Kembali"
+
+#: font-viewer/font-view.c:718
+msgid "All Fonts"
+msgstr "Semua Fonta"
+
+#: font-viewer/font-view.c:822 font-viewer/font-view.c:874
+msgid "Font Viewer"
+msgstr "Pelihat Fonta"
+
+#: font-viewer/font-view.c:823 font-viewer/mate-font-viewer.desktop.in:4
+msgid "View fonts on your system"
+msgstr "Tilik fonta pada sistem Anda"
+
+#: font-viewer/mate-font-viewer.desktop.in:3
+msgid "MATE Font Viewer"
+msgstr "Penampil Fonta MATE"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: font-viewer/mate-font-viewer.desktop.in:14
+msgid "mate-control-center;MATE;font;viewer;preview;desktop;preferences;"
+msgstr ""
+"mate-control-center;MATE;fonta;penampil;penilik;pratinjau;pratampil;pratilik;"
+"desktop;preferensi;"
+
+#: font-viewer/font-thumbnailer.c:194
+msgid "Text to thumbnail (default: Aa)"
+msgstr "Teks untuk dicontohkan (baku: Aa)"
+
+#: font-viewer/font-thumbnailer.c:194
+msgid "TEXT"
+msgstr "TEXT"
+
+#: font-viewer/font-thumbnailer.c:196
+msgid "Thumbnail size (default: 128)"
+msgstr "Ukuran thumbnail (bawaan: 128)"
+
+#: font-viewer/font-thumbnailer.c:196
+msgid "SIZE"
+msgstr "SIZE"
+
+#: font-viewer/font-thumbnailer.c:198
+msgid "FONT-FILE OUTPUT-FILE"
+msgstr "FONT-FILE OUTPUT-FILE"
+
+#: shell/app-shell.c:772
+#, c-format
+msgid "Your filter \"%s\" does not match any items."
+msgstr "Tapis \"%s\" Anda tak cocok dengan apapun."
+
+#: shell/app-shell.c:774
+msgid "No matches found."
+msgstr "Tak ditemukan yang cocok."
+
+#: shell/app-shell.c:883
+msgid "New Applications"
+msgstr "Aplikasi Baru"
+
+#: shell/app-shell.c:945
+msgid "Other"
+msgstr "Lainnya"
+
+#: shell/application-tile.c:338
+#, c-format
+msgid "Start %s"
+msgstr "Mulai %s"
+
+#: shell/application-tile.c:359
+msgid "Help"
+msgstr "Bantuan"
+
+#: shell/application-tile.c:662
+msgid "Remove from Favorites"
+msgstr "Hapus dari Favorit"
+
+#: shell/application-tile.c:664
+msgid "Add to Favorites"
+msgstr "Tambah ke Favorit"
+
+#: shell/application-tile.c:749
+msgid "Remove from Startup Programs"
+msgstr "Hapus dari Program Awal Mula"
+
+#: shell/application-tile.c:751
+msgid "Add to Startup Programs"
+msgstr "Tambah ke Program Awal Mula"
+
+#: shell/bookmark-agent.c:1102
+msgid "New Spreadsheet"
+msgstr "Spreadsheet Baru"
+
+#: shell/bookmark-agent.c:1106
+msgid "New Document"
+msgstr "Dokumen Baru"
+
+#: shell/bookmark-agent.c:1160
+msgctxt "Home folder"
+msgid "Home"
+msgstr "Beranda"
+
+#: shell/bookmark-agent.c:1167
+msgid "Documents"
+msgstr "Dokumen"
+
+#: shell/bookmark-agent.c:1178
+msgid "File System"
+msgstr "Sistem Berkas"
+
+#: shell/bookmark-agent.c:1181
+msgid "Network Servers"
+msgstr "Server Jaringan"
+
+#, c-format
+#~ msgid "Window manager \"%s\" has not registered a configuration tool\n"
+#~ msgstr ""
+#~ "Pengatur jendela \"%s\" tidak memiliki program konfigurasi yang "
+#~ "terdaftar\n"
+
+#~ msgid "_Preferences"
+#~ msgstr "_Preferensi"
+
+#~ msgid "_About"
+#~ msgstr "_Tentang"
+
+#~ msgid "_Take a Break"
+#~ msgstr "Is_tirahat"
+
+#, c-format
+#~ msgid "%d minute until the next break"
+#~ msgid_plural "%d minutes until the next break"
+#~ msgstr[0] "%d menit sampai istirahat berikutnya"
+
+#~ msgid "Less than one minute until the next break"
+#~ msgstr "Kurang dari satu menit lagi kita akan istirahat"

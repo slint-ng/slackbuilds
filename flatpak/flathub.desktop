@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Flathub
+Exec=xdg-open https://flathub.org
+Icon=flathub
+Terminal=false
+Categories=System;
+StartupNotify=true

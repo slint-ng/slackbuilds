@@ -1,0 +1,284 @@
+.\" The beep(1) man page
+.\"
+.\" This man page has been rewritten adhering to the following
+.\" documentation: man(7), man-pages(7), tbl(1)
+.\"
+.TH BEEP 1 "2020\-01\-01" "Linux" "User commands"
+.\"
+.\" ====================================================================
+.\"
+.SH NAME
+beep \- beep the pc speaker any number of ways
+.\"
+.\" ====================================================================
+.\"
+.SH SYNOPSIS
+.B beep
+.RB [\| GLOBALS \|]
+.RB [\| \-f
+.IR FREQ \|]
+.RB [\| \-l
+.IR LEN \|]
+.RB [\| \-r
+.IR REPEATS \|]
+.RB [\|< \-d|\-D >
+.IR DELAY \|]
+.RB [\| \-s \|]
+.RB [\| \-c \|]
+.br
+.B beep
+.RB [\| GLOBALS \|]
+.RI <\| TONE_OPTIONS \|>
+.RB [\| \-n|\-\-new \|]
+.RI <\| TONE_OPTIONS \|>
+.br
+.B beep
+.RI <\| \-h | \-\-help \|>
+.br
+.B beep
+.RI <\| \-v | \-V | \-\-version \|>
+.\"
+.\" ====================================================================
+.\"
+.SH DESCRIPTION
+.PP
+\fBbeep\fR allows the user to control the PC speaker with precision, allowing different sounds to indicate different events.  While \fBbeep\fR can be run quite happily on the command line, \fBbeep\fR's intended use is within shell/perl scripts, notifying the user when something interesting occurs.  Of course, it has no notion of what \fIIS\fR interesting, but it is good at the notifying part.
+.PP
+All options have default values, meaning that just typing '\fBbeep\fR' will work.  If an option is specified more than once on the command line, subsequent options override their predecessors.  So '\fBbeep\fR \-f 200 \-f 300' will beep at 300Hz.
+.PP
+All durations are given in a unit of milliseconds, frequencies as Hertz, and the number of repeats is a dimensionless number.
+.\"
+.\" ====================================================================
+.\"
+.SH OPTIONS
+.SS "Global options"
+.TP
+.BI \-e\ DEVICE \fR, \ \fB\-\-device= DEVICE
+Explicitly set the device \fBbeep\fR shall use to generate beep tones.  When not given a device explicitly, \fBbeep\fR runs through an internal list of devices until one appears to work.
+.TP
+.BR \-\-debug ,\  \-\-verbose
+Make the \fBbeep\fR program more verbose.
+.SS "Tone options"
+.TP
+.BI \-f\  FREQ
+Beep with a tone frequency of \fIFREQ\fR Hz, where 0 < \fIFREQ\fR < 20000.  As a general ballpark, the regular terminal beep is around 750Hz.  For backwards compatibility, you can give \fIFREQ\fR as a floating point number, but \fBbeep\fR will round that to integer values as the kernel APIs expect them.  Default value: @DEFAULT_FREQ@ Hz.
+.TP
+.BI \-l\  LEN
+Beep for a tone length of \fILEN\fR milliseconds. Default value: @DEFAULT_LENGTH@ ms.
+.TP
+.BI \-r\  REPEATS
+Repeat the tone including delays \fIREPEATS\fR times. Default value: 1 tone, not repeated.
+.TP
+.BI \-d\  DELAY\fR\ |\  \-D\  DELAY
+Specify a delay of \fIDELAY\fR milliseconds between repetitions.  Small letter \fB\-d\fR specifies that this delay should only occur \fIbetween\fR beeps, that is, it should \fInot\fR occur after the last repetition.  Capital letter \fB\-D\fR specifies that the delay should occur after every repetition, \fIincluding\fR after the last one.  Normally, \fB\-d\fR is what you want, but if, for example, you are stringing several \fBbeep\fR commands together to play the star wars anthem, you may want control over every delay. Default value: @DEFAULT_DELAY@ ms delay between beeps with no delay after the last beep.
+.TP
+.BR \-n ,\  \-\-new
+The \fB\-\-new\fR option allows you to chain multiple beeps together on a single command line.  Each time the \fB\-\-new\FR is used, \fBbeep\fR starts treating all further arguments as though they were for a new beep.  So for example:
+
+    \fBbeep\fR \-f 1000 \-n \-f 2000 \-n \-f 1500
+
+would produce a sequence of three beeps, the first with a frequency of 1000Hz (and otherwise default values), then a second beep with a frequency of 2000Hz (again, with things like delay and reps being set to their defaults), then a third beep, at 1500Hz.  This is different from specifying a \fB\-r\fR value, since \fB\-r\fR repeats the same beep multiple times, whereas \fB\-\-new\fR allows you to specify different beeps.  After a \fB\-\-new\fR, the new beep is created with all the default values, and any of these can be specified without altering values for preceding (or later) beeps.  See the \fBEXAMPLES\fR section if this managed to confuse you.
+.TP
+.BR \-s ,\  \-c
+Both the \fB\-s\fR and the \fB\-c\fR option put \fBbeep\fR into input processing mode, reading from \fIstdin\fR and copying all received data to \fIstdout\fR.  This makes it easy to slip \fBbeep\fR into a text processing pipeline to acoustically monitor the data flow within that pipeline.  See the \fBEXAMPLES\fR section.
+.RS
+.TP
+.BR \-c
+Beep after every character received.
+.TP
+.BR \-s
+Beep after every set of data received.  Usually, this means after newlines occur in text processing pipes.
+.PP
+In a sequence of notes specified with one or more occurrences of \fB\-n\fR or \fB\-\-new\fR, it only makes sense to have one single note marked with either \fB\-s\fR or \fB\-c\fR attached to it.  Then \fBbeep\fR will beep all notes until it reaches that marked note, then repeat the marked note according to the input it receives, and once the input has reached EOF, \fBbeep\fR will continue with the remainder of the note sequence.
+.PP
+The behaviour of \fBbeep\fR with more than one note marked with \fB\-s\fR or \fB\-c\fR is undefined.
+.RE
+.SS "Other Actions"
+.BR \-h ,\  \-\-help
+Display \fBbeep\fR usage info and exit.
+.TP
+.BR \-v ,\  \-V ,\  \-\-version
+Display \fBbeep\fR version information and exit.
+.\"
+.\" ====================================================================
+.\"
+.SH EXIT STATUS
+.PP
+When successful,
+.B beep
+returns with exit code 0.
+.PP
+Any non\-0 exit code means
+.B beep
+has encountered an error and has bailed out.
+.\"
+.\" ====================================================================
+.\"
+.SH ENVIRONMENT
+.TP
+.BR BEEP_LOG_LEVEL
+When set to a number between -999 and 999,
+.B BEEP_LOG_LEVEL
+will be used as the default loglevel until overridden by a command line parameter.
+.\"
+.\" ====================================================================
+.\"
+.SH FILES
+The device files
+.B beep
+uses by default are the following:
+.\"
+    /dev/input/by\-path/platform\-pcspkr\-event\-spkr
+    /dev/tty0
+    /dev/vc/0
+.\"
+.\" ====================================================================
+.\"
+.SH NOTES
+.SS "Devices and Permissions"
+.PP
+When you run \fBbeep\fR without explicitly giving a device to use, \fBbeep\fR tries opening the following devices in sequence until one succeeds:
+.IP "\fB/dev/input/by\-path/platform\-pcspkr\-event\-spkr\fR" 4
+Uses the evdev API, and system administrator can allow access to any set of users and groups using the normal file permissions.
+.IP "\fB/dev/tty0\fR" 4
+Uses the console API, and the kernel insists you are root or own the TTY.
+.IP "\fB/dev/vc/0\fR" 4
+Uses the console API, and the kernel insists you are root or own the TTY.
+.PP
+.B beep
+does not support running as setuid root or via
+.BR "sudo" "(1)" .
+.PP
+For non\-root uses, the system administrator can set up a
+.BR udev "(7)"
+rule to allow write access to
+.B /dev/input/by\-path/platform\-pcspkr\-event\-spkr
+for certain users and/or user groups. For details, see the
+.B beep
+.B @docdir@/PERMISSIONS.md
+file.
+.\"
+.SS "APIs"
+.IP "evdev" 4
+Uses the input event device driver, which means running
+.BR "write" "(2)"
+on
+.BR /dev/input/by\-path/platform\-pcspkr\-event\-spkr .
+.IP
+The permissions to this device file can be set up such that beep can be run by any non-root user the system administrator wants to.
+.IP
+Opening this device takes on the order of magnitude of 20ms in the Linux kernel for every time you start the
+.B beep
+command. Therefore, if you need to play multiple notes in a rhythmical sequence for a melody, use one
+.B beep
+command invocation with multiple notes, not several
+.B beep
+invocations playing one note each.
+.IP "console" 4
+Uses the ancient console API, which means running the
+.B "KIOCSOUND"
+.BR "ioctl" "(2)"
+on a tty device like
+.BR /dev/tty0\  or\  /dev/vc/0.
+.IP
+This requires being root, unless the non-root user happens be logged into the virtual console and be using that specific virtual console device like e.g. \fB/dev/tty4\fR. This makes the console driver useless for non-root users logged in via ssh, and often X11 or Wayland.
+.IP
+Use the evdev API instead.
+.\"
+.SS "Concurrent Invocations"
+Concurrent invocations of \fBbeep\fR are not supported. There is only one tone generator in the PC hardware, and we do not manage access to that shared resource in any way.  So if a first
+.B "beep \-f 1000 \-l 10000"
+process starts a long 10 second beep with 1000Hz, and 2 seconds later a second quick
+.B "beep \-f 2050 \-l 100"
+with 2050Hz comes in, you will hear that 2050Hz beep for 100ms, and then silence as the quick beep silences the tone generator. Now you will not hear that the first \fBbeep\fR process is still running after having waited for the first 2100ms of its 10000ms. You will also not hear that the first \fBbeep\fR process will silence the already silent speaker 7900ms later, i.e. 10000ms after the first \fBbeep\fR started.
+.\"
+.SS "Sound Volume"
+.PP
+The PC speaker hardware has no way to explicitly set the volume of a beep.
+.PP
+If you have a
+.IR "standalone PC" ,
+however, chances are you have a piezo beeper connected to the mainboard.  If you prioritize a loud beep over a certain frequency beep, you can choose to beep at a frequency close to the resonance frequency of the piezo beeper.  Typical piezo beepers have a resonance frequency around 2000Hz, so you can test frequencies around that range.  The author's piezo beeper is the loudest at about 2050Hz.
+.PP
+If you have a
+.IR "PC laptop" ,
+chances are that your laptop will not have a piezo beeper hardware inside and that it will route the output of the pcspkr circuit to the laptop's internal speakers via the sound card mixer.  In that case, you can and/or must change the mixer level for the beeper using a sound card mixer application.
+.\"
+.SS "Frequency Table"
+.PP
+This frequency table might come in handy for translating musical notes to frequencies.  The frequencies are rounded to integer numbers as the kernel driver only works with integers.  The column for
+.B "octave 4"
+is the octave of middle C.
+.\" This table was generated by the gen-freq-table script and
+.\" inserted into this man page manually.
+.TS
+center box;
+Cb | Cb s  s  s
+Cb | Cb Cb Cb Cb
+-  | -  -  -  -
+C  | N  N  N  N.
+note	octave
+name	3	4	5	6	
+C	131	262	523	1047	
+C#	139	277	554	1109	
+D	147	294	587	1175	
+D#	156	311	622	1245	
+E	165	330	659	1319	
+F	175	349	698	1397	
+F#	185	370	740	1480	
+G	196	392	784	1568	
+G#	208	415	831	1661	
+A	220	440	880	1760	
+A#	233	466	932	1865	
+B	247	494	988	1976	
+C	262	523	1047	2093	
+.TE
+.\"
+.\" ====================================================================
+.\"
+.SH BUGS
+Report bugs to
+.UR https://github.com/spkr\-beep/beep/issues
+.UE .
+.\"
+.\" ====================================================================
+.\"
+.SH EXAMPLES
+.PP
+At its simplest (yet still effective)
+
+    \fBbeep\fR
+.\"
+.PP
+A more interesting standalone setup
+
+    \fBbeep\fR \-f 300.7 \-r 2 \-d 100 \-l 400
+.\"
+.PP
+As part of a log watching pipeline
+
+    tail \-f /var/log/xferlog | grep 'passwd' | \fBbeep\fR \-f 1000 \-r 5 \-s
+.\"
+.PP
+When using \-c mode, I recommend using a short \-D, and a shorter \-l, so that the beeps do not blur together.  Something like this will get you a cheesy 1970's style beep\-as\-you\-type\-each\-letter effect
+
+    cat file | \fBbeep\fR \-c \-f 400 \-D 50 \-l 10
+.\"
+.PP
+A highly contrived example of \-n/\-\-new usage
+
+    \fBbeep\fR \-f 1000 \-r 2 \-n \-r 5 \-l 10 \-\-new
+
+will produce first two 1000Hz beeps, then 5 beeps at the default tone, but only 10ms long each, followed by a third beep using all the default settings (since none are specified).
+.\"
+.PP See also the \fBFREQUENCY TABLE\fR below.
+.\"
+.\" ====================================================================
+.\"
+.SH SEE ALSO
+.\" Distro packages might want to replace the next line with their README
+.\" .BR @docdir@/README.Distro ,
+.BR @docdir@/README.md ,
+.BR @docdir@/PERMISSIONS.md ,
+.UR "https://github.com/spkr\-beep/beep"
+.UE

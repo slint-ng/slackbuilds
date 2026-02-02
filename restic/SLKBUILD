@@ -1,0 +1,35 @@
+# Maintainer: Morten Linderud <foxboron@archlinux.org>
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=restic
+pkgver=0.18.1
+pkgrel=1slint
+slackdesc=("$pkgname (Fast, secure, efficient backup program)")
+url="https://restic.net"
+license=('BSD')
+depends=('glibc')
+makedepends=('go' 'git')
+checkdepends=('fuse2')
+optdepends=('fuse2: mount archive')
+source=("${pkgname}-${pkgver}.tar.gz")
+sha256sums=('fce382fdcdac0158a35daa640766d5e8a6e7b342ae2b0b84f2aacdff13990c52')
+docs=("LICENSE" "README.html" "CHANGELOG.html")
+options=("nosrcpack")
+build(){
+  cd "${pkgname}-${pkgver}"
+  pandoc -f gfm -t html5 -o README.html README.md
+  pandoc -f gfm -t html5 -o CHANGELOG.html CHANGELOG.md
+  export CGO_CPPFLAGS="${CPPFLAGS}"
+  export CGO_CFLAGS="${CFLAGS}"
+  export CGO_CXXFLAGS="${CXXFLAGS}"
+  export CGO_LDFLAGS="${LDFLAGS}"
+  export GOFLAGS="-buildmode=pie -trimpath -modcacherw"
+  export CGO_ENABLED=0
+  go build -ldflags "-X 'main.version=${pkgver}'" ./cmd/...
+  go test ./cmd/... ./internal/... || true
+  install -Dm755 restic "${PKG}/usr/bin/restic"
+  install -Dm644 -t "$PKG/usr/share/man/man1/" doc/man/*.1
+  install -Dm644 doc/zsh-completion.zsh "$PKG/usr/share/zsh/site-functions/_restic"
+  install -Dm644 doc/bash-completion.sh "$PKG/usr/share/bash-completion/completions/restic"
+  install -Dm644 doc/fish-completion.fish "$PKG/usr/share/fish/vendor_completions.d/restic.fish"
+}

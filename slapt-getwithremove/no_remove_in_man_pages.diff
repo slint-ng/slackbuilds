@@ -1,0 +1,60 @@
+diff -ru slapt-get-0.11.11/doc/slapt-get.8 slapt-get-0.11.11.new/doc/slapt-get.8
+--- slapt-get-0.11.11/doc/slapt-get.8	2025-01-04 20:30:04.000000000 +0100
++++ slapt-get-0.11.11.new/doc/slapt-get.8	2025-03-26 11:31:58.341216482 +0100
+@@ -31,7 +31,6 @@
+ \fB--dist-upgrade\fR,
+ \fB--install\fR|\fB-i\fR,
+ \fB--install-set\fR,
+-\fB--remove\fR,
+ \fB--show\fR,
+ \fB--filelist\fR,
+ \fB--search\fR,
+@@ -97,9 +96,11 @@
+ .TP
+ \fB\-\-remove\-obsolete\fR
+ Remove installed packages that are no longer available.  This works for
+-\fB\-\-dist\-upgrade\fR and \fB\-\-remove\fR only.  This removes packages
+-that are no longer available from any current package sources, but are
+-currently installed.  Be careful as this will also remove custom built packages.
++\fB\-\-dist\-upgrade\fR only. This removes packages that are no longer
++available from any current package sources, but are currently installed.
++Be careful as this will also remove custom built packages as well as packages
++coming from a repository not enabled in /etc/slapt-get/slapt-getrc.
++Always use it with the -s option first to check what would be removed.
+ .TP
+ \fB\-\-retry\fR \fIN\fR
+ Specify the number of retries to attempt if the package download fails.
+diff -ru slapt-get-0.11.11/doc/slapt-get.ru.8 slapt-get-0.11.11.new/doc/slapt-get.ru.8
+--- slapt-get-0.11.11/doc/slapt-get.ru.8	2025-01-04 20:30:04.000000000 +0100
++++ slapt-get-0.11.11.new/doc/slapt-get.ru.8	2025-03-26 11:33:10.717221644 +0100
+@@ -31,7 +31,6 @@
+ \fB--dist-upgrade\fR,
+ \fB--install\fR|\fB-i\fR,
+ \fB--install-set\fR,
+-\fB--remove\fR,
+ \fB--show\fR,
+ \fB--filelist\fR,
+ \fB--search\fR,
+diff -ru slapt-get-0.11.11/doc/slapt-get.uk.8 slapt-get-0.11.11.new/doc/slapt-get.uk.8
+--- slapt-get-0.11.11/doc/slapt-get.uk.8	2025-01-04 20:30:04.000000000 +0100
++++ slapt-get-0.11.11.new/doc/slapt-get.uk.8	2025-03-26 11:35:18.141230731 +0100
+@@ -83,9 +83,6 @@
+ .B --install-set
+ ]
+ [
+-.B --remove
+-]
+-[
+ .B --show
+ ]
+ [
+@@ -186,9 +183,6 @@
+ .B --install-set [disk set(s)]
+ Install specified disk set(s).  example: --install-set xap n l
+ .TP
+-.B --remove [пакет(ы)]
+-Видалити вказан╕ пакети. Можна вказати або ╕м'я пакету, або ╕м'я з верс╕╓ю (наприклад, pkg-1.0-i386-1).
+-.TP
+ .B --show [пакет]
+ Показати описання пакету. Можна вказати або ╕м'я пакету, або ╕м'я з верс╕╓ю (напрклад, pkg-1.0-i386-1).
+ .TP

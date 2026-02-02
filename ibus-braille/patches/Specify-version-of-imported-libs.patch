@@ -1,0 +1,67 @@
+Description: Specify version of imported libs
+Author: Gunnar Hjalmarsson <gunnarhj@debian.org>
+Bug-Debian: https://bugs.debian.org/1031734
+
+--- a/abbreviation-editor/main.py
++++ b/abbreviation-editor/main.py
+@@ -20,6 +20,9 @@
+ # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ 
+ import os
++import gi
++gi.require_version('Gtk', '3.0')
++gi.require_version('IBus', '1.0')
+ from gi.repository import Gtk
+ from gi.repository import IBus
+ home_dir = os.environ['HOME']
+--- a/engine/engine.py
++++ b/engine/engine.py
+@@ -25,6 +25,10 @@ from __future__ import print_function
+ 
+ import os
+ import configparser
++import gi
++gi.require_version('GLib', '2.0')
++gi.require_version('IBus', '1.0')
++gi.require_version('Pango', '1.0')
+ from gi.repository import GLib
+ from gi.repository import IBus
+ from gi.repository import Pango
+--- a/engine/main.py
++++ b/engine/main.py
+@@ -25,6 +25,10 @@ import os
+ import sys
+ import getopt
+ import locale
++import gi
++gi.require_version('GLib', '2.0')
++gi.require_version('IBus', '1.0')
++gi.require_version('GObject', '2.0')
+ from gi.repository import GLib
+ from gi.repository import IBus
+ from gi.repository import GObject
+--- a/language-editor/main.py
++++ b/language-editor/main.py
+@@ -23,6 +23,9 @@
+ import os
+ import shutil
+ import configparser
++import gi
++gi.require_version('Gtk', '3.0')
++gi.require_version('IBus', '1.0')
+ from gi.repository import Gtk
+ from gi.repository import IBus
+ home_dir = os.environ['HOME']
+--- a/preferences/main.py
++++ b/preferences/main.py
+@@ -21,6 +21,10 @@
+ 
+ import configparser
+ import os
++import gi
++gi.require_version('Gtk', '3.0')
++gi.require_version('Gdk', '3.0')
++gi.require_version('IBus', '1.0')
+ from gi.repository import Gtk
+ from gi.repository import Gdk
+ from gi.repository import IBus

@@ -1,0 +1,3 @@
+After having built the package append the content of base_mbrola_voices
+to espeak-ng*deps before moving it to slint so that these voiced be
+always installed, though they be stored in /slint/voices.

@@ -1,0 +1,157 @@
+--2021-09-02 00:07:43--  https://ftp.gnome.org/pub/gnome/sources/yelp-tools/3.32/yelp-tools-40.0.tar.xz
+Résolution de ftp.gnome.org… échec : Échec temporaire dans la résolution du nom.
+wget : impossible de résoudre l’adresse de l’hôte « ftp.gnome.org »
+yelp-tools-40.0/
+yelp-tools-40.0/AUTHORS
+yelp-tools-40.0/COPYING
+yelp-tools-40.0/COPYING.GPL
+yelp-tools-40.0/MAINTAINERS
+yelp-tools-40.0/NEWS
+yelp-tools-40.0/README
+yelp-tools-40.0/help/
+yelp-tools-40.0/help/C/
+yelp-tools-40.0/help/C/index.page
+yelp-tools-40.0/help/C/yelp-build.page
+yelp-tools-40.0/help/C/yelp-check.page
+yelp-tools-40.0/help/C/yelp-new.page
+yelp-tools-40.0/help/C/yelp.m4.page
+yelp-tools-40.0/help/meson.build
+yelp-tools-40.0/meson.build
+yelp-tools-40.0/meson_options.txt
+yelp-tools-40.0/templates/
+yelp-tools-40.0/templates/concept.duck
+yelp-tools-40.0/templates/concept.page
+yelp-tools-40.0/templates/guide.duck
+yelp-tools-40.0/templates/guide.page
+yelp-tools-40.0/templates/info.ducktype.include
+yelp-tools-40.0/templates/info.mallard.include
+yelp-tools-40.0/templates/meson.build
+yelp-tools-40.0/templates/reference.duck
+yelp-tools-40.0/templates/reference.page
+yelp-tools-40.0/templates/task.duck
+yelp-tools-40.0/templates/task.page
+yelp-tools-40.0/tools/
+yelp-tools-40.0/tools/.gitignore
+yelp-tools-40.0/tools/meson.build
+yelp-tools-40.0/tools/yelp-build.in
+yelp-tools-40.0/tools/yelp-check.in
+yelp-tools-40.0/tools/yelp-new.in
+yelp-tools-40.0/tools/yelp.m4
+yelp-tools-40.0/xslt/
+yelp-tools-40.0/xslt/mal-ncx.xsl.in
+yelp-tools-40.0/xslt/mal-opf.xsl.in
+yelp-tools-40.0/xslt/mal-rng.xsl
+yelp-tools-40.0/xslt/meson.build
+yelp-tools-40.0/yelp-tools.doap
+Generating targets: 0it [00:00, ?it/s]                                      Writing build.ninja:   0%|                                                   | 0/30 [00:00<?, ?it/s]                                                                                                    The Meson build system
+Version: 0.57.2
+Source dir: /storage/repo/x86_64/slint-14.2.1/source/yelp-tools/yelp-tools-40.0
+Build dir: /storage/repo/x86_64/slint-14.2.1/source/yelp-tools/yelp-tools-40.0/build
+Build type: native build
+Project name: yelp-tools
+Project version: 40.rc
+Host machine cpu family: x86_64
+Host machine cpu: x86_64
+Program python3 found: YES (/usr/bin/python3)
+Found pkg-config: /usr/bin/pkg-config (0.29.2)
+Run-time dependency yelp-xsl found: YES 40.2
+Program xmllint found: YES (/usr/bin/xmllint)
+Program xsltproc found: YES (/usr/bin/xsltproc)
+Program itstool found: YES (/usr/bin/itstool)
+Configuring mal-ncx.xsl using configuration
+Configuring mal-opf.xsl using configuration
+Configuring yelp-build using configuration
+Configuring yelp-check using configuration
+Configuring yelp-new using configuration
+Message: 
+------
+yelp-tools 40.rc
+
+    yelp.m4: true
+       help: false
+
+Directories:
+     prefix: /usr
+    datadir: /usr/share
+------
+Build targets in project: 0
+
+Found ninja-1.10.2 at /usr/bin/ninja
+ninja: no work to do.
+[0/1] Installing files.
+Installing /storage/repo/x86_64/slint-14.2.1/source/yelp-tools/yelp-tools-40.0/xslt/mal-rng.xsl to /home/didier/source/yelp-tools/package-yelp-tools/usr/share/yelp-tools/xslt
+Installing /storage/repo/x86_64/slint-14.2.1/source/yelp-tools/yelp-tools-40.0/build/xslt/mal-ncx.xsl to /home/didier/source/yelp-tools/package-yelp-tools/usr/share/yelp-tools/xslt
+Installing /storage/repo/x86_64/slint-14.2.1/source/yelp-tools/yelp-tools-40.0/build/xslt/mal-opf.xsl to /home/didier/source/yelp-tools/package-yelp-tools/usr/share/yelp-tools/xslt
+Installing /storage/repo/x86_64/slint-14.2.1/source/yelp-tools/yelp-tools-40.0/templates/concept.duck to /home/didier/source/yelp-tools/package-yelp-tools/usr/share/yelp-tools/templates
+Installing /storage/repo/x86_64/slint-14.2.1/source/yelp-tools/yelp-tools-40.0/templates/concept.page to /home/didier/source/yelp-tools/package-yelp-tools/usr/share/yelp-tools/templates
+Installing /storage/repo/x86_64/slint-14.2.1/source/yelp-tools/yelp-tools-40.0/templates/guide.duck to /home/didier/source/yelp-tools/package-yelp-tools/usr/share/yelp-tools/templates
+Installing /storage/repo/x86_64/slint-14.2.1/source/yelp-tools/yelp-tools-40.0/templates/guide.page to /home/didier/source/yelp-tools/package-yelp-tools/usr/share/yelp-tools/templates
+Installing /storage/repo/x86_64/slint-14.2.1/source/yelp-tools/yelp-tools-40.0/templates/reference.duck to /home/didier/source/yelp-tools/package-yelp-tools/usr/share/yelp-tools/templates
+Installing /storage/repo/x86_64/slint-14.2.1/source/yelp-tools/yelp-tools-40.0/templates/reference.page to /home/didier/source/yelp-tools/package-yelp-tools/usr/share/yelp-tools/templates
+Installing /storage/repo/x86_64/slint-14.2.1/source/yelp-tools/yelp-tools-40.0/templates/task.duck to /home/didier/source/yelp-tools/package-yelp-tools/usr/share/yelp-tools/templates
+Installing /storage/repo/x86_64/slint-14.2.1/source/yelp-tools/yelp-tools-40.0/templates/task.page to /home/didier/source/yelp-tools/package-yelp-tools/usr/share/yelp-tools/templates
+Installing /storage/repo/x86_64/slint-14.2.1/source/yelp-tools/yelp-tools-40.0/templates/info.ducktype.include to /home/didier/source/yelp-tools/package-yelp-tools/usr/share/yelp-tools/templates
+Installing /storage/repo/x86_64/slint-14.2.1/source/yelp-tools/yelp-tools-40.0/templates/info.mallard.include to /home/didier/source/yelp-tools/package-yelp-tools/usr/share/yelp-tools/templates
+Installing /storage/repo/x86_64/slint-14.2.1/source/yelp-tools/yelp-tools-40.0/build/tools/yelp-build to /home/didier/source/yelp-tools/package-yelp-tools/usr/bin
+Installing /storage/repo/x86_64/slint-14.2.1/source/yelp-tools/yelp-tools-40.0/build/tools/yelp-check to /home/didier/source/yelp-tools/package-yelp-tools/usr/bin
+Installing /storage/repo/x86_64/slint-14.2.1/source/yelp-tools/yelp-tools-40.0/build/tools/yelp-new to /home/didier/source/yelp-tools/package-yelp-tools/usr/bin
+Installing /storage/repo/x86_64/slint-14.2.1/source/yelp-tools/yelp-tools-40.0/tools/yelp.m4 to /home/didier/source/yelp-tools/package-yelp-tools/usr/share/aclocal
+
+Constructeur de paquets Slackware, version 3.141593.
+
+Recherche de liens symboliques :
+
+Aucun lien symbolique trouvé, donc nous ne créerons pas de script
+d'installation.
+Vous pouvez créer vos liens plus tard dans. /install/doinst.sh et
+reconstruire le paquet si vous le souhaitez.
+
+La prochaine étape est facultative - vous pouvez attribuer aux répertoires
+dans votre paquet des permissions saines. Cependant, si n'importe quel
+répertoire de votre paquet a des permissions spéciales vous ne devriez pas
+les réinitialiser !
+
+Voulez-vous réinitialiser toutes les autorisations de répertoires à 755
+(drwxr-xr-x) et les propriétaire des répertoires à root.root ([y]es, [n]o)? 
+n
+
+Création du paquet Slackware : /home/didier/source/yelp-tools/yelp-tools-40.0-x86_64-1slint.txz
+
+./
+usr/
+usr/doc/
+usr/doc/yelp-tools-40.0/
+usr/doc/yelp-tools-40.0/README
+usr/doc/yelp-tools-40.0/NEWS
+usr/doc/yelp-tools-40.0/COPYING.GPL
+usr/doc/yelp-tools-40.0/COPYING
+usr/doc/yelp-tools-40.0/yelp-tools.SlackBuild
+usr/doc/yelp-tools-40.0/AUTHORS
+usr/share/
+usr/share/yelp-tools/
+usr/share/yelp-tools/templates/
+usr/share/yelp-tools/templates/task.duck
+usr/share/yelp-tools/templates/concept.duck
+usr/share/yelp-tools/templates/reference.page
+usr/share/yelp-tools/templates/task.page
+usr/share/yelp-tools/templates/guide.duck
+usr/share/yelp-tools/templates/info.mallard.include
+usr/share/yelp-tools/templates/concept.page
+usr/share/yelp-tools/templates/reference.duck
+usr/share/yelp-tools/templates/info.ducktype.include
+usr/share/yelp-tools/templates/guide.page
+usr/share/yelp-tools/xslt/
+usr/share/yelp-tools/xslt/mal-ncx.xsl
+usr/share/yelp-tools/xslt/mal-opf.xsl
+usr/share/yelp-tools/xslt/mal-rng.xsl
+usr/share/aclocal/
+usr/share/aclocal/yelp.m4
+usr/bin/
+usr/bin/yelp-new
+usr/bin/yelp-build
+usr/bin/yelp-check
+install/
+install/slack-desc
+
+Le paquet Slackware /home/didier/source/yelp-tools/yelp-tools-40.0-x86_64-1slint.txz a été créé.
+

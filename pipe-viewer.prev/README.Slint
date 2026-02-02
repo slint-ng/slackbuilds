@@ -1,0 +1,22 @@
+pipe-viewer (search and stream videos from youtube)
+
+pipe-viewer is a lightweight application for searching and streaming
+videos from YouTube, using the API of invidio.us[2]. The project is
+in its early development stages and some features are not implemented
+yet.
+
+This package includes two applications:
+1. pipe-viewer, on the command line
+2. Uts graphical front-end gtk-pipe-viewer, that you will find in the
+Audio and Video sub-meu of the Applications menu.
+
+After having run once pipe-viewer or gtk-pipe-viewer your settings are stored
+in: ~/.config/pipe-viewer/pipe-viewer.conf
+
+Notes:
+
+[1] The default API host is http://invidious.snopyta.org. If you get
+    "Bad gateway" or "Too many requests" errors, try changing the
+    api_host in ~/.config/pipe-viewer/pipe-viewer.conf or via
+    the --api-host option. A list of API hosts can be found at:
+    https://instances.invidio.us/

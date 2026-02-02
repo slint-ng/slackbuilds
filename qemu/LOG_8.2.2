@@ -1,0 +1,232 @@
+qemu 8.2.2
+
+  Build environment
+    Build directory                              : /repo/x86_64/slint-15.0/source/qemu/qemu-8.2.2/build
+    Source path                                  : /repo/x86_64/slint-15.0/source/qemu/qemu-8.2.2
+    Download dependencies                        : YES
+
+  Directories
+    Build directory                              : /repo/x86_64/slint-15.0/source/qemu/qemu-8.2.2/build
+    Source path                                  : /repo/x86_64/slint-15.0/source/qemu/qemu-8.2.2
+    Download dependencies                        : YES
+    Install prefix                               : /usr
+    BIOS directory                               : share/qemu
+    firmware path                                : share/qemu-firmware
+    binary directory                             : /usr/bin
+    library directory                            : /usr/lib64
+    module directory                             : lib64/qemu
+    libexec directory                            : /usr/libexec
+    include directory                            : /usr/include
+    config directory                             : /etc
+    local state directory                        : /var
+    Manual directory                             : /usr/share/man
+    Doc directory                                : /usr/doc/qemu-8.2.2
+
+  Host binaries
+    python                                       : /repo/x86_64/slint-15.0/source/qemu/qemu-8.2.2/build/pyvenv/bin/python3 (version: 3.9)
+    sphinx-build                                 : /repo/x86_64/slint-15.0/source/qemu/qemu-8.2.2/build/pyvenv/bin/sphinx-build
+    gdb                                          : /usr/bin/gdb
+    iasl                                         : NO
+    genisoimage                                  : /usr/bin/mkisofs
+    smbd                                         : /usr/sbin/smbd
+
+  Configurable features
+    Documentation                                : YES
+    system-mode emulation                        : YES
+    user-mode emulation                          : YES
+    block layer                                  : YES
+    Install blobs                                : YES
+    module support                               : NO
+    fuzzing support                              : NO
+    Audio drivers                                : pa alsa oss sdl
+    Trace backends                               : log
+    D-Bus display                                : YES
+    QOM debugging                                : YES
+    Relocatable install                          : YES
+    vhost-kernel support                         : YES
+    vhost-net support                            : YES
+    vhost-user support                           : YES
+    vhost-user-crypto support                    : YES
+    vhost-user-blk server support                : YES
+    vhost-vdpa support                           : YES
+    build guest agent                            : YES
+
+  Compilation
+    host CPU                                     : x86_64
+    host endianness                              : little
+    C compiler                                   : cc -m64 -mcx16
+    Host C compiler                              : cc -m64 -mcx16
+    C++ compiler                                 : NO
+    Objective-C compiler                         : NO
+    CFLAGS                                       : -O2 -fPIC -g -O2
+    LDFLAGS                                      : -O2 -fPIC
+    QEMU_CFLAGS                                  : -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -fno-strict-aliasing -fno-common -fwrapv -fstack-protector-strong
+    QEMU_LDFLAGS                                 : -fstack-protector-strong -Wl,-z,relro -Wl,-z,now -Wl,--warn-common
+    link-time optimization (LTO)                 : NO
+    PIE                                          : YES
+    static build                                 : NO
+    malloc trim support                          : NO
+    membarrier                                   : NO
+    debug graph lock                             : NO
+    debug stack usage                            : NO
+    mutex debugging                              : NO
+    memory allocator                             : jemalloc
+    avx2 optimization                            : YES
+    avx512bw optimization                        : YES
+    avx512f optimization                         : NO
+    gcov                                         : NO
+    thread sanitizer                             : NO
+    CFI support                                  : NO
+    strip binaries                               : NO
+    sparse                                       : NO
+    mingw32 support                              : NO
+
+  Cross compilers
+    x86_64                                       : cc
+
+  Targets and accelerators
+    KVM support                                  : YES
+    HVF support                                  : NO
+    WHPX support                                 : NO
+    NVMM support                                 : NO
+    Xen support                                  : NO
+    Xen emulation                                : YES
+    TCG support                                  : YES
+    TCG backend                                  : native (x86_64)
+    TCG plugins                                  : YES
+    TCG debug enabled                            : NO
+    target list                                  : aarch64-linux-user aarch64-softmmu aarch64_be-linux-user arm-linux-user arm-softmmu armeb-linux-user i386-linux-user i386-softmmu x86_64-linux-user x86_64-softmmu
+    default devices                              : YES
+    out of process emulation                     : YES
+    vfio-user server                             : NO
+
+  Block layer support
+    coroutine backend                            : ucontext
+    coroutine pool                               : YES
+    Block whitelist (rw)                         : 
+    Block whitelist (ro)                         : 
+    Use block whitelist in tools                 : NO
+    VirtFS (9P) support                          : YES
+    VirtFS (9P) Proxy Helper support (deprecated): YES
+    Live block migration                         : YES
+    replication support                          : YES
+    bochs support                                : YES
+    cloop support                                : YES
+    dmg support                                  : YES
+    qcow v1 support                              : YES
+    vdi support                                  : YES
+    vhdx support                                 : YES
+    vmdk support                                 : YES
+    vpc support                                  : YES
+    vvfat support                                : YES
+    qed support                                  : YES
+    parallels support                            : YES
+    FUSE exports                                 : YES 3.10.5
+    VDUSE block exports                          : YES
+
+  Crypto
+    TLS priority                                 : NORMAL
+    GNUTLS support                               : YES 3.8.4
+      GNUTLS crypto                              : NO
+    libgcrypt                                    : NO
+    nettle                                       : YES 3.7.3
+      XTS                                        : YES
+    AF_ALG support                               : NO
+    rng-none                                     : NO
+    Linux keyring                                : YES
+    Linux keyutils                               : YES 1.6.3
+
+  User interface
+    SDL support                                  : YES 2.0.20
+    SDL image support                            : YES 2.0.5
+    GTK support                                  : YES
+    pixman                                       : YES 0.40.0
+    VTE support                                  : YES 0.66.2
+    PNG support                                  : YES 1.6.37
+    VNC support                                  : YES
+    VNC SASL support                             : YES
+    VNC JPEG support                             : YES 2.1.2
+    spice protocol support                       : YES 0.14.4
+      spice server support                       : YES 0.15.0
+    curses support                               : YES
+    brlapi support                               : YES
+
+  Audio backends
+    OSS support                                  : YES
+    sndio support                                : NO
+    ALSA support                                 : YES 1.2.8
+    PulseAudio support                           : YES 15.0
+    PipeWire support                             : YES 0.3.60
+    JACK support                                 : YES 1.9.20
+
+  Network backends
+    AF_XDP support                               : NO
+    slirp support                                : YES 4.7.0
+    vde support                                  : YES
+    netmap support                               : NO
+    l2tpv3 support                               : YES
+
+  Dependencies
+    libtasn1                                     : YES 4.18.0
+    PAM                                          : YES
+    iconv support                                : YES
+    virgl support                                : YES 0.10.4
+    rutabaga support                             : NO
+    blkio support                                : YES 1.3.0
+    curl support                                 : YES 8.7.1
+    Multipath support                            : NO
+    Linux AIO support                            : YES
+    Linux io_uring support                       : YES 2.0
+    ATTR/XATTR support                           : YES
+    RDMA support                                 : NO
+    PVRDMA support                               : NO
+    fdt support                                  : system
+    libcap-ng support                            : YES
+    bpf support                                  : NO
+    rbd support                                  : NO
+    smartcard support                            : YES 2.8.1
+    U2F support                                  : NO
+    libusb                                       : YES 1.0.24
+    usb net redir                                : YES 0.12.0
+    OpenGL support (epoxy)                       : YES 1.5.9
+    GBM                                          : YES 21.3.5
+    libiscsi support                             : YES 1.19.0
+    libnfs support                               : YES 5.0.1
+    seccomp support                              : YES 2.5.3
+    GlusterFS support                            : NO
+    hv-balloon support                           : YES
+    TPM support                                  : YES
+    libssh support                               : YES 0.10.6
+    lzo support                                  : YES
+    snappy support                               : YES
+    bzip2 support                                : YES
+    lzfse support                                : NO
+    zstd support                                 : YES 1.5.5
+    NUMA host support                            : NO
+    capstone                                     : YES 4.0.1
+    libpmem support                              : NO
+    libdaxctl support                            : YES 71.1+
+    libudev                                      : YES 243
+    FUSE lseek                                   : YES
+    selinux                                      : NO
+    libdw                                        : YES 0.186
+
+  Subprojects
+    berkeley-softfloat-3                         : YES
+    berkeley-testfloat-3                         : YES
+    keycodemapdb                                 : YES
+    libvduse                                     : YES
+    libvhost-user                                : YES
+
+  User defined options
+    Native files                                 : config-meson.cross
+    libdir                                       : /usr/lib64
+    localstatedir                                : /var
+    prefix                                       : /usr
+    sysconfdir                                   : /etc
+    audio_drv_list                               : pa,alsa,oss,sdl
+    docdir                                       : /usr/doc/qemu-8.2.2
+    docs                                         : enabled
+    malloc                                       : jemalloc
+    nettle                                       : enabled
+    plugins                                      : true

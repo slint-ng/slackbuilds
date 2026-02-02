@@ -1,0 +1,56 @@
+Usage of slapt-get in Slint how-to
+==================================
+
+The file /etc/slapt-get/slapt-getrc lists software repositories from
+which software packages can be downloaded by the slapt-get, gslapt and
+spi packages managers.
+
+You need to be root to edit the file file /etc/slapt-get/slapt-getrc
+For any change in this file to take effect you should first update the
+database with the following command, typed as root:
+slapt-get -u
+
+You can edit this file to include additional repositories or enable the
+repository sbrepos provided by Eric Hameleers and/or the repository Slackware
+extra, not enabled by default, as well as several Salix repositories.
+
+To enable a disabled repository, remove the first character '#' of the
+corresponding line.
+To disable an enabled repository, insert a character '#' at the beginning
+of the line.
+
+Whenever packages with the same name are shipped in several
+repositories, the package is installed:
+   if available, from a CUSTOM repository, else
+   if available, from a PREFERRED repository, else
+   if available, from an OFFICIAL repository, else
+   if available, from a DEFAULT repository
+
+Each repository should end with a character ':' (after the last '/'),
+followed by one of the words in capital letters above.
+
+After having edited the file, type as root:
+slapt-get -u
+and check carefully the output to verify that your update has been
+successfully applied.
+
+To know which packages of a given name are available and in which
+repositories, type its name in the search field of gslpat, or in a
+terminal type as root:
+slapt-get --search <package name>
+
+WARNINGS
+
+Be aware that enabling several repositories can lead to unexpected results
+as they could include packages with the same name but not the same content.
+Only do that for a system not performing a critical mission and if you
+really know what you are doing and are prepared to handle the conflicts
+that could arise.
+
+It is also recommended that all the dependencies of a package you install
+come from the same repository, as the versions of these dependencies can
+differ across repositories: the version of a package A already installed
+could not fit a package B newly installed that needs A as dependency.
+
+Do not hesitate to request help for any issue in the Slint mailing list.
+

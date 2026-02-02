@@ -1,0 +1,65 @@
+Using Address Book : Original stable interface
+JPilot             : yes
+LDAP               : yes
+gnuTLS             : yes
+iconv              : yes
+compface           : no
+IPv6               : yes
+enchant            : yes
+IMAP4              : yes
+NNTP               : yes
+Crash dialog       : no
+LibSM              : yes
+DBUS               : yes
+NetworkManager     : yes
+Manual             : yes
+Generic UMPC code  : no
+SVG support        : yes
+Config dir         : .claws-mail
+Password crypto    : gnutls
+Unit tests         : no
+Plugins
+   Built:
+            - acpi_notifier
+            - address_keeper
+            - archive
+            - att_remover
+            - attachwarner
+            - bogofilter
+            - bsfilter
+            - clamd
+            - dillo
+            - fancy
+            - fetchinfo
+            - gdata
+            - libravatar
+            - litehtml_viewer
+            - mailmbox
+            - managesieve
+            - newmail
+            - notification
+                Features:
+                    banner
+                    command
+                    hotkeys
+                    lcdproc
+                    libnotify
+                    libcanberra-gtk3
+                    popup
+                    trayicon
+                Disabled due to missing dependencies:
+                    unity/messaging-menu
+            - pdf_viewer
+            - perl
+            - python
+            - pgpcore
+            - pgpmime
+            - pgpinline
+            - rssyl
+            - spamassassin
+            - smime
+            - spam_report
+            - tnef_parse
+            - vcalendar
+   Disabled:
+            - demo

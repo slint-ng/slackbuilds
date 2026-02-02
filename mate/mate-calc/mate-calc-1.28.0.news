@@ -1,0 +1,6 @@
+### mate-calc 1.28.0
+
+* Translations update
+* Fix implicit function declarations with libxml2 2.12
+* tx: fix warning in Japanese translations
+

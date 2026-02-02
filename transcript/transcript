@@ -1,0 +1,35 @@
+#!/bin/sh
+# Wrapper for running transcript_whisper.py in user's venv
+
+# --- Check required tools first ---
+for tool in yt-dlp ffmpeg; do
+    if ! command -v "$tool" >/dev/null 2>&1; then
+        echo "Error: $tool not found in PATH."
+        echo "It should be installed by default on Slint."
+        exit 1
+    fi
+done
+
+# --- Check for user's venv ---
+VENV="$HOME/.venvs/whisper"
+ACTIVATE="$VENV/bin/activate"
+
+if [ ! -f "$ACTIVATE" ]; then
+    echo "Error: venv not found at $VENV"
+    echo "You can create it by running:"
+    echo "  python3 -m venv ~/.venvs/whisper"
+    echo "  . ~/.venvs/whisper/bin/activate"
+    echo "  pip install --upgrade pip"
+    echo "  pip install faster-whisper"
+    echo
+    echo "Or run this script:"
+    echo "  /usr/libexec/transcript/setup_transcript"
+    exit 1
+fi
+
+# --- Activate the venv ---
+# shellcheck disable=SC1090
+. "$ACTIVATE"
+
+# --- Run the Python script, forwarding all arguments ---
+exec /usr/libexec/transcript/transcript_whisper.py "$@"

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="24"
+   height="24"
+   id="svg3009"
+   version="1.1"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   sodipodi:docname="start_here_1.svg"
+   inkscape:export-filename="start_here_1.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs3011">
+    <filter
+       id="filter2076-6"
+       x="-0.048"
+       y="-0.048"
+       width="1.096"
+       height="1.096"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         stdDeviation="1.1"
+         id="feGaussianBlur2" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="26.25"
+     inkscape:cx="11.352381"
+     inkscape:cy="12.152381"
+     inkscape:current-layer="text595"
+     showgrid="true"
+     inkscape:document-units="px"
+     inkscape:grid-bbox="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:pagecheckerboard="0"
+     width="24px"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1"
+     showguides="true" />
+  <metadata
+     id="metadata3014">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <g
+       aria-label="S"
+       transform="scale(0.99014754,1.0099505)"
+       id="text595"
+       style="font-size:26.932px;line-height:1.25;font-family:'Baskerville Handcut';-inkscape-font-specification:'Baskerville Handcut';fill:#6ba4e7;stroke-width:1.00995">
+      <path
+         d="m 14.300696,16.025927 q 0,-0.781028 -2.477744,-2.316152 L 7.1906484,10.801119 Q 4.7129045,8.996675 4.7129045,7.623143 q 0,-2.7739959 4.8746918,-4.4168479 3.6896837,-1.2388719 7.1639117,-1.2388719 3.824344,0 3.824344,0.9695519 0,0.26932 -0.377048,0.53864 -0.350116,0.242388 -0.6733,0.296252 -3.50116,0.700232 -4.98242,1.185008 -3.878208,1.2658039 -3.878208,2.8278599 0,0.888756 2.720132,2.612404 1.723648,1.050348 5.11708,3.177976 2.747064,1.804444 2.747064,3.177976 0,1.804444 -3.447296,3.177976 -2.235356,0.888756 -5.036284,1.373532 -2.073764,0.350116 -5.2248076,0.350116 -4.7400319,0 -4.7130999,-1.050348 l 0.026932,-0.188524 q 0.053864,-0.323184 0.727164,-0.6733 0.430912,-0.215456 3.4472959,-0.834892 3.3395676,-0.6733 4.8208276,-1.158076 2.450812,-0.781028 2.450812,-1.723648 z"
+         style="font-family:Arabolical;-inkscape-font-specification:Arabolical"
+         id="path4438" />
+    </g>
+  </g>
+</svg>
