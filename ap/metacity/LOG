@@ -1,0 +1,21 @@
+  Metacity 3.52.0
+  ===============
+
+  srcdir ......................: .
+
+  compiler ....................: gcc
+  cflags ......................: -O2 -fPIC
+
+  prefix ......................: /usr
+  exec_prefix .................: ${prefix}
+  libdir ......................: ${exec_prefix}/lib
+  sysconfdir ..................: ${prefix}/etc
+  libexecdir ..................: ${exec_prefix}/libexec
+
+  Canberra ....................: yes
+  Xinerama ....................: yes
+  Startup notification ........: yes
+  Session management ..........: yes
+  Resize-and-rotate ...........: yes
+  Xcursor .....................: yes
+  Vulkan ......................: no

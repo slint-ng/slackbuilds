@@ -1,0 +1,24 @@
+yelp-tools 42.1
+
+    yelp.m4: true
+       help: true
+
+Directories:
+     prefix: /usr
+    datadir: /usr/share
+------
+Build targets in project: 2
+NOTICE: Future-deprecated features used:
+ * 0.56.0: {'dependency.get_pkgconfig_variable'}
+
+yelp-tools 42.1
+
+  User defined options
+    buildtype    : release
+    infodir      : /usr/info
+    libdir       : /usr/lib64
+    localstatedir: /var
+    mandir       : /usr/man
+    prefix       : /usr
+    sysconfdir   : /etc
+    help         : true

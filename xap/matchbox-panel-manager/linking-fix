@@ -1,0 +1,23 @@
+Description: Fix FTBFS with binutils-gold (#555590)
+Author: Bhavani Shankar R <bhavi@ubuntu.com>
+Last-Update: 2010-12-28
+Index: matchbox-panel-manager-0.1+git20041202/Makefile.am
+===================================================================
+--- matchbox-panel-manager-0.1+git20041202.orig/Makefile.am	2020-06-16 12:23:59.284909693 +0100
++++ matchbox-panel-manager-0.1+git20041202/Makefile.am	2020-06-16 12:24:14.636904314 +0100
+@@ -6,7 +6,7 @@
+ mbpanelmgr_SOURCES = 				\
+ 	mbpanelmgr.c			        
+ 
+-mbpanelmgr_LDADD = @MBPANELMGR_LIBS@
++mbpanelmgr_LDADD = @MBPANELMGR_LIBS@ -lX11
+ 
+ desktopdir = $(datadir)/applications/
+ pixmapsdir = $(datadir)/pixmaps/
+@@ -15,4 +15,4 @@
+ 
+ desktop_DATA = mb-panel-manager.desktop
+ 
+-EXTRA_DIST = mb-panel-manager.desktop .autoipkg mbpanelmgr.png
+\ No newline at end of file
++EXTRA_DIST = mb-panel-manager.desktop .autoipkg mbpanelmgr.png

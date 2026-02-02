@@ -1,0 +1,12 @@
+Description: Fix check for enabling PNG support
+--- a/configure.ac
++++ b/configure.ac
+@@ -160,7 +160,7 @@
+ 
+ dnl ---- Png Support -------------------------------------------------------
+ 
+-if $PKG_CONFIG --libs libmb | grep png ; then
++if $PKG_CONFIG --libs --static libmb | grep png ; then
+    found_png="yes"
+ else
+    found_png="no"	

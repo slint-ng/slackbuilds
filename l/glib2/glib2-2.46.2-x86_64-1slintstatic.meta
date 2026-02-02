@@ -1,0 +1,20 @@
+PACKAGE NAME:  glib2-2.46.2-x86_64-1slintstatic.txz
+PACKAGE LOCATION:  ./source/spkg/glib2
+PACKAGE SIZE (compressed):  4242 K
+PACKAGE SIZE (uncompressed):  16968 K
+PACKAGE REQUIRED:  
+PACKAGE CONFLICTS:  
+PACKAGE SUGGESTS:  
+PACKAGE DESCRIPTION:
+glib2: glib2 (library of C routines)
+glib2:
+glib2: GLib is a library which includes support routines for C such as lists,
+glib2: trees, hashes, memory allocation, and many other things.
+glib2:
+glib2:
+glib2:
+glib2:
+glib2:
+glib2:
+glib2:
+

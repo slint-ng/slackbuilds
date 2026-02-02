@@ -1,0 +1,80 @@
+----------------------------------------------------------------
+
+graphviz-3.0.0 will be compiled with the following:
+
+options:
+  cgraph:        Yes (always enabled)
+  digcola:       Yes
+  expat:         Yes
+  fontconfig:    Yes
+  freetype:      Yes
+  glut:          Yes
+  ann:           No (no ann.pc found)
+  gts:           No (gts library not available)
+  ipsepcola:     Yes
+  ltdl:          Yes
+  ortho:         Yes
+  sfdp:          Yes
+  swig:          Yes ( 4.0.2 )
+  shared:        Yes
+  static:        No (disabled by default)
+  qt:            Yes
+  x:             Yes
+
+commands:
+  dot:           Yes (always enabled)
+  neato:         Yes (always enabled)
+  fdp:           Yes (always enabled)
+  circo:         Yes (always enabled)
+  twopi:         Yes (always enabled)
+  gvpr:          Yes (always enabled)
+  gvmap:         Yes (always enabled)
+  lefty:         No (disabled by default)
+  smyrna:        No (requires: gtkglext gts)
+  gvedit:        Yes
+
+plugin libraries:
+  dot_layout:    Yes (always enabled)
+  neato_layout:  Yes (always enabled)
+  core:          Yes (always enabled)
+  devil:         No (missing library)
+  gd:            Yes
+  gdiplus:       No (disabled by default - Windows only)
+  gdk:           Yes
+  gdk_pixbuf:    Yes
+  ghostscript:   Yes
+  glitz:         No (disabled by default - incomplete)
+  gtk:           Yes
+  lasi:          No (lasi library not available)
+  pangocairo:    Yes
+  poppler:       Yes
+  quartz:        No (disabled by default - Mac only)
+  rsvg:          Yes
+  visio:         Yes
+  webp:          Yes
+  xlib:          Yes
+
+language extensions:
+  gv_sharp:      No (mcs not available)
+  gv_d:          No (disabled by default - incomplete)
+  gv_go:         Yes
+  gv_guile:      Yes
+  gv_io:         No (disabled by default - no swig support yet)
+  gv_java:       No (java not available)
+  gv_javascript: No (disabled by default - incomplete)
+  gv_lua:        No (lua not available)
+  gv_ocaml:      No (disabled)
+  gv_perl:       Yes
+  gv_php:        No (disabled)
+  gv_python:     Yes
+  gv_python3:    Yes
+  gv_R:          No (R not available)
+  gv_ruby:       No (missing header)
+  gv_tcl:        Yes
+
+  tcldot:        Yes
+  tclpathplan:   Yes
+  gdtclft:       Yes
+
+Testing utilities:
+  criterion:     No (Criterion unit testing framework not installed)

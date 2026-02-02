@@ -1,0 +1,14 @@
+diff -ru parcellite-1.2.5/Makefile parcellite-1.2.5.new/Makefile
+--- parcellite-1.2.5/Makefile	2024-07-11 05:33:16.000000000 +0200
++++ parcellite-1.2.5.new/Makefile	2024-08-12 18:37:03.806729861 +0200
+@@ -63,8 +63,8 @@
+ 
+ install-doc:	
+ 	$(MAKE) -C doc $(makeopts) sysconfdir=$(sysconfdir) INSTDIR=$(INSTDIR) GETTEXT_PACKAGE=$(GETTEXT_PACKAGE) install
+-	mkdir -p $(INSTDIR)/share/doc/$(GETTEXT_PACKAGE)
+-	install -c -m 644 COPYING ChangeLog README $(INSTDIR)/share/doc/$(GETTEXT_PACKAGE)
++	mkdir -p $(INSTDIR)/doc/$(GETTEXT_PACKAGE)$(VERSION)
++	install -c -m 644 COPYING ChangeLog README $(INSTDIR)/doc/$(GETTEXT_PACKAGE)$(VERSION)
+ 	
+ install: src/$(GETTEXT_PACKAGE) build.po build.data
+ 	for d in $(DIRS); do \

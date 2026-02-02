@@ -1,0 +1,49 @@
+# Maintainer: Gaetan Bisson <bisson@archlinux.org>
+# Contributor: Eric Belanger <eric@archlinux.org>
+# Contributor: William Rea <sillywilly@gmail.com>
+
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=fontforge
+pkgver=20201107
+pkgrel=1slint
+slackdesc=\
+(
+"fontforge: fontforge (an outline font editor)"
+"FontForge is an outline font editor that lets you create your own"
+"postscript, truetype, opentype, cid-keyed, multi-master, cff, svg"
+"and bitmap (bdf, FON, NFNT) fonts, or edit existing ones. It also"
+"lets you convert one format to another. FontForge has support for"
+"many Macintosh font formats."
+)
+#Homepage: http://fontforge.sourceforge.net/
+
+
+url='https://fontforge.github.io/'
+arch=('x86_64')
+makedepends=('cmake' 'git' 'python-sphinx')
+depends=('libtool' 'pango' 'giflib' 'libtiff' 'libxml2' 'libspiro' 'python'
+         'potrace' 'woff2' 'gtk3' 'libuninameslist')
+source=("https://github.com/${pkgname}/${pkgname}/releases/download/${pkgver}/${pkgname}-${pkgver}.tar.xz")
+sha256sums=('68bcba8f602819eddc29cd356ee13fafbad7a80d19b652d354c6791343476c78')
+docs=(AUTHORS COPYING.gplv3 LICENSE)
+build() {
+	cd "$SRC/${pkgname}-${pkgver}"
+	mkdir build
+	cd build
+	cmake \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DENABLE_MAINTAINER_TOOLS=TRUE \
+		-DENABLE_FONTFORGE_EXTRAS=TRUE \
+		-DENABLE_LIBSPIRO=FALSE \
+		-DENABLE_DOCS=FALSE \
+		-DENABLE_LIBREADLINE=FALSE \
+		-DENABLE_LIBUNINAMESLIST=FALSE \
+		-DUNIX=TRUE \
+		..
+sed "s/-R/-Wl,-rpath=/g" CMakeCache.txt > bof
+mv bof CMakeCache.txt
+	make
+	make DESTDIR="$PKG" install
+}

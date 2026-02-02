@@ -1,0 +1,16 @@
+diff -Naur slapt-get-0.10.2g-old//src/package.h slapt-get-0.10.2g/src/package.h
+--- slapt-get-0.10.2g-old//src/package.h	2010-09-28 02:42:10.000000000 +0300
++++ slapt-get-0.10.2g/src/package.h	2010-12-15 22:56:03.105900969 +0200
+@@ -25,9 +25,9 @@
+ #define SLAPT_CHANGELOG_FILE "ChangeLog.txt"
+ #define SLAPT_CHANGELOG_FILE_GZ "ChangeLog.txt.gz"
+ #define SLAPT_PATCHDIR "patches/"
+-#define SLAPT_REMOVE_CMD "/sbin/removepkg "
+-#define SLAPT_INSTALL_CMD "/sbin/installpkg "
+-#define SLAPT_UPGRADE_CMD "/sbin/upgradepkg --reinstall "
++#define SLAPT_REMOVE_CMD "/sbin/spkg -d "
++#define SLAPT_INSTALL_CMD "/sbin/spkg -i "
++#define SLAPT_UPGRADE_CMD "/sbin/spkg -u --reinstall "
+ #define SLAPT_CHECKSUM_FILE "CHECKSUMS.md5"
+ #define SLAPT_CHECKSUM_FILE_GZ "CHECKSUMS.md5.gz"
+ #define SLAPT_HEAD_FILE_EXT ".head"

@@ -1,0 +1,41 @@
+#Packager: George Vlahavas <vlahavas~at~gmail~dot~com>
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=slapt-src
+# export commit=6dd64bb
+pkgver=0.3.8
+pkgrel=1slint
+source=("remove-unwanted-slackbuilds_data.patch"
+"remove-unwanted-slackbuilds_data" "post-process-slackbuilds_data"
+"slapt-srcrc.diff" "${pkgname}-${pkgver}.tar.gz")
+docs=("readme" "install" "copying" "changelog" "authors" "news" "todo")
+url=http://software.jaos.org/#slapt-src
+options=('nosrcpack')
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"slapt-src (slapt slackbuild utility)"
+"slapt-src is a utility to make querying, retrieving, and building"
+"packages using slackbuilds and/or SLKBUILDs as easily as working with"
+"binary packages with slapt-get."
+)
+
+build() {
+#	git clone https://github.com/jaos/slapt-src.git
+#	cd ${pkgname}
+    cd ${pkgname}-${pkgver}
+#	git checkout $commit
+    patch -p1 --verbose < $SRC/slapt-srcrc.diff || exit
+	mkdir build
+	cd build
+	meson .. \
+    --mandir=/usr/man \
+    --prefix=/usr \
+    --sysconfdir=/etc
+     ninja
+  DESTDIR=$PKG ninja install
+	execdir="$PKG/usr/libexec/slapt-src"
+	mv $PKG/etc/slapt-get/slapt-srcrc.new $PKG/etc/slapt-get/slapt-srcrc || exit
+	rm -rf $startdir/pkg/usr/share/doc
+	rm -rf $startdir/pkg/usr/src
+}

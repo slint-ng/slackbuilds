@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|' on
+# the right side marks the last column you can put a character in.  You must make
+# exactly 11 lines for the formatting to be correct.  It's also customary to
+# leave one space after the ':'.
+
+          |-----handy-ruler------------------------------------------------------|
+speechd-el: speechd-el (Emacs client to speech synthesizers and Braille displays)
+speechd-el:
+speechd-el: speechd-el provides speech and Braille output environment for Emacs.
+speechd-el:
+speechd-el: It is aimed primarily at visually impaired users who need non-visual
+speechd-el: communication with Emacs, but it can be used by anybody who needs
+speechd-el: sophisticated speech or other kind of alternative output from Emacs.
+speechd-el: speechd-el can make Emacs a completely speech and BRLTTY enabled
+speechd-el: application suitable for visually impaired users or, depending on its
+speechd-el: configuration, it can only speak in certain situations or when asked,
+speechd-el: to serve needs of any Emacs user.

@@ -1,0 +1,9 @@
+Pacakage previously named python-installer in Slint, renamee python3-installer
+as in SBo. We add a dummy python installer in Slint to avoid having to remove
+the previous python-installer upun uinstalletion of python3 installer:
+tjs way when running slapt-get upgrade python-installer will be repmaced by the
+dummy package. but we also make of python3-installer a dependeny of
+python-installer so that its upgrade triggers installation of
+python3-installer.
+
+ 

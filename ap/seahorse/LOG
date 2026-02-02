@@ -1,0 +1,10 @@
+seahorse 42.0
+
+  User defined options
+    buildtype    : release
+    infodir      : /usr/info
+    libdir       : /usr/lib64
+    localstatedir: /var
+    prefix       : /usr
+    sysconfdir   : /etc
+    key-sharing  : false

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="config-screensaver">
+  <title>Penyelamat skrin</title>
+  <para>Penyelamat skrin adalah hampir setua dengan usia komputer, ia digunakan untuk memastikan paparan imej tidak 'terbakar' di atas skrin monitor. Ia menyebabkan monitor rosak secara fizikal. Kini, teknologi komputer semakin maju dan imej-imej yang terbentuk pada monitor tidak lagi merosakkannya secara fizikal. Namun begitu, nostalgia penggunaannya masih tegar kerana ramai pengguna menyukai penyelamat skrin kerana menarik dan menghiburkan pelawat yang memandangnya.</para>
+  <para><application>Mate</application> menggunakan sama ada program <application>xscreensaver</application> atau <application>mate-screensaver</application> untuk memaparkan penyelamat skrin. Secara lalai, <application>Mate</application> disertakan dengan berdozen-dozen penyelamat-skrin. Semuanya boleh dikonfigur melalui <application>Capplet Tetapan</application> di dalam <application>Pusat Kawalan Mate</application>.</para>
+  <sect2 id="config-screensaver-config">
+    <title>Konfigurasi</title>
+    <para>Antaramuka <application>Capplet Penyelamat Skrin</application> di bahagikan kepada dua seksyen utama: <variablelist>
+	<varlistentry>
+	  <term>Pilihan Penyelamat Skrin</term>
+	  <listitem>
+	    <para>Berada di sebelah kiri skrin, separa penyelamat skrin membolehkan anda konfigur sifat-sifat yang dapat mempengaruhi kelakuan penyelamat skrin anda.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Pratonton Penyelamat Skrin</term>
+	  <listitem>
+	    <para>Di sebelah kanan capplet merupakan pratonton bagi penyelamat skrin terpilih anda.</para>
+	  </listitem>
+	</varlistentry>
+      </variablelist></para>
+    <sect3 id="config-screensaver-config-basics">
+    <title>Menetapkan Penyelamat Skrin</title>
+    <para>Oleh itu, sekiranya anda mahu memasang penyelamat skrin anda. Langkah di bawah adalah cara-cara menetapkan penyelamat skrin pilihan anda: <orderedlist numeration="arabic">
+	<listitem>
+	  <para>Anda boleh memilih pelbagai mod untuk memaparkan penyelamat skrin anda: <variablelist>
+	      <varlistentry>
+		<term>Lumpuhkan Penyelamat Skrin</term>
+		<listitem>
+		  <para>Tindakan ini akan mematikan penyelamat skrin anda sepenuhnya.</para>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term>Skrin gelap sahaja</term>
+		<listitem>
+		  <para>Monitor anda hanya memaparkan imej gelap selain daripada animasi. Ia berguna untuk menjimatkan tenaga.</para>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term>Satu Penyelamat Skrin</term>
+		<listitem>
+		  <para>Hanya memaparkan satu penyelamat skrin ketika penyelamat skrin aktif.</para>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term>Penyelamat Skrin Rawak</term>
+		<listitem>
+		  <para>Program penyelamat skrin dapat memaparkan penyelamat-penyelamat skrin dalam bentuk rawak. Pilihan ini memaparkan penyelamat skrin secara rawak. Ia juga meletakkan kotak tanda di sebelah setiap penyelamat skrin supaya anda boleh memilih yang disukai sahaja.</para>
+		</listitem>
+	      </varlistentry>
+	    </variablelist></para>
+	</listitem>
+	<listitem>
+	  <para>Pilih penyelamat skrin yang mahu digunakan.</para>
+	</listitem>
+	<listitem>
+	  <para>Tetapkan keutamaan waktu. Pilihan tersedia adalah: <variablelist>
+		<varlistentry>
+		  <term>Gelap Selepas</term>
+		  <listitem>
+		    <para>Tempoh menunggu sebelum penyelamat skrin bermula.</para>
+		  </listitem>
+		</varlistentry>		  
+		<varlistentry>
+		  <term>Kitar Selepas</term>
+		  <listitem>
+		    <para>Jika anda memilih lebih daripada satu penyelamat skrin, tetapkan tempoh penyelamat skrin anda bertukar.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>Kunci Skrin Selepas</term>
+		  <listitem>
+		    <para>Dengan membenarkan penguncian skrin, anda dapat bantu meningkatkna keselamat fizikal komputer. Pengguna perlu masukkan satu kata laluan sebelum dapat menghentikan penyelamat skrin, supaya dapat menggunakan sistem semula.</para>
+		  </listitem>
+		</varlistentry>
+	      </variablelist></para>
+	  </listitem>
+	</orderedlist></para>
+      <para>Di bawah tetingkap pratonton terdapat dua butang: <guibutton>Pratonton</guibutton> dan <guibutton>Tetapan</guibutton>.</para>
+      <para>Dengan mengklik butang <guibutton>Pratonton</guibutton>, anda boleh melihat aksi penyelamat skrin ketika dalam mod skrin penuh. Ketik mana-mana kekunci untuk menutup penyelamat skrin selepas puas melihatnya.</para>
+      <para><guibutton>Tetapan</guibutton> membolehkan anda konfigur setiap penyelamat skrin secara individu. Kandungan-kandungan pada butang <guibutton>Tetapan</guibutton> tidak dijelaskan di dalam dokumen ini.</para>
+    </sect3>
+  </sect2>
+  <sect2 id="config-screensaver-advanced">
+    <title>Tab Lanjutan</title>
+    <para>Tab <guilabel>Lanjutan</guilabel> membenarkan lebih banyak pilihan yang ada.</para>
+    <para>Tab <guilabel>Lanjutan</guilabel> dibahagikan kepada empat seksyen: <variablelist>
+	<varlistentry>
+	  <term>Manipulasi Imej</term>
+	  <listitem>
+	    <para>Penyelamat skrin boleh menggunakan imej desktop anda dan manipulasikan imej buat sementara sebagai penyelamat skrin anda.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Pengurusan Kuasa Paparan</term>
+	  <listitem>
+	    <para>Sistem anda dapat bantu menjimatkan tenaga dengan mengubah status monitor anda.</para>
+	  </listitem>
+	</varlistentry>	
+	<varlistentry>
+	  <term>Diagnostik</term>
+	  <listitem>
+	    <para>Kadang kala, sistem anda mengalami masalah yang disebabkan oleh penyelamat skrin anda. Guna seksyen ini untuk membenarkan maklumat tersebut dipaparkan supaya anda dapat membaiki masalah.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Peta Warna</term>
+	  <listitem>
+	    <para>
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist></para>
+    <sect3 id="config-screensaver-advanced-imgmanip">
+      <title>Seksyen Manipulasi Imej</title>
+      <para>Penyelamat skrin anda mempunyai keupayaan mengambil alih desktop dan menjalankan manipulasi imej buat sementara. Beberapa pilihan disediakan untuk menetapkan manipulasi imej. Pilih kaedah manipulasi imej yang mahu digunakan. <note>
+	  <para>Jika anda tidak mahu penyelamat skrin anda menggunakan manipulasi imej, nyahpilih semua pilihan.</para>
+	</note></para>
+    </sect3>
+    <sect3 id="config-screensaver-advanced-apm">
+      <title>Seksyen Pengurusan Kuasa Paparan</title>
+      <para>Pengurusan kuasa dapat menjimatkan tenaga dengan menetapkan mod-mod bagi monitor anda. Pilih pemasaan untuk mod-mod yang ditetapkan dalam seksyen ini.</para>
+    </sect3>
+    <sect3 id="config-screensaver-advanced-diag">
+      <title>Seksyen Diagnostik</title>
+      <para>Kadang kala, sistem anda mengalami masalah yang disebabkan oleh penyelamat skrin anda. Guna seksyen ini untuk membenarkan maklumat tersebut dipaparkan supaya anda dapat membaiki masalah. <note>
+	  <para>Maklumat yang dijana dalam bahagian ini telah memberikan jawapan terus kepada masalah anda. Namun begitu, pentadbir sistem anda akan mendapati maklumat yang berguna untuk membaiki masalah anda.</para>
+	</note></para>
+    </sect3>
+    <sect3 id="config-screensaver-advanced-color">
+      <title>Seksyen Peta Warna</title>
+      <para>Peta warna membolehkan beberapa pilihan warna mudah yang boleh diubah. Tetapkan pilihan warna anda di sini.</para>
+    </sect3>
+  </sect2>
+</sect1>

@@ -1,0 +1,10 @@
+       caja-dropbox 1.28.0
+       ===================
+
+       prefix:                     /usr
+       compiler:                   gcc
+       cflags:                     -O2 -fPIC
+       warning flags:              -Wall -Wmissing-prototypes
+       custom caja extension dir:  caja/extensions-2.0
+       system caja extension dir:  /usr/lib64/caja/extensions-2.0
+       Native Language support:    yes

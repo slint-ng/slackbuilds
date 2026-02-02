@@ -1,0 +1,40 @@
+#Maintainer: Didier Spaier didieratslintdotfr
+
+pkgname=liblouisutdml
+pkgver=2.12.0
+pkgrel=1slint
+arch=x86_64
+source=("https://github.com/liblouis/liblouisutdml/releases/download/v2.12.0/liblouisutdml-2.12.0.tar.gz")
+options=("nosrcpack")
+docs=("ANNOUNCEMENT" "AUTHORS" "COPYING*" "README" "NEWS" "copyright-notice.txt")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (braille transcription for xml, html and text documents)"
+"Liblouisutdml is an open-source library providing complete braille"
+"transcription services for xml, html and text documents. It translates"
+"into appropriate braille codes and formats according to its style"
+"sheet and the specifications in the document. A command-line program,"
+"\"file2brl\" which uses this library is also included. The latest"
+"version of liblouis is required. Java bindings are built in to the"
+"library."
+)
+
+
+build() {
+	cd ${pkgname}-$pkgver
+    ./autogen.sh
+	./configure \
+	--prefix=/usr \
+	--docdir=/usr/doc/${pkgname}-$pkgver \
+	--libdir=/usr/lib64 \
+	--disable-java-bindings
+	make
+	make install DESTDIR=$PKG
+	# configure doesnt seem to honor docdir
+#	mkdir $PKG/usr/doc
+#	mv $PKG/usr/share/doc/liblouisxml $PKG/usr/doc/${pkgname}-$pkgver
+#	rmdir $PKG/usr/share/doc
+	rm -f $PKG/usr/lib*/*.la
+}

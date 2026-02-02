@@ -1,0 +1,32 @@
+perl        'perl'                  => 5.016,
+perl-data-dump       'Data::Dump'            => 0,
+perl        'File::Spec'            => 0,
+perl        'File::Spec::Functions' => 0,
+perl        'File::Path'            => 0,
+perl        'Getopt::Long'          => 0,
+perl-http-message        'HTTP::Request'         => 0,
+perl-JSO        'JSON'                  => 0,
+perl        'Encode'                => 0,
+perl        'Memoize'               => 0,
+perl        'MIME::Base64'          => 0,
+perl        'List::Util'            => 1.33,
+libwww-perl        'LWP::UserAgent'        => 0,
+perl-LWP-Protocol-https        'LWP::Protocol::https'  => 0,
+perl        'Term::ANSIColor'       => 0,
+perl        'Term::ReadLine'        => 0,
+perl        'Text::ParseWords'      => 0,
+perl        'Text::Wrap'            => 0,
+perl        'URI::Escape'           => 0,
+
+        $gtk
+perl-Gtk3           'Gtk3'           => 0,
+perl-File-ShareDir           'File::ShareDir' => 0,
+perl           'Storable'       => 0,
+perl           'Digest::MD5'    => 0,
+    recommends => {
+perl-lwp-useragent-cached        'LWP::UserAgent::Cached' => 0,         # local cache support
+perl-Term-ReadLine-Gnu        'Term::ReadLine::Gnu'    => 0,         # for better STDIN support (+history)
+perl-JSON-XS        'JSON::XS'               => 0,         # faster JSON to HASH conversion
+perl-Unicode-LineBreak        'Unicode::GCString'      => 0,         # fixed-width formatting
+perl-parallel-forkmanager        'Parallel::ForkManager'  => '2.02',    # for the `*_parallel` options
+perl-Text-Unidecode        'Text::Unidecode'        => 0,         # for the `fat32safe` option

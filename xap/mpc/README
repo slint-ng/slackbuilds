@@ -1,0 +1,16 @@
+mpc is a client for MPD, the Music Player Daemon.
+mpc connects to a MPD running on a machine via a network.
+
+Read mpc's manual page for usage instructions.
+
+If you want to be able to tab-complete the commands for mpc, you can
+copy the contents /usr/share/bash-completions/mpc to your ~/.bashrc.
+
+You will need to make sure you have set the MPD_HOST and MPD_PORT
+environment variables.
+
+Links:
+- Home page and download http://www.musicpd.org/clients/mpc
+- git repository https://github.com/MusicPlayerDaemon/mpc/
+- Bug tracker https://github.com/MusicPlayerDaemon/mpc/issues
+- Forum http://forum.musicpd.org/

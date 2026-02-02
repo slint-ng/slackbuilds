@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="config-background">
+  <title>Позадина</title>
+  <para>Позадина је слика, шаблон или боја приказана на вашој радној површи. Много људи је користе као украс на њиховом рачунару. Програм „<application>Својства позадине</application>“ одређује поставке ваше позадине.</para>
+  <para>„<application>Својства позадине</application>“ можете да приступите на два начина: <itemizedlist>
+      <listitem>
+        <para>Десни клик на позадину и леви клик на <guibutton>Промени позадину радне површи</guibutton>.</para>
+      </listitem>
+      <listitem>
+        <para>Отварање „<application>Мејтов управљачки центар</application>“ и двоклик на <guibutton>Позадина</guibutton>.</para>
+      </listitem>
+    </itemizedlist></para>
+  <sect2 id="config-background-interface">
+    <title>Сучеље својстава позадине</title>
+    <para>Врх прозора вам приказује мало издање изабране позадине. Испод су поља која вам омогућавају да изаберете који режим користи ваша позадина: <variablelist>
+	<varlistentry>
+	  <term>Позадина</term>
+	  <listitem>
+	    <para>Приказује вашу позадину у изворном облику. Треба да изаберете ово ако је ваша позадина истих димензија као резолуција екрана.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Усредиштено</term>
+	  <listitem>
+	    <para>Поставља вашу слику у средиште екрана.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Сразмерно</term>
+	  <listitem>
+	    <para>Развлачи вашу слику, али задржава однос сразмере. Ово ће спречити да ваша слика изгледа смешно ако је превише развучена у једном смеру.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Развучено</term>
+	  <listitem>
+	    <para>Развлачи вашу слику да попуни екран, без обзира на однос сразмере. Ово може да искриви ваше слике.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Без слике</term>
+	  <listitem>
+	    <para>Не користи графику за позадину, већ користи боје које су описане испод.</para>
+	  </listitem>
+	</varlistentry>
+      </variablelist></para>
+    <para>Испод ових дугмића су опције за подешавање боја. Имају значаја само ако изаберете <guibutton>Без слике</guibutton> или ваша слика не испуњава читав екран.</para>
+    <para>Ако ваша слика не заузима читав екран, имате опцију за обојавање екрана око ње. Можете изабрати усправни или водоравни прелив или уобичајену пуну боју. Ако изаберете пуну боју, изабраћете је на десној страни кликом на <guibutton>Боја</guibutton>. Ако изаберете прелив, имаћете две опције. Изаберите боје које желите да примените и ваш избор ће одмах ступити у дејство.</para>
+  </sect2>
+  <sect2 id="config-background-settingup">
+    <title>Постављање позадине</title>
+    <para>Да подесите позадину, изаберите један од следећих корака: <orderedlist numeration="arabic">
+	<listitem>
+	  <para>Превуците и убаците слику у <guibutton>Рам слике</guibutton> или кликните на дугме и изаберите слику у <application>Мејтов бирач датотека</application>.</para>
+	</listitem>
+	<listitem>
+	  <para>Изаберите режим који желите да користите. Измене ступају у дејство одмах, тако да можете брзо да измените ако нисте задовољни резултатом.</para>
+	</listitem>
+	<listitem>
+	  <para>Ако ваша слика не покрива читав екран, изаберите поставке боје. Или, прескочите овај корак.</para>
+	</listitem>
+	<listitem>
+	  <para>Кликните <guibutton>Затвори</guibutton> када завршите са подешавањем.</para>
+	</listitem>
+      </orderedlist></para>
+  </sect2>
+</sect1>

@@ -1,0 +1,193 @@
+#!/bin/sh
+#
+# Copyright 2010, 2012, 2013, 2016, 2017  Patrick J. Volkerding, Sebeka, Minnesota, USA
+# All rights reserved.
+#
+# Redistribution and use of this script, with or without modification, is
+# permitted provided that the following conditions are met:
+#
+# 1. Redistributions of this script must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#
+#  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
+#  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+#  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO
+#  EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+#  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+#  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+#  OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+#  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+#  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+#  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+# Modified for Slint  by Didier Spaier didieratslintdotfr
+
+# Set initial variables:
+PRGNAM=brltty
+CWD=$(pwd)
+TMP=${TMP:-$CWD}
+commit=d6d71a1
+#VERSION=6.8
+VERSION=git$commit
+PKG=$TMP/package-$PRGNAM
+PKG2=$TMP/package3.9-$PRGNAM
+BUILD=1slint
+OUTPUT=${OUTPUT:-$CWD}
+# Automatically determine the architecture we're building on:
+if [ -z "$ARCH" ]; then
+  case "$( uname -m )" in
+    i?86) export ARCH=i486 ;;
+    arm*) export ARCH=arm ;;
+    # Unless $ARCH is already set, use uname -m for all other archs:
+       *) export ARCH=$( uname -m ) ;;
+  esac
+fi
+if [ "$ARCH" = "x86_64" ]; then
+  LIBDIRSUFFIX="64"
+else
+  LIBDIRSUFFIX=""
+fi
+
+NUMJOBS=${NUMJOBS:-" -j9 "}
+
+rm -rf $PKG
+mkdir -p $PKG
+cd $TMP
+rm -rf brltty
+#tar xf $CWD/$PRGNAM-$VERSION.tar.xz || exit 1
+#cd $PRGNAM-$VERSION
+git clone https://github.com/brltty/brltty.git
+cd brltty
+git checkout $commit || exit
+# Make a copy for the second build
+(cd $CWD
+rm -rf brltty2
+cp -r brltty brltty2 || exit
+)
+rm -rf DOS Windows
+
+chown -R root:root .
+find . -perm 775 -exec chmod 755 {} \;
+find . -perm 700 -exec chmod 755 {} \;
+find . -perm 744 -exec chmod 755 {} \;
+find . -perm 664 -exec chmod 644 {} \;
+find . -perm 600 -exec chmod 644 {} \;
+
+# Let's help to find the headers shipped with speech-dispatcher
+CPPFLAGS="-I/usr/include -I/usr/include/speech-dispatcher" \
+./autogen
+PYTHON=/usr/bin/python3.11 \
+./configure \
+  --prefix=/usr \
+  --bindir=/bin \
+  --sbindir=/sbin \
+  --libdir=/lib64 \
+  --infodir=/usr/info \
+  --mandir=/usr/man \
+  --docdir=/usr/doc/brltty-$VERSION \
+  --htmldir=/usr/doc/brltty-$VERSION/html \
+  --pdfdir=/usr/doc/brltty-$VERSION/pdf \
+  --with-writable-directory=/var/brltty \
+  --sysconfdir=/etc \
+  --localstatedir=/var \
+  --disable-tcl-bindings \
+  --disable-java-bindings \
+  --with-espeak_ng=/usr \
+  --without-espeak \
+  --build=$ARCH-slackware-linux || exit 1
+
+make -j4 || exit 1
+make install INSTALL_ROOT=$PKG || exit 1
+
+
+
+chmod 755 $PKG/bin/* $PKG/lib64/brltty/*
+make install-udev INSTALL_ROOT=$PKG  || exit 1
+make install-polkit INSTALL_ROOT=$PKG || exit 1
+
+
+( cd $PKG
+  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
+  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
+)
+
+# bp2cf comes handy to customize the config file
+mkdir -p $PKG/usr/sbin
+cp Bootdisks/bp2cf $PKG/usr/sbin
+DOCDIR="$PKG"/usr/doc/brltty-$VERSION
+mkdir -p "$DOCDIR"
+( cd Documents || exit 1
+make
+find Manual-BRLTTY -name "*html"|while read p;do mkdir -p "$DOCDIR"/$(dirname "$p"); cp "$p" "$DOCDIR"/$(dirname "$p"); done || exit 1
+mkdir -p "$DOCDIR"/Manual-BRLTTY/Portuguese
+cp Manual-BRLTTY/Portuguese/BRLTTY.txt "$DOCDIR"/Manual-BRLTTY/Portuguese || exit 1
+) 
+cp -a \
+  README \
+  LICENSE-LGPL \
+  Documents/README* \
+  Documents/TODO \
+  Documents/CONTRIBUTORS \
+  Documents/HISTORY \
+  "$DOCDIR"
+  # Keep only parts of the ChnageLog for versions 6.4 to 6.7
+  sed -n 1,328p Documents/ChangeLog > "$DOCDIR"/ChangeLog || exit 1
+# If there's a ChangeLog, installing at least part of the recent history
+
+gzip -9 $PKG/usr/man/man?/*.?
+
+mkdir -p $PKG/etc
+cp -a Documents/brltty.conf $PKG/etc/brltty.conf.new
+mkdir -p $PKG/etc/rc.d
+cp -a $CWD/rc.brltty $PKG/etc/rc.d/rc.brltty.new
+mkdir -p $PKG/install
+cp $CWD/slack-desc $PKG/install/slack-desc
+cp $CWD/doinst.sh $PKG/install/doinst.sh
+
+
+# Now build against python3.9 for Cthullhu
+#rm -rf $PKG2
+#mkdir -p $PKG2
+#cd $CWD/brltty2 || exit 1
+#
+#rm -rf DOS Windows
+#
+#chown -R root:root .
+#find . -perm 775 -exec chmod 755 {} \;
+#find . -perm 700 -exec chmod 755 {} \;
+#find . -perm 744 -exec chmod 755 {} \;
+#find . -perm 664 -exec chmod 644 {} \;
+#find . -perm 600 -exec chmod 644 {} \;
+#
+## Let's help to find the headers shipped with speech-dispatcher
+#CPPFLAGS="-I/usr/include -I/usr/include/speech-dispatcher" \
+#./autogen
+#PYTHON=/usr/bin/python3.9 \
+#./configure \
+#  --prefix=/usr \
+#  --bindir=/bin \
+#  --sbindir=/sbin \
+#  --libdir=/lib64 \
+#  --infodir=/usr/info \
+#  --mandir=/usr/man \
+#  --docdir=/usr/doc/brltty-$VERSION \
+#  --htmldir=/usr/doc/brltty-$VERSION/html \
+#  --pdfdir=/usr/doc/brltty-$VERSION/pdf \
+#  --with-writable-directory=/var/brltty \
+#  --sysconfdir=/etc \
+#  --localstatedir=/var \
+#  --disable-tcl-bindings \
+#  --disable-java-bindings \
+#  --with-espeak_ng=/usr \
+#  --without-espeak \
+#  --build=$ARCH-slackware-linux || exit 1
+#
+#make -j4 || exit 1
+#make install INSTALL_ROOT=$PKG2 || exit 1
+#
+#cp -r $PKG2/usr/lib64/python3.9 $PKG/usr/lib64/
+
+chown -R root:root $PKG
+
+cd $PKG
+/sbin/makepkg -l y -c n $CWD/$PRGNAM-$VERSION-$ARCH-$BUILD.txz

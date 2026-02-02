@@ -1,0 +1,61 @@
+-- The following features have been enabled:
+
+ * GPLv2
+ * GPLv3
+ * Module: avformat
+ * Module: DeckLink
+ * Module: Frei0r
+ * Module: GDK
+ * Module: JACKRack
+ * Module: Kdenlive
+ * Module: Normalize
+ * Module: Oldfilm
+ * Module: Plus
+ * Module: PlusGPL
+ * Module: Qt (Qt5)
+ * Module: Resample
+ * Module: RtAudio
+ * Module: Rubberband
+ * Module: SDL1
+ * Module: SDL2
+ * Module: SoX
+ * Module: vid.stab
+ * Module: Vorbis
+ * Module: XINE
+ * Module: XML
+
+-- The following OPTIONAL packages have been found:
+
+ * JACK
+ * OpenGL
+ * Qt5Core
+ * Qt5Xml
+ * Qt5Gui
+ * Qt5Svg
+ * Qt5Widgets
+ * Qt5
+ * SWIG
+
+-- The following REQUIRED packages have been found:
+
+ * Threads
+ * PkgConfig
+
+-- The following features have been disabled:
+
+ * Tests
+ * Doxygen
+ * Module: Glaxnimate (Qt5)
+ * Module: NDI
+ * Module: OpenCV
+ * Module: Movit
+ * Module: Qt6
+ * SWIG: C#
+ * SWIG: Java
+ * SWIG: Lua
+ * SWIG: Node.js
+ * SWIG: Perl
+ * SWIG: PHP
+ * SWIG: Python
+ * SWIG: Ruby
+ * SWIG: Tcl

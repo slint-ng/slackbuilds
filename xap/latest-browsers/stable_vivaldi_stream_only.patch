@@ -1,0 +1,60 @@
+In Slint we allow to build only a stable version, not a snapshot - Didier
+
+--- latest-vivaldi.sh	2021-12-06 10:07:26.837890408 +0100
++++ latest-vivaldi.sh.new	2021-12-08 00:23:55.958195209 +0100
+@@ -54,7 +54,7 @@
+ fi
+ 
+ # Set to snapshot to track that channel instead of stable Vivaldi
+-VIVALDI_STREAM=${VIVALDI_STREAM:-stable}
++VIVALDI_STREAM=stable
+ 
+ if [ "$VIVALDI_STREAM" = "stable" ]; then
+   VIVALDIBIN=vivaldi
+@@ -94,7 +94,7 @@
+ BUILD="${BUILD:-1}"
+ TAG="${TAG:-ro}"
+ PKGTYPE="${PKGTYPE:-tgz}"
+-PACKAGE="$OUTPUT/vivaldi-$VIVALDI_STREAM-$VERSION-$ARCH-$BUILD$TAG.$PKGTYPE"
++PACKAGE="$OUTPUT/vivaldi-$VERSION-$ARCH-$BUILD$TAG.$PKGTYPE"
+ 
+ # If the package was made previously, no need to make it again. ;)
+ if [ -e "$PACKAGE" ]; then
+@@ -102,7 +102,7 @@
+   exit 0
+ fi
+ 
+-REPACKDIR="$TMP/repackage-vivaldi-$VIVALDI_STREAM"
++REPACKDIR="$TMP/repackage-vivaldi"
+ 
+ # Define this script's name as we will copy into doc directory later on
+ SCRIPT="${0##*/}"
+@@ -264,17 +264,17 @@
+ 
+ # Create a description file inside the package.
+ cat <<EOD> install/slack-desc
+-vivaldi-$VIVALDI_STREAM: vivaldi-$VIVALDI_STREAM (Vivaldi web browser)
+-vivaldi-$VIVALDI_STREAM:
+-vivaldi-$VIVALDI_STREAM: Vivaldi browser is made with power users in mind by people who love
+-vivaldi-$VIVALDI_STREAM: the Web.
+-vivaldi-$VIVALDI_STREAM:
+-vivaldi-$VIVALDI_STREAM:
+-vivaldi-$VIVALDI_STREAM:
+-vivaldi-$VIVALDI_STREAM:
+-vivaldi-$VIVALDI_STREAM:
+-vivaldi-$VIVALDI_STREAM: Homepage:  https://vivaldi.com
+-vivaldi-$VIVALDI_STREAM:
++vivaldi: vivaldi (Vivaldi web browser)
++vivaldi:
++vivaldi: Vivaldi browser is made with power users in mind by people who love
++vivaldi: the Web.
++vivaldi:
++vivaldi:
++vivaldi:
++vivaldi:
++vivaldi:
++vivaldi: Homepage:  https://vivaldi.com
++vivaldi:
+ EOD
+ 
+ # Make sure the file permissions are ok

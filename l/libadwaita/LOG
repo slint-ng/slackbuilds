@@ -1,0 +1,36 @@
+Found pkg-config: /usr/bin/pkg-config (0.29.2)
+Run-time dependency gio-2.0 found: YES 2.70.3
+Run-time dependency gtk4 found: YES 4.7.0
+Run-time dependency glib-2.0 found: YES 2.70.3
+Run-time dependency fribidi found: YES 1.0.11
+Library m found: YES
+Configuring config.h using configuration
+Checking if "ld_supports_version_script" links: YES 
+Run-time dependency gobject-introspection-1.0 found: YES 1.70.0
+Dependency gobject-introspection-1.0 found: YES 1.70.0 (cached)
+Program g-ir-scanner found: YES (/usr/bin/g-ir-scanner)
+Dependency gobject-introspection-1.0 found: YES 1.70.0 (cached)
+Program g-ir-compiler found: YES (/usr/bin/g-ir-compiler)
+Program vapigen found: YES (/usr/bin/vapigen)
+Program desktop-file-validate found: YES (/usr/bin/desktop-file-validate)
+Program date found: YES (/usr/bin/date)
+Configuring org.gnome.Adwaita1.Demo.metainfo.xml.in using configuration
+Program appstream-util found: YES (/usr/bin/appstream-util)
+Program glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Dependency gtk4 found: YES 4.7.0 (cached)
+Dependency libadwaita-1 found: YES 1.1.0 (overridden)
+Configuring run using configuration
+Program build-aux/meson/dist-data.py found: YES (/usr/bin/python3 /storage/repo/x86_64/slint-15.0/source/libadwaita/src/libadwaita/build-aux/meson/dist-data.py)
+Build targets in project: 58
+
+libadwaita 1.1.0
+
+  Options
+    Tests        : True
+    Examples     : True
+    Documentation: False
+    Introspection: True
+    Vapi         : True
+
+Option buildtype is: release [default: debugoptimized]
+Found ninja-1.10.2 at /usr/bin/ninja

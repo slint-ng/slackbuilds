@@ -1,0 +1,32 @@
+# Packaged by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=$(pwd|sed "s,.*/,,")
+pkgver=git2553a672
+pkgrel=1slint
+source=("$(echo ${pkgname}-*.tar.?z*)")
+docs=("copying" "authors" "news" "license" "changes")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Non-default Compiz compositing manager plugins)"
+)
+
+build() {
+  cd $SRC/compiz-plugins-main-master || return 1
+	patch -p1 --verbose < ../../Slint_default_settings.diff || exit 1
+	patch -p1 --verbose < ../../change_the_keybinding_for_switch_filter.diff|| exit 1
+  ./autogen.sh
+  ./configure \
+  --prefix=/usr \
+  --libdir=/usr/lib${LIBDIRSUFFIX} \
+  --sysconfdir=/etc \
+  --localstatedir=/var \
+  --infodir=/usr/info \
+  --mandir=/usr/man \
+  --disable-static \
+  --build=$ARCH-slackware-linux
+  make
+  DESTDIR=$PKG make install
+}

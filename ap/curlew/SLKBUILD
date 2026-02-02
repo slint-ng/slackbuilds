@@ -1,0 +1,46 @@
+# Maintainer: Jonian Guveli <jonian@hardpixel.eu>
+#
+# Contributor: ValHue <vhuelamo at gmail dot com>
+# Contributor: yaroslav <proninyaroslav@mail.ru>
+# Contributor: mrbit <giacomogiorgianni@gmail.com>
+#
+#Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname="curlew"
+pkgver=0.2.1
+pkgrel=1
+slackdesc="Easy to use Multimedia converter for Linux in Python"
+url="https://curlew.sourceforge.io"
+license=('Waqf GPL')
+depends=("python" "python-gobject" "python-dbus" "python-xdg" "xdg-utils" "ffmpeg" "mediainfo")
+makedepends=("python-setuptools" "intltool" "librsvg")
+optdepends=("curl: uploader support")
+source=("http://downloads.sourceforge.net/project/${pkgname}/${pkgname}-${pkgver}/${pkgname}-${pkgver}.tar.gz")
+sha256sums=('8f645bc3a4897ac61eaec5be19c16b515d164552554ac0791a60731be1ea22a9')
+docs=("README" "ChangeLog" "AUTHORS" "LICENSE*" "TODO")
+doinst() {
+  # Update any existing icon cache files:
+  if find /usr/share/icons -maxdepth 2 2> /dev/null | grep -q icon-theme.cache ; then
+    for theme_dir in /usr/share/icons/* ; do
+      if [ -r ${theme_dir}/icon-theme.cache ]; then
+        /usr/bin/gtk-update-icon-cache -t -f ${theme_dir} 1> /dev/null 2> /dev/null &
+      fi
+    done
+    # This would be a large file and probably shouldn't be there.
+    if [ -r /usr/share/icons/icon-theme.cache ]; then
+      rm -f /usr/share/icons/icon-theme.cache
+    fi
+  fi
+  
+  # Update desktop database:
+  if [ -x /usr/bin/update-desktop-database ]; then
+    /usr/bin/update-desktop-database /usr/share/applications 1> /dev/null 2> /dev/null
+  fi
+}
+build() {
+  cd "${pkgname}-${pkgver}"
+  sed -i "130 a\      packages=[]," setup.py
+
+  python3 setup.py install --prefix=/usr --root="$PKG" --optimize=1
+  rm -r $PKG/usr/share/doc
+}

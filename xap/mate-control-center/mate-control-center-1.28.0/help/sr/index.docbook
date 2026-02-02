@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY VERSION "1.10.1">
+<!ENTITY legal SYSTEM "legal.xml">
+<!ENTITY app "<application>MATE Control Center</application>">
+<!ENTITY appname "MATE Control Center">
+<!-- Information about the entities
+       The legal.xml file contains legal information, there is no need to edit the file.
+       Use the appversion entity to specify the version of the application.
+       Use the manrevision entity to specify the revision number of this manual.
+       Use the date entity to specify the release date of this manual.
+       Use the app entity to specify the name of the application. -->]>
+<article id="index" lang="sr">
+  
+  <articleinfo>
+    <abstract role="description">
+      <para>Мејтов управљачки центар обезбеђује средишње место где корисник може да постави своје Мејтово искуство. Може вам допустити да подесите све од понашања граница прозора до основне врсте слова.</para>
+    </abstract>
+    <title>Упутство Мејтовог управљачког центра</title>
+    <authorgroup>
+      <author><firstname>Пројекат Мејтове документације</firstname> <surname/> <affiliation> <orgname>Мејтова радна површ</orgname> </affiliation></author>
+      <author><firstname>Кевин</firstname><surname>Брејт</surname></author>
+    </authorgroup>
+    <copyright><year>2015-2021</year> <holder>Пројекат Мејтове документације</holder></copyright>
+    <copyright><year>2001, 2002</year> <holder>Ximian, Inc.</holder></copyright>
+
+    <publisher role="maintainer">
+      <publishername>Пројекат Мејтове документације</publishername>
+    </publisher>
+    <publisher>
+      <publishername>Пројекат Гномове документације</publishername>
+    </publisher>
+    
+    <revhistory>
+      <revision><revnumber>2.15</revnumber> <date>Јул 2015</date> <firstname>Пројекат Мејтове документације</firstname> <surname/></revision>
+      <revision><revnumber>2.14</revnumber> <date>Март 2006</date></revision> 
+    </revhistory>
+
+    <!-- This file contains link to license for the
+   documentation (GNU FDL), and other legal stuff such as "NO
+   WARRANTY" statement. Please do not change any of this. -->
+
+    <releaseinfo>Ово упутство описује издање 1.10.1 Мејтовог управљачког центра.</releaseinfo>
+
+    <legalnotice>
+        <title>Примедбе</title>
+        <para>Да бисте пријавили грешку или дали предлог у вези програма <application>Мејтов управљачки центар</application> или овог упутства, пратите смернице на <ulink url="help:mate-user-guide/feedback" type="help">Мејтовој страници за примедбе</ulink>.</para>
+<!-- Translators may also add here feedback address for translations -->
+    </legalnotice>
+  </articleinfo>
+  
+  <sect1 id="intro">
+    <title>Увод</title>
+    <para><application>Мејтов управљачки центар</application> обезбеђује један прозор из кога можете покренути све алате поставки.</para>
+    <note><para>За више о коришћењу алата поставки, видите <ulink type="help" url="help:mate-user-guide/prefs">Корисничко упутство</ulink>.</para></note>
+
+<!-- ============= To Start Control Center  ============================ -->
+    <sect2 id="mate-control-center-to-start">
+      <title>Покретање Мејтовог управљачког центра</title>
+      <para>Можете да покренете <application>Мејтов управљачки центар</application> на следеће начине:</para>
+      <variablelist>
+        <varlistentry>
+          <term>Изборник „<guimenu>Систем</guimenu>“</term>
+          <listitem>
+            <para>Изаберите ставку изборника „<menuchoice><guimenu>Управљачки центар</guimenu></menuchoice>“.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Наредба</term>
+          <listitem>
+            <para>Извршите следећу наредбу: <command>mate-control-center</command></para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </sect2>
+
+  </sect1>
+  
+  <sect1 id="matecc-interface">
+    <title>Употреба</title>
+    <para>Прозор <application>Мејтовог управљачког центара</application> испсиује све алате поставки инсталиране на вашем систему у групама.</para>
+    <tip><para>Из леве површи, можете брзо да приступите алату поставки прво изабравши његову групу, или уписавши неку кључну реч у поље филтера. Можете такође да приступите уобичајеним задацима, као је „<guilabel>промена теме</guilabel>“ и „<guilabel>постављање омиљених програма</guilabel>“.</para></tip>
+    <para>Да отворите алат поставки, само кликните на њега.</para>
+    <tip><para>Опис алата поставки се појављује на прелет мишем.</para></tip>
+  </sect1>
+</article>

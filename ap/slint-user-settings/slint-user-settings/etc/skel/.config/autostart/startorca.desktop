@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=orca
+Exec=/usr/bin/orca
+Hidden=true

@@ -1,0 +1,2 @@
+Add python-glad2 to the .dep
+Also, mpv 0.39 needs ffmpeg 6.1 => rebuild all deps, so wait.

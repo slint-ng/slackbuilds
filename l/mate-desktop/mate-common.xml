@@ -1,0 +1,652 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE wallpapers SYSTEM "mate-wp-list.dtd">
+<wallpapers>
+	<wallpaper deleted="false">
+		<name>ASlint Gradient</name>
+		<filename>/usr/share/wallpapers/common/SlintGradient.png</filename>
+		<options>stretched</options>
+		<artist>Didier</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>ASlint Blue</name>
+		<filename>/usr/share/wallpapers/common/SlintBlue.png</filename>
+		<options>stretched</options>
+		<artist>Didier</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>abandoned motel</name>
+		<filename>/usr/share/wallpapers/common/abandoned_motel-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>aint no broken windows at the salvation army</name>
+		<filename>/usr/share/wallpapers/common/aint_no_broken_windows_at_the_salvation_army-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>alley city</name>
+		<filename>/usr/share/wallpapers/common/alley_city-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>alleyway 2</name>
+		<filename>/usr/share/wallpapers/common/alleyway_2-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>ancient violin</name>
+		<filename>/usr/share/wallpapers/common/ancient_violin-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>armenia yerevan 9</name>
+		<filename>/usr/share/wallpapers/common/armenia_yerevan_9-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>armenia yerevan botanical garden</name>
+		<filename>/usr/share/wallpapers/common/armenia_yerevan_botanical_garden-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>at peace</name>
+		<filename>/usr/share/wallpapers/common/at_peace-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>autumn 32</name>
+		<filename>/usr/share/wallpapers/common/autumn_32-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>autumn birds</name>
+		<filename>/usr/share/wallpapers/common/autumn_birds-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>back in time</name>
+		<filename>/usr/share/wallpapers/common/back_in_time-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>barbed wire fence 2</name>
+		<filename>/usr/share/wallpapers/common/barbed_wire_fence_2-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>beautiful city</name>
+		<filename>/usr/share/wallpapers/common/beautiful_city-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>book and tea cup</name>
+		<filename>/usr/share/wallpapers/common/book_and_tea_cup-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>building roof garden</name>
+		<filename>/usr/share/wallpapers/common/building_roof_garden-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>city in valley</name>
+		<filename>/usr/share/wallpapers/common/city_in_valley-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>city mist winter</name>
+		<filename>/usr/share/wallpapers/common/city_mist_winter-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>city of dreams</name>
+		<filename>/usr/share/wallpapers/common/city_of_dreams-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>coffee and cigarettes</name>
+		<filename>/usr/share/wallpapers/common/coffee_and_cigarettes-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>cold night in new york city</name>
+		<filename>/usr/share/wallpapers/common/cold_night_in_new_york_city-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>compasses set</name>
+		<filename>/usr/share/wallpapers/common/compasses_set-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>country house 2</name>
+		<filename>/usr/share/wallpapers/common/country_house_2-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>cup of coffee</name>
+		<filename>/usr/share/wallpapers/common/cup_of_coffee-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>diner</name>
+		<filename>/usr/share/wallpapers/common/diner-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>dock street market</name>
+		<filename>/usr/share/wallpapers/common/dock_street_market-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>early morning in bulgaria</name>
+		<filename>/usr/share/wallpapers/common/early_morning_in_bulgaria-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>eiffel tower 7</name>
+		<filename>/usr/share/wallpapers/common/eiffel_tower_7-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>explorer</name>
+		<filename>/usr/share/wallpapers/common/explorer-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>final huyhg</name>
+		<filename>/usr/share/wallpapers/common/final_huyhg-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>flowers  creative idea</name>
+		<filename>/usr/share/wallpapers/common/flowers__creative_idea-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>flowers tumblr 2</name>
+		<filename>/usr/share/wallpapers/common/flowers_tumblr_2-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>fork in the road</name>
+		<filename>/usr/share/wallpapers/common/fork_in_the_road-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>fvwm-bg1.png</name>
+		<filename>/usr/share/wallpapers/common/fvwm-bg1.png</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>fvwm-bg2.png</name>
+		<filename>/usr/share/wallpapers/common/fvwm-bg2.png</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>fvwm-bg3.png</name>
+		<filename>/usr/share/wallpapers/common/fvwm-bg3.png</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>golden compass</name>
+		<filename>/usr/share/wallpapers/common/golden_compass-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>green lake 3</name>
+		<filename>/usr/share/wallpapers/common/green_lake_3-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>gristmill guilford vermont</name>
+		<filename>/usr/share/wallpapers/common/gristmill_guilford_vermont-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>harbour 2</name>
+		<filename>/usr/share/wallpapers/common/harbour_2-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>hidden reflection</name>
+		<filename>/usr/share/wallpapers/common/hidden_reflection-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>high quality</name>
+		<filename>/usr/share/wallpapers/common/high_quality-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>home 11</name>
+		<filename>/usr/share/wallpapers/common/home_11-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>house on the rock infinity room</name>
+		<filename>/usr/share/wallpapers/common/house_on_the_rock_infinity_room-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>house on the rock library</name>
+		<filename>/usr/share/wallpapers/common/house_on_the_rock_library-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>i love coffee</name>
+		<filename>/usr/share/wallpapers/common/i_love_coffee-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>istanbul 5</name>
+		<filename>/usr/share/wallpapers/common/istanbul_5-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>keyboard 3</name>
+		<filename>/usr/share/wallpapers/common/keyboard_3-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>klara church stockholm</name>
+		<filename>/usr/share/wallpapers/common/klara_church_stockholm-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>light bulbs in a jar</name>
+		<filename>/usr/share/wallpapers/common/light_bulbs_in_a_jar-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>locomotive with tender ugears 460 3</name>
+		<filename>/usr/share/wallpapers/common/locomotive_with_tender_ugears_460_3-wallpaper-1600x900.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>london 2</name>
+		<filename>/usr/share/wallpapers/common/london_2-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>love potion 2</name>
+		<filename>/usr/share/wallpapers/common/love_potion_2-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>lxde blue</name>
+		<filename>/usr/share/wallpapers/common/lxde_blue.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>lxde green</name>
+		<filename>/usr/share/wallpapers/common/lxde_green.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>lxde red</name>
+		<filename>/usr/share/wallpapers/common/lxde_red.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>mill under gray sky</name>
+		<filename>/usr/share/wallpapers/common/mill_under_gray_sky-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>moscow city 2014 art irbis production</name>
+		<filename>/usr/share/wallpapers/common/moscow_city_2014_art_irbis_production-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>narrow street</name>
+		<filename>/usr/share/wallpapers/common/narrow_street-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>nature 15</name>
+		<filename>/usr/share/wallpapers/common/nature_15-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>nature scenes 56</name>
+		<filename>/usr/share/wallpapers/common/nature_scenes_56-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>new york by day</name>
+		<filename>/usr/share/wallpapers/common/new_york_by_day-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>october morning</name>
+		<filename>/usr/share/wallpapers/common/october_morning-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>old aircraft model</name>
+		<filename>/usr/share/wallpapers/common/old_aircraft_model-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>old alley 2</name>
+		<filename>/usr/share/wallpapers/common/old_alley_2-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>old music sheets</name>
+		<filename>/usr/share/wallpapers/common/old_music_sheets-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>old piano 2</name>
+		<filename>/usr/share/wallpapers/common/old_piano_2-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>old railroad</name>
+		<filename>/usr/share/wallpapers/common/old_railroad-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>old street</name>
+		<filename>/usr/share/wallpapers/common/old_street-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>old things from the past</name>
+		<filename>/usr/share/wallpapers/common/old_things_from_the_past-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>old travel photography</name>
+		<filename>/usr/share/wallpapers/common/old_travel_photography-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>open book macro 2</name>
+		<filename>/usr/share/wallpapers/common/open_book_macro_2-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>park 2</name>
+		<filename>/usr/share/wallpapers/common/park_2-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>park 8</name>
+		<filename>/usr/share/wallpapers/common/park_8-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>pier vintage</name>
+		<filename>/usr/share/wallpapers/common/pier_vintage-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>pocket clock</name>
+		<filename>/usr/share/wallpapers/common/pocket_clock-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>pontoon</name>
+		<filename>/usr/share/wallpapers/common/pontoon-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>promemade</name>
+		<filename>/usr/share/wallpapers/common/promemade-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>rainy weather</name>
+		<filename>/usr/share/wallpapers/common/rainy_weather-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>red houses</name>
+		<filename>/usr/share/wallpapers/common/red_houses-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>reflection  laagraven utrecht</name>
+		<filename>/usr/share/wallpapers/common/reflection__laagraven_utrecht-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>remembering</name>
+		<filename>/usr/share/wallpapers/common/remembering-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>ride on</name>
+		<filename>/usr/share/wallpapers/common/ride_on-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>rom petersdom tiber by night</name>
+		<filename>/usr/share/wallpapers/common/rom_petersdom_tiber_by_night-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>roppongi district at night</name>
+		<filename>/usr/share/wallpapers/common/roppongi_district_at_night-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>save my love for loneliness</name>
+		<filename>/usr/share/wallpapers/common/save_my_love_for_loneliness-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>shopaholic</name>
+		<filename>/usr/share/wallpapers/common/shopaholic-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>street night 2</name>
+		<filename>/usr/share/wallpapers/common/street_night_2-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>sunrise in the field of lavenders</name>
+		<filename>/usr/share/wallpapers/common/sunrise_in_the_field_of_lavenders-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>telephone box</name>
+		<filename>/usr/share/wallpapers/common/telephone_box-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>the mystery man at the park</name>
+		<filename>/usr/share/wallpapers/common/the_mystery_man_at_the_park-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>theres no time for regret</name>
+		<filename>/usr/share/wallpapers/common/theres_no_time_for_regret-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>time 7</name>
+		<filename>/usr/share/wallpapers/common/time_7-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>times square at night</name>
+		<filename>/usr/share/wallpapers/common/times_square_at_night-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>times square new york</name>
+		<filename>/usr/share/wallpapers/common/times_square_new_york-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>underground roads</name>
+		<filename>/usr/share/wallpapers/common/underground_roads-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>university british columbia</name>
+		<filename>/usr/share/wallpapers/common/university_british_columbia-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>venice streets</name>
+		<filename>/usr/share/wallpapers/common/venice_streets-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>vintage</name>
+		<filename>/usr/share/wallpapers/common/vintage-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>vintage house design</name>
+		<filename>/usr/share/wallpapers/common/vintage_house_design-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>vintage microphone</name>
+		<filename>/usr/share/wallpapers/common/vintage_microphone-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>violin 4</name>
+		<filename>/usr/share/wallpapers/common/violin_4-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>welcome spring 2</name>
+		<filename>/usr/share/wallpapers/common/welcome_spring_2-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>westeros map</name>
+		<filename>/usr/share/wallpapers/common/westeros_map-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>white magnolia tree</name>
+		<filename>/usr/share/wallpapers/common/white_magnolia_tree-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>windmill farm</name>
+		<filename>/usr/share/wallpapers/common/windmill_farm-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+	<wallpaper deleted="false">
+		<name>windmills in the netherlands</name>
+		<filename>/usr/share/wallpapers/common/windmills_in_the_netherlands-wallpaper-1680x1050.jpg</filename>
+		<options>stretched</options>
+		<artist>Unknown</artist>
+	</wallpaper>
+</wallpapers>

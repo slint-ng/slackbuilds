@@ -1,0 +1,10 @@
+#!/bin/sh
+# This script makes accessible Thunderbird, Firefox and many other Flatpak apps.
+[ "$(id -u)" -eq 0 ] && echo "Please run this script as regular user." && exit
+[ ! -x /usr/bin/flatpak ] && echo "Install flatpak before running this script" && exit
+flatpak override --user --talk-name="org.a11y.*"
+flatpak override --user --talk-name="org.a11y.bus"
+flatpak override --user --env="QT_LINUX_ACCESSIBILITY_ALWAYS=true"
+flatpak override --user --env="GTK_PATH=/app/lib/gtkmodules"
+echo flatpak overrides have been registered in this file:
+echo ~/.local/share/flatpak/overrides/global

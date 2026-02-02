@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="config-cd">
+  <title>CD Audio</title>
+  <para>Mate dapat memutar CD Anda di komputer Anda. Anda dapat mengatur preferensi CD Anda di capplet <guibutton>Properti CD</guibutton> di bagian <guilabel>Lanjutan</guilabel> dari <application>Pusat Kendali Mate</application>.</para>
+  <para>Setelah terbuka, Anda akan melihat jendela dipecah menjadi dua bagian: CD Data dan CD Audio.</para>
+  <sect2 id="config-cd-data">
+    <title>CD Data</title>
+    <para>CD data adalah CD yang menyimpan informasi yang dapat dijalankan oleh sistem. Ini sering kali termasuk CD yang memiliki program atau CD tempat Anda membakar gambar keluarga.</para>
+    <para>Opsi pertama adalah <guibutton>Pasang CD secara otomatis saat disisipkan</guibutton>. Dengan mengaktifkan opsi ini, Anda dapat mendeteksi CD Anda secara otomatis saat memasukkannya.</para>
+    <tip>
+      <title>Apa itu mengait</title>
+      <para>Sistem Linux dan Unix menggunakan istilah yang disebut mengait (mount) untuk mengidentifikasi mengenali perangkat. Jika Anda "mengait" CD-ROM Anda, itu berarti bahwa sistem Anda dapat mengenali CD-ROM dan Anda dapat berinteraksi dengannya. Jika itu tidak dikait, maka sistem tidak tahu keberadaannya dan hampir tidak dapat melakukan apa-apa dengan itu.</para>
+    </tip>
+    <para>Opsi kedua, <guibutton>Secara otomatis memulai program pada CD yang baru dipasang</guibutton> memungkinkan sistem untuk menjalankan program pada CD secara otomatis ketika disk pertama kali dipasang.</para>
+    <para>Opsi terakhir, <guibutton>Membuka jendela manajer berkas untuk CD yang baru dikait</guibutton> memberi tahu sistem untuk membuka manajer berkas Anda (<application>Caja</application> secara baku) saat CD dipasang. Ini berguna jika Anda memiliki CD gambar dari reuni keluarga yang ingin Anda telusuri. Ini akan terbuka di <application>Caja</application> yang akan memungkinkan Anda melihat gambar mini.</para>
+  </sect2>
+  <sect2 id="config-cd-audio">
+    <title>CD Audio</title>
+    <para>Bagian <guilabel>CD Audio</guilabel> hanya memiliki satu opsi. Hal ini memungkinkan sistem untuk memuat pemutar CD ketika Anda memasukkan CD. Anda cukup mengklik kotak centang dan masukkan perintah yang ingin Anda jalankan dalam dialog masukan.</para>
+    <note>
+      <para>CD audio tidak perlu dikait untuk memutar CD.</para>
+    </note>
+  </sect2>
+</sect1>

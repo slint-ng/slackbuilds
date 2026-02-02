@@ -1,0 +1,30 @@
+#!/bin/sh
+if [ $# != 0 ]; then
+	cat << 'END' >&2
+numenc is a command to run numen actions programmatically.
+It writes its stdin to $NUMEN_PIPE else /tmp/numen-pipe,
+and will exit immediately if the pipe is not being read.
+
+Example:
+
+    echo 'pen printf %s\\n "$NUMEN_TRANSCRIPT"' | numenc
+
+END
+	[ "$1" = -h ] || [ "$1" = --help ]; exit
+fi
+
+fifo_being_read(){
+	[ -p "$1" ] && /bin/echo 1<>"$1" >"$1"
+}
+
+p="${NUMEN_PIPE:-/tmp/numen-pipe}"
+
+if [ -p "$p" ] && ! [ -w "$p" ]; then
+	echo "numenc: the pipe does not grant write permission: $p" >&2
+	exit 1
+fi
+if ! fifo_being_read "$p"; then
+	echo "numenc: no numen instance is reading the pipe: $p" >&2
+	exit 1
+fi
+exec cat > "$p"

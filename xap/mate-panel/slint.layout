@@ -1,0 +1,114 @@
+[Toplevel top]
+expand=true
+orientation=top
+size=28
+
+[Toplevel bottom]
+expand=true
+orientation=bottom
+size=28
+
+[Object menu-bar]
+object-type=menu-bar
+toplevel-id=top
+position=0
+locked=true
+
+[Object terminal-launcher]
+object-type=launcher
+launcher-location=/usr/share/applications/mate-terminal.desktop
+toplevel-id=top
+position=0
+locked=true
+
+[Object file-manager-launcher]
+object-type=launcher
+launcher-location=/usr/share/applications/caja.desktop
+toplevel-id=top
+position=O
+locked=true
+
+[Object web-browser-launcher]
+object-type=launcher
+launcher-location=/usr/share/applications/mozilla-firefox.desktop
+toplevel-id=top
+position=0
+locked=true
+
+[Object mail-reader-launcher]
+object-type=launcher
+launcher-location=/usr/share/applications/mozilla-thunderbird.desktop
+toplevel-id=top
+position=0
+locked=true
+
+[Object text-editor-launcher]
+object-type=launcher
+launcher-location=/usr/share/applications/geany.desktop
+toplevel-id=top
+position=0
+locked=true
+
+[Object notification-area]
+object-type=applet
+applet-iid=NotificationAreaAppletFactory::NotificationArea
+toplevel-id=top
+position=330
+panel-right-stick=true
+locked=true
+
+[Object clock]
+object-type=applet
+applet-iid=ClockAppletFactory::ClockApplet
+toplevel-id=top
+position=210
+panel-right-stick=true
+locked=true
+
+[Object lock]
+toplevel-id=top
+action-type=lock
+position=70
+object-type=action
+locked=true
+panel-right-stick=true
+
+[Object logout]
+action-type=logout
+object-type=action
+position=40
+panel-right-stick=true
+toplevel-id=top
+locked=true
+panel-right-stick=true
+
+[Object shutdown]
+action-type=shutdown
+object-type=action
+position=10
+panel-right-stick=true
+toplevel-id=top
+locked=true
+
+[Object show-desktop]
+object-type=applet
+applet-iid=WnckletFactory::ShowDesktopApplet
+toplevel-id=bottom
+position=150
+locked=true
+panel-right-stick=true
+
+[Object window-list]
+object-type=applet
+applet-iid=WnckletFactory::WindowListApplet
+toplevel-id=bottom
+position=20
+locked=true
+
+[Object workspace-switcher]
+object-type=applet
+applet-iid=WnckletFactory::WorkspaceSwitcherApplet
+toplevel-id=bottom
+position=0
+panel-right-stick=true
+locked=true

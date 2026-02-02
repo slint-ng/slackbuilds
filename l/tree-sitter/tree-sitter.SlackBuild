@@ -1,0 +1,137 @@
+#!/bin/bash
+
+# Copyright 2023, 2024, 2025  Patrick J. Volkerding, Sebeka, Minnesota, USA
+# All rights reserved.
+#
+# Redistribution and use of this script, with or without modification, is
+# permitted provided that the following conditions are met:
+#
+# 1. Redistributions of this script must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#
+#  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
+#  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+#  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO
+#  EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+#  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+#  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+#  OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+#  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+#  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+#  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+# Included in Slaint by Didier Spaier didieratslintdotfr
+
+cd $(dirname $0) ; CWD=$(pwd)
+
+PKGNAM=tree-sitter
+SRCNAM=tree-sitter-vendored
+VERSION=${VERSION:-$(echo $SRCNAM-*.tar.?z | rev | cut -f 3- -d . | cut -f 1 -d - | rev)}
+BUILD=${BUILD:-1slint}
+
+# Automatically determine the architecture we're building on:
+if [ -z "$ARCH" ]; then
+  case "$(uname -m)" in
+    i?86) ARCH=i686 ;;
+    arm*) readelf /usr/bin/file -A | egrep -q "Tag_CPU.*[4,5]" && ARCH=arm || ARCH=armv7hl ;;
+    # Unless $ARCH is already set, use uname -m for all other archs:
+    *) ARCH=$(uname -m) ;;
+  esac
+  export ARCH
+fi
+
+# If the variable PRINT_PACKAGE_NAME is set, then this script will report what
+# the name of the created package would be, and then exit. This information
+# could be useful to other scripts.
+if [ ! -z "${PRINT_PACKAGE_NAME}" ]; then
+  echo "$PKGNAM-$VERSION-$ARCH-$BUILD.txz"
+  exit 0
+fi
+
+NUMJOBS=${NUMJOBS:-" -j $(expr $(nproc) + 1) "}
+
+if [ "$ARCH" = "i686" ]; then
+  SLKCFLAGS="-O2 -march=pentium4 -mtune=generic"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "x86_64" ]; then
+  SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+  LIBDIRSUFFIX="64"
+else
+  SLKCFLAGS="-O2"
+  LIBDIRSUFFIX=""
+fi
+
+if [ "$ARCH" = "i586" -o "$ARCH" = "i686" ]; then
+  cat << EOF
+***************************************************************************
+* Due to the wasmtime crate no longer supporting 32-bit x86, this package *
+* cannot be built. We'll wait 30 seconds for this blurb to be noticed,    *
+* and then we'll go ahead and try to build it anyway on the off chance    *
+* that upstream has fixed the situation. But I doubt that will happen.    *
+***************************************************************************
+EOF
+  sleep 30
+fi
+
+TMP=$CWD
+PKG=$TMP/package-$PKGNAM
+
+rm -rf $PKG
+mkdir -p $TMP $PKG
+
+cd $TMP
+rm -rf $SRCNAM-$VERSION
+tar xf $CWD/$SRCNAM-$VERSION.tar.?z || exit 1
+cd $SRCNAM-$VERSION || exit 1
+
+chown -R root:root .
+find . \
+  \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+  -exec chmod 755 {} \+ -o \
+  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+  -exec chmod 644 {} \+
+
+# prepare Rust bindings:
+( cd lib
+  cargo fetch --locked --target "$ARCH-unknown-linux-gnu"
+)
+
+# Build and install library:
+make $NUMJOBS PREFIX=/usr LIBDIR=/usr/lib${LIBDIRSUFFIX} || exit 1
+make DESTDIR=$PKG PREFIX=/usr LIBDIR=/usr/lib${LIBDIRSUFFIX} install || exit 1
+
+# Build and install cli:
+( cd cli
+  cargo fetch --locked --target "$ARCH-unknown-linux-gnu" || exit 1
+  cargo build --release --locked --offline --all-features || exit 1
+) || exit 1
+mkdir -p $PKG/usr/bin
+cp -a target/release/tree-sitter $PKG/usr/bin
+
+# No static library:
+rm -f $PKG/usr/lib${LIBDIRSUFFIX}/libtree-sitter.a
+
+# Strip binaries:
+find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
+
+# Compress manual pages:
+find $PKG/usr/man -type f -exec gzip -9 {} \+
+for i in $( find $PKG/usr/man -type l ) ; do
+  ln -s $( readlink $i ).gz $i.gz
+  rm $i
+done
+
+# Add a documentation directory:
+mkdir -p $PKG/usr/doc/${PKGNAM}-$VERSION
+cp -a \
+  LICENSE* README* \
+  $PKG/usr/doc/${PKGNAM}-$VERSION
+cp -a cli/README.md $PKG/usr/doc/${PKGNAM}-$VERSION/README-cli.md
+cp -a lib/README.md $PKG/usr/doc/${PKGNAM}-$VERSION/README-lib.md
+cp -a docs/section-6-contributing.md $PKG/usr/doc/${PKGNAM}-$VERSION/CONTRIBUTING.md
+
+mkdir -p $PKG/install
+cat $CWD/slack-desc > $PKG/install/slack-desc
+
+cd $PKG
+/sbin/makepkg -l y -c n $TMP/$PKGNAM-$VERSION-$ARCH-$BUILD.txz

@@ -1,0 +1,73 @@
+#Packager:Didier Spaier didieratslintdotfr
+
+pkgname=sharada-braille-writer
+pkgver=3.7.4
+pkgrel=1slint
+docs=("README.html" "changelog" "copyright" "user-preferences.cfg")
+
+# version as indicated in debian/changelog in the github source repository at time
+# of building
+# the top of "git log" says:
+# commit 10481a398d30b97bdd87f40b7b64a71b96398ade (HEAD -> main, origin/main, origin/HEAD)
+doinst() {
+  # Update any existing icon cache files:
+  if find /usr/share/icons -maxdepth 2 2> /dev/null | grep -q icon-theme.cache ; then
+    for theme_dir in /usr/share/icons/* ; do
+      if [ -r ${theme_dir}/icon-theme.cache ]; then
+        /usr/bin/gtk-update-icon-cache -t -f ${theme_dir} 1> /dev/null 2> /dev/null &
+      fi
+    done
+    # This would be a large file and probably shouldn't be there.
+    if [ -r /usr/share/icons/icon-theme.cache ]; then
+      rm -f /usr/share/icons/icon-theme.cache
+    fi
+  fi
+  
+  # Update desktop database:
+  if [ -x /usr/bin/update-desktop-database ]; then
+    /usr/bin/update-desktop-database /usr/share/applications 1> /dev/null 2> /dev/null
+  fi
+}
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (S.B.W text editor which support braille input)"
+"In S.B.W, Simultaneous multiple press of braille combinations, will"
+"produce corresponding letters. So one can input text in more than 40"
+"languages with braille knowledge in perkins like way. Letters f, d, s,"
+"j, k, l represent 1 2 3 4 5 6 of the braille dots respectively."
+"By pressing \"f\" and \"s\" together will produce letter k and like."
+)
+options="nosrcpack"
+# build against python-3.11
+source=("user-preferences.cfg" "sbw.sh")
+build() {
+	git clone https://github.com/zendalona/sbw.git
+	cd sbw
+	pandoc -f markdown -t html5 README.md -o README.html
+	python3.11 setup.py install --install-data=/usr --root=$PKG --optimize=1
+	(cd $PKG/usr
+	mv lib lib64
+	)
+	(cd $PKG/usr/bin
+	sed "s;/usr/bin/python3;/usr/bin/python3.11;" sharada-braille-writer || exit
+	)
+	rm -r $PKG/usr/share/doc
+	# Ugly but that's wow sharada-braille-writer (sbw finds its own sbw python module
+	# Maybe fid another way later or just wait until all a11 software can use the stock python
+	# Currently python3.9 is too old for the orca version we ship
+	
+	sed "s#/usr/bin/python3#/usr/bin/python3.11#" $PKG/usr/bin/sharada-braille-writer > bof
+	mv bof $PKG/usr/bin/sharada-braille-writer
+	chmod 755 $PKG/usr/bin/sharada-braille-writer
+	mkdir -p $PKG/usr/doc/${pkgname}-$pkgver
+	cp $PKG/usr/share/sbw/user-guide/*html $PKG/usr/doc/${pkgname}-$pkgver/
+	# In Accessibe Coconut thers is /etc/skel/.sbw/usre-preferences.cfg
+	# but for now in Slint use a started script to put it in $HOME.
+	mkdir -p $PKG/usr/libexec
+	mv $PKG/usr/bin/sharada-braille-writer $PKG/usr/libexec/
+	cd $SRC
+	cp sbw.sh $PKG/usr/bin/sharada-braille-writer || exit
+	chmod 755 $PKG/usr/bin/sharada-braille-writer
+}

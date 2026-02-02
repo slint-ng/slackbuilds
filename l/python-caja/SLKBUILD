@@ -1,0 +1,36 @@
+# Maintainer: Alexander Epaneshnikov <alex19ep@archlinux.org>
+# Contributor: Brad Fanella <cesura@archlinux.org>
+# Contributor: Martin Wimpress <code@flexion.org>
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python-caja
+pkgver=1.28.0
+pkgrel=1
+slackdesc=("$pkgname (python bindings for Caja)"
+"$pkgname allow Caja property page and menu item extensions"
+"to be written in Python")
+url="https://mate-desktop.org"
+arch=('x86_64')
+license=('GPL')
+depends=('caja' 'python-gobject')
+makedepends=('intltool')
+source=("https://pub.mate-desktop.org/releases/${pkgver%.*}/python-caja-${pkgver}.tar.xz")
+sha256sums=('b71852df292479229fd3ca013f23c0ee9a57997ffa108edd36e122e454f2d636')
+docs=("authors" "copying" "news" "readme")
+options=("nosrcpack")
+
+build() {
+   cd "python-caja-${pkgver}"
+  ./configure \
+  --prefix=/usr \
+  --libdir=/usr/lib${LIBDIRSUFFIX} \
+  --sysconfdir=/etc \
+  --localstatedir=/var \
+  --mandir=/usr/man \
+  --enable-gtk-doc \
+  --docdir=/usr/doc/$PRGNAM-$VERSION \
+  --build=$ARCH-slackware-linux
+	#https://bugzilla.gnome.org/show_bug.cgi?id=656231
+	#sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+	make DESTDIR="$PKG" install
+}

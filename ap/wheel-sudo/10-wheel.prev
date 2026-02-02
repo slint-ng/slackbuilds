@@ -1,0 +1,5 @@
+# This file allows anyone in the wheel group to launch
+# commands with superuser priviliges through sudo
+
+%wheel ALL=(ALL) ALL
+Defaults rootpw

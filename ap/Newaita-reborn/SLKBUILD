@@ -1,0 +1,45 @@
+# Maintainer: Cahian Freire <cahianfreire at gmail dot com>
+
+
+#Modified and included in Slint by Didier Spaier didieratslintdotfr
+pkgname=Newaita-reborn
+export commit=5b19f46
+pkgver=git$commit
+pkgrel=1slint
+slackdesc="$pkgname (Remaster Newaita icon theme)"
+docs=("copying" "authors" "README*" license)
+options=("nosrcpack")
+url="https://github.com/${_author}/${pkgname}"
+license=("GPL3")
+md5sums=("SKIP")
+doinst() {
+	if [ -x /usr/bin/update-desktop-database ]; then
+  /usr/bin/update-desktop-database -q usr/share/applications >/dev/null 2>&1
+fi
+
+if [ -x /usr/bin/update-mime-database ]; then
+  /usr/bin/update-mime-database usr/share/mime >/dev/null 2>&1
+fi
+
+if [ -e usr/share/icons/hicolor/icon-theme.cache ]; then
+  if [ -x /usr/bin/gtk-update-icon-cache ]; then
+    /usr/bin/gtk-update-icon-cache -f usr/share/icons/hicolor >/dev/null 2>&1
+  fi
+fi
+
+if [ -e usr/share/glib-2.0/schemas ]; then
+  if [ -x /usr/bin/glib-compile-schemas ]; then
+    /usr/bin/glib-compile-schemas usr/share/glib-2.0/schemas >/dev/null 2>&1
+  fi
+fi
+}
+build() {
+    git clone https://github.com/cbrnix/Newaita-reborn.git
+    cd Newaita-reborn
+    git checkout $commit
+[ -f README.md ] && pandoc -f gfm -t html5 -o README.html README.md
+    mkdir -p $PKG/usr/share/icons
+    cp -a Newaita-reborn Newaita-reborn-dark $PKG/usr/share/icons || exit
+    find "${PKG}" -type f -exec chmod 644 "{}" \+
+    find "${PKG}" -type d -exec chmod 755 "{}" \+
+}

@@ -1,0 +1,82 @@
+# Maintainer: Gaetan Bisson <bisson@archlinux.org>
+# Contributor: Tobias Kieslich <tobias@justdreams.de>
+# Contributor: tobias <tobias@archlinux.org>
+# Included in Slint by Didier Spiaer didieratslintdotfr
+pkgname=inkscape
+pkgver=1.3
+_tag='0e150ed6' # git rev-parse INKSCAPE_${pkgver/./_}
+pkgrel=1slint
+slackdesc='Professional vector graphics editor'
+url='https://inkscape.org/'
+license=('GPL' 'LGPL')
+arch=('x86_64')
+makedepends=('cmake' 'boost' 'git')
+
+depends=(
+	'boost-libs'
+	'dbus-glib'
+	'double-conversion'
+	'gc'
+	'graphicsmagick'
+	'gsl'
+	'gspell'
+	'gtkmm3'
+	'lcms2'
+	'lib2geom'
+	'libcdr'
+	'libjpeg-turbo'
+	'libsoup'
+	'libvisio'
+	'libxslt'
+	'poppler-glib'
+	'potrace'
+	'python'
+	'python-cssselect'
+	'python-lxml'
+	'python-numpy'
+	'ttf-font'
+)
+
+optdepends=(
+	'fig2dev: xfig input'
+	'gvfs: import clip art'
+	'pstoedit: latex formulas'
+	'scour: optimized SVG output, some extensions'
+	'texlive-core: latex formulas'
+)
+docs=(AUTHORS "COPYING*" "README*" TRANSLATORS LICENSES "*.md")
+#source=("inkscape-1.3.tar.xz")
+#source=("https://gitlab.com/inkscape/inkscape.git#tag=${_tag}")
+sha256sums=('SKIP')
+
+#_backports=()
+
+build() {
+	git clone https://gitlab.com/inkscape/inkscape.git
+	cd "${pkgname}"
+	git checkout $_tag
+	git submodule update --init --recursive 
+
+	local _c
+	for _c in "${_backports[@]}"; do
+		git log --oneline -1 "${_c}"
+		git cherry-pick -n "${_c}"
+	done
+	mkdir -p build
+	cd build
+	export PKG_CONFIG_PATH='/usr/lib64/imagemagick6/pkgconfig'
+	cmake \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX:PATH=/usr \
+		-DCMAKE_INSTALL_MANDIR=/usr/man \
+		-DWITH_INTERNAL_2GEOM=ON \
+		-DBUILD_SHARED_LIBS=ON \
+		-DWITH_GRAPHICS_MAGICK=ON \
+	..
+	make -j9
+	make install DESTDIR=$PKG
+	cd ..
+	mkdir -p $PKG/usr/doc/inkscape-$pkgver
+	cp $PKG/usr/share/inkscape/doc/* $PKG/usr/doc/inkscape-$pkgver
+	rm -r $PKG/usr/share/inkscape/doc
+}

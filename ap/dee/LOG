@@ -1,0 +1,18 @@
+  dee 1.2.7
+  ----------------
+
+  Prefix         : /usr
+
+  ICU support    : yes
+
+  Documentation  : no
+  Introspection  : yes
+  PyGi Overrides : /usr/lib64/python3.9/site-packages/gi/overrides
+
+  Tests          : no
+  Extended Tests : no
+  Coverage       : no
+  Verbose logging: no
+
+  Extra CFlags   :  -Werror -Wall -Wcast-align -Wno-uninitialized -Wempty-body -Wformat-security -Winit-self -Wno-error=deprecated-declarations
+  Extra ValaFlags:  

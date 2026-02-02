@@ -1,0 +1,57 @@
+We put thje docs in /usr/doc/qcontrolcenter, not in /usr/share/qcontrolcenter/
+The window's titele is Slint Control Centre for Slint. Didier
+
+diff -ru qcontrolcenter/qcontrolcenter/errorDialog.py qcontrolcenter.new/qcontrolcenter/errorDialog.py
+--- qcontrolcenter/qcontrolcenter/errorDialog.py	2022-04-13 19:03:12.082874281 +0200
++++ qcontrolcenter.new/qcontrolcenter/errorDialog.py	2022-04-13 19:04:46.368876978 +0200
+@@ -48,7 +48,7 @@
+ 		textContent = QString("")
+ 		vlay = QtWidgets.QVBoxLayout()
+ 
+-		file = QtCore.QFile("/usr/share/qcontrolcenter/INSTRUCTIONS.txt")
++		file = QtCore.QFile("/usr/doc/qcontrolcenter/INSTRUCTIONS.txt")
+ 		if (file.open(QtCore.QFile.ReadOnly)):
+ 			text = file.readAll()
+ 			codec = QtCore.QTextCodec.codecForHtml(text)
+diff -ru qcontrolcenter/qcontrolcenter/helpDialog.py qcontrolcenter.new/qcontrolcenter/helpDialog.py
+--- qcontrolcenter/qcontrolcenter/helpDialog.py	2022-04-13 19:03:12.082874281 +0200
++++ qcontrolcenter.new/qcontrolcenter/helpDialog.py	2022-04-13 19:05:50.025878799 +0200
+@@ -67,7 +67,7 @@
+ 		textContent = QString("")
+ 		vlay = QtWidgets.QVBoxLayout()
+ 
+-		file = QtCore.QFile("/usr/share/qcontrolcenter/INSTRUCTIONS.txt")
++		file = QtCore.QFile("/usr/doc/qcontrolcenter/INSTRUCTIONS.txt")
+ 		if (file.open(QtCore.QFile.ReadOnly)):
+ 			text = file.readAll()
+ 			codec = QtCore.QTextCodec.codecForHtml(text)
+@@ -86,7 +86,7 @@
+ 		textContent = QString("")
+ 		vlay = QtWidgets.QVBoxLayout()
+ 
+-		file = QtCore.QFile("/usr/share/qcontrolcenter/LICENSE.html")
++		file = QtCore.QFile("/usr/doc/qcontrolcenter/LICENSE.html")
+ 		if (file.open(QtCore.QFile.ReadOnly)):
+ 			text = file.readAll()
+ 			codec = QtCore.QTextCodec.codecForHtml(text)
+diff -ru qcontrolcenter/qcontrolcenter/qcontrolcenter.py qcontrolcenter.new/qcontrolcenter/qcontrolcenter.py
+--- qcontrolcenter/qcontrolcenter/qcontrolcenter.py	2022-04-13 19:03:12.082874281 +0200
++++ qcontrolcenter.new/qcontrolcenter/qcontrolcenter.py	2022-04-13 19:07:07.241881008 +0200
+@@ -41,7 +41,7 @@
+ 
+ def getWindowTitle():
+ 	#window_title = "qControlCenter"
+-	window_title = "Slackel Control Center"
++	window_title = "Slint Control Center"
+ 	if os.getenv('QCONTROLCENTERTITLE') != None:
+ 		window_title = os.getenv('QCONTROLCENTERTITLE')
+ 	return window_title
+@@ -106,7 +106,7 @@
+ 	else:
+ 		print ("No base structure directory found.")
+ 		print ("Please read the instructions in this document:")
+-		print ("/usr/share/qcontrolcenter/INSTRUCTIONS.txt")
++		print ("/usr/doc/qcontrolcenter/INSTRUCTIONS.txt")
+ 
+ 
+ # *** MAIN CLASS ***

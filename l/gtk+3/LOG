@@ -1,0 +1,287 @@
+The Meson build system
+Version: 1.7.0
+Source dir: /repo/x86_64/slint-15.0/source/gtk+3/gtk-3.24.49
+Build dir: /repo/x86_64/slint-15.0/source/gtk+3/gtk-3.24.49/meson-build
+Build type: native build
+Project name: gtk
+Project version: 3.24.49
+Found pkg-config: YES (/usr/bin/pkg-config) 0.29.2
+Run-time dependency glib-2.0 found: YES 2.84.0
+Run-time dependency gobject-2.0 found: YES 2.84.0
+Run-time dependency gio-unix-2.0 found: YES 2.84.0
+Run-time dependency gmodule-2.0 found: YES 2.84.0
+Run-time dependency cairo found: YES 1.16.0
+Run-time dependency cairo-gobject found: YES 1.16.0
+Run-time dependency pango found: YES 1.48.11
+Run-time dependency fribidi found: YES 1.0.11
+Run-time dependency pangoft2 found: YES 1.48.11
+Run-time dependency freetype2 found: YES 26.2.20
+Run-time dependency pangocairo found: YES 1.48.11
+Run-time dependency gdk-pixbuf-2.0 found: YES 2.42.12
+Run-time dependency epoxy found: YES 1.5.9
+Run-time dependency atk found: YES 2.55.2
+Run-time dependency harfbuzz found: YES 3.2.0
+Run-time dependency xkbcommon found: YES 1.5.0
+Run-time dependency iso-codes found: YES 4.9.0
+Run-time dependency cairo-xlib found: YES 1.16.0
+Dependency cairo found: YES 1.16.0 (cached)
+Run-time dependency wayland-client found: YES 1.22.0
+Run-time dependency wayland-protocols found: YES 1.35
+Run-time dependency wayland-cursor found: YES 1.22.0
+Run-time dependency wayland-egl found: YES 18.1.0
+Run-time dependency xrandr found: YES 1.5.2
+Dependency xrandr found: YES 1.5.2 (cached)
+Run-time dependency x11 found: YES 1.8.10
+Run-time dependency xrender found: YES 0.9.10
+Run-time dependency xi found: YES 1.8
+Run-time dependency xext found: YES 1.3.4
+Run-time dependency xcursor found: YES 1.2.0
+Run-time dependency xdamage found: YES 1.1.5
+Run-time dependency xfixes found: YES 6.0.0
+Run-time dependency xcomposite found: YES 0.4.5
+Run-time dependency fontconfig found: YES 2.15.0
+Run-time dependency atk-bridge-2.0 found: YES 2.55.2
+Checking for function "XkbQueryExtension" with dependency x11: YES 
+Checking for function "XSyncQueryExtension" with dependency xext: YES 
+Checking for function "XGetEventData" with dependency x11: YES 
+Has header "X11/extensions/XInput2.h" with dependency xi: YES 
+Checking for function "XIAllowTouchEvents" with dependency xi: YES 
+Checking whether type "XIScrollClassInfo" has member "number" with dependency xi: YES 
+Checking whether type "XIGesturePinchEvent" has member "type" with dependency xi: YES 
+Run-time dependency xinerama found: YES 1.1.4
+Header "X11/extensions/Xinerama.h" has symbol "XineramaQueryExtension" with dependency xinerama: YES 
+Program wayland-scanner found: YES (/usr/bin/wayland-scanner)
+Checking for function "ngettext" : YES 
+Program g-ir-scanner found: YES (/usr/bin/g-ir-scanner)
+Program gen-gdk-gresources-xml.py found: YES (/usr/bin/python3.11 /repo/x86_64/slint-15.0/source/gtk+3/gtk-3.24.49/gdk/gen-gdk-gresources-xml.py)
+Configuring gdk.gresource.xml with command
+Build-time dependency gio-2.0 found: YES 2.84.0
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Dependency glib-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-mkenums found: YES (/usr/bin/glib-mkenums)
+Dependency glib-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-mkenums found: YES (/usr/bin/glib-mkenums)
+Dependency glib-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-genmarshal found: YES (/usr/bin/glib-genmarshal)
+Configuring gdkconfig.h using configuration
+Configuring gdkversionmacros.h using configuration
+Checking for function "shm_open" : NO 
+Checking for function "shm_open" : YES 
+Library rt found: YES
+Program gen-c-array.py found: YES (/usr/bin/python3.11 /repo/x86_64/slint-15.0/source/gtk+3/gtk-3.24.49/gdk/broadway/gen-c-array.py)
+Dependency wayland-protocols found: YES 1.35 (cached)
+Program wayland-scanner found: YES (/usr/bin/wayland-scanner)
+Run-time dependency gobject-introspection-1.0 found: YES 1.70.0
+Dependency gobject-introspection-1.0 found: YES 1.70.0 (cached)
+Program /usr/bin/g-ir-scanner found: YES (/usr/bin/g-ir-scanner)
+Dependency gobject-introspection-1.0 found: YES 1.70.0 (cached)
+Program /usr/bin/g-ir-compiler found: YES (/usr/bin/g-ir-compiler)
+Program gen-gtk-gresources-xml.py found: YES (/usr/bin/python3.11 /repo/x86_64/slint-15.0/source/gtk+3/gtk-3.24.49/gtk/gen-gtk-gresources-xml.py)
+Configuring gtk.gresources.xml with command
+Program sassc found: YES (/usr/bin/sassc)
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/gdbus-codegen found: YES (/usr/bin/gdbus-codegen)
+Dependency glib-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-genmarshal found: YES (/usr/bin/glib-genmarshal)
+Dependency glib-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-mkenums found: YES (/usr/bin/glib-mkenums)
+Dependency glib-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-mkenums found: YES (/usr/bin/glib-mkenums)
+Dependency glib-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-mkenums found: YES (/usr/bin/glib-mkenums)
+Dependency glib-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-mkenums found: YES (/usr/bin/glib-mkenums)
+Program gentypefuncs.py found: YES (/usr/bin/python3.11 /repo/x86_64/slint-15.0/source/gtk+3/gtk-3.24.49/gtk/gentypefuncs.py)
+Configuring gtkversion.h using configuration
+Dependency x11 found: YES 1.8.10 (cached)
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-schemas found: YES (/usr/bin/glib-compile-schemas)
+Has header "langinfo.h" : YES 
+Header "langinfo.h" has symbol "_NL_MEASUREMENT_MEASUREMENT" : YES 
+Header "langinfo.h" has symbol "_NL_PAPER_HEIGHT" : YES 
+Header "langinfo.h" has symbol "_NL_PAPER_WIDTH" : YES 
+Header "langinfo.h" has symbol "_NL_TIME_FIRST_WEEKDAY" : YES 
+Configuring bn.gresource.xml using configuration
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Configuring de.gresource.xml using configuration
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Configuring da.gresource.xml using configuration
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Configuring fr.gresource.xml using configuration
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Configuring es.gresource.xml using configuration
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Configuring et.gresource.xml using configuration
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Configuring fi.gresource.xml using configuration
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Configuring hi.gresource.xml using configuration
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Configuring hu.gresource.xml using configuration
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Configuring it.gresource.xml using configuration
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Configuring ja.gresource.xml using configuration
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Configuring ko.gresource.xml using configuration
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Configuring lt.gresource.xml using configuration
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Configuring ms.gresource.xml using configuration
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Configuring nb.gresource.xml using configuration
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Configuring nl.gresource.xml using configuration
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Configuring pl.gresource.xml using configuration
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Configuring pt.gresource.xml using configuration
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Configuring ru.gresource.xml using configuration
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Configuring sv.gresource.xml using configuration
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Configuring th.gresource.xml using configuration
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Configuring uk.gresource.xml using configuration
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Configuring zh.gresource.xml using configuration
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Run-time dependency cups found: YES 2.4.10
+Found CMake: /usr/bin/cmake (3.29.2)
+Run-time dependency colord found: NO (tried pkgconfig and cmake)
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Header "hb-ot.h" has symbol "hb_ot_var_get_axis_count" with dependency harfbuzz: YES 
+Program geninclude.py found: YES (/repo/x86_64/slint-15.0/source/gtk+3/gtk-3.24.49/demos/gtk-demo/geninclude.py)
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-schemas found: YES (/usr/bin/glib-compile-schemas)
+Configuring config.h using configuration
+Configuring gail-3.0.pc using configuration
+Configuring gdk-3.0.pc using configuration
+Configuring gdk-broadway-3.0.pc using configuration
+Configuring gdk-wayland-3.0.pc using configuration
+Configuring gdk-x11-3.0.pc using configuration
+Configuring gtk+-3.0.pc using configuration
+Configuring gtk+-broadway-3.0.pc using configuration
+Configuring gtk+-wayland-3.0.pc using configuration
+Configuring gtk+-x11-3.0.pc using configuration
+Configuring gtk+-unix-print-3.0.pc using configuration
+Program msgfmt found: YES (/usr/bin/msgfmt)
+Program msginit found: YES (/usr/bin/msginit)
+Program msgmerge found: YES (/usr/bin/msgmerge)
+Program xgettext found: YES (/usr/bin/xgettext)
+Dependency glib-2.0 found: YES 2.84.0 (cached)
+Dependency cairo-gobject found: YES 1.16.0 (cached)
+Dependency gdk-pixbuf-2.0 found: YES 2.42.12 (cached)
+../docs/reference/meson.build:17: WARNING: Project targets '>= 0.60.0' but uses feature deprecated since '0.56.0': meson.source_root. use meson.project_source_root() or meson.global_source_root() instead.
+Configuring version.xml using configuration
+Program gtkdoc-scan found: YES (/usr/bin/gtkdoc-scan)
+Program gtkdoc-scangobj found: YES (/usr/bin/gtkdoc-scangobj)
+Program gtkdoc-mkdb found: YES (/usr/bin/gtkdoc-mkdb)
+Program gtkdoc-mkhtml found: YES (/usr/bin/gtkdoc-mkhtml)
+Program gtkdoc-fixxref found: YES (/usr/bin/gtkdoc-fixxref)
+Configuring version.xml using configuration
+Configuring getting_started.xml using configuration
+Configuring gtk3.types using configuration
+Program gtkdoc-scan found: YES (/usr/bin/gtkdoc-scan)
+Program gtkdoc-scangobj found: YES (/usr/bin/gtkdoc-scangobj)
+Program gtkdoc-mkdb found: YES (/usr/bin/gtkdoc-mkdb)
+Program gtkdoc-mkhtml found: YES (/usr/bin/gtkdoc-mkhtml)
+Program gtkdoc-fixxref found: YES (/usr/bin/gtkdoc-fixxref)
+Program xsltproc found: YES (/usr/bin/xsltproc)
+Configuring version.xml using configuration
+Program gtkdoc-scan found: YES (/usr/bin/gtkdoc-scan)
+Program gtkdoc-scangobj found: YES (/usr/bin/gtkdoc-scangobj)
+Program gtkdoc-mkdb found: YES (/usr/bin/gtkdoc-mkdb)
+Program gtkdoc-mkhtml found: YES (/usr/bin/gtkdoc-mkhtml)
+Program gtkdoc-fixxref found: YES (/usr/bin/gtkdoc-fixxref)
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/glib-compile-schemas found: YES (/usr/bin/glib-compile-schemas)
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/gio-querymodules found: YES (/usr/bin/gio-querymodules)
+Dependency gio-2.0 found: YES 2.84.0 (cached)
+Program /usr/bin/gio-querymodules found: YES (/usr/bin/gio-querymodules)
+Program gtk4-update-icon-cache found: YES (/usr/bin/gtk4-update-icon-cache)
+Message: 
+------
+GTK+ 3.24.49 (3.0)
+
+  Display backends: broadway wayland x11 [disabled: quartz win32]
+    Print backends: file lpr cups [disabled: papi test]
+     Cloud support: false
+    Colord support: auto
+          Profiler: false
+     Introspection: true
+     Documentation: true
+         Man pages: true
+       Build tests: false
+   Installed tests: false
+             Demos: true
+          Examples: false
+Directories:
+            prefix: /usr
+        includedir: /usr/include
+            libdir: /usr/lib64
+           datadir: /usr/share
+------
+
+Build targets in project: 386
+NOTICE: Future-deprecated features used:
+ * 1.1.0: {'"boolean option" keyword argument "value" of type str'}
+WARNING: Deprecated features used:
+ * 0.56.0: {'meson.source_root'}
+
+gtk 3.24.49
+
+  User defined options
+    bindir          : /usr/bin
+    broadway_backend: true
+    buildtype       : release
+    datadir         : /usr/share
+    demos           : true
+    examples        : false
+    gtk_doc         : true
+    includedir      : /usr/include
+    installed_tests : false
+    libdir          : lib64
+    libexecdir      : /usr/libexec
+    localstatedir   : /var
+    man             : true
+    mandir          : /usr/man
+    prefix          : /usr
+    sbindir         : /usr/sbin
+    sysconfdir      : /etc
+    tests           : false
+    wayland_backend : true
+
+Found ninja-1.12.1 at /usr/bin/ninja

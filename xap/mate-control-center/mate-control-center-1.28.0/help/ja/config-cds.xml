@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="config-cd">
+  <title>オーディオ CD</title>
+  <para>Mate を使って、あなたのコンピュータで CD を再生することができます。CDの環境設定は、<application>MATE コントロールセンタ</application>の<guilabel>高度な設定</guilabel>項目にある<guibutton>CD のプロパティ</guibutton>カプレットで行うことができます。</para>
+  <para>一度開くと、ウィンドウが2つに分かれているのが分かります。「データ CD」と「オーディオ CD」です。</para>
+  <sect2 id="config-cd-data">
+    <title>データ CD</title>
+    <para>データ CD とは、システムが実行可能な情報を格納した CD のことです。プログラムの入った CD や、家族の写真を焼いた CD などがこれに当たります。</para>
+    <para>最初のオプションは<guibutton>CD を挿入したら自動的にマウントする</guibutton>です。 このオプションを有効にすると、CD を挿入したときに自動検出させることができます。</para>
+    <tip>
+      <title>マウントとは</title>
+      <para>Linux や Unix のシステムでは、デバイスを認識するために「マウント」という用語を使います。CD-ROM をマウントするとは、システムが CD-ROM を認識し、操作可能なことを意味します。もしマウントされていない場合、システムは CD-ROM の存在を知らず、ほとんど何の操作もできません。</para>
+    </tip>
+    <para>2つ目のオプション<guibutton>新しくマウントされた CD で、自動的に自動実行プログラムを起動する</guibutton>では、CD　が最初にマウントされたときに、システムが　CD　上のプログラムを自動的に実行します。</para>
+    <para>最後のオプション<guibutton>新しくマウントされた CD をファイルマネージャのウィンドウを開く</guibutton>は、CD がマウントされた時（既定では<application>Caja</application>）ファイルマネージャを開くように設定します。これは、閲覧したい CD が、家族の再会時に撮った写真である場合に便利です。<application>Caja</application>で開いて、サムネイルを表示できます。</para>
+  </sect2>
+  <sect2 id="config-cd-audio">
+    <title>オーディオ CD</title>
+    <para><guilabel>オーディオ CD</guilabel>の項目には、1 つのオプションしかありません。これは、CD を挿入したとき、システムが CD プレーヤーをロードすることを可能にします。チェックボックスをクリックして、入力ダイアログに実行したいコマンドを入力するだけです。</para>
+    <note>
+      <para>オーディオ CD は、再生するためにマウントする必要はありません。</para>
+    </note>
+  </sect2>
+</sect1>

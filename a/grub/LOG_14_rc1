@@ -1,0 +1,79 @@
+*******************************************************
+GRUB2 will be compiled with following components:
+Platform: i386-pc
+With devmapper support: Yes
+With memory debugging: No
+With disk cache statistics: Yes
+With boot time statistics: Yes
+efiemu runtime: Yes
+grub-mkfont: Yes
+grub-mount: Yes
+grub-protect: Yes
+starfield theme: Yes
+With DejaVuSans font from /usr/share/fonts/TTF/DejaVuSans.ttf
+With libzfs support: No (need zfs library)
+Build-time grub-mkfont: Yes
+With unifont from /usr/share/fonts/misc/unifont.pcf.gz
+With liblzma from -llzma (support for XZ-compressed mips images)
+With stack smashing protector: No
+*******************************************************
+*******************************************************
+GRUB2 will be compiled with following components:
+Platform: x86_64-efi
+With devmapper support: Yes
+With memory debugging: No
+With disk cache statistics: Yes
+With boot time statistics: Yes
+efiemu runtime: No (not available on efi)
+grub-mkfont: Yes
+grub-mount: Yes
+grub-protect: Yes
+starfield theme: Yes
+With DejaVuSans font from /usr/share/fonts/TTF/DejaVuSans.ttf
+With libzfs support: No (need zfs library)
+Build-time grub-mkfont: Yes
+With unifont from /usr/share/fonts/misc/unifont.pcf.gz
+With liblzma from -llzma (support for XZ-compressed mips images)
+With stack smashing protector: No
+*******************************************************
+*******************************************************
+GRUB2 will be compiled with following components:
+Platform: x86_64-emu
+SDL2 support for grub-emu: Yes
+SDL support for grub-emu: No (disabled by sdl2)
+PCI support for grub-emu: No (not enabled)
+With devmapper support: Yes
+With memory debugging: No
+With disk cache statistics: Yes
+With boot time statistics: Yes
+efiemu runtime: No (only available on i386)
+grub-mkfont: Yes
+grub-mount: Yes
+grub-protect: Yes
+starfield theme: Yes
+With DejaVuSans font from /usr/share/fonts/TTF/DejaVuSans.ttf
+With libzfs support: No (need zfs library)
+Build-time grub-mkfont: Yes
+With unifont from /usr/share/fonts/misc/unifont.pcf.gz
+With liblzma from -llzma (support for XZ-compressed mips images)
+With stack smashing protector: No
+*******************************************************
+*******************************************************
+GRUB2 will be compiled with following components:
+Platform: i386-efi
+With devmapper support: Yes
+With memory debugging: No
+With disk cache statistics: Yes
+With boot time statistics: Yes
+efiemu runtime: No (not available on efi)
+grub-mkfont: Yes
+grub-mount: Yes
+grub-protect: Yes
+starfield theme: Yes
+With DejaVuSans font from /usr/share/fonts/TTF/DejaVuSans.ttf
+With libzfs support: No (need zfs library)
+Build-time grub-mkfont: Yes
+With unifont from /usr/share/fonts/misc/unifont.pcf.gz
+With liblzma from -llzma (support for XZ-compressed mips images)
+With stack smashing protector: No
+*******************************************************

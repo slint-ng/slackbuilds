@@ -1,0 +1,31 @@
+------------------------------------------------------------------------
+imlib2 1.8.0
+------------------------------------------------------------------------
+
+Configuration Options Summary:
+
+Image loaders:
+ Regular image loaders
+  GIF.....................: yes
+  HEIF....................: no
+  JPEG....................: yes
+  PNG.....................: yes
+  SVG.....................: yes
+  TIFF....................: yes
+  WEBP....................: yes
+ Decompressors
+  BZIP2...................: yes
+  LZMA(XZ)................: yes
+  ZLIB....................: yes
+ Containers
+  ID3.....................: yes
+
+Build for X11.............: yes
+Use X MIT-SHM FD-passing..: yes
+
+Use X86 MMX for speed.....: no
+Use AMD64 for speed.......: yes
+
+Use visibility hiding.....: yes
+
+Installation path.........: /usr

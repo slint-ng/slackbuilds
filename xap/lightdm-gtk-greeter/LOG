@@ -1,0 +1,20 @@
+------------------------------------------------------
+            LightDM GTK+ Greeter 2.0.8
+        ====================================
+
+        Installation:
+        =============
+        Prefix:                         /usr
+        AT-SPI Service:                 /usr/libexec/at-spi-bus-launcher --launch-immediately
+        Use libxklavier:                yes
+        Enable SIGTERM Handler:         yes
+
+        Indicators:
+        ===========
+        Indicator Support:              disabled
+        Indicator Services Command:     systemd --user indicator-services-start
+        systemd Services:               /usr/lib/systemd/user
+        Indicator NG:                   no
+        IDO:                            no
+
+------------------------------------------------------

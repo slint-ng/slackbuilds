@@ -1,0 +1,44 @@
+#Packager: George Vlahavas <vlahavas~at~gmail~dot~com>
+# Included in Slint by Didier Spaierdidieratslintdotfr
+pkgname=onboard
+pkgver=1.4.1
+_majorver=$( echo $pkgver | cut -d'.' -f 1,2 )
+pkgrel=4slint
+source=("https://launchpad.net/onboard/${_majorver}/${pkgver}/+download/onboard-${pkgver}.tar.gz"
+"0001-data-Default-to-the-Nightshade-theme.patch"
+"startonboard.desktop"
+"onboard-on"
+"onboard-off")
+docs=("authors" "install" "readme" "copying*" "news" "hacking" "changelog")
+url=https://launchpad.net/onboard
+options=("noautodotnew" "nosrcpack")
+
+doinst() {
+# compile schemas
+if [ -x /usr/bin/glib-compile-schemas ]; then
+	/usr/bin/glib-compile-schemas usr/share/glib-2.0/schemas > /dev/null 2>&1
+fi
+}
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"onboard (onscreen keyboard for tablet PCs and mobility impaired users)"
+"onboard is an onscreen keyboard useful for tablet PC users and for"
+"mobility impaired users."
+)
+
+build() {
+	cd $startdir/src/$pkgname-$pkgver
+	patch -p1 --verbose < $SRC/0001-data-Default-to-the-Nightshade-theme.patch || exit
+	python3 setup.py install --prefix=/usr --root=$startdir/pkg
+	mv $PKG/etc/xdg $PKG/usr/share/.
+    rmdir $PKG/etc
+    mkdir -p $PKG/usr/share/onboard
+    cd $SRC
+    cp startonboard.desktop $PKG/usr/share/onboard
+    mkdir -p "$PKG"/usr/bin
+    cp onboard-on onboard-off $PKG/usr/bin
+    chown -R root: "$PKG"/usr/bin
+    chmod 755 "$PKG"/usr/bin/*
+}

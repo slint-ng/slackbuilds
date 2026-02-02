@@ -1,0 +1,71 @@
+.\" empty
+.ds g 
+.\" -*- nroff -*-
+.\" empty
+.ds G 
+.de  Tp
+.ie \\n(.$=0:((0\\$1)*2u>(\\n(.lu-\\n(.iu)) .TP
+.el .TP "\\$1"
+..
+.\" Like TP, but if specified indent is more than half
+.\" the current line-length - indent, use the default indent.
+.\"*******************************************************************
+.\"
+.\" This file was generated with po4a. Translate the source file.
+.\"
+.\"*******************************************************************
+.TH UPGRADEPKG 8 "31. Мај 2002." "Слеквер Верзија 8.1.0" 
+.SH ИМЕ
+upgradepkg \- apgrejduje Slekver pakete.
+.SH СИНТАКСА
+\fBupgradepkg\fP [ \fB\-\-dry\-run\fP ] [ \fB\-\-install\-new\fP ] [ \fB\-\-reinstall\fP ] [
+\fB\-\-verbose\fP ] \fBnewpackagename\fP \fB[\fP\fInewpackagename2\fP\fB]\fP
+.LP
+\fBupgradepkg\fP [ \fB\-\-dry\-run\fP ] [ \fB\-\-install\-new\fP ] [ \fB\-\-reinstall\fP ] [
+\fB\-\-verbose\fP ] \fBoldpackagename%newpackagename\fP \fB[\fP\fIold2%new2\fP\fB]\fP
+.SH ОПИС
+\fBupgradepkg\fP apgrejduje Slekver pakete sa starije verzije na noviju
+verziju. To radi \fBINSTALLING\fP novih paketa na sistemu, a onda \fBREMOVING\fP
+svih fajlova iz starog paketa koji nisu u novom paketu. Ako stari i novi
+paket imaju isto ime, jedan argument je sve što je potrebno. Ako paketi
+imaju različita imena, dodajte imenu starog paketa simbol za procenat (%), a
+zatim ime novog paketa. Nemojte dodavati nikakav dodatni slobodan prostor
+između parova starog/novog imena paketa.
+
+Ako upgradepkg pronađe više od jednog instaliranog paketa koji se podudara
+sa starim paketom po nazivu, ukloniće ih sve.
+.TP 
+Da bi apgrejdovali u direktorijumu koji nije / (kao što je /mnt):
+.TP 
+ROOT=/mnt upgradepkg package.tgz (or .tbz, .tlz, .txz)
+.SH ОПЦИЈЕ
+.TP 
+\fB\-\-dry\-run\fP
+Izbaci izveštaj o tome koji će paketi biti instalirani ili apgrejdovani ali
+nemoj zaista pokretati apgrejd.
+.TP 
+\fB\-\-install\-new\fP
+Normalno upgradepkg apgrejduje samo one pakete koji su instalirani na
+sistemu, i preskočiće sve pakete koji već nemaju instaliranu verziju. Ako je
+\fB\-\-install\-new\fP preciziran, ponašanje je modifikovano da instalira nove
+pakete uz apgrejdovanje postojećih.
+.TP 
+\fB\-\-reinstall\fP
+Upgradepkg obično preskače pakete ako je isti takav paket (isto ime,
+verzija, platforma i broj) već instaliran na sistemu. Koristi \-\-reinstall
+opciju ako želiš da apgrejduješ sve pakete čak i ako je ista verzija već
+instalirana.
+.TP 
+\fB\-\-verbose\fP
+Prikaži sve detalje apgrejda.
+.SH ГРЕШКЕ
+Pre apgrejdovanja paketa, sačuvajte sve konfiguracione fajlove (kao one u
+/etc) koje želite da sačuvate. Nekada će oni i biti sačuvani, ali to zavisi
+od strukture samog paketa. Ako želite da prisilite da nove verzije
+konfiguracionih fajlova budu instalirane, uklonite stare manuelno pre
+pokretanja komande upgradepkg.
+.SH АУТОР
+Patrick J. Volkerding <volkerdi@slackware.com>
+.SH "ТАКОЂЕ ПОГЛЕДАЈ"
+\fBmakepkg(8),\fP \fBinstallpkg(8),\fP \fBremovepkg(8),\fP \fBexplodepkg(8),\fP
+\fBpkgtool(8)\fP

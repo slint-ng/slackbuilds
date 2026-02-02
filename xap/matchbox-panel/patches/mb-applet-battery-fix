@@ -1,0 +1,12 @@
+Description: Fix build of mb-applet-battery.c
+--- a/applets/mb-applet-battery.c
++++ b/applets/mb-applet-battery.c
+@@ -177,7 +177,7 @@
+ 		unsigned long	present_rate;
+ 	};
+ 
+-	static int
++	int
+ 	line_parse(char *line, struct entry *e)
+ 	{
+ 		char *ptr;

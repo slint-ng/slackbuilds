@@ -1,0 +1,6 @@
+- themes/eOS/meson.build: Install missing PNGs
+
+Follow-up of 4a2a5dc092814bfe ("eOS theme: Add single button backgrounds")
+
+Without this fix these PNGs are installed when using autotools but not using meson.
+- release 1.28.1

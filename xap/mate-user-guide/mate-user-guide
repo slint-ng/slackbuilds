@@ -1,0 +1,12 @@
+#!/bin/sh
+# Written by Didier Spaier <didier~at~slint~dot~fr>
+MYLANG=${LANG%_*}
+case $MYLANG in 
+	ar | bg | bof | cs | de | el | es | eu | fi | fr | gl | hu | id | it | ja | ko | oc | pa | pt | ru | sv | th | uk) MYLOCALE=$MYLANG;;
+	zh) MYLOCALE=zh_CN;;
+	*) MYLOCALE=C
+esac
+if [ "${LANG%.*}" = "pt_BR" ]; then
+	MYLOCALE=pt_BR
+fi
+exo-open --launch WebBrowser /usr/doc/mate-user-guide-1.18.0/$MYLOCALE/index.html

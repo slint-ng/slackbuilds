@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="config-keyboard">
+  <title>Tastiera</title>
+  <para>Tutti usano la tastiera per i loro compiti quotidiani. Molta gente pensa che non ci sia nulla da configurare in una tastiera. È il contrario. Ci sono svariate opzioni di una tastiera che possono essere impostate per rendere più comoda la vostra esperienza.</para>
+  <sect2 id="config-keyboard-keyboard">
+    <title>Configurazione del comportamento della tastiera</title>
+    <para>Il comportamento della tastiera è controllato dalla scheda <guilabel>Tastiera</guilabel>. Sono disponibili le seguenti opzioni: <variablelist>
+	<varlistentry>
+	  <term>Ripetizione del carattere quando si tiene premuto un tasto</term>
+	  <listitem>
+	    <para>Tutte le tastiere hanno la possibilità di ripetere rapidamente un tasto sullo schermo quando si tiene premuto un tasto.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Intervallo prima della ripetizione:</term>
+	  <listitem>
+	    <para>Normalmente esiste un ritardo tra il momento in cui si preme il tasto sulla tastiera e quello in cui viene visualizzata la ripetizione sullo schermo. Si può scegliere tra: <itemizedlist>
+		<listitem>
+		  <para>Breve</para>
+		</listitem>
+		<listitem>
+		  <para>Medio</para>
+		</listitem>
+		<listitem>
+		  <para>Lungo</para>
+		</listitem>
+		<listitem>
+		  <para>Molto Lungo</para>
+		</listitem>
+	      </itemizedlist></para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Velocità di ripetizione</term>
+	  <listitem>
+	    <para>Mentre un tasto viene ripetuto, è possibile controllare quanto velocemente avviene la ripetizione. Le velocità disponibili sono :<itemizedlist>
+		<listitem>
+		  <para>Lenta</para>
+		</listitem>
+		<listitem>
+		  <para>Medio</para>
+		</listitem>
+		<listitem>
+		  <para>Veloce</para>
+		</listitem>
+		<listitem>
+		  <para>Molto Veloce</para>
+		</listitem>
+	      </itemizedlist></para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Lampeggiamento del cursore nei campi di testo</term>
+	  <listitem>
+	    <para>Il cursore della tastiera talvolta lampeggia  per aiutarvi a localizzarlo. Il lampeggiamento può essere disattivato deselezionando questa opzione.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Velocità di lampeggiamento</term>
+	  <listitem>
+	    <para>È possibile configurare la velocità del lampeggiamento del cursore. Facendo scorrere la guida verso destra si aumenterà la velocità del lampeggiamento, mentre se si fa scorrere la guida verso sinistra lo si farà lampeggiare con minore velocità.</para>
+	  </listitem>
+	</varlistentry>
+      </variablelist></para>
+  </sect2>
+  <sect2 id="config-kbd-sound">
+    <title>Opzioni Suoni della tastiera</title>
+    <para>La tastiera a volte emette dei suoni per attirare l'attenzione dell'utente. I suoni possono essere configurati dalla scheda<guilabel>Suono</guilabel>. <variablelist>
+	<varlistentry>
+	  <term>La pressione di un tasto produce un suono</term>
+	  <listitem>
+	    <para>Potete impostare la vostra tastiera in modo che quando si preme un tasto, si emetterà un suono. Fare clic su questo pulsante per attivarlo.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Volume</term>
+	  <listitem>
+	    <para>Si può regolare il volume al quale avviene il suono. Muovere la guida verso destra per aumentare il volume, e verso sinistra per diminuire il volume.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Suoni di tastiera disattivati</term>
+	  <listitem>
+	    <para>Se volete disattivare i suoni della tastiera, selezionare questo pulsante. Questo va bene per le situazioni in cui occorre silenzio, come una classe o una biblioteca.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Suoni di tastiera attivati</term>
+	  <listitem>
+	    <para>Selezionare questo pulsante per abilitare l'avviso acustico della tastiera. Questo farà emettere un beep quando occorre avere la vostra attenzione. </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Suono della tastiera personalizzato</term>
+	  <listitem>
+	    <para>Si può far riprodurre un suono personalizzato invece del beep di sistema predefinito. Selezionare questa casella e premere il pulsante <guibutton>Seleziona</guibutton> per selezionare il file desiderato. Premere il pulsante <guibutton>Fatto</guibutton> per applicare le modifiche.</para>
+	  </listitem>
+	</varlistentry>	  
+      </variablelist></para>
+  </sect2>
+</sect1>

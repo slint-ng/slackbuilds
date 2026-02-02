@@ -1,0 +1,33 @@
+# Packaged by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=lios
+#pkgver=git345d2901
+#pkgver=git3b857a8
+commit=916fa37
+pkgver=git$commit
+pkgrel=1slint
+source=("user-guide.pdf" "user-guide.html" "README.Accessibility")
+docs=("copyright" "COPYING" "LICENSE" "user-guide.odt" "user-guide.html" "user-guide.pdf" "README.Accessibility")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Linux Intelligent OCR Solution)"
+"Lios is a free and open source software for converting print into"
+"text using either scanner or a camera, It can also produce text out of"
+"scanned images from other sources such as Pdf, Image, Folder"
+"containing Images or screenshot. Program is given total accessibility"
+"for visually impaired. Lios is written in python3, and we release it"
+"under GPL-3 license.")
+
+
+build() {
+  git clone https://github.com/zendalona/lios.git
+  cd lios
+  git checkout $commit
+  python3 setup.py install --install-data=/usr --root=$PKG || return 1
+  mkdir -p $PKG/usr/doc/${pkgname}-$pkgver
+  pandoc -f gfm README.md > $PKG/usr/doc/${pkgname}-$pkgver/README.html
+  rm -r $PKG/usr/share/doc
+}

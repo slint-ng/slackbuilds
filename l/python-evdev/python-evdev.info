@@ -1,0 +1,12 @@
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+PRGNAM="python-evdev"
+VERSION="1.1.2"
+HOMEPAGE="http://python-evdev.readthedocs.org/en/latest/"
+DOWNLOAD="https://pypi.python.org/packages/source/e/evdev/evdev-1.1.2.tar.gz"
+MD5SUM="504de457af50c3847c1994a7306eb776"
+DOWNLOAD_x86_64=""
+MD5SUM_x86_64=""
+REQUIRES=""
+MAINTAINER="Dugan Chen"
+EMAIL="thedoogster [at] gmail [dot] com"

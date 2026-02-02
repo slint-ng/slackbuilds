@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="config-mouse">
+  <title>Mus</title>
+
+  <sect2 id="config-mouse-introduction">
+    <title>Introduktion</title>
+
+    <para>Muse-capplet'en i <application>MATE-kontrolcenteret</application> hjælper med at konfigurere egenskaber for musen. Disse er:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>for fanebladet <guilabel>Generelt</guilabel>: museacceleration, musesensitivitet, tidsudløb for dobbeltklik, træk og slip-tærskel, markørplacering og venstrehåndet eller højrehåndet brug.</para>
+      </listitem>
+
+      <listitem>
+        <para>For fanebladet <guilabel>Tilgængelighed</guilabel>: simuleret sekundært klik og hvileklik</para>
+      </listitem>
+    </itemizedlist>
+  </sect2>
+
+  <sect2 id="config-mouse-general">
+    <title>Fanebladet <guilabel>Generelt</guilabel></title>
+
+    <para>Fanebladet <guilabel>Generelt</guilabel> tilbyder de oftest anvendte indstillinger for musen.</para>
+
+    <sect3 id="config-mouse-general-orientation">
+      <title>Museorientering</title>
+
+      <para>En bruger kontrollerer musen forskelligt baseret på om man er højre- eller venstrehåndet.</para>
+
+      <para>Hvis man er højrehåndet, så befinder musen sig typisk på højre side af bordet. Den primære knap (handlingsknappen) er til venstre på musen, så den kan trykkes ned med pegefingeren, mens den sekundære knap (menuknappen) er til højre.</para>
+
+      <para>Hvis man er venstrehåndet, så befinder musen sig typisk på den venstre side af bordet. Som konsekvent, hvis man skal bruge pegefingeren på den venstre hånd til den primære knap, skal den primære og sekundære knap på musen byttes om.</para>
+
+      <para>Dette er formålet med indstillingen <guilabel>Museorientering</guilabel>: vælg knappen <guibutton>Højrehåndet</guibutton> hvis du er højrehåndet eller knappen <guibutton>Venstrehåndet</guibutton> hvis du er venstrehåndet. Når denne indstilling bruges har brugeren indstillet den primære knap til pegefingeren.</para>
+    </sect3>
+
+    <sect3 id="config-mouse-general-cursors-locate">
+      <title>Find markør</title>
+
+      <para>Nogle gange mister brugeren fornemmelsen for hvor markøren er. Hvis brugeren vælger <guibutton>Vis position for markøren når Control-tasten trykkes ned</guibutton> så vises den igen ved at rykke på tasten control.</para>
+    </sect3>
+
+    <sect3 id="config-mouse-general-speed">
+      <title>Markørfart</title>
+
+      <para>Hver bruger har forskellig smag jævnfør relationen mellem bevægelsen for musen og bevægelsen for markøren. For at tilpasse til ens smag, kan man bruge indstillingerne <guilabel>Acceleration</guilabel> og <guilabel>Sensitivitet</guilabel>.</para>
+
+      <itemizedlist>
+        <listitem>
+          <para><guilabel>Acceleration</guilabel>: angiver den lineære faktor mellem musebevægelse og markørbevægelse</para>
+        </listitem>
+
+        <listitem>
+          <para><guilabel>Sensitivitet</guilabel>: angiver tærskelhastigheden hvormed musen vil begynde acceleration.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>For eksempel, ved at indstille sensitiviteten til det laveste, så vil musen flytte sig hele itden uden nogen accelerationsjustering; i dette tilfælde, er der en perfekt forhold mellem museafstand og billedpunktsafstand.</para>
+    </sect3>
+
+    <sect3 id="config-mouse-general-dnd">
+      <title>Træk og slip</title>
+
+      <para>Træk og slip er et klik på et objekt, og trækning af det til et andet sted på skærmen, hvormed en hændelse opstår.</para>
+
+      <para>Du skal trække en bestemt længe før systemet genkender det som en træk og slip-operation. For at konfigurere hvor langt, flyt skyderen <guilabel>Tærskel</guilabel> mod venstre eller højre.</para>
+    </sect3>
+
+    <sect3 id="config-mouse-general-double-click">
+      <title>Dobbeltklik-forsinkelse</title>
+
+      <para>Når en bruger udfører to klik med den primære knap, så anser systemet dem som et dobbeltklik eller som to enkelte klik afhængig af forsinkelsen, der er gået mellem de to klik.</para>
+
+      <para>Med skyderen <guilabel>Tidsudløb</guilabel> kan brugeren angive den maksimale forsinkelse, der kan være mellem to klik og de samtidig anses som værende et dobbeltklik. Hvis forsinkelsen mellem de to klik er større end den maksimale forsinkelse, der er blevet angivet, så anses de to klik for to enkelte klik i stedet for et dobbeltklik.</para>
+
+      <para>Som konsekvens: jo kortere tidsudløb, jo mindre tid kan der være mellem de to klik i et dobbeltklik.</para>
+
+      <para>Brugeren kan teste det angivne tidsudløb ved at klikke på lyspæren, som vil tænde, hvis et dobbeltklik registreres.</para>
+    </sect3>
+  </sect2>
+
+  <sect2>
+    <title id="config-mouse-a11y">Fanebladet tilgængelighed</title>
+
+    <para>Fanebladet <guilabel>Tilgængelighed</guilabel> har yderligere funktioner for musen. Her kan brugeren udføre et sekundært klik ved at bruge den primære knap; hvilket gør at man kan udføre alle de forskellige kliktyper uden at bruge nogen udstyrsknap.</para>
+
+    <sect3 id="config-mouse-a11y-simulated-secondary-click">
+      <title>Simuleret sekundært klik</title>
+
+      <para>Der er brugere, der kun kan bruge en museknap. Ved at aktivere <guilabel>Simuleret sekundært klik</guilabel> har disse brugere en direkte måde at udføre sekundære klik med deres unikke museknap. Faktisk sker de sekundære klik automatisk når brugeren holder den primære knap ned med en bestemt forsinkelse uden at bevæge musen.</para>
+
+      <para><guilabel>Simuleret sekundært klik</guilabel> tilbyder også en skyder navngivet <guilabel>Forsinkelse</guilabel> til at konfigurere hvor længe brugeren skal trykke på knappen og holde musen bevægelsesløs, før det sekundære klik automatisk udføres.</para>
+    </sect3>
+
+    <sect3 id="config-mouse-a11y-dwell">
+      <title>Hvileklik</title>
+
+      <para>Der er brugere som ikke kan bruge nogen udstyrsknap. Ved at aktivere <guilabel>Hvileklik</guilabel> kan de få musen til at udføre forskellige klik uden at trykke på en museknap. Kliktyperne der kan udføres er: enkelt klik, dobbelt klik, trækkeklik og sekundært klik.</para>
+
+      <para>For at få musen til at udføre klikkene uden at en museknap tastes ned, skal brugeren placere et kryds i boksen navngivet <guilabel>Foretag klik når markørbevægelsen stopper</guilabel>. Hvordan klikket fuldføres og hvordan kliktypen vælges afhænger af hvilken kliktilstand brugeren bruger. De to tilgængelige tilstande er:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>automatisk klikfuldførelse med kliktypen valgt på forhånd</para>
+        </listitem>
+
+        <listitem>
+          <para>klikfuldførelse og kliktypevalg af en musebevægelse efter klikinitialisering</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Med skyderen <guilabel>Forsinkelse</guilabel> kan brugeren konfigurere hvor lang markøren skal være uden bevægelse for at klikket startes.</para>
+
+      <para>For folk som har problemer med at holde musen stille, er der skyderen <guilabel>Bevægelsestærskel</guilabel>. Når skyderen er angivet mod lav, tæller selv små musebevægelser; ved at angive tærsklen højt skal musen bevæge sig over en større distance før den anses for at have bevæget sig.</para>
+
+      <para>Som sagt ovenfor kan brugeren vælge mellem to tilstande for valg af kliktype og klikfuldførelse:</para>
+
+      <sect4 id="config-mouse-accessibility-dwell-ctw">
+        <title>Hvilkeklik med automatisk klikfuldførelse og kliktypen valgt på forhånd</title>
+
+        <para>Denne tilstand er aktiv når brugeren vælger <guilabel>Vælg kliktype på forhånd</guilabel>. Når musen har været uden bevægelse i den på forhånd definerede tidsperiode, vil systemet automatisk udføre kliktypen, der vælges i kliktypevinduet.</para>
+
+        <para>Efter klikket er udført, vil kliktypen et klik automatisk blive gendannet. For at vælge en anden kliktype, skal brugeren udføre et automatisk klik på <guibutton>knap</guibutton> i kliktypevinduet, der svarer til dets kliktypevalg.</para>
+
+        <para>For at få kliktypevinduet til at fremgå af skærmen skal brugeren placere en afkrydsning i afkrydsningsboksen navngivet <guilabel>Vis kliktype-vindue</guilabel>. Nogle brugere kan foretrække at bruge <guilabel>Panelprogrammet Hvileklik</guilabel> i stedet for kliktypevinduet. Fordelen for panelprogrammet er, at det ikke dækker nogle åbne vinduer på skrivebordet.</para>
+      </sect4>
+
+      <sect4 id="config-mouse-accessibility-dwell-gestures">
+        <title>Hvileklik med kliktypevalg og klikfuldførelse via en musebevægelse</title>
+
+        <para>Denne tilstand bruges når brugeren vælger <guilabel>Vælg kliktype med musebevægelser</guilabel>. Når musen har været uden bevægelse i den på forhånd definerede tidsperiode, vil formen på markøren ændre sig i en kort tidsrum:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Hvis brugeren flytter musen, mens den alternative form vises, så udføres et klik og markøren returnerer til sin normale form. Typen af klik udført afhænger af bevægelsesretningen for musen.</para>
+          </listitem>
+
+          <listitem>
+            <para>Hvis musen er uden bevægelse indtil markøren returnerer til sin normale form, så kan brugeren flytte musen rundt uden at et klik udføres. Det næste hvileklik kan udføres når musen stopper sin bevægelse igen.</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>Brugeren har også mulighed for at matche kliktype med bevægelsesretning ved at bruge de 4 <guimenu>pop op'er</guimenu> tilgængelige i denne tilstand.</para>
+      </sect4>
+    </sect3>
+  </sect2>
+</sect1>

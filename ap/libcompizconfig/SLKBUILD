@@ -1,0 +1,35 @@
+# Packaged by Didier Spaier <didier~at~slint~dot~fr>
+# Build and install protobuf first
+pkgname=$(pwd|sed "s,.*/,,")
+pkgver=0.8.18
+pkgrel=2slint
+source=("https://gitlab.com/compiz/libcompizconfig/-/archive/v0.8.18/libcompizconfig-v0.8.18.tar.bz2")
+docs=("copying" "authors" "news" "license" "license.*" "changes")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (plugin required by the CCSM)"
+)
+# compiling against protobuf needs -std=c++11 
+CFLAGS="-O2 -fPIC -std=c++11"
+build() {
+  cd $SRC/$pkgname-v$pkgver || return 1
+  ./autogen.sh
+  CPPFLAGS="$CPPFLAGS -I/usr/include/compiz \
+  -I/usr/include/startup-notification-1.0 \
+  -I/usr/include/libxml2" \
+  ./configure \
+  --prefix=/usr \
+  --libdir=/usr/lib${LIBDIRSUFFIX} \
+  --sysconfdir=/etc \
+  --localstatedir=/var \
+  --infodir=/usr/info \
+  --mandir=/usr/man \
+  --disable-static \
+  --build=$ARCH-slackware-linux
+  make
+  DESTDIR=$PKG make install
+  rm -f $PKG/usr/lib64/*.la
+}

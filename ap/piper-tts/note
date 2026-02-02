@@ -1,0 +1,5 @@
+piper-tts is not shipped in Slint.
+
+If you want it type as regular user:
+pip3.11 install --user piper-tts
+and include ~/.local/bin in $PATH

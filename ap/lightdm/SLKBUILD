@@ -1,0 +1,114 @@
+#Packager: George Vlahavas <vlahavas~at~gmail~dot~com>
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=lightdm
+pkgver=1.32.0
+pkgrel=2slint
+source=(
+	"https://github.com/canonical/lightdm/releases/download/$pkgver/lightdm-$pkgver.tar.xz"
+	"pam.d.tar.gz"
+	"lightdm-numlockx"
+	"42-lightdm.rules"
+	"Xsession"
+	"allow-guest.conf"
+	"backup-logs.conf"
+	"display-setup-script.conf"
+	"greeter-setup-script.conf"
+	"session-wrapper.conf"
+	"lightdm.logrotate"
+	"default-config.patch"
+	"user_xsession.py"
+	)
+docs=("readme" "install" "copying.*" "changelog" "authors" "news" "todo")
+url=https://github.com/canonical/lightdm
+options=("noautodotnew")
+dotnew=(
+	"etc/lightdm/keys.conf"
+	"etc/lightdm/lightdm.conf"
+	"etc/lightdm/users.conf"
+	"etc/logrotate.d/lightdm"
+	"etc/pam.d/lightdm-autologin"
+	"etc/pam.d/lightdm-greeter"
+	"etc/pam.d/lightdm"
+	)
+
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"lightdm (a cross-desktop display manager)"
+"LightDM is a cross-desktop display manager. It:"
+"* Runs display servers (e.g. X) where necessary."
+"* Runs greeters to allow users to pick which user account and session"
+"  type to use."
+"* Allows greeters to perform authentication using PAM."
+"* Runs session processes once authentication is complete."
+"* Provides remote graphical login options."
+)
+
+
+build() {
+	cd $startdir/src/$pkgname-$pkgver
+	
+	# we're going to reuse the gdm user and groups, it already exists
+	export LIGHTDM_USER=gdm
+	export LIGHTDM_GROUP=gdm
+
+	patch -p1 < $startdir/src/default-config.patch || exit 1
+
+	./configure --prefix=/usr \
+		--libdir=/usr/lib${LIBDIRSUFFIX} \
+		--localstatedir=/var \
+		--sysconfdir=/etc \
+		--disable-static \
+		--disable-liblightdm-qt5 \
+		--with-greeter-session="lightdm-gtk-greeter" \
+		--with-greeter-user=$LIGHTDM_USER \
+		--disable-tests \
+		--build=$arch-slackware-linux
+	make -j $numjobs || return 1
+	make install DESTDIR=$startdir/pkg
+
+	install -m 755 $startdir/src/Xsession $startdir/pkg/etc/lightdm/
+	install -dm 755 $startdir/pkg/etc/lightdm/lightdm.conf.d
+	rm -rf $startdir/pkg/etc/init
+
+	mkdir -p -m=755 $startdir/pkg/var/cache/lightdm
+	mkdir -p -m=770 $startdir/pkg/var/lib/lightdm{,-data}
+	mkdir -p -m=711 $startdir/pkg/var/log/lightdm
+	chmod +t $startdir/pkg/var/{cache/lightdm,lib/lightdm{,-data}}
+	chown $LIGHTDM_USER:$LIGHTDM_GROUP -R $startdir/pkg/var/lib/lightdm{,-data}
+	chgrp $LIGHTDM_GROUP $startdir/pkg/var/log/lightdm
+
+	# apparmor package. Bug #494426
+	rm -rf "$startdir/pkg/etc/apparmor.d"
+
+	# PolicyKit
+	mkdir -p -m700 $startdir/pkg/usr/share/polkit-1/rules.d
+	chown polkitd $startdir/pkg/usr/share/polkit-1/rules.d
+	cp $startdir/src/42-lightdm.rules $startdir/pkg/usr/share/polkit-1/rules.d/
+
+	# numlockx
+	install -m 755 $startdir/src/lightdm-numlockx $startdir/pkg/usr/libexec/
+
+	# default config
+	mkdir -p $startdir/pkg/usr/share/lightdm/lightdm.conf.d
+	cp $startdir/src/*.conf $startdir/pkg/usr/share/lightdm/lightdm.conf.d/
+
+	# logrotate
+	mkdir -p $startdir/pkg//etc/logrotate.d
+	cp $startdir/src/lightdm.logrotate $startdir/pkg/etc/logrotate.d/lightdm
+
+	# this is needed for the .Xauthority file
+	mkdir -p $startdir/pkg/var/lib/gdm
+	chown $LIGHTDM_USER:$LIGHTDM_GROUP $startdir/pkg/var/lib/gdm
+
+	# override default pam settings (otherwise polkit doesn't really
+	# work)
+	cp $startdir/src/pam.d/* $startdir/pkg/etc/pam.d/
+
+	# Install user_xsession.py to set teh default vrsion fr a given user
+	mkdir -p $startdir/pkg/usr/bin
+	cp $startdir/user_xsession.py $startdir/pkg/usr/bin/
+	chmod 755 $startdir/pkg/usr/bin/user_xsession.py
+} 

@@ -1,0 +1,30 @@
+#Packager:Didier Spaier didieratslintdotfr
+
+pkgname=matchbox-desktop
+pkgver=2.2
+pkgrel=1slint
+docs=("AUTHORS" "COPYING" "COPYING.LIB" "README" "TODO")
+# Source from Debian
+source=("http://deb.debian.org/debian/pool/main/m/matchbox-desktop/matchbox-desktop_2.2+git20200512.orig.tar.xz")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Desktop application launcher for the matchbox WM)"
+)
+
+build() {
+	cd ${pkgname}-2
+	# Patches from Debian
+	while read -r i; do
+		patch -p1 --verbose < $startdir/patches/$i || exit
+	done < $startdir/patches/series
+	autoreconf -vif
+	./configure --prefix=/usr \
+		--enable-startup-notification \
+		--build=$arch-slackware-linux
+	make
+	make install DESTDIR=$PKG
+	mkdir -p $PKG/usr/man/man1
+	cp $startdir/matchbox-desktop.1 $PKG/usr/man/man1
+} 

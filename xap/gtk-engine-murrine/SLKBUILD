@@ -1,0 +1,37 @@
+# Maintainer: Sergej Pupykin <pupykin.s+arch@gmail.com>
+# Contributor: Andrea Scarpino <andrea@archlinux.org>
+# Contributor: Roman Kyrylych <Roman.Kyrylych@gmail.com>
+# Contributor: detto <detto-brumm@freenet.de>
+# Maintainer: Daniel J Griffiths <ghost1227@archlinux.us>
+
+#Included in Slint by Didier Spaier didieratslintdotfr
+pkgname=gtk-engine-murrine
+pkgver=0.98.2
+pkgrel=1slint
+arch=("x86_64")
+slackdesc="$pkgname (GTK2 engine, your desktop look like a 'murrina'.)"
+docs=("copying" "authors" "README.html")
+options=("nosrcpack")
+url="http://cimitan.com/murrine/project/murrine"
+license=('LGPL3')
+depends=('gtk2')
+makedepends=('intltool')
+source=(https://ftp.gnome.org/pub/GNOME/sources/murrine/0.98/murrine-${pkgver}.tar.xz
+        fix-crasher.patch)
+sha256sums=('e9c68ae001b9130d0f9d1b311e8121a94e5c134b82553ba03971088e57d12c89'
+            'e33f76ea23e38eecd2921300c7c01ff06ca33f63b9c7810d83d95e47681fe7da')
+
+build() {
+  cd murrine-${pkgver}
+[ -f README.md ] && pandoc -f gfm -t html5 -o README.html README.md
+  # https://bugs.archlinux.org/task/48294
+  patch -Np1 -i ../fix-crasher.patch
+  ./configure \
+    --prefix=/usr \
+    --libdir=/usr/lib${LIBDIRSUFFIX} \
+    --enable-animation \
+    --enable-animationrtl
+  sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+  make
+  make DESTDIR="$PKG" install
+}

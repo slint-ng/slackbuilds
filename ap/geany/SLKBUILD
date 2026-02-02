@@ -1,0 +1,48 @@
+#Packager: George Vlahavas <vlahavas~at~gmail~dot~com>
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+pkgname=geany
+pkgver=2.0
+pkgrel=1slint
+source=(http://download.geany.org/geany-$pkgver.tar.bz2)
+docs=("readme*" "install" "copying" "changelog" "authors" "news" "thanks" "todo" "hacking.html" \
+"geany.html" "geany-${pkgver}.pdf" "reference")
+url=http://www.geany.org/
+
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+# Added pdf and html docs. This needs lots of build time deps, but which
+# Will be useful for other document production tasks, so I think that's
+# worth it. - Didier
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"geany (A text editor using the GTK3 toolkit)"
+"Geany is a text editor using the GTK3 toolkit with basic features of"
+"an integrated development environment. It was developed to provide a"
+"small and fast IDE, which has only a few dependencies from other"
+"packages. It supports many filetypes and has some nice features."
+)
+
+numjobs=9
+build() {
+	cd $startdir/src/$pkgname-$pkgver
+	export CC=/usr/bin/clang
+	export CXX=/usr/bin/clang++
+	./configure --prefix=/usr \
+		--libdir=/usr/lib${LIBDIRSUFFIX} \
+		--localstatedir=/var \
+		--docdir=/usr/doc/$pkgname-$pkgver \
+		--sysconfdir=/etc \
+		--disable-pdf-docs \
+		--enable-html-docs \
+		--with-python-command=python3 \
+		--build=$arch-slackware-linux
+	make -j $numjobs || return 1
+	make install DESTDIR=$startdir/pkg
+
+	cp -r $startdir/src/geany-$pkgver/doc/reference $startdir/pkg/usr/doc/geany-$pkgver
+	cp $startdir/README.doc $startdir/pkg/usr/doc/geany-$pkgver
+
+	# Add syntax highlighting for SLKBUILD files
+	sed -i "s/^Sh=\(.*\)/Sh=\1SLKBUILD;/" $startdir/pkg/usr/share/geany/filetype_extensions.conf
+}

@@ -1,0 +1,9 @@
+at-spi2-core 2.58.1
+
+  User defined options
+    libdir       : lib64
+    localstatedir: /var
+    mandir       : /usr/man
+    prefix       : /usr
+    python       : python3.11
+    sysconfdir   : /etc

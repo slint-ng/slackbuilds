@@ -1,0 +1,39 @@
+pkgname=slint-mate-settings
+pkgver=15.0
+pkgrel=5slint
+arch=noarch
+options=('noautodotnew')
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (customizations for the MATE desktop in Slint)"
+"This package provides settings to customize the visual appearance of"
+"the MATE desktop in Slint"
+)
+doinst() {
+if [ -x /usr/bin/update-desktop-database ]; then
+  /usr/bin/update-desktop-database -q usr/share/applications >/dev/null 2>&1
+fi
+
+if [ -x /usr/bin/update-mime-database ]; then
+  /usr/bin/update-mime-database usr/share/mime >/dev/null 2>&1
+fi
+
+# Update any existing icon cache files:
+if find /usr/share/icons -maxdepth 2 2> /dev/null | grep -q icon-theme.cache ; then
+  for theme_dir in /usr/share/icons/* ; do
+    if [ -r ${theme_dir}/icon-theme.cache ]; then
+      /usr/bin/gtk-update-icon-cache -t -f ${theme_dir} 1> /dev/null 2> /dev/null &
+    fi
+  done
+  # This would be a large file and probably shouldn't be there.
+  if [ -r /usr/share/icons/icon-theme.cache ]; then
+    rm -f /usr/share/icons/icon-theme.cache
+  fi
+fi
+}
+build() {
+# Eventually, drop /etc/profile.d/mate-qt.sh
+# cp -r $startdir/etc $PKG || exit
+cp -r $startdir/usr $PKG || exit
+}

@@ -1,0 +1,199 @@
+#!/bin/sh
+ESPEAKUP=/usr/bin/espeakup
+
+### Code snippet common to rc.espeakup and rc-speechd-up. ###
+hardlist=$(zgrep SPEAKUP_S /proc/config.gz|grep [ym]|grep -v DUMMY| \
+sed 's/CONFIG_SPEAKUP_SYNTH_//;s/..$//'|tr '[:upper:]' '[:lower:]'|sed s/soft// )
+# A hardware synthesizer can be set either in the boot command line or
+# in the configuration file /etc/speakup.conf. In both cases we won't
+# start espeakup or speechd-up that rely on a soft synthesizer, but we
+# restore the speakup settings.
+if grep -q speakup /proc/cmdline; then
+	HARDCMDLINE=$(sed "s/.*speakup.synth=\([[:alpha:]]\{1,\}\).*/\1/" /proc/cmdline)
+fi
+if [ -f /etc/speakup.conf ]; then
+	. /etc/speakup.conf
+	HARDCONF=$hard
+fi
+# We give priority to the settings in /etc/espeakup.conf over those on
+# the command line. "hard=none" in the former indicates that the user
+# chose not to use a hard synthesizer. This way the user does not need 
+# to edit the command line to modify a setting, like using another hard
+# synthesizer or use on a soft synthesizer instead of a hard one.
+if [ ! "$HARDCONF" =  "none" ]; then
+	if [ ! "$HARDCONF" = "" ]; then
+	# The user ran speak-with and chose a hard synth
+		modprobe speakup_$HARDCONF 2>/dev/null
+		echo $HARDCONF > /sys/accessibility/speakup/synth
+		[ -x /usr/sbin/speakup-restore ] && speakup-restore
+		exit
+	elif [ ! "$HARDCMDLINE" = "" ] && grep -q $HARDCMDLINE $hardlist ]; then
+		# The user has not run speak-with to choose a hard synth but
+		# has indicated one in the boot command line
+		modprobe speakup_$HARDCMDLINE 2>/dev/null
+		echo $HARDCMDLINE > /sys/accessibility/speakup/synth
+		[ -x /usr/sbin/speakup-restore ] && speakup-restore
+		exit
+	fi
+fi
+# We didn't exit yet, so we will manage the daemon of the soft synth. 
+# modprobe won't complain even if the driver is built-in. Else the
+# "echo" command is not necessary but won't hurt. 
+modprobe speakup_soft 2>/dev/null
+echo "soft" > /sys/accessibility/speakup/synth
+sleep 1
+
+chmod 666 /sys/accessibility/speakup/soft/*
+echo 1 > /sys/accessibility/speakup/soft/direct
+### End of the code snippet common to rc.espeakup and rc.speechd-up ###
+
+if [ "$LANG" = "" ]; then
+. /etc/profile.d/lang.sh
+fi
+
+# Starts/stops/restart espeakup
+set_voice_from_lang () {
+	lang=`echo $LANG | sed 's/_.*//'`
+	country=`echo $LANG | sed 's/.*_//;s/\..*//;s/@.*//' | tr A-Z a-z`
+	if [ "$lang" = gl ]; then
+		# Not supported by espeak-ng yet, but pt should be fine enough, better
+		# than English anyway
+		# Comment above from Debian. We don't propose gv in Slint yet, but
+		# maybe later ?
+		lang=pt
+	fi
+	# Setup a table lang => associated voice file name
+	# We will start espeakup with a voice file name as argument of the
+	# -V option, as if we give a  $lang-$country argument that does
+	# not match a voice file name it segfault when we switch from a
+	# graphical environment with Orca running to a console.
+
+	VOICESTABLE=$(espeak-ng --voices|sed "s;[ ]\{1,\};,;g"|cut -d, -f3-6|cut -d, --complement -f2-3|sed "s;,.*/;,;")
+	if [ ! "$(echo "$VOICESTABLE"|grep "^$lang-$country")" = "" ]; then
+		VOICE=$(echo "$VOICESTABLE"|grep "^${lang}-${country},"|cut -d, -f2)
+	elif [ ! "$(echo "$VOICESTABLE"|grep "^$lang,")" = "" ]; then
+		VOICE="$lang"
+	else
+		VOICE=en
+	fi
+	echo $VOICE > /tmp/voice_from_lang
+}
+set_voice_from_lang
+VOICEFROMLANG=$(cat /tmp/voice_from_lang)
+rm /tmp/voice_from_lang
+set_voice_from_config () {
+	# We will first try to match the voice set in the config file with
+	# an mbrola voice. In that aim we make a table of mbrola voices file
+	# names with the associated mbrola voice installed.  
+	MBROLAVOICES=$(espeak-ng --voices=mb|sed "s, ,,;s;[ ]\{1,\};,;g"|cut -d, -f5|sed s,mb/,,)
+	for i in $(echo "$MBROLAVOICES"|sed "s/mb-//g;s/-.*//"|sort|uniq); do
+		if [ "$(ls /usr/share/mbrola|grep $i)" = "" ]; then
+			MBROLAVOICES=$(echo "$MBROLAVOICES"|grep -v $i)
+		fi
+	done
+	VOICESTABLE=$(espeak-ng --voices|sed "s;[ ]\{1,\};,;g"|cut -d, -f3-6|cut -d, --complement -f2-3|sed "s;,.*/;,;")
+	lang=$(echo $voice|sed "s/-.*//")
+	if [ ! "$(echo "$MBROLAVOICES"|grep $voice)" = "" ]; then
+		VOICE=$voice
+	elif [ ! "$(echo "$VOICESTABLE"|grep "${voice},")" = "" ]; then
+		VOICE=$(echo "$VOICESTABLE"|grep "${voice},"|cut -d, -f2)
+	elif [ ! "$(echo "$VOICESTABLE"|grep "^$lang")" = "" ]; then
+		VOICE="$lang"
+	else
+		VOICE=en
+	fi
+	echo $VOICE > /tmp/voice_from_config
+}
+
+espeakup_start() {
+	[ "$LANG" = "" ] && . /etc/profile.d/lang.sh
+	if [ -f /etc/espeakup.conf ]; then
+		. /etc/espeakup.conf
+		if [ "$voice" = "" ]; then
+			voice=$VOICEFROMLANG
+		else
+			set_voice_from_config
+			VOICEFROMCONFIG=$(cat /tmp/voice_from_config)
+			rm /tmp/voice_from_config
+			voice=$VOICEFROMCONFIG
+		fi
+	fi
+	if [ ! "`ps -C espeakup --noheaders|wc -l`" = "0" ]; then
+		echo "espeakup is already started."
+		espeakup_status
+		exit
+	fi
+	if [ -x $ESPEAKUP ]; then
+		CARDS=$(mktemp)
+		for i in /sys/class/sound/card*; do
+			printf $i|sed "s/.*card//";printf " ";cat $i/id
+		done > $CARDS
+		NUMBEROFCARDS=$(find /sys/class/sound -name "card*"|wc -l)
+		if [ $NUMBEROFCARDS -gt 1 ]; then
+			echo "$NUMBEROFCARDS sound cards have been found:"
+			cat $CARDS
+			if [ "$ALSA_CARD" = "" ]; then
+				echo "ALSA_CARD not set in /etc/espeakup.conf, using the default."
+			elif ! grep -wq $ALSA_CARD $CARDS; then
+				echo "Card $ALSA_CARD set in /etc/espeakup not found, using the default."
+				ALSA_CARD=""
+			fi
+		fi
+		V=$(grep ^voice= /etc/espeakup.conf|sed s/voice=//)
+		if [ ! "$V" = "" ] && [ ! "$V" = "$voice" ]; then
+			echo "Voice set to $V in /etc/espeakup.conf, using $voice for espeakup."
+		elif [ "$V" = "" ]; then
+			echo "Voice not set in /etc/espeakup.conf, LANG=$LANG, using $voice for espeakup."
+		fi
+		if [ "$ALSA_CARD" = "" ]; then
+			echo "Starting espeakup with voice $voice"
+			$ESPEAKUP -V $voice
+		else
+			echo "Starting espeakup with voice $voice using sound card $ALSA_CARD"
+			ALSA_CARD=$ALSA_CARD $ESPEAKUP -V $voice
+		fi
+	    [ -x /usr/sbin/speakup-restore ] && speakup-restore
+        rm $CARDS
+	else
+		echo "$ESPEAKUP not found or non executable"
+	fi
+}
+
+espeakup_stop() {
+  NBPROC="`ps -C espeakup --noheaders|wc -l`"
+  if [ ! "$NBPROC" = "0" ]; then
+    sleep 1
+    PID="`ps -C espeakup --noheaders -o pid`"
+    kill -s 9 $PID
+  fi
+}
+
+espeakup_restart() {
+    espeakup_stop
+    sleep 2
+    espeakup_start
+}
+
+espeakup_status() {
+  NBPROC="`ps -C espeakup --noheaders|wc -l`"
+  if [ "$NBPROC" = "0" ]; then
+    echo "espeakup is not started" 
+  elif [ "$NBPROC" = "1" ]; then
+    echo "An espeakup daemon is running, PID: `ps -C espeakup --no-headers -o pid`"
+  else
+    ps -C espeakup -o pid,args
+  fi
+}
+
+case "$1" in
+    start)
+	    espeakup_start;;
+    stop)
+		espeakup_stop;;
+    restart)
+		espeakup_restart;;
+    status)
+		espeakup_status;;
+    *)
+        echo "Usage: $0 {start|stop|restart|status}";;
+esac

@@ -1,0 +1,58 @@
+#Packager: George Vlahavas <vlahavas~at~gmail~dot~com>
+# Modified for Slint by Didier Spaier <didier~at~slint~dot~fr> 
+
+pkgname=mate-utils
+pkgver=1.24.0
+_majorver=`echo $pkgver | sed "s/\(.*\)\.\(.*\)\.\(.*\)/\1.\2/"`
+pkgrel=1slint
+source=("http://pub.mate-desktop.org/releases/${_majorver}/mate-utils-${pkgver}.tar.xz")
+docs=("readme" "install" "copying" "changelog" "authors" "news" "todo")
+options=('noautodotnew' 'nosrcpack')
+
+doinst() {
+# compile schemas
+if [ -x usr/bin/glib-compile-schemas ]; then
+	usr/bin/glib-compile-schemas usr/share/glib-2.0/schemas > /dev/null 2>&1
+fi
+}
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"mate-utils (MATE desktop utilities)"
+"This package contains the following utilities for the MATE desktop:"
+"- mate-disk-usage-analyzer, a disk usage analyser"
+"- mate-dictionary, a program which can look up the definition of"
+"  words over the internet (including a panel applet to do the same)"
+"- mate-search-tool, with which one can find files by name or content"
+"- mate-system-log, a log viewing application"
+"- mate-screenshot, a tool to take desktop screenshots and save them"
+"  into a file"
+)
+
+
+build() {
+	cd $startdir/src/$pkgname-$pkgver
+
+	./autogen.sh \
+		--prefix=/usr \
+		--libdir=/usr/lib${LIBDIRSUFFIX} \
+		--localstatedir=/var \
+		--sysconfdir=/etc \
+		--disable-static \
+		--disable-schemas-compile \
+		--build=$arch-slackware-linux
+# from Sudiarto Raharjo <willysr@slackware-id.org>
+# This is needed in -current, but should be harmless in -stable as well
+sed -i "s|--strict --dry-run|--dry-run|" baobab/data/Makefile
+sed -i "s|--strict --dry-run|--dry-run|" gsearchtool/Makefile
+sed -i "s|--strict --dry-run|--dry-run|" mate-screenshot/Makefile
+sed -i "s|--strict --dry-run|--dry-run|" mate-dictionary/data/Makefile
+	make -j $numjobs || return 1
+	make install DESTDIR=$startdir/pkg
+	mkdir -p $PKG/usr/doc/$pkgname-$pkgver
+	ln -s $PKG/usr/share/gtk-doc/html/$pkgname $PKG/usr/doc/$pkgname-$pkgver/html
+
+	# why not show the apps in other desktops?
+	sed -i "/^OnlyShowIn/d" $startdir/pkg/usr/share/applications/*.desktop
+} 

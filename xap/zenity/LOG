@@ -1,0 +1,22 @@
+zenity 3.44.0
+
+  Directories
+    prefix        : /usr
+    libdir        : /usr/lib64
+    datadir       : /usr/share/zenity
+    localedir     : /usr/share/locale
+
+  Configuration
+    libnotify     : True
+    webkitgtk     : False
+    gdialog script: True
+
+  User defined options
+    buildtype     : release
+    infodir       : /usr/info
+    libdir        : /usr/lib64
+    localstatedir : /var
+    mandir        : /usr/man
+    prefix        : /usr
+    sysconfdir    : /etc
+    libnotify     : true

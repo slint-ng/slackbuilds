@@ -1,0 +1,32 @@
+This package was originally debianized by James R. Van Zandt jrv@debian.org on
+Mon, 20 Jul 1998 21:37:22 -0400.
+
+This package includes the Accent SA server written by Jack Chen
+<jackchen@cs.berkeley.edu>.  I am the upstream maintainer for
+everything else in this package.
+
+Copyright:
+
+# Original program Copyright 1995, 1996, 1997 by T. V. Raman
+# All Rights Reserved.
+
+# Modifications to make server generic: copyright 1998 by James R. Van Zandt
+# <jrv@debian.org>, all rights reserved.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+   02110-1301, USA.
+
+On a Debian system you can find a copy of this license in
+/usr/share/common-licenses/GPL-2.

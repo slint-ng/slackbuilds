@@ -1,0 +1,16 @@
+# Maintainer: Illia Shestakov <illia@ishestakov.com>
+
+pkgname=sacd
+pkgver=19.7.16.37
+pkgrel=1slint
+slackdesc="$pkgname (Super Audio CD decoder)"
+url='https://github.com/Sound-Linux-More/sacd'
+license=('GPL3')
+depends=()
+source=(https://github.com/Sound-Linux-More/sacd/archive/${pkgver}.tar.gz)
+md5sums=('3c29546256e722d378e111ac5a6bd3a5')
+docs=(COPYING LICENSE README.md)
+build() {
+  cd ${pkgname}-${pkgver}
+  make DESTDIR="$PKG" install
+}

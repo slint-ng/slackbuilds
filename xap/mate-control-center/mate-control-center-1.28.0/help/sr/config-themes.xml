@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="config-theme">
+  <title>Бирач Гтк+ теме</title>
+  <para>„<application>Гтк+</application>“ покреће окружење „<application>Мејт</application>“. „<application>Гтк+</application>“ допушта да већина елемената на вашој радној површи буде темирано до изгледа који желите. „<application>Бирач Гтк+ теме</application>“ вам омогућава да изаберете тему за коришћење.</para>
+  <sect2 id="config-theme-setting">
+    <title>Постављање теме</title>
+    <para>Горњи део „<application>Бирач Гтк+ теме</application>“ садржи списак инсталираних тема. Само кликните на тему и ваше измене биће примењене.</para>
+    <para>Можете међудејствено да демонстрирате све елементе доступне у вашој изабраној теми у доњој половини прозора.</para>
+  </sect2>
+  <sect2 id="config-theme-add">
+    <title>Додавање теме</title>
+    <para>Да додате тему за коришћење: <orderedlist numeration="arabic">
+	<listitem>
+	  <para>Кликните на дугме „<guibutton>Инсталирај нову тему</guibutton>“.</para>
+	</listitem>
+	<listitem>
+	  <para>Идите до директоријума у коме је инсталирана ваша тема.</para>
+	</listitem>
+	<listitem>
+	  <para>Отворите „gtkrc“ датотеку која садржи одредбе ваше теме.</para>
+	</listitem>
+      </orderedlist></para>
+  </sect2>
+</sect1>

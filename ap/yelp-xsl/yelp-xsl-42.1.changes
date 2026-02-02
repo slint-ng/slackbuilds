@@ -1,0 +1,97 @@
+commit 597d502d9c92347d1564b64234395f8a4c9cd0db
+Author: Anders Jonsson <anders.jonsson@norsjovallen.se>
+Date:   Sun Sep 11 14:57:03 2022 +0000
+
+    Update Swedish translation
+
+ po/sv.po | 52 ++++++++++++++++++++++++++++++++++++++--------------
+ 1 file changed, 38 insertions(+), 14 deletions(-)
+
+commit 3e64d03613b17b1c2abd28d701a41cc921fe5265
+Author: Марко Костић <marko.m.kostic@gmail.com>
+Date:   Wed Aug 17 04:51:22 2022 +0000
+
+    Update Serbian translation
+
+ po/sr.po | 38 +++++++++++++++++++++++++++++++-------
+ 1 file changed, 31 insertions(+), 7 deletions(-)
+
+commit 70d2ffb589fbbec2bd59e2fd79757fc599f12ce6
+Author: Zurab Kargareteli <zuraxt@gmail.com>
+Date:   Sun Jul 24 05:06:43 2022 +0000
+
+    Update Georgian translation
+
+ po/ka.po | 2143 ++++++++++++++------------------------------------------------
+ 1 file changed, 479 insertions(+), 1664 deletions(-)
+
+commit c98e6e928cb9d0ce5e680508a51f5057a08cee4e
+Merge: be661c67 0bd1b2ae
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Mon Jun 13 15:16:51 2022 +0000
+
+    Merge branch 'jensgeorg/unbreak-old-autoconf' into 'master'
+    
+    Use 'foreign' to make older ac accept README.md
+    
+    Closes #32
+    
+    See merge request GNOME/yelp-xsl!7
+
+commit 0bd1b2aeb954b4182f66e5a5ee8ca80d6f061704
+Author: Jens Georg <mail@jensge.org>
+Date:   Sat May 28 19:44:57 2022 +0200
+
+    Use 'foreign' to make older ac accept README.md
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit be661c675e872ea8a15cd048ee796ad9e4c19271
+Merge: 1b59497e f5b946ba
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Wed May 11 16:40:29 2022 +0000
+
+    Merge branch 'Doomsdayrs-master-patch-66181' into 'master'
+    
+    Convert README to MD
+    
+    See merge request GNOME/yelp-xsl!5
+
+commit f5b946baf9248a494fefcee01d52e3dd0218133b
+Author: Doomsdayrs <doomsdayrs@gmail.com>
+Date:   Tue May 10 21:14:00 2022 +0000
+
+    Convert README to MD
+
+ README => README.md | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit 1b59497e95de5997f39cea3aa322fc9c728cde18
+Author: Alexander Shopov <ash@kambanaria.org>
+Date:   Sun Mar 27 15:56:57 2022 +0000
+
+    Update Bulgarian translation
+
+ po/bg.po | 135 +++++++++++++++++++++++++++++++++++++++------------------------
+ 1 file changed, 83 insertions(+), 52 deletions(-)
+
+commit ee853fdf4671c3ee27f13f4223b00bf46eaf8487
+Author: Goran Vidović <trebelnik2@gmail.com>
+Date:   Fri Mar 25 12:21:52 2022 +0000
+
+    Update Croatian translation
+
+ po/hr.po | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+commit 0346fc97eca8792e9a806d2537fbef7d1f98792b
+Author: Shaun McCance <shaunm@redhat.com>
+Date:   Sat Mar 19 12:12:26 2022 -0400
+
+    Version 42.0
+
+ NEWS         | 4 ++++
+ configure.ac | 2 +-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
+

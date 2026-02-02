@@ -1,0 +1,19 @@
+xvfb-run is a wrapper for the command xvfb which simplifies the task
+of running commands (typically an X client, or a script containing a
+list of clients to be run) within a virtual X server environment.
+
+xvfb-run allows for instance to listen to a media through firefox
+in the console mode, instead of in a graphical environment.
+
+Simple example:
+xvfb-run -a firefox <some web page with an embedded song>
+
+It can also be used from a terminal in a graphical session, but then in
+the previous example firefox should not be already started.
+
+To now more read the man page:
+man xvfb-run
+Or just type
+xvfb-run --help
+
+Didier Spaier, 17 December 2018

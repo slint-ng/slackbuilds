@@ -1,0 +1,40 @@
+#!/bin/bash
+# Packager: Didier Spaier didieratslintdotfr
+cd $(dirname $0) ; CWD=$(pwd)
+
+PKGNAM=arabolical-font
+VERSION=1.1
+ARCH=noarch
+BUILD=1slint
+
+TMP=$CWD
+PKG=$TMP/arabolical-font
+
+rm -rf $PKG
+mkdir -p $PKG
+rm -rf arabolical
+unzip -d arabolical arabolical.zip || exit 1
+
+cd arabolical || exit 1
+
+chown -R root:root .
+find . \
+  \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+  -exec chmod 755 {} \+ -o \
+  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+  -exec chmod 644 {} \+
+
+mkdir -p $PKG/usr/share/fonts/TTF/
+ 
+cp ARABOLIC.TTF $PKG/usr/share/fonts/TTF/ || exit
+
+mkdir -p $PKG/usr/doc/arabolical-font-$VERSION
+cp arabolical.txt $PKG/usr/doc/arabolical-font-$VERSION | exit
+
+mkdir -p $PKG/install
+cat $CWD/slack-desc > $PKG/install/slack-desc
+cat $CWD/doinst.sh > $PKG/install/doinst.sh
+
+cd $PKG
+/sbin/makepkg -l y -c n $TMP/arabolical-font-${VERSION}-$ARCH-$BUILD.txz
+

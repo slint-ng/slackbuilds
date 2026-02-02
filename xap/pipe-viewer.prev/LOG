@@ -1,0 +1,198 @@
+=== GTK=auto  BUILD_GTK=yes  GTKOPT=--gtk
+patching file bin/gtk-pipe-viewer
+patching file bin/pipe-viewer
+WARNING: the following files are missing in your kit:
+	META.json
+	META.yml
+Please inform the author.
+
+Created MYMETA.yml and MYMETA.json
+Creating new 'Build' script for 'WWW-PipeViewer' version 'v0.5.5'
+Building WWW-PipeViewer
+# Testing WWW::PipeViewer 0.5.5, Perl 5.034003, /usr/bin/perl5.34.3
+t/00-load.t ... ok
+t/kwalitee.t .. skipped: these tests are for release candidate testing
+t/pod.t ....... ok
+All tests successful.
+Files=3, Tests=21,  0 wallclock secs ( 0.02 usr  0.01 sys +  0.24 cusr  0.05 csys =  0.32 CPU)
+Result: PASS
+Building WWW-PipeViewer
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/man/man1/pipe-viewer.1
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/WWW/PipeViewer.pm
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/WWW/PipeViewer/Channels.pm
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/WWW/PipeViewer/CommentThreads.pm
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/WWW/PipeViewer/DiskCache.pm
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/WWW/PipeViewer/GetCaption.pm
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/WWW/PipeViewer/InitialData.pm
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/WWW/PipeViewer/Itags.pm
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/WWW/PipeViewer/ParseJSON.pm
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/WWW/PipeViewer/ParseXML.pm
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/WWW/PipeViewer/PlaylistItems.pm
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/WWW/PipeViewer/Playlists.pm
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/WWW/PipeViewer/Proto.pm
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/WWW/PipeViewer/RegularExpressions.pm
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/WWW/PipeViewer/Search.pm
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/WWW/PipeViewer/Utils.pm
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/WWW/PipeViewer/VideoCategories.pm
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/WWW/PipeViewer/Videos.pm
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/WWW/PipeViewer/Worker.pm
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/auto/share/dist/WWW-PipeViewer/gtk-pipe-viewer.desktop
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/auto/share/dist/WWW-PipeViewer/gtk-pipe-viewer.glade
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/auto/share/dist/WWW-PipeViewer/icons/default_thumb.jpg
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/auto/share/dist/WWW-PipeViewer/icons/feed.png
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/auto/share/dist/WWW-PipeViewer/icons/feed_gray.png
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/auto/share/dist/WWW-PipeViewer/icons/gtk-pipe-viewer.png
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/auto/share/dist/WWW-PipeViewer/icons/left_arrow.png
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/auto/share/dist/WWW-PipeViewer/icons/right_arrow.png
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/auto/share/dist/WWW-PipeViewer/icons/spinner.gif
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/lib/perl5/auto/share/dist/WWW-PipeViewer/icons/user.png
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/man/man3/WWW::PipeViewer.3
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/man/man3/WWW::PipeViewer::Channels.3
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/man/man3/WWW::PipeViewer::CommentThreads.3
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/man/man3/WWW::PipeViewer::GetCaption.3
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/man/man3/WWW::PipeViewer::InitialData.3
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/man/man3/WWW::PipeViewer::Itags.3
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/man/man3/WWW::PipeViewer::ParseJSON.3
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/man/man3/WWW::PipeViewer::ParseXML.3
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/man/man3/WWW::PipeViewer::PlaylistItems.3
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/man/man3/WWW::PipeViewer::Playlists.3
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/man/man3/WWW::PipeViewer::RegularExpressions.3
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/man/man3/WWW::PipeViewer::Search.3
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/man/man3/WWW::PipeViewer::Utils.3
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/man/man3/WWW::PipeViewer::VideoCategories.3
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/home/didier/perl5/man/man3/WWW::PipeViewer::Videos.3
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/usr/bin/gtk-pipe-viewer
+Installing /repo/x86_64/slint-15.0/source/pipe-viewer/package-pipe-viewer/usr/bin/pipe-viewer
+
+Slackware package maker, version 3.14159265.
+
+Searching for symbolic links:
+usr/share/applications/gtk-pipe-viewer.desktop	../perl5/vendor_perl/auto/share/dist/WWW-PipeViewer/gtk-pipe-viewer.desktop
+usr/share/pixmaps/gtk-pipe-viewer.png	../icons/hicolor/48x48/apps/gtk-pipe-viewer.png
+
+Making symbolic link creation script:
+( cd usr/share/applications ; rm -rf gtk-pipe-viewer.desktop )
+( cd usr/share/applications ; ln -sf ../perl5/vendor_perl/auto/share/dist/WWW-PipeViewer/gtk-pipe-viewer.desktop gtk-pipe-viewer.desktop )
+( cd usr/share/pixmaps ; rm -rf gtk-pipe-viewer.png )
+( cd usr/share/pixmaps ; ln -sf ../icons/hicolor/48x48/apps/gtk-pipe-viewer.png gtk-pipe-viewer.png )
+
+Unless your existing installation script already contains the code
+to create these links, you should append these lines to your existing
+install script. Now's your chance. :^)
+
+Would you like to add this stuff to the existing install script and
+remove the symbolic links ([y]es, [n]o)? y
+
+
+Removing symbolic links:
+'./usr/share/applications/gtk-pipe-viewer.desktop' supprimé
+'./usr/share/pixmaps/gtk-pipe-viewer.png' supprimé
+
+Updating your ./install/doinst.sh...
+
+This next step is optional - you can set the directories in your package
+to some sane permissions. If any of the directories in your package have
+special permissions, then DO NOT reset them here!
+
+Would you like to reset all directory permissions to 755 (drwxr-xr-x) and
+directory ownerships to root.root ([y]es, [n]o)? 
+n
+
+Creating Slackware package:  /repo/x86_64/slint-15.0/source/pipe-viewer/pipe-viewer-0.5.5-noarch-1testslint.txz
+
+./
+home/
+home/didier/
+home/didier/perl5/
+home/didier/perl5/lib/
+home/didier/perl5/lib/perl5/
+home/didier/perl5/lib/perl5/WWW/
+home/didier/perl5/lib/perl5/WWW/PipeViewer/
+home/didier/perl5/lib/perl5/WWW/PipeViewer.pm
+home/didier/perl5/lib/perl5/WWW/PipeViewer/Channels.pm
+home/didier/perl5/lib/perl5/WWW/PipeViewer/CommentThreads.pm
+home/didier/perl5/lib/perl5/WWW/PipeViewer/DiskCache.pm
+home/didier/perl5/lib/perl5/WWW/PipeViewer/GetCaption.pm
+home/didier/perl5/lib/perl5/WWW/PipeViewer/InitialData.pm
+home/didier/perl5/lib/perl5/WWW/PipeViewer/Itags.pm
+home/didier/perl5/lib/perl5/WWW/PipeViewer/ParseJSON.pm
+home/didier/perl5/lib/perl5/WWW/PipeViewer/ParseXML.pm
+home/didier/perl5/lib/perl5/WWW/PipeViewer/PlaylistItems.pm
+home/didier/perl5/lib/perl5/WWW/PipeViewer/Playlists.pm
+home/didier/perl5/lib/perl5/WWW/PipeViewer/Proto.pm
+home/didier/perl5/lib/perl5/WWW/PipeViewer/RegularExpressions.pm
+home/didier/perl5/lib/perl5/WWW/PipeViewer/Search.pm
+home/didier/perl5/lib/perl5/WWW/PipeViewer/Utils.pm
+home/didier/perl5/lib/perl5/WWW/PipeViewer/VideoCategories.pm
+home/didier/perl5/lib/perl5/WWW/PipeViewer/Videos.pm
+home/didier/perl5/lib/perl5/WWW/PipeViewer/Worker.pm
+home/didier/perl5/lib/perl5/auto/
+home/didier/perl5/lib/perl5/auto/share/
+home/didier/perl5/lib/perl5/auto/share/dist/
+home/didier/perl5/lib/perl5/auto/share/dist/WWW-PipeViewer/
+home/didier/perl5/lib/perl5/auto/share/dist/WWW-PipeViewer/gtk-pipe-viewer.desktop
+home/didier/perl5/lib/perl5/auto/share/dist/WWW-PipeViewer/gtk-pipe-viewer.glade
+home/didier/perl5/lib/perl5/auto/share/dist/WWW-PipeViewer/icons/
+home/didier/perl5/lib/perl5/auto/share/dist/WWW-PipeViewer/icons/default_thumb.jpg
+home/didier/perl5/lib/perl5/auto/share/dist/WWW-PipeViewer/icons/feed.png
+home/didier/perl5/lib/perl5/auto/share/dist/WWW-PipeViewer/icons/feed_gray.png
+home/didier/perl5/lib/perl5/auto/share/dist/WWW-PipeViewer/icons/gtk-pipe-viewer.png
+home/didier/perl5/lib/perl5/auto/share/dist/WWW-PipeViewer/icons/left_arrow.png
+home/didier/perl5/lib/perl5/auto/share/dist/WWW-PipeViewer/icons/right_arrow.png
+home/didier/perl5/lib/perl5/auto/share/dist/WWW-PipeViewer/icons/spinner.gif
+home/didier/perl5/lib/perl5/auto/share/dist/WWW-PipeViewer/icons/user.png
+home/didier/perl5/man/
+home/didier/perl5/man/man1/
+home/didier/perl5/man/man1/pipe-viewer.1
+home/didier/perl5/man/man3/
+home/didier/perl5/man/man3/WWW::PipeViewer.3
+home/didier/perl5/man/man3/WWW::PipeViewer::Channels.3
+home/didier/perl5/man/man3/WWW::PipeViewer::CommentThreads.3
+home/didier/perl5/man/man3/WWW::PipeViewer::GetCaption.3
+home/didier/perl5/man/man3/WWW::PipeViewer::InitialData.3
+home/didier/perl5/man/man3/WWW::PipeViewer::Itags.3
+home/didier/perl5/man/man3/WWW::PipeViewer::ParseJSON.3
+home/didier/perl5/man/man3/WWW::PipeViewer::ParseXML.3
+home/didier/perl5/man/man3/WWW::PipeViewer::PlaylistItems.3
+home/didier/perl5/man/man3/WWW::PipeViewer::Playlists.3
+home/didier/perl5/man/man3/WWW::PipeViewer::RegularExpressions.3
+home/didier/perl5/man/man3/WWW::PipeViewer::Search.3
+home/didier/perl5/man/man3/WWW::PipeViewer::Utils.3
+home/didier/perl5/man/man3/WWW::PipeViewer::VideoCategories.3
+home/didier/perl5/man/man3/WWW::PipeViewer::Videos.3
+install/
+install/doinst.sh
+install/slack-desc
+usr/
+usr/bin/
+usr/bin/gtk-pipe-viewer
+usr/bin/pipe-viewer
+usr/doc/
+usr/doc/pipe-viewer-0.5.5/
+usr/doc/pipe-viewer-0.5.5/Changes
+usr/doc/pipe-viewer-0.5.5/LICENSE
+usr/doc/pipe-viewer-0.5.5/README.Slint
+usr/doc/pipe-viewer-0.5.5/README.md
+usr/doc/pipe-viewer-0.5.5/pipe-viewer.SlackBuild
+usr/share/
+usr/share/applications/
+usr/share/icons/
+usr/share/icons/hicolor/
+usr/share/icons/hicolor/128x128/
+usr/share/icons/hicolor/128x128/apps/
+usr/share/icons/hicolor/128x128/apps/gtk-pipe-viewer.png
+usr/share/icons/hicolor/16x16/
+usr/share/icons/hicolor/16x16/apps/
+usr/share/icons/hicolor/16x16/apps/gtk-pipe-viewer.png
+usr/share/icons/hicolor/32x32/
+usr/share/icons/hicolor/32x32/apps/
+usr/share/icons/hicolor/32x32/apps/gtk-pipe-viewer.png
+usr/share/icons/hicolor/48x48/
+usr/share/icons/hicolor/48x48/apps/
+usr/share/icons/hicolor/48x48/apps/gtk-pipe-viewer.png
+usr/share/icons/hicolor/64x64/
+usr/share/icons/hicolor/64x64/apps/
+usr/share/icons/hicolor/64x64/apps/gtk-pipe-viewer.png
+usr/share/pixmaps/
+
+Slackware package /repo/x86_64/slint-15.0/source/pipe-viewer/pipe-viewer-0.5.5-noarch-1testslint.txz created.

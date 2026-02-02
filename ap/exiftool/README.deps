@@ -1,0 +1,34 @@
+Dans Slint, la seule dépendances optionelles fournie par le paquet
+paquet perl-Unicode-LineBreak
+est: Unicode::LineBreak
+
+Didier Spaier le 16 décembre 2024.
+
+
+ExifTool by Phil Harvey (philharvey66 at gmail.com)
+----------------------------------------------------------------------------
+
+DEPENDENCIES
+
+Requires Perl version 5.004 or later.  No other special libraries are
+required, however the following modules are recommended for decoding
+compressed and/or encrypted information from the indicated file types, and
+for calculating digest values and providing other features listed below:
+
+  Archive::Zip         (ZIP, DOCX, PPTX, XLSX, ODP, ODS, ODT, EIP, iWork)
+  Compress::Zlib       (DNG, PNG, PDF, DCM, MIE and SWF files)
+  Digest::MD5          (PDF files, IPTC information, and JPG Extended XMP)
+  Digest::SHA          (PDF with AES-256 encryption)
+  IO::Compress::Bzip2  (RWZ files)
+  Time::HiRes          (for generating ProcessingTime tag)
+  POSIX::strptime      (for inverse date/time conversion)
+  Time::Piece          (alternative to POSIX::strptime)
+  Unicode::LineBreak   (for column alignment of alternate-language output)
+  Win32::API           (for proper handling of Windows file times)
+  Win32::FindFile      (for Windows Unicode directory support, app only)
+  Win32API::File       (for Windows Unicode file names and file times)
+  Compress::Raw::Lzma  (for reading encoded 7z files)
+  IO::Compress::RawDeflate   (for writing FLIF images)
+  IO::Uncompress::RawInflate (for reading FLIF images)
+  IO::Compress::Brotli       (for writing compressed JXL metadata)
+  IO::Uncompress::Brotli     (for reading compressed JXL metadata)

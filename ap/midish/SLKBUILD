@@ -1,0 +1,40 @@
+Packager: Didier Spaier didieratslintdotfr
+#Former Packager(s): Name <email@address.com>
+#Anything commented out is optional and can be deleted.
+
+pkgname=midish
+pkgver=1.3.3
+pkgrel=1slint
+#arch=noarch
+source=("http://www.midish.org/$pkgname-$pkgver.tar.gz")
+#sourcetemplate=http://people.salixos.org/yournick/$pkgname/$pkgver/
+#docs=("readme" "install" "copying" "changelog" "authors" "news" "todo")
+#url=
+#dotnew=()
+#CFLAGS=
+#CXXFLAGS=
+options=('nosrcpack')
+
+#doinst() {
+#
+#}
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Command line-based midi sequencer and filter)"
+"Author: Alexandre Ratchov"
+"website: https://midish.org/"
+)
+
+
+build() {
+	cd $startdir/src/$pkgname-$pkgver
+	./configure --prefix=/usr
+	make -j $numjobs || return 1
+	make install DESTDIR=$startdir/pkg
+	mkdir -p $PKG/usr/doc/$pkgname-$pkgver
+	cp $PKG/usr/share/doc/midish/* $PKG/usr/doc/$pkgname-$pkgver/
+	cp -r $PKG/usr/share/examples $PKG/usr/doc/$pkgname-$pkgver/
+	rm -r $PKG/usr/share
+} 

@@ -1,0 +1,235 @@
+#!/bin/sh
+# $Id: libdvdcss.SlackBuild,v 1.11 2013/05/30 18:13:10 root Exp root $
+# Copyright 2005-2011, 2013  Eric Hameleers, Eindhoven, The Netherlands
+# All rights reserved.
+#
+#   Permission to use, copy, modify, and distribute this software for
+#   any purpose with or without fee is hereby granted, provided that
+#   the above copyright notice and this permission notice appear in all
+#   copies.
+#
+#   THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
+#   WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+#   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+#   IN NO EVENT SHALL THE AUTHORS AND COPYRIGHT HOLDERS AND THEIR
+#   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+#   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+#   LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+#   USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+#   ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+#   OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+#   OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+#   SUCH DAMAGE.
+# -----------------------------------------------------------------------------
+#
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+#
+# Slackware SlackBuild script 
+# ===========================
+# By:        Eric Hameleers <alien@slackware.com>
+# For:       libdvdcss
+# Descr:     dvd decrypting library
+# URL:       http://developers.videolan.org/libdvdcss/
+# Needs:     
+# Changelog:
+# 1.2.8-1:   01/may/2005 by Eric Hameleers <alien@sox.homeip.net>
+#            * Initial build.
+# 1.2.9-1:   22/nov/2005 by Eric Hameleers <alien@slackware.com>
+#            * Update.
+# 1.2.9-2:   20/sep/2006 by Eric Hameleers <alien@slackware.com>
+#            * Omit building the Latex docs (acts strange on Slackware 11.0)
+# 1.2.9-2:   30/Jun/2007 by Eric Hameleers <alien@slackware.com>
+#            * New SlackBuild template.
+# 1.2.9-3:   21/Jun/2008 by Eric Hameleers <alien@slackware.com>
+#            * New SlackBuild template.
+# 1.2.10-1:  01/feb/2009 by Eric Hameleers <alien@slackware.com>
+#            * Update.
+# 1.2.10-2:  02/jun/2010 by Eric Hameleers <alien@slackware.com>
+#            * Rebuilt for Slackware 13.1.
+# 1.2.11-1:  16/nov/2011 by Eric Hameleers <alien@slackware.com>
+#            * New release.
+# 1.2.13-1:  30/may/2013 by Eric Hameleers <alien@slackware.com>
+#            * New release.
+# 
+# Run 'sh libdvdcss.SlackBuild' to build a Slackware package.
+# The package (.txz) plus descriptive .txt file are created in /tmp .
+# Install using 'installpkg'. 
+#
+# -----------------------------------------------------------------------------
+
+PRGNAM=libdvdcss
+VERSION=${VERSION:-1.4.3}
+NUMJOBS=${NUMJOBS:-" -j7 "}
+BUILD=${BUILD:-1}
+TAG=slint
+
+DOCS="AUTHORS COPYING ChangeLog INSTALL NEWS README doc/html"
+
+# Where do we look for sources?
+SRCDIR=$(cd $(dirname $0); pwd)
+
+# Place to build (TMP) package (PKG) and output (OUTPUT) the program:
+CWD=$(pwd)
+TMP=$CWD
+PKG=$TMP/package-$PRGNAM
+OUTPUT=$CWD
+
+SOURCE="$SRCDIR/${PRGNAM}-${VERSION}.tar.bz2"
+SRCURL="http://download.videolan.org/pub/${PRGNAM}/${VERSION}/${PRGNAM}-${VERSION}.tar.bz2"
+
+##
+## --- with a little luck, you won't have to edit below this point --- ##
+##
+
+# Automatically determine the architecture we're building on:
+MARCH=$( uname -m )
+if [ -z "$ARCH" ]; then
+  case "$MARCH" in
+    i?86)    export ARCH=i486 ;;
+    armv7hl) export ARCH=$MARCH ;;
+    armv6hl) export ARCH=$MARCH ;;
+    armv5hl) export ARCH=$MARCH ;;
+    arm*)    export ARCH=arm ;;
+    # Unless $ARCH is already set, use uname -m for all other archs:
+    *)       export ARCH=$MARCH ;;
+  esac
+fi
+case "$ARCH" in
+  i486)      SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+             SLKLDFLAGS=""; LIBDIRSUFFIX=""
+             ;;
+  x86_64)    SLKCFLAGS="-O2 -fPIC"
+             SLKLDFLAGS="-L/usr/lib64"; LIBDIRSUFFIX="64"
+             ;;
+  armv7hl)   SLKCFLAGS="-O2 -march=armv7-a -mfpu=vfpv3-d16"
+             SLKLDFLAGS=""; LIBDIRSUFFIX=""
+             ;;
+  armv6hl)   SLKCFLAGS="-O2 -march=armv6 -mfpu=vfp -mfloat-abi=hard"
+             SLKLDFLAGS=""; LIBDIRSUFFIX=""
+             ;;
+  armv5hl)   SLKCFLAGS="-O2 -mthumb -march=armv5te -mtune=arm1176jzf-s -mfpu=vfp -mfloat-abi=softfp"
+             SLKLDFLAGS=""; LIBDIRSUFFIX=""
+             ;;
+  *)         SLKCFLAGS=${SLKCFLAGS:-"O2"}
+             SLKLDFLAGS=${SLKLDFLAGS:-""}; LIBDIRSUFFIX=${LIBDIRSUFFIX:-""}
+             ;;
+esac
+case "$ARCH" in
+    arm*)    TARGET=$ARCH-slackware-linux-gnueabi ;;
+    *)       TARGET=$ARCH-slackware-linux ;;
+esac
+
+# Exit the script on errors:
+set -e
+trap 'echo "$0 FAILED at line $LINENO!" | tee $OUTPUT/error-${PRGNAM}.log' ERR
+# Catch unitialized variables:
+set -u
+P1=${1:-1}
+
+# Save old umask and set to 0022:
+_UMASK_=$(umask)
+umask 0022
+
+# Create working directories:
+mkdir -p $OUTPUT          # place for the package to be saved
+mkdir -p $TMP/tmp-$PRGNAM # location to build the source
+mkdir -p $PKG             # place for the package to be built
+rm -rf $PKG/*             # always erase old package's contents
+rm -rf $TMP/tmp-$PRGNAM/* # remove the remnants of previous build
+rm -rf $OUTPUT/{configure,make,install,error,makepkg}-$PRGNAM.log
+                          # remove old log files
+
+# Source file availability:
+if ! [ -f ${SOURCE} ]; then
+  echo "Source '$(basename ${SOURCE})' not available yet..."
+  # Check if the $SRCDIR is writable at all - if not, download to $OUTPUT
+  [ -w "$SRCDIR" ] || SOURCE="$OUTPUT/$(basename $SOURCE)"
+  if [ -f ${SOURCE} ]; then echo "Ah, found it!"; continue; fi
+  if ! [ "x${SRCURL}" == "x" ]; then
+    echo "Will download file to $(dirname $SOURCE)"
+    wget -nv -T 20 -O "${SOURCE}" "${SRCURL}" || true
+    if [ $? -ne 0 -o ! -s "${SOURCE}" ]; then
+      echo "Downloading '$(basename ${SOURCE})' failed... aborting the build."
+      mv -f "${SOURCE}" "${SOURCE}".FAIL
+      exit 1
+    fi
+  else
+    echo "File '$(basename ${SOURCE})' not available... aborting the build."
+    exit 1
+  fi
+fi
+
+if [ "$P1" == "--download" ]; then
+  echo "Download complete."
+  exit 0
+fi
+
+# --- PACKAGE BUILDING ---
+
+echo "++"
+echo "|| $PRGNAM-$VERSION"
+echo "++"
+
+cd $TMP/tmp-$PRGNAM
+
+echo "Extracting the source archive(s) for $PRGNAM..."
+tar -xf ${SOURCE}
+cd ${PRGNAM}-${VERSION}
+chown -R root:root .
+chmod -R u+w,go+r-w,a+X-s .
+
+echo Building ...
+
+autoreconf -vif
+LDFLAGS="$SLKLDFLAGS" \
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+./configure \
+  --prefix=/usr \
+  --libdir=/usr/lib${LIBDIRSUFFIX} \
+  --localstatedir=/var \
+  --sysconfdir=/etc \
+  --disable-doc \
+  --program-prefix= \
+  --program-suffix= \
+  --build=$TARGET \
+  2>&1 | tee $OUTPUT/configure-${PRGNAM}.log
+
+make $NUMJOBS 2>&1 | tee $OUTPUT/make-${PRGNAM}.log
+make DESTDIR=$PKG install 2>&1 | tee $OUTPUT/install-${PRGNAM}.log
+rm -f $PKG/usr/lib64/*.la
+## Don't forget the testtools:
+#make csstest dvd_region 2>&1 | tee -a $OUTPUT/make-${PRGNAM}.log
+#mkdir -p $PKG/usr/bin
+#cp -a csstest dvd_region $PKG/usr/bin/
+
+# Add documentation:
+mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
+cp -a $DOCS $PKG/usr/doc/$PRGNAM-$VERSION || true
+cat $SRCDIR/$(basename $0) > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
+chown -R root:root $PKG/usr/doc/$PRGNAM-$VERSION
+find $PKG/usr/doc -type f -exec chmod 644 {} \;
+
+# Remove the redundant and wrongly placed stuff:
+rm -rf $PKG/usr/share/doc
+rmdir $PKG/usr/share 2>/dev/null
+
+# Strip binaries:
+find $PKG | xargs file | grep -e "executable" -e "shared object" \
+  | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
+
+# Add a package description:
+mkdir -p $PKG/install
+cat $SRCDIR/slack-desc > $PKG/install/slack-desc
+
+# Build the package:
+cd $PKG
+/sbin/makepkg --linkadd y --chown n $OUTPUT/${PRGNAM}-${VERSION}-${ARCH}-${BUILD}${TAG}.txz 2>&1 | tee $OUTPUT/makepkg-${PRGNAM}.log
+cd $OUTPUT
+md5sum ${PRGNAM}-${VERSION}-${ARCH}-${BUILD}${TAG}.txz > ${PRGNAM}-${VERSION}-${ARCH}-${BUILD}${TAG}.txz.md5
+cd -
+cat $PKG/install/slack-desc | grep "^${PRGNAM}" > $OUTPUT/${PRGNAM}-${VERSION}-${ARCH}-${BUILD}${TAG}.txt
+
+# Restore the original umask:
+umask ${_UMASK_}
+

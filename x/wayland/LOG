@@ -1,0 +1,15 @@
+wayland 1.23.1
+
+  User defined options
+    bindir       : /usr/bin
+    buildtype    : release
+    datadir      : /usr/share
+    documentation: false
+    includedir   : /usr/include
+    libdir       : lib64
+    libexecdir   : /usr/libexec
+    localstatedir: /var
+    mandir       : /usr/man
+    prefix       : /usr
+    sbindir      : /usr/sbin
+    sysconfdir   : /etc

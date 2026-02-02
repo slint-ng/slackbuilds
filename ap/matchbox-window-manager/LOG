@@ -1,0 +1,25 @@
+                    Matchbox-wm 1.2.2
+                  ======================
+
+        prefix:                 /usr
+        source code location:   .
+        compiler:               gcc 
+
+        Building with Debug:                no
+        Building with gcov:                 no
+        Building with gprof:                no
+
+        Building Standalone:                no
+        Building Standalone with Xft:       no
+
+        Building with Keyboard:             yes
+	Building with XRM support           yes
+        Building with wm ping protocol:     yes
+        Building with Alt input Windows:    yes
+        Building with Expat:                yes
+        Building with XSync:                no
+        Building with XSettings:            no
+        Building with Startup-Notification: yes
+        Building with GConf:                no
+        Building with Session support:      no
+        Building with Composite manager:    no

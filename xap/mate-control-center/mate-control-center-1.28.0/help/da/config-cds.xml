@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="config-cd">
+  <title>Lyd-cd'er</title>
+  <para>Mate kan afspille dine cd'er på din computer. Du kan opsætte dine cd-præferencer i <guibutton>Cd-egenskaber</guibutton> capplet'en i <guilabel>Avanceret</guilabel>-afsnittet af <application>Mate-kontrolcenter</application>.</para>
+  <para>Når åben, så vil du se at vinduet er opdelt i to afsnit: Data-cd'er og lyd-cd'er.</para>
+  <sect2 id="config-cd-data">
+    <title>Data-cd'er</title>
+    <para>Data-cd'er er cd'er, der indeholder information som systemet kan afvikle. Disse inkluderer ofte cd'er, der har programmer eller en cd, som du har brændt familiebilleder til.</para>
+    <para>Den første indstilling er <guibutton>Monter automatisk cd når indsat</guibutton>. Ved at aktivere denne indstilling, kan du få din cd registreret automatisk, når du indsætter den.</para>
+    <tip>
+      <title>Hvad er montering</title>
+      <para>Linux- og Unix-systemer bruger en term kaldt montering til at identificere en enhed. Hvis du monterer din cd-rom, betyder det, at dit system kan genkende cd-rom'en og du kan interagere med den. Hvis den ikke er monteret, så kender systemet ikke til dens eksistens og kan næsten intet gøre med den.</para>
+    </tip>
+    <para>Den anden mulighed <guibutton>Start automatisk kørselsprogram på nymonteret cd</guibutton> gør, at systemet kan afvikle programmet på cd'en automatisk, når disken er monteret.</para>
+    <para>Den sidste indstilling, <guibutton>Åbn filhåndteringsvinduet for nymonteret cd</guibutton> anmoder systemet om at åbne din filhåndtering (<application>Caja</application> som standard) når en cd monteres. Dette er nyttigt hvis du har en cd med billeder fra din familiesammenkomst, du ønsker at kigge på. Den vil åbne op i <application>Caja</application>, hvor du kan se miniaturebillederne.</para>
+  </sect2>
+  <sect2 id="config-cd-audio">
+    <title>Lyd-cd'er</title>
+    <para>Sektionen <guilabel>Lyd-cd'er</guilabel> har kun en indstilling. Den gør det muligt for systemet at starte en cd-afspiller, når du indsætter cd'en. Du klikker bare på afkrydsningsboksen og indtaster kommandoen, du ønsker  at afvikle, i indtastningsdialogen.</para>
+    <note>
+      <para>Lyd-cd'er skal ikke være monteret for at afspille cd'en.</para>
+    </note>
+  </sect2>
+</sect1>

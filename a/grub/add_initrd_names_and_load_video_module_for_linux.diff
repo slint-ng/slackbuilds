@@ -1,0 +1,35 @@
+Use /boot/initrd.gz and /boot/initrd-$version a valid initrd names, load the
+modules all_video of linux entries in /etc/grub.d/3O_os-prober
+Didier Spaier
+diff -ru grub-gite7b8856f8/util/grub.d/10_linux.in grub-gite7b8856f8.new/util/grub.d/10_linux.in
+--- grub-gite7b8856f8/util/grub.d/10_linux.in	2020-07-29 16:55:48.000000000 +0200
++++ grub-gite7b8856f8.new/util/grub.d/10_linux.in	2020-09-06 19:47:26.921058700 +0200
+@@ -218,7 +218,8 @@
+ 	   "initramfs-genkernel-${version}" \
+ 	   "initramfs-genkernel-${alt_version}" \
+ 	   "initramfs-genkernel-${GENKERNEL_ARCH}-${version}" \
+-	   "initramfs-genkernel-${GENKERNEL_ARCH}-${alt_version}"; do
++	   "initramfs-genkernel-${GENKERNEL_ARCH}-${alt_version}" \
++	   "initrd-generic-${version}" "initrd.gz"; do
+     if test -e "${dirname}/${i}" ; then
+       initrd_real="${i}"
+       break
+diff -ru grub-gite7b8856f8/util/grub.d/30_os-prober.in grub-gite7b8856f8.new/util/grub.d/30_os-prober.in
+--- grub-gite7b8856f8/util/grub.d/30_os-prober.in	2020-07-29 16:55:48.000000000 +0200
++++ grub-gite7b8856f8.new/util/grub.d/30_os-prober.in	2020-09-06 19:49:47.773062730 +0200
+@@ -245,6 +245,7 @@
+ 	if [ "x$is_top_level" = xtrue ] && [ "x${GRUB_DISABLE_SUBMENU}" != xtrue ]; then
+             cat << EOF
+ menuentry '$(echo "$OS $onstr" | grub_quote)' $CLASS --class gnu-linux --class gnu --class os \$menuentry_id_option 'osprober-gnulinux-simple-$boot_device_id' {
++	insmod all_video
+ EOF
+ 	    save_default_entry | grub_add_tab
+ 	    printf '%s\n' "${prepare_boot_cache}"
+@@ -265,6 +266,7 @@
+ 	title="${LLABEL} $onstr"
+         cat << EOF
+ 	menuentry '$(echo "$title" | grub_quote)' --class gnu-linux --class gnu --class os \$menuentry_id_option 'osprober-gnulinux-$LKERNEL-${recovery_params}-$boot_device_id' {
++		insmod all_video
+ EOF
+ 	save_default_entry | sed -e "s/^/$grub_tab$grub_tab/"
+ 	printf '%s\n' "${prepare_boot_cache}" | grub_add_tab

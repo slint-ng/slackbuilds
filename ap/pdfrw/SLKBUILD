@@ -1,0 +1,31 @@
+# vim: syn=sh ft=sh et sw=2 sts=2 ts=2 tw=0:
+# Packager: George Vlahavas <vlahavas~at~gmail~dot~com>
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=pdfrw
+pkgver=0.4
+pkgrel=3slint
+source=(https://github.com/pmaupin/pdfrw/archive/v${pkgver}.tar.gz)
+url=https://github.com/pmaupin/pdfrw
+options=("noautodotnew" "nosrcpack")
+
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Python library to read and write PDF files)"
+"pdfrw will faithfully reproduce vector formats without"
+"rasterization, so the rst2pdf package has used pdfrw"
+"for PDF and SVG images by default since March 2010."
+""
+"pdfrw can also be used in conjunction with reportlab, in order"
+"to re-use portions of existing PDFs in new PDFs created with"
+"reportlab."
+)
+
+build() {
+  cd $SRC/$pkgname-$pkgver || return 1
+  python3 setup.py install --prefix=/usr --root=$PKG || return 1
+  mkdir -p $PKG/usr/doc/$pkgname-$pkgver
+  cp -r LICENSE.txt  README.rst examples tests $PKG/usr/doc/$pkgname-$pkgver/
+}

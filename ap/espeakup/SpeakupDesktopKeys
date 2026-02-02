@@ -1,0 +1,79 @@
+Almost all keys listed below are located on the numeric keypad. 
+The Insert or 0 key on the keypad acts like a shift key. For instance,
+Ins 2 means "hold down the Insert key like a shift key and press 2".
+Keep numlock off to use Speakup. 
+
+Scope: these key bindings can be used with hard synthesizers and with
+espeakup, and also with speechd-up. However setting the pitch or the
+speech volume using key bindings is not available when using speechd-up. 
+
+First keys to remember:
+PrintScreen     Toggle speakup on/off 
+Ins F1          Speakup Help (press Space to exit the help)
+
+Keys used to change settings:
+Ins 1/2         Decrease/Increase the sound volume
+Ins 3/4         Decrease/increase the pitch
+Ins 5/6         Decrease/Increase the speech rate
+Ins F9/F10      Decrease/Increase the punctuation level
+ins F11/F12     Decrease/Increase the reading punctuation
+
+These settings can be saved typing as root:
+speakup-save
+The settings for a hard synthesizer, speechd-up or espeakup are saved
+separately as they can differ.
+
+Then they will be restored at next start of espeakup, speechd-up or at
+next boot for a hard synthesizer.
+
+If you don't to want to restore the saved settings, type as root:
+chmod -x /usr/sbin/speakup-restore 
+
+If you the have them restored again type as root:
+chmod +x /usr/sbin/speakup-restore
+
+Keys used for screen review:
+1/2/3          Say Previous/Current/Next character
+Shift PageUp   Say first character
+Shift PageDown Say last character
+4/5/6      Say Previous/Current/Next word
+5 twice    Spell current word
+Ins 5      Spell Current Word phonetically
+7/8/9      Say Previous/Current/Next line
+Ins 4      Say from left edge of line to reading cursor.
+Ins 6      Say from reading cursor to right edge of line.
+Ins 8      Say from top of screen to reading cursor.
+Ins plus   Say from reading cursor line to bottom of screen.
+plus       Say entire screen.
+Ins r      Say all doument
+dot        Say position
+Ins dot    Say attributes
+Ins minus  Say character hex and decimal value.
+minus      Park reading cursor (toggle)
+
+Ins 9	  Move reading cursor to top of screen (insert pgup)
+Ins 3	  Move reading cursor to bottom of screen (insert pgdn)
+Ins 7	  Move reading cursor to left edge of screen (insert home)
+Ins 1	  Move reading cursor to right edge of screen (insert end)
+Control 1 Move reading cursor to last character on current line.
+asterisk      Toggle cursoring
+Ins asterisk  n<x|y  go to line (y) or column (x). Where 'n' is any
+		      allowed value for the row or column for your current
+		      screen.
+
+Ins f2   Set window
+Ins f3   Clear window
+Ins f4   Enable window
+
+Other keys:
+Ins f5  Edit some
+Ins f6  Edit most
+Ins f7  Edit delim
+Ins f8  Edit repeat
+Ins f9  Edit exnum
+
+Enter      Shut up (until another key is hit) and sync reading cursor.
+Ins Enter  Shut up (until toggled back on)
+
+slash	   Mark and Cut screen region.
+Ins slash  Paste screen region into any console.

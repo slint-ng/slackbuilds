@@ -1,0 +1,15 @@
+diff -Naur wm-logout-orig/wm-logout wm-logout/wm-logout
+--- wm-logout-orig/wm-logout	2013-02-28 21:45:15.000000000 +0200
++++ wm-logout/wm-logout	2013-02-28 21:53:41.782198133 +0200
+@@ -48,8 +48,9 @@
+ 
+     # Logout
+     def logout(self, widget=None):
+-        os.system('openbox --exit')
+-
++        os.system('openbox --exit')
++	#	os.system('xlogout')
++		
+     # Reboot
+     def reboot(self, widget=None):
+         self.consolekit.Restart()

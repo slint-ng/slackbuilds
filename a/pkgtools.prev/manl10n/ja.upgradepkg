@@ -1,0 +1,63 @@
+.\" empty
+.ds g 
+.\" -*- nroff -*-
+.\" empty
+.ds G 
+.de  Tp
+.ie \\n(.$=0:((0\\$1)*2u>(\\n(.lu-\\n(.iu)) .TP
+.el .TP "\\$1"
+..
+.\" Like TP, but if specified indent is more than half
+.\" the current line-length - indent, use the default indent.
+.\"*******************************************************************
+.\"
+.\" This file was generated with po4a. Translate the source file.
+.\"
+.\"*******************************************************************
+.TH UPGRADEPKG 8 2002年5月31日 "Slackware Version 8.1.0" 
+.SH 名称
+upgradepkg \- Slackware パッケージのアップグレード
+.SH 概要
+\fBupgradepkg\fP [ \fB\-\-dry\-run\fP ] [ \fB\-\-install\-new\fP ] [ \fB\-\-reinstall\fP ] [
+\fB\-\-verbose\fP ] \fB新パッケージ名\fP \fB[\fP\fI新パッケージ名2\fP\fB]\fP
+.LP
+\fBupgradepkg\fP [ \fB\-\-dry\-run\fP ] [ \fB\-\-install\-new\fP ] [ \fB\-\-reinstall\fP ] [
+\fB\-\-verbose\fP ] \fB旧パッケージ名%新パッケージ名\fP \fB[\fP\fI旧2%新2\fP\fB]\fP
+.SH 説明
+\fBupgradepkg\fP は Slackware パッケージを古いバージョンから新しいバージョンにアップグレードします。
+これは新しいパッケージをシステムに \fBインストール\fP し、古いパッケージから新しいパッケージにないファイルを \fB削除\fP することで行います。
+古いパッケージと新しいパッケージの名前が同じ場合は、1つの引数だけが必要です。 パッケージの名前が異なる場合は、古いパッケージの名前の前にパーセント記号
+(%) を付けてから、新しいパッケージの名前を指定します。 新・旧パッケージ名の間に余分な空白を追加しないでください。
+
+upgradepkg は古いパッケージ名と一致する複数のインストール済みパッケージを見つけた場合、それらはすべて削除されます。
+.TP 
+/ 以外のディレクトリ (/mnt など) でアップグレードするには、次のようにします:
+.TP 
+ROOT=/mnt upgradepkg package.tgz (または .tbz, .tlz, .txz)
+.SH オプション
+.TP 
+\fB\-\-dry\-run\fP
+どのパッケージがインストールまたはアップグレードされるかレポートを出力します。実際にはアップグレードを実行しません。
+.TP 
+\fB\-\-install\-new\fP
+通常 upgradepkg
+はシステムにすでにインストールされているパッケージのみをアップグレードし、まだバージョンがインストールされていないパッケージはスキップします。
+\fB\-\-install\-new\fP
+が指定されている場合は、既存のパッケージをアップグレードするだけでなく、新しいパッケージをインストールするように動作が変更されます。
+.TP 
+\fB\-\-reinstall\fP
+まったく同じパッケージ (名前、バージョン、アーチ、ビルド番号が一致する) がシステムにインストールされている場合、upgradepkg
+は通常パッケージをスキップします。 同じバージョンがすでにインストールされていても、すべてのパッケージをアップグレードする場合は、\-\-reinstall
+オプションを使用します。
+.TP 
+\fB\-\-verbose\fP
+アップグレードの詳細をすべて表示します。
+.SH バグ
+パッケージをアップグレードする前に、保存したい設定ファイル (/etc など) をすべて保存してください。
+これらは保存される事もありますが、パッケージの構造によって異なります。
+新しいバージョンの設定ファイルを強制的にインストールする場合は、upgradepkg を実行する前に古いバージョンを手動で削除してください。
+.SH 作者
+Patrick J. Volkerding <volkerdi@slackware.com>
+.SH 関連項目
+\fBmakepkg(8),\fP \fBinstallpkg(8),\fP \fBremovepkg(8),\fP \fBexplodepkg(8),\fP
+\fBpkgtool(8)\fP

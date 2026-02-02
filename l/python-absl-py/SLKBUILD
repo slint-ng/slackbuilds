@@ -1,0 +1,37 @@
+#Packager: Didier Spaier didieratslintdotfr
+#Former Packager(s): Name <email@address.com>
+#Anything commented out is optional and can be deleted.
+
+pkgname=python-absl-py
+pkgver=1.0.0
+pkgrel=2slint
+#arch=noarch
+source=(https://files.pythonhosted.org/packages/bc/44/3ab719b4fea06882351cd9f9582c15ba5b4d376992ac40c3ed377761a172/absl-py-1.0.0.tar.gz)
+#sourcetemplate=http://people.salixos.org/yournick/$pkgname/$pkgver/
+docs=("license" "readme.mf")
+url=https://github.com/abseil/abseil-py
+#dotnew=()
+#CFLAGS=
+#CXXFLAGS=
+#options=('noextract')
+
+#doinst() {
+#
+#}
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"python-absl-py (collection of Python comon libraries)"
+"This is a collection of Python library code for building Python"
+"applications. The code is collected from Google's own Python code"
+"base, and has been extensively tested and used in production."
+""
+"This package supersedes google-apputils"
+)
+
+
+build() {
+	cd $startdir/src/absl-py-$pkgver
+	python3 setup.py install --root=$PKG || exit 1
+}

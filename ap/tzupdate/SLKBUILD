@@ -1,0 +1,23 @@
+#Packager: Didier Saier <didier~at~slint~dot~fr>
+pkgname=tzupdate
+pkgver=2.1.0
+
+pkgrel=1slint
+source=("https://github.com/cdown/tzupdate/archive/2.1.0.tar.gz")
+docs=("LICENSE" "install" "copying" "changelog" "authors" "news" "todo" "license" "changes")
+url=http://pygments.org
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Set the system timezone based on IP geolocation)"
+"URL: https://github.com/cdown/tzupdate"
+"Author: Chris Down"
+)
+
+build() {
+  cd $SRC/${pkgname}-$pkgver || return 1
+  python3 setup.py install --prefix=/usr --root=$PKG || return 1
+  mkdir -p $PKG/usr/doc/${pkgname}-$pkgver
+  rst2html5.py README.rst > $PKG/usr/doc/${pkgname}-$pkgver/README.html
+}

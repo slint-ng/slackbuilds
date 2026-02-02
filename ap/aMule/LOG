@@ -1,0 +1,46 @@
+  Configured aMule 2.3.3 for 'x86_64-slackware-linux-gnu'.
+
+  aMule enabled options:
+
+  **** aMule Core ****
+  Prefix where aMule should be installed?                    /usr
+  Should aMule be compiled with i18n support?                yes
+  Should aMule be compiled in debug mode?                    no
+  Should aMule be compiled with profiling?                   no
+  Should aMule be compiled with optimizations?               yes
+  Should aMule be compiled with UPnP support?                yes
+  Should aMule be compiled with IP2country support?          no
+  Should aMule monolithic application be built?              yes
+  Should aMule daemon version be built?                      yes
+  Should aMule remote gui be built?                          no
+
+  **** aMule TextClient ****
+  Should aMule Command Line Client be built?                 yes
+
+  **** aMule WebServer ****
+  Should aMule WebServer be built?                           yes
+
+  **** aMule ED2K Links Handler ****
+  Should aMule ED2K Links Handler be built?                  yes
+
+  **** aMuleLinkCreator ****
+  Should aMuleLinkCreator GUI version (alc) be built?        no
+  Should aMuleLinkCreator for console (alcc) be built?       yes
+
+  **** aMule Statistics ****
+  Should C aMule Statistics (CAS) be built?                  no
+  Should aMule GUI Statistics (wxCas) be built?              no
+  Should xas XChat2 plugin be installed?                     no
+  Should plasmaMule plasma-applet be built?                  no
+
+  **** General Libraries and Tools ****
+  Should ccache support be enabled?                          no
+  Should aMule file viewer for console be built?             no
+  Libraries aMule will use to build:
+                             wxWidgets             3.2.8 (gtk3,shared)
+                             boost                 1.78
+                             crypto++              8.2 (in /usr)
+                             libupnp               1.14.12
+                             libintl               system
+                             libpng                1.6.37
+                             zlib                  1.2.13

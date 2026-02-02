@@ -1,0 +1,11 @@
+#!/bin/sh
+#BLURB="Select the default startup mode"
+TMP=/var/log/setup/tmp
+if [ -r $TMP/SeTT_PX ]; then
+	T_PX="`cat $TMP/SeTT_PX`"
+elif [ ! "$1" = "" ]; then
+	t_PX=$1
+else
+	T_PX=/
+fi
+chroot $T_PX /bin/bash /usr/sbin/startupmode

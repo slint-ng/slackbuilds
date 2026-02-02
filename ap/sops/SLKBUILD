@@ -1,0 +1,33 @@
+#Maintainer: Didier Spaier <didier~at~slint~dot~fr>
+pkgname=sops
+pkgver=20200725
+pkgrel=1slint
+docs=("licence" "todo" "development.txt" "todo")
+url=https://github.com/chrys87/simple-orca-plugin-system
+options=('nosrcpack')
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (simple plugin system for orca with plugins)"
+)
+
+
+build() {
+	sops="simple-orca-plugin-system"
+	git clone https://github.com/chrys87/SOPS-Plugins
+	git clone https://github.com/chrys87/simple-orca-plugin-system
+	cd $sops
+	mkdir -p $PKG/usr/share/SOPS
+	cp -r * $PKG/usr/share/SOPS/
+	mkdir -p $PKG/usr/doc/${pkgname}-$pkgver
+	pandoc -s -f gfm -t html5 \
+	-o $PKG/usr/doc/${pkgname}-$pkgver/README.html $startdir/README.md
+	rm $PKG/usr/share/SOPS/{LICENCE,README.md,TODO}
+	pandoc -s -f dokuwiki -t html5 \
+	-o $PKG/usr/doc/${pkgname}-$pkgver/usage.html $startdir/user.txt
+	rm -r $PKG/usr/share/SOPS/doc
+	cd $SRC/SOPS-Plugins
+	rm LICENSE README.md
+	cp -r * $PKG/usr/share/SOPS/plugins
+}

@@ -1,0 +1,141 @@
+Hey there fellow Slint users:
+Back again for another delve into audio gaming on my favourite distro.
+Today, I'm going to focus on one particular game, which used to work just fine on Slint, but no longer does, at least not without a little help from a friend.
+Who's that friend you ask? 
+Its name is Conty, and it has a lot of use case scenarios but I'm going to show you how you can get that formerly working game, which by the way is called System Fault to work again, with very little modification to Slint itself.
+I'm going to assume that most of us here in Slint world, have a bit of command line experience, if not, there's plenty of help out there.
+Much of what we'll have to do here will be done in the regular console, but running Conty itself must be done from a gui terminal, such as mate-terminal or xterm or whatever ya like.
+Also, you'll be using a text editor, whichever one you like, and you'll want your root password handy for when we use the sudo command.
+CAUTION CAUTION CAUTION!
+You'll be editing files, so before we begin, it is strongly recommended to back said files up before we even begin.
+The file we'll be editing, so you know which one to back up, is :
+/etc/rc.d/rc.local
+
+
+First, what is Conty?
+Well, it's basically a container-based ARch Linux system, which is portable, has bunches of software already installed in it, and is also portable, which means you could put it on a usb stick and use it with any linux computer you happen to want to play with provided you have login access to said machine.
+
+It's got plenty of its own documentation at its site to help you install and configure it so I'll just point you to the site where you can get it,and I'll put it at the end of this guide so you'll be able to find it easily.
+
+I'll just describe the context in which I've found it useful here.
+
+So next, the game, System Fault, is a Berserk inspired game, where you have to run around in electrified mazes trying to stop rampaging robots while not getting fatally zapped on the walls. It's a really good audio game, however there are graphics too.
+
+System Fault comes in what's called an app image, which is essentially an archive of all of what the game needs that is one file. Just execute it from wherever it lives on your system, and off you go. right?
+Well, before, yes, you could do that, but now, because some libraries in the game are newer then their Slint counterparts, that is no longer the case.
+
+So, enter Conty.
+
+Conty, while it can execute any of the programs and applications inside it's container, can also deal with programs and applications outside itself, such as the app image we want to run.
+I'll put a link to System Fault as well at the end of this guide.
+
+Getting Conty.
+
+First we have to go get Conty, so here's the link to the Git Hub repository where the project is stored.
+
+https://github.com/Kron4ek/Conty
+
+I'll put that link at the end of the guide for easy finding.
+
+When you go there, you'll want to go to the releases page, and get the release you want, I just got the big one that does everything, it is about two gigs so it'll take a bit to download.
+
+It will look like a big giant shell script and will just be called conty.sh
+
+Once you've gotten it, you'll want to put in your path where you run things so you won't have to type the path to it every time you want to run it. 
+
+In Slint I've chosen 
+/usr/local/bin
+You'll need superuser privileges to do this, but you can use sudo for this.
+Let's assume you've got conti.sh in your Downloads directory under your home directory.
+We'll assume for the purpose of this guide that your name on the system is testo, all in lower case of course.
+This would make your home directory /home/testo.
+So far, so good.
+Now, as normal userin a console or in a gui terminal, you're in your home directory, and we're going to navigate to the /usr/local/bin directory,copy the conty.sh file to there, and make sure it's executable.
+Here's how.
+$ cd /usr/local/bin
+followed by the Enter key.
+$ sudo cp /home/testo/Downloads/conty.sh .
+followed by the Enter key, giving your root password when asked for it.
+Of course more advanced users might already know they can type
+$sudo cp ~/Downloads/conty.sh .
+followed by the Enter key instead, saving a couple of keystrokes.
+However you do it, conty.sh is now in your /usr/local/bin directory.
+To make sure it's executible, you'll type the following.
+$ sudo chmod +x conty.sh
+followed by the Enter key.
+You'll notice that now you don't have to type your root password, because the sudo utility won't time out for a bit. In any case we're done heere and now we can go back to our home directory by typing
+$ cd
+followed by the Enter key.
+Now, how to run it?
+It couldn't be easier.
+for example,
+$ conty.sh firefox
+followed by the Enter key.
+You'll get the following message:
+Running Conty
+
+bwrap: Creating new namespace failed: nesting depth or /proc/sys/user/max_*_namespaces exceeded (ENOSPC)
+
+Well now, you'll say, somehow that doesn't look like a good thing, how am I going to use this thing with rude messages like that?
+Well, it seems that a fix is in order.
+I had to get help in finding the fix, and find it we did, so you don't have to.
+You may remember from a previous guide, that we had to edit a certainfile by the name of
+/etc/rc.d/rc.local
+We had to add a line to the end of it to make a certain program less griped. Well, we're going to revisit that old friend, and with our handy sudo command we're going to append something into that file.
+By now, all you good people are regular ninjas with the command line, but there's always a beginner somewhere, usually looking back at me in the mirror if I could but see him... hahahaha
+and so we'll run through it a step at a time.
+Here we go.
+The following is from my hypothetical user testo from the home directory /home/testo, using nano, his favorite text editor.
+$ sudo nano /etc/rc.d/rc.local
+followed by the Enter key
+If you're using a different editor, that's fine.
+At the end of the file, there's a line put there by us in a previous guide, or maybe not if you weren't into the gaming or using of WINE.
+If so that line will look like this:
+sysctl vm.mmap_min_addr=4096
+If you have that line, then put the following line from this guide above it.
+
+sysctl user.max_user_namespaces=63411
+
+If you don't have that line, no problem, just put that line I gave you here at the end of the file.
+Now, go ahead and close your editor, saving your work.
+In testo's case it would be typing
+Control+x key combination
+followed by the letter y and then the Enter key.
+Now that you've got it saved, you could restart the computer if you wanted to, and when it rebooted the new line would execute and you could run Conty and it would just work.
+But this is Linux you say, why do we need to restart?
+Well, that's right, you don't, just do the following:
+$ sudo /etc/rc.d/rc.local
+followed by the Enter key.
+As well as your root password if sudo has timed out.
+You'll get the output of the various things you have the rc.local file doing, and the line will be added.
+Well, that's it for installing conty.
+When you try running the copy of Firefox now that's in the container, by doing the following:
+$ conty.sh firefox
+followed by the Enter key, other then some messages in the gui terminal window, Firefox will run, and when you close it, it'll close normally, however there will be messages that sound like error messages when it does, you can safely ignore them.
+Next, finally! What we all came here for, System Fault and how to load it.
+I don't know how many people here play this game, and the app image has a rather long name, we'll just use the name system-fault.AppImage for this example. I assure you, the game will, although the extension .AppImage will be the same, the rest of the file will be called something different.
+I coppied it to a directory called robots in my home directory, so that would be /home/testo/robots/system-fault.AppImage
+for the path to the file, and that's how we'll run it with Conty.
+Some app images support a neat switch that allows them to be extracted to a temporary directory, and run, and when you close them, everything gets magically cleaned up.The only drawback is that this game's manual opens in Firefox I believe, and it'll be the one in the container, which will disappear when you close the game, so you'll have to read the game's instructions while it's running and close Firefox to get back to the game.
+So how to start the game would be in our example:
+$ conty.sh ~/robots/system-fault.AppImage --appimage-extract-and-run
+followed by the Enter key.
+It will take a little bit to start, but then, instead of all the error messages and quitting that would normally happen, the game should just start normally, and should play normally with no lag at all.
+When done, close the game per it's instructions and you're back at your command prompt.
+That's pretty much it!
+So here now are the links to both of our subjects.
+First the link to get Conty:
+
+https://github.com/Kron4ek/Conty
+
+and to the game System Fault:
+
+https://lightsoutgames.itch.io/systemfault
+
+
+It's a paid game, but about ten American dollars, and so little for lots of replayability. Even works with controllers. yaaaaay!
+Ah, but I ramble... Both of these sites have the documentation for their respective projects, so you should be up and running in no time.
+Hope it helps someone out there, and now, some thanks are in order.
+First, our own good ol' Flying Frenchman Didier, for turning me on to Conty in the first place, and also to Billy Wolfe, and Michael Taboada for encouraging me, getting me into System Fault and especially Michael, for helping me find the resolution for the error that prevented Conty from running on Slint.
+Once again, happy gaming all! Cheereo!
+

@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+         |-----handy-ruler------------------------------------------------------|
+libdvdcss: libdvdcss (dvd decrypting library)
+libdvdcss:
+libdvdcss: libdvdcss is a simple library designed for accessing DVDs like
+libdvdcss: a block device without having to bother about the decryption.
+libdvdcss: The important features are portability, adaptability and simplicity.
+libdvdcss: Unlike most similar projects, libdvdcss doesn't require the region
+libdvdcss: of your drive to be set and will try its best to read from the disc
+libdvdcss: even in the case of a region mismatch.
+libdvdcss:
+libdvdcss: More info at http://developers.videolan.org/libdvdcss/
+libdvdcss:

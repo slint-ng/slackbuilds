@@ -1,0 +1,65 @@
+# Maintainer: drakkan <nicola.murino at gmail dot com>
+# Maintainer: Chris Billington <chrisjbillington@gmail.com>
+# Included in Slint by Didier Spaier didieratslintdotfr
+export pkgbase=yaru
+pkgname='yaru-gtk-theme'
+pkgver=25.10.2
+pkgrel=1slint
+slackdesc="$pkgname (Yaru default gtk ubuntu theme)"
+url="https://github.com/ubuntu/yaru"
+license=('GPL3')
+
+makedepends=('meson' 'sassc' 'git')
+options=("nosrcpack")
+docs=("LICENSE*" "COPYING*" "AUTHORS")
+source=("https://github.com/ubuntu/yaru/archive/refs/tags/25.10.2.tar.gz")
+sha256sums=('2cc53cefb8f899bf7100dedad674799caf478115aafa5a8ea504770c75278108')
+
+doinst() {
+	if [ -x /usr/bin/update-desktop-database ]; then
+  /usr/bin/update-desktop-database -q usr/share/applications >/dev/null 2>&1
+fi
+
+if [ -x /usr/bin/update-mime-database ]; then
+  /usr/bin/update-mime-database usr/share/mime >/dev/null 2>&1
+fi
+
+if [ -e usr/share/icons/hicolor/icon-theme.cache ]; then
+  if [ -x /usr/bin/gtk-update-icon-cache ]; then
+    /usr/bin/gtk-update-icon-cache -f usr/share/icons/hicolor >/dev/null 2>&1
+  fi
+fi
+
+if [ -e usr/share/glib-2.0/schemas ]; then
+  if [ -x /usr/bin/glib-compile-schemas ]; then
+    /usr/bin/glib-compile-schemas usr/share/glib-2.0/schemas >/dev/null 2>&1
+  fi
+fi
+}
+
+build() {
+  cd "$pkgbase-$pkgver" || exit
+  mkdir build
+  cd build
+  meson setup \
+  -Dcinnamon-shell=false \
+  -Ddefault=true \
+  -Ddark=true \
+  -Dmate=true \
+  -Dmate-dark=true \
+  -Dubuntu-unity=false \
+  -Dxfwm4=false \
+  -Dcinnamon=false \
+  -Dcinnamon-dark=false ..
+  ninja
+  DESTDIR="$PKG" ninja install
+  rm -rf "$PKG"/usr/share/sounds
+  rm "$PKG"/usr/share/themes/Yaru{,-*}/gnome-shell
+  rm -rf "$PKG"/usr/share/gnome-shell/theme/Yaru{,-*}
+  rm -rf "$PKG"/usr/share/themes/Yaru{,-*}/xfwm4
+  rm -rf "$PKG"/usr/share/themes/Yaru{,-*}/unity
+  rm -rf "$PKG"/usr/share/{glib-2.0,xsessions,wayland-sessions}
+  rm -rf "$PKG"/usr/share/gnome-shell/{extensions,modes}
+  find "$PKG" -type d -empty -delete
+}
+

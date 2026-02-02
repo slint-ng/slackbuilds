@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="cfg-html-viewer">
+  <title>Просмотрщик HTML</title>
+  <sect2 id="cfg-html-viewer-introduction">
+    <title>Введение</title>
+    <para>Конфигурационное приложение «Просмотрщик HTML» позволяет проводить настройку параметров движка отрисовки HTML <application>GtkHTML</application>. <application>GtkHTML</application> применяется в <application>Evolution</application>, <application>Центр управления Mate</application>, а также других приложениях Mate.</para>
+  </sect2>
+  <sect2 id="cfg-html-viewer-fonts">
+    <title>Шрифты HTML</title>
+    <para><application>GtkHTML</application> можно настроить для использования различных шрифтов c различными размерами в различных типах текста. <variablelist>
+	<varlistentry>
+	  <term>На экране</term>
+	  <listitem>
+	    <para>Настройка отображения шрифтов на экране компьютера <variablelist>
+		<varlistentry>
+		  <term>Переменная ширина</term>
+		  <listitem>
+		    <para>Шрифт, размер которого меняется в зависимости от буквы. Например,ширина символа «i» меньше, чем у символа «w». Шрифты с фиксированной шириной символа часто используются в случаях, когда ширина колонки в различных строках должна совпадать, например в таблицах.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>Фиксированная ширина</term>
+		  <listitem>
+		    <para>Шрифт, размер которого одинаков для всех букв. Например,ширина символа «i» совпадает с шириной символа «w».</para>
+		  </listitem>
+		</varlistentry>
+	      </variablelist></para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Для печати</term>
+	  <listitem>
+	    <para>Настройка шрифтов для печати текста на принтере из <application>GtkHTML</application>. <variablelist>
+		<varlistentry>
+		  <term>Переменная ширина</term>
+		  <listitem>
+		    <para>Шрифт, размер которого меняется в зависимости от буквы. Например,ширина символа «i» меньше, чем у символа «w». Шрифты с фиксированной шириной символа часто используются в случаях, когда ширина колонки в различных строках должна совпадать, например в таблицах.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>Фиксированная ширина</term>
+		  <listitem>
+		    <para>Шрифт, размер которого одинаков для всех букв. Например,ширина символа «i» совпадает с шириной символа «w».</para>
+		  </listitem>
+		</varlistentry>
+	      </variablelist></para>
+	  </listitem>
+	</varlistentry>
+      </variablelist> Для изменения использующихся шрифтов щёлкните по имени шрифта, чтобы открыть приложение <application>gfontsel</application>. В этом приложении можно выбрать гарнитуру, ISO, размер шрифта и другие свойства.</para>
+  </sect2>
+  <sect2 id="cfg-kbd-shortcuts">
+    <title>Комбинации клавиш клавиатуры</title>
+    <para>В <application>GtkHTML</application> могут использоваться различные комбинации клавиш. Комбинации клавиш позволяют запускать с клавиатуры команды, которые обычно запускаются с помощью мыши. При этом скорость работы пользователя может возрастать в несколько раз, вызывая удивление всех, кто наблюдает за его работой.</para>
+    <para><application>GtkHTML</application> имеет три предопределённых параметра: <itemizedlist>
+	<listitem>
+	  <para>Как в Emacs</para>
+	</listitem>
+	<listitem>
+	  <para>Как в XEmacs</para>
+	</listitem>
+	<listitem>
+	  <para>Как в MS</para>
+	</listitem>
+      </itemizedlist> Каждый из них включает набор комбинаций клавиатуры, который используются в соответствующих средах. Для пользователей, привыкших к Microsoft <application>Windows</application> лучше всего подойдёт режим «Как в MS». Режим нужно выбрать в раскрывающемся меню и нажать <guibutton>OK</guibutton>.</para>
+    <para>Если ни один из имеющихся наборов не соответствует предпочтениямпользователя, возможно создание своих собственных комбинаций клавиатуры.</para>
+  </sect2>
+  <sect2 id="cfg-misc">
+    <title>Различные параметры</title>
+    <para>Существует ещё некоторое количество параметров, которые позволяют настроить работу <application>GtkHTML</application>. Настройка этих параметров осуществляется на вкладке <guilabel>Разное</guilabel>.</para>
+    <para>В разделе <guilabel>Поведение</guilabel> можно настроить следующие параметры: <variablelist>
+	<varlistentry>
+	  <term>Показывать анимированные изображения</term>
+	  <listitem>
+	    <para>Некоторые изображения могут быть анимированными. Снимите флажок, чтобы они отображались в виде статических изображений.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Автоматическое обнаружение ссылок</term>
+	  <listitem>
+	    <para>При обнаружении ввода URL-адреса <application>GtkHTML</application> автоматически представляет URL-адрес в виде ссылки.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Проверка орфографии</term>
+	  <listitem>
+	    <para>При вводе текста в <application>GtkHTML</application> можно допустить орфографическуюошибку. Если установить флажок в этом поле, то неверно напечатанное слово будет подчёркивается для выделения слов с ошибками.</para>
+	    <variablelist>
+	      <varlistentry>
+		<term>Цвет</term>
+		<listitem>
+		  <para>Здесь можно задать цвет подчёркивания для выделения слов с орфографическими ошибками.</para>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term>Язык</term>
+		<listitem>
+		  <para>Здесь можно задать язык для проверки орфографии.</para>
+		</listitem>
+	      </varlistentry>
+	    </variablelist>
+	  </listitem>
+	</varlistentry>
+      </variablelist></para>
+  </sect2>
+</sect1>

@@ -1,0 +1,6 @@
+old-patches.diff
+spelling-mistakes.diff
+ld-as-needed.diff
+fix_gcc-10.patch
+cross.patch
+utf-8.patch

@@ -1,0 +1,38 @@
+. associations binaires <-> paquets (surtout en ligne de commande).
+
+. documenter "démarrer un  synthétiseur matériel tôt avec dracut" dans le HandBook.
+. documenter "démarrer une plage braille tôt avec dracut" dans le HandBook.
+. documenter "formatter une partition"
+. documenter "entrée de démarrage par défaut" dans /etc/default/grub
+
+Dans la doc, expliquer comment changer les applications par défaut et supprimer le verrouillage  de l'écran.
+documenter: comment gérer les auto-démarrages d'applications.
+Utiliser handlr  (paquet handlr) pour trouver les associations fichier => application:
+Ou bien  qtxdg-mat (paquet) qtxdg-tools
+Tous les deux sont inclus dans Slint 15.0
+
+écrire un script pout trouver les binaires, la doc et les pages de  manuel dans un paquet, ou tous les paquets
+HandBook: principales applications par fonction et comment en trouver une
+= documenter les logiciels disponibles triés par usage
+
+* corriger le lien brisé et les images manquantes du doc shell et bash script
+
+Alimenter NEWS (gros batch puis nouvelle ISO)
+
+inclure les modification sdu gro sbatch dans le manuel
+
+supprimer les références à la version 14.2?
+
+show-desktop <=> display-desktop à corriger dans le HandBook.
+
+Install daps https://github.com/openSUSE/daps and rebuild
+shell_and_bash_scripts
+Main source:
+https://github.com/SUSE/doc-sle
+(note to self) See also!
+/storage/Traduction/antora/exemples/doc-sle
+/storage/Traduction/antora/exemples/doc-sle-slint
+
+use pocount to check the %translated, see also msgattrib.
+
+

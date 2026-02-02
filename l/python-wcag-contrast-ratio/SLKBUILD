@@ -1,0 +1,25 @@
+# Maintainer: Evangelos Foutras <evangelos@foutrelis.com>
+
+_name=wcag-contrast-ratio
+pkgname=python-$_name
+pkgver=0.9
+pkgrel=2slint
+slackdesc=(\
+"$pkgname (Library for computing contrast ratios)"
+"wcaf-contrast-ration complies to WCAG 2.0"
+)
+url="https://github.com/gsnedders/wcag-contrast-ratio"
+license=('MIT')
+depends=('python')
+makedepends=('python-setuptools')
+checkdepends=('python-pytest' 'python-hypothesis')
+source=(https://github.com/gsnedders/wcag-contrast-ratio/archive/$pkgver/$pkgname-$pkgver.tar.gz)
+sha256sums=('5263b7b2d0f5a8de2eb409421284947df6229b67bca0055fa10da38153835815')
+docs=(LICENSE)
+options=(nosrcpack)
+build() {
+  cd $_name-$pkgver
+  python3 setup.py build
+  python3 setup.py install --root="$PKG" --optimize=1 --skip-build
+}
+# vim:set ts=2 sw=2 et:

@@ -1,0 +1,41 @@
+#Packager: George Vlahavas <vlahavas~at~gmail~dot~com>
+#Previous Packager: Dimitris Tzemos (djemos~at~slackel~dot~gr)
+# Included in Slint by Didier Spaier didieratslintdotfr
+pkgname=imlib2
+pkgver=1.8.0
+pkgrel=1slint
+source=("http://downloads.sourceforge.net/project/enlightenment/imlib2-src/$pkgver/imlib2-$pkgver.tar.xz")
+docs=("readme" "install" "copying" "changelog" "authors" "news" "todo" "maintainers" "readme.id3")
+url=http://www.enlightenment.org
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"imlib2 (Powerful image loading and rendering library)"
+"Imlib2 is an advanced replacement library for libraries"
+"like libXpm that provides many more features with much"
+"greater flexibility and speed than standard libraries,"
+"including font rasterization, rotation, RGBA space"
+"rendering and blending, dynamic binary filters, scripting,"
+"and more."
+)
+
+
+build() {
+	cd $startdir/src/$pkgname-$pkgver
+
+	if [ ! $arch = "x86_64" ]; then
+		EXTRAOPTIONS="--disable-amd64 --disable-mmx"
+	else
+		EXTRAOPTIONS=""
+	fi
+	./configure --prefix=/usr \
+		--libdir=/usr/lib${LIBDIRSUFFIX} \
+		--localstatedir=/var \
+		--sysconfdir=/etc \
+		--disable-static \
+		--build=$arch-slackware-linux $EXTRAOPTIONS
+	make -j $numjobs || return 1
+	make install DESTDIR=$startdir/pkg
+	rm -f $PKG/usr/lib*/*.la
+} 

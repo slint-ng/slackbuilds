@@ -1,0 +1,26 @@
+# Contributor: Sherlock Holo <sherlockya@gmail.com>
+# Contributor: user6553591 <Message on Reddit>
+
+#Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python-websockets
+pkgver=10.2
+pkgrel=3slint
+slackdesc="$pkgname (Python implementation of the WebSocket Protocol)"
+url='https://github.com/aaugustin/websockets'
+arch=('x86_64')
+license=('BSD')
+depends=('python')
+makedepends=('python-setuptools' 'python-sphinx' 'python-sphinx-autodoc-typehints' 'python-sphinxcontrib-trio')
+source=(https://github.com/aaugustin/websockets/archive/${pkgver}/${pkgname}-${pkgver}.tar.gz)
+sha512sums=('ff2907a913ff0b8ced6dda72b6fc6512a2ece3ffded2e2dcb8ff6805de9ad504430cc1871c1f6e02ab8069e7b96b2e7609afaf3c9c25f9271b28e2daa72bd3ac')
+b2sums=('cb3807f01e1a4c22a40bf5150d1e8b21ca786dc5bc4da8f3e6602971f3f7c79b57092f5ddfe3ee52ec00e7fd15f3a992fdbb94b5e26599f2621a7f51434ba6dd')
+docs=(LICENSE README.rst SECURITY.md)
+build() {
+  cd websockets-${pkgver}
+  python3.9 setup.py build
+  python3.9 setup.py install --root="$PKG" --optimize=1 --skip-build
+  python3.11 setup.py build
+  python3.11 setup.py install --root="$PKG" --optimize=1 --skip-build
+}
+

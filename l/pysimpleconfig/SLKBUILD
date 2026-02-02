@@ -1,0 +1,26 @@
+#Packager: George Vlahavas <vlahavas~at~gmail~dot~com>
+
+pkgname=pysimpleconfig
+pkgver=0.2
+pkgrel=4slint
+source=("simpleconfig-$pkgver.tar.gz")
+#docs=("authors" "install" "readme" "copying")
+options=('nosrcpack')
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"pysimpleconfig (Simple configuration file management in python)"
+"This is a class for managing simple configuration files with python."
+"By simple, it means that they are simple text files, there are no"
+"sections and all options in the configuration files use a strict"
+"'OPTION=value' format, with no spaces between 'OPTION', '=' and"
+"'value'. The same 'OPTION' can be used more than once, so you can have"
+"multiple values."
+)
+
+build() {
+	cd $SRC/simpleconfig
+	python2 setup.py install --prefix=/usr --root=$startdir/pkg
+	python3 setup.py install --prefix=/usr --root=$startdir/pkg
+}

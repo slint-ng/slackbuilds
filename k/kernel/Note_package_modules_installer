@@ -1,0 +1,8 @@
+# The package modules-installer is used only during installation and as such
+# should be stored in http://slackware.uk/slint/x86_64/slint-15.0/slint/installer/
+# It should be updated follwing each and every update of the kernel package
+# After having built a kernel and put it under ../../slint,
+# run build_modules-installer; then type:
+rm -f ../../packages/installer/modules-installer*
+mv modules-installer*txz ../../packages/installer
+# Or just: sh Note_package_modules_installer

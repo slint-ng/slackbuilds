@@ -1,0 +1,26 @@
+# Maintainer: Jiachen Yang <farseerfc@gmail.com>
+# AUR Maintainer: Aetf <aetf at unlimitedcodeworks dot xyz>
+# Contributor: carstene1ns <arch carsten-teibes de>
+# Included in Slint by Didier Spaier didieratslintdotfr
+# Neeeded to build the doc of mpv in pdf format.
+pkgname=python-smartypants
+_pkgname=smartypants
+pkgver=2.0.1
+pkgrel=1slint
+slackdesc=(\
+"$pkgname (Python with the SmartyPants publishing plug-in)"
+"SmartyPants is a free web publishing plug-in for Movable Type,"
+"Blosxom, and BBEdit that easily translates plain ASCII punctuation"
+"characters into “smart” typographic punctuation HTML entities."
+)
+url="https://bitbucket.org/livibetter/smartypants.py"
+license=('BSD')
+depends=('python')
+makedepends=('python')
+sha512sums=('d47a866a5478c3520251f87a93a468a5eea10318b24b2e8d4bc918d533b5a5789aa56d3a8d5fb8ccff9572fb63e5b6f2eafc44f93fb57a19e6621ebef5d64d9d')
+source=("https://github.com/leohemsted/${_pkgname}.py/archive/v${pkgver}.tar.gz")
+docs=("COPYING" "SLKBUILD")
+build() {
+  cd "${_pkgname}.py-$pkgver"
+  python3 setup.py install --root="$PKG" --optimize=1
+}

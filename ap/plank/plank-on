@@ -1,0 +1,20 @@
+#!/bin/sh
+export TEXTDOMAIN=slint-scripts
+if [ "$(id -u)" = "0" ]; then
+    gettext "Please run this script as regular user."; echo
+    exit
+fi
+if [ ! -f $PKG/usr/share/plank/startplank.desktop ]; then
+	gettext "You need to install plank first."; echo
+	exit
+fi
+if [ ! -f ~/.config/autostart/startplank.desktop ]; then
+	mkdir -p ~/.config/autostart
+	cp $PKG/usr/share/plank/startplank.desktop ~/.config/autostart
+	chown -R $(id -un): ~/.config/autostart
+fi
+(cd ~/.config/autostart/ || exit 1
+sed -i "s/Hidden.*/Hidden=false/" startplank.desktop
+)
+gettext "plank has been enabled."; echo
+gettext "To disable it type plank-off"; echo

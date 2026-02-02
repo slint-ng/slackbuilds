@@ -1,0 +1,1 @@
+build with -Dqt=false to avoid a dependency on Qt6

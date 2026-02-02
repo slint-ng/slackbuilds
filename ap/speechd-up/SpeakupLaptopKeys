@@ -1,0 +1,63 @@
+These key bindings (for US keyboard layout) don't need a numeric keypad.
+If you have one, read SpeakupDesktopKeys instead, easier to follow,
+especially if you use another keyboard layout than US.
+
+The CapsLock key acts like a Shift key. For instance, "CapsLock 4" means
+Ins 2 means "hold down the CapsLock key like a shift key and press 2".
+Keep numlock off to use Speakup. 
+
+Scope: these key bindings can be used with hard synthesizers and with
+espeakup, and also with speechd-up. However setting the pitch or the
+speech volume using key bindings is not available when using speechd-up. 
+
+First keys to remember:
+PrintScreen          Toggle speakup on/off 
+CapsLock F1          Speakup Help (press Space to exit) 
+
+Key allowing to change settings:
+CapsLock 1/2         Decrease/Increase the sound volume
+CapsLock 3/4         Decrease/increase the pitch
+CapsLock 5/6         Decrease/Increase the speech rate
+CapsLock F9/F10      Decrease/Increase the punctuation level
+CapsLock F11/F12     Decrease/Increase the reading punctuation
+
+These settings can be saved typing as root:
+speakup-save
+The settings for a hard synthesizer, speechd-up or espeakup are saved
+separately as they can differ.
+
+Then they will be restored at next start of espeakup, speechd-up or at
+next boot for a hard synthesizer.
+
+If you don't to want to restore the saved settings, type as root:
+chmod -x /usr/sbin/speakup-restore 
+
+If you the have them restored again type as root:
+chmod +x /usr/sbin/speakup-restore
+
+Key used for screen review:
+CapsLock m/comma/dot Say Previous/Current/Next character
+CapsLock PageUp      Say First character
+CpasLock PageDown    Say Last character
+CapsLock j/k/l       Say Previous/Current/Next word
+CpasLock k twice     Spell current word
+CapsLock u/i/o       Say Previous/Current/Next line
+CapsLock h           Say from left edge of line to reading cursor.
+CapsLock semicolon   Say from reading cursor to right edge of line
+CapsLock y           Say from top of screen to reading cursor.
+CapsLock p           Say from reading cursor line to bottom of screen.
+CapsLock apostrophe  Say entire screen.
+Capslock r           Read all document.
+CapsLock n           Say position
+CapsLock slash       Say attributes
+CapsLock minus       park reading cursor (toggle)
+CapsLock f2 = Set window
+CapsLock f3 = Clear window
+CapsLock f4 = Enable window
+
+Other keys:
+CapsLock f5 = Edit some
+CapsLock f6 = Edit most
+CapsLock f7 = Edit delimiter
+CapsLock f8 = Repeat edit
+shift CapsLock f9 = Edit exnum

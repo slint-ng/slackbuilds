@@ -1,0 +1,186 @@
+#!/bin/sh
+# Copyright 2013 - 2015 Dimitris Tzemos <djemos@slackel.gr>
+# Copyright 2014 Cyrille Pontvieux <jrd@salixos.org>
+# Copyright 2019 Didier Spaier didieratslintdotfr
+# 
+# All rights reserved.
+#
+# Redistribution and use of this script, with or without modification, is
+# permitted provided that the following conditions are met:
+#
+# 1. Redistributions of this script must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#
+#  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
+#  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+#  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO
+#  EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+#  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+#  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+#  OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+#  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+#  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+#  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+export TEXTDOMAIN=slint
+. gettext.sh
+TMP=/tmp
+
+if [ ! $(id -u) -eq 0 ];then
+	gettext "This script should be executed by root."
+	echo
+	exit 1
+fi
+
+# Determine the root partition (such as /dev/sda1)
+ROOT_DEVICE=$2
+if [ "$ROOT_DEVICE" = "" ]; then
+	if [ -r $TMP/SeTrootdev ]; then
+		ROOT_DEVICE="$(cat $TMP/SeTrootdev)"
+	else
+		ROOT_DEVICE="$(mount | cut -f 1 -d ' ' | head -n 1)"
+	fi
+fi
+
+# To help grub-mkconfig find its boot entries if not run from the
+# target system.
+ROOTNAME=$(echo $ROOT_DEVICE|sed "s,/dev/,,")
+ROOTDEVNAME=$(lsblk -l -o pkname,name|grep ${ROOTNAME}$|sed "s/[[:space:]]\{1,\}.*//")
+echo "/dev/$ROOTDEVNAME" > $TMP/rootdevname
+
+
+# Set OS name
+OS="Slint"
+# Title
+BACKTITLE="$OS - GRUB Installer"
+
+check_efi() {
+	# We will install grub for UEFI booting if and only if:
+	# A partition is mounted on /boot/efi.
+	# It is EFI System Partition according to its UUID or OS type.
+	# It contains a FAT file system.
+	# If all these conditions are met, we will install grub in the
+	# parent device of this partition, thus the EFI image will be stored
+	# in this ESP. Else, we will install grub in the device of T_PX, so
+	# that this device stays bootable if moved.
+	rm -f $TMP/devespname
+	# If no partition is mounted as /boot/efi, bail out.
+	PARTNAME=$(lsblk -l -o name,mountpoint |grep /boot/efi|sed "s/[[:space:]]\{1,\}.*//")
+	if [ "$PARTNAME" = "" ]; then
+		return
+	fi
+	# If the partition mounted as /boot/efi is not an ESP, bail out.
+	# The UEFI specification states that an ESP has a GUID of
+	# C12A7328-F81F-11D2-BA4B-00A0C93EC93B in case of a GPT layout.
+	# In case of a DOS layout instead, an ESP should have an OS type of
+	# 0xEF. lsblk writes these values in the same field PARTTYPE.
+	ESPPARTTYPE=C12A7328-F81F-11D2-BA4B-00A0C93EC93B
+	OSTYPE=0xEF
+	PARTTYPE=$(lsblk -l -o parttype,name|grep $PARTNAME|sed "s/[[:space:]]\{1,\}.*//")
+	if [ "$(echo $PARTTYPE|grep -i $ESPPARTTYPE)" = "" ] && \
+	[ "$(echo $PARTTYPE|grep -i $OSTYPE)" = "" ]; then
+		return
+	fi
+	# If the file system of the partition mounted as /efi/boot is not
+	# VFAT, bail out.
+	PARTFSTYPE=$(lsblk -l -o fstype,name|grep $PARTNAME|sed  "s/[[:space:]]\{1,\}.*//")
+	if [ "(echo $PARTFSTYPE| grep -i  vfat)" = "" ]; then
+		return
+	fi
+	# All test passed we need to know the name of the device that hosts
+	# the EFI partition. It is the pkname field of lsblk.
+	DEVNAME=$(lsblk -l -o pkname,name|grep ${PARTNAME}$|sed "s/[[:space:]]\{1,\}.*//")
+	echo "/dev/$DEVNAME">$TMP/devespname
+}
+check_efi
+
+dialog \
+--title "$(gettext "INCLUDE EXTRA PARAMETERS IN THE BOOT COMMAND LINE?")" \
+--inputbox \
+"$(gettext "You might need extra parameters to be included in the boot command \
+line of the installed system. If you typed parameters before booting \
+the Slint installer, you will probably want to enter the same ones here. \
+If you don't need any extra parameter to be included, just press ENTER \
+to continue.
+")" 12 72 2> $TMP/reply
+
+GRUB_CMDLINE_LINUX_DEFAULT="quiet $(cat $TMP/reply)"
+UTFVT='vt.default_utf8=1'
+sed -i "
+s/GRUB_CMDLINE_LINUX_DEFAULT=.*/GRUB_CMDLINE_LINUX_DEFAULT='$GRUB_CMDLINE_LINUX_DEFAULT'/;
+s/GRUB_CMDLINE_LINUX=.*/GRUB_CMDLINE_LINUX='$UTFVT'/;
+" $T_PX/etc/default/grub
+
+
+if [ -f $TMP/devespname ]; then
+	DEVICE=$(<$TMP/devespname)
+	DETAILS="bootloader in /boot/efi in $DEVICE"
+else
+	DEVICE=$(<$TMP/rootdevname)
+	DETAILS="bootloader in the MBR of $DEVICE"
+fi
+if [ "$T_PX" = "/mnt" ] && [ "$(cat /proc/mounts|grep /mnt/dev)" = "" ]; then
+	mount -B /dev $T_PX/dev
+fi
+if [ "$T_PX" = "/mnt" ] && [ "$(cat /proc/mounts|grep /mnt/proc)" = "" ]; then
+	mount -B /proc $T_PX/proc
+fi
+if [ "$T_PX" = "/mnt" ] && [ "$(cat /proc/mounts|grep /mnt/sys)" = "" ]; then
+	mount -B /sys $T_PX/sys
+fi
+# Install GRUB
+if [ -f $TMP/devespname ]; then
+	# In case of UEFI we need to chroot as else we won't find efivar,
+	# dependency of efibootmgr.
+	# To do: make running efibootmgr optional?
+	eval_gettext "Installation in EFI mode in $T_PX/usr/lib64/grub/x86_64-efi $DEVICE"
+	echo
+	# If the machine is running in EFI mode, propose to intall a boot
+	# entry for Slint in the firmware's boot menu 
+	EFIMENUENTRY=n
+	if [ -d /sys/firmware/efi ]; then
+		gettext "Do you want to install a boot entry for Slint in the EFI firmware menu? "
+		EFIMENUENTRY=y
+		read -p "[n/Y] " EFIMENENUTRY
+	fi
+	echo
+	if [ "$EFIMENUENTRY" = "y" ] && [ "EFIMENURENTRY" = "Y" ]; then
+		chroot $T_PX grub-install -d /usr/lib64/grub/x86_64-efi/ --efi-directory /boot/efi --boot-directory /boot --locale-directory=/usr/share/locale --target=x86_64-efi --bootloader-id=slint $DEVICE
+	else
+		chroot $T_PX grub-install --no-nvram -d /usr/lib64/grub/x86_64-efi/ --efi-directory /boot/efi --boot-directory /boot --locale-directory=/usr/share/locale --target=x86_64-efi --bootloader-id=slint $DEVICE
+	fi
+	mkdir -p $T_PX/boot/efi/EFI/BOOT
+	if [ -f $T_PX/boot/efi/EFI/slint/grubx64.efi ]; then
+		if [ ! -f $T_PX/boot/efi/EFI/BOOT/BOOTx64.EFI ]; then
+			cp  $T_PX/boot/efi/EFI/slint/grubx64.efi $T_PX/boot/efi/EFI/BOOT/BOOTx64.EFI
+		else
+			echo "EFI\slint\grubx64" > $T_PX/boot/efi/startup.nsh
+		fi
+	fi
+fi
+echo
+eval_gettext "Installation on the MBR of \$DEVICE"
+echo
+grub-install -d $T_PX/usr/lib64/grub/i386-pc/ --boot-directory=$T_PX/boot --locale-directory=$T_PX/usr/share/locale --recheck --target=i386-pc $DEVICE
+
+sleep 3 
+
+# Update the boot menu
+echo
+gettext "Updating boot/grub/grub.cfg..."
+echo
+chroot $T_PX update-grub
+if [ "$T_PX" = "/mnt" ] && [ ! "$(cat /proc/mounts|grep /mnt/dev)" = "" ]; then
+	umount $T_PX/dev
+fi
+if [ "$T_PX" = "/mnt" ] && [ ! "$(cat /proc/mounts|grep /mnt/proc)" = "" ]; then
+	umount $T_PX/proc
+fi
+if [ "$T_PX" = "/mnt" ] && [ ! "$(cat /proc/mounts|grep /mnt/sys)" = "" ]; then
+	umount $T_PX/sys
+fi
+sleep 3
+rm -f $TMP/reply
+rm -f $TMP/option_menu.txt
+rm -f $TMP/rootdevname
+rm -f $TMP/devespname

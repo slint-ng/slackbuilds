@@ -1,0 +1,8 @@
+eukleides for Debian
+--------------------
+
+Version 1.5.3 is a complete rewrite of eukleides that is not 100% compatible 
+with previous version. Existing scripts should be easy to convert though, 
+please see the documentation for changes to the syntax.
+
+ -- Robert Lemmen <robertle@semistable.com>  Wed, 24 Mar 2010 19:12:13 +0000

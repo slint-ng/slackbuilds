@@ -1,0 +1,55 @@
+# Files that should not be tracked by Git
+
+# The compiled executables
+/beep
+/*.clang
+/*.gcc
+/*.map
+/issue-6-benchmark
+
+# Built sources
+/beep-config.h
+/beep-usage.c
+/beep-usage.txt
+
+# Build intermediates
+*.dep
+*.tmp
+*.clang-o
+*.gcc-o
+*.o
+*.i
+*.s
+*.bc
+*.lst
+*.gcc-lst
+/beep.1
+
+# The compressed man page
+/beep.1.gz
+
+# Built stuff
+/dox/
+/html/
+/*.html
+/beep-*.tar.gz
+/beep-*.tar.xz
+
+# Test results
+/tests/*.actual.output.new
+/tests/*.actual.output
+/tests/*.output.actual.new
+/tests/*.output.actual
+/tests/*.actual.new
+/tests/*.actual
+/tests/*.output.new
+/tests/*.output
+
+# Misc results
+*.strace
+/Doxyfile
+/doxygen.stamp
+
+# Test builds
+/_build-*/
+/_prefix-*/

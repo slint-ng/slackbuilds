@@ -1,0 +1,26 @@
+Source: eukleides
+Section: math
+Priority: optional
+Maintainer: Georges Khaznadar <georgesk@debian.org>
+Build-Depends: debhelper-compat (= 13),
+ flex,
+ bison,
+ libreadline-dev,
+ texinfo
+Standards-Version: 4.5.1
+Homepage: http://www.eukleides.org/
+Vcs-Browser: https://salsa.debian.org/georgesk/eukleides
+Vcs-Git: https://salsa.debian.org/georgesk/eukleides.git
+
+Package: eukleides
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Suggests: pstoedit,
+ texlive,
+ texlive-pstricks
+Recommends: texlive-latex-recommended
+Description: Euclidean geometry drawing language
+ Eukleides is a language which allows one to typeset geometric figures
+ within a (La)TeX document.  This package includes scripts to convert
+ these figures into EPS and other formats.  Eukleides uses a console
+ interface.  

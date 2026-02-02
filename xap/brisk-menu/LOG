@@ -1,0 +1,13 @@
+    Build configuration:
+    ====================
+
+    prefix:                                 /usr
+    datadir:                                /usr/share
+    sysconfdir:                             /etc
+    bindir:                                 /usr/bin
+    libexecdir:                             /usr/libexec/brisk-menu
+
+    MATE Applet:
+    ============
+
+    applet type:                            stand-alone

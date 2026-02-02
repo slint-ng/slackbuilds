@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="config-background">
+  <title>Baggrund</title>
+  <para>Baggrunden er billedet, mønsteret eller farven vist på dit skrivebord. En masse folk bruger dette som dekoration på deres computer. Programmet <application>Baggrundsegenskaber</application> konfigurerer dine baggrundsindstillinger.</para>
+  <para>Tilgå <application>Baggrundsegenskaber</application> via to metoder: <itemizedlist>
+      <listitem>
+        <para>Højreklik på baggrunden og venstreklik på <guibutton>Ændr skrivebordsbaggrund</guibutton>.</para>
+      </listitem>
+      <listitem>
+        <para>Åbne <application>Mate-kontrolcenter</application> og dobbeltklik <guibutton>Baggrund</guibutton>.</para>
+      </listitem>
+    </itemizedlist></para>
+  <sect2 id="config-background-interface">
+    <title>Grænseflade for baggrundsegenskaber</title>
+    <para>Toppen af vinduet viser dig en lille version af den valgte baggrund. Nedenfor er bokse som lader dig vælge hvilken tilstand din baggrund bruger: <variablelist>
+	<varlistentry>
+	  <term>Baggrundsbillede</term>
+	  <listitem>
+	    <para>Viser dit baggrundsbillede i sin standardform. Du bør vælge dette, hvis dit baggrundsbillede har præcis de samme dimensioner som di skærmopløsning.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Centreret</term>
+	  <listitem>
+	    <para>Placerer dit billede direkte i midten af din skærm.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Skaleret</term>
+	  <listitem>
+	    <para>Strækker dit billede ud, men bevarer størrelsesforholdene. Dette vil forhindre, at dit billede kommer til at se sjovt ud, hvis strakt for meget ud i en retning.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Strakt</term>
+	  <listitem>
+	    <para>Strækker dit billed ud så det fylder hele din skærm, uanset størrelsesforhold. Dette kan fordreje dine billeder.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Intet billede</term>
+	  <listitem>
+	    <para>Brug ikke en grafik som baggrund, men bruger farver som er dækket nedenfor.</para>
+	  </listitem>
+	</varlistentry>
+      </variablelist></para>
+    <para>Neden for knapperne er der mulighed for at konfigurere farverne. Disse har kun betydning hvis du valgte <guibutton>Intet billede</guibutton> eller dit billede ikke fylder hele skærmen ud.</para>
+    <para>Hvis dit billede ikke fylder hele skærmen, så har du mulighed for at vælge farvelægningen uden for billedet. Du kan enten vælge en lodret farveovergang, en vandret farveovergang eller en standardfarve. Hvis du vælger en ens farve, så vælger du farven ved at højreklikke på <guibutton>Farve</guibutton>. Hvis du vælger en farveovergang, så vil du have to muligheder. Vælg farverne du ønsker og dine muligheder bliver lavet automatisk.</para>
+  </sect2>
+  <sect2 id="config-background-settingup">
+    <title>Opsætning af en baggrund</title>
+    <para>For at konfigurere en baggrund, vælg et af de følgende trin: <orderedlist numeration="arabic">
+	<listitem>
+	  <para>Træk og slip et billede ind på <guibutton>Billedboks</guibutton> eller klik på knappen og vælg billedet via <application>Mates filvælger</application>.</para>
+	</listitem>
+	<listitem>
+	  <para>Vælg tilstanden du ønsker at bruge. Ændringer anvendes automatisk, så du kan ændre hurtigt, hvis du ikke er tilfreds med resultatet.</para>
+	</listitem>
+	<listitem>
+	  <para>Hvis dit billede ikke dækker hele skærmen, vælg dine farveindstillinger. Ellers kan du udelade dette trin.</para>
+	</listitem>
+	<listitem>
+	  <para>Klik <guibutton>Luk</guibutton> når færdig med konfigurationen.</para>
+	</listitem>
+      </orderedlist></para>
+  </sect2>
+</sect1>

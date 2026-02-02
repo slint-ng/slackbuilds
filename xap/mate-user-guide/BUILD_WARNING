@@ -1,0 +1,18 @@
+WARNING (seems obsolete as of version 1.26.1)
+
+Building this package needs three steps:
+1) run "fakeroot slkbuild"
+This writes ./mate-user-guide.sh
+
+2) Edit  mate-user-guide.sh to remove these lines:
+
+export CFLAGS="-O2 -march=noarch"
+export CXXFLAGS="-O2 -march=noarch"
+export SLKCFLAGS="-O2 -march=noarch"
+
+Else ./autogen.sh fails during the build.
+
+3) run "fakeroot sh mate-user-guide.sh"
+This actually builds the package
+
+yelp-tools and yelp-xsl are build dependencies of this package

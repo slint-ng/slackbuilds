@@ -1,0 +1,45 @@
+#Maintainer: George Vlahavas <vlahavas~at~gmail~dot~com>
+#This build customized for Slint, see the file README.Slint in the
+#source directory - Didier Spaier <didier~at~slint~dot~fr
+
+pkgname=salixtools
+pkgver=1.13.8
+pkgrel=1slint
+arch=noarch
+source=("https://github.com/gapan/salixtools/archive/refs/tags/${pkgver}.tar.gz" 
+"set_session_as_mate_for_new_users.diff"
+"fix_update_rc.keymap.patch")
+docs=("COPYING" "INSTALL" "changelog*")
+options=('nosrcpack' 'noautodotnew')
+
+doinst() {
+	if [ ! -x etc/rc.d/rc.numlock ]; then
+		chmod 644 etc/rc.d/rc.numlock.new
+	else
+		chmod 755 etc/rc.d/rc.numlock.new
+	fi
+	mv -f etc/rc.d/rc.numlock.new etc/rc.d/rc.numlock
+}
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"salixtools (various system utilities)"
+"This package includes tools related to system administration that can"
+"be used from the linux terminal."
+)
+
+
+build() {
+	cd $startdir/src/$pkgname-$pkgver
+	patch --verbose -p1 < ../fix_update_rc.keymap.patch || exit 1
+	patch --verbose -p1 < ../set_session_as_mate_for_new_users.diff || exit 1
+	make
+	make install DESTDIR=$startdir/pkg
+	mv $startdir/pkg/etc/rc.d/rc.numlock $startdir/pkg/etc/rc.d/rc.numlock.new
+	# No reposetup in Slint.
+	rm -r $startdir/pkg/usr/share/salixtools/reposetup
+	rm $startdir/pkg/usr/sbin/reposetup
+	rm $startdir/pkg/usr/man/man8/reposetup.8*
+	find $startdir/pkg/usr/share/locale -name reposetup.mo -exec rm '{}' ';'
+} 

@@ -1,0 +1,22 @@
+key bindings for French keyboard with no numeric keypad
+
+CapsLock_F1            Speakup Help (press Space to exit) 
+
+Key allowing to change settings:
+CapsLock_(1/2)         Decrease/Increase the sound volume
+CpasLock_3/4           Decrease/increase the pitch
+CapsLock_(5/6)         Decrease/Increase the speech rate
+CapsLock_(F9/F10)      Decrease/Increase the punctuation level
+CapsLock_(F11/F12)     Decrease/Increase the reading punctuation
+
+Key used for screen review
+CapsLock_(,/;/:)       Say Previous/Current/Next character
+CapsLock_(j/k/l)       Say Previous/Current/Next word
+CpasLock_k twice       Spell current word
+CapsLock_(u/i/o)       Say Previous/Current/Next line
+CapsLock_h             Say from left edge of line to reading cursor.
+CapsLock_m             Say from reading cursor to right edge of line 
+CapsLock_y             Say from top of screen to reading cursor.
+CapsLock_p             Say from reading cursor line to bottom of screen.
+Capslock_ù             Say entire screen.
+Capslock_r             Read all document.

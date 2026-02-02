@@ -1,0 +1,81 @@
+Number¦Filename¦Code Line¦Issue Description¦Issue identification
+1¦dae.py¦¦Fix rewinding¦ 
+2¦dae.py, catchkey, pickafile¦0¦Add License header to each files (GNU General Public License v2 +) and Author ¦ 
+3¦dae, dae.py¦1¦for less confusion between Python and Perl DAE, mv dae dae.perl or dae.pl¦ 
+4¦dae.py¦1¦problem when using python2.5 (no longer packaged) not finding pyeca. Solved forcing python2.6. Fix the dae script to invoke python, not python2.5¦ 
+5¦dae.py, user_guide.txt¦¦problem using dae under a graphical console command prompt. The function keys F1 etc are not caught, all receive 0 or start another app. Add this to documentation, that DAE must be run from a non-graphical shell terminal environment. (e.g. ctrl-alt-2) Detect when in non console mode and warn?¦ 
+6¦pickafile¦52¦getterm: command not found¦ 
+7¦¦¦mp3 not fully supported¦ 
+8¦¦¦ogg not fully supported¦ 
+9¦dae.py, catchkey, pickafile¦¦Install script to check/get library dependencies, run as sudo to copy dae.py to /usr/bin/dae, catchkey to /usr/bin/catchkey, pickafile to /usr/bin/pickafile¦ 
+10¦user_guide.txt¦¦INSTALLATION¦ 
+11¦lib¦¦Upon quitting:
+Exception attribute error: “'non type' object as no attribute 'maxint'” in <Bounded method Popen3.__delete__ of popen2.Popen3 instance ...¦ 
+12¦¦579, module user_control(),
+525 record_realtime()
+326 insert_file(“realtime.wav”, mainpos  ),
+461 in insert_file os.unlink(infile)
+¦Problem during recording
+OSError : no such file or directory “guirecords.wav”
+Does the file needs to be created before recording? Yes, touch guidrecords.wav seems to solve it¦ 
+¦dae.py¦¦playback doesn't seem to work reliably¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 
+¦¦¦¦ 

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY VERSION "1.10.1">
+<!ENTITY legal SYSTEM "legal.xml">
+<!ENTITY app "<application>MATE Control Center</application>">
+<!ENTITY appname "MATE Control Center">
+<!-- Information about the entities
+       The legal.xml file contains legal information, there is no need to edit the file.
+       Use the appversion entity to specify the version of the application.
+       Use the manrevision entity to specify the revision number of this manual.
+       Use the date entity to specify the release date of this manual.
+       Use the app entity to specify the name of the application. -->]>
+<article id="index" lang="ca">
+  
+  <articleinfo>
+    <abstract role="description">
+      <para>El centre de control de MATE proporciona un lloc central perquè l'usuari configuri la seva experiència amb MATE. Permet configurar qualsevol cosa, des del comportament de les vores de les finestres fins a la lletra predeterminada.</para>
+    </abstract>
+    <title>Manual del centre de control de MATE</title>
+    <authorgroup>
+      <author><firstname>Projecte de documentació de MATE</firstname> <surname/> <affiliation> <orgname>Escriptori MATE</orgname> </affiliation></author>
+      <author><firstname>Kevin</firstname><surname>Breit</surname></author>
+    </authorgroup>
+    <copyright><year>2015-2021</year> <holder>Projecte de documentació de MATE</holder></copyright>
+    <copyright><year>2001, 2002</year> <holder>Ximian, Inc.</holder></copyright>
+
+    <publisher role="maintainer">
+      <publishername>Projecte de documentació de MATE</publishername>
+    </publisher>
+    <publisher>
+      <publishername>Projecte de documentació de GNOME</publishername>
+    </publisher>
+    
+    <revhistory>
+      <revision><revnumber>2.15</revnumber> <date>Juliol de 2015</date> <firstname>Projecte de documentació de MATE</firstname> <surname/></revision>
+      <revision><revnumber>2.14</revnumber> <date>Març de 2006</date></revision> 
+    </revhistory>
+
+    <!-- This file contains link to license for the
+   documentation (GNU FDL), and other legal stuff such as "NO
+   WARRANTY" statement. Please do not change any of this. -->
+
+    <releaseinfo>Aquest manual descriu la versió 1.10.1 del centre de control de MATE.</releaseinfo>
+
+    <legalnotice>
+        <title>Retroacció</title>
+        <para>Per informar d'un error o fer un suggeriment sobre l'aplicació del <application>centre de control de MATE</application> o d'aquest manual, seguiu les instruccions de la <ulink url="help:mate-user-guide/feedback" type="help">pàgina de retroacció de MATE</ulink>.</para>
+<!-- Translators may also add here feedback address for translations -->
+    </legalnotice>
+  
+    <othercredit class="translator">
+      <personname>
+        <firstname>Joan Duran</firstname>
+      </personname>
+      <email>jodufi@gmail.com</email>
+    </othercredit>
+    <copyright>
+      
+        <year>2007</year>
+      
+      <holder>Joan Duran</holder>
+    </copyright>
+  
+    <othercredit class="translator">
+      <personname>
+        <firstname>Pere O.</firstname>
+      </personname>
+      <email>gotrunks@gmail.com</email>
+    </othercredit>
+    <copyright>
+      
+        <year>2018</year>
+      
+      <holder>Pere O.</holder>
+    </copyright>
+  
+    <othercredit class="translator">
+      <personname>
+        <firstname>Robert Antoni Buj Gelonch</firstname>
+      </personname>
+      <email>rbuj@fedoraproject.org</email>
+    </othercredit>
+    <copyright>
+      
+        <year>2018</year>
+      
+        <year>2019</year>
+      
+        <year>2020</year>
+      
+      <holder>Robert Antoni Buj Gelonch</holder>
+    </copyright>
+  </articleinfo>
+  
+  <sect1 id="intro">
+    <title>Introducció</title>
+    <para>El <application>centre de control de MATE</application> proporciona una única finestra des del qual es poden iniciar totes les eines de preferències.</para>
+    <note><para>Per obtenir més ajuda sobre com utilitzar les eines de preferències, consulteu la <ulink type="help" url="help:mate-user-guide/prefs">Guia d'usuari</ulink>.</para></note>
+
+<!-- ============= To Start Control Center  ============================ -->
+    <sect2 id="mate-control-center-to-start">
+      <title>Com iniciar el centre de control de MATE</title>
+      <para>Podeu iniciar el <application>centre de control de MATE</application> de les maneres següents:</para>
+      <variablelist>
+        <varlistentry>
+          <term>Menú <guimenu>Sistema</guimenu></term>
+          <listitem>
+            <para>Trieu l'element del menú <menuchoice><guimenu>Centre de control</guimenu></menuchoice>.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Línia d'ordres</term>
+          <listitem>
+            <para>Executeu l'ordre següent: <command>mate-control-center</command></para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </sect2>
+
+  </sect1>
+  
+  <sect1 id="matecc-interface">
+    <title>Utilització</title>
+    <para>La finestra del <application>centre de control de MATE</application> llista totes les eines de preferències instal·lades al vostre sistema en grups.</para>
+    <tip><para>Des del plafó esquerre, podeu accedir ràpidament a una eina de preferències seleccionant primer el grup o teclejant qualsevol paraula clau al quadre de filtratge. També podeu accedir a les tasques comunes, com ara <guilabel>Canvia el tema</guilabel> i <guilabel>Estableix les aplicacions preferides</guilabel>.</para></tip>
+    <para>Per obrir una eina de preferències, només cal que feu clic a sobre d'ella.</para>
+    <tip><para>La descripció de l'eina de preferències es mostra en passar el ratolí per sobre.</para></tip>
+  </sect1>
+</article>

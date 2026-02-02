@@ -1,0 +1,240 @@
+Automatically setting arch to x86_64
+source should be filled except in rare occassions (cvs,svn,etc.)
+Setting option noextract
+Setting option nosrcpack
+build-barnard.sh has been created
+=== download ===
+github.com/alessio/shellescape (download)
+github.com/golang/protobuf (download)
+github.com/bmmcginty/go-openal (download)
+github.com/nsf/termbox-go (download)
+github.com/mattn/go-runewidth (download)
+Fetching https://gopkg.in/yaml.v2?go-get=1
+Parsing meta tags from https://gopkg.in/yaml.v2?go-get=1 (status code 200)
+get "gopkg.in/yaml.v2": found meta tag get.metaImport{Prefix:"gopkg.in/yaml.v2", VCS:"git", RepoRoot:"https://gopkg.in/yaml.v2"} at https://gopkg.in/yaml.v2?go-get=1
+gopkg.in/yaml.v2 (download)
+Fetching https://layeh.com/gopus?go-get=1
+Parsing meta tags from https://layeh.com/gopus?go-get=1 (status code 200)
+get "layeh.com/gopus": found meta tag get.metaImport{Prefix:"layeh.com/gopus", VCS:"git", RepoRoot:"https://github.com/layeh/gopus"} at https://layeh.com/gopus?go-get=1
+layeh.com/gopus (download)
+github.com/kennygrant/sanitize (download)
+Fetching https://golang.org/x/net/html?go-get=1
+Parsing meta tags from https://golang.org/x/net/html?go-get=1 (status code 200)
+get "golang.org/x/net/html": found meta tag get.metaImport{Prefix:"golang.org/x/net", VCS:"git", RepoRoot:"https://go.googlesource.com/net"} at https://golang.org/x/net/html?go-get=1
+get "golang.org/x/net/html": verifying non-authoritative meta tag
+Fetching https://golang.org/x/net?go-get=1
+Parsing meta tags from https://golang.org/x/net?go-get=1 (status code 200)
+golang.org/x/net (download)
+=== build ===
+errors
+internal/race
+internal/cpu
+runtime/internal/atomic
+runtime/internal/sys
+sync/atomic
+runtime/internal/math
+unicode/utf8
+unicode
+container/list
+math/bits
+internal/bytealg
+crypto/internal/subtle
+crypto/subtle
+internal/testlog
+math
+internal/x/crypto/cryptobyte/asn1
+internal/nettrace
+internal/x/net/dns/dnsmessage
+runtime
+runtime/cgo
+internal/x/crypto/curve25519
+strconv
+encoding
+unicode/utf16
+golang.org/x/net/html/atom
+crypto/rc4
+sync
+math/rand
+io
+reflect
+syscall
+internal/singleflight
+bytes
+hash
+crypto
+strings
+bufio
+crypto/internal/randutil
+crypto/sha512
+crypto/hmac
+crypto/sha1
+crypto/sha256
+internal/x/crypto/hkdf
+time
+internal/syscall/unix
+layeh.com/gopus
+html
+path
+hash/crc32
+internal/x/text/transform
+encoding/binary
+sort
+internal/poll
+crypto/cipher
+internal/fmtsort
+os
+crypto/md5
+crypto/aes
+crypto/des
+encoding/base64
+internal/x/crypto/internal/chacha20
+encoding/pem
+internal/x/crypto/poly1305
+regexp/syntax
+internal/x/crypto/chacha20poly1305
+fmt
+path/filepath
+io/ioutil
+regexp
+encoding/hex
+math/big
+context
+net
+net/url
+flag
+github.com/alessio/shellescape
+encoding/json
+crypto/elliptic
+encoding/asn1
+crypto/rand
+crypto/ecdsa
+crypto/dsa
+crypto/rsa
+crypto/x509/pkix
+internal/x/crypto/cryptobyte
+log
+github.com/golang/protobuf/proto
+github.com/bmmcginty/barnard/gumble/gumble/varint
+github.com/bmmcginty/go-openal/openal
+crypto/x509
+crypto/tls
+github.com/bmmcginty/barnard/gumble/gumble/MumbleProto
+github.com/mattn/go-runewidth
+os/signal
+github.com/nsf/termbox-go
+github.com/bmmcginty/barnard/uiterm
+gopkg.in/yaml.v2
+os/user
+github.com/bmmcginty/barnard/gumble/gumble
+os/exec
+encoding/xml
+github.com/bmmcginty/barnard/config
+golang.org/x/net/html
+github.com/bmmcginty/barnard/gumble/gumbleopenal
+text/template/parse
+github.com/bmmcginty/barnard/gumble/gumbleutil
+compress/flate
+text/template
+internal/x/text/unicode/bidi
+compress/gzip
+internal/x/text/secure/bidirule
+internal/x/text/unicode/norm
+net/textproto
+internal/x/net/http2/hpack
+html/template
+mime
+internal/x/net/idna
+mime/quotedprintable
+mime/multipart
+github.com/kennygrant/sanitize
+internal/x/net/http/httpguts
+internal/x/net/http/httpproxy
+net/http/httptrace
+net/http/internal
+text/tabwriter
+runtime/trace
+net/http
+runtime/pprof
+net/http/pprof
+github.com/bmmcginty/barnard/gumble/opus
+github.com/bmmcginty/barnard
+/storage/repo/x86_64/slint-14.2.1/source/barnard/pkg:
+total 8
+drwxr-xr-x 2 root root 4096 sept. 20 22:56 install
+drwxr-xr-x 5 root root 4096 sept. 20 22:56 usr
+
+/storage/repo/x86_64/slint-14.2.1/source/barnard/pkg/install:
+total 4
+-rw-r--r-- 1 root root 461 sept. 20 22:56 slack-desc
+
+/storage/repo/x86_64/slint-14.2.1/source/barnard/pkg/usr:
+total 12
+drwxr-xr-x 2 root root 4096 sept. 20 22:56 bin
+drwxr-xr-x 3 root root 4096 sept. 20 22:56 share
+drwxr-xr-x 3 root root 4096 sept. 20 22:56 src
+
+/storage/repo/x86_64/slint-14.2.1/source/barnard/pkg/usr/bin:
+total 10100
+-rwxr-xr-x 1 root root 10331480 sept. 20 22:56 barnard
+-rwxr-xr-x 1 root root     5342 sept. 20 22:56 barnard-ui
+
+/storage/repo/x86_64/slint-14.2.1/source/barnard/pkg/usr/share:
+total 4
+drwxr-xr-x 3 root root 4096 sept. 20 22:56 doc
+
+/storage/repo/x86_64/slint-14.2.1/source/barnard/pkg/usr/share/doc:
+total 4
+drwxr-xr-x 2 root root 4096 sept. 20 22:56 barnard-gitc81c8a0
+
+/storage/repo/x86_64/slint-14.2.1/source/barnard/pkg/usr/share/doc/barnard-gitc81c8a0:
+total 24
+-rw-r--r-- 1 root root 10116 sept. 20 22:56 README.html
+-rw-r--r-- 1 root root  8287 sept. 20 22:56 README.md
+
+/storage/repo/x86_64/slint-14.2.1/source/barnard/pkg/usr/src:
+total 4
+drwxr-xr-x 2 root root 4096 sept. 20 22:56 barnard-gitc81c8a0
+
+/storage/repo/x86_64/slint-14.2.1/source/barnard/pkg/usr/src/barnard-gitc81c8a0:
+total 4
+-rw-r--r-- 1 root root 2353 sept. 20 22:56 SLKBUILD
+
+Constructeur de paquets Slackware, version 3.141593.
+
+Recherche de liens symboliques :
+
+Aucun lien symbolique trouvé, donc nous ne créerons pas de script
+d'installation.
+Vous pouvez créer vos liens plus tard dans. /install/doinst.sh et
+reconstruire le paquet si vous le souhaitez.
+
+La prochaine étape est facultative - vous pouvez attribuer aux répertoires
+dans votre paquet des permissions saines. Cependant, si n'importe quel
+répertoire de votre paquet a des permissions spéciales vous ne devriez pas
+les réinitialiser !
+
+Voulez-vous réinitialiser toutes les autorisations de répertoires à 755
+(drwxr-xr-x) et les propriétaire des répertoires à root.root ([y]es, [n]o)? 
+n
+
+Création du paquet Slackware : /storage/repo/x86_64/slint-14.2.1/source/barnard/barnard-gitc81c8a0-x86_64-1slint.txz
+
+./
+usr/
+usr/src/
+usr/src/barnard-gitc81c8a0/
+usr/src/barnard-gitc81c8a0/SLKBUILD
+usr/share/
+usr/share/doc/
+usr/share/doc/barnard-gitc81c8a0/
+usr/share/doc/barnard-gitc81c8a0/README.html
+usr/share/doc/barnard-gitc81c8a0/README.md
+usr/bin/
+usr/bin/barnard
+usr/bin/barnard-ui
+install/
+install/slack-desc
+
+Le paquet Slackware /storage/repo/x86_64/slint-14.2.1/source/barnard/barnard-gitc81c8a0-x86_64-1slint.txz a été créé.
+
+Package has been built.

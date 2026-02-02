@@ -1,0 +1,13 @@
+Description: Fix build system check on whether libmatchbox is linked against libpng
+Author: Moray Allan <moray@debian.org>
+--- a/configure.ac
++++ b/configure.ac
+@@ -33,7 +33,7 @@
+ PKG_CHECK_MODULES(LIBMB, libmb >= 1.1,, AC_MSG_ERROR([*** libmb required and not found ***]))
+ 
+ # below is quite bad ...
+-if $PKG_CONFIG --libs libmb | grep png ; then
++if $PKG_CONFIG --libs --static libmb | grep png ; then
+    found_png="yes"
+ else
+    found_png="no"	

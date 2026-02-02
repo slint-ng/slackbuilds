@@ -1,0 +1,323 @@
+Unicode-LineBreak-2019.001/
+Unicode-LineBreak-2019.001/Changes
+Unicode-LineBreak-2019.001/META.json
+Unicode-LineBreak-2019.001/Changes.REL1
+Unicode-LineBreak-2019.001/LineBreak.xs
+Unicode-LineBreak-2019.001/README
+Unicode-LineBreak-2019.001/Todo.REL1
+Unicode-LineBreak-2019.001/MANIFEST
+Unicode-LineBreak-2019.001/t/
+Unicode-LineBreak-2019.001/t/16regex.t
+Unicode-LineBreak-2019.001/t/lb.pl
+Unicode-LineBreak-2019.001/t/01break.t
+Unicode-LineBreak-2019.001/t/18currency.t
+Unicode-LineBreak-2019.001/t/03ns.t
+Unicode-LineBreak-2019.001/t/09uri.t
+Unicode-LineBreak-2019.001/t/pod.t
+Unicode-LineBreak-2019.001/t/14sea_al.t
+Unicode-LineBreak-2019.001/t/10gcstring.t
+Unicode-LineBreak-2019.001/t/17prop.t
+Unicode-LineBreak-2019.001/t/000.t
+Unicode-LineBreak-2019.001/t/15array.t
+Unicode-LineBreak-2019.001/t/11format.t
+Unicode-LineBreak-2019.001/t/02hangul.t
+Unicode-LineBreak-2019.001/t/06context.t
+Unicode-LineBreak-2019.001/t/13flowedsp.t
+Unicode-LineBreak-2019.001/t/12fold2.t
+Unicode-LineBreak-2019.001/t/05urgent.t
+Unicode-LineBreak-2019.001/t/00LineBreakTest.t
+Unicode-LineBreak-2019.001/t/08partial.t
+Unicode-LineBreak-2019.001/t/lf.pl
+Unicode-LineBreak-2019.001/t/07sea.t
+Unicode-LineBreak-2019.001/t/00GraphemeBreakTest.t
+Unicode-LineBreak-2019.001/t/04fold.t
+Unicode-LineBreak-2019.001/lib/
+Unicode-LineBreak-2019.001/lib/Text/
+Unicode-LineBreak-2019.001/lib/Text/LineFold.pm
+Unicode-LineBreak-2019.001/lib/POD2/
+Unicode-LineBreak-2019.001/lib/POD2/JA/
+Unicode-LineBreak-2019.001/lib/POD2/JA/Text/
+Unicode-LineBreak-2019.001/lib/POD2/JA/Text/LineFold.pod
+Unicode-LineBreak-2019.001/lib/POD2/JA/Unicode/
+Unicode-LineBreak-2019.001/lib/POD2/JA/Unicode/LineBreak.pod
+Unicode-LineBreak-2019.001/lib/POD2/JA/Unicode/GCString.pod
+Unicode-LineBreak-2019.001/lib/Unicode/
+Unicode-LineBreak-2019.001/lib/Unicode/LineBreak.pod
+Unicode-LineBreak-2019.001/lib/Unicode/LineBreak/
+Unicode-LineBreak-2019.001/lib/Unicode/LineBreak/Defaults.pm.sample
+Unicode-LineBreak-2019.001/lib/Unicode/LineBreak/Constants.pm
+Unicode-LineBreak-2019.001/lib/Unicode/GCString.pod
+Unicode-LineBreak-2019.001/lib/Unicode/GCString.pm
+Unicode-LineBreak-2019.001/lib/Unicode/LineBreak.pm
+Unicode-LineBreak-2019.001/typemap
+Unicode-LineBreak-2019.001/test-data/
+Unicode-LineBreak-2019.001/test-data/el.in
+Unicode-LineBreak-2019.001/test-data/ko-decomp.in
+Unicode-LineBreak-2019.001/test-data/fr.ea.out
+Unicode-LineBreak-2019.001/test-data/ja.flowed.out
+Unicode-LineBreak-2019.001/test-data/ja.wrap.out
+Unicode-LineBreak-2019.001/test-data/uri.nonbreak.out
+Unicode-LineBreak-2019.001/test-data/ecclesiazusae.ColumnsMax.out
+Unicode-LineBreak-2019.001/test-data/ko.al.out
+Unicode-LineBreak-2019.001/test-data/quotes.norm.in
+Unicode-LineBreak-2019.001/test-data/fr.flowed.out
+Unicode-LineBreak-2019.001/test-data/fr.out
+Unicode-LineBreak-2019.001/test-data/ja-a.in
+Unicode-LineBreak-2019.001/test-data/ja.format.out
+Unicode-LineBreak-2019.001/test-data/he.out
+Unicode-LineBreak-2019.001/test-data/ja.plain.out
+Unicode-LineBreak-2019.001/test-data/ar.out
+Unicode-LineBreak-2019.001/test-data/zh.out
+Unicode-LineBreak-2019.001/test-data/ja.fixed.out
+Unicode-LineBreak-2019.001/test-data/flowedsp.out
+Unicode-LineBreak-2019.001/test-data/el.out
+Unicode-LineBreak-2019.001/test-data/ja-k.ns.out
+Unicode-LineBreak-2019.001/test-data/quotes.flowed.out
+Unicode-LineBreak-2019.001/test-data/fr.plain.out
+Unicode-LineBreak-2019.001/test-data/GraphemeBreakTest.txt
+Unicode-LineBreak-2019.001/test-data/vi.out
+Unicode-LineBreak-2019.001/test-data/ja-a.out
+Unicode-LineBreak-2019.001/test-data/th.out
+Unicode-LineBreak-2019.001/test-data/ecclesiazusae.out
+Unicode-LineBreak-2019.001/test-data/fr.fixed.out
+Unicode-LineBreak-2019.001/test-data/fr.format.out
+Unicode-LineBreak-2019.001/test-data/LineBreakTest.txt
+Unicode-LineBreak-2019.001/test-data/ja-k.out
+Unicode-LineBreak-2019.001/test-data/ko.newline.out
+Unicode-LineBreak-2019.001/test-data/vi.in
+Unicode-LineBreak-2019.001/test-data/ru.out
+Unicode-LineBreak-2019.001/test-data/fr.newline.out
+Unicode-LineBreak-2019.001/test-data/ru.in
+Unicode-LineBreak-2019.001/test-data/titin.bz
+Unicode-LineBreak-2019.001/test-data/uri.break.http.out
+Unicode-LineBreak-2019.001/test-data/amitagyong.out
+Unicode-LineBreak-2019.001/test-data/zh.in
+Unicode-LineBreak-2019.001/test-data/vi-decomp.out
+Unicode-LineBreak-2019.001/test-data/flowedsp.in
+Unicode-LineBreak-2019.001/test-data/sa.out
+Unicode-LineBreak-2019.001/test-data/fr.wrap.out
+Unicode-LineBreak-2019.001/test-data/quotes.fixed.out
+Unicode-LineBreak-2019.001/test-data/ja.out
+Unicode-LineBreak-2019.001/test-data/ko-decomp.out
+Unicode-LineBreak-2019.001/test-data/quotes.plain.out
+Unicode-LineBreak-2019.001/test-data/amitagyong.in
+Unicode-LineBreak-2019.001/test-data/ar.in
+Unicode-LineBreak-2019.001/test-data/quotes.in
+Unicode-LineBreak-2019.001/test-data/uri.break.out
+Unicode-LineBreak-2019.001/test-data/ecclesiazusae.in
+Unicode-LineBreak-2019.001/test-data/ecclesiazusae.ColumnsMin.out
+Unicode-LineBreak-2019.001/test-data/fr.in
+Unicode-LineBreak-2019.001/test-data/sa.in
+Unicode-LineBreak-2019.001/test-data/uri.in
+Unicode-LineBreak-2019.001/test-data/ja.in
+Unicode-LineBreak-2019.001/test-data/ko.out
+Unicode-LineBreak-2019.001/test-data/README.test-data
+Unicode-LineBreak-2019.001/test-data/ko.in
+Unicode-LineBreak-2019.001/test-data/ecclesiazusae.CharactersMax.out
+Unicode-LineBreak-2019.001/test-data/ja-k.in
+Unicode-LineBreak-2019.001/test-data/he.in
+Unicode-LineBreak-2019.001/test-data/vi-decomp.in
+Unicode-LineBreak-2019.001/test-data/th.al.out
+Unicode-LineBreak-2019.001/test-data/th.in
+Unicode-LineBreak-2019.001/Makefile.PL.sombok
+Unicode-LineBreak-2019.001/sombok/
+Unicode-LineBreak-2019.001/sombok/include/
+Unicode-LineBreak-2019.001/sombok/include/sombok_constants.h
+Unicode-LineBreak-2019.001/sombok/include/sombok.h.in
+Unicode-LineBreak-2019.001/sombok/COPYING
+Unicode-LineBreak-2019.001/sombok/README
+Unicode-LineBreak-2019.001/sombok/ChangeLog.REL1
+Unicode-LineBreak-2019.001/sombok/lib/
+Unicode-LineBreak-2019.001/sombok/lib/7.0.0.c
+Unicode-LineBreak-2019.001/sombok/lib/linebreak.c
+Unicode-LineBreak-2019.001/sombok/lib/charprop.c
+Unicode-LineBreak-2019.001/sombok/lib/8.0.0.c
+Unicode-LineBreak-2019.001/sombok/lib/break.c
+Unicode-LineBreak-2019.001/sombok/lib/utils.c
+Unicode-LineBreak-2019.001/sombok/lib/6.0.0.c
+Unicode-LineBreak-2019.001/sombok/lib/5.2.0.c
+Unicode-LineBreak-2019.001/sombok/lib/6.3.0.c
+Unicode-LineBreak-2019.001/sombok/lib/southeastasian.c
+Unicode-LineBreak-2019.001/sombok/lib/6.1.0.c
+Unicode-LineBreak-2019.001/sombok/lib/gcstring.c
+Unicode-LineBreak-2019.001/sombok/lib/5.1.0.c
+Unicode-LineBreak-2019.001/sombok/lib/6.2.0.c
+Unicode-LineBreak-2019.001/sombok/lib/utf8.c
+Unicode-LineBreak-2019.001/sombok/VERSION
+Unicode-LineBreak-2019.001/sombok/ChangeLog
+Unicode-LineBreak-2019.001/sombok/README.ja_JP
+Unicode-LineBreak-2019.001/sombok/UNICODE
+Unicode-LineBreak-2019.001/sombok/ARTISTIC
+Unicode-LineBreak-2019.001/ppport.h
+Unicode-LineBreak-2019.001/GPL
+Unicode-LineBreak-2019.001/META.yml
+Unicode-LineBreak-2019.001/Makefile.PL
+Unicode-LineBreak-2019.001/perl-Unicode-LineBreak.spec
+Unicode-LineBreak-2019.001/ARTISTIC
+Use bundled sombok 2.4.0 with Unicode 8.0.0
+Checking if your kit is complete...
+Looks good
+Writing MYMETA.yml and MYMETA.json
+Generating a Unix-style Makefile
+Writing Makefile for Unicode::LineBreak
+Writing MYMETA.yml and MYMETA.json
+cd sombok && make all
+make[1] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/Unicode-LineBreak-2019.001/sombok »
+cd lib && cc -c  "-I/usr/lib64/perl5/CORE" "-I/repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/Unicode-LineBreak-2019.001/sombok/include"  -D_REENTRANT -D_GNU_SOURCE -fwrapv -fno-strict-aliasing -pipe -fstack-protector-strong -I/usr/local/include -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -O2 -fPIC   -DVERSION=\"\" -DXS_VERSION=\"\" -fPIC "-I/usr/lib64/perl5/CORE"   ../lib/8.0.0.c
+cd lib && cc -c  "-I/usr/lib64/perl5/CORE" "-I/repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/Unicode-LineBreak-2019.001/sombok/include"  -D_REENTRANT -D_GNU_SOURCE -fwrapv -fno-strict-aliasing -pipe -fstack-protector-strong -I/usr/local/include -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -O2 -fPIC   -DVERSION=\"\" -DXS_VERSION=\"\" -fPIC "-I/usr/lib64/perl5/CORE"   ../lib/break.c
+cd lib && cc -c  "-I/usr/lib64/perl5/CORE" "-I/repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/Unicode-LineBreak-2019.001/sombok/include"  -D_REENTRANT -D_GNU_SOURCE -fwrapv -fno-strict-aliasing -pipe -fstack-protector-strong -I/usr/local/include -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -O2 -fPIC   -DVERSION=\"\" -DXS_VERSION=\"\" -fPIC "-I/usr/lib64/perl5/CORE"   ../lib/charprop.c
+../lib/charprop.c: Dans la fonction « linebreak_charprop »:
+../lib/charprop.c:156:17: attention: l'affectation abandonne le qualificatif « const » du type pointé [-Wdiscarded-qualifiers]
+  156 |             ent =
+      |                 ^
+cd lib && cc -c  "-I/usr/lib64/perl5/CORE" "-I/repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/Unicode-LineBreak-2019.001/sombok/include"  -D_REENTRANT -D_GNU_SOURCE -fwrapv -fno-strict-aliasing -pipe -fstack-protector-strong -I/usr/local/include -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -O2 -fPIC   -DVERSION=\"\" -DXS_VERSION=\"\" -fPIC "-I/usr/lib64/perl5/CORE"   ../lib/gcstring.c
+cd lib && cc -c  "-I/usr/lib64/perl5/CORE" "-I/repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/Unicode-LineBreak-2019.001/sombok/include"  -D_REENTRANT -D_GNU_SOURCE -fwrapv -fno-strict-aliasing -pipe -fstack-protector-strong -I/usr/local/include -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -O2 -fPIC   -DVERSION=\"\" -DXS_VERSION=\"\" -fPIC "-I/usr/lib64/perl5/CORE"   ../lib/linebreak.c
+cd lib && cc -c  "-I/usr/lib64/perl5/CORE" "-I/repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/Unicode-LineBreak-2019.001/sombok/include"  -D_REENTRANT -D_GNU_SOURCE -fwrapv -fno-strict-aliasing -pipe -fstack-protector-strong -I/usr/local/include -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -O2 -fPIC   -DVERSION=\"\" -DXS_VERSION=\"\" -fPIC "-I/usr/lib64/perl5/CORE"   ../lib/southeastasian.c
+cd lib && cc -c  "-I/usr/lib64/perl5/CORE" "-I/repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/Unicode-LineBreak-2019.001/sombok/include"  -D_REENTRANT -D_GNU_SOURCE -fwrapv -fno-strict-aliasing -pipe -fstack-protector-strong -I/usr/local/include -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -O2 -fPIC   -DVERSION=\"\" -DXS_VERSION=\"\" -fPIC "-I/usr/lib64/perl5/CORE"   ../lib/utf8.c
+cd lib && cc -c  "-I/usr/lib64/perl5/CORE" "-I/repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/Unicode-LineBreak-2019.001/sombok/include"  -D_REENTRANT -D_GNU_SOURCE -fwrapv -fno-strict-aliasing -pipe -fstack-protector-strong -I/usr/local/include -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -O2 -fPIC   -DVERSION=\"\" -DXS_VERSION=\"\" -fPIC "-I/usr/lib64/perl5/CORE"   ../lib/utils.c
+rm -f "libsombok.a"
+/usr/bin/ar cr "libsombok.a" lib/8.0.0.o lib/break.o lib/charprop.o lib/gcstring.o lib/linebreak.o lib/southeastasian.o lib/utf8.o lib/utils.o
+: "libsombok.a"
+chmod 755 libsombok.a
+make[1] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/Unicode-LineBreak-2019.001/sombok »
+make[1] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/Unicode-LineBreak-2019.001/sombok »
+make[1] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/Unicode-LineBreak-2019.001/sombok »
+Running Mkbootstrap for LineBreak ()
+chmod 644 "LineBreak.bs"
+"/usr/bin/perl5.34.0" -MExtUtils::Command::MM -e 'cp_nonempty' -- LineBreak.bs blib/arch/auto/Unicode/LineBreak/LineBreak.bs 644
+"/usr/bin/perl5.34.0" "/usr/share/perl5/ExtUtils/xsubpp"  -typemap '/usr/share/perl5/ExtUtils/typemap' -typemap '/repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/Unicode-LineBreak-2019.001/typemap'  LineBreak.xs > LineBreak.xsc
+mv LineBreak.xsc LineBreak.c
+cc -c  -Isombok/include -D_REENTRANT -D_GNU_SOURCE -fwrapv -fno-strict-aliasing -pipe -fstack-protector-strong -I/usr/local/include -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -O2 -fPIC   -DVERSION=\"2019.001\" -DXS_VERSION=\"2019.001\" -fPIC "-I/usr/lib64/perl5/CORE"   LineBreak.c
+rm -f blib/arch/auto/Unicode/LineBreak/LineBreak.so
+cc -Wl,-s  -shared -O2 -fPIC -L/usr/local/lib -fstack-protector-strong  LineBreak.o  -o blib/arch/auto/Unicode/LineBreak/LineBreak.so sombok/libsombok.a \
+      \
+  
+chmod 755 blib/arch/auto/Unicode/LineBreak/LineBreak.so
+Manifying 6 pod documents
+"/usr/bin/perl5.34.0" -MExtUtils::Command::MM -e 'cp_nonempty' -- LineBreak.bs blib/arch/auto/Unicode/LineBreak/LineBreak.bs 644
+make[1] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/Unicode-LineBreak-2019.001/sombok »
+make[1] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/Unicode-LineBreak-2019.001/sombok »
+make[1] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/Unicode-LineBreak-2019.001/sombok »
+No tests defined for sombok extension.
+make[1] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/Unicode-LineBreak-2019.001/sombok »
+PERL_DL_NONLAZY=1 "/usr/bin/perl5.34.0" "-MExtUtils::Command::MM" "-MTest::Harness" "-e" "undef *Test::Harness::Switches; test_harness(0, 'blib/lib', 'blib/arch')" t/*.t
+# sombok 2.4.0 with Unicode 8.0.0
+t/000.t .................. ok
+#  GraphemeBreakTest-8.0.0.txt Date: 2015-02-13, 13:47:15 GMT [MD]
+t/00GraphemeBreakTest.t .. ok
+#  LineBreakTest-8.0.0.txt Date: 2015-04-30, 09:40:15 GMT [MD]
+t/00LineBreakTest.t ...... ok
+t/01break.t .............. ok
+t/02hangul.t ............. ok
+t/03ns.t ................. ok
+t/04fold.t ............... ok
+t/05urgent.t ............. ok
+t/06context.t ............ ok
+t/07sea.t ................ skipped: SA word segmentation not supported.
+t/08partial.t ............ ok
+t/09uri.t ................ ok
+t/10gcstring.t ........... ok
+t/11format.t ............. ok
+t/12fold2.t .............. ok
+t/13flowedsp.t ........... ok
+t/14sea_al.t ............. ok
+t/15array.t .............. ok
+t/16regex.t .............. ok
+t/17prop.t ............... ok
+t/18currency.t ........... ok
+t/pod.t .................. ok
+All tests successful.
+Files=22, Tests=6962,  3 wallclock secs ( 0.32 usr  0.04 sys +  2.32 cusr  0.20 csys =  2.88 CPU)
+Result: PASS
+make[1] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/Unicode-LineBreak-2019.001/sombok »
+make[1] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/Unicode-LineBreak-2019.001/sombok »
+"/usr/bin/perl5.34.0" -MExtUtils::Command::MM -e 'cp_nonempty' -- LineBreak.bs blib/arch/auto/Unicode/LineBreak/LineBreak.bs 644
+Manifying 6 pod documents
+Files found in blib/arch: installing files in blib/lib into architecture dependent library tree
+Installing /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/package-perl-Unicode-LineBreak/usr/lib64/perl5/vendor_perl/auto/Unicode/LineBreak/LineBreak.so
+Installing /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/package-perl-Unicode-LineBreak/usr/lib64/perl5/vendor_perl/auto/sombok/extralibs.ld
+Installing /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/package-perl-Unicode-LineBreak/usr/lib64/perl5/vendor_perl/Unicode/LineBreak.pm
+Installing /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/package-perl-Unicode-LineBreak/usr/lib64/perl5/vendor_perl/Unicode/LineBreak.pod
+Installing /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/package-perl-Unicode-LineBreak/usr/lib64/perl5/vendor_perl/Unicode/GCString.pod
+Installing /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/package-perl-Unicode-LineBreak/usr/lib64/perl5/vendor_perl/Unicode/GCString.pm
+Installing /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/package-perl-Unicode-LineBreak/usr/lib64/perl5/vendor_perl/Unicode/LineBreak/Constants.pm
+Installing /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/package-perl-Unicode-LineBreak/usr/lib64/perl5/vendor_perl/Unicode/LineBreak/Defaults.pm.sample
+Installing /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/package-perl-Unicode-LineBreak/usr/lib64/perl5/vendor_perl/Text/LineFold.pm
+Installing /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/package-perl-Unicode-LineBreak/usr/lib64/perl5/vendor_perl/POD2/JA/Text/LineFold.pod
+Installing /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/package-perl-Unicode-LineBreak/usr/lib64/perl5/vendor_perl/POD2/JA/Unicode/GCString.pod
+Installing /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/package-perl-Unicode-LineBreak/usr/lib64/perl5/vendor_perl/POD2/JA/Unicode/LineBreak.pod
+Installing /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/package-perl-Unicode-LineBreak/usr/man/man3/POD2::JA::Text::LineFold.3
+Installing /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/package-perl-Unicode-LineBreak/usr/man/man3/POD2::JA::Unicode::GCString.3
+Installing /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/package-perl-Unicode-LineBreak/usr/man/man3/POD2::JA::Unicode::LineBreak.3
+Installing /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/package-perl-Unicode-LineBreak/usr/man/man3/Text::LineFold.3
+Installing /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/package-perl-Unicode-LineBreak/usr/man/man3/Unicode::GCString.3
+Installing /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/package-perl-Unicode-LineBreak/usr/man/man3/Unicode::LineBreak.3
+Appending installation info to /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/package-perl-Unicode-LineBreak/usr/lib64/perl5/perllocal.pod
+
+Slackware package maker, version 3.14159265.
+
+Searching for symbolic links:
+
+No symbolic links were found, so we won't make an installation script.
+You can make your own later in ./install/doinst.sh and rebuild the
+package if you like.
+
+This next step is optional - you can set the directories in your package
+to some sane permissions. If any of the directories in your package have
+special permissions, then DO NOT reset them here!
+
+Would you like to reset all directory permissions to 755 (drwxr-xr-x) and
+directory ownerships to root.root ([y]es, [n]o)? 
+n
+
+Creating Slackware package:  /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/perl-Unicode-LineBreak-2019.001-x86_64-3slint.txz
+
+./
+install/
+install/slack-desc
+usr/
+usr/doc/
+usr/doc/perl-Unicode-LineBreak-2019.001/
+usr/doc/perl-Unicode-LineBreak-2019.001/ARTISTIC
+usr/doc/perl-Unicode-LineBreak-2019.001/Changes
+usr/doc/perl-Unicode-LineBreak-2019.001/Changes.REL1
+usr/doc/perl-Unicode-LineBreak-2019.001/GPL
+usr/doc/perl-Unicode-LineBreak-2019.001/README
+usr/doc/perl-Unicode-LineBreak-2019.001/Todo.REL1
+usr/doc/perl-Unicode-LineBreak-2019.001/perl-Unicode-LineBreak.SlackBuild
+usr/lib64/
+usr/lib64/perl5/
+usr/lib64/perl5/vendor_perl/
+usr/lib64/perl5/vendor_perl/POD2/
+usr/lib64/perl5/vendor_perl/POD2/JA/
+usr/lib64/perl5/vendor_perl/POD2/JA/Text/
+usr/lib64/perl5/vendor_perl/POD2/JA/Text/LineFold.pod
+usr/lib64/perl5/vendor_perl/POD2/JA/Unicode/
+usr/lib64/perl5/vendor_perl/POD2/JA/Unicode/GCString.pod
+usr/lib64/perl5/vendor_perl/POD2/JA/Unicode/LineBreak.pod
+usr/lib64/perl5/vendor_perl/Text/
+usr/lib64/perl5/vendor_perl/Text/LineFold.pm
+usr/lib64/perl5/vendor_perl/Unicode/
+usr/lib64/perl5/vendor_perl/Unicode/GCString.pm
+usr/lib64/perl5/vendor_perl/Unicode/GCString.pod
+usr/lib64/perl5/vendor_perl/Unicode/LineBreak/
+usr/lib64/perl5/vendor_perl/Unicode/LineBreak.pm
+usr/lib64/perl5/vendor_perl/Unicode/LineBreak.pod
+usr/lib64/perl5/vendor_perl/Unicode/LineBreak/Constants.pm
+usr/lib64/perl5/vendor_perl/Unicode/LineBreak/Defaults.pm.sample
+usr/lib64/perl5/vendor_perl/auto/
+usr/lib64/perl5/vendor_perl/auto/Unicode/
+usr/lib64/perl5/vendor_perl/auto/Unicode/LineBreak/
+usr/lib64/perl5/vendor_perl/auto/Unicode/LineBreak/LineBreak.so
+usr/lib64/perl5/vendor_perl/auto/sombok/
+usr/lib64/perl5/vendor_perl/auto/sombok/extralibs.ld
+usr/man/
+usr/man/man3/
+usr/man/man3/POD2::JA::Text::LineFold.3.gz
+usr/man/man3/POD2::JA::Unicode::GCString.3.gz
+usr/man/man3/POD2::JA::Unicode::LineBreak.3.gz
+usr/man/man3/Text::LineFold.3.gz
+usr/man/man3/Unicode::GCString.3.gz
+usr/man/man3/Unicode::LineBreak.3.gz
+
+Slackware package /repo/x86_64/slint-15.0/source/perl-Unicode-LineBreak/perl-Unicode-LineBreak-2019.001-x86_64-3slint.txz created.

@@ -1,0 +1,178 @@
+# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+# Contributor: Eric Bélanger <eric@archlinux.org>
+# Adapted to Slint by Didier Spaier didieratslintdotfr
+
+# Building this version needs icu4c version 70.1 or greater
+# In Slint install the package icu4c77 that does not conflict with icu4c before
+# building webkitgtk.
+# Credit Anagnostakis Ioannis for building webkit2gtk against icu4c77
+
+pkgname=webkit2gtk
+pkgver=2.48.1
+pkgrel=1slint
+slackdesc="$pkgname (Web content engine for GTK)"
+export url="https://webkitgtk.org"
+arch=(x86_64)
+license=(
+  # :sort ui /\v^\s*['"]?/
+  'AFL-2.0 OR GPL-2.0-or-later'
+  Apache-2.0
+  'Apache-2.0 WITH LLVM-exception'
+  BSD-2-Clause
+  BSD-2-Clause-Views
+  BSD-3-Clause
+  BSD-Source-Code
+  BSL-1.0
+  bzip2-1.0.6
+  GPL-2.0-only
+  'GPL-3.0-only WITH Autoconf-exception-3.0'
+  'GPL-3.0-or-later WITH Bison-exception-2.2'
+  ICU
+  ISC
+  LGPL-2.1-only
+  LGPL-2.1-or-later
+  MIT
+  MPL-1.1
+  MPL-2.0
+  NCSA
+  'NCSA OR MIT'
+  OFL-1.1
+  SunPro
+  Unicode-TOU
+)
+depends=(
+  at-spi2-core
+  atk
+  bubblewrap
+  cairo
+  enchant
+  expat
+  fontconfig
+  freetype2
+  gcc-libs
+  gdk-pixbuf2
+  glib2
+  glibc
+  gst-plugins-bad-libs
+  gst-plugins-base-libs
+  gstreamer
+  gtk3
+  harfbuzz
+  harfbuzz-icu
+  hyphen
+  icu
+  lcms2
+  libavif
+  libdrm
+  libegl
+  libepoxy
+  libgcrypt
+  libgl
+  libgles
+  libjpeg-turbo
+  libjxl
+  libmanette
+  libpng
+  libseccomp
+  libsecret
+  libsoup
+  libtasn1
+  libwebp
+  libx11
+  libxml2
+  libxslt
+  mesa
+  openjpeg2
+  pango
+  sqlite
+  wayland
+  woff2
+  xdg-dbus-proxy
+  zlib
+)
+makedepends=(
+  clang
+  cmake
+  gi-docgen
+  glib2-devel
+  gobject-introspection
+  gperf
+  gst-plugins-bad
+  lld
+  ninja
+  python
+  ruby
+  ruby-stdlib
+  unifdef
+  wayland-protocols
+)
+source=(
+  "$url/releases/webkitgtk-$pkgver.tar.xz"
+)
+sha256sums=('98efdf21c4cdca0fe0b73ab5a8cb52093b5aa52d9b1b016a93f71dbfa1eb258f'
+            'SKIP')
+b2sums=('d0723ded65230915954a66366c82d0d8c45b423c55cc5d6dabed72378a9f8cf498e8a525729e964daa3e8dd93e06fde30b6f02b103c5e88b3c29cc175026f668'
+        'SKIP')
+validpgpkeys=(
+  # https://www.webkitgtk.org/verifying.html
+  5AA3BC334FD7E3369E7C77B291C559DBE4C9123B # Adrián Pérez de Castro <aperez@igalia.com>
+  013A0127AC9C65B34FFA62526C1009B693975393 # Carlos Garcia Campos <cgarcia@igalia.com>
+)
+
+export ICU_ROOT=/opt/icu4c77
+export PKG_CONFIG_PATH=/opt/icu4c77/lib64/pkgconfig:${PKG_CONFIG_PATH:-}
+export LD_LIBRARY_PATH=/opt/icu4c77/lib64:${LD_LIBRARY_PATH:-}
+build() {
+  local cmake_options=(
+    -D ICU_ROOT=$ICU_ROOT
+    -D CMAKE_PREFIX_PATH=$ICU_ROOT
+    -D ENABLE_JOURNALD_LOG=OFF
+    -D CMAKE_BUILD_TYPE=Release
+    -D CMAKE_INSTALL_LIBDIR=lib
+    -D CMAKE_INSTALL_LIBEXECDIR=lib
+    -D CMAKE_INSTALL_PREFIX=/usr
+    -D CMAKE_SKIP_RPATH=ON
+    -D ENABLE_DOCUMENTATION=OFF
+    -D ENABLE_MINIBROWSER=ON
+    -D ENABLE_SPEECH_SYNTHESIS=OFF
+    -D USE_JPEGXL=OFF
+    -D USE_AVIF=OFF
+    -D USE_SYSTEM_SYSPROF_CAPTURE=NO
+    -D PORT=GTK
+    -D USE_FLITE=OFF
+    -D USE_GTK4=OFF
+    -D USE_LIBBACKTRACE=OFF
+    -D USE_SOUP2=ON
+  )
+
+  # Upstream prefers Clang
+  # https://gitlab.archlinux.org/archlinux/packaging/packages/webkitgtk-6.0/-/issues/4
+  export CC=clang CXX=clang++
+  LDFLAGS+=" -fuse-ld=lld"
+
+  # Skia uses malloc_usable_size
+  CFLAGS="${CFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
+  CXXFLAGS="${CXXFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
+
+  # JITted code crashes when CET is used
+  CFLAGS+=' -fcf-protection=none'
+  CXXFLAGS+=' -fcf-protection=none'
+
+  cmake -S webkitgtk-$pkgver -B build -G Ninja "${cmake_options[@]}"
+  cmake --build build
+
+  DESTDIR="$PKG" cmake --install build
+
+  rm -r "$PKG/usr/bin"
+
+
+  (cd webkitgtk-$pkgver
+  find Source -name 'COPYING*' -or -name 'LICENSE*' -print0 | sort -z |
+    while IFS= read -d $'\0' -r _f; do
+      echo "### $_f ###"
+      cat "$_f"
+      echo
+    done |
+    install -Dm644 /dev/stdin "$PKG/usr/doc/${pkgname}-$pkgver/LICENSES"
+  )
+}

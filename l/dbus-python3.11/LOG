@@ -1,0 +1,19 @@
+dbus-python 1.4.0
+
+  Subprojects
+    dbus-gmain     : YES
+
+  User defined options
+    bindir         : /usr/bin
+    buildtype      : release
+    datadir        : /usr/share
+    includedir     : /usr/include
+    installed_tests: false
+    libdir         : lib64
+    libexecdir     : /usr/libexec
+    localstatedir  : /var
+    mandir         : /usr/man
+    prefix         : /usr
+    python         : python3.11
+    sbindir        : /usr/sbin
+    sysconfdir     : /etc

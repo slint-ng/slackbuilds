@@ -1,0 +1,49 @@
+# Maintainer: C. Torres <torr[dot]c[at]mailgw[dot]com>
+# Included in Slint by Didier Spaier didieratslintdotfr
+pkgname=nchat
+pkgver=5.9.15
+pkgrel=1slint
+source=(
+	"https://github.com/d99kris/$pkgname/archive/refs/tags/v$pkgver.tar.gz"
+)
+url="https://github.com/d99kris/nchat"
+slackdesc=(
+#-----------------------------max_columns------------------------------#
+"$pkgname (Terminal-based Telegram-WhatsApp client for Linux and macOS)"
+"$pkgname is a TUI for messaging programs such as Telegram and"
+"Whatsapp, including features such as customizable color scheme,"
+"jump to unread message, markdown formatted messages, and view and save"
+"media files."
+""
+"Homepage: $url"
+)
+docs=(
+	"README.md"
+	"DEBUGGING.md"
+	"LICENSE"
+)
+options=(
+	nosrcpack
+	noautodotnew
+)
+##builddeps: gperf gcc-g++ make cmake-nogui help2man golang
+
+
+build() {
+	cd "$startdir/src/$pkgname-$pkgver"
+
+	(
+		export CGO_CFLAGS="$CFLAGS"
+		export GOSUMDB=off GOPROXY=direct GOVCS='*:all' GOTOOLCHAIN=local 
+		export GOFLAGS="-buildmode=pie -ldflags=-linkmode=external -buildvcs=false -modcacherw -trimpath"
+
+		cmake -B build \
+			-D CMAKE_INSTALL_LIBDIR="lib$LIBDIRSUFFIX" \
+			-D CMAKE_INSTALL_PREFIX="/usr" .
+		make -j $numjobs -C build
+	) || return 1
+
+	(
+		make -C build install DESTDIR="$startdir/pkg"
+	) || return 1
+}

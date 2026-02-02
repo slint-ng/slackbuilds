@@ -1,0 +1,19 @@
+#Packager: Didier Spaier didierspaieratslintdotfr
+
+pkgname="mate"
+pkgver=1
+pkgrel=1slint
+arch=noarch
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"mate (Mate set of packages)"
+"Typing as root \"slapt-get --install-set mate --reinstall\" will"
+"install or update all packages included in the Mate set of packages"
+"and their dependencies"
+)
+
+build() {
+	cd $startdir/src
+} 

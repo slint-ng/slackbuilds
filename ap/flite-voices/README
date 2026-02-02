@@ -1,0 +1,10 @@
+These voices come from:
+http://www.festvox.org/flite/packed/flite-2.1/voices/
+To install them, for instance, as root:
+mkdir -p /usr/share/flite/voices
+cp cmu_us_aew.flitevox /usr/share/flite/voices/aew
+
+The voice name, in this case aew, should exists in
+the file/etc/speech-dispatcher-modules/flite-generic.conf
+for this file to be available in Orca and other
+applicationd linked to Speech Dispatcher.  

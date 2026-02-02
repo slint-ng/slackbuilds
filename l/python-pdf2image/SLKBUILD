@@ -1,0 +1,24 @@
+# Maintainer: Juliette Monsel <j_4321 at protonmail dot com>
+# Included in Slint by Didier Spaier didieratslintdotfr
+pkgname=python-pdf2image
+export _name=pdf2image
+pkgver=1.16.0
+pkgrel=1slint
+slackdesc=(\
+"python-pdf2image (convert PDF to a PIL Image object)"
+"Python wrapper around the pdftoppm and pdftocairo command line tools"
+"to convert PDF to a PIL Image list"
+)
+docs=(LICENSE README.md)
+url="https://github.com/Belval/${_name}"
+license=('MIT')
+depends=('python' 'python-pillow' 'poppler')
+makedepends=('python-setuptools')
+source=("${_name}-${pkgver}.tar.gz")
+sha512sums=('fa5f5952620fc3de128c2d5fe11b7b0c5d3fce87e6eb65ffd898d374b7d6b9b445a81f686bce90b7d91e2532de6b7dfb8bc1e153840f04502bbe122646b4b3a8')
+
+build() {
+    cd "${_name}-${pkgver}"
+    python3 setup.py build
+    python setup.py install --root=$PKG --prefix=/usr --optimize=1 --skip-build
+}

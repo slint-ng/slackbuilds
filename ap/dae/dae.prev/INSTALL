@@ -1,0 +1,13 @@
+Installation instructions for dae, the digital audio editor
+First install ecasound and python.
+You should have packages for these in your distribution.
+Extract the tar.bz2 file.
+A directory dae will be created.
+Change into that directory and run:
+./install.sh
+Ecasound and python must be installed before dae will install.
+./install.sh --help can be run to show installer options.
+Note that python versions 2.6 and later currently gives errors when dae is
+entered or exited, but the program still functions correctly.
+Once dae is installed, see the man page for a way to get rid of these
+errors.

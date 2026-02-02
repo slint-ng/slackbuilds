@@ -1,0 +1,13 @@
+lightdm-settings needs a "graphical su" to start from a menu or the mate-control-center - Didier Spaier
+diff -ru lightdm-settings-2.0.1/usr/share/applications/lightdm-settings.desktop lightdm-settings-2.0.1.new/usr/share/applications/lightdm-settings.desktop
+--- lightdm-settings-2.0.1/usr/share/applications/lightdm-settings.desktop	2023-12-03 16:00:32.000000000 +0100
++++ lightdm-settings-2.0.1.new/usr/share/applications/lightdm-settings.desktop	2024-03-02 22:14:52.966803241 +0100
+@@ -131,7 +131,7 @@
+ Comment[zh_CN]=配置登录窗口
+ Comment[zh_HK]=配置登入視窗
+ Comment[zh_TW]=設定登入視窗
+-Exec=pkexec lightdm-settings
++Exec=gnsu lightdm-settings
+ Icon=lightdm-settings
+ StartupNotify=true
+ Terminal=false

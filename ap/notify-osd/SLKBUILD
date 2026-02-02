@@ -1,0 +1,66 @@
+# Maintainer: Balló György <ballogyor+arch at gmail dot com>
+# Contributor: Johannes Pfau <johannespfau at gmail dot com>
+# included in Slint by Didier Spaier didieratslintdotfr
+pkgname=notify-osd
+pkgver=0.9.35+16.04.20160415
+pkgrel=2slint
+pkgdesc="Canonical's on-screen-display notification agent, implementing the freedesktop.org Desktop Notifications Specification with semi-transparent click-through bubbles"
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Canonical's on-screen-display notification agent)"
+"This agent implements the freedesktop.org Desktop Notifications"
+"Specification with semi-transparent click-through bubbles"
+)
+docs=(AUTHORS COPYING NEWS TODO README.Slint)
+arch=('x86_64')
+url="https://launchpad.net/notify-osd"
+license=('GPL')
+depends=('libwnck3' 'dbus-glib' 'gsettings-desktop-schemas')
+makedepends=('gnome-common' 'libnotify')
+provides=('notification-daemon')
+source=(https://launchpad.net/ubuntu/+archive/primary/+files/${pkgname}_$pkgver.orig.tar.gz README.Slint)
+sha256sums=('119fd662e4cbfeec492c1f96e26687dbfb5986076114bda488807358e54cfb53')
+
+doinst() {
+	# Update desktop database:
+	if [ -x /usr/bin/update-desktop-database ]; then
+	/usr/bin/update-desktop-database /usr/share/applications 1> /dev/null 2> /dev/null
+	fi
+	# glib schemas
+	if [ -x /usr/bin/glib-compile-schemas ]; then
+	/usr/bin/glib-compile-schemas /usr/share/glib-2.0/schemas > /dev/null 2>&1
+	fi
+	
+	
+	# Update the X font indexes:
+	if [ -x /usr/bin/fc-cache ]; then
+	/usr/bin/fc-cache -f &
+	fi
+	
+	# Update any existing icon cache files:
+	if find /usr/share/icons -maxdepth 2 2> /dev/null | grep -q icon-theme.cache ; then
+	for theme_dir in /usr/share/icons/* ; do
+		if [ -r ${theme_dir}/icon-theme.cache ]; then
+		/usr/bin/gtk-update-icon-cache -t -f ${theme_dir} 1> /dev/null 2> /dev/null &
+		fi
+		done
+		# This would be a large file and probably shouldn't be there.
+		if [ -r /usr/share/icons/icon-theme.cache ]; then
+			rm -f /usr/share/icons/icon-theme.cache
+		fi
+	fi
+}
+build() {
+  cd $SRC
+  NOCONFIGURE=1 ./autogen.sh
+  ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libexecdir=/usr/lib/$pkgname \
+              --with-examples=c
+  make
+  make DESTDIR=$PKG install
+  mkdir -p $PKG/usr/share/$pkgname/examples
+  cd examples
+  rm -f Makefile* *.cs *.o
+  find -maxdepth 1 -type f -exec cp '{}' $PKG/usr/share/$pkgname/examples ';'
+  cp *.py  $PKG/usr/share/$pkgname/examples
+}

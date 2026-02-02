@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="config-cd">
+  <title>CD Audio</title>
+  <para>Mate può riprodurre i vostri CD. Potete impostare le preferenze dei CD nel capplet <guibutton>Proprietà dei CD</guibutton> della sezione <guilabel>Avanzate</guilabel> di <application>Centro di Controllo di MATE</application>.</para>
+  <para>Una volta aperta , vedrete che la finestra è divisa in due sezioni: CD Dati e CD Audio.</para>
+  <sect2 id="config-cd-data">
+    <title>CD di Dati</title>
+    <para>I CD di dati sono CD che contengono informazioni che il sistema può eseguire. Molte delle volte includono CD che hanno programmi o CD su cui si sono masterizzate Immagini dalla fotocamera.</para>
+    <para>La prima opzione è <guibutton>Montare il CD automaticamente quando viene inserito</guibutton>. Abilitando questa opzione, i vostri CD saranno rilevati automaticamente quando li avrete inseriti.</para>
+    <tip>
+      <title>Che cosa vuol dire montare</title>
+      <para>I sistemi Linux e Unix utilizzano il termine montare per identificare il riconoscimento di un dispositivo. Se "montate il vostro CD-ROM", questo significa che il sistema può riconoscere il CD-ROM e potere interagire con esso. Se viene smontato il CD-ROM, il sistema non sarà al corrente della sua esistenza e non potrà fare quasi nulla con esso.</para>
+    </tip>
+    <para>La seconda opzione, <guibutton>Avviare automaticamente programmi auto-eseguibili su CD appena montati</guibutton> permette al sistema di lanciare il programma sul CD automaticamente al primo montaggio del disco.</para>
+    <para>L'ultima opzione, <guibutton>Apre la finestra di gestione dei file per i CD appena montati</guibutton> dice al sistema di aprire il vostro gestore dei file (<application>Caja</application> per impostazione predefinita) quando il CD viene montato. Ciò è utile se si ha un CD di immagini che si vogliono visualizzare. il CD si aprirà in <application>Caja</application> che vi permetterà di vederne le miniature.</para>
+  </sect2>
+  <sect2 id="config-cd-audio">
+    <title>CD Audio</title>
+    <para>La sezione <guilabel>CD Audio</guilabel> ha solo una opzione. Questo consente al sistema di caricare un riproduttore musicale quando inserite il CD. Basta solo selezionare la casella di spunta e inserire il comando che volete eseguire nella finestra di dialogo.</para>
+    <note>
+      <para>I CD audio non necessitano di essere montati per essere riprodotti.</para>
+    </note>
+  </sect2>
+</sect1>

@@ -1,0 +1,8 @@
+PRGNAM="lximage-qt"
+VERSION="2.2.0"
+HOMEPAGE="https://github.com/lxqt/lximage-qt"
+DOWNLOAD="https://github.com/lxqt/lximage-qt/releases/download/2.2.0/lximage-qt-2.2.0.tar.xz"
+MD5SUM="d387013ec7aaa722b8fc459d285f0306"
+REQUIRES=""
+MAINTAINER="Frank Honolka"
+EMAIL="slackernetuk@gmail.com"

@@ -1,0 +1,11 @@
+#!/bin/sh
+echo
+echo "Here are the sound cards found in this system.
+You may set ALSA_CARD to either the card number of the card id.
+Using the card id is preferable as it doesn't change." 
+echo "number  id"
+for i in /sys/class/sound/card*; do
+	printf $i|sed "s/.*card//"
+	printf "       "
+	cat $i/id
+done

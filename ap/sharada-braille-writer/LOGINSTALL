@@ -1,0 +1,25 @@
++==============================================================================
+| Upgrading sharada-braille-writer-3.7.5-x86_64-1slint package using ./sharada-braille-writer-3.7.4-x86_64-1slint.txz
++==============================================================================
+
+Pre-installing package sharada-braille-writer-3.7.4-x86_64-1slint...
+Removing package: sharada-braille-writer-3.7.5-x86_64-1slint-upgraded-2024-09-02,15:58:36
+  --> Deleting /usr/doc/sharada-braille-writer-3.7.5/README.html
+  --> Deleting /usr/doc/sharada-braille-writer-3.7.5/changelog
+  --> Deleting /usr/doc/sharada-braille-writer-3.7.5/copyright
+  --> Deleting /usr/src/sharada-braille-writer-3.7.5/SLKBUILD
+  --> Deleting empty directory /usr/src/sharada-braille-writer-3.7.5/
+WARNING: Unique directory /usr/doc/sharada-braille-writer-3.7.5/ contains new files
+Verifying package sharada-braille-writer-3.7.4-x86_64-1slint.txz.
+Installing package sharada-braille-writer-3.7.4-x86_64-1slint.txz:
+PACKAGE DESCRIPTION:# sharada-braille-writer (S.B.W text editor which support braille input)
+# 
+# In S.B.W, Simultaneous multiple press of braille combinations, will
+# produce corresponding letters. So one can input text in more than 40
+# languages with braille knowledge in perkins like way. Letters f, d, s,
+# j, k, l represent 1 2 3 4 5 6 of the braille dots respectively.
+# By pressing "f" and "s" together will produce letter k and like.
+# 
+Executing install script for sharada-braille-writer-3.7.4-x86_64-1slint.txz.
+Package sharada-braille-writer-3.7.4-x86_64-1slint.txz installed.
+Package sharada-braille-writer-3.7.5-x86_64-1slint upgraded with new package ./sharada-braille-writer-3.7.4-x86_64-1slint.txz.

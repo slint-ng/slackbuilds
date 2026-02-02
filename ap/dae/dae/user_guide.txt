@@ -1,0 +1,220 @@
+USER GUIDE FOR DAE, THE DIGITAL AUDIO EDITOR
+INTRODUCTION
+
+Dae was written to be a simple to use digital audio editor which work well
+with speech under Linux.
+Dae is specifically a console program and should NOT be run from a graphical
+interface like Gnome terminal. To open a console under a graphical based 
+Linux system, try Ctrl+Alt+F2 or any other function key (F1-F6) 
+to login on a pure console.
+It was designed to work like a conventional tape recorder with the added
+features of removing and inserting bloks of data.
+Data can also be inserted from an existing audio file.
+If the record option is chosen when in the middle of a file, the recording
+is made and afterwards, inserted into the file at the point where the record
+option was pressed.
+
+STARTING THE PROGRAM
+Dae is started from a console and takes one parameter, the existing audio
+file that one wants to edit.
+If dae is called without a file name, it creates an empty file called
+unknown.wav.
+dae myfile.wav
+will start dae, load myfile.wav and start to play the file.
+A backup of myfile.wav is made as myfile.wav~ before the file is loaded.
+If myfile.wav does not exist, it is created as an empty file containing one
+second silence.
+
+The current version of dae works reliably on .wav files, so if you want to
+edit a .mp3 or .ogg, first convert it into a .wav and use dae on the .wav.
+The easiest way to do this, is to use sox with its mp3 and ogg support
+package installed.
+E.G. sox somefile.mp3 somefile.wav
+To convert the edited .wav back to mp3 use lame.
+To convert back to .ogg, use oggenc.
+
+NAVIGATING IN DAE
+The file starts to play when it is loaded.
+The following keys can be used to navigate back and forth while the file is
+playing:
+f1: stop, stops the playback of the file.
+f2: play, starts playback at the current position.
+f3: fast rewind, jumps back one minute in the audio.  It can be used either
+while the file is playing or when playback is stopped.
+f4: fast forward, jumps forward one minute in the audio.  It can also be
+used while the file is playing or when it is stopped.
+left-arrow: rewind, jumps back five seconds in the file and can be used like
+fast forward and fast rewind.  Note that holding down the left-arrow is not
+recommended as it does not really work well.
+right-arrow: forward, toggles the speed of playback between the normal speed
+and four times the speed of normal playback.  It can be used while the file
+is playing or when the file is stopped.
+
+home: go to start of the file.  If the file was playing when this key is
+pressed, the file will start playing from the beginning.
+f12: go to end of file, goes to the end of the audio and stops playback,
+showing the position in seconds.  Fractions of seconds are also shown.
+
+w: where am I, shows the current position in the file and can always be
+used.  The position is shown in seconds with a fraction part.
+j: jump to, prompts for a position in seconds and jumps to that position in
+the file.
+
+INSERTING AUDIO FROM A FILE
+Press f11 to stop playback and select a file to be inserted.
+The pickafile file browser with is part of the kies software, is called up
+if it is installed.  Use the up and down arrows to select the file you want
+to insert and press enter to start inserting.
+If pickafile is not available, you will be prompted to type the name of the
+desired file.
+Note: currently only .wav files can be reliably inserted.
+The .wav file that you insert does not have to be in the same format, IE,
+number of channels, sampeling rate etc.
+It would be converted into the format of the file you are editing
+automatically.
+Note that the insertion takes quite long.
+
+RECORDING WITH DAE
+Press f10 to start recording at the current position in the file.  You will
+now see "play" which will later be changed to recording.  You are now
+recording from the default selected input audio device which could be a
+microphone or line in.
+While you are recording, you have the following options.
+f1 to stop recording
+f2 to resume recording and q to stop recording and take you back to your
+origional file.
+After you have pressed q as described above, allow for some time for the
+content to be inserted into the file.  It uses the same routine as for
+inserting from a file for this task.
+
+WORKING WITH PARTS OF THE AUDIO FILE
+The following tasks can be performed on a part of the audio file which you
+are editing:
+Play a part of the file, remove a part of the file and write a part of a
+file to an external file.
+Before any of these tasks can be done, the part of the file you want to work
+with needs to be identified.
+This is done by marking the positions of the start and end of the part you
+want to work with.  Dae calles the part of the file thus marked, a block.
+Press f5 to mark the start of the block and press f6 to mark the end of the
+block.  You do not have to mark the start first, if it is conveniant you can
+first mark the end and mark the start later.  You must have both a start and
+end position marked before any task can be done which requires a block to
+exist.
+To play the marked block, press f7.  If the block is shorter than ten
+seconds, the block will be played and you will be returned to the possition
+in the file where you were when you pressed f7.
+If the block is longer than ten seconds, you will not be returned to that
+position directly.  You are then able to navigate inside the marked block
+and can use the navigation keys, stop and start.  You cannot mark a block
+within a block, so you can also not perform any task that require a marked
+blok.  Press q to get back to the position in the main file where you were
+when you pressed f7.
+
+Writing a block to an external audio file:
+Press f8 to write the marked block to an external audio file.  For reliable
+opperation, only write out .wav files.  After pressing f8, you will be
+prompted for the name of the file in which you want the block of audio to be
+written.  It is important that you give the .wav extention when you type the
+file name.
+Once the block has been written to the file, you will be returned to the
+position in the main file where you were before you have pressed f8.
+
+Removing a block of audio:
+Press f9 to remove the marked block.  The block will be removed and you will
+be returned to the position where you were before pressing f9.  If you were
+at a position which fell inside the block area when you pressed f9, you will
+be returned to the position where the block started.  After the block has
+been removed, a block is no longer marked.
+
+Moving a block of audio
+Currently, moving a block is done using three opperations.
+1.  Mark the block.
+2.  Write the block to an external audio file.
+3.  Insert the external file you have just written out at the desired
+position.
+
+FINISHING THE EDIT SESSION
+Press q to exit the program.  The backup file and the edited file will be on
+your disk, but all temporary files will be deleted.  The files you have
+written out using f8 will also remain on the disk.
+Dae does not have an undo feature, so if you accedentally mess up your file,
+exit using q and copy the backup file over the one you have edited and start
+over.
+You can also copy the messed up file to another file if parts of the file
+can be used.  You then can copy the backup to the origional file and edit it
+again, inserting parts of the messed up file after you have written out
+those parts.
+This sound complecated, but the main thing to remember is that you can
+recover from an error if need be.
+If you have messed up your file, just do not start editing it again before
+you did something to the backup file because if you just start dae again in
+this situation, the backup file will be replaced with your messed up file
+and you can lose data.
+
+GENERAL NOTES AND KNOWN BUGS
+For best opperation, make sure that you can play multiple audio streams at
+once.  If you are using a screen reader like speakup, this is important as
+you might otherwise have speakup and dae fighting over who gets the turn to
+make sound.
+If your machine cannot be set up in this way, you can still use dae by
+turning speakup off using the insert-enter key combination on the numeric
+keypad.
+
+Dae can use up to three times the disk space that is taken up by the file
+you are editing.  The working files are deleted when you exit the program,
+but the backup file remains.  You must remove that by hand.
+Any files that you have created using f8 write block, also remains.
+
+Dae does not check for disk space before each operation, so make sure you
+have enough space.  You can lose data if the disk becomes full during some
+operations although your backup file should be safe.
+
+By default, dae uses the device called "/dev/dsp" for both sound input and
+sound output.  On some machines this might perform poorly and on some
+machines it might not work at all.
+You can try running dae using the aoss program to work around this problem. 
+For example:
+$aoss dae myfile.wav
+Alternatively, you can edit the dae file.  At the top of the file, you will
+find the lines:
+soundin='/dev/dsp'
+soundout='/dev/dsp'
+You can change that to another device, for example:
+soundin='alsa'
+soundout='alsa'
+Python version 2.6 and later complains about some of the code used in the
+ecasound python module, but everything still works without problems.  With
+python 2.6 you are likely to see these errors apon entering and exiting dae.
+It is possible to get rid of these errors under python 2.6 and later by
+compiling ecasound against your installed python.
+To do that, do the following:
+Steps are for Debean/ubuntu
+1.  Install python-dev
+    sudo apt-get install python-dev
+
+2.  Get the source code for ecasound.
+    apt-get source ecasound
+3.  Change into the directory created by the previous step.
+cd ecasound2.2-2.7.0
+4.  Configure ecasound to be built for your python:
+    ./configure --enable-pyecasound=c
+5.  Build and install ecasound:
+    make&&sudo make install
+
+
+Although dae needs more work, I have used it for a number of years for all my
+audio editing and had no major problems.
+
+FUTURE PLANS FOR DAE
+Add support for editing/writing compressed files like mp3 and ogg.
+Add a save option where you can save to another file while still editing. 
+This is currently possible by marking all of the file as a block and saving
+it under another name using write block.
+Add support for ladspa and ecasound plugins to be applied on parts of the
+file and saved as part of the file afterwards.
+
+Comments and questions regarding dae can be emailed to me, Willem van der
+Walt at: wvdwalt@csir.co.za.
+
+

@@ -1,0 +1,42 @@
+# Maintainer: Alexander Epaneshnikov <aarnaarn2@gmail.com>
+# Included in Slint by Didier Spaier didieratslintdotfr
+pkgname=ru-tts
+pkgver=6.0.3
+pkgrel=1slint
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Compact and portable Russian speech synthesizer)"
+"Source: https://github.com/poretsky/ru_ts"
+)
+arch=('x86_64')
+url="https://github.com/poretsky/ru_tts"
+license=('MIT')
+depends=('rulex')
+makedepends=('git')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+md5sums=('SKIP')
+
+build() {
+	git clone https://github.com/poretsky/ru_tts.git
+	cd ru_tts
+#	pkgver=$(printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)")
+	make -C src prefix=/usr LFLAGS="$LDFLAGS"
+	make -C src prefix=/usr docdir=/usr/doc/${pkgname}-${pkgver} LFLAGS="$LDFLAGS" DESTDIR="$PKG/" install
+	#not working with current sox.
+	install -vDm 644 ru_speak -t "$PKG/usr/doc/${pkgname}-${pkgver}/"
+	install -vDm 644 README -t "$PKG/usr/doc/${pkgname}-${pkgver}/"
+	install -vDm 644 README.jni -t "$PKG/usr/doc/${pkgname}-${pkgver}/"
+	install -vDm 644 README.ru -t "$PKG/usr/doc/${pkgname}-${pkgver}/"
+	pandoc -s -t html5 -o $PKG/usr/doc/${pkgname}-$pkgver/README.html \
+			--metadata pagetitle="README" README.md
+	sed s/README_RU.md/README.RU.html/ $PKG/usr/doc/${pkgname}-$pkgver/README.html > bof
+	mv bof $PKG/usr/doc/${pkgname}-$pkgver/README.html
+	pandoc -s -t html5 -o $PKG/usr/doc/${pkgname}-$pkgver/README.RU.html \
+			--metadata pagetitle="README" README_RU.md
+	install -vDm 644 debian/*.1 -t "${PKG}/usr/man/man1"
+	install -vDm 644 debian/*.3 -t "${PKG}/usr/man/man3"
+	install -vDm 644 LICENSE "$PKG"/usr/doc/${pkgname}-${pkgver}/LICENSE
+	mv $PKG/usr/lib $PKG/usr/lib64
+}

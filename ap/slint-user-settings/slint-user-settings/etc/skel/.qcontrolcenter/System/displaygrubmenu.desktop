@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Display boot menu
+Exec=gksu /usr/sbin/gmen
+Icon=grub-customizer
+Terminal=true
+Type=Application
+Categories=Application;System;
+StartupNotify=true

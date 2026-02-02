@@ -1,0 +1,41 @@
+# Maintainer:  Andrew O'Neill <andrew at haunted dot sh>
+# Contributor: Steven Honeyman <stevenhoneyman at gmail com>
+# Contributor: Alexej Magura <agm2819*gmail*>
+# Contributor: Dragonlord <dragonlord[at]seznam[.]cz>
+# Contributor: daniel <quite a hack org>
+
+pkgname=fim
+_pkgver='trunk'
+pkgver=0.7
+pkgrel=2
+slackdesc=("$pkgname (highly customizable and scriptable image viewer."
+"It is based on the Fbi image viewer (by Gerd Hoffmann), and works"
+"primarily in the Linux frame buffer console."
+""
+"Homepage: http://www.nongnu.org/fbi-improved/")
+url='https://www.nongnu.org/fbi-improved/'
+license=('GPL2')
+depends=('libexif' 'terminus-font')
+optdepends=('aalib: ASCII art support'
+            'djvulibre: djvu support'
+            'giflib: GIF support'
+            'imagemagick: use convert for unrecognized files'
+            'libjpeg-turbo: JPEG support'
+            'libpng: PNG support'
+            'libspectre: postscript support'
+            'libtiff: TIFF support'
+            'sdl: X support')
+source=("http://download.savannah.gnu.org/releases/fbi-improved/${pkgname}-${pkgver}-${_pkgver}.tar.gz")
+sha256sums=('fe9edb8de64ce3a0c9390f6c82d79b86436904f8f6449618ddd3178731e73668')
+
+build() {
+  cd "${pkgname}-${pkgver}-${_pkgver}"
+  ./configure LIBS=-lpthread --prefix=/usr --disable-debug --enable-hardcoded-font \
+  --disable-convert \
+  --disable-ps \
+  --disable-djvu \
+  --enable-pdf
+  make -j 9
+  make DESTDIR=$PKG install
+}
+# enable-poppler fais (bad version?)

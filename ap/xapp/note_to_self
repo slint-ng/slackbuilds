@@ -1,0 +1,2 @@
+samurai is a build dep of xapp (itself a dep og lightdm-slick-greeter),
+after building insert ot in xapp*dep

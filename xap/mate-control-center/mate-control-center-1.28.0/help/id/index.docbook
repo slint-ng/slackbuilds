@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY VERSION "1.10.1">
+<!ENTITY legal SYSTEM "legal.xml">
+<!ENTITY app "<application>MATE Control Center</application>">
+<!ENTITY appname "MATE Control Center">
+<!-- Information about the entities
+       The legal.xml file contains legal information, there is no need to edit the file.
+       Use the appversion entity to specify the version of the application.
+       Use the manrevision entity to specify the revision number of this manual.
+       Use the date entity to specify the release date of this manual.
+       Use the app entity to specify the name of the application. -->]>
+<article id="index" lang="id">
+  
+  <articleinfo>
+    <abstract role="description">
+      <para>Pusat Kendali MATE menyediakan tempat sentral bagi pengguna untuk mengatur pengalaman MATE mereka. Ini memungkinkan Anda mengonfigurasi apa pun mulai dari perilaku batas jendela hingga jenis fonta baku.</para>
+    </abstract>
+    <title>Manual Pusat Kendali MATE</title>
+    <authorgroup>
+      <author><firstname>Proyek Dokumentasi MATE</firstname> <surname/> <affiliation> <orgname>Desktop MATE</orgname> </affiliation></author>
+      <author><firstname>Kevin</firstname><surname>Breit</surname></author>
+    </authorgroup>
+    <copyright><year>2015-2021</year> <holder>Projek Dokumentasi MATE</holder></copyright>
+    <copyright><year>2001, 2002</year> <holder>Ximian, Inc.</holder></copyright>
+
+    <publisher role="maintainer">
+      <publishername>Projek Dokumentasi MATE</publishername>
+    </publisher>
+    <publisher>
+      <publishername>Projek Dokumentasi GNOME</publishername>
+    </publisher>
+    
+    <revhistory>
+      <revision><revnumber>2.15</revnumber> <date>Juli 2015</date> <firstname>Proyek Dokumentasi MATE</firstname> <surname/></revision>
+      <revision><revnumber>2.14</revnumber> <date>Maret 2006</date></revision> 
+    </revhistory>
+
+    <!-- This file contains link to license for the
+   documentation (GNU FDL), and other legal stuff such as "NO
+   WARRANTY" statement. Please do not change any of this. -->
+
+    <releaseinfo>Manual ini menjelaskan versi 1.10.1 dari Pusat Kendali MATE.</releaseinfo>
+
+    <legalnotice>
+        <title>Umpan balik</title>
+        <para>Untuk melaporkan bug atau membuat saran mengenai aplikasi <application>Pusat Kendali MATE</application> atau manual ini, ikuti petunjuk di <ulink url="help:mate-user-guide/feedback" type="help">Halaman Umpan Balik MATE</ulink>.</para>
+<!-- Translators may also add here feedback address for translations -->
+    </legalnotice>
+  
+    <othercredit class="translator">
+      <personname>
+        <firstname>Kukuh Syafaat</firstname>
+      </personname>
+      <email>syafaatkukuh@gmail.com</email>
+    </othercredit>
+    <copyright>
+      
+        <year>2017.</year>
+      
+      <holder>Kukuh Syafaat</holder>
+    </copyright>
+  
+    <othercredit class="translator">
+      <personname>
+        <firstname>Andika Triwidada</firstname>
+      </personname>
+      <email>andika@gmail.com</email>
+    </othercredit>
+    <copyright>
+      
+        <year>2020</year>
+      
+        <year>2022.</year>
+      
+      <holder>Andika Triwidada</holder>
+    </copyright>
+  </articleinfo>
+  
+  <sect1 id="intro">
+    <title>Pengantar</title>
+    <para><application>Pusat Kendali MATE</application> menyediakan satu jendela untuk meluncurkan semua alat preferensi.</para>
+    <note><para>Untuk bantuan menggunakan alat preferensi, lihat <ulink type="help" url="help:mate-user-guide/prefs">Panduan Pengguna</ulink>.</para></note>
+
+<!-- ============= To Start Control Center  ============================ -->
+    <sect2 id="mate-control-center-to-start">
+      <title>Untuk Memulai Pusat Kendali MATE</title>
+      <para>Anda dapat memulai <application>Pusat Kendali MATE</application> dengan cara berikut:</para>
+      <variablelist>
+        <varlistentry>
+          <term>Menu <guimenu>Sistem</guimenu></term>
+          <listitem>
+            <para>Pilih butir menu <menuchoice><guimenu>Pusat Kendali</guimenu></menuchoice>.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Baris perintah</term>
+          <listitem>
+            <para>Jalankan perintah berikut: <command>mate-control-center</command></para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </sect2>
+
+  </sect1>
+  
+  <sect1 id="matecc-interface">
+    <title>Cara pakai</title>
+    <para>Jendela <application>Pusat Kendali MATE</application> mencantumkan semua alat preferensi yang dipasang pada sistem Anda dalam grup.</para>
+    <tip><para>Dari panel kiri, Anda dapat dengan cepat mengakses alat preferensi dengan memilih grupnya terlebih dahulu, atau mengetikkan kata kunci apa pun di kotak penyaring. Anda juga dapat mengakses tugas umum, seperti <guilabel>Ubah Tema</guilabel> dan <guilabel>Atur Aplikasi Pilihan</guilabel>.</para></tip>
+    <para>Untuk membuka alat preferensi, cukup klik padanya.</para>
+    <tip><para>Deskripsi alat preferensi ditampilkan saat tetikus diambangkan di dekatnya.</para></tip>
+  </sect1>
+</article>

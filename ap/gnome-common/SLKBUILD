@@ -1,0 +1,32 @@
+#Maintainer: George Vlahavas (vlahavas~AT~gmail~DOT~com)
+#Included in Slint Didier Spaier <didier~at~slint~dot~fr>
+pkgname=gnome-common
+pkgver=3.18.0
+pkgrel=2slint
+arch=noarch
+source=("http://ftp.acc.umu.se/pub/GNOME/sources/gnome-common/3.18/gnome-common-3.18.0.tar.xz")
+docs=("readme" "install" "copying" "changelog" "authors" "news" "todo")
+url=www.gnome.org
+options=('noautodotnew')
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"gnome-common (common scripts and macros to develop with GNOME)"
+"gnome-common is an extension to autoconf, automake and libtool for the"
+"GNOME environment and GNOME using applications. Included are"
+"gnome-autogen.sh and several macros to help in both GNOME and GNOME"
+"2.0 source trees."
+)
+
+
+build() {
+	cd $startdir/src/$pkgname-$pkgver
+	./configure --prefix=/usr \
+		--libdir=/usr/lib${LIBDIRSUFFIX} \
+		--localstatedir=/var \
+		--sysconfdir=/etc \
+		--build=$arch-slackware-linux
+	make || return 1
+	make install DESTDIR=$startdir/pkg
+} 

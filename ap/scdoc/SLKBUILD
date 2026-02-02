@@ -1,0 +1,27 @@
+# Maintainer: Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=scdoc
+pkgver=1.11.2
+pkgrel=1slint
+options=("nosrcpack")
+docs=("COPYING")
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (simple man page generator for POSIX systems written in C99.)"
+"URL: https://git.sr.ht/~sircmpwn/scdoc"
+"man pages: man 1 scdoc and man 5 scdoc"
+)
+
+source=("${pkgver}.tar.gz")
+
+build() {
+	cd $SRC/${pkgname}-${pkgver}
+	make PREFIX=/usr LDFLAGS="$LDFLAGS"
+	make check
+	make PREFIX=/usr DESTDIR="$PKG" install
+	mkdir -p $PKG/usr/doc/${pkgname}-${pkgver}
+	pandoc -s -f gfm -t html5 README.md --metadata pagetitle=scdoc \
+	-o $PKG/usr/doc/${pkgname}-${pkgver}/README.html
+}
+

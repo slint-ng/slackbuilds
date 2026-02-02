@@ -1,0 +1,196 @@
+This patch brings these modification to eBook-speaker:
+It removes the ability to delete or add a synthesizer in
+~/.eBook-speaker.xml. I think that editing this file directly is safer.
+It simplifies the navigation between the synthesizers using the 't'
+command:
+'up' moves the cursor up to the top of the list.
+'down' moves the cursor down to the bottom of the list.
+The file .eBook-speaker.xml is heavily commented, the default TTS line
+should work almost everywhere (previously it did only if the LC_ALL was
+set, else it included 'LC' as argument of the -v option) and the two
+examples are easily installed in most distributions.
+TODO: maybe, increase the max number of TTS allowed from 10 to 15?
+
+Didier Spaier, 04 December 2018 comments edited on 27 December 2018
+
+diff -Naru ebook-speaker-5.0.1/src/eBook-speaker.c ebook-speaker-5.0.1.new/src/eBook-speaker.c
+--- ebook-speaker-5.0.1/src/eBook-speaker.c	2018-02-20 11:17:47.000000000 +0100
++++ ebook-speaker-5.0.1.new/src/eBook-speaker.c	2018-12-05 23:32:55.690620368 +0100
+@@ -357,31 +357,16 @@
+       wprintw (misc->screenwin, "   %2d %s\n", y + 1, str);
+    } // for
+    wmove (misc->screenwin, 14, 0);
+-   if (y < 10)
+-   {
+-      wprintw (misc->screenwin, "\n%s\n\n", gettext
+-            ("Provide a new TTS."));
+-      wprintw (misc->screenwin, "%s\n", gettext
+-            ("Be sure that the new TTS reads its information from the file"));
+-      wprintw (misc->screenwin, "%s\n\n", gettext
+-    ("eBook-speaker.txt and that it writes to the file eBook-speaker.wav."));
+-   }
+-   else
++   if (y >= 10)
+    {
+       beep ();
+       wprintw (misc->screenwin, "\n%s\n\n", gettext
+           ("Maximum number of TTS's is reached."));
+-   } // if
+-   wprintw (misc->screenwin, "%s\n", gettext
+-            ("Press DEL to delete a TTS"));
+-   wprintw (misc->screenwin,
+-           "    -------------------------------------------------------------");
++   }
+    nodelay (misc->screenwin, FALSE);
+    y = misc->tts_no;
+    if (*misc->tts[y])
+       wmove (misc->screenwin, y + 3, 2);
+-   else
+-      wmove (misc->screenwin, 21, 4);
+    while (1)
+    {
+       switch (wgetch (misc->screenwin))
+@@ -395,56 +380,23 @@
+          return;
+       case KEY_DOWN:
+          y++;
+-         if (y > 9)
++         if (*misc->tts[y] == 0)
+          {
+-            y = 0;
++            y--;
+             wmove (misc->screenwin, y + 3, 2);
+-            break;
+-         } // is
+-         if (y > 9 || *misc->tts[y] == 0)
++         }
++         else
+          {
+-            wmove (misc->screenwin, 21, 4);
+-            nodelay (misc->screenwin, FALSE);
+-            echo ();
+-            wgetnstr (misc->screenwin, misc->tts[y], MAX_STR - 1);
+-            noecho ();
+-            if (*misc->tts[y])
+-            {
+-               view_screen (misc, daisy);
+-               nodelay (misc->screenwin, TRUE);
+-               misc->tts_no = y;
+-               return;
+-            } // if
+-            y = 0;
+-         } // if
+-         wmove (misc->screenwin, y + 3, 2);
++            wmove (misc->screenwin, y + 3, 2);
++         }
+          break;
+       case KEY_UP:
+          y--;
+-         if (y < 0)
+-         {
+-            if (*misc->tts[9])
+-            {
+-               y = 9;
+-               wmove (misc->screenwin, y + 3, 2);
+-               break;
+-            } // if
+-            wmove (misc->screenwin, 21, 4);
+-            nodelay (misc->screenwin, FALSE);
+-            echo ();
+-            for (y = 0; *misc->tts[y]; y++);
+-            wgetnstr (misc->screenwin, misc->tts[y], MAX_STR - 1);
+-            noecho ();
+-            if (*misc->tts[y])
+-            {
+-               misc->tts_no = y;
+-               view_screen (misc, daisy);
+-               nodelay (misc->screenwin, TRUE);
+-               return;
+-            } // if
+-            for (y = 0; *misc->tts[y] == 0; y++);
+-         } // if
+-         wmove (misc->screenwin, y + 3, 2);
++         if (y > 0)
++            wmove (misc->screenwin, y + 3, 2);
++         else
++            y=0;
++            wmove (misc->screenwin, y + 3, 2);
+          break;
+       case KEY_DC:
+          if (y == 0)
+@@ -1119,25 +1071,16 @@
+    pw = getpwuid (geteuid ());
+    snprintf (str, MAX_STR - 1, "%s/.eBook-speaker.xml", pw->pw_dir);
+    snprintf (misc->tts[0], MAX_STR - 1,
+-             "espeak -f eBook-speaker.txt -w eBook-speaker.wav -v %s",
+-             misc->locale);
++             "espeak-ng -v en -f eBook-speaker.txt -w eBook-speaker.wav");
+    if ((doc = htmlParseFile (str, "UTF-8")) == NULL)
+    {
+ // If no TTS; give some examples
+       strncpy (misc->tts[1],
+-        "flite eBook-speaker.txt eBook-speaker.wav",
++        "flite -voice slt eBook-speaker.txt -o eBook-speaker.wav",
+          MAX_STR - 1);
+       strncpy (misc->tts[2],
+-        "espeak -f eBook-speaker.txt -w eBook-speaker.wav -v mb-nl2",
++        "pico2wave -w eBook-speaker.wav < eBook-speaker.txt",
+          MAX_STR - 1);
+-      strncpy (misc->tts[3],
+-        "text2wave eBook-speaker.txt -o eBook-speaker.wav",
+-         MAX_STR - 1);
+-      strncpy (misc->tts[4],
+-        "swift -n Lawrence -f eBook-speaker.txt -m text -o eBook-speaker.wav",
+-         MAX_STR - 1);
+-      save_xml (misc);
+-      return;
+    } // if
+    if ((reader = xmlReaderWalker (doc)))
+    {
+@@ -1175,15 +1118,12 @@
+       return;
+ 
+ // If no TTS; give some examples
+-   strncpy (misc->tts[1],
+-      "flite eBook-speaker.txt eBook-speaker.wav", MAX_STR - 1);
+-   strncpy (misc->tts[2],
+-   "espeak -f eBook-speaker.txt -w eBook-speaker.wav -v mb-nl2", MAX_STR - 1);
+-   strncpy (misc->tts[3],
+-      "text2wave eBook-speaker.txt -o eBook-speaker.wav", MAX_STR - 1);
+-   strncpy (misc->tts[4],
+-      "swift -n Lawrence -f eBook-speaker.txt -m text -o eBook-speaker.wav",
+-            MAX_STR - 1);
++      strncpy (misc->tts[1],
++        "flite -voice slt eBook-speaker.txt -o eBook-speaker.wav",
++         MAX_STR - 1);
++      strncpy (misc->tts[2],
++        "pico2wave -w eBook-speaker.wav < eBook-speaker.txt",
++         MAX_STR - 1);
+ } // load_xml
+ 
+ void save_xml (misc_t *misc)
+@@ -1206,6 +1146,23 @@
+    xmlTextWriterEndElement (writer);
+    xmlTextWriterWriteString (writer, BAD_CAST "\n   ");
+    xmlTextWriterStartElement (writer, BAD_CAST "voices");
++   xmlTextWriterWriteString (writer, BAD_CAST "\n   ");
++   xmlTextWriterStartComment (writer);
++   xmlTextWriterWriteString (writer, BAD_CAST "\n   ");
++   xmlTextWriterWriteString (writer, BAD_CAST "This list of TTS is initially populated with an English voice of the espeak\n   ");
++   xmlTextWriterWriteString (writer, BAD_CAST "synthesizer, provided as a fall back, that will be recreated if removed.\n   ");
++   xmlTextWriterWriteString (writer, BAD_CAST "You can add new lines for other TTS, which should also be surrounded by\n   ");
++   xmlTextWriterWriteString (writer, BAD_CAST "lines with just <tts> above and </tts> below.\n   ");
++   xmlTextWriterWriteString (writer, BAD_CAST "The command should read eBook-speaker.txt and write eBook-speaker.wav.\n   ");
++   xmlTextWriterWriteString (writer, BAD_CAST "Most synthesizers have a man page and a --help option that can help to write\n   ");
++   xmlTextWriterWriteString (writer, BAD_CAST "the corresponding command lines.\n   ");
++   xmlTextWriterWriteString (writer, BAD_CAST "Examples using the pico and flite synthesizer are shown the first time you\n   ");
++   xmlTextWriterWriteString (writer, BAD_CAST "start the ebook-reader.program. You may remove them.\n   ");
++   xmlTextWriterWriteString (writer, BAD_CAST "You may modify and delete any added item. If you delete an item, remove\n   ");
++   xmlTextWriterWriteString (writer, BAD_CAST "also the lines with <tts> and </tts> that surround it.\n   ");
++   xmlTextWriterWriteString (writer, BAD_CAST "Warning: a character '<' in the command should be replaced &lt; and a \n   ");
++   xmlTextWriterWriteString (writer, BAD_CAST "character '>' by &gt; as in the last example else ebook-reader will fail.\n   ");
++   xmlTextWriterEndComment (writer);
+    while (1)
+    {
+       char str[MAX_STR];
+       

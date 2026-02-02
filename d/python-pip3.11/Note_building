@@ -1,0 +1,2 @@
+Build as root and with /usr/bin/python symlinked with /usr/bin/python3.11
+Do not forget to restore the symlink to /usr/bin/python3.9 afrer building.

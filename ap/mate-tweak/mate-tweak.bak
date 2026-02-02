@@ -1,0 +1,1755 @@
+#!/usr/bin/env python3
+
+# Copyright (C) 2007-2014 by Clement Lefebvre <root@linuxmint.com>
+# Copyright (C) 2015-2022 Martin Wimpress <code@ubuntu-mate.org>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the
+# Free Software Foundation, Inc.,
+# 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# This file has been customized for the Slint system by Didier Spaier
+# didieratslintdotfr
+
+import argparse
+import distro
+import errno
+import gettext
+import getpass
+import gi
+import glob
+import mmap
+import os
+import psutil
+import setproctitle
+import shutil
+import signal
+import subprocess
+import sysconfig
+import string
+import sys
+import time
+
+from subprocess import DEVNULL, PIPE
+
+from gi.repository import GLib
+
+gi.require_version('Gdk', '3.0')
+from gi.repository import Gdk
+from gi.repository import GdkPixbuf
+
+gi.require_version('GdkX11', '3.0')
+from gi.repository import GdkX11
+from gi.repository import Gio
+from gi.repository import GObject
+
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk
+
+gi.require_version('Notify', '0.7')
+from gi.repository import Notify
+
+# Workaround introspection bug, gnome bug 622084
+signal.signal(signal.SIGINT, signal.SIG_DFL)
+
+__VERSION__ = '22.10.0'
+
+__GUAKE__ = """[Desktop Entry]
+Name=Guake
+Exec=guake
+Icon=utilities-terminal
+Terminal=false
+Type=Application
+Categories=GNOME;GTK;System;Utility;TerminalEmulator;
+X-GNOME-Autostart-enabled=true
+X-MATE-Autostart-enabled=true"""
+
+__APPLET_SOUND__ = """[Desktop Entry]
+Name=Volume Control
+Comment=Show desktop volume control
+Icon=multimedia-volume-control
+Exec=mate-volume-control-applet
+Terminal=false
+Type=Application
+Categories=AudioVideo;Mixer;Settings;HardwareSettings;
+Keywords=MATE;volume;control;mixer;settings;sound;
+NoDisplay=true
+OnlyShowIn=MATE;
+X-MATE-Bugzilla-Bugzilla=MATE
+X-MATE-Bugzilla-Product=mate-media
+X-MATE-Bugzilla-Component=mate-volume-control
+# See http://bugzilla.gnome.org/show_bug.cgi?id=568320
+#X-MATE-Autostart-Phase=Panel
+X-MATE-Autostart-Notify=true
+"""
+
+__TRADITIONAL_BUTTONS__ = ":minimize,maximize,close"
+__CONTEMPORARY_BUTTONS__ = "close,minimize,maximize:"
+__MENU_TRADITIONAL_BUTTONS__ = "menu:minimize,maximize,close"
+__MENU_CONTEMPORARY_BUTTONS__ = "close,minimize,maximize:menu"
+
+# i18n
+gettext.install('mate-tweak', os.path.join('/','usr','share','locale'))
+
+class SidePage:
+    def __init__(self, notebook_index, name, icon):
+        self.notebook_index = notebook_index
+        self.name = name
+        self.icon = icon
+
+class MateTweak:
+    system_installed_panel_layouts = []
+
+    def on_checkbox_toggled(self, widget, schema_id, key):
+        if (key == "reduced-resources"):
+            if ('marco' in self.current_wm):
+                marco_reduced = self.get_bool('org.mate.Marco.general', None, key)
+                if self.schema_has_key('org.mate.Marco.general','side-by-side-tiling'):
+                    self.set_bool('org.mate.Marco.general', None, 'side-by-side-tiling', marco_reduced)
+                elif self.schema_has_key('org.mate.Marco.general','allow-tiling'):
+                    self.set_bool('org.mate.Marco.general', None, 'allow-tiling', marco_reduced)
+                self.builder.get_object('checkbox_snapping').props.sensitive = marco_reduced
+
+        # If desktop icons are shown or hidden, enable or not further modifications
+        elif schema_id == "org.mate.background":
+            self.toggle_desktop_icons_sensitiveness()
+
+    def schema_has_key(self, schema, key):
+        source = Gio.SettingsSchemaSource.get_default()
+        if source.lookup(schema, True):
+            settings=Gio.Settings.new(schema)
+            schema = settings.get_property('settings-schema')
+            return schema.has_key(key)
+        else:
+            return False
+
+    def set_string(self, schema, path, key, value):
+        if path:
+            settings = Gio.Settings.new_with_path(schema, path)
+        else:
+            settings = Gio.Settings.new(schema)
+        try:
+            settings.set_string(key, value)
+        except:
+            print('Unable set ' + key + ' with ' + value + ' in ' + schema)
+            pass
+
+    def get_string(self, schema, path, key):
+        if path:
+            settings = Gio.Settings.new_with_path(schema, path)
+        else:
+            settings = Gio.Settings.new(schema)
+        return settings.get_string(key)
+
+    def get_int(self, schema, path, key):
+        if path:
+            settings = Gio.Settings.new_with_path(schema, path)
+        else:
+            settings = Gio.Settings.new(schema)
+        return settings.get_int(key)
+
+    def set_int(self, schema, path, key, value):
+        if path:
+            settings = Gio.Settings.new_with_path(schema, path)
+        else:
+            settings = Gio.Settings.new(schema)
+        settings.set_int(key, value)
+
+    def get_enum(self, schema, path, key):
+        if path:
+            settings = Gio.Settings.new_with_path(schema, path)
+        else:
+            settings = Gio.Settings.new(schema)
+        return settings.get_enum(key)
+
+    def set_enum(self, schema, path, key, value):
+        if path:
+            settings = Gio.Settings.new_with_path(schema, path)
+        else:
+            settings = Gio.Settings.new(schema)
+        settings.set_enum(key, value)
+
+    def get_bool(self, schema, path, key):
+        if path:
+            settings = Gio.Settings.new_with_path(schema, path)
+        else:
+            settings = Gio.Settings.new(schema)
+        return settings.get_boolean(key)
+
+    def set_bool(self, schema, path, key, value):
+        if path:
+            settings = Gio.Settings.new_with_path(schema, path)
+        else:
+            settings = Gio.Settings.new(schema)
+        settings.set_boolean(key, value)
+
+    def reset_dconf_path(self, path):
+        subprocess.call(['dconf', 'reset', '-f', path], stdout=DEVNULL, stderr=DEVNULL)
+
+    def set_dconf_value(self, path, value):
+        subprocess.call(['dconf', 'write', path, value], stdout=DEVNULL, stderr=DEVNULL)
+
+    def get_dconf_value(self, path):
+        dconf = subprocess.Popen(['dconf', 'read', path], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+        dconf_output, dconf_error = dconf.communicate()
+        return dconf_output.decode().strip()
+
+    def init_checkbox(self, schema_id, key, name):
+        source = Gio.SettingsSchemaSource.get_default()
+        schema = source.lookup(schema_id, True)
+        if schema:
+            settings = Gio.Settings.new_full(schema)
+            widget = self.builder.get_object(name)
+            settings.bind(key, widget, "active", Gio.SettingsBindFlags.DEFAULT)
+            widget.connect("toggled", self.on_checkbox_toggled, schema_id, key)
+
+    def init_combobox(self, schema, key, name, default = False, data_type = str):
+        source = Gio.SettingsSchemaSource.get_default()
+        if source.lookup(schema, True) != None:
+            widget = self.builder.get_object(name)
+            if data_type is int:
+                conf = self.get_int(schema, None, key)
+            else:
+                conf = self.get_string(schema, None, key)
+            index = 0
+            default_index = None
+            for row in widget.get_model():
+                if default != None and default == row[1]:
+                    default_index = index
+                if conf == row[1]:
+                    widget.set_active(index)
+                    default_index = None
+                    break
+                index = index +1
+            if default_index != None:
+                widget.set_active(default_index)
+            widget.connect("changed", self.combo_fallback, schema, key, data_type)
+
+    def update_combobox(self, schema, key, name):
+        source = Gio.SettingsSchemaSource.get_default()
+        if source.lookup(schema, True) != None:
+            widget = self.builder.get_object(name)
+            conf = self.get_string(schema, None, key)
+            index = 0
+            for row in widget.get_model():
+                if(conf == row[1]):
+                    widget.set_active(index)
+                    break
+                index = index +1
+
+    def process_running(self, name):
+        uid = os.getuid()
+        for process in psutil.process_iter():
+            try:
+                proc = process.as_dict(attrs=['name', 'uids'])
+            except psutil.NoSuchProcess:
+                pass
+            else:
+                if name == proc['name'] and uid == proc['uids'].real:
+                    return True
+        return False
+
+    def kill_process(self, name):
+        uid = os.getuid()
+        for process in psutil.process_iter():
+            try:
+                proc = process.as_dict(attrs=['name', 'pid', 'uids'])
+            except psutil.NoSuchProcess:
+                pass
+            else:
+                if name == proc['name'] and uid == proc['uids'].real:
+                    try:
+                        target = psutil.Process(proc['pid'])
+                        target.terminate()
+                    except psutil.NoSuchProcess:
+                        pass
+
+    def find_on_path(self, command):
+        """Is command on the executable search path?"""
+        if 'PATH' not in os.environ:
+            return False
+        path = os.environ['PATH']
+        for element in path.split(os.pathsep):
+            if not element:
+                continue
+            filename = os.path.join(element, command)
+            if os.path.isfile(filename) and os.access(filename, os.X_OK):
+                return True
+        return False
+
+    def mkdir_p(self, path):
+        try:
+            os.makedirs(path)
+        except OSError as exc: # Python >2.5
+            if exc.errno == errno.EEXIST and os.path.isdir(path):
+                pass
+            else:
+                raise
+
+    def create_autostart(self, filename, content):
+        # Create a local autostart only if it is missing from the system path.
+        if not os.path.exists(os.path.join('/','usr','share','mate','autostart',filename)):
+            config_dir = GLib.get_user_config_dir()
+            self.mkdir_p(os.path.join(config_dir, 'autostart/'))
+            if not os.path.exists(os.path.join(config_dir, 'autostart',filename)):
+                with open(os.path.join(config_dir, 'autostart', filename),'w') as autostart:
+                    autostart.write(content)
+
+    def remove_autostart(self, filename):
+        config_dir = GLib.get_user_config_dir()
+        autostart_file = os.path.join(config_dir, 'autostart', filename)
+        if os.path.exists(autostart_file):
+            os.remove(autostart_file)
+
+        # Make sure any system desktop files are also removed
+        mate_tweak_helper = os.path.join('/','usr', 'lib', 'mate-tweak', 'mate-tweak-helper')
+        subprocess.call(['pkexec', mate_tweak_helper, 'autostop', filename], stdout=DEVNULL, stderr=DEVNULL)
+
+    def check_wm_features(self):
+        screen = Gdk.Screen.get_default()
+        current_wm = GdkX11.X11Screen.get_window_manager_name(screen)
+
+        if ('Marco' in current_wm):
+            self.current_wm = 'marco'
+            composite_enabled = self.get_bool('org.mate.Marco.general', None, 'compositing-manager')
+            if self.process_running('picom'):
+                self.current_wm = self.get_string('org.mate.session.required-components', None, 'windowmanager')
+            elif not composite_enabled:
+                self.current_wm += '-no-composite'
+        elif ('Compiz' in current_wm):
+            self.current_wm = current_wm.lower()
+        else:
+            self.current_wm = 'Unknown'
+
+        print('Window Manager is: ' + self.current_wm)
+
+        self.compiz_capable = False
+        self.ccsm_capable = False
+        self.marco_capable = False
+        self.marco_picom_capable = False
+        self.marco_no_composite_capable = False
+
+        if self.find_on_path('compiz'):
+            if not self.software_rasterizer and self.texture_from_pixmap:
+                 self.compiz_capable = True
+
+        if self.find_on_path('ccsm'):
+            self.ccsm_capable = True
+
+        if self.find_on_path('marco') and self.find_on_path('picom'):
+            if not self.software_rasterizer and self.texture_from_pixmap:
+                self.marco_picom_capable = True
+
+        if self.find_on_path('marco-no-composite') and self.find_on_path('marco'):
+            self.marco_no_composite_capable = True
+
+        if self.find_on_path('marco'):
+            self.marco_capable = True
+
+    def get_num_workspaces(self):
+        # Get the number of virtual workspaces from the current window manager
+        if 'marco' in self.current_wm:
+            num_workspaces = self.get_int('org.mate.Marco.general', None, 'num-workspaces')
+        elif 'compiz' in self.current_wm:
+            try:
+                num_workspaces = int(self.get_dconf_value('/org/compiz/profiles/mate/plugins/core/hsize'))
+            except:
+                num_workspaces = 0
+        else:
+            # If we can't detect the window manager assume 0 workspaces
+            num_workspaces = 0
+
+        print('Got ' + str(num_workspaces) + ' workspaces from ' + self.current_wm)
+        return num_workspaces
+
+    def replace_windowmanager(self, new_wm):
+        if new_wm == 'Unknown':
+            return
+
+        if new_wm == 'marco':
+            self.set_bool('org.mate.Marco.general', None, 'compositing-manager', True)
+            wm_params = '--composite'
+        elif new_wm == 'compiz':
+            wm_params = '--keep-desktop-hints'
+        else:
+            wm_params = ''
+
+        num_workspaces = self.get_num_workspaces()
+        # Don't make any change if workspaces is zero.
+        if num_workspaces != 0:
+            # Set the number of virtual workspaces for the new window manager
+            if 'marco' in new_wm:
+                self.set_int('org.mate.Marco.general', None, 'num-workspaces', num_workspaces)
+            elif 'compiz' in new_wm:
+                self.set_dconf_value('/org/compiz/profiles/mate/plugins/core/hsize', str(num_workspaces))
+                self.set_dconf_value('/org/compiz/profiles/mate/plugins/core/vsize', '1')
+            print('Set ' + str(num_workspaces) + ' workspaces for ' + new_wm)
+
+        # Make sure Compiz use the same theme as Marco to
+        # prevent theme/xcursor changes when switching themes.
+        if (new_wm == 'compiz'):
+            mate_theme = self.get_string('org.mate.interface', None, 'gtk-theme')
+            mate_cursor_theme = self.get_string('org.mate.peripherals-mouse', None, 'cursor-theme')
+            mate_cursor_size = self.get_int('org.mate.peripherals-mouse', None, 'cursor-size')
+
+            schemasource = Gio.SettingsSchemaSource.get_default()
+            gnome_desktop_schema = schemasource.lookup('org.gnome.desktop', False)
+            if gnome_desktop_schema:
+                self.set_string('org.gnome.desktop.wm.preferences', None, 'theme', mate_theme)
+                self.set_string('org.gnome.desktop.interface', None, 'cursor-theme', mate_cursor_theme)
+                self.set_int('org.gnome.desktop.interface', None, 'cursor-size', mate_cursor_size)
+
+            # metacity >= 3.20 - this schema may not be installed
+            metacity_schema = schemasource.lookup('org.gnome.metacity.theme', False)
+            if metacity_schema:
+                self.set_string('org.gnome.metacity.theme', None, 'name', mate_theme)
+                # FIXME! Don't assume 'metacity' is 1
+                self.set_enum('org.gnome.metacity.theme', None, 'type', 1)
+
+        # If switching away from a Compiz or Marco window manager kill the window manager
+        if 'compiz' in self.current_wm:
+            self.kill_process('compiz')
+        elif 'marco' in self.current_wm:
+            self.kill_process('marco')
+
+        # If switching away from a picom/compton compositor then kill the compositor
+        if ('xrender' in self.current_wm) or ('glx' in self.current_wm) or ('xr_glx_hybrid' in self.current_wm)  or ('compton' in self.current_wm):
+            self.kill_process('compton')
+            self.kill_process('picom')
+
+        if ('xrender' in new_wm) or ('glx' in new_wm) or ('xr_glx_hybrid' in new_wm) or ('no-composite' in new_wm):
+            # Disable Marco's compositor when using a 3rd party compositor
+            self.set_bool('org.mate.Marco.general', None, 'compositing-manager', False)
+            subprocess.Popen([new_wm], stdout=DEVNULL, stderr=DEVNULL)
+        else:
+            wm_pid = subprocess.Popen([new_wm, '--replace', wm_params], stdout=DEVNULL, stderr=DEVNULL).pid
+            print(new_wm + ' is PID: ' + str(wm_pid))
+
+        # Update current_wm to the new one.
+        self.previous_wm = self.current_wm
+        self.current_wm = new_wm
+        self.builder.get_object("label_unknown_wm").hide()
+
+        Notify.init(_('MATE Tweak'))
+        replace_windowmanager_notify=Notify.Notification.new (_('Window Manager Replaced'),_('Your window manager has been replaced with ' + self.current_wm),'dialog-information')
+        replace_windowmanager_notify.show()
+
+    def enable_hud(self):
+        # Remove old-style autostart .desktop file for mate-hud
+        self.remove_autostart('mate-hud.desktop')
+        if self.hud_available and not self.process_running('mate-hud'):
+            if self.schema_has_key('org.mate.hud', 'enabled'):
+                self.set_bool('org.mate.hud', None, 'enabled', True)
+            pid = subprocess.Popen(['/usr/lib/mate-hud/mate-hud'], stdout=DEVNULL, stderr=DEVNULL).pid
+            self.hud_enabled = True
+
+    def disable_hud(self):
+        # Remove old-style autostart .desktop file for mate-hud
+        self.remove_autostart('mate-hud.desktop')
+        if self.schema_has_key('org.mate.hud', 'enabled'):
+            self.set_bool('org.mate.hud', None, 'enabled', False)
+        self.kill_process('mate-hud')
+        self.hud_enabled = False
+
+    def toggle_hud(self, checkbutton):
+        if checkbutton.get_active():
+            self.enable_hud()
+        else:
+            self.disable_hud()
+
+    def check_appmenu(self):
+        self.appmenu_available = False
+        if self.schema_has_key('org.mate.interface', 'gtk-shell-shows-menubar') \
+            and self.schema_has_key('org.appmenu.gtk-module','blacklist'):
+            self.appmenu_available = True
+
+    def maximus_decorate(self):
+        # Only decorate if currently undecorated
+        if self.get_bool('org.mate.maximus', None, 'undecorate'):
+            print('Decorating')
+            self.set_bool('org.mate.maximus', None, 'undecorate', False)
+
+    def maximus_undecorate(self):
+        # On undecorate if currently decorated
+        if not self.get_bool('org.mate.maximus', None, 'undecorate'):
+            print('Undecorating')
+            self.set_bool('org.mate.maximus', None, 'undecorate', True)
+
+    def enable_dock(self):
+        self.set_string('org.mate.session.required-components', None, 'dock', self.dock)
+        if self.dock:
+            self.remove_autostart(self.dock + '.desktop')
+
+        # Docks require compositing
+        schema = None
+        if self.current_wm == 'marco':
+            schema = 'org.mate.Marco.general'
+        elif 'compiz' in self.current_wm:
+            # https://bugs.launchpad.net/ubuntu-mate/+bug/1437611
+            self.set_bool('org.compiz.thumbnail', '/org/compiz/profiles/mate/plugins/thumbnail/', 'current-viewport', False)
+
+        if schema is not None:
+            compositor_enabled = self.get_bool(schema, None, 'compositing-manager')
+            if not compositor_enabled:
+                self.set_bool(schema, None, 'compositing-manager', True)
+                pid = subprocess.Popen([self.current_wm, '--replace'], stdout=DEVNULL, stderr=DEVNULL).pid
+
+        # Launch the dock, if it is not already enabled.
+        if not self.process_running(self.dock):
+            pid = subprocess.Popen([self.dock], stdout=DEVNULL, stderr=DEVNULL).pid
+        self.dock_enabled = True
+
+    def disable_dock(self):
+        if 'compiz' in self.current_wm:
+            # https://bugs.launchpad.net/ubuntu-mate/+bug/1437611
+            self.set_bool('org.compiz.thumbnail', '/org/compiz/profiles/mate/plugins/thumbnail/', 'current-viewport', True)
+
+        self.set_string('org.mate.session.required-components', None, 'dock', '')
+        if self.dock:
+            self.remove_autostart(self.dock + '.desktop')
+        self.kill_process(self.dock)
+        self.dock_enabled = False
+
+    def enable_keyboard_led(self):
+        self.keyboard_led_enabled = True
+        self.set_bool('org.mate.peripherals-keyboard-xkb.general', None, 'duplicate-leds', self.keyboard_led_enabled)
+        # Disabled as restart the settings-daemon and Caja is invasive and unreliable
+        # - https://pad.lv/1728715
+        #self.reload_settings_daemon()
+        #time.sleep(1)
+        #subprocess.call(['caja', '-q'], stdout=DEVNULL, stderr=DEVNULL)
+
+    def disable_keyboard_led(self):
+        self.keyboard_led_enabled = False
+        self.set_bool('org.mate.peripherals-keyboard-xkb.general', None, 'duplicate-leds', self.keyboard_led_enabled)
+
+    def enable_pulldown_terminal(self):
+        if self.pulldown_terminal == 'guake':
+            self.create_autostart(self.pulldown_terminal + '.desktop', __GUAKE__)
+
+            # Launch guake, if it is not already enabled.
+            if not self.pulldown_terminal_enabled:
+                pid = subprocess.Popen([self.pulldown_terminal], stdout=DEVNULL, stderr=DEVNULL).pid
+                self.pulldown_terminal_enabled = True
+
+    def disable_pulldown_terminal(self):
+        if self.pulldown_terminal == 'guake':
+            self.remove_autostart(self.pulldown_terminal + '.desktop')
+
+        if self.process_running(self.pulldown_terminal):
+            self.kill_process(self.pulldown_terminal)
+
+        self.pulldown_terminal_enabled = False
+
+    def disable_applets(self):
+        """
+        When indicators are enabled some MATE applets need disabling
+        or hiding.
+        """
+        self.kill_process('mate-volume-control-applet')
+        self.remove_autostart('mate-volume-control-applet.desktop')
+        if os.path.exists('/usr/libexec/ayatana-indicator-power/ayatana-indicator-power-service'):
+            self.set_string('org.mate.power-manager', None, 'icon-policy', 'never')
+            self.set_bool('org.mate.power-manager', None, 'notify-low-capacity', False)
+
+        # Remove the incorrectly named autostart file caused by an earlier bug.
+        # Note the double .desktop suffix.
+        self.remove_autostart('mate-volume-control-applet.desktop.desktop')
+
+    def enable_applets(self):
+        """
+        When indicators are disabled some MATE applets need enabling
+        or showing.
+        """
+        pid = subprocess.Popen(['mate-volume-control-applet'], stdout=DEVNULL, stderr=DEVNULL).pid
+        self.remove_autostart('mate-volume-control-applet.desktop')
+        self.create_autostart('mate-volume-control-applet.desktop', __APPLET_SOUND__)
+        if os.path.exists('/usr/libexec/ayatana-indicator-power/ayatana-indicator-power-service'):
+            self.set_string('org.mate.power-manager', None, 'icon-policy', 'present')
+            self.set_bool('org.mate.power-manager', None, 'notify-low-capacity', True)
+
+        # Remove the incorrectly named autostart file case by an earlier bug.
+        # Note the double .desktop suffix.
+        self.remove_autostart('mate-volume-control-applet.desktop.desktop')
+
+    def toggle_desktop_icons_sensitiveness(self):
+        sensitiveness = self.builder.get_object("checkbox_show_icons").get_active()
+        self.builder.get_object("caption_desktop_icons").set_sensitive(sensitiveness)
+        self.builder.get_object("checkbox_computer").set_sensitive(sensitiveness)
+        self.builder.get_object("checkbox_computer").set_sensitive(sensitiveness)
+        self.builder.get_object("checkbox_home").set_sensitive(sensitiveness)
+        self.builder.get_object("checkbox_network").set_sensitive(sensitiveness)
+        self.builder.get_object("checkbox_trash").set_sensitive(sensitiveness)
+        self.builder.get_object("checkbox_volumes").set_sensitive(sensitiveness)
+
+    def panel_layout_uses(self, applet, panel_layout):
+        try:
+            with open(os.path.join('/','usr','share','mate-panel','layouts', panel_layout + '.layout'), 'rb', 0) as layout, \
+                mmap.mmap(layout.fileno(), 0, access=mmap.ACCESS_READ) as data:
+                if data.find(applet.encode('utf-8')) != -1:
+                    return True
+            return False
+
+        except:
+            return False
+
+    def get_panel_layout_section_settings(self, panel_layout, section, target_keys):
+        settings = self.get_panel_layout_section_all_settings(panel_layout, section)
+
+        if len(settings.keys()) > 0 and len(target_keys) > 0:
+            section_keys = set(settings.keys())
+            ignore_keys = list(section_keys - set(target_keys))
+
+            for key in ignore_keys:
+                del settings[key]
+
+        # need to make sure that our targets, if any, at least
+        # exist in the dictionary to avoid exception
+        for key in target_keys:
+            if key not in settings:
+                settings[key] = None
+
+        return settings
+
+    def get_panel_layout_section_all_settings(self, panel_layout, section):
+        settings = {}
+        if self.panel_layout_uses(section, panel_layout):
+            try:
+                with open(os.path.join('/','usr','share','mate-panel','layouts', panel_layout + '.layout'), 'rb', 0) as layout, \
+                    mmap.mmap(layout.fileno(), 0, access=mmap.ACCESS_READ) as data:
+
+                    section_pos = data.find(section.encode('utf-8'))
+                    if section_pos != -1:
+                        data.seek(section_pos)
+                        print("Found section %s" % section)
+
+                        done = False
+                        while not done:
+                            line = data.readline().strip().decode('utf-8')
+                            done = (not line or line.isspace())
+
+                            if not done:
+                                if line.find("=") > 0:
+                                    setting = line.split("=", 1)
+                                    settings[setting[0]] = setting[1]
+
+            except:
+                print("ERROR!! Reading file %s" % panel_layout + '.layout', sys.exc_info()[0])
+
+        return settings
+
+    def is_panel_layout_name_special(self, panel_layout, name_tags):
+        # Legacy versions used the begining of the file name to determine
+        # if the specified layout was special in some way. This is the
+        # same check, but less verbose for callers
+
+        for tag in name_tags:
+            if panel_layout.startswith(tag):
+                return True
+
+        return False
+
+
+    def update_panel_layout_ui(self, panel_layout):
+        # Make Menu Bar configuration insensitive for layouts that don't
+        # feature the menu bar.
+        if self.panel_layout_uses('Object menu-bar', panel_layout):
+            self.builder.get_object('box_menu_features').props.sensitive = True
+            self.builder.get_object('combobox_panel_icon_size').props.sensitive = True
+            self.builder.get_object('combobox_panel_menu_icon_size').props.sensitive = True
+        else:
+            self.builder.get_object('box_menu_features').props.sensitive = False
+            self.builder.get_object('combobox_panel_icon_size').props.sensitive = False
+            self.builder.get_object('combobox_panel_menu_icon_size').props.sensitive = False
+
+        if 'tweak' in panel_layout:
+            self.builder.get_object('button_delete_panel').props.sensitive = True
+        else:
+            self.builder.get_object('button_delete_panel').props.sensitive = False
+
+    def reload_panel(self):
+        pid = subprocess.Popen(['mate-panel', '--replace'], stdout=DEVNULL, stderr=DEVNULL).pid
+
+    def reload_settings_daemon(self):
+        pid = subprocess.Popen(['mate-settings-daemon', '--replace'], stdout=DEVNULL, stderr=DEVNULL).pid
+
+    def confirm_dialog(self, title, text):
+        dialog = Gtk.Dialog(title, None, Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT,
+            (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+             Gtk.STOCK_OK, Gtk.ResponseType.OK))
+
+        dialog.set_default_size(500, 160)
+
+        label = Gtk.Label(text)
+        label.set_use_markup(True)
+
+        box = dialog.get_content_area()
+        box.set_border_width(12)
+        box.add(label)
+        dialog.show_all()
+
+        response = dialog.run()
+        dialog.destroy()
+
+        confirmed = False
+        if response == Gtk.ResponseType.OK:
+            confirmed = True
+
+        return confirmed
+
+    def replace_panel_layout(self, new_layout, called_from_api=False):
+        icon_size = self.get_string('org.mate.panel.menubar', None, 'icon-size')
+        item_icon_size = self.get_string('org.mate.panel.menubar', None, 'item-icon-size')
+
+        print('Switching to: ' + new_layout)
+        # Shutdown panel processes before switching
+        if self.dock and self.process_running(self.dock):
+            self.kill_process(self.dock)
+        if self.keyboard_led_enabled:
+            self.set_bool('org.mate.peripherals-keyboard-xkb.general', None, 'duplicate-leds', False)
+
+        if not called_from_api:
+            self.update_panel_layout_ui(new_layout)
+
+        # If we're switching to Cupertino move window
+        # controls to the left and enable Global Menu.
+        # If there is a custom setting, use that first
+        layout_name_is_special = self.is_panel_layout_name_special(new_layout, ['eleven','contemporary'])
+
+        custom_settings = self.get_panel_layout_section_settings(new_layout, 'Customsetting windowcontrollayout', \
+                                                        ['mate-general','mate-interface','gnome-wm-preferences'])
+
+        self.set_string("org.mate.Marco.general", None, "button-layout", \
+                        custom_settings.get('mate-general') or \
+                        (__CONTEMPORARY_BUTTONS__ if layout_name_is_special else __TRADITIONAL_BUTTONS__))
+        self.set_string("org.mate.interface", None, "gtk-decoration-layout", \
+                        custom_settings.get('mate-interface') or \
+                        (__CONTEMPORARY_BUTTONS__ if layout_name_is_special else __TRADITIONAL_BUTTONS__))
+        self.set_string("org.gnome.desktop.wm.preferences", None, "button-layout", \
+                        custom_settings.get('gnome-wm-preferences') or \
+                        (__CONTEMPORARY_BUTTONS__ if layout_name_is_special else __TRADITIONAL_BUTTONS__))
+
+        # If we're switching away from a layout that uses the AppMenu applet
+        # terminate the registrar.
+        if self.panel_layout_uses('AppmenuApplet', self.current_layout) and \
+           self.process_running('appmenu-registrar'):
+            self.kill_process('appmenu-registrar')
+
+        # Update window controls
+        if not called_from_api:
+            self.update_window_controls()
+
+        # Get the icon sizes now the new layout has been applied.
+        new_icon_size = self.get_string('org.mate.panel.menubar', None, 'icon-size')
+        new_item_icon_size = self.get_string('org.mate.panel.menubar', None, 'item-icon-size')
+
+        # If the new icon sizes are default and the icon sizes were
+        # previously set then restore the previous icon sizes.
+        if (new_icon_size == 'Default') and (icon_size != 'Default'):
+            print('Change icon-size')
+            self.set_string('org.mate.panel.menubar', None, 'icon-size', icon_size)
+
+        if (new_item_icon_size == 'Default') and (item_icon_size != 'Default'):
+            print('Change item-icon-size')
+            self.set_string('org.mate.panel.menubar', None, 'item-icon-size', item_icon_size)
+
+        # If the panel layout is Indicator enabled the appropriate
+        # indicators and applets need to be stopped/started
+        if self.panel_layout_uses('IndicatorApplet', new_layout):
+            self.disable_applets()
+        else:
+            self.enable_applets()
+
+        # Change Brisk Menu label-visible state when changing to/from Cupertino and Netbook.
+        if self.brisk_menu_available:
+            label_visible = self.get_bool('com.solus-project.brisk-menu', None, 'label-visible')
+            if (new_layout.startswith('eleven') or new_layout.startswith('netbook')):
+                self.set_bool('com.solus-project.brisk-menu', None, 'label-visible', False)
+            # If we're switching from Cupertino or Netbook and Brisk Menu label-visible is disabled then enable it.
+            elif (self.current_layout.startswith('eleven') or self.current_layout.startswith('netbook')) and not label_visible:
+                self.set_bool('com.solus-project.brisk-menu', None, 'label-visible', True)
+
+        # Change Brisk Menu window-type when changing to/from Mutiny or Cupertino.
+        if self.brisk_menu_available and self.schema_has_key('com.solus-project.brisk-menu', 'window-type'):
+            current_window_type = self.get_enum('com.solus-project.brisk-menu', None, 'window-type')
+            if (new_layout.startswith('mutiny') or new_layout.startswith('eleven')) and (current_window_type != 2):
+                # If we're switching to Mutiny or Cupertino, and Brisk Menu change the window-type to dash.
+                self.kill_process('brisk-menu')
+                # FIXME! Do not hardcode this.
+                self.set_enum('com.solus-project.brisk-menu', None, 'window-type', 2)
+            elif (self.current_layout.startswith('mutiny') or self.current_layout.startswith('eleven')) and (current_window_type != 1):
+                # If we're switching from Mutiny or Cupertino, and Brisk Menu change the window-type to classic.
+                self.kill_process('brisk-menu')
+                # FIXME! Do not hardcode this.
+                self.set_enum('com.solus-project.brisk-menu', None, 'window-type', 1)
+
+        # If we have a custom panel layout just replace the dconf dump.
+        if os.path.exists(os.path.join('/','usr','share','mate-panel','layouts', new_layout + '.panel')):
+            # Reset panel configuration to defaults.
+            self.reset_dconf_path('/org/mate/panel/objects/')
+            self.reset_dconf_path('/org/mate/panel/toplevels/')
+            print('Loading additional panel configuration for ' + new_layout)
+            cmd = 'dconf load /org/mate/panel/ < /usr/share/mate-panel/layouts/' + new_layout + '.panel'
+            subprocess.call(cmd, shell=True, stdout=DEVNULL, stderr=DEVNULL)
+        else:
+            # Set the new layout
+            subprocess.call(['mate-panel', '--reset', '--layout', new_layout], stdout=DEVNULL, stderr=DEVNULL)
+
+        # Brisk Menu remains running.
+        # So if Brisk is not in the layout being switched to, kill it.
+        if not self.panel_layout_uses('BriskMenu', new_layout) and self.process_running('brisk-menu'):
+            self.kill_process('brisk-menu')
+
+        self.reload_panel()
+
+        if self.keyboard_led_enabled:
+            self.set_bool('org.mate.peripherals-keyboard-xkb.general', None, 'duplicate-leds', False)
+
+        # Determine if maximised windows should be undecorated
+        if self.maximus_available:
+            layout_name_is_special = self.is_panel_layout_name_special(new_layout, ['netbook'])
+            custom_settings = self.get_panel_layout_section_settings(new_layout, 'Customsetting maximusdecoration', [])
+
+            # Prefer custom settings
+            if custom_settings.get('mate-maximus-undecorate') and custom_settings.get('mate-maximus-undecorate').upper() == 'TRUE':
+                self.maximus_undecorate()
+            elif custom_settings.get('mate-maximus-recorded') and custom_settings.get('mate-maximus-undecorate').upper() == 'FALSE':
+                self.maximus_decorate()
+            elif layout_name_is_special:
+                self.maximus_undecorate()
+            else:
+                self.maximus_decorate()
+
+        # Determine if the dock should be enabled
+        if os.path.exists(os.path.join('/','usr','share','mate-panel','layouts', new_layout + '.dock')) and self.dock is not None:
+            print('Found dock hint for ' + new_layout)
+            mate_theme = self.get_string('org.mate.interface', None, 'gtk-theme')
+            if not new_layout.startswith('mutiny'):
+                self.set_dconf_value('/net/launchpad/plank/docks/dock1/alignment', "'center'")
+                self.set_dconf_value('/net/launchpad/plank/docks/dock1/hide-mode', "'window-dodge'")
+                self.set_dconf_value('/net/launchpad/plank/docks/dock1/icon-size', "'48'")
+                self.set_dconf_value('/net/launchpad/plank/docks/dock1/items-alignment', "'center'")
+                self.set_dconf_value('/net/launchpad/plank/docks/dock1/position', "'bottom'")
+                if mate_theme.startswith('Yaru'):
+                    if mate_theme.endswith('-dark'):
+                        self.set_dconf_value('/net/launchpad/plank/docks/dock1/theme', "'Yaru-dark'")
+                    else:
+                        self.set_dconf_value('/net/launchpad/plank/docks/dock1/theme', "'Yaru-light'")
+                elif mate_theme in ['Ambiant-MATE', 'Ambiant-MATE-Dark', 'Radiant-MATE']:
+                    self.set_dconf_value('/net/launchpad/plank/docks/dock1/theme', "'Ubuntu-MATE'")
+                else:
+                    self.set_dconf_value('/net/launchpad/plank/docks/dock1/theme', "'Default'")
+                self.set_dconf_value('/net/launchpad/plank/docks/dock1/zoom-enabled', "true")
+            elif new_layout.startswith('mutiny'):
+                self.set_dconf_value('/net/launchpad/plank/docks/dock1/alignment', "'fill'")
+                self.set_dconf_value('/net/launchpad/plank/docks/dock1/hide-mode', "'none'")
+                self.set_dconf_value('/net/launchpad/plank/docks/dock1/icon-size', "'56'")
+                self.set_dconf_value('/net/launchpad/plank/docks/dock1/items-alignment', "'start'")
+                self.set_dconf_value('/net/launchpad/plank/docks/dock1/position', "'left'")
+                if mate_theme.startswith('Yaru'):
+                    if mate_theme.endswith('-dark'):
+                        self.set_dconf_value('/net/launchpad/plank/docks/dock1/theme', "'Mutiny-dark'")
+                    else:
+                        self.set_dconf_value('/net/launchpad/plank/docks/dock1/theme', "'Mutiny-light'")
+                else:
+                    self.set_dconf_value('/net/launchpad/plank/docks/dock1/theme', "'Matte'")
+                self.set_dconf_value('/net/launchpad/plank/docks/dock1/zoom-enabled', "false")
+            self.enable_dock()
+        else:
+            self.disable_dock()
+
+        # Update the Dock checkbutton UI
+        if not called_from_api:
+            self.builder.get_object("checkbutton_dock").set_active(self.dock_enabled)
+
+        # Update the number and orientation of virtual workspaces for Compiz
+        if 'compiz' in self.current_wm:
+            num_workspaces = self.get_num_workspaces()
+            # Don't make any change if workspaces is zero.
+            if num_workspaces != 0:
+                self.set_dconf_value('/org/compiz/profiles/mate/plugins/core/hsize', str(num_workspaces))
+                self.set_dconf_value('/org/compiz/profiles/mate/plugins/core/vsize', '1')
+                print('Set ' + str(num_workspaces) + ' workspaces for ' + self.current_wm)
+
+        # Make sure the correct panel name is set
+        if not called_from_api:
+            widget = self.builder.get_object('combobox_panels')
+            widget.disconnect(self.combobox_panels_handler)
+            self.set_string("org.mate.panel", None, "default-layout", new_layout)
+            self.combobox_panels_handler = widget.connect("changed", self.combo_fallback, 'org.mate.panel', 'default-layout')
+
+        self.current_layout = new_layout
+
+    def get_panel_layout(self):
+        self.current_layout = self.get_string('org.mate.panel', None, 'default-layout')
+
+    def init_panel_features(self):
+        self.get_panel_layout()
+        print ('Current layout: ' + self.current_layout)
+        self.update_panel_layout_ui(self.current_layout)
+
+        source = Gio.SettingsSchemaSource.get_default()
+        if source.lookup('org.mate.panel', True) != None:
+            widget = self.builder.get_object('combobox_panels')
+            index = 0
+            for row in widget.get_model():
+                if(self.current_layout == row[1]):
+                    widget.set_active(index)
+                    break
+                index += 1
+            self.combobox_panels_handler = widget.connect("changed", self.combo_fallback, 'org.mate.panel', 'default-layout')
+
+    def toggle_panel_features(self, widget):
+        self.reload_panel()
+
+    def toggle_pulldown_terminal(self, checkbutton):
+        if checkbutton.get_active():
+            self.enable_pulldown_terminal()
+        else:
+            self.disable_pulldown_terminal()
+
+    def toggle_dock(self, checkbutton):
+        if checkbutton.get_active():
+            if not self.dock_enabled:
+                self.enable_dock()
+        else:
+            self.disable_dock()
+
+    def toggle_keyboard_led(self, checkbutton):
+        if checkbutton.get_active():
+            if not self.keyboard_led_enabled:
+                self.enable_keyboard_led()
+        else:
+            self.disable_keyboard_led()
+
+    def panel_layout_exists(self, panel_layout):
+        return os.path.exists('/usr/share/mate-panel/layouts/' + panel_layout + '.layout')
+
+    def check_glx_features(self):
+        if self.find_on_path('glxinfo'):
+            process = subprocess.Popen(['glxinfo'], stdout=PIPE)
+            out = process.communicate()[0].decode("UTF-8")
+            if out.count("Software Rasterizer") == 0:
+                self.software_rasterizer = False
+            else:
+                self.software_rasterizer = True
+
+            if out.count("texture_from_pixmap") > 2:
+                self.texture_from_pixmap = True
+            else:
+                self.texture_from_pixmap = False
+        else:
+            self.software_rasterizer = False
+            self.texture_from_pixmap = False
+
+    def update_windowmanager_widgets(self):
+        # Update the widget based on the current window manager.
+        if ('marco' in self.current_wm):
+            self.builder.get_object('frame_performance').props.sensitive = True
+
+            self.init_checkbox('org.mate.Marco.general', 'reduced-resources', 'checkbox_resources')
+            if self.schema_has_key('org.mate.Marco.general','side-by-side-tiling'):
+                self.init_checkbox('org.mate.Marco.general', 'side-by-side-tiling', 'checkbox_snapping')
+            elif self.schema_has_key('org.mate.Marco.general','allow-tiling'):
+                self.init_checkbox('org.mate.Marco.general', 'allow-tiling', 'checkbox_snapping')
+            self.init_checkbox('org.mate.interface', 'enable-animations', 'checkbox_animations')
+
+            # Make the Window Snapping checkbox inactive based if reduced resources is enabled
+            #  - https://bugs.launchpad.net/ubuntu-mate/+bug/1548011
+            marco_reduced = self.get_bool('org.mate.Marco.general', None, 'reduced-resources')
+            if marco_reduced:
+                self.builder.get_object('checkbox_snapping').props.sensitive = False
+        else:
+            self.builder.get_object('frame_performance').props.sensitive = False
+
+        if self.current_wm == 'compiz':
+           self.builder.get_object('button_compiz_reset').show()
+           if self.ccsm_capable:
+               self.builder.get_object('button_ccsm').show()
+           else:
+               self.builder.get_object('button_ccsm').hide()
+        else:
+           self.builder.get_object('button_compiz_reset').hide()
+           self.builder.get_object('button_ccsm').hide()
+
+    def additional_tweaks(self, schema, key, value):
+        if schema == "org.mate.Marco.general" and key == "button-layout":
+            # If the button-layout is changed in MATE reflect that change
+            # for GTK3 and GNOME.
+            self.set_string("org.mate.interface", None, "gtk-decoration-layout", value)
+            self.set_string("org.gnome.desktop.wm.preferences", None, "button-layout", value)
+
+        elif (schema == "org.mate.interface" and key == "enable-animations"):
+            self.set_bool('org.mate.panel', None, 'enable-aniations', value)
+            self.set_bool('org.mate.interface', None, 'gtk-enable-aniations', value)
+            self.set_bool('org.gnome.desktop.interface', None, 'enable-aniations', value)
+
+        elif (schema == "org.gnome.desktop.interface" and key == "enable-animations"):
+            self.set_bool('org.mate.panel', None, 'enable-aniations', value)
+            self.set_bool('org.mate.interface', None, 'gtk-enable-aniations', value)
+            self.set_bool('org.mate.interface', None, 'enable-aniations', value)
+
+        elif schema == "org.mate.session.required-components" and key == "windowmanager":
+            # If the window manager is being changed, replace it now!
+            wm = value
+            self.replace_windowmanager(wm)
+            self.update_windowmanager_widgets()
+
+        elif schema == 'org.mate.interface' and key == 'window-scaling-factor':
+            # If window scaling is being changed make sure mate-panel is still running
+            time.sleep(0.5)
+            if not self.process_running('mate-panel'):
+                self.reload_panel()
+
+        elif schema == "org.mate.panel" and key == "default-layout":
+            panel_layout = value
+            title = _('Change the layout?')
+            text = _('<b>Changing the layout will completely replace and reset the current configuration!</b>\n\nAre you sure you want to replace this layout and potentially lose any customizations you might have made?')
+            if not self.confirm_dialog(title, text):
+                # Revert the change that the signal already caught
+                source = Gio.SettingsSchemaSource.get_default()
+                if source.lookup('org.mate.panel', True) != None:
+                    widget = self.builder.get_object('combobox_panels')
+                    widget.disconnect(self.combobox_panels_handler)
+                    self.set_string("org.mate.panel", None, "default-layout", self.current_layout)
+                    index = 0
+                    for row in widget.get_model():
+                        if(self.current_layout == row[1]):
+                            widget.set_active(index)
+                            break
+                        index += 1
+                    self.combobox_panels_handler = widget.connect("changed", self.combo_fallback, 'org.mate.panel', 'default-layout')
+            else:
+                # If the panel layout is being changed, replace it now!
+                self.replace_panel_layout(panel_layout)
+
+        elif schema == "org.mate.panel.menubar":
+            if key == "icon-size" or key == "item-icon-size":
+                self.set_string("org.mate.panel.menubar", None, key, value)
+                self.reload_panel()
+
+    def combo_fallback(self, widget, schema, key, data_type = str):
+        act = widget.get_active()
+        value = widget.get_model()[act]
+        if data_type is int:
+            self.set_int(schema, None, key, value[1])
+        else:
+            self.set_string(schema, None, key, value[1])
+
+        # Process any additional changes required for the schema and key
+        self.additional_tweaks(schema, key, value[1])
+
+    # Change pages
+    def side_view_nav(self, param):
+        treePaths = param.get_selected_items()
+        if (len(treePaths) > 0):
+            treePath = treePaths[0]
+            index = int("%s" % treePath) #Hack to turn treePath into an int
+            target = self.sidePages[index].notebook_index
+            self.builder.get_object("main_notebook").set_current_page(target)
+
+    def check_keyboard_led_features(self):
+        self.keyboard_led_enabled = self.get_bool('org.mate.peripherals-keyboard-xkb.general', None, 'duplicate-leds')
+
+    def check_dock_features(self):
+        # Order matters. Plank is preferred.
+        if self.find_on_path('plank') and \
+            os.path.exists(os.path.join('/','usr','share','applications', 'plank.desktop')):
+            self.dock = 'plank'
+        else:
+            self.dock = None
+
+        if self.dock is not None and self.get_string('org.mate.session.required-components', None, 'dock'):
+            self.dock_enabled = True
+        else:
+            self.dock_enabled = False
+
+    def check_pulldown_terminal_features(self):
+        config_dir = GLib.get_user_config_dir()
+
+        if self.find_on_path('guake'):
+            self.pulldown_terminal = 'guake'
+        else:
+            self.pulldown_terminal = None
+
+        if self.pulldown_terminal is not None and os.path.exists(os.path.join(config_dir, 'autostart/') + self.pulldown_terminal + '.desktop'):
+            self.pulldown_terminal_enabled = True
+        else:
+            self.pulldown_terminal_enabled = False
+
+    def check_hud_features(self):
+        if os.path.exists('/usr/lib/mate-hud/mate-hud'):
+            self.hud_available = True
+            if self.schema_has_key('org.mate.hud', 'enabled'):
+                self.hud_enabled = self.get_bool('org.mate.hud', None, 'enabled')
+            else:
+                self.hud_enabled = False
+        else:
+            self.hud_available = False
+            self.hud_enabled = False
+
+    def check_panel_features(self):
+        # Determine what panel features are available
+        self.indicators_available = False
+        self.mageia_cc_available = False
+        self.mate_dock_available = False
+        self.mate_menu_available = False
+        self.maximus_available = False
+        self.mint_menu_available = False
+        self.volume_applet_enabled = False
+        self.brisk_menu_available = False
+        self.appmenu_applet_available = False
+
+        if os.path.exists('/usr/libexec/ayatana-indicator-application/ayatana-indicator-application-service') and \
+            os.path.exists('/usr/share/mate-panel/applets/org.mate.applets.Indicator.mate-panel-applet'):
+                self.indicators_available = True
+
+        if os.path.exists('/usr/share/applications/mageia-drakconf.desktop'):
+            self.mageia_cc_available = True
+
+        if os.path.exists('/usr/lib/mate-applets/mate-dock-applet/dock.py'):
+            self.mate_dock_available = True
+
+        if os.path.exists('/usr/lib/mate-menu/mate-menu.py'):
+            self.mate_menu_available = True
+
+        if os.path.exists('/usr/lib/' + self.multiarch + '/brisk-menu/brisk-menu') or \
+            os.path.exists('/usr/lib/brisk-menu/brisk-menu') or \
+             os.path.exists('/usr/libexec/brisk-menu'):
+             if os.path.exists('/usr/share/mate-panel/applets/com.solus_project.brisk.BriskMenu.mate-panel-applet'):
+              self.brisk_menu_available = True
+
+        if os.path.exists('/usr/lib/' + self.multiarch + '/mate-panel/libappmenu-mate.so') and \
+            os.path.exists('/usr/share/mate-panel/applets/org.vala-panel.appmenu.mate-panel-applet'):
+            self.appmenu_applet_available = True
+
+        if os.path.exists('/usr/bin/mate-maximus') and \
+           os.path.exists('/usr/lib/mate-netbook/mate-window-picker-applet'):
+            self.maximus_available = True
+
+        if os.path.exists('/usr/lib/linuxmint/mintMenu/mintMenu.py'):
+            self.mint_menu_available = True
+
+        config_dir = GLib.get_user_config_dir()
+        if os.path.exists('/etc/xdg/autostart/mate-volume-control-applet.desktop') or \
+           os.path.exists(os.path.join(config_dir, 'autostart/') + 'mate-volume-control-applet.desktop'):
+            self.volume_applet_enabled = True
+
+
+    def update_window_controls(self):
+        layouts = Gtk.ListStore(str, str)
+        layouts.append([_("Right"), __TRADITIONAL_BUTTONS__])
+        layouts.append([_("Left"), __CONTEMPORARY_BUTTONS__])
+        layouts.append([_("Right (with menu)"), __MENU_TRADITIONAL_BUTTONS__])
+        layouts.append([_("Left (with menu)"), __MENU_CONTEMPORARY_BUTTONS__])
+        self.builder.get_object("combobox_window_control").set_model(layouts)
+        self.init_combobox("org.mate.Marco.general", "button-layout", "combobox_window_control")
+
+
+    def make_list_of_window_managers(self):
+        wms = Gtk.ListStore(str, str)
+        if self.marco_no_composite_capable:
+            wms.append([_("Marco (No compositor)"), 'marco-no-composite'])
+        if self.marco_capable:
+            # Use 'ldd' to determine which Marco compositor is enabled.
+            compositor = "Xrender"
+            try:
+                ldd = subprocess.Popen('ldd /usr/bin/marco', shell=True, stdout=subprocess.PIPE)
+                for line in ldd.stdout:
+                    if "libXpresent" in str(line):
+                        compositor = "Xpresent"
+                        break
+            except:
+                pass
+            wms.append([_("Marco (built-in: "+compositor+")"), 'marco'])
+        if self.marco_picom_capable and not self.software_rasterizer:
+            if self.find_on_path('marco-xrender'):
+                wms.append([_("Marco (picom: Xrender)"), 'marco-xrender'])
+            if self.find_on_path('marco-glx'):
+                wms.append([_("Marco (picom: GLX)"), 'marco-glx'])
+            if self.find_on_path('marco-xr_glx_hybrid'):
+                wms.append([_("Marco (picom: Hybrid)"), 'marco-xr_glx_hybrid'])
+        if self.compiz_capable:
+            wms.append([_("Compiz (Advanced GPU accelerated desktop effects)"), 'compiz'])
+
+        if self.current_wm == 'Unknown':
+            self.builder.get_object("label_unknown_wm").set_markup('<span size="small" foreground="#cc0000">' + _("You are currently using an unknown and unsupported window manager. Thus we cannot guarantee that changes made here will be effective.") + '</span>')
+        else:
+            self.builder.get_object("label_unknown_wm").hide()
+
+        self.builder.get_object("combobox_window_manager").set_model(wms)
+
+    def make_list_of_panel_layouts(self):
+        # Panel layouts
+        panels = Gtk.ListStore(str, str)
+
+        if self.panel_layout_exists('contemporary') and \
+           self.appmenu_applet_available and \
+           self.brisk_menu_available and \
+           self.indicators_available:
+            self.add_to_panel_list(panels, "Contemporary", "contemporary")
+
+        # Prefer Indicator enabled Cupertino layout and fallback to non-Indicator version.
+        if self.dock is not None and \
+           self.appmenu_applet_available and \
+           self.brisk_menu_available and \
+           self.indicators_available:
+            if self.panel_layout_exists('eleven'):
+                self.add_to_panel_list(panels, "Cupertino", "eleven")
+        elif self.dock is not None and \
+           self.appmenu_applet_available and \
+           self.brisk_menu_available and \
+           not self.indicators_available:
+            if self.panel_layout_exists('eleven-no-indicators'):
+                self.add_to_panel_list(panels, "Cupertino", "eleven-no-indicators")
+
+        if self.panel_layout_exists('familiar') and \
+           self.brisk_menu_available and \
+           self.indicators_available:
+            self.add_to_panel_list(panels, "Familiar", "familiar")
+
+        if distro.id() != 'ubuntu' and \
+            self.panel_layout_exists('fedora'):
+            self.add_to_panel_list(panels, "Fedora", "fedora")
+
+        if self.panel_layout_exists('default') and \
+           not self.indicators_available:
+            self.add_to_panel_list(panels, "GNOME2", "default")
+
+        if self.panel_layout_exists('slint') and \
+           not self.indicators_available:
+            self.add_to_panel_list(panels, "Slint", "slint")
+
+        if self.panel_layout_exists('solus') and \
+           not self.indicators_available:
+            self.add_to_panel_list(panels, "Solus", "solus")
+
+        if self.panel_layout_exists('slintlegacy') and \
+           not self.indicators_available:
+            self.add_to_panel_list(panels, "Slintlegacy", "slintlegacy")
+
+        if self.panel_layout_exists('linuxmint') and \
+           self.mint_menu_available:
+            self.add_to_panel_list(panels, "Linux Mint", "linuxmint")
+
+        if self.panel_layout_exists('mageia') and \
+           self.mageia_cc_available:
+            self.add_to_panel_list(panels, "Mageia", "mageia")
+
+        if self.panel_layout_exists('manjaro') and \
+           self.brisk_menu_available:
+            self.add_to_panel_list(panels, "Manjaro", "manjaro")
+
+        # Prefer Indicator enabled Mutiny layout and fallback to non-Indicator version.
+        if self.panel_layout_exists('mutiny') and \
+           self.dock is not None and \
+           self.appmenu_applet_available and \
+           self.indicators_available and \
+           self.brisk_menu_available:
+            self.add_to_panel_list(panels, "Mutiny", "mutiny")
+        elif self.panel_layout_exists('mutiny-no-indicators') and \
+           self.dock is not None and \
+           self.appmenu_applet_available and \
+           not self.indicators_available:
+            self.add_to_panel_list(panels, "Mutiny", "mutiny-no-indicators")
+
+        # Prefer Indicator enabled Netbook layout and fallback to non-Indicator version.
+        if self.panel_layout_exists('netbook') and \
+           self.maximus_available and \
+           self.indicators_available and \
+           self.brisk_menu_available:
+            self.add_to_panel_list(panels, "Netbook", "netbook")
+        elif self.panel_layout_exists('netbook-no-indicators') and \
+           self.maximus_available and \
+           not self.indicators_available:
+            self.add_to_panel_list(panels, "Netbook", "netbook-no-indicators")
+
+        if self.panel_layout_exists('opensuse') and \
+           not self.indicators_available:
+            self.add_to_panel_list(panels, "openSUSE", "opensuse")
+
+        if self.dock is not None and \
+           self.brisk_menu_available and \
+           self.indicators_available:
+            if self.panel_layout_exists('pantheon'):
+                self.add_to_panel_list(panels, "Pantheon", "pantheon")
+
+        # Prefer Indicator enabled Redmond layout and fallback to non-Indicator version.
+        if self.panel_layout_exists('redmond') and \
+           self.indicators_available and \
+           self.brisk_menu_available:
+            self.add_to_panel_list(panels, "Redmond", "redmond")
+        elif self.panel_layout_exists('redmond-no-indicators') and \
+           self.brisk_menu_available and \
+           not self.indicators_available:
+            self.add_to_panel_list(panels, "Redmond", "redmond-no-indicators")
+
+        if self.panel_layout_exists('ubuntu-mate') and \
+           self.indicators_available:
+            self.add_to_panel_list(panels, "Traditional", "ubuntu-mate")
+
+        print("System installed layouts: ")
+        print(self.system_installed_panel_layouts)
+
+        # Add any saved panel layouts to the start.
+        layouts = os.path.join('/','usr','share','mate-panel','layouts','*-tweak.layout')
+        for layout in glob.glob(layouts):
+            list_entry = self.get_custom_panel_list_entry(layout)
+            panels.prepend([list_entry['displayname'], list_entry['codename']])
+
+        self.builder.get_object("combobox_panels").set_model(panels)
+
+    def add_to_panel_list(self, panel_list_store, item_display_name, item_code_name):
+        panel_list_store.append([_(item_display_name), item_code_name])
+
+        if not item_code_name in self.system_installed_panel_layouts:
+            self.system_installed_panel_layouts.append(item_code_name)
+
+    def get_custom_panel_list_entry(self, layout_full_name):
+        layout_code_name = layout_full_name.replace('.layout','').replace('/usr/share/mate-panel/layouts/', '')
+        layout_display_name = layout_code_name
+
+        custom_layout_prefix = self.get_custom_layout_file_prefix(layout_code_name)
+
+        if custom_layout_prefix != '':
+            layout_display_name = layout_code_name.replace(custom_layout_prefix, '', 1)
+
+        layout_display_name = layout_display_name.replace('-tweak', '')
+
+        result = {'displayname': _('Custom: ') + layout_display_name,
+                  'codename': layout_code_name}
+
+        return result
+
+    def get_custom_layout_file_prefix(self, layout_code_name):
+        result = ''
+
+        for layout_template in self.system_installed_panel_layouts:
+            if self.is_panel_layout_name_special(layout_code_name, [layout_template]):
+                result = layout_template + '--'
+
+        return result
+
+    def ask_for_layout_name(self):
+        # Returns user input as a string or None
+        title = _('Panel layout name')
+        text = _('Enter the name for your panel layout.')
+
+        dialog = Gtk.Dialog(title, None, Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT,
+            (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+             Gtk.STOCK_OK, Gtk.ResponseType.OK))
+
+        dialog.set_default_size(250, 120)
+
+        label = Gtk.Label(text)
+        label.set_use_markup(True)
+
+        box = dialog.get_content_area()
+        box.set_border_width(8)
+        box.add(label)
+
+        entry = Gtk.Entry()
+        box.pack_end(entry, False, False, 0)
+
+        dialog.show_all()
+        response = dialog.run()
+        name = entry.get_text().strip().replace(' ', '-')
+        dialog.destroy()
+
+        if (response == Gtk.ResponseType.OK) and (name != ''):
+            return name
+        else:
+            return None
+
+    def delete_panel(self, widget):
+        # Make certain we don't delete a system installed layout
+        if 'tweak' in self.current_layout:
+            # Get default layout
+            settings = Gio.Settings.new('org.mate.panel')
+            default_layout = GLib.Variant.get_string(settings.get_default_value('default-layout'))
+            old_layout = self.current_layout
+
+            title = _('Delete this custom layout?')
+            text = _('<b>Deleting this custom layout will also return your layout to the system default.</b>\n\nAre you sure you want to permanently delete this custom layout?')
+
+            if self.confirm_dialog(title, text):
+                mate_tweak_helper = os.path.join('/','usr', 'lib', 'mate-tweak', 'mate-tweak-helper')
+                delete = subprocess.call(['pkexec', mate_tweak_helper, 'delete', old_layout], stdout=DEVNULL, stderr=DEVNULL)
+                Notify.init(_('MATE Tweak'))
+                delete_panel_notify=Notify.Notification.new (_('Panel Layout Deleted'),_('Your panel layout has been deleted: ') + old_layout.replace('-tweak','') , 'dialog-information')
+                delete_panel_notify.show()
+
+                self.make_list_of_panel_layouts()
+                self.replace_panel_layout(default_layout)
+
+                source = Gio.SettingsSchemaSource.get_default()
+                if source.lookup('org.mate.panel', True) != None:
+                    widget = self.builder.get_object('combobox_panels')
+                    widget.disconnect(self.combobox_panels_handler)
+                    self.set_string("org.mate.panel", None, "default-layout", default_layout)
+                    index = 0
+                    for row in widget.get_model():
+                        if(self.current_layout == row[1]):
+                            widget.set_active(index)
+                            break
+                        index += 1
+                    self.combobox_panels_handler = widget.connect("changed", self.combo_fallback, 'org.mate.panel', 'default-layout')
+
+    def save_panels(self, widget):
+        layoutname = self.ask_for_layout_name()
+        if layoutname is not None:
+            layoutnameprefix = self.get_custom_layout_file_prefix(self.current_layout)
+            layoutname = layoutnameprefix + layoutname + '-tweak'
+            print('Saving ' + layoutname)
+            if self.panel_layout_exists(layoutname):
+                print('Layout exists. Ignoring that for now and over writting it.')
+
+            mate_tweak_helper = os.path.join('/','usr', 'lib', 'mate-tweak', 'mate-tweak-helper')
+            backup = subprocess.call([mate_tweak_helper, 'backup', layoutname], stdout=DEVNULL, stderr=DEVNULL)
+            if self.dock_enabled:
+                dock = subprocess.call([mate_tweak_helper, 'dock', layoutname], stdout=DEVNULL, stderr=DEVNULL)
+            install = subprocess.call(['pkexec', mate_tweak_helper, 'install', layoutname], stdout=DEVNULL, stderr=DEVNULL)
+            Notify.init(_('MATE Tweak'))
+            save_panels_notify=Notify.Notification.new (_('Panel Layout Saved'),_('Your panel layout has been saved as ') + layoutname.replace('-tweak',''), 'dialog-information')
+            save_panels_notify.show()
+
+            # Update the currently selected layout.
+            self.make_list_of_panel_layouts()
+
+            widget = self.builder.get_object('combobox_panels')
+            widget.disconnect(self.combobox_panels_handler)
+            self.set_string('org.mate.panel', None, 'default-layout', layoutname)
+            index = 0
+            for row in widget.get_model():
+                if(layoutname == row[1]):
+                    widget.set_active(index)
+                    break
+                index += 1
+            self.combobox_panels_handler = widget.connect("changed", self.combo_fallback, 'org.mate.panel', 'default-layout')
+
+    def compiz_reset(self, widget):
+        # Kill compiz. Purge all Compiz config and cache. Switch to Compiz.
+        self.kill_process('compiz')
+        self.reset_dconf_path('/org/compiz/')
+        config_compiz = os.path.join(GLib.get_user_config_dir(), 'compiz-1')
+        cache_compiz = os.path.join(GLib.get_user_cache_dir(), 'compizconfig-1')
+        if os.path.exists(config_compiz):
+            shutil.rmtree(config_compiz)
+        if os.path.exists(cache_compiz):
+            shutil.rmtree(cache_compiz)
+        self.replace_windowmanager('compiz')
+        Notify.init(_('MATE Tweak'))
+        compiz_reset_notify=Notify.Notification.new (_('Compiz Reset'),_('Your Compiz configuration has been reset to factory defaults.'),'dialog-information')
+        compiz_reset_notify.show()
+
+    def launch_ccsm(self, widget):
+        # Launch Compiz Config Settings Manager
+        pid = subprocess.Popen(['ccsm'], stdout=DEVNULL, stderr=DEVNULL).pid
+
+    def launch_fonts(self, widget):
+        # Launch Fonts Appearance Preferences
+        pid = subprocess.Popen(['mate-appearance-properties', '--show-page', 'fonts'], stdout=DEVNULL, stderr=DEVNULL).pid
+
+    def close_tweak(self, widget):
+        Gtk.main_quit()
+
+    ''' Create the UI '''
+    def __init__(self):
+        # Check for glx, panel, dock and wm features
+        self.multiarch = sysconfig.get_config_var('MULTIARCH')
+        self.check_glx_features()
+        self.check_dock_features()
+        self.check_keyboard_led_features()
+        self.check_pulldown_terminal_features()
+        self.check_hud_features()
+        self.check_panel_features()
+        self.check_wm_features()
+        self.check_appmenu()
+        self.previous_wm = self.current_wm
+
+        # Load the Glade UI file
+        self.builder = Gtk.Builder()
+        if os.path.exists('./data/mate-tweak.ui'):
+            print('Development mode.')
+            self.builder.add_from_file('./data/mate-tweak.ui')
+        else:
+            self.builder.add_from_file('/usr/lib/mate-tweak/mate-tweak.ui')
+
+        self.window = self.builder.get_object( "main_window" )
+        self.builder.get_object("main_window").connect("destroy", Gtk.main_quit)
+        self.builder.get_object("button_save_panels").connect("clicked", self.save_panels)
+        self.builder.get_object("button_delete_panel").connect("clicked", self.delete_panel)
+        self.builder.get_object("button_compiz_reset").connect("clicked", self.compiz_reset)
+        self.builder.get_object("button_ccsm").connect("clicked", self.launch_ccsm)
+        self.builder.get_object("button_fonts").connect("clicked", self.launch_fonts)
+
+        side_desktop_options = SidePage(0, _("Desktop"), "user-desktop")
+        side_interface = SidePage(1, _("Interface"), "preferences-desktop")
+        side_panel = SidePage(2, _("Panel"), "mate-panel")
+        side_windows = SidePage(3, _("Windows"), "preferences-system-windows")
+
+        # Toolbar seetings appear to not be supported with GTK3.
+        # Disable the side_interface page.
+        #  - https://pad.lv/1714799
+        #self.sidePages = [side_desktop_options, side_interface, side_panel, side_windows]
+        self.sidePages = [side_desktop_options, side_panel, side_windows]
+
+        # create the backing store for the side nav-view.
+        theme = Gtk.IconTheme.get_default()
+        self.store = Gtk.ListStore(str, GdkPixbuf.Pixbuf)
+        for sidePage in self.sidePages:
+            if theme.has_icon(sidePage.icon):
+                img = theme.load_icon(sidePage.icon, 48, Gtk.IconLookupFlags.FORCE_SVG)
+            else:
+                img = theme.load_icon("image-missing", 48, Gtk.IconLookupFlags.FORCE_SVG)
+            self.store.append([sidePage.name, img])
+
+        target = int(self.sidePages[0].notebook_index)
+        self.builder.get_object("main_notebook").set_current_page(target)
+
+        # Do not show Performance or Window behaviour configuration
+        # options when Marco is not currently running.
+        if 'marco' in self.current_wm:
+            self.builder.get_object('frame_performance').props.sensitive = True
+            self.builder.get_object('checkbox_snapping').props.sensitive = True
+        else:
+            self.builder.get_object('frame_performance').props.sensitive = False
+            self.builder.get_object('checkbox_snapping').props.sensitive = False
+
+        if not self.current_wm == "compiz":
+            self.builder.get_object('button_compiz_reset').hide()
+            self.builder.get_object('button_ccsm').hide()
+
+        if not self.maximus_available:
+            self.builder.get_object('checkbox_undecorate').props.sensitive = False
+            self.builder.get_object('checkbox_always_maximize').props.sensitive = False
+        else:
+            self.init_checkbox("org.mate.maximus", "undecorate", "checkbox_undecorate")
+            self.init_checkbox("org.mate.maximus", "no-maximize", "checkbox_always_maximize")
+
+        # set up the side view - navigation.
+        self.builder.get_object("side_view").set_text_column(0)
+        self.builder.get_object("side_view").set_pixbuf_column(1)
+        self.builder.get_object("side_view").set_model(self.store)
+        self.builder.get_object("side_view").select_path(Gtk.TreePath.new_first())
+        self.builder.get_object("side_view").connect("selection_changed", self.side_view_nav)
+
+        # set up larger components.
+        self.builder.get_object("main_window").set_title(_("MATE Tweak"))
+
+        # i18n
+        self.builder.get_object("label_desktop_icons").set_markup("<b>" + _("Desktop icons") + "</b>")
+        self.builder.get_object("label_performance").set_markup("<b>" + _("Performance") + "</b>")
+        self.builder.get_object("label_behaviour").set_markup("<b>" + _("Window Behaviour") + "</b>")
+        self.builder.get_object("label_appearance").set_markup("<b>" + _("Appearance") + "</b>")
+        self.builder.get_object("label_panels").set_markup("<b>" + _("Panels") + "</b>")
+        self.builder.get_object("label_panel_features").set_markup("<b>" + _("Panel Features") + "</b>")
+        self.builder.get_object("label_menu_features").set_markup("<b>" + _("Panel Menu Features") + "</b>")
+        self.builder.get_object("label_icons").set_markup("<b>" + _("Icons") + "</b>")
+        self.builder.get_object("label_context_menus").set_markup("<b>" + _("Context menus") + "</b>")
+        self.builder.get_object("label_toolbars").set_markup("<b>" + _("Toolbars") + "</b>")
+        self.builder.get_object("label_window_manager").set_markup("<b>" + _("Window manager") + "</b>")
+
+        self.builder.get_object("caption_desktop_icons").set_markup("<small>" + _("Select the Desktop Icons you want enabled:") + "</small>")
+        self.builder.get_object("checkbox_show_icons").set_label(_("Show Desktop Icons"))
+        self.builder.get_object("checkbox_show_icons").set_tooltip_text(_("When disabled the desktop will be unmanaged with no icons or file manager access"))
+        self.builder.get_object("checkbox_computer").set_label(_("Computer"))
+        self.builder.get_object("checkbox_home").set_label(_("Home"))
+        self.builder.get_object("checkbox_network").set_label(_("Network"))
+        self.builder.get_object("checkbox_trash").set_label(_("Trash"))
+        self.builder.get_object("checkbox_volumes").set_label(_("Mounted Volumes"))
+
+        self.builder.get_object("checkbox_animations").set_label(_("Enable animations"))
+        self.builder.get_object("checkbox_animations").set_tooltip_text(_("Whether animations should be displayed by the window manager and panel"))
+        self.builder.get_object("checkbox_resources").set_label(_("Do not show window content when moving windows"))
+        self.builder.get_object("checkbox_resources").set_tooltip_text(_("Provide less feedback when moving windows by using wireframes"))
+        self.builder.get_object("label_performance_tuning").set_markup("<small>" + _("Window manager performance tuning.") + "</small>")
+
+        self.builder.get_object("checkbox_snapping").set_label(_("Enable window snapping"))
+        self.builder.get_object("checkbox_snapping").set_tooltip_text(_("Dropping windows on screen edges maximizes them vertically and resizes them horizontally to cover half the available area"))
+        self.builder.get_object("checkbox_undecorate").set_label(_("Undecorate maximized windows"))
+        self.builder.get_object("checkbox_undecorate").set_tooltip_text(_("Undecorate windows when maximized"))
+        self.builder.get_object("checkbox_always_maximize").set_label(_("Do not auto-maximize new windows"))
+        self.builder.get_object("checkbox_always_maximize").set_tooltip_text(_("Do not automatically maximize newly opened windows"))
+        self.builder.get_object("label_window_control").set_markup("<small>" + _("Window control placement.") + "</small>")
+
+        self.builder.get_object("button_save_panels").set_tooltip_text(_("Save the current panel layout as your own custom version"))
+        self.builder.get_object("button_delete_panel").set_tooltip_text(_("Delete the currently selected panel layout"))
+        self.builder.get_object("button_ccsm").set_label(_("Open CCSM"))
+        self.builder.get_object("button_ccsm").set_tooltip_text(_("Open the Compiz configuration and settings manager"))
+        self.builder.get_object("button_compiz_reset").set_label(_("Reset Compiz"))
+        self.builder.get_object("button_compiz_reset").set_tooltip_text(_("Reset the current Compiz configuration to factory defaults"))
+
+        if self.schema_has_key('org.mate.interface', 'window-scaling-factor'):
+            self.builder.get_object("label_hidpi").set_markup("<b>" + _("HiDPI") + "</b>")
+            self.builder.get_object("label_hidpi_scaling").set_markup("<small>" + _("Select a window scaling factor.") + "</small>")
+            windowScalingFactors = Gtk.ListStore(str, int)
+            windowScalingFactors.append([_("Auto-detect"), 0])
+            windowScalingFactors.append([_("Regular"), 1])
+            windowScalingFactors.append([_("HiDPI"), 2])
+            self.builder.get_object("combobox_hidpi_scaling").set_model(windowScalingFactors)
+            self.init_combobox("org.mate.interface", "window-scaling-factor", "combobox_hidpi_scaling", False, int)
+            self.builder.get_object("combobox_hidpi_scaling").set_tooltip_text(_("Double the size of all windows, panels, widgets, fonts, etc. for HiDPI displays."))
+            self.builder.get_object("label_hidpi_scaling_notice").set_markup('<span size="small" foreground="#cc0000">' + _('Logout or restart for the settings to take effect.') + '</span>')
+            self.builder.get_object("label_hidpi_scaling_notice").hide()
+        else:
+            self.builder.get_object('frame_hidpi').hide()
+
+        self.builder.get_object("button_fonts").set_tooltip_text(_("Open Font preferences"))
+        self.builder.get_object("button_fonts").set_label(_("Fonts"))
+        self.builder.get_object("label_fonts").set_markup("<small>" + _("Open Font preferences and click Details... to fine tune the font DPI.") + "</small>")
+        self.builder.get_object("label_font").set_markup("<b>" + _("Fonts") + "</b>")
+
+        self.builder.get_object("checkbutton_keyboard_led").set_label(_("Enable keyboard LED"))
+        self.builder.get_object("checkbutton_keyboard_led").set_tooltip_text(_("Show keyboard LED indicators in the notifcation area"))
+        self.builder.get_object("checkbutton_pulldown_terminal").set_label(_("Enable pull-down terminal"))
+        self.builder.get_object("checkbutton_pulldown_terminal").set_tooltip_text(_("When enabled press F12 to pull down terminal"))
+        self.builder.get_object("checkbutton_dock").set_label(_("Enable Dock"))
+        self.builder.get_object("checkbutton_dock").set_tooltip_text(_("When checked the Dock will be enabled."))
+        self.builder.get_object("checkbutton_hud").set_label(_("Enable HUD"))
+        self.builder.get_object("checkbutton_hud").set_tooltip_text(_("When checked the Heads-Up Display (HUD) will be enabled. Press the configured key (defaults to Left Alt) to search application menus."))
+
+        self.builder.get_object("checkbutton_show_applications").set_label(_("Show Applications"))
+        self.builder.get_object("checkbutton_show_applications").set_tooltip_text(_("Show Applications item in the menu bar"))
+        self.builder.get_object("checkbutton_show_places").set_label(_("Show Places"))
+        self.builder.get_object("checkbutton_show_places").set_tooltip_text(_("Show Places item in the menu bar"))
+        self.builder.get_object("checkbutton_show_system").set_label(_("Show System"))
+        self.builder.get_object("checkbutton_show_system").set_tooltip_text(_("Show System item in the menu bar"))
+
+        self.builder.get_object("checkbutton_menuicon").set_label(_("Show icons on menus"))
+        self.builder.get_object("checkbutton_menuicon").set_tooltip_text(_("Whether menus may display an icon next to a menu entry"))
+        self.builder.get_object("checkbutton_button_icons").set_label(_("Show icons on buttons"))
+        self.builder.get_object("checkbutton_button_icons").set_tooltip_text(_("Whether buttons may display an icon in addition to the button text"))
+        self.builder.get_object("checkbutton_im_menu").set_label(_("Show Input Methods menu in context menus"))
+        self.builder.get_object("checkbutton_im_menu").set_tooltip_text(_("Whether the context menus of entries and text views should offer to change the input method"))
+        self.builder.get_object("checkbutton_unicode").set_label(_("Show Unicode Control Character menu in context menus"))
+        self.builder.get_object("checkbutton_unicode").set_tooltip_text(_("Whether the context menu of entries and text views should offer the insert control characters"))
+
+        self.builder.get_object("label_toolbar_style").set_text(_("Style:"))
+        self.builder.get_object("label_toolbar_icon_size").set_text(_("Icon size:"))
+
+        # Desktop page
+        self.init_checkbox("org.mate.background", "show-desktop-icons", "checkbox_show_icons")
+        self.init_checkbox("org.mate.caja.desktop", "computer-icon-visible", "checkbox_computer")
+        self.init_checkbox("org.mate.caja.desktop", "home-icon-visible", "checkbox_home")
+        self.init_checkbox("org.mate.caja.desktop", "network-icon-visible", "checkbox_network")
+        self.init_checkbox("org.mate.caja.desktop", "trash-icon-visible", "checkbox_trash")
+        self.init_checkbox("org.mate.caja.desktop", "volumes-visible", "checkbox_volumes")
+        self.toggle_desktop_icons_sensitiveness()
+
+        # interface page
+        self.init_checkbox("org.mate.interface", "menus-have-icons", "checkbutton_menuicon")
+        self.init_checkbox("org.mate.interface", "show-input-method-menu","checkbutton_im_menu")
+        self.init_checkbox("org.mate.interface", "show-unicode-menu", "checkbutton_unicode")
+        self.init_checkbox("org.mate.interface", "buttons-have-icons", "checkbutton_button_icons")
+
+        iconSizes = Gtk.ListStore(str, str)
+        iconSizes.append([_("Small"), "small-toolbar"])
+        iconSizes.append([_("Large"), "large-toolbar"])
+        self.builder.get_object("combobox_toolbar_icon_size").set_model(iconSizes)
+        self.init_combobox("org.mate.interface", "toolbar-icons-size", "combobox_toolbar_icon_size")
+
+        # Window control button
+        self.update_window_controls()
+
+        # Window manager
+        self.make_list_of_window_managers()
+        self.builder.get_object("combobox_window_manager").set_tooltip_text(_("The new window manager will be activated upon selection."))
+        self.builder.get_object("caption_window_manager").set_markup("<small>" + _("Select a window manager.") + "</small>")
+        self.init_combobox("org.mate.session.required-components", "windowmanager", "combobox_window_manager")
+        self.update_windowmanager_widgets()
+
+        # Panel layouts
+        self.make_list_of_panel_layouts()
+        self.builder.get_object("caption_panels").set_markup("<small>" + _("Select a panel layout to change the user interface.") + "</small>")
+        self.builder.get_object("combobox_panels").set_tooltip_text(_("Select a panel layout."))
+        self.init_panel_features()
+
+        # Panel icon sizes
+        panel_icon_sizes = Gtk.ListStore(str, str)
+        panel_icon_sizes.append([_("Default"), "default"])
+        panel_icon_sizes.append([_("16px"), "16px"])
+        panel_icon_sizes.append([_("22px"), "22px"])
+        panel_icon_sizes.append([_("24px"), "24px"])
+        panel_icon_sizes.append([_("32px"), "32px"])
+        panel_icon_sizes.append([_("48px"), "48px"])
+
+        self.builder.get_object("combobox_panel_icon_size").set_model(panel_icon_sizes)
+        self.init_combobox("org.mate.panel.menubar", "icon-size", "combobox_panel_icon_size")
+        self.builder.get_object("combobox_panel_icon_size").set_tooltip_text(_("Set the panel icon size."))
+        self.builder.get_object("caption_panel_icon_size").set_markup("<small>" + _("Select the icon size for panel icons.") + "</small>")
+
+        self.builder.get_object("combobox_panel_menu_icon_size").set_model(panel_icon_sizes)
+        self.init_combobox("org.mate.panel.menubar", "item-icon-size", "combobox_panel_menu_icon_size")
+        self.builder.get_object("combobox_panel_menu_icon_size").set_tooltip_text(_("Set the icon size of menu items used in the panel."))
+        self.builder.get_object("caption_panel_menu_icon_size").set_markup("<small>" + _("Select the icon size for menu items in the panel.") + "</small>")
+
+        # Pulldown Terminal
+        self.builder.get_object("checkbutton_pulldown_terminal").connect("toggled", self.toggle_pulldown_terminal)
+        self.builder.get_object("checkbutton_pulldown_terminal").set_active(self.pulldown_terminal_enabled)
+        if not self.pulldown_terminal:
+            self.builder.get_object('checkbutton_pulldown_terminal').props.sensitive = False
+
+        # Keyboard LED
+        self.builder.get_object("checkbutton_keyboard_led").connect("toggled", self.toggle_keyboard_led)
+        self.builder.get_object("checkbutton_keyboard_led").set_active(self.keyboard_led_enabled)
+
+        # Dock
+        self.builder.get_object("checkbutton_dock").connect("toggled", self.toggle_dock)
+        self.builder.get_object("checkbutton_dock").set_active(self.dock_enabled)
+        if self.dock is None:
+            self.builder.get_object('checkbutton_dock').props.sensitive = False
+
+        # HUD
+        if self.hud_available and self.schema_has_key('org.mate.hud', 'enabled'):
+            self.builder.get_object("checkbutton_hud").connect("toggled", self.toggle_hud)
+            self.builder.get_object("checkbutton_hud").set_active(self.hud_enabled)
+        else:
+            self.builder.get_object('checkbutton_hud').props.sensitive = False
+
+        # Panel Menu features
+        self.init_checkbox("org.mate.panel.menubar", "show-applications", "checkbutton_show_applications")
+        self.init_checkbox("org.mate.panel.menubar", "show-places", "checkbutton_show_places")
+        self.init_checkbox("org.mate.panel.menubar", "show-desktop", "checkbutton_show_system")
+
+        # toolbar icon styles
+        iconStyles = Gtk.ListStore(str, str)
+        iconStyles.append([_("Text below items"), "both"])
+        iconStyles.append([_("Text beside items"), "both-horiz"])
+        iconStyles.append([_("Icons only"), "icons"])
+        iconStyles.append([_("Text only"), "text"])
+        self.builder.get_object("combobox_toolbar_style").set_model(iconStyles)
+        self.init_combobox("org.mate.interface", "toolbar-style", "combobox_toolbar_style")
+        self.builder.get_object("close_tweak").connect("clicked", self.close_tweak)
+        self.builder.get_object("main_window").show()
+
+if __name__ == "__main__":
+    setproctitle.setproctitle('mate-tweak')
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--layout', help="Switch to a panel layout")
+    parser.add_argument('--get-layout', action='store_true', help="Get the current panel layout")
+    args = parser.parse_args()
+
+    # If we've been given a layout then attempt to switch layouts.
+    if args.layout:
+        mt = MateTweak()
+        if mt.panel_layout_exists(args.layout):
+            mt.replace_panel_layout(args.layout, True)
+        else:
+            print("ERROR! Unable to find layout: " + args.layout)
+    elif args.get_layout:
+        mt = MateTweak()
+    else:
+        MateTweak()
+        Gtk.main()

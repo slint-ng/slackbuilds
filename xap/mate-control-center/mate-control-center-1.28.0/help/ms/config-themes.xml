@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="config-theme">
+  <title>Pemilih Tema Gtk+</title>
+  <para>Persekitaran <application>Mate</application> digerakkan dengan <application>Gtk+</application>. <application>Gtk+</application> membolehkan kebanyakan unsur-unsur di dalam desktop anda mendapat tema mengikut kehendak anda.  Oleh itu, <application>Pemilih Tema Gtk+</application> membolehkan anda pilih tema yang hendak digunakan.</para>
+  <sect2 id="config-theme-setting">
+    <title>Menetapkan Tema Anda</title>
+    <para>Bahagian teratas <application>Pemilih Tema Gtk+</application> menyenaraikan tema-tema terpasang. Hanya klik pada tema tersebut dan perubahan akan berlaku.</para>
+    <para>Anda boleh milihat demo secara interaktif pada semua widget yang ada di dalam tema terpilih di bahagian bawah tetingkap.</para>
+  </sect2>
+  <sect2 id="config-theme-add">
+    <title>Menambah satu Tema</title>
+    <para>Untuk menambah satu tema: <orderedlist numeration="arabic">
+	<listitem>
+	  <para>Klik butang <guibutton>Pasang Tema baharu</guibutton>.</para>
+	</listitem>
+	<listitem>
+	  <para>Navigasi ke direktori yang mengandungi tema yang hendak dipasangkan.</para>
+	</listitem>
+	<listitem>
+	  <para>Buka fail gtktc yang mana mengandungi spesifikasi tema anda.</para>
+	</listitem>
+      </orderedlist></para>
+  </sect2>
+</sect1>

@@ -1,0 +1,34 @@
+#!/bin/sh
+DOC=/usr/docinstaller
+export TEXTDOMAIN=auto
+# same giveup function as in the script functions in the initrd, will also prserve the translation 
+giveup() {
+	echo giveup >>$INSTALL/log
+	gettext "Press Enter to go back to the menu "
+	read </dev/tty
+	clear
+	gettext "Welcome back to the menu of the Slint installer.
+
+You may now type (without the quotes):
+
+'doc' to know the features and usage of the installer.
+'start' to start the installation.
+
+The installer can prepare the drive where Slint will be installed,
+creating the the needed partitions. If you prefer you can do it yourself
+using command line utilities available in the installer, then type 'start'
+when done. You can also leave the installer and use a tool like gparted
+to do that then start the installer again.
+
+We recommend that you type 'doc' first in this case, or if you want to
+encrypt the root Slint partition.
+When you finish reading this menu will be displayed again."
+echo
+exit
+}
+if ls $DOC | grep -q ${LANG%.*}; then
+	w3m -o confirm_qq=0 $DOC/${LANG%.*}.html
+else
+	w3m -o confirm_qq=0 $DOC/en_US.html
+fi
+giveup

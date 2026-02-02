@@ -1,0 +1,82 @@
+.\" empty
+.ds g 
+.\" -*- nroff -*-
+.\" empty
+.ds G 
+.de  Tp
+.ie \\n(.$=0:((0\\$1)*2u>(\\n(.lu-\\n(.iu)) .TP
+.el .TP "\\$1"
+..
+.\" Like TP, but if specified indent is more than half
+.\" the current line-length - indent, use the default indent.
+.\"*******************************************************************
+.\"
+.\" This file was generated with po4a. Translate the source file.
+.\"
+.\"*******************************************************************
+.TH INSTALLPKG 8 2001年11月22日 "Slackware Version 8.1.0" 
+.SH 名称
+installpkg \- Slackware パッケージのインストール。
+.SH 概要
+\fBinstallpkg\fP [ \fB\-\-warn\fP ] [ \fB\-\-md5sum\fP ] [ \fB\-\-root /他のルート\fP ] [
+\fB\-\-infobox\fP ] [ \fB\-\-menu\fP ] [ \fB\-\-terse\fP ] [ \fB\-\-ask\fP ] [ \fB\-\-priority
+ADD|REC|OPT|SKP\fP ] [ \fB\-\-tagfile /ディレクトリ/タグファイル\fP ] \fBパッケージ名\fP [ \fBパッケージ名2
+\&...\fP ]
+.SH 説明
+\fBinstallpkg\fP は Slackware Linux ディストリビューションで使用するように設計された単一または複数の *.tgz
+(または.tbz、.tlz、.txz) バイナリパッケージをシステムにインストールします。
+.SH オプション
+.TP 
+\fB\-\-warn パッケージ名\fP
+標準出力に上書きされますが、実際にはパッケージをインストールしないファイルのリストを生成します。
+リストはバックアップするファイルのリストとして使用するのに適した形式で書式化されます。
+.TP 
+\fB\-\-md5sum パッケージ名\fP
+/var/log/packages に書き込まれたメタデータにパッケージの md5sum を記録します。
+.TP 
+\fB\-\-root /他のルート\fP
+インストールするファイルシステムのルートとして、/ (デフォルト) 以外の場所を使用してインストールします。 与えられた例では、\-\-root
+/otherroot とする事で、代わりに /otherroot を使用します。ROOT 環境変数を設定することも同じことです。
+.TP 
+\fB\-\-infobox\fP
+/bin/dialog を使用して、パッケージのインストール時に情報ダイアログを表示します。 主に installpkg
+が他のスクリプトから呼び出されたときに使用されます。
+.TP 
+\fB\-\-menu\fP
+/bin/dialog を使用して、パッケージをインストールするかどうかをユーザーに確認するメニューを表示します。 通常、installpkg
+が他のスクリプトから呼び出されたときに使用されます。
+.TP 
+\fB\-\-terse\fP
+単一の記述行だけを表示するパッケージを stdout へインストールします。
+.TP 
+\fB\-\-ask\fP
+\-menu モードで使用します。 選択するとパッケージの優先順位に関係なく、パッケージをインストールするかどうかを常に尋ねられます。
+.TP 
+\fB\-\-priority ADD|REC|OPT|SKP\fP
+\-menu オプションを指定してインストールする場合は、パッケージを自動的にインストール (ADD) またはスキップ (SKP) するか、推奨
+(REC) またはオプション (OPT) を提案するためにパッケージ優先度レベル (パッケージディレクトリのファイル
+"ターゲットファイル"）をメニューに表示します。
+コマンドラインで優先順位が設定されている場合、パッケージリスト全体のタグファイルに設定されている値が上書きされます。
+.TP 
+\fB\-\-tagfile /ディレクトリ/タグファイル\fP
+パッケージの優先順位に使用する別のファイルを指定します（例 \-\-tagfile /somedir/tagfile では /somedir/tagfile
+が使用されます）。 デフォルトは、パッケージのディレクトリにある "タグファイル" です。
+.SH 例
+.TP 
+\fBX 用のフォントパッケージをインストール:\fP
+.P
+installpkg font\-bh\-ttf\-1.0.3\-noarch\-1.txz
+.P
+パッケージがすでにインストールされている場合は、代わりに upgradepkg (8) を使用する必要があります。
+.TP 
+\fBパッケージがインストールされている場合に上書きされるファイルのバックアップを作成:\fP
+.P
+.nf
+tar czvf /tmp/backup.tar.gz \e
+$(installpkg \-\-warn font\-bh\-ttf\-1.0.3\-noarch\-1.txz)
+.fi
+.SH 作者
+Patrick J. Volkerding <volkerdi@slackware.com>
+.SH 関連項目
+\fBmakepkg(8),\fP \fBremovepkg(8),\fP \fBexplodepkg(8),\fP \fBpkgtool(8),\fP
+\fBupgradepkg(8)\fP

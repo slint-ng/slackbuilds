@@ -1,0 +1,220 @@
+diff -ru mate-control-center-1.28.0/capplets/Makefile.am mate-control-center-1.28.0.new/capplets/Makefile.am
+--- mate-control-center-1.28.0/capplets/Makefile.am	2024-02-22 18:36:56.000000000 +0100
++++ mate-control-center-1.28.0.new/capplets/Makefile.am	2024-03-03 00:04:52.993483140 +0100
+@@ -8,10 +8,8 @@
+ 	keybindings \
+ 	mouse \
+ 	network \
+-	time-admin \
+ 	windows \
+ 	about-me \
+-	system-info
+ 
+ DIST_SUBDIRS = \
+ 	common \
+@@ -22,10 +20,8 @@
+ 	keyboard \
+ 	mouse \
+ 	network \
+-	time-admin \
+ 	windows \
+ 	display \
+ 	about-me \
+-	system-info
+ 
+ -include $(top_srcdir)/git.mk
+diff -ru mate-control-center-1.28.0/capplets/Makefile.in mate-control-center-1.28.0.new/capplets/Makefile.in
+--- mate-control-center-1.28.0/capplets/Makefile.in	2024-02-22 18:39:50.000000000 +0100
++++ mate-control-center-1.28.0.new/capplets/Makefile.in	2024-03-03 00:06:07.131936917 +0100
+@@ -415,10 +415,8 @@
+ 	keybindings \
+ 	mouse \
+ 	network \
+-	time-admin \
+ 	windows \
+ 	about-me \
+-	system-info
+ 
+ DIST_SUBDIRS = \
+ 	common \
+@@ -429,11 +427,9 @@
+ 	keyboard \
+ 	mouse \
+ 	network \
+-	time-admin \
+ 	windows \
+ 	display \
+ 	about-me \
+-	system-info
+ 
+ all: all-recursive
+ 
+Seulement dans mate-control-center-1.28.0/capplets: time-admin
+diff -ru mate-control-center-1.28.0/configure mate-control-center-1.28.0.new/configure
+--- mate-control-center-1.28.0/configure	2024-02-22 18:39:49.000000000 +0100
++++ mate-control-center-1.28.0.new/configure	2024-03-03 00:15:30.105312383 +0100
+@@ -19300,98 +19300,6 @@
+ fi
+ 
+ pkg_failed=no
+-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for systemd >= $SYSTEMD_REQUIRED" >&5
+-printf %s "checking for systemd >= $SYSTEMD_REQUIRED... " >&6; }
+-
+-if test -n "$SYSTEMD_CFLAGS"; then
+-    pkg_cv_SYSTEMD_CFLAGS="$SYSTEMD_CFLAGS"
+- elif test -n "$PKG_CONFIG"; then
+-    if test -n "$PKG_CONFIG" && \
+-    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"systemd >= \$SYSTEMD_REQUIRED\""; } >&5
+-  ($PKG_CONFIG --exists --print-errors "systemd >= $SYSTEMD_REQUIRED") 2>&5
+-  ac_status=$?
+-  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+-  test $ac_status = 0; }; then
+-  pkg_cv_SYSTEMD_CFLAGS=`$PKG_CONFIG --cflags "systemd >= $SYSTEMD_REQUIRED" 2>/dev/null`
+-		      test "x$?" != "x0" && pkg_failed=yes
+-else
+-  pkg_failed=yes
+-fi
+- else
+-    pkg_failed=untried
+-fi
+-if test -n "$SYSTEMD_LIBS"; then
+-    pkg_cv_SYSTEMD_LIBS="$SYSTEMD_LIBS"
+- elif test -n "$PKG_CONFIG"; then
+-    if test -n "$PKG_CONFIG" && \
+-    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"systemd >= \$SYSTEMD_REQUIRED\""; } >&5
+-  ($PKG_CONFIG --exists --print-errors "systemd >= $SYSTEMD_REQUIRED") 2>&5
+-  ac_status=$?
+-  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+-  test $ac_status = 0; }; then
+-  pkg_cv_SYSTEMD_LIBS=`$PKG_CONFIG --libs "systemd >= $SYSTEMD_REQUIRED" 2>/dev/null`
+-		      test "x$?" != "x0" && pkg_failed=yes
+-else
+-  pkg_failed=yes
+-fi
+- else
+-    pkg_failed=untried
+-fi
+-
+-
+-
+-if test $pkg_failed = yes; then
+-        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+-printf "%s\n" "no" >&6; }
+-
+-if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+-        _pkg_short_errors_supported=yes
+-else
+-        _pkg_short_errors_supported=no
+-fi
+-        if test $_pkg_short_errors_supported = yes; then
+-                SYSTEMD_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "systemd >= $SYSTEMD_REQUIRED" 2>&1`
+-        else
+-                SYSTEMD_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "systemd >= $SYSTEMD_REQUIRED" 2>&1`
+-        fi
+-        # Put the nasty error message in config.log where it belongs
+-        echo "$SYSTEMD_PKG_ERRORS" >&5
+-
+-        as_fn_error $? "Package requirements (systemd >= $SYSTEMD_REQUIRED) were not met:
+-
+-$SYSTEMD_PKG_ERRORS
+-
+-Consider adjusting the PKG_CONFIG_PATH environment variable if you
+-installed software in a non-standard prefix.
+-
+-Alternatively, you may set the environment variables SYSTEMD_CFLAGS
+-and SYSTEMD_LIBS to avoid the need to call pkg-config.
+-See the pkg-config man page for more details." "$LINENO" 5
+-elif test $pkg_failed = untried; then
+-        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+-printf "%s\n" "no" >&6; }
+-        { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+-printf "%s\n" "$as_me: error: in \`$ac_pwd':" >&2;}
+-as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
+-is in your PATH or set the PKG_CONFIG environment variable to the full
+-path to pkg-config.
+-
+-Alternatively, you may set the environment variables SYSTEMD_CFLAGS
+-and SYSTEMD_LIBS to avoid the need to call pkg-config.
+-See the pkg-config man page for more details.
+-
+-To get pkg-config, see <http://pkg-config.freedesktop.org/>.
+-See \`config.log' for more details" "$LINENO" 5; }
+-else
+-        SYSTEMD_CFLAGS=$pkg_cv_SYSTEMD_CFLAGS
+-        SYSTEMD_LIBS=$pkg_cv_SYSTEMD_LIBS
+-        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+-printf "%s\n" "yes" >&6; }
+-
+-fi
+-
+-
+-pkg_failed=no
+ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for dconf >= 0.13.4" >&5
+ printf %s "checking for dconf >= 0.13.4... " >&6; }
+ 
+@@ -21073,7 +20981,7 @@
+ fi
+ 
+ 
+-ac_config_files="$ac_config_files Makefile org.mate.control-center.gschema.xml org.mate.control-center.keybinding.gschema.xml capplets/Makefile capplets/about-me/Makefile capplets/accessibility/Makefile capplets/accessibility/at-properties/Makefile capplets/appearance/Makefile capplets/appearance/data/Makefile capplets/common/Makefile capplets/default-applications/Makefile capplets/default-applications/mate-default-applications.pc capplets/default-applications/icons/Makefile capplets/display/Makefile capplets/keybindings/Makefile capplets/keybindings/mate-keybindings.pc capplets/keyboard/Makefile capplets/mouse/Makefile capplets/system-info/Makefile capplets/network/Makefile capplets/time-admin/Makefile capplets/time-admin/src/Makefile capplets/time-admin/data/Makefile capplets/windows/Makefile font-viewer/Makefile help/Makefile man/Makefile po/Makefile.in shell/Makefile typing-break/Makefile"
++ac_config_files="$ac_config_files Makefile org.mate.control-center.gschema.xml org.mate.control-center.keybinding.gschema.xml capplets/Makefile capplets/about-me/Makefile capplets/accessibility/Makefile capplets/accessibility/at-properties/Makefile capplets/appearance/Makefile capplets/appearance/data/Makefile capplets/common/Makefile capplets/default-applications/Makefile capplets/default-applications/mate-default-applications.pc capplets/default-applications/icons/Makefile capplets/display/Makefile capplets/keybindings/Makefile capplets/keybindings/mate-keybindings.pc capplets/keyboard/Makefile capplets/mouse/Makefile capplets/network/Makefile capplets/windows/Makefile font-viewer/Makefile help/Makefile man/Makefile po/Makefile.in shell/Makefile typing-break/Makefile"
+ 
+ 
+ cat >confcache <<\_ACEOF
+@@ -22138,11 +22046,7 @@
+     "capplets/keybindings/mate-keybindings.pc") CONFIG_FILES="$CONFIG_FILES capplets/keybindings/mate-keybindings.pc" ;;
+     "capplets/keyboard/Makefile") CONFIG_FILES="$CONFIG_FILES capplets/keyboard/Makefile" ;;
+     "capplets/mouse/Makefile") CONFIG_FILES="$CONFIG_FILES capplets/mouse/Makefile" ;;
+-    "capplets/system-info/Makefile") CONFIG_FILES="$CONFIG_FILES capplets/system-info/Makefile" ;;
+     "capplets/network/Makefile") CONFIG_FILES="$CONFIG_FILES capplets/network/Makefile" ;;
+-    "capplets/time-admin/Makefile") CONFIG_FILES="$CONFIG_FILES capplets/time-admin/Makefile" ;;
+-    "capplets/time-admin/src/Makefile") CONFIG_FILES="$CONFIG_FILES capplets/time-admin/src/Makefile" ;;
+-    "capplets/time-admin/data/Makefile") CONFIG_FILES="$CONFIG_FILES capplets/time-admin/data/Makefile" ;;
+     "capplets/windows/Makefile") CONFIG_FILES="$CONFIG_FILES capplets/windows/Makefile" ;;
+     "font-viewer/Makefile") CONFIG_FILES="$CONFIG_FILES font-viewer/Makefile" ;;
+     "help/Makefile") CONFIG_FILES="$CONFIG_FILES help/Makefile" ;;
+diff -ru mate-control-center-1.28.0/configure.ac mate-control-center-1.28.0.new/configure.ac
+--- mate-control-center-1.28.0/configure.ac	2024-02-22 18:36:56.000000000 +0100
++++ mate-control-center-1.28.0.new/configure.ac	2024-03-03 00:16:26.408479000 +0100
+@@ -67,7 +67,6 @@
+ AC_SUBST(SCREENSAVER_LIBS)
+ 
+ GLIB_REQUIRED=2.64.0
+-SYSTEMD_REQUIRED=248
+ GTK_REQUIRED=3.22.0
+ MARCO_REQUIRED=1.17.0
+ MATEKBD_REQUIRED=1.17.0
+@@ -121,7 +120,7 @@
+ PKG_CHECK_MODULES(GIO, gio-2.0)
+ PKG_CHECK_MODULES(GLIBTOP, libgtop-2.0)
+ PKG_CHECK_MODULES(UDISKS, udisks2)
+-PKG_CHECK_MODULES(SYSTEMD, systemd >= $SYSTEMD_REQUIRED)
++
+ 
+ PKG_CHECK_MODULES([DCONF], [dconf >= 0.13.4])
+ AC_SUBST(DCONF_CFLAGS)
+@@ -279,11 +278,7 @@
+ capplets/keybindings/mate-keybindings.pc
+ capplets/keyboard/Makefile
+ capplets/mouse/Makefile
+-capplets/system-info/Makefile
+ capplets/network/Makefile
+-capplets/time-admin/Makefile
+-capplets/time-admin/src/Makefile
+-capplets/time-admin/data/Makefile
+ capplets/windows/Makefile
+ font-viewer/Makefile
+ help/Makefile
+Seulement dans mate-control-center-1.28.0.new: drop_system_info_and_time_admin_capplets
+diff -ru mate-control-center-1.28.0/org.mate.control-center.gschema.xml.in mate-control-center-1.28.0.new/org.mate.control-center.gschema.xml.in
+--- mate-control-center-1.28.0/org.mate.control-center.gschema.xml.in	2024-02-22 18:36:56.000000000 +0100
++++ mate-control-center-1.28.0.new/org.mate.control-center.gschema.xml.in	2024-03-02 23:54:11.549946733 +0100
+@@ -2,7 +2,7 @@
+     <schema id="org.mate.control-center" path="/org/mate/control-center/">
+         <child name="appearance" schema="org.mate.control-center.appearance" />
+         <key name="cc-actions-list" type="as">
+-            <default l10n="messages">[ 'Change Theme;mate-appearance-properties.desktop', 'Set Preferred Applications;mate-default-applications-properties.desktop', 'Mate System Info;mate-system-info.desktop' ]</default>
++            <default l10n="messages">[ 'Change Theme;mate-appearance-properties.desktop', 'Set Preferred Applications;mate-default-applications-properties.desktop' ]</default>
+             <summary>Task names and associated .desktop files</summary>
+             <description>The task name to be displayed in the control-center followed by a ";" separator then the filename of an associated .desktop file to launch for that task.</description>
+         </key>

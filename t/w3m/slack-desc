@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.
+# Line up the first '|' above the ':' following the base package name, and
+# the '|' on the right side marks the last column you can put a character in.
+# You must make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':' except on otherwise blank lines.
+
+             |-----handy-ruler------------------------------------------------------|
+w3m-installer: w3m (text based web browser and pager)
+w3m-installer:
+w3m-installer: w3m is a World Wide Web (WWW) text based client. It has English,
+w3m-installer: German and  Japanese help files and an option menu that can be
+w3m-installer: configured to use  the preferred language. It will display hypertext
+w3m-installer: markup language (HTML) documents containing links to files
+w3m-installer: residing on the local system, as well as files residing on remote
+w3m-installer: systems. It can display HTML tables, frames, and images, and
+w3m-installer: supports tabbed browsing.
+w3m-installer:
+w3m-installer: Homepage: http://w3m.sourceforge.net

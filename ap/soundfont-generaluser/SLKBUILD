@@ -1,0 +1,24 @@
+# Maintainer: Kyle Keen <keenerd@gmail.com>
+# Included in Slintby Didier Spaier didieratslintdotfr
+pkgname=soundfont-generaluser
+pkgver=1.471
+pkgrel=4slint
+#Build 4slint isnsert this line to GUFS.cfg:
+#57 %font "GeneralUser GS v1.471.sf2" 128 56 57
+slackdesc="$pkgname (GM/GS soundbank for many styles of music.)"
+license=("custom")
+url="http://www.schristiancollins.com/generaluser.php"
+groups=('soundfonts')
+docs=("CHANGELOG.txt" "LICENSE.txt" "README.txt"  "GU1.43 Percussion Map.pdf")
+source=("https://www.dropbox.com/s/4x27l49kxcwamp5/GeneralUser_GS_$pkgver.zip" "https://raw.githubusercontent.com/WL-Amigo/LoopMID2LoopOGG/master/ExtraResources/cfg/GUGS.cfg")
+md5sums=('5eaa95224f6080864cf6aedc1c9820a6')
+build() {
+  cd "GeneralUser GS $pkgver"
+  mkdir -p $PKG/usr/share/sounds/sf2
+  cp "GeneralUser GS v$pkgver.sf2" $PKG/usr/share/sounds/sf2
+  install -d "$PKG/usr/share/$pkgname/lists"
+  find "instrument lists/"* -type f -exec chmod -x {} \;
+  cp -r "instrument lists/"* "$PKG/usr/share/$pkgname/lists"
+  mkdir -p $PKG/etc/timidity
+  cp $SRC/GUGS.cfg $PKG/etc/timidity
+}

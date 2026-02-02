@@ -1,0 +1,25 @@
+# Maintainer: e5ten <e5ten.arch@gmail.com>
+# Contributor: sxe <sxxe@gmx.de>
+pkgname='qlipper'
+pkgver=5.1.2
+pkgrel=1slint
+slackdesc="pkgname (clipboard history applet based on qt)"
+url="https://github.com/pvanek/${pkgname}"
+license=('GPL2')
+depends=('qt5-base')
+makedepends=('cmake' 'ninja' 'qt5-tools' 'git')
+sha256sums=('SKIP')
+docs=(CHANGELOG COPYING README)
+build() {
+	git clone https://github.com/pvanek/qlipper.git
+	cd $pkgname
+	git checkout ac04663
+	cd ..
+    cmake -G 'Ninja' -B build \
+		-DCMAKE_INSTALL_PREFIX:PATH='/usr' \
+        -DCMAKE_BUILD_TYPE:STRING='Release' \
+		"${pkgname}"
+    cmake --build "build"
+    DESTDIR="$PKG" cmake --build "build" --target install
+}
+

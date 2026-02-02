@@ -1,0 +1,43 @@
+# Maintainer: Santiago Torres-Arias <santiago @ usualplace>
+# Maintainer: Carl Smedstad <carsme@archlinux.org>
+# Contributor: Kaizhao Zhang <zhangkaizhao@gmail.com>
+
+pkgname=python3-hatchling3.11
+pkgver=1.27.0
+pkgrel=1slint
+slackdesc="$kpgname (Extensible, standards compliant build backend used by Hatch)"
+url="https://github.com/pypa/hatch/tree/master/backend"
+license=('MIT')
+groups=(python-build-backend)
+depends=(
+  'python'
+  'python-editables'
+  'python-packaging'
+  'python-pathspec'
+  'python-pluggy'
+  'python-trove-classifiers'
+)
+makedepends=(
+  'python-build'
+  'python-installer'
+)
+checkdepends=(
+  'libxcrypt-compat'
+  'python-click'
+  'python-filelock'
+  'python-hatch-vcs'
+  'python-pytest'
+  'python-rich'
+  'python-tomli-w'
+  'python-uv'
+)
+source=("https://github.com/pypa/hatch/archive/hatchling-v$pkgver.tar.gz")
+sha256sums=('c5d576a04bbc3940c71dc899da35a9cfe644044a6e4e70549f41d964d6331625')
+
+build() {
+  cd hatch-hatchling-v$pkgver
+  python3.11 -m build --wheel --no-isolation backend
+  python3.11 -m installer --destdir="$PKG" backend/dist/*.whl
+  install -vDm644 -t "$PKG/usr/doc/${pkgname}-$pkgver" backend/README.md
+  install -vDm644 -t "$PKG/usr/doc/${pkgname}-$pkgver" backend/LICENSE.txt
+}

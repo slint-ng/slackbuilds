@@ -1,0 +1,96 @@
+#!/bin/sh
+# I wrote this script from scratch and dedicate it to the public domain.
+# Didier Spaier <didier~at~slint.fr> 2019
+export TEXTDOMAIN=scripts
+. gettext.sh
+usage() {
+	echo "This script lists languages and synthesizers available for applications"
+	echo "relying on Speech Dispatcher, like Orca or speech-up."
+	echo "Each command below answers the question following it."
+	echo "Don't type the quotes surrounding the command."
+	echo "\"$0\" usage?"
+	echo "\"$0 -s\" available synthesizers?"
+	echo "\"$0 -l\" available languages codes?"
+	echo "\"$0 -ls <synthesizer>\" languages available for this synthesizer?"
+	echo "\"$0 -sl <language code>\" synthesizers providing voices in this language?"
+	echo "The language code has most often two characters, like 'en' 'es' or 'fr'"
+	exit
+}
+if [ ! $# -eq 0 ] && [ ! $# -eq 1 ]  && [ ! $# -eq 2 ]; then
+	echo "\"$0 $*\" is not a valid command."
+	echo
+	usage
+fi
+if [ $# -eq 0 ]; then
+	usage
+fi
+OPTION=$(echo $1|tr '[:upper:]' '[:lower:]')
+synths=$(LANG=C spd-say -O|sort|grep -v OUTPUT)
+if [ $# -eq 1 ]; then
+	if [ "$OPTION" = "-s" ]; then
+		echo "Installed synthesizers:"
+		echo "$synths"
+		exit
+	elif [ "$OPTION" = "-l" ]; then
+		all=""
+		for i in $synths; do
+			for j in $(LANG=C spd-say -o $i -L|grep -v LANGUAGE|
+			sed '
+			s/[[:space:]]*[^[:space:]]*$//
+			s/\([[:space:]]*\)\([^[:space:]]*$\)/\2/
+			s/[^]*//'|sort|uniq); do
+				if [ "$(echo $all| grep $j)" = "" ]; then
+					all="${all} $j"
+				fi
+			done
+		done
+		printf "Available languages: "
+		echo $all|sort|uniq
+		exit
+	elif [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+		usage
+	else
+		echo "\"$0 $*\" is not a valid command."
+		echo
+		usage
+	fi
+fi
+if [ "$OPTION" = "-ls" ]; then
+	if [ "$(echo $synths|grep $2)" = "" ]; then
+		echo "$2 is not the name of an available synthesizer"
+		exit
+	fi
+	lavail=$(LANG=C spd-say -o $2 -L|grep -v LANGUAGE|
+	sed '
+	s/[[:space:]]*[^[:space:]]*$//
+	s/\([[:space:]]*\)\([^[:space:]]*$\)/\2/
+	s/[^]*//'|sort|uniq)
+	if [ "$lavail" = "voice" ]; then
+		echo "No information available about languages for $2."
+	else
+		printf "Available languages codes for $2: "
+		echo $lavail
+	fi
+elif [ "$OPTION" = "-sl" ]; then
+	lavail=""
+	for i in $synths; do
+		isavail=$(LANG=C spd-say -o $i -L|grep -v LANGUAGE|
+		sed '
+		s/[[:space:]]*[^[:space:]]*$//
+		s/\([[:space:]]*\)\([^[:space:]]*$\)/\2/
+		s/[^]*//'|grep $2)
+		if [ ! "$isavail" = "" ]; then
+			lavail="${lavail}$i "
+		fi
+	done
+	if [ "$lavail" = "" ]; then
+		echo "No installed synthesizer provides the language $2"
+	else
+		printf "The language $2 is provided by: "
+		echo ${lavail}
+	fi
+else
+	echo "\"$0 $*\" is not a valid command."
+	echo
+	usage
+fi

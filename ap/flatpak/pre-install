@@ -1,0 +1,7 @@
+#!/bin/sh
+
+getent group flatpak || /usr/sbin/groupadd -g 96 flatpak
+
+getent passwd flatpak || /usr/sbin/useradd -g flatpak -u 96 -d /var/empty -s /bin/false -c "flatpak User" flatpak
+
+/usr/bin/passwd -l flatpak

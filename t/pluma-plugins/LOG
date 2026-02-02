@@ -1,0 +1,9 @@
+	Source code location:   .
+	Compiler:               gcc
+	Prefix:                 /usr
+	Python Plugins Support: yes
+
+	Plugins:
+	  bookmarks quickhighlight sourcecodebrowser wordcompletion bracketcompletion codecomment smartspaces synctex terminal
+
+	Disabled plugins:

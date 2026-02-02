@@ -1,0 +1,2 @@
+BEEP_EXECUTABLE: Error: Could not open /dev/console for writing: Permission denied
+Error

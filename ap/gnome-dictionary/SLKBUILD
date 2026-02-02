@@ -1,0 +1,45 @@
+# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+# Contributor: Ionut Biru <ibiru@archlinux.org>
+
+#Included in Slint by Didier Spaier didieratslintdotfr
+pkgname=gnome-dictionary
+pkgver=40.0
+pkgrel=1slint
+slackdesc="$pkgname (Look up words in dictionary sources)"
+docs=("copying" "authors" "README*" "LICENSE*")
+options=("nosrcpack")
+url="https://wiki.gnome.org/Apps/Dictionary"
+source=("https://download.gnome.org/sources/gnome-dictionary/40/gnome-dictionary-40.0.tar.xz")
+license=(GPL2)
+depends=(gtk3)
+makedepends=(
+  appstream-glib
+  git
+  meson
+  yelp-tools
+)
+groups=(gnome-extra)
+_commit=c37edfc2cbf91d6bae6d5264d0dcfcb5dd34b313  # tags/40.0^0
+
+build() {
+  cd $pkgname-$pkgver
+  [ -f README.md ] && pandoc -f gfm -t html5 -o README.html README.md
+mkdir build
+cd build
+  CFLAGS="$SLKCFLAGS" \
+  CXXFLAGS="$SLKCFLAGS" \
+  meson .. \
+    --buildtype=release \
+    --infodir=/usr/info \
+    --libdir=/usr/lib64 \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --prefix=/usr \
+    --sysconfdir=/etc
+  ninja
+  DESTDIR=$PKG ninja install
+cd ..
+
+# Don't ship .la files:
+rm -f $PKG/{,usr/}lib${LIBDIRSUFFIX}/*.la
+}

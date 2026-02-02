@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Matchbox
+Comment=This session logs you into Matchbox
+Exec=matchbox-window-manager
+TryExec=matchbox-window-manager
+DesktopNames=Matchbox
+X-GDM-SessionRegisters=true

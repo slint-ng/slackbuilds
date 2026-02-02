@@ -1,0 +1,22 @@
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+
+#included in Slint by Didier Spaier didieratslintdotfr
+
+
+pkgname=python-filetype
+pkgver=1.0.10
+pkgrel=1slint
+slackdesc="$pkgname (Infer file type and MIME type of any file/buffer)"
+url="https://github.com/h2non/filetype.py"
+license=('MIT')
+depends=('python')
+makedepends=('python-setuptools')
+source=("https://github.com/h2non/filetype.py/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
+sha512sums=('f6d861a9108ffb796858bfdfb26d1bdf6aa9704794fa86340cc36a2920b4f11e12faf4271d19bca9a89be76d8fcff43e8859c8def2525ddbadd52a18c7f68cac')
+docs=("LICENSE" "README.rst")
+build() {
+  cd filetype.py-$pkgver
+  python3 setup.py build
+  python3 -m unittest discover
+  python3 setup.py install --root="$PKG" --optimize=1
+}

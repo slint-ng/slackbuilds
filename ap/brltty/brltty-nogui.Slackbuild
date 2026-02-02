@@ -1,0 +1,129 @@
+#!/bin/sh
+#
+# Copyright 2010, 2012, 2013  Patrick J. Volkerding, Sebeka, Minnesota, USA
+# Copyright 2014 Didier Spaier, Paris, France
+# All rights reserved.
+#
+# Redistribution and use of this script, with or without modification, is
+# permitted provided that the following conditions are met:
+#
+# 1. Redistributions of this script must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#
+#  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
+#  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+#  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO
+#  EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+#  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+#  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+#  OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+#  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+#  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+#  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+# Modified for Slint  by Didier Spaier didieratslintdotfr
+
+# Set initial variables:
+PRGNAM=brltty-nogui
+CWD=$(pwd)
+TMP=$CWD
+PKG=$TMP/package-$PRGNAM
+COMMIT=2bffb87f6
+VERSION=git$COMMIT
+BUILD=1slint
+OUTPUT=$CWD
+# Automatically determine the architecture we're building on:
+if [ -z "$ARCH" ]; then
+  case "$( uname -m )" in
+    i?86) export ARCH=i486 ;;
+    arm*) export ARCH=arm ;;
+    # Unless $ARCH is already set, use uname -m for all other archs:
+       *) export ARCH=$( uname -m ) ;;
+  esac
+fi
+if [ "$ARCH" = "x86_64" ]; then
+  LIBDIRSUFFIX="64"
+else
+  LIBDIRSUFFIX=""
+fi
+if [ "$ARCH" = "x86_64" ]; then
+  SFX=64
+elif [ !  "$ARCH" = "i486" ] ; then
+  printf %b "Architecture $ARCH not supported\n"
+  exit
+fi
+DEST=$ROOT/packages$SFX
+PKGNAME=${PRGNAM}-${VERSION}-${ARCH}-${BUILD}$TAG
+rm -rf $PKG
+mkdir -p $PKG
+cd $TMP
+rm -rf brltty
+git clone https://github.com/brltty/brltty.git
+cd brltty
+git checkout 2bffb87f6a8b6a6f79605c4952fcbe2b1b287285
+
+rm -rf DOS Windows
+
+chown -R root:root .
+find . -perm 775 -exec chmod 755 {} \;
+find . -perm 700 -exec chmod 755 {} \;
+find . -perm 744 -exec chmod 755 {} \;
+find . -perm 664 -exec chmod 644 {} \;
+find . -perm 600 -exec chmod 644 {} \;
+./autogen
+./configure \
+  --prefix=/usr \
+  --bindir=/bin \
+  --sbindir=/sbin \
+  --libdir=/lib${LIBDIRSUFFIX} \
+  --infodir=/usr/info \
+  --mandir=/usr/man \
+  --sysconfdir=/etc \
+  --localstatedir=/var \
+  --build=$ARCH-slint-linux \
+  --disable-speech-support \
+  --disable-x \
+  --disable-api \
+  --disable-ocaml-bindings \
+  --disable-java-bindings \
+  --disable-lisp-bindings \
+  --disable-tcl-bindings \
+  --disable-polkit \
+  --with-pcm-package=no \
+  --with-midi-package=no \
+  --with-fm-package=no \
+  --with-curses=ncurses \
+  --with-bluetooth-package=no
+make -j2 || exit 1
+make install INSTALL_ROOT=$PKG || exit 1
+chmod 755 $PKG/bin/*
+rm -r $PKG/usr/man
+( cd $PKG
+  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
+  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
+)
+# bp2cf comes handy to customize the config file. This one comes from git
+# as of 201412 because the version in the source tarball is not adapted
+# to the new format of the config file, hence doesn't work.
+mkdir -p $PKG/usr/sbin
+cp Bootdisks/bp2cf $PKG/usr/sbin
+chmod 755 $PKG/usr/sbin/bp2cf
+chown root:root $PKG/usr/sbin/bp2cf
+mkdir -p $PKG/etc/rc.d
+cp -a Documents/brltty.conf $PKG/etc/brltty.conf.new
+cp -a $CWD/rc.brltty $PKG/etc/rc.d/rc.brltty.new
+chmod 755 $PKG/etc/rc.d/rc.brltty.new
+chown root:root $PKG/etc/rc.d/rc.brltty.new
+# We will ship the udev rules that start brltty with a proper driver
+# when a terminal connected via USB is plugged-in.
+# Add udev rules:
+( cd Autostart/Udev
+  make install INSTALL_ROOT=$PKG UDEV_LIBRARY_DIRECTORY=$PKG/lib/udev
+)
+
+mkdir -p $PKG/install
+cat $CWD/slack-desc > $PKG/install/slack-desc
+cp $CWD/doinst.sh $PKG/install/doinst.sh
+
+cd $PKG
+/sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD.txz

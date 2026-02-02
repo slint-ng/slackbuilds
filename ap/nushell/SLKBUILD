@@ -1,0 +1,36 @@
+# Maintainer: George Rawlinson <grawlinson@archlinux.org>
+# Maintainer: Caleb Maclennan <caleb@alerque.com>
+# Contributor: KokaKiwi <kokakiwi+aur@kokakiwi.net>
+# Contributor: Felix Golatofski <contact@xdfr.de>
+# Contributor: Bumsik Kim <k.bumsik@gmail.com>
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=nushell
+pkgver=0.77.1
+_commit='0120e4040d09f3bdffb945fa5fe450b72df7837a'
+pkgrel=1slint
+slackdesc='nushell (A new type of shell)'
+arch=('x86_64')
+url='https://www.nushell.sh'
+license=('MIT')
+depends=('libcrypto.so' 'libssl.so' 'zlib')
+makedepends=('cargo' 'git')
+install=nushell.install
+source=("${pkgname}-${pkgver}.tar.gz")
+sha256sums=('SKIP')
+docs=("LICENSE" "README.html")
+build() {
+  cd ${pkgname}-${pkgver}
+  pandoc -f gfm -t html -o README.html README.md || exit 1
+  cargo fetch --locked --target "${arch}-unknown-linux-gnu"
+  CFLAGS+=" -ffat-lto-objects"
+  cargo build --release --frozen --workspace --features=extra,dataframe
+  cargo test --frozen --workspace --features=extra,dataframe
+  find target/release \
+    -maxdepth 1 \
+    -executable \
+    -type f \
+    -name "nu*" \
+    -exec install -vDm755 -t "$PKG/usr/bin" "{}" +
+}

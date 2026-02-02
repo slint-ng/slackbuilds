@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY VERSION "1.10.1">
+<!ENTITY legal SYSTEM "legal.xml">
+<!ENTITY app "<application>MATE Control Center</application>">
+<!ENTITY appname "MATE Control Center">
+<!-- Information about the entities
+       The legal.xml file contains legal information, there is no need to edit the file.
+       Use the appversion entity to specify the version of the application.
+       Use the manrevision entity to specify the revision number of this manual.
+       Use the date entity to specify the release date of this manual.
+       Use the app entity to specify the name of the application. -->]>
+<article id="index" lang="da">
+  
+  <articleinfo>
+    <abstract role="description">
+      <para>MATE-kontrolcentret tilbyder en central plads for brugeren til at opsætte deres MATE-oplevelse. Her kan du konfigurere alt fra opførelsen på dine vindueskanter til skrifttypen.</para>
+    </abstract>
+    <title>Manual for MATE-kontrolcenter</title>
+    <authorgroup>
+      <author><firstname>MATE-dokumentationsprojektet</firstname> <surname/> <affiliation> <orgname>MATE-skrivebordet</orgname> </affiliation></author>
+      <author><firstname>Kevin</firstname><surname>Breit</surname></author>
+    </authorgroup>
+    <copyright><year>2015-2021</year> <holder>MATE-dokumentationsprojektet</holder></copyright>
+    <copyright><year>2001, 2002</year> <holder>Ximian, Inc.</holder></copyright>
+
+    <publisher role="maintainer">
+      <publishername>MATE-dokumentationsprojektet</publishername>
+    </publisher>
+    <publisher>
+      <publishername>GNOME-dokumentationsprojektet</publishername>
+    </publisher>
+    
+    <revhistory>
+      <revision><revnumber>2.15</revnumber> <date>Juli 2015</date> <firstname>MATE-dokumentationsprojektet</firstname> <surname/></revision>
+      <revision><revnumber>2.14</revnumber> <date>Marts 2006</date></revision> 
+    </revhistory>
+
+    <!-- This file contains link to license for the
+   documentation (GNU FDL), and other legal stuff such as "NO
+   WARRANTY" statement. Please do not change any of this. -->
+
+    <releaseinfo>Denne manual beskriver version 1.10.1 af MATE-kontrolcenteret.</releaseinfo>
+
+    <legalnotice>
+        <title>Tilbagemeldinger</title>
+        <para>For at rapportere fejl eller foreslå forbedringer vedrørende programmet <application>MATE-kontrolcenter</application> eller denne manual, bør du følge instruktionerne på <ulink url="ghelp:user-guide?feedback-bugs" type="help">MATE-tilbagemeldingssiden</ulink>.</para>
+<!-- Translators may also add here feedback address for translations -->
+    </legalnotice>
+  </articleinfo>
+  
+  <sect1 id="intro">
+    <title>Introduktion</title>
+    <para><application>MATE-kontrolcenter</application> tilbyder et enkelt vindue hvorfra alle præferenceværktøjer startes.</para>
+    <note><para>Se <ulink type="help" url="help:mate-user-guide/prefs">Brugervejledningen</ulink> for hjælp til præferenceværktøjerne.</para></note>
+
+<!-- ============= To Start Control Center  ============================ -->
+    <sect2 id="mate-control-center-to-start">
+      <title>For at starte MATE-kontrolcenter</title>
+      <para>Du kan starte <application>MATE-kontrolcenter</application> på de følgende måder:</para>
+      <variablelist>
+        <varlistentry>
+          <term>Menuen <guimenu>System</guimenu></term>
+          <listitem>
+            <para>Vælg menuelementet <menuchoice><guimenu>Kontrolcenter</guimenu></menuchoice>.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Kommandolinje</term>
+          <listitem>
+            <para>Kør den følgende kommando: <command>mate-control-center</command></para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </sect2>
+
+  </sect1>
+  
+  <sect1 id="matecc-interface">
+    <title>Forbrug</title>
+    <para>Vinduet <application>MATE-kontrolcenter</application> viser alle præferenceværktøjer installeret på dit system i grupper.</para>
+    <tip><para>Fra det venstre panel kan du hurtigt tilgå et præferenceværktøj ved at vælge dets gruppe først, eller taste et nøglerod i filterboksen. Du kan også tilgå gængse opgaver, såsom <guilabel>Ændr tema</guilabel> og <guilabel>Angiv foretrukne programmer</guilabel>.</para></tip>
+    <para>For at åbne et præferenceværktøj klikkes der bare på det.</para>
+    <tip><para>Beskrivelsen på præferenceværktøjet vises hvis musen bevæges hen over.</para></tip>
+  </sect1>
+</article>

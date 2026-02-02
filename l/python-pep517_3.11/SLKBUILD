@@ -1,0 +1,29 @@
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+
+pkgname=python-pep517_3.11
+pkgver=0.12.0
+pkgrel=1slint
+slackdesc="$pkgname (Wrappers to build Python packages)"
+license=('MIT')
+url="https://github.com/takluyver/pep517"
+depends=('python-tomli')
+makedepends=('python-setuptools')
+checkdepends=('python-mock' 'python-pytest-flake8' 'python-testpath' 'python-pip' 'python-flit-core')
+source=("https://pypi.io/packages/source/p/pep517/pep517-$pkgver.tar.gz")
+sha512sums=('5af1fd2e35414d2a91104c967c48e554c9f838d598e14bc55f9a824c16ba484c817a90065b6734568fc77660bd85b309347392774fb4d54dd969dab8680768e7')
+docs=(LICENSE)
+
+prepare() {
+  # Copied from openSUSE: 
+  # Remove what appears to be overly cautious flag
+  # that causes tests to require internet, both here
+  # and the test suites of any dependencies. Tracking at:
+  # https://github.com/pypa/pep517/issues/101
+  sed -i "s/ '--ignore-installed',//" pep517-$pkgver/pep517/envbuild.py
+}
+
+build() {
+  cd pep517-$pkgver
+  python3.11 setup.py build
+  python3.11 setup.py install --root="$PKG" --optimize=1 --skip-build
+}

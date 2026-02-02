@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="cfg-html-viewer">
+  <title>HTML-fremviser</title>
+  <sect2 id="cfg-html-viewer-introduction">
+    <title>Introduktion</title>
+    <para>HTML-fremviser-capplet'en gør at du kan konfigurere præferencer for HTML-optegningsmotoren <application>GtkHTML</application>. <application>GtkHTML</application> brugs i <application>Evolution</application>, <application>Mate-kontrolcenter</application> og andre MATE-programmer.</para>
+  </sect2>
+  <sect2 id="cfg-html-viewer-fonts">
+    <title>HTML-skrifttyper</title>
+    <para><application>GtkHTML</application> kan opsættes til at bruge forskellige skrifttyper og skriftstørrelser for forskellige slags tekst. <variablelist>
+	<varlistentry>
+	  <term>På skærmen</term>
+	  <listitem>
+	    <para>Konfigurerer skrifttyperne til brug på din computerskærm <variablelist>
+		<varlistentry>
+		  <term>Variabel bredde</term>
+		  <listitem>
+		    <para>En skrifttype hvor størrelsen på tegnene ændrer sig baseret på hvad tegnet er. For eksempel har tegnet i en mindre bredde end w. Skrifttyper med fast bredde bruges ofte når kolonnebredden skal være ensartet mellem linjer, såsom et diagram.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>Fast bredde</term>
+		  <listitem>
+		    <para>En skrifttype hvor størrelsen på tegnene er ensartet på tværs af alle tegn. For eksempel har tegnet i samme bredde som w.</para>
+		  </listitem>
+		</varlistentry>
+	      </variablelist></para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>For udskrivning</term>
+	  <listitem>
+	    <para>Konfigurerer skrifttyperne til brug ved udskrivning til din printer fra <application>GtkHTML</application>. <variablelist>
+		<varlistentry>
+		  <term>Variabel bredde</term>
+		  <listitem>
+		    <para>En skrifttype hvor størrelsen på tegnene ændrer sig baseret på hvad tegnet er. For eksempel har tegnet i en mindre bredde end w. Skrifttyper med fast bredde bruges ofte når kolonnebredden skal være ensartet mellem linjer, såsom et diagram.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>Fast bredde</term>
+		  <listitem>
+		    <para>En skrifttype hvor størrelsen på tegnene er ensartet på tværs af alle tegn. For eksempel har tegnet i samme bredde som w.</para>
+		  </listitem>
+		</varlistentry>
+	      </variablelist></para>
+	  </listitem>
+	</varlistentry>
+      </variablelist> For at ændre de anvendte skrifttyper, klik på skriftnavnet for at åbne <application>gfontsel</application>. Her kan du vælge din skrifttype, dit ISO-sæt, skriftstørrelse og andre skriftegenskaber.</para>
+  </sect2>
+  <sect2 id="cfg-kbd-shortcuts">
+    <title>Tastaturgenveje</title>
+    <para><application>GtkHTML</application> kan bruge forskellige genvejstaster. Genvejstaster gør brugeren i stand til at anvende tastaturtryk til at udføre kommandoer som ellers ville kræve musen. Dette kan ofte øge hastigheden for brugerens kommandoer, så det imponerer andre.</para>
+    <para><application>GtkHTML</application> indeholder tre forskellige på forhånd definerede indstillinger:  <itemizedlist>
+	<listitem>
+	  <para>Emacs-lignende</para>
+	</listitem>
+	<listitem>
+	  <para>XEmacs-lignende</para>
+	</listitem>
+	<listitem>
+	  <para>MS-lignende</para>
+	</listitem>
+      </itemizedlist> Hver af disse har genvejstaster, der svarer ti ldem fundet i deres respektive miljøer.  En bruger der kommer fra Microsoft <application>Vinduer</application> kan være mere komfortabel i den MS-lignende tilstand. For at vælge en på forhånd defineret tilstand, vælg den fra rullegardinet og klik på <guibutton>O.k.</guibutton>.</para>
+    <para>Hvis ingen af disse forhåndsindstillinger passer til dig, så kan du oprette dine egne genvejstaster.</para>
+  </sect2>
+  <sect2 id="cfg-misc">
+    <title>Diverse indstillinger</title>
+    <para>Der er nogle få andre ændringer, du kan redigere for at gøre, at <application>GtkHTML</application> fungerer på den måde, du ønsker det. Disse er placeret i fanebladet <guilabel>Diverse</guilabel>.</para>
+    <para>I afsnittet <guilabel>Opførsel</guilabel>, har du de følgende præferencer: <variablelist>
+	<varlistentry>
+	  <term>Vis animerede billeder</term>
+	  <listitem>
+	    <para>Nogle billeder kan animeres. Du kan få billedet til at blive vist som et statisk billede i stedet for som et animeret billede ved at fjerne krydset fra denne boks.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Registrer henvisninger automatisk</term>
+	  <listitem>
+	    <para>Hvis <application>GtkHTML</application> registrerer at du taster en adresse, så vil det automatisk formatere adressen som en henvisning.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Aktiver stavekontrol</term>
+	  <listitem>
+	    <para>Når du taster i <application>GtkHTML</application>, kan du komme til at stave forkert. Hvis du har denne boks afkrydset, vil et forkert stavet ord blive understreget for at symbolisere, at der kan være en fejl.</para>
+	    <variablelist>
+	      <varlistentry>
+		<term>Farve</term>
+		<listitem>
+		  <para>Her angives farven på understregningen til stavefejl.</para>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term>Sprog</term>
+		<listitem>
+		  <para>Angiver sproget som stavekontrollen anvender.</para>
+		</listitem>
+	      </varlistentry>
+	    </variablelist>
+	  </listitem>
+	</varlistentry>
+      </variablelist></para>
+  </sect2>
+</sect1>

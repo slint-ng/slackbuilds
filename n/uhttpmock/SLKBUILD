@@ -1,0 +1,36 @@
+#Packager: George Vlahavas <vlahavas~at~gmail~dot~com>
+# Included in Slint by Didier Spaier didieratslintdotfr
+pkgname=uhttpmock
+pkgver=0.5.3
+pkgrel=1slint
+source=("http://tecnocode.co.uk/downloads/uhttpmock/$pkgname-$pkgver.tar.xz")
+docs=("readme" "install" "copying" "changelog" "authors" "news" "todo")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"uhttpmock (HTTP web service mocking library)"
+"uhttpmock is a project for mocking web service APIs which use HTTP or"
+"HTTPS. It provides a library, libuhttpmock, which implements recording"
+"and playback of HTTP request/response traces."
+)
+
+
+build() {
+	cd $startdir/src/$pkgname-$pkgver
+	./configure --prefix=/usr \
+		--libdir=/usr/lib${LIBDIRSUFFIX} \
+		--localstatedir=/var \
+		--sysconfdir=/etc \
+		--disable-static \
+		--enable-vala \
+		--disable-gtk-doc \
+		--disable-gtk-doc-html \
+		--disable-gtk-doc-pdf \
+		--build=$arch-slackware-linux
+	make -j $numjobs || return 1
+	make install DESTDIR=$startdir/pkg
+
+	# argh...
+	rm -rf $startdir/pkg/usr/share/gtk-doc
+} 

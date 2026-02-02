@@ -1,0 +1,5 @@
+This package provides the python bindings for brotli.
+It is built against python3.11.
+
+The brotli package coming from Slackware 15.0 includes the bindings built
+against python3.9.

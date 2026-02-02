@@ -1,0 +1,9 @@
+### mate-menus 1.28.0
+
+* Translations update
+* matemenu-tree: Fix crash when adding launcher from compact menu
+* add meson build system
+* matemenu-tree: Fix build warning -Wsign-conversion
+* fix test programs
+* test-menu-spec: Fix build warning -Wmissing-field-initializers
+

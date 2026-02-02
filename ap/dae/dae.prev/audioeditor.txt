@@ -1,0 +1,75 @@
+user requirement for the audio editor
+
+1. the file to be edited will be provided from the command-line or as an
+alternative, be typed in.
+2.  A working copy of the file will be made on which the actual editing will
+be done.  It would be copied over the original once the edit is complete.
+
+3.  The user will give editing commands with single key strokes.
+    At least the following commands must exist.
+    play: start to play the file.
+    stop: stops playing the file, remaining at the position in the file
+where it was busy playing when stop had been pressed.
+    Insert: First stops playing of the file and then start inserting audio
+at the current position.
+    The audio can come either from the sound card/microphone or from a file. 
+Two options should be provided in order to prevent delays when real-time
+insertion is required.
+    When real-time insert is pressed, play must stop and recording from the
+microphone must start immediately.  A key must be pressed to stop recording.  
+When Insert from file is pressed, play must stop and the user must have a
+way of supplying the file name to be inserted.  Once the file is inserted,
+some audible indication indicating completion of the task would be
+desirable.  
+    
+    begin-mark: When this key is pressed the current position in the file
+is captured.  If the file was playing when begin-mark was pressed, play must
+continue un-interrupted.
+
+    end-mark: When this key is pressed, the current position in the file
+must be captured while play is continuing.  end-mark and begin-mark does not
+change the play/stop status but can be used in both modes.
+
+    Remove block: When this key is pressed, the audio portion delimited by
+the begin and end marks must be deleted from the file.
+     As a safety precaution, the begin and end marks must be cleared as part
+of the delete operation.
+
+    Play block: When this key is pressed, the marked audio block must be
+played.
+    
+    Write block: When this key is pressed, the marked audio block must be
+written to an audio file.  The program must prompt the user for the file
+name.  
+
+    Move block:  This is not required for the first version.  
+      When this key is pressed, the currently marked area of the audio is
+removed from where it is and inserted at the current position.
+       The begin and end marks has to be updated so that it reflects the new
+begin and end of the moved data.
+
+    where am I: When this key is pressed, the current position of the file
+relative to its beginning must be reported.
+
+    Jump to: When this key is pressed, play must be stopped and the user
+must be prompted for a position in the file to jump to.
+      If the file was being played when the jump key were pressed, play
+should be resumed at the entered position.
+
+fast forward: When this key is pressed, the current position in the file is
+moved forward by 60 seconds.  Play/stop status should not be changed.
+
+    fast rewind: Same as fast forward, but the position is moved back in
+stead of forward by one minute.
+
+    forward: When this key is pressed, the position is moved forward by one
+second.
+    rewind: Same as forward but the position is moved back by one second in
+stead of forward.
+
+    Done: When this key is pressed, the program should exit and keep the
+changes to the audio file.
+    
+Quit: Quits the program, discarding all changes by returning the file to its
+original state.  Better ask the user for confirmation.
+

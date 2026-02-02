@@ -1,0 +1,21 @@
+diff -ru speech-dispatcher-0.12.0-rc4/config/speechd.conf speech-dispatcher-0.12.0-rc4.new/config/speechd.conf
+--- speech-dispatcher-0.12.0-rc4/config/speechd.conf	2024-10-11 01:19:50.000000000 +0200
++++ speech-dispatcher-0.12.0-rc4.new/config/speechd.conf	2024-10-29 23:58:07.659635721 +0100
+@@ -220,7 +220,7 @@
+ # backends.
+ 
+ # AudioOutputMethod "pipewire"
+-
++AudioOutputMethod "libao"
+ # -- Pulse Audio parameters --
+ 
+ # Pulse audio device name or "default" for the default pulse device
+@@ -298,7 +298,7 @@
+ # The DefaultModule selects which output module is the default.  You
+ # must use one of the names of the modules loaded with AddModule.
+ 
+-# DefaultModule espeak-ng
++DefaultModule espeak-ng
+ 
+ # The LanguageDefaultModule selects which output modules are preferred
+ # for specified languages.

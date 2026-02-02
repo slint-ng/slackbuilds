@@ -1,0 +1,55 @@
+# $Id: PKGBUILD 266875 2017-11-15 14:29:11Z foutrelis $
+# Maintainer: Sergej Pupykin <pupykin.s+arch@gmail.com>
+# Contributor: Henrique C. Alves <hcarvalhoalves@gmail.com>
+
+pkgname=matchbox-window-manager
+pkgver=1.2.2
+export _commit=844f61069896fe3f549ab425d731c061028f697c
+pkgrel=1slint
+slackdesc="$pkgname (The Matchbox window manager)"
+arch=('x86_64')
+license=('GPL')
+depends=('libmatchbox' 'startup-notification' 'libpng' 'libsm' 'libxcursor')
+url="http://matchbox-project.org/"
+source=("http://git.yoctoproject.org/cgit/cgit.cgi/$pkgname/snapshot/$pkgname-${_commit}.tar.gz"
+"matchbox-manual.html")
+sha256sums=('4ac29942f1da25d5b0dc7e62b713746fe0c6596fe885bcb7c8ffa053758cc0e6')
+docs=("AUTHORS" "COMPLIANCE" "COPYING" "README")
+options=('nosrcpack')
+build() {
+  cd $pkgname-${_commit}
+# Patches from Debian
+  while read -r i; do
+	echo "*** patch $i ***"
+	echo
+	patch -p1 --verbose < $startdir/patches/$i || exit
+  done < $startdir/series
+  autoreconf -vif
+  ./configure --sysconfdir=/etc --prefix=/usr \
+	--enable-startup-notification --enable-session \
+	--enable-alt-input-wins --enable-expat
+  CFLAGS=' -fcommon' make LDFLAGS="-lX11 -lXext -lXrender -lXcursor -lXfixes"
+  make DESTDIR="$PKG" install
+  # Replace the upstream default kbdconfig by the Slint one
+  cp "$startdir"/kbdconfig "$PKG"/etc/matchbox/ || exit
+  # Put in place matchbox.desktop
+  mkdir -p "$PKG"/usr/share/xsessions
+  cp "$startdir"/matchbox.desktop "$PKG"/usr/share/xsessions
+  chmod 755 "$PKG"/usr/share/xsessions
+  chmod 644 "$PKG"/usr/share/xsessions/matchbox.desktop
+  # Put in place startmatchbox
+  mkdir -p "$PKG"/usr/bin
+  cp "$startdir"/startmatchbox "$PKG"/usr/bin/ || exit
+  chmod -R 755 "$PKG"/usr/bin
+  # Provide the Slint xinitrc.matchbox
+  mkdir -p "$PKG"/etc/X11/xinit
+  cp "$startdir"/xinitrc.matchbox "$PKG"/etc/X11/xinit/ || exit
+  chmod -R 755 "$PKG"/etc/X11/xinit
+  # Include the documentation
+  mkdir -p "$PKG"/usr/doc/matchbox
+  cp "$startdir"/matchbox-manual.html "$PKG"/usr/doc/matchbox/ || exit
+  chmod 644 "$PKG"/usr/doc/matchbox/matchbox-manual.html
+  # Include the man pages from Debian
+  mkdir -p "$PKG"/usr/man/man1
+  cp "$startdir"/*.1 "$PKG"/usr/man/man1 || exit
+}

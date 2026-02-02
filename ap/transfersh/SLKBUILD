@@ -1,0 +1,19 @@
+#Maintainer: AlpixTM aka Lukas N. <contact@alpix.eu>
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+pkgname=transfersh
+pkgver=1.4.1
+pkgrel=1slint
+slackdesc="transfersh (Unofficial command-line client for https://transfer.sh)"
+url="https://github.com/AlpixTM/transfersh"
+license=('AGPL')
+depends=('python' 'python-requests')
+source=('https://github.com/AlpixTM/transfersh/archive/v1.4.1.tar.gz')
+md5sums=('0a33aec2fda2f2fe791928f722a5dfcd')
+docs=("README.html" "LICENSE.md")
+options=("nosrcpack")
+build() {
+  cd "$pkgname-$pkgver" || exit 1
+  install -D -m 755 "transfersh" "$PKG/usr/bin/transfersh"
+  pandoc -f gfm -t html5 -o README.html README.md
+}

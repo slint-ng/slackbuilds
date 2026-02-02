@@ -1,0 +1,8 @@
+This is a dummy package to force installation of aaa_slapt_get first,
+so before a kernel, kernel-source or kernel headers package.
+
+In that aim the dependency file slapt-get*dep should contain following line:
+aaa_slapt-get
+
+But that doesn't seem to work so we will just a week or so before uploading
+a new kernel:(

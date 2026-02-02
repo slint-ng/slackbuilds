@@ -1,0 +1,66 @@
+#!/bin/sh
+# Didier Spaier 2021
+# Public domain as stated in https://unlicense.org/UNLICENSE
+# This script removes unwanted records in slackbuilds_data, to avoid that
+# slapt-src replaces packages that should be provided by the distribution.
+# It requires slapt-src and slapt-get, links:
+# https://software.jaos.org/
+# https://github.com/jaos
+# It works as-is in a Slint system, needs adaptation elsewhere.
+if [ ! -f /etc/slapt-get/slapt-srcrc ]; then
+	printf %b "/etc/slapt-get/slapt-srcrc not found.\nIs slapt-src installed?\n"
+	exit
+fi
+if [ ! -f /etc/slapt-get/slapt-getrc ]; then
+	printf %b "/etc/slapt-get/slapt-getrc not found.\nIs slapt-get installed?\n"
+	exit
+fi
+. /etc/slapt-get/slapt-srcrc
+. /etc/slapt-get/slapt-getrc
+# We need some time (about 30 seconds here) to run.
+echo "Please wait..."
+cd $BUILDDIR || exit
+if [ ! -f slackbuilds_data ]; then
+	printf %b "File slackbuilds_data not found.\nrun \"slapt-src -u\".\n"
+	exit
+fi
+
+# In Slint  exclude from slackbuilds_data packages available in:
+# https://slackware.uk/slint/x86_64/slint-15.0/
+# https://slackware.uk/salix/x86_64/slackware-5.0/
+# But we allow to replace a package shipped in:
+# https://slackware.uk/salix/x86_64/slackware-15.0/extra/
+# as well as any other package.
+slint="#slint-15.0#"
+slackware="#slackware-15.0#"
+extra="#slackware-15.0#extra#"
+
+# We feed a sed file removing the unwanted records. We use DC1 (u+11) and
+# DC2 (u+12) as separators as it is unlikely to find them in slackbuilds_data
+sed -n "
+/PACKAGE NAME:/{
+	s/.*[[:space:]]//
+	s/-[^-]*-[^-]*-[^-]*$//
+	N
+	s/\n//
+	s,/,#,g
+	/slackware64-15.0/d
+	s.*
+	s.*/NAME: &/dp
+}" $WORKINGDIR/package_data > remove_unwanted
+
+
+# We put all data for each software on the same line.
+sed "
+/SLACKBUILD NAME:/N;N;N;N;N;N;N;N;N;N;N;s/\n//g
+" slackbuilds_data > merged_lines
+rm -f slackbuilds_data
+echo "s//\n/g" > expand_lines
+sed -f remove_unwanted -f expand_lines merged_lines > slackbuilds_data
+rm -f merged_lines expand_lines remove_unwanted
+
+# In case post-processing slackbuilds_data is needed (as in Slint to handle
+# discrepancies in packages names between slackbuilds.org and Slackware), do it.
+if [ -x /usr/libexec/slapt-src/post-process-slackbuilds_data ]; then
+	/usr/libexec/slapt-src/post-process-slackbuilds_data
+fi

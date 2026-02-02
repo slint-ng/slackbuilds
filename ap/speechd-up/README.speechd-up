@@ -1,0 +1,49 @@
+SpeechD-Up usage.
+
+SpeechD-Up provides speech on the console linking the speakup Linux
+driver and the Speech Dispatcher software. This allows to use the voices
+associated with the installed synthesizers managed by Speech Dispatcher.
+
+To have SpeechD-Up running at startup, type as root:
+speak-with speechd-up
+
+Be aware that that if you switch to another console, typing for instance
+Alt+F2 you won't hear anything before you begin typing or review the
+screen. You will have to login again though the first time you go to
+a console.
+
+The synthesizer used by default is recorded in the file:
+/etc/speech-dispatcher/speechd.conf
+
+To display the available synthesizers and languages type: spd-list
+
+To change the synthesizer, you can edit as root the file
+/etc/speech-dispatcher/speechd.conf: find the line beginning with
+DefaultModule and replace the synthesizer's name that follows by another
+one. The name chosen should be one of those listed by spd-list -s
+
+But you can also (and this is less error prone) type as root the
+command: spd-conf. Accept the default answer proposed to the first
+questions (new configuration, user configuration), then when asked which
+default output module, type one of the names listed by spd-list -s
+
+It is not possible at time of writing to select one of the voices
+proposed for a given language by the synthesizer, as when using Orca.  
+
+The specific settings of SpeechD-Up are stored in the file
+/etc/speechd-up.conf, and can be modified as root. The command spd-conf
+also allows to set the language, but only for the user who type it (in
+this case root). A language set in /etc/speechd-up.conf overrides the
+setting from spd-conf or /etc/speech-dispatcher/speechd.conf.
+
+We recommend that you to read the comments in /etc/speechd-up.conf.
+
+Do not change the other settings in /etc/speechd-up.conf, unless you
+really know what you are doing.
+
+Be aware that SpeechD-Up works only on the console, not in a window
+manager or a desktop.
+
+To know all the key bindings, how to save and restore the settings:
+if you have a numeric keypad read: SpeakupDesktopKeys.txt
+else read: SpeakupLaptopKeys.txt.

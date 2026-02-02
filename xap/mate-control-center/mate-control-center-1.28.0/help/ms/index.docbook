@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY VERSION "1.10.1">
+<!ENTITY legal SYSTEM "legal.xml">
+<!ENTITY app "<application>MATE Control Center</application>">
+<!ENTITY appname "MATE Control Center">
+<!-- Information about the entities
+       The legal.xml file contains legal information, there is no need to edit the file.
+       Use the appversion entity to specify the version of the application.
+       Use the manrevision entity to specify the revision number of this manual.
+       Use the date entity to specify the release date of this manual.
+       Use the app entity to specify the name of the application. -->]>
+<article id="index" lang="ms">
+  
+  <articleinfo>
+    <abstract role="description">
+      <para>Pusat Kawalan MATE menyediakan satu tumpuan utama pengguna menetapkan pengalaman MATE mereka. Ia membolehkan anda konfigurkan apa jua perkara dari kelakuan sempadan tetingkap anda sehinggalah kepada jenis fon lalai.</para>
+    </abstract>
+    <title>Panduan Pusat Kawalan MATE</title>
+    <authorgroup>
+      <author><firstname>Projek Dokumentasi MATE</firstname><surname/><affiliation> <orgname>Desktop MATE </orgname> </affiliation></author>
+      <author><firstname>Kevin</firstname><surname>Breit</surname></author>
+    </authorgroup>
+    <copyright><year>2015-2021</year> <holder>Projek Dokumentasi MATE</holder></copyright>
+    <copyright><year>2001, 2002</year> <holder>Ximian, Inc.</holder></copyright>
+
+    <publisher role="maintainer">
+      <publishername>Projek Dokumentasi MATE</publishername>
+    </publisher>
+    <publisher>
+      <publishername>Projek Dokumentasi GNOME</publishername>
+    </publisher>
+    
+    <revhistory>
+      <revision><revnumber>2.15</revnumber> <date>Julai 2015</date> <firstname>Projek Dokumentasi MATE</firstname> <surname/></revision>
+      <revision><revnumber>2.14</revnumber> <date>Mac 2006</date></revision> 
+    </revhistory>
+
+    <!-- This file contains link to license for the
+   documentation (GNU FDL), and other legal stuff such as "NO
+   WARRANTY" statement. Please do not change any of this. -->
+
+    <releaseinfo>Panduan ini menerangkan versi 1.10.1 bagi Pusat Kawalan MATE.</releaseinfo>
+
+    <legalnotice>
+        <title>Maklumbalas</title>
+        <para>Untuk melaporkan pepijat atau membuat cadangan berkenaan aplikasi <application>Pusat Kawalan MATE</application> atau panduan ini, ikuti arahan di dalam <ulink url="help:mate-user-guide/feedback" type="help">Halaman Maklumbalas MATE</ulink>.</para>
+<!-- Translators may also add here feedback address for translations -->
+    </legalnotice>
+  </articleinfo>
+  
+  <sect1 id="intro">
+    <title>Pengenalan</title>
+    <para><application>Pusat Kawalan MATE</application> menyediakan satu tetingkap tunggal yang dapat melancarkan semua alatan keutamaan.</para>
+    <note><para>Untuk bantuan berkenaan penggunaan alatan keutamaan, sila rujuk <ulink type="help" url="help:mate-user-guide/prefs">Panduan Pengguna</ulink>.</para></note>
+
+<!-- ============= To Start Control Center  ============================ -->
+    <sect2 id="mate-control-center-to-start">
+      <title>Memulakan Pusat Kawalan MATE</title>
+      <para>Anda boleh memulakan <application>Pusat Kawalan MATE</application> dengan cara berikut:</para>
+      <variablelist>
+        <varlistentry>
+          <term>Menu <guimenu>Sistem</guimenu></term>
+          <listitem>
+            <para>Pilih item menu <menuchoice><guimenu>Pusat Kawalan</guimenu></menuchoice>.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Baris perintah</term>
+          <listitem>
+            <para>Lakukan perintah berikut: <command>mate-control-center</command></para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </sect2>
+
+  </sect1>
+  
+  <sect1 id="matecc-interface">
+    <title>Penggunaan</title>
+    <para>Tetingkap <application>Pusat Kawalan MATE</application> menyenaraikan semua alatan keutamaan yang terpasang di dalam sistem anda dalam bentuk kumpulan.</para>
+    <tip><para>Dari anak tetingkap kiri, anda dapat mencapai alatan secara pantas dengan memilih kumpulannya dahulu, atau taip apa jua kata kunci di dalam kotak penapis. Anda juga boleh mencapai tugas-tugas umum, seperti <guilabel>Ubah Tema</guilabel>, dan <guilabel>Tetapkan Aplikasi Digemari</guilabel>.</para></tip>
+    <para>Untuk membuka alat keutamaan, hanya klik padanya.</para>
+    <tip><para>Keterangan alat keutamaan ditunjukkan jika penuding tetikus berada di atas.</para></tip>
+  </sect1>
+</article>

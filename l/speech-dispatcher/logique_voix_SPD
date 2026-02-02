@@ -1,0 +1,168 @@
+Les voix dans SPD
+
+Préambule:
+
+SPD_Voice st défini dans speechd_types.h comme un structure de
+pointeurs:
+
+typedef struct {
+	char *name;		/* Name of the voice (id) */
+	char *language;		/* 2-letter ISO language code */
+	char *variant;		/* a not-well defined string describing dialect etc. */
+} SPDVoice;
+
+et des prototypes définis dans module_utils.h :
+SPDVoice **module_list_voices(void);
+SPDVoice **module_get_voices(void);
+
+> In speech-dispatcher, in src/modules/generic.c, module_list_voices just
+> returns NULL, that's why.'
+
+SPDVoice **module_list_voices(void)
+{
+	return NULL;
+}
+
+> Voices are properly registered with the AddVoice configuration option
+
+Par exemple, dans espeak-mbrola-generic.conf:
+
+AddVoice        "en"    "MALE1"		"en1"
+AddVoice        "en"    "MALE2"		"us2"
+AddVoice        "en"    "MALE3"		"us3"
+AddVoice        "en"    "FEMALE1"	"us1"
+
+> and that's parsed correctly in ./src/modules/module_utils_addvoice.c's
+> module_register_settings_voices
+
+> What could be done is to add to ./src/modules/module_utils_addvoice.c
+> support for listing the voices: in module_register_settings_voices, also
+> create a list of voices, in addition to the module_voice_table hash
+> table, and then it's a matter of adding a
+> module_list_registered_voices() function that just returns the list,
+> that generic.c's module_list_voices can simply call.
+
+
+void module_register_settings_voices(void)
+{
+	module_voice_table = g_hash_table_new(g_str_hash, g_str_equal);
+	# créer ici  une liste de voix en plus de la table de hachage
+	module_dc_options = module_add_config_option(module_dc_options,
+						     &module_num_dc_options,
+						     "AddVoice", ARG_LIST,
+						     AddVoice_cb, NULL, 0);
+}
+
+Ajouter: 
+module_list_registered_voices() {retourne la liste des voix enregistrées
+par module_register_settings_voices}
+
+Samuel a écrit:
+> Pour ce qui est d'avoir la liste des langues, il n'y a pas besoin
+> d'aller très loin. Dans le module pico.c par exemple on voit à quoi
+> ressemble une liste de voix: un tableau de pointeurs vers des structures
+> contenant nom, langue, variante.'
+
+> Dans AddVoice_cb on peut étendre deux
+> tableaux pour contenir cela, et il suffit d'en retourner l'adresse
+> depuis module_list_registered_voices.
+
+
+En résumé:
+1  On déclare une table de voix dans module_utils_addvoice.c
+2. On la remplit dans la fonction (qui est en fait une procédure)
+   module_register_settings_voices
+3. module_register_settings_voices étant appelé par generic.c cette
+   table y sera disponible
+4. Il suffit donc de la retourner dans  module_list_voices() de
+   generic.c
+   
+Je vais d'abord faire l'essai en remlissant une table comme dans pico.c,
+puis si cela fonctionne en utilisant config.h
+
+Dans src/modules/module_main.c: PROCESS_CMD(LIST VOICES, do_list_voices)
+dans src/modules/module_utils.c on trouve la fonction do_list_voices
+qui remplit  SPDVoice **voices ainsi:
+	voices = module_list_voices();
+dans chaque module, la fonction module_list_voices retourne une liste de
+voix, par exemple dans pico.c:
+	SPDVoice **module_list_voices(void)
+	{
+		return (SPDVoice **)pico_voices_list;
+	}
+
+Comme ça ne marche pas, je soupçonne un pb de communication avec
+module_utils_addvoice.c.
+
+Le module retourne une table générée par module_utils_addvoice.c. Dans
+module_load il exécute la procédure module_register_settings_voices() de
+module_utils_addvoice.c. module_load est exécutée par module_main.c, qui
+à la demande exécute ensuite do_list_voices.
+
+On peut inclure dans module_register_settings_voices l'affectation de
+la liste de voix générée par AddVoice_cb.
+
+
+Dans generic.c:
+
+	SPDVoice **module_list_voices(void)
+	{
+		return module_list_registered_voices();
+	}
+
+?? Pourquoi ne pas retourner directement module_voice_list, voire même
+generic_voices_list ??
+
+Dans module_utils_addvoice.c:
+
+SPDVoices **generic_voices_list;
+SPDVoices **module_voices_list;
+
+void module_register_settings_voices(void)
+{
+	module_voice_table = g_hash_table_new(g_str_hash, g_str_equal);
+	module_dc_options = module_add_config_option(module_dc_options,
+						     &module_num_dc_options,
+						     "AddVoice", ARG_LIST,
+						     AddVoice_cb, NULL, 0);
+	module_voice_list = generic_voices_list;
+}
+
+SPDVoices **module_list_registered_voices() {
+	return module_voice_list
+}
+
+mini_no_dotconf_tab2f.2.c fonctionne comme attendu.
+
+Maintenant il faut tester avec dotconf.
+
+Logique:
+
+- module_main.c est appelé avec le nom du fichier de configuration
+  comme arg1
+- module_main.c exécute module_load pour le module considéré.
+- au chargement du module generic, generic.c exécute la fonction
+  module_register_settings_voices de module_utils_addvoice.c
+- module_main.c exécute dotconf_command_loop(configfile)
+- les lignes du fichier de configuration sont traitées dans addvoice.c,
+  par DOTCONF_CB(AddVoice_cb)
+
+Q Ce que je ne comprends pas: module_register_settings_voices
+  semble exécuté avant DOTCONF_CB(AddVoice_cb) ??
+R En fait module_register_settings_voices initialise la hash table qui
+  sera remplie par  DOTCONF_CB(AddVoice_cb). Utilser cette hash table
+  permets de trouver plus rapidement 
+
+
+Pout tester:
+- inclure dans generic.c les déclarations et fonctions utiles aux
+  tests de module_utils.c et module_utils_addvoice.c ainsi que
+  main.c.
+- renommer generic.c test.c
+
+dans libao.c:
+
+static char const *libao_get_playcmd(void)
+{
+	return NULL;
+}

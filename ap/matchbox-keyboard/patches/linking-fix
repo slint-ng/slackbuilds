@@ -1,0 +1,13 @@
+Description: Link with Xrender (#555588)
+Index: matchbox-keyboard-0.2+git20160713/src/Makefile.am
+===================================================================
+--- matchbox-keyboard-0.2+git20160713.orig/src/Makefile.am	2020-06-15 17:23:13.097385818 +0100
++++ matchbox-keyboard-0.2+git20160713/src/Makefile.am	2020-06-15 17:23:46.193373744 +0100
+@@ -69,6 +69,7 @@
+ 
+ matchbox_keyboard_LDADD = \
+ 	$(FAKEKEY_LIBS) $(XFT_LIBS) $(EXPAT_LIBS) $(CAIRO_LIBS) $(PNG_LIBS) \
++	$(X11_LIBS) -lXrender \
+ 	libmatchbox-keyboard.la
+ 
+ matchbox_keyboard_SOURCES = 				\

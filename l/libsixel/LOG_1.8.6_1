@@ -1,0 +1,11 @@
+libsixel was configured as follows
+
+       Loader component    : stb_image jpeg png
+       libcurl integration : yes
+       pkg-config dir      : /usr/lib64/pkgconfig
+       Bash completion dir : ${datarootdir}/bash-completion/completions
+       Zsh completion dir  : ${datarootdir}/zsh/site-functions
+       python bindings     : yes: ${prefix}/lib64/python3.9/site-packages
+       gcov integration    : no
+       debugging           : no
+       tests               : no

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="config-accessibility-keyboard">
+  <abstract role="description">
+    <para>Ajusta las prestaciones ampliadas del teclado para facilitar su uso por parte de aquellos usuarios con necesidades adicionales.</para>
+  </abstract>
+  <title>Accesibilidad del teclado (AccessX)</title>
+  <para/>
+</sect1>

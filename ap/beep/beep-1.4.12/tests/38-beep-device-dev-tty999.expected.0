@@ -1,0 +1,2 @@
+BEEP_EXECUTABLE: Error: Could not open /dev/tty999 for writing: No such file or directory
+Error

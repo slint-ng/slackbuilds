@@ -1,0 +1,22 @@
+Source: xml2
+Section: utils
+Priority: optional
+Maintainer: Debian QA Group <packages@qa.debian.org>
+Build-Depends:
+ debhelper-compat (= 12),
+ libxml2-dev,
+ pkg-config,
+Standards-Version: 4.5.0
+Vcs-Git: https://salsa.debian.org/debian/xml2.git
+Vcs-Browser: https://salsa.debian.org/debian/xml2
+
+Package: xml2
+Architecture: any
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+Description: Convert between XML, HTML, CSV and a line-oriented format
+ xml2 tools are used to convert XML, HTML and CSV to and from a
+ line-oriented format more amenable to processing by classic Unix
+ pipeline processing tools, like grep, sed, awk, cut, shell scripts,
+ and so forth.

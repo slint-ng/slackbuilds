@@ -1,0 +1,92 @@
+#!/bin/sh
+# This extract from the kernel-firmware package the firmware for network cards
+# wired and wireless that could be needed during installation
+# see also https://wiki.archlinux.org/title/Linux_firmware and alpine and debian
+# Run this script as root or usiong sudo
+export PKGNAM=firmware-installer
+export ARCH=noarch
+export BUILD=1slint
+CWD=$(pwd)
+export PKG="$CWD/pkg"
+rm -rf FIRMWARE MODULES
+mkdir -p FIRMWARE/firmware MODULES
+KERNELPKG=$(find ../../packages -name "kernel-[[:digit:]]*txz")
+KERNELVERSION=$(printf "%b" "$KERNELPKG"|sed 's/.*-\([^-]*\)-[^-]*-[^-]*$/\1/')
+FIRMWAREPKG=$(find ../../packages -name "kernel-firmware*txz")
+VERSION=$(printf "%b" "$FIRMWAREPKG"|sed 's/.*-\([^-]*\)-[^-]*-[^-]*$/\1/')
+echo KERNELPKG=$KERNELPKG
+echo KERNELVERSION=$KERNELVERSION
+echo FIRMWAREPKG=$FIRMWAREPKG
+echo VERSION=$VERSION
+spkg -qq --root="$CWD"/MODULES "$KERNELPKG"
+spkg -qq --root="$CWD"/FIRMWARE/firmware "$FIRMWAREPKG"
+exit
+cd "$CWD"/MODULES/lib/modules/"$KERNELVERSION" || exit
+find . -name '*.ko.zst'|while read -r i; do
+	if modinfo "$i"|grep -q "^firmware"; then
+		echo "$i" >> "$CWD"/FIRMWARE/modules_with_firmware
+	fi
+done
+# We keep only modules including a firmware we need during installation
+cd "$CWD"/FIRMWARE || exit
+sed '
+\#/atm/#d
+\#/crypto/#d
+\#/gpu/#d
+\#/hid/#d
+\#/infiniband/#d
+\#/isdn/#d
+\#/media/#d
+\#/mfd/#d
+\#/can/softing/#d
+\#/netronome/#d
+\#/hamradio/#d
+\#/scsi/#d
+\#/tty/#d
+\#/usb/host/#d
+\#/usb/misc/#d
+\#/usb/serial/#d
+\#/video/#d
+\#/sound/#d
+\#/usb/storage/#d
+' modules_with_firmware > modules_with_needed_firmware
+# We list the firmware files for the modules we kept
+cd "$CWD"/MODULES/lib/modules/"$KERNELVERSION" || exit
+while read -r i; do
+	modinfo "$i"|grep "^firmware"|while read -r j; do
+		echo "$j"|sed 's#.* ##'
+	done >>  "$CWD"/FIRMWARE/firmware_files_unsorted
+done < "$CWD"/FIRMWARE/modules_with_needed_firmware
+cd "$CWD"/FIRMWARE || exit
+sort firmware_files_unsorted|uniq > firmware_files
+cd "$CWD"/FIRMWARE/firmware || exit
+ while read -r i; do
+	p=$(find lib/firmware -type f |grep "${i}")
+	if [ "$p" ]; then
+	echo "$p" >>  "$CWD"/FIRMWARE/regular_files
+	fi
+ done < "$CWD"/FIRMWARE/firmware_files
+ while read -r i; do
+	p=$(find lib/firmware -type l |grep "${i}")
+	if [ "$p" ]; then
+	echo "$p" >>  "$CWD"/FIRMWARE/symbolic_links
+
+	fi
+ done < "$CWD"/FIRMWARE/firmware_files
+cd "$CWD"/FIRMWARE|| exit
+sort regular_files|uniq > regular_uniqs
+sort symbolic_links|uniq > symbolic_uniqs
+while read -r p; do
+	mkdir -p "$PKG"/"$(dirname "$p")"
+	cp -a "$p" "$PKG"/"$(dirname "$p")"
+done < "$CWD"/FIRMWAREregular_uniqs
+while read -r p; do
+	mkdir -p "$PKG"/"$(dirname "$p")"
+	cp -a "$p" "$PKG"/"$(dirname "$p")"
+done < "$CWD"/FIRMWARE/symbolic_uniqs
+(cd "$PKG" || exit
+mkdir install
+echo $PKGNAM > "$CWD"/FIRMWARE/PKGNAM
+echo "firmware-installer: firmware-installer (firmware to allow a net install)" > install/slack-desc
+/sbin/makepkg -l y -c n "$CWD"/$PKGNAM-"$VERSION"-"$ARCH"-$BUILD.txz
+)

@@ -1,0 +1,28 @@
+#Packager: George Vlahavas <vlahavas~at~gmail~dot~com>
+
+pkgname=fbautostart
+pkgver=2.718281828
+pkgrel=2slint
+source=("https://github.com/paultag/fbautostart/archive/$pkgver.tar.gz")
+docs=("readme*" "install" "copying" "changelog" "authors" "news" "todo" "hacking" "copyright" "thanks")
+url=https://github.com/paultag/fbautostart
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"fbautostart (Fluxbox Autostarter)"
+"fbautostart is an XDG compliant autostarting app for Fluxbox that was"
+"designed to have little to no overhead, while still maintaining the"
+"needed functionality of launching applications according to the XDG"
+"spec."
+)
+
+
+build() {
+	cd $startdir/src/$pkgname-$pkgver
+	./setup-build-chain.sh
+	./configure --prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --localstatedir=/var --sysconfdir=/etc --build=$arch-slackware-linux
+	make -j $numjobs || return 1
+	make install DESTDIR=$startdir/pkg
+	rm -f $PKG/usr/lib*/*.la
+} 

@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.
+# Line up the first '|' above the ':' following the base package name, and
+# the '|' on the right side marks the last column you can put a character in.
+# You must make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':' except on otherwise blank lines.
+
+                    |-----handy-ruler------------------------------------------------------|
+lxqt-wayland-session: lxqt-wayland-session ( The LXQt Wayland session manager )
+lxqt-wayland-session:
+lxqt-wayland-session: LXQt component that allows choosing a Wayland LXQt session in LXQt   
+lxqt-wayland-session: Session Settings.  It supports Labwc, KWin, Wayfire, Hyprland, Sway,  
+lxqt-wayland-session: River and Niri. It adds "LXQt (Wayland)" to the items of your desktop 
+lxqt-wayland-session: display manager (e.g., SDDM)
+lxqt-wayland-session:
+lxqt-wayland-session:
+lxqt-wayland-session: https://github.com/lxqt/lxqt-wayland-session
+lxqt-wayland-session:
+lxqt-wayland-session:

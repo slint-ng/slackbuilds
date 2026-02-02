@@ -1,0 +1,37 @@
+#Packager: George Vlahavas <vlahavas~at~gmail~dot~com>
+
+pkgname=perl-Module-Build
+pkgver=0.4231
+pkgrel=1slint
+source=("https://cpan.metacpan.org/authors/id/L/LE/LEONT/Module-Build-$pkgver.tar.gz")
+docs=("readme" "install" "copying" "changelog" "authors" "news" "todo")
+url=https://metacpan.org/pod/Module::Build::Compat
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"perl-Module-Build (Compatibility with ExtUtils::MakeMaker)"
+"Because ExtUtils::MakeMaker has been the standard way to distribute"
+"modules for a long time, many tools (CPAN.pm, or your system"
+"administrator) may expect to find a working Makefile.PL in every"
+"distribution they download from CPAN. If you want to throw them a"
+"bone, you can use Module::Build::Compat to automatically generate a"
+"Makefile.PL for you, in one of several different styles."
+"Module::Build::Compat also provides some code that helps out the"
+"Makefile.PL at runtime."
+)
+
+
+build() {
+	cd $startdir/src/Module-Build-$pkgver
+
+	perl Makefile.PL || exit 1
+	make OPTIMIZE="$CFLAGS" || exit 1
+	make install INSTALLDIRS=vendor DESTDIR=$startdir/pkg || exit 1
+
+	# Remove perllocal.pod and .packlist if present in the package
+	( for i in perllocal.pod .packlist; do
+	        find $startdir/pkg -name "$i" -exec rm -rf {} \;
+		  done
+	) || exit 1
+} 

@@ -1,0 +1,11 @@
+commit db65986e791c8dd001f8e295d19e374dd5e3efd5 (HEAD -> master, tag: 3.32.0, origin/master, origin/HEAD)
+Author: Jeremy Bicha <jbicha@debian.org>
+Date:   Sun Mar 10 20:31:05 2019 -0400
+
+    Prepare 3.32.0 release
+
+ NEWS         | 4 ++++
+ configure.ac | 2 +-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
+
+commit 54b9f0822a87ba6908d87e89f93daa53fadf5fea (tag: 3.31.92)

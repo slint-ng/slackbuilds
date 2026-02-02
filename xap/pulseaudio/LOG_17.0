@@ -1,0 +1,103 @@
+Message: 
+    ---{ pulseaudio 17.0 }---
+    
+    prefix:                        /usr
+    bindir:                        /usr/bin
+    libdir:                        /usr/lib64
+    libexecdir:                    /usr/libexec
+    mandir:                        /usr/man
+    datadir:                       /usr/share
+    sysconfdir:                    /etc
+    localstatedir:                 /var
+    modlibexecdir:                 /usr/lib64/pulseaudio/modules
+    alsadatadir:                   /usr/share/pulseaudio/alsa-mixer
+    System Runtime Path:           /var/run/pulse
+    System State Path:             /var/lib/pulse
+    System Config Path:            /var/lib/pulse
+    Bash completions directory:    /usr/share/bash-completion/completions
+    Zsh completions directory:     /usr/share/zsh/site-functions
+    Compiler:                      gcc 11.2.0
+    
+    Enable pulseaudio daemon:      true
+    Enable pulseaudio client:      true
+    
+    Enable memfd shared memory:    true
+    Enable X11:                    true
+    Enable D-Bus:                  true
+    Enable GLib 2:                 true
+    Enable systemd integration:    false
+    Enable FFTW:                   true
+    Enable IPv6:                   true
+    Enable Gcov coverage:          false
+    Enable Valgrind:               false
+    Enable man pages:              true
+    Enable unit tests:             true
+    
+    --- Pulseaudio client features ---
+    
+    Enable Gtk+ 3:                 true
+    Enable Async DNS:              true
+    Enable OSS Wrapper:            true
+    
+    --- Pulseaudio daemon features ---
+    
+    Safe X11 I/O errors:           true
+    Enable Avahi:                  false
+    Enable OSS Output:             true
+    Enable Alsa:                   true
+    Enable Jack:                   true
+    Enable LIRC:                   false
+    Enable GSettings:              true
+    Enable BlueZ 5:              true
+      Enable native headsets:    true
+      Enable  ofono headsets:    true
+      Enable GStreamer based codecs: true
+    Enable GStreamer:              true
+    Enable libsamplerate:          false
+    Enable ORC:                    true
+    Enable Adrian echo canceller:  true
+    Enable Speex (resampler, AEC): true
+    Enable SoXR (resampler):       true
+    Enable WebRTC echo canceller:  false
+    
+    Enable udev:                   true
+      Enable HAL->udev compat:     false
+    Enable systemd units:          false
+    Enable elogind:                true
+    Enable ConsoleKit:             true
+    Enable TCP Wrappers:           true
+    Enable OpenSSL (for Airtunes): true
+    Database:                      tdb
+    Legacy Database Entry Support: true
+    module-stream-restore:
+      Clear old devices:           false
+    Running from build tree:       true
+    System User:                   pulse
+    System Group:                  pulse
+    Access Group:                  audio
+Build targets in project: 243
+NOTICE: Future-deprecated features used:
+ * 0.56.0: {'meson.build_root', 'meson.source_root'}
+
+pulseaudio 17.0
+
+  User defined options
+    access_group     : audio
+    bashcompletiondir: /usr/share/bash-completion/completions
+    bindir           : /usr/bin
+    buildtype        : release
+    datadir          : /usr/share
+    gsettings        : enabled
+    hal-compat       : false
+    includedir       : /usr/include
+    libdir           : lib64
+    libexecdir       : /usr/libexec
+    localstatedir    : /var
+    man              : true
+    mandir           : /usr/man
+    orc              : enabled
+    prefix           : /usr
+    sbindir          : /usr/sbin
+    sysconfdir       : /etc
+    system_group     : pulse
+    system_user      : pulse

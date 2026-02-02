@@ -1,0 +1,42 @@
+Poedit 2.4.2 cheat sheet
+
+File converted to text from https://defkey.com/poedit-2-4-shortcuts?pdf=true
+Last modification: 1/25/2021 11:24:28 AM
+More information: defkey.com/poedit-2-4-shortcuts
+
+
+Edit menu
+Ctrl+Z           Geri al
+Ctrl+Shift+Z     Redo
+Ctrl+X           Cut
+Ctrl+C           Copy
+
+Ctrl+V           Paste
+Ctrl+A           Select all
+Ctrl+K           Clear translation
+Ctrl+B           Copy from source text
+Ctrl+Shift+B     Copy from singular
+Ctrl+U           Translation needs work
+Ctrl+M           Edit description
+Ctrl+F           Find...
+Ctrl+H           Replace...
+Ctrl+G           Find next
+Ctrl+Shift+G     Find previous
+
+View
+Alt+Ctrl+S       Show sidebar
+
+Catalog
+Alt+Enter        Properties...
+
+Go to
+Ctrl+Enter       Complete and go to next
+Ctrl+Up arrow    Previous translation
+Ctrl+Down arrow  Next translation
+Ctrl+Shift+Up    Previous incomplete
+Ctrl+Shift+Down  Next incomplete
+Alt+Ctrl+Left    Previous plural form
+Alt+Ctrl+Right   Next plural form
+
+Help
+F1               Online help

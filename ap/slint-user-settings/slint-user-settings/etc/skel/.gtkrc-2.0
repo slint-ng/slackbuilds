@@ -1,0 +1,3 @@
+gtk-print-preview-command = "atril %f"
+gtk-theme-name = "Salix"
+gtk-icon-theme-name = "Qogir"

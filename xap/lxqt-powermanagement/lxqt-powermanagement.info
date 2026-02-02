@@ -1,0 +1,8 @@
+PRGNAM="lxqt-powermanagement"
+VERSION="2.3.0"
+HOMEPAGE="https://github.com/lxqt/lxqt-powermanagement"
+DOWNLOAD="https://github.com/lxqt/lxqt-powermanagement/releases/download/2.3.0/lxqt-powermanagement-2.3.0.tar.xz"
+MD5SUM="21efb33bdbefdff6b9bd9332c49e5a28"
+REQUIRES=""
+MAINTAINER="Frank Honolka"
+EMAIL="slackernetuk@gmail.com"

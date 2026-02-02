@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sect1 id="cfg-html-viewer">
+  <title>ХТМЛ прегледник</title>
+  <sect2 id="cfg-html-viewer-introduction">
+    <title>Увод</title>
+    <para>Прозорче ХТМЛ прегледника вам омогућава да подесите поставке за „<application>ГткХТМЛ</application>“ погон ХТМЛ исцртавања. „<application>ГткХТМЛ</application>“ се користи у „<application>Еволуција</application>“, „<application>Мејтов управљачки центар</application>“, и другим Мејтовим програмима.</para>
+  </sect2>
+  <sect2 id="cfg-html-viewer-fonts">
+    <title>ХТМЛ слова</title>
+    <para>„<application>ГткХТМЛ</application>“ се може подесити да користи другачије врсте и величине слова за различите врсте текста. <variablelist>
+	<varlistentry>
+	  <term>На екрану</term>
+	  <listitem>
+	    <para>Подесите врсту слова за коришћење на монитору рачунара <variablelist>
+		<varlistentry>
+		  <term>Променљива ширина</term>
+		  <listitem>
+		    <para>Врста слова чија се величина знакова мења на основу приказаног слова. На пример, слово „и“ је уже од „њ“. Стална ширина слова се често користи када ширина колона треба бити једнолика између редова, као што је график.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>Стална ширина</term>
+		  <listitem>
+		    <para>Врста слова чија величина знакова је јединствена за све знакове. На пример, слово „и“ је исте ширине као „њ“.</para>
+		  </listitem>
+		</varlistentry>
+	      </variablelist></para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>За штампање</term>
+	  <listitem>
+	    <para>Подешава врсту слова за коришћење када штампате нешто на штампачу из „<application>ГткХТМЛ</application>“. <variablelist>
+		<varlistentry>
+		  <term>Променљива ширина</term>
+		  <listitem>
+		    <para>Врста слова чија се величина знакова мења на основу приказаног слова. На пример, слово „и“ је уже од „њ“. Стална ширина слова се често користи када ширина колона треба бити једнолика између редова, као што је график.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>Стална ширина</term>
+		  <listitem>
+		    <para>Врста слова чија величина знакова је јединствена за све знакове. На пример, слово „и“ је исте ширине као „њ“.</para>
+		  </listitem>
+		</varlistentry>
+	      </variablelist></para>
+	  </listitem>
+	</varlistentry>
+      </variablelist> Да измените коришћене врсте слова, кликните на назив врсте слова да отворите „<application>gfontsel</application>“. Овде, можете да изаберете изглед врсте слова, ИСО скуп, величину и друга својства слова.</para>
+  </sect2>
+  <sect2 id="cfg-kbd-shortcuts">
+    <title>Пречице тастатуре</title>
+    <para>„<application>ГткХТМЛ</application>“ може користити различите свезе тастера. Свезе тастера омогућавају кориснику да користи притиске тастера за наредбе за које би у супротном био потребан миш. Ово може често да убрза корисникове наредбе довољно брзо како би задивио друге.</para>
+    <para>„<application>ГткХТМЛ</application>“ укључује три различите предефинисане поставке: <itemizedlist>
+	<listitem>
+	  <para>Налик Емаксу</para>
+	</listitem>
+	<listitem>
+	  <para>Налик ХЕмаксу</para>
+	</listitem>
+	<listitem>
+	  <para>Налик МС-у</para>
+	</listitem>
+      </itemizedlist> Свака од њих долази са свезама тастера које су сличне онима које налазимо у њиховим одговарајућим окружењима. Корисник који долази са Мајкрософт <application>Прозори</application>а  може се осећати пријатније у режиму налик МС-у. Да изаберете већ постављен режим, само га изаберите са падајућег списка, и кликните <guibutton>У реду</guibutton>.</para>
+    <para>Ако ниједна већ створена поставка вам не одговара, можете да направите произвољне свезе тастера.</para>
+  </sect2>
+  <sect2 id="cfg-misc">
+    <title>Разне поставке</title>
+    <para>Има још неколико других измена које можете да уредите да би учинили да „<application>ГткХТМЛ</application>“ ради онако како ви то желите. Налазе се у језичку „<guilabel>Разно</guilabel>“.</para>
+    <para>У одељку „<guilabel>Понашање</guilabel>“, имате следеће поставке: <variablelist>
+	<varlistentry>
+	  <term>Прикажи анимиране слике</term>
+	  <listitem>
+	    <para>Неке слике могу бити анимиране. Да би слика била приказана као статичка слика уместо анимиране одштиклирајте кућицу.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Сам откриј везе</term>
+	  <listitem>
+	    <para>Ако „<application>ГткХТМЛ</application>“ открије да уписујете адресу, самостално ће обликовати адресу као везу.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Укључи проверу писања</term>
+	  <listitem>
+	    <para>Док куцате у „<application>ГткХТМЛ</application>“, можете погрешно написати реч. Ако сте штиклирали ову кућицу, погрешно написана реч биће подвучена да би се назначило да је нетачно написана.</para>
+	    <variablelist>
+	      <varlistentry>
+		<term>Боја</term>
+		<listitem>
+		  <para>Ово одређује боју подвлаке за коришћење када направите грешку у писању.</para>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term>Језик</term>
+		<listitem>
+		  <para>Одређује језик за који ће се вршити провера писања.</para>
+		</listitem>
+	      </varlistentry>
+	    </variablelist>
+	  </listitem>
+	</varlistentry>
+      </variablelist></para>
+  </sect2>
+</sect1>

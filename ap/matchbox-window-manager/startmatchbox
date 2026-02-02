@@ -1,0 +1,81 @@
+#!/bin/sh
+
+command="`basename \"$0\"`"
+matchdir="$HOME/.matchbox"
+mkdir -p "$HOME/.matchbox"
+chown $(stat -C %U "$HOME"): "$HOME/.matchbox"
+startup="$matchdir/startup"
+
+if [ -x "$startup" ]; then
+    exec "$startup"
+elif [ -r "$startup" ]; then
+    exec sh "$startup"
+else
+    if [ ! -r "$startup" ]; then
+        ( cat << EOF
+#!/usr/bin/sh
+# This script starts matchbox-window-manager from a graphical login
+# manager like lightdm
+
+# Plank's Applications Docklet looks for the file 'applications.menu'
+# by default. Provide mate-applications.menu, stored in /etc/xdg/menus
+# in Slint as applications.menu intalling the plank package.
+[ ! -f ~/.config/menus/applications.menu ] && mkdir -p   ~/.config/menus/ \
+&& ln -s /etc/xdg/menus/applications.menu ~/.config/menus/applications.menu
+
+# Background image
+xloadimage -onroot -fullscreen /usr/share/backgrounds/misc/3840x2160-desert.jpg &
+
+# Keyboard and autostarts
+setxkbmap
+# To start the plank dock, the orca screen reader, the onboard on-screen keyboard
+# in matchbox, type: plank-on orca-on onboard-on respectively. It yuu do not want
+# them started initally type instead plank-off orca-off onboard-off respectively.
+grep -q "Hidden=false" ~/.config/autostart/startplank.desktop && plank &
+grep -q "Hidden=false" ~/.config/autostart/startorca.desktop && orca -r &
+grep -q "Hidden=false" ~/.config/autostart/startonboard.desktop && onboard &
+
+# When you are OK with your X settings, possibly from another graphical
+# environment, type: dump_xsettings > ~/.xsettingsd
+# then xsettingsd will restore these settings.
+xsettingsd &
+
+# ---------------------------
+# SCREEN BLANKING SETTINGS
+# ---------------------------
+
+# Enable DPMS
+xset +dpms
+
+# Blank after 180 minute (180 seconds)
+xset s 180
+xset s blank
+
+# Turn monitor off after blanking (also 180 sec)
+xset dpms 0 0 180
+
+# ---------------------------
+# START WINDOW MANAGER
+# ---------------------------
+exec dbus-run-session matchbox-window-manager -use_dialog_mode free -theme expose
+
+#Themes shipped in Slint, arguments of -theme option of matchbox-window manager 
+# Default
+# Industrialbof
+# Clearlooks
+# expose rond rouge à droite
+# mbcrystal bad
+# MBOpus bad
+# blondie bleu ciel
+# bluebox bad
+# borillo bad
+
+# To know more, read /usr/doc/matchbox-window-manager*/matchbox-manual.html,
+# useful altghough possibly outdated.
+
+EOF
+    ) > "$startup"
+    fi
+    chmod 644 "$startup"
+    exec sh "$startup"
+fi

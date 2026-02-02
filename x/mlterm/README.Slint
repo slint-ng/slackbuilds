@@ -1,0 +1,98 @@
+This package has been built with all available features and tools but
+the console UI.
+
+Some default configuration files have been customized for Slint, the
+genuine files are stored in ./etc for reference.
+
+"man mlterm" is a recommended reading, read also the README files in the
+en/ and ja/ directories and "man mlclient", for some features like ssh2,
+usage with brltty, bidi, w3m.
+
+To start mlterm or mlterm-fb with braille, pleas read README.brltty in
+this directory.
+
+The user's configuration directory is ~/.mlterm that also hosts the log
+file msg.log
+
+1) mlterm in a graphical environment
+
+To start mlterm in a graphical environment type: mlterm or select it in
+the application menu -> System tools
+
+You can bring up its configuration menu from the terminal with Ctrl +
+right (button 3) mouse click, the font menu with Ctrl + left (button 1)
+mouse click.
+
+The key bindings are set in /etc/mlterm/key, and the default listed in
+key_bindings in this directory.
+
+2) mlterm in a framebuffer
+
+This feature is provided by the package mlterm-fb
+
+To start mlterm in a framebuffer the command is: mlterm-fb
+
+It is recommended not to run  gpm if you use mlterm-fb, as else you
+could not have the mouse properly managed.
+
+To stop gpm and also have it disabled at startup, type as root:
+gpm service stop
+
+Before you start fbterm-fb, check your framebuffer(s). Example:
+cat /proc/fb # the answer is below
+0 nouveaufb
+1 inteldrmfb
+
+ls -1 /dev/fb* # The answer is below
+/dev/fb0
+/dev/fb1
+
+I there are several framebuffers, as in this example, you should set the
+FRAMBUFFER environment variable to the good one before starting mlterm.
+
+For instance:
+FRAMEBUFFER=/dev/fb1 mlterm-fb -aafont -sb=false
+
+If if this just freezes the tty, switch to another one and type:
+killall mlterm-fb
+then go back to the previous tty, type "setterm -reset" to reset the
+display and try another framebuffer (that would be /dev/fb0 here).
+
+When you will have tuned the command you could make an alias of it in
+~/.profile like this for instance:
+alias mlterm-fb="FRAMEBUFFER=/dev/fb1 mlterm-fb -aafont -sb=false"
+
+You can setup mlterm-fb just typing in it: mlcc
+this will bring up a menu, where you can navigate with the arrow keys.
+
+To change a setting, select its key (or name) then press Enter.
+To confirm the new settings press Enter again.
+To quit, press Esc.
+
+Read also README.fb in this directory. 
+
+3) Tools
+a) zoom (graphical mlterm only)
+  Click mouse wheel with Ctrl key, mlterm-zoom displays a small white
+  window. Scrolling the wheel up or down on the white window, you can
+  increase or decrease font size and the size of the window.
+
+  If you finish adjusting font size, Click mouse button or focus out on
+  the white window.
+
+b) Utiklites
+
+
+mlcc  # simple configurator for mlterm, useful with mlterm-fb
+mlclient # client for mlterm started as a daemon process, cf. "man mlcc"
+mlclientx
+mlfc
+
+All have a --help option, for instance, type:
+mlcc --help
+mlcc and mlclient also have a man page, for instance type:
+man mlcc
+
+Didier Spaier
+Last updated on 15 June 2020 for mlterm version 3.9.0
+

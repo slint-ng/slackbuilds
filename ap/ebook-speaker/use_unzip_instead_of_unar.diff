@@ -1,0 +1,30 @@
+diff -ru ebook-speaker-5.5.2/src/ebook-speaker.c ebook-speaker-5.5.2.new/src/ebook-speaker.c
+--- ebook-speaker-5.5.2/src/ebook-speaker.c	2020-09-12 14:38:37.000000000 +0200
++++ ebook-speaker-5.5.2.new/src/ebook-speaker.c	2020-10-04 13:45:11.718515101 +0200
+@@ -1917,7 +1917,7 @@
+ void extract_epub (misc_t *misc, char *file)
+ {
+    snprintf (misc->cmd, MAX_CMD - 1,
+-             "unar \"%s\" -f -o \"%s\" > /dev/null", file, misc->tmp_dir);
++             "unar \"%s\" -o -d \"%s\" > /dev/null", file, misc->tmp_dir);
+    switch (system (misc->cmd))
+    {
+    case 0:
+@@ -1925,7 +1925,7 @@
+    default:
+       endwin ();
+       printf
+-         ("Be sure the package \"unar\" is installed onto your system.\n");
++         ("Be sure the package \"unzip\" is installed onto your system.\n");
+       failure (misc, gettext ("eBook-speaker cannot handle this file."), errno);
+    } // switch
+ } // extract_epub
+@@ -2470,7 +2470,7 @@
+       clear_tmp_dir (misc);
+       orig = strdup (file);
+       snprintf (misc->cmd, MAX_CMD - 1,
+-        "unar \"%s\" -f -o %s > /dev/null && ls -1 %s",
++        "unar \"%s\" -o -d %s > /dev/null && ls -1 %s",
+          file, misc->tmp_dir, misc->tmp_dir);
+       p = popen (misc->cmd, "r");
+       switch (*fgets (str, MAX_STR, p));

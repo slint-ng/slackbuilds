@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY VERSION "1.10.1">
+<!ENTITY legal SYSTEM "legal.xml">
+<!ENTITY app "<application>MATE Control Center</application>">
+<!ENTITY appname "MATE Control Center">
+<!-- Information about the entities
+       The legal.xml file contains legal information, there is no need to edit the file.
+       Use the appversion entity to specify the version of the application.
+       Use the manrevision entity to specify the revision number of this manual.
+       Use the date entity to specify the release date of this manual.
+       Use the app entity to specify the name of the application. -->]>
+<article id="index" lang="zh-CN">
+  
+  <articleinfo>
+    <abstract role="description">
+      <para>MATE 控制中心集成用于设置桌面体验的各项设置模块。在这里，您可以自定诸如窗口边框样式和默认字体等设置。</para>
+    </abstract>
+    <title lang="en">MATE Control Center Manual</title>
+    <authorgroup>
+      <author><firstname>MATE 文档项目</firstname> <surname/> <affiliation> <orgname>MATE 桌面</orgname> </affiliation></author>
+      <author><firstname>Kevin</firstname><surname>Breit</surname></author>
+    </authorgroup>
+    <copyright><year>2015-2021</year> <holder>MATE 文档团队</holder></copyright>
+    <copyright><year>2001, 2002</year> <holder>Ximian, Inc.</holder></copyright>
+
+    <publisher role="maintainer">
+      <publishername>MATE 文档项目</publishername>
+    </publisher>
+    <publisher>
+      <publishername>GNOME 文档项目</publishername>
+    </publisher>
+    
+    <revhistory>
+      <revision><revnumber>2.15</revnumber> <date>July 2015</date> <firstname>MATE 文档项目</firstname> <surname/></revision>
+      <revision lang="en">
+        <revnumber>2.14</revnumber> 
+        <date>March 2006</date>
+      </revision> 
+    </revhistory>
+
+    <!-- This file contains link to license for the
+   documentation (GNU FDL), and other legal stuff such as "NO
+   WARRANTY" statement. Please do not change any of this. -->
+
+    <releaseinfo>该手册针对描述 MATE 控制中心 1.10.1 版本。</releaseinfo>
+
+    <legalnotice>
+        <title>反馈</title>
+        <para>要报告 <application>MATE 控制中心</application> 应用程序和用户手册中的问题或建议，请参阅 <ulink url="help:mate-user-guide/feedback" type="help">MATE 反馈页</ulink> 中的详细指引。</para>
+<!-- Translators may also add here feedback address for translations -->
+    </legalnotice>
+  
+    <othercredit class="translator">
+      <personname>
+        <firstname>Christopher Meng</firstname>
+      </personname>
+      <email>i@cicku.me</email>
+    </othercredit>
+    <copyright>
+      
+        <year>2012-2013</year>
+      
+      <holder>Christopher Meng</holder>
+    </copyright>
+  
+    <othercredit class="translator">
+      <personname>
+        <firstname>ravix</firstname>
+      </personname>
+      <email>dr.neemous@gmail.com</email>
+    </othercredit>
+    <copyright>
+      
+        <year>2013</year>
+      
+      <holder>ravix</holder>
+    </copyright>
+  
+    <othercredit class="translator">
+      <personname>
+        <firstname>Dianjin Wang</firstname>
+      </personname>
+      <email>1132321739qq@gmail.com</email>
+    </othercredit>
+    <copyright>
+      
+        <year>2012</year>
+      
+      <holder>Dianjin Wang</holder>
+    </copyright>
+  
+    <othercredit class="translator">
+      <personname>
+        <firstname>Cravix</firstname>
+      </personname>
+      <email>dr.neemous@gmail.com</email>
+    </othercredit>
+    <copyright>
+      
+        <year>2013</year>
+      
+      <holder>Cravix</holder>
+    </copyright>
+  
+    <othercredit class="translator">
+      <personname>
+        <firstname>nyanyh</firstname>
+      </personname>
+      <email>rebuilty@gmail.com</email>
+    </othercredit>
+    <copyright>
+      
+        <year>2013</year>
+      
+      <holder>nyanyh</holder>
+    </copyright>
+  
+    <othercredit class="translator">
+      <personname>
+        <firstname>liulitchi</firstname>
+      </personname>
+      <email>xingzuo88@qq.com</email>
+    </othercredit>
+    <copyright>
+      
+        <year>2013</year>
+      
+      <holder>liulitchi</holder>
+    </copyright>
+  
+    <othercredit class="translator">
+      <personname>
+        <firstname>玉堂白鹤</firstname>
+      </personname>
+      <email>yjwork@qq.com</email>
+    </othercredit>
+    <copyright>
+      
+        <year>2015</year>
+      
+      <holder>玉堂白鹤</holder>
+    </copyright>
+  
+    <othercredit class="translator">
+      <personname>
+        <firstname>Mingye Wang</firstname>
+      </personname>
+      <email>arthur200126@gmail.com</email>
+    </othercredit>
+    <copyright>
+      
+        <year>2015-2016</year>
+      
+      <holder>Mingye Wang</holder>
+    </copyright>
+  
+    <othercredit class="translator">
+      <personname>
+        <firstname>白铭骢</firstname>
+      </personname>
+      <email>jeffbai@aosc.xyz</email>
+    </othercredit>
+    <copyright>
+      
+        <year>2015-2016</year>
+      
+      <holder>白铭骢</holder>
+    </copyright>
+  
+    <othercredit class="translator">
+      <personname>
+        <firstname>刘子兴</firstname>
+      </personname>
+      <email>liushuyu@aosc.xyz</email>
+    </othercredit>
+    <copyright>
+      
+        <year>2015-2016</year>
+      
+      <holder>刘子兴</holder>
+    </copyright>
+  </articleinfo>
+  
+  <sect1 id="intro">
+    <title>介绍</title>
+    <para><application>MATE 控制中心</application> 集各项设置为一体。</para>
+    <note><para>要获取使用首选项工具的帮助，请参阅 <ulink type="help" url="help:mate-user-guide/prefs">用户指南</ulink>。</para></note>
+
+<!-- ============= To Start Control Center  ============================ -->
+    <sect2 id="mate-control-center-to-start">
+      <title lang="en">To Start MATE Control Center</title>
+      <para lang="en">You can start <application>MATE Control Center</application> in the following ways:</para>
+      <variablelist>
+        <varlistentry>
+          <term lang="en"><guimenu>System</guimenu> menu</term>
+          <listitem>
+            <para lang="en">
+              Choose <menuchoice><guimenu>Control Center</guimenu></menuchoice> menu item.
+            </para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>命令行</term>
+          <listitem>
+            <para lang="en">
+              Execute the following command: <command>mate-control-center</command></para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </sect2>
+
+  </sect1>
+  
+  <sect1 id="matecc-interface">
+    <title>用法</title>
+    <para lang="en">
+      The <application>MATE Control Center</application> window lists all preference tools installed on your system in groups.
+    </para>
+    <tip><para lang="en">
+      From the left pane, you can quickly access to a preference tool by selecting its group first, or type any keyword in the filter box. You can also access to common tasks, such as <guilabel>Change Theme</guilabel>, and <guilabel>Set Preferred Applications</guilabel>.
+    </para></tip>
+    <para lang="en">
+      To open a preference tool, just click on it.
+    </para>
+    <tip><para lang="en">The preference tool description is shown on mouse hover.</para></tip>
+  </sect1>
+</article>

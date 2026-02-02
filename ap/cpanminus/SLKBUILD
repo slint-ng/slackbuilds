@@ -1,0 +1,57 @@
+# Maintainer: Florian Pritz <bluewind@xinu.at>
+# Included in Slint by Didier Spaier didieratslintdotfr
+pkgname=cpanminus
+pkgver=1.7047
+pkgrel=1slint
+slackdesc="$pkgname (get, unpack, build and install modules from CPAN)"
+license=(PerlArtistic GPL)
+options=(nosrcpack)
+depends=('perl>=5.8.1' curl)
+provides=("perl-app-cpanminus=$pkgver")
+docs=("LICENSE" "README")
+url=https://metacpan.org/release/App-cpanminus
+source=("https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/App-cpanminus-$pkgver.tar.gz")
+md5sums=('d25284e98109262edaffd4d804d4fb29')
+sha512sums=('c58b58773b5cd06f346228af46136beffcf07cf49dd51c6d914e2fe4c2a592b5c94901510da8c7ff55795e6beb25bf5344ac798d817ab0a1f2450ff75cbaa17d')
+_ddir="App-cpanminus-$pkgver"
+
+build() {
+  cd "$_ddir"
+
+  # Patch for CVE-2024-45321
+  # https://security.metacpan.org/2024/08/26/cpanminus-downloads-code-using-insecure-http.html
+  #
+  /usr/bin/perl -pi -E \
+    's{http://(www\.cpan\.org|backpan\.perl\.org|cpan\.metacpan\.org|fastapi\.metacpan\.org|cpanmetadb\.plackperl\.org)}{https://$1}g' \
+    bin/cpanm
+
+  # Don't use LWP::UserAgent. It will fail if LWP::Protocol::https is not
+  # installed. This makes cpanm use curl instead
+  # https://github.com/Perl/docker-perl/issues/169
+  #
+  /usr/bin/perl -pi -E 's{try_lwp=>1}{try_lwp=>0}g' bin/cpanm
+
+
+  cd "$srcdir/$_ddir"
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps
+  unset PERL5LIB PERL_MM_OPT
+  /usr/bin/perl Makefile.PL
+  make
+
+#check()
+#(
+#  cd "$srcdir/$_ddir"
+#  export PERL_MM_USE_DEFAULT=1
+#  unset PERL5LIB
+#  make test
+#)
+
+
+  make install INSTALLDIRS=vendor DESTDIR="$PKG"
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:

@@ -1,0 +1,30 @@
+#Packager: George Vlahavas <vlahavas~at~gmail~dot~com>
+
+pkgname=xdgmenumaker
+pkgver=git7dd8a63
+pkgrel=1slint
+arch=noarch
+#source=("xdgmenumaker-$pkgver.tar.xz")
+docs=("readme.md" "install.md" "copying" "changelog" "authors" "news" "todo")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"xdgmenumaker (generates xdg menus)"
+"xdgmenumaker is a command line tool, written in python, that generates"
+"application menus using xdg information, by scanning *.desktop files"
+"in /usr/share/applications and ~/.local/share/applications. All"
+"applications are sorted according to the main categories as specified"
+"by freedesktop.org."
+"It can currently generate menus for blackbox, compizboxmenu, fluxbox,"
+"fvwm, icewm, jwm, pekwm and windowmaker."
+)
+
+
+build() {
+	git clone https://github.com/gapan/xdgmenumaker.git
+	cd xdgmenumaker
+	make
+	make install DESTDIR=$startdir/pkg PREFIX=/usr
+} 

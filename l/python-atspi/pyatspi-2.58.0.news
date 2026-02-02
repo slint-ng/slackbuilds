@@ -1,0 +1,4 @@
+What's new in pyatspi 2.58.0:
+
+* Install image.py (fixes regression from 2.57.0).
+

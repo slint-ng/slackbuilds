@@ -1,0 +1,27 @@
+# Maintainer: Sergej Pupykin <pupykin.s+arch@gmail.com>
+# Contributor: Alois Belaska <lloyd@centrum.cz>
+
+pkgname=xsettings-client
+pkgver=0.10
+pkgrel=1slint
+slackdesc="$pkgname (Cross toolkit settings like theme parameters"
+arch=('x86_64')
+license=('GPL')
+url="http://matchbox-project.org"
+depends=('libx11')
+source=(https://downloads.yoctoproject.org/releases/matchbox/optional-dependencies/Xsettings-client-$pkgver.tar.gz)
+sha512sums=('051eaafa3410f82afea8f5909e5ef46548737f5b7bb3cb9c31262426ebc8e39ce4e84cfa76629cfb6b608fc764b2bbc3e7345a0e8e4257c7f6ea640c3b419634')
+docs=("COPYING")
+doinst() {
+# Update all the shared library links:
+if [ -x /sbin/ldconfig ]; then
+  /sbin/ldconfig &
+fi
+}
+build() {
+  cd Xsettings-client-$pkgver
+  autoreconf -vif
+  ./configure --prefix=/usr --libdir=/usr/lib64
+  make DESTDIR="$PKG" install
+  rm $PKG/usr/lib64/*a
+}

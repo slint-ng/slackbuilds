@@ -1,0 +1,16 @@
+                    LibMatchbox 1.14
+                  ======================
+
+        prefix:                 /usr
+        source code location:   .
+
+        Building with Debug:                no
+        Building with gcov:                 no
+        Building with gprof:                no
+	Building unit tests:                no
+
+        Building with Xft:                  no
+        Building with Pango:                yes
+        Building with PNG:                  yes
+        Building with JPG:                  yes
+        Building with API Documentation:    no

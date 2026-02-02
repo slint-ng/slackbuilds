@@ -1,0 +1,94 @@
+BitlBee mini-howto
+
+This document includes quotes of the BitlBee User guide available here:
+https://www.bitlbee.org/user-guide.html
+
+BitlBee is an IRC instant messaging gateway licensed under the terms of
+the GPL.  It communicates with the end user via the IRC protocol whilst
+interacting with popular chat networks such as AIM, ICQ, MSN, Yahoo,
+and Jabber. The user's buddies appear as normal IRC users in a channel,
+and conversations use the private message facility of IRC.
+
+Slint is built with libpurple, which adds support for protocols also
+handled by pidgin like telegram, cf.:  https://wiki.bitlbee.org/
+
+To have bitlbee started on boot-up, add the following code to
+/etc/rc.d/rc.local:
+
+  if [ -x /etc/rc.d/rc.bitlbee ]; then
+    /etc/rc.d/rc.bitlbee start
+  fi
+
+Make sure rc.local be executable typing as root:
+
+  chmod 755 /etc/rc.d/rc.local
+
+Alternatively, you can star BitlBee on demand typing as root:
+
+  service start bitlbee
+
+1. Connecting to the server
+
+Since BitlBee acts just like any other irc daemon, you can connect to it
+with your favorite irc client. Launch it and connect to: localhost
+port 6667 (or whatever host/port you are running bitlbee on).
+
+Gow-to connect to BitlBee depend on the IRC client used. We  will give
+two examples below: using hexchat-text or irssi, both shipped in Slint.
+irssi is the most popular.
+
+1a: Connect to the BitlBee server using hexchat-text or epic5:
+
+Insure that BitlBee be started
+type hexchat-text or epic5 then  type:
+/server localhost
+The display will change as BitlBee takes it over.
+Further commands will be sent to and answered by BitlBee.
+
+1b: Connect to the BitlBee server using irssi
+
+Insure that BitlBee be started then, start irssi then type:
+/connect 127.0.0.1
+The connection will occur in another screen of irssi, that you reach
+pressing Alt+2 (Alt+Shift+2 with some keyboard layouts).
+
+2. Getting started
+
+Once you are connected to the BitlBee server, you are automatically
+joined to &bitlbee on that server. This channel acts like the 'buddy
+list' you have on the various other chat networks.
+
+The user 'root' always hangs around in &bitlbee and acts as your
+interface to the bitlbee server. All commands you give on &bitlbee are
+'answered' by root. This is not the root user on your system.
+
+To know what you can do with bitlebee just type:
+help
+
+And to know how to configure bitlbee so that it gives you access to all
+your IM accounts, just type:
+help quickstart
+
+and follow the tutorial
+
+3. Talking to people
+
+You can talk to by starting a query with them. In most irc clients, this
+can be done with either /msg <nick> <text> or /query <nick>.
+
+To keep the number of open query windows limited, you can also talk to
+people in the control channel, like <nick>: <text>.
+
+4. Configuration
+
+At the system level, check /etc/bitlbee/bitlbee.conf
+
+See also: /etc/bitlbee/motd.txt
+
+5. To know more
+
+When you are connected to BitlBee just type this command:
+help
+
+Didier Spaier
+Last updated Sunday 22 September 2019

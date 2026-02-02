@@ -1,0 +1,32 @@
+#Packager:Didier Spaier didieratslintdotfr
+
+pkgname=matchbox-documentation
+pkgver=0.2
+pkgrel=1slint
+export srcname=matchbox-config-gtk
+#arch=noarch
+docs=("AUTHORS" "COPYING")
+#docs=("readme" "install" "copying" "changelog" "authors" "news" "todo")
+#url=
+#dotnew=()
+#CFLAGS=
+#CXXFLAGS=
+#options=('noautodotnew')
+# source tarball from Ubuntu
+source=("https://git.yoctoproject.org/matchbox-config-gtk/snapshot/matchbox-config-gtk-0.2.tar.gz")
+
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Theme selector for the matchbox WM)"
+)
+
+
+build() {
+	git clone https://git.yoctoproject.org/matchbox-documentation
+	cd $pkgname
+	sh make-docs.sh
+	exit
+	make install DESTDIR=$PKG
+} 

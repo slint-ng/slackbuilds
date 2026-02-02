@@ -1,0 +1,21 @@
+# Maintainer by Didier Spaier didieratslintdotfr
+pkgname=sam
+pkgver=20210713
+pkgrel=2slint
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Speech-friendly Alsa Mixer)"
+"Author: Willem van der Walt"
+)
+options=("nosrcpack")
+arch=('x86_64')
+source=("COPYING"  "README.md" "README.adoc" "catchkey" "sam")
+docs=("COPYING")
+build() {
+	mkdir -p $PKG/usr/doc/${pkgname}-$pkgver
+	asciidoctor -o $PKG/usr/doc/${pkgname}-$pkgver/README.html $SRC/README.adoc
+	cp LICENSE PKG/usr/doc/${pkgname}-$pkgver/
+	install -vDm 755 sam -t "$PKG/usr/bin/"
+	install -vDm 755 catchkey -t "$PKG/usr/bin/"
+}

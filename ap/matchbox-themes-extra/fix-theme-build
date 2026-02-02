@@ -1,0 +1,12 @@
+Description: fix build of mbcrystal theme
+--- matchbox-themes-extra-0.3.orig/mbcrystal/matchbox/Makefile.am
++++ matchbox-themes-extra-0.3/mbcrystal/matchbox/Makefile.am
+@@ -1,7 +1,7 @@
+ pngs =  buttsmallmaxdown.png  next.png       topleft.png \
+ 	bottom-tile.png buttsmallmindown.png  panelbg.png    topright.png \
+ 	bottomleft.png  close.png             prev.png       toptile.png  \
+-	bottomright.png         dialog-side.png       theme.desktop      \
++	bottomright.png         dialog-side.png      \
+ 	buttsmallclosedown.png  minimise.png  noappicon.png 
+ 
+ themesdir = $(datadir)/themes/mbcrystal/matchbox

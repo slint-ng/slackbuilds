@@ -1,0 +1,31 @@
+    mate-settings-daemon 1.28.0
+    ===========================
+
+    prefix ..................: /usr
+    exec_prefix .............: ${prefix}
+    libdir ..................: /usr/lib64
+    bindir ..................: ${exec_prefix}/bin
+    sbindir .................: ${exec_prefix}/sbin
+    sysconfdir...............: /etc
+    sysconfsubdir ...........: 
+    localstatedir............: /var
+    plugindir ...............: $(libdir)/mate-settings-daemon
+    datadir..................: ${datarootdir}
+    source code location ....: .
+    compiler.................: gcc
+    cflags ..................: -O2 -fPIC
+    warning cflags ..........: -Wall -Wmissing-prototypes
+    Maintainer mode .........: yes
+
+    dbus-1 system.d dir .....: ${datadir}/dbus-1/system.d
+    PolicyKit support .......: yes
+
+    PulseAudio support ......: true
+    Libnotify support .......: yes
+    Libatspi support ........: yes
+    Libcanberra support .....: yes
+    Libmatemixer support ....: yes
+    Smartcard support .......: true
+    RFKill support ..........: yes
+    System nssdb ............: /etc/pki/nssdb
+    Profiling support .......: no

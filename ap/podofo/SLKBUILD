@@ -1,0 +1,47 @@
+#Packager: George Vlahavas <vlahavas~at~gmail~dot~com>
+
+pkgname=podofo
+pkgver=0.9.7
+pkgrel=1slint
+source=("https://downloads.sourceforge.net/project/podofo/podofo/${pkgver}/podofo-${pkgver}.tar.gz")
+docs=("readme" "install" "copying" "changelog" "authors" "news" "todo")
+url=http://sourceforge.net/projects/podofo/
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"podofo (a library to work with the PDF file format)"
+"The PoDoFo library is a free, portable C++ library. It can parse and"
+"modify existing PDF files and create new ones from scratch. It also"
+"includes several tools to work with PDF files."
+)
+
+
+build() {
+	cd $startdir/src/$pkgname-$pkgver
+	
+	if [ $arch == "x86_64" ]; then
+		LIB64="TRUE"
+	else
+		LIB64="FALSE"
+	fi
+
+	mkdir -p build
+	cd build
+	cmake \
+		-DCMAKE_C_FLAGS:STRING="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS:STRING="$CXXFLAGS" \
+		-DFREETYPE_INCLUDE_DIR=/usr/include/freetype2 \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DPODOFO_BUILD_STATIC:BOOL=FALSE \
+		-DPODOFO_BUILD_SHARED:BOOL=TRUE \
+		-DPODOFO_HAVE_JPEG_LIB:BOOL=TRUE \
+		-DPODOFO_HAVE_PNG_LIB:BOOL=TRUE \
+		-DPODOFO_HAVE_TIFF_LIB:BOOL=TRUE \
+		-DWANT_LIB64:BOOL=$LIB64 \
+		..
+
+	make -j $numjobs || return 1
+	make install DESTDIR=$startdir/pkg
+	rm -f $PKG/usr/lib*/*.la
+} 

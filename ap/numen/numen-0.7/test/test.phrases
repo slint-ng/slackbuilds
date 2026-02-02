@@ -1,0 +1,4 @@
+eve: run echo e
+made: run echo m
+nerd: run echo n
+urge: run echo u

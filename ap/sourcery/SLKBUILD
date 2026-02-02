@@ -1,0 +1,26 @@
+#Maintainer: George Vlahavas <vlahavas~at~gmail~dot~com>
+
+pkgname=sourcery
+pkgver=0.9.6
+pkgrel=3slint
+arch=noarch
+source=(sourcery-$pkgver.tar.xz customize_for_Slint.diff)
+docs=("readme" "install" "copying" "changelog" "authors" "news" "todo" "translations")
+options=('nosrcpack')
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"sourcery (a GTK+2 frontend to slapt-src)"
+"Sourcery is a graphical frontend to the slapt-src utility. It can be"
+"used to build and install packages from SlackBuild and/or SLKBUILD"
+"repositories."
+)
+
+
+build() {
+	cd $startdir/src/$pkgname-$pkgver
+    patch -p1 --verbose < $SRC/customize_for_Slint.diff
+	make
+	make install DESTDIR=$startdir/pkg/
+}

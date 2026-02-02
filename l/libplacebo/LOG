@@ -1,0 +1,32 @@
+libplacebo 6.338.2
+
+  Optional features
+    d3d11        : NO
+    dovi         : NO
+    gl-proc-addr : YES
+    glslang      : YES
+    lcms         : YES
+    libdovi      : NO
+    opengl       : YES
+    shaderc      : YES
+    vk-proc-addr : YES
+    vulkan       : YES
+    xxhash       : YES
+
+  User defined options
+    bindir       : /usr/bin
+    buildtype    : release
+    datadir      : /usr/share
+    includedir   : /usr/include
+    libdir       : lib64
+    libexecdir   : /usr/libexec
+    localstatedir: /var
+    mandir       : /usr/man
+    prefix       : /usr
+    sbindir      : /usr/sbin
+    sysconfdir   : /etc
+    d3d11        : disabled
+    demos        : false
+    dovi         : disabled
+    glslang      : enabled
+    libdovi      : disabled

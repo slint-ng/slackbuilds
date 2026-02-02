@@ -1,0 +1,26 @@
+#! /bin/sh -e
+#
+THISSCRIPT=/usr/lib/emacsen-common/packages/install/emacspeak-ss
+
+# Written by Jim Van Zandt <jrv@debian.org>, borrowing heavily
+# from the install scripts for gettext by Santiago Vila
+# <sanvila@ctv.es> and octave by Dirk Eddelbuettel <edd@debian.org>.
+
+#set -v
+
+FLAVOR=$1
+PACKAGE=emacspeak-ss
+
+ELCDIR=/usr/share/emacs/site-lisp/emacspeak
+SERVERS="doubletalk accent braillenspeak apollo ciber pchablado"
+BLURBS="accent-ss.blurb apollo-ss.blurb braille-lite-ss.blurb braillenspeak-ss.blurb ciber232.blurb ciber232plus.blurb dtlt-ss.blurb dtpc-ss.blurb hablado.blurb lite-ss.blurb tns-ss.blurb"
+
+if [ ! -d ${ELCDIR}/servers ]; then install -d ${ELCDIR}/servers; fi
+cd /usr/share/emacs/site-lisp/emacspeak/servers
+install ${SERVERS} ${ELCDIR}/servers
+
+if [ ! -d ${ELCDIR}/blurbs ]; then install -d ${ELCDIR}/blurbs; fi
+cd /usr/share/emacs/site-lisp/emacspeak/blurbs
+install -m 644 ${BLURBS} ${ELCDIR}/blurbs
+
+exit 0

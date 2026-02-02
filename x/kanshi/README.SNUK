@@ -1,0 +1,7 @@
+Example:
+
+$HOME/.config/kanshi/config
+
+profile default {
+  output eDP-1 enable mode 1920x1080@60Hz
+}

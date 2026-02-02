@@ -1,0 +1,8 @@
+--- a/all.in
++++ b/all.in
+@@ -1,4 +1,4 @@
+-#!/usr/bin/tclsh8.4
++#!/usr/bin/tclsh
+ package require Tclx
+ # all.in - Generic Emacspeak server code    -*-tcl-*-
+ # Keywords: Emacspeak, TCL, speech, server

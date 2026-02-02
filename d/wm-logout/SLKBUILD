@@ -1,0 +1,26 @@
+#Maintainer: Dimitris Tzemos <djemos~at~slackel.gr>
+# Included in Slint by Didier Spaier didieratslintdotfr
+pkgname=wm-logout
+pkgver=0.4
+pkgrel=1slint
+arch=noarch
+source=("http://people.salixos.org/djemos/salix/openbox/wm-logout/$pkgname-$pkgver.tar.gz" "xlogout" "xlogout.patch")
+url="git://github.com/thenktor/wm-logout.git"
+docs=('AUTHORS' 'COPYING' 'ChangeLog')
+#options=('nosrcpack')
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (presents a logout dialog)"
+"Present a dialog to perform power management actions or logout from a"
+"window manager."
+)
+
+build() {
+	
+cd $SRC/${pkgname}
+patch -p1 < $SRC/xlogout.patch || return 1
+DESTDIR=$PKG sh install.sh || return 1
+install -m755 $SRC/xlogout $PKG/usr/bin/ || return 1
+}

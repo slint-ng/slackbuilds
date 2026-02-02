@@ -1,0 +1,17 @@
+mate-utils 1.26.1 configuration summary:
+
+                   Compiler flags : -O2 -fPIC
+           Compiler warning flags : -Wall -Wmissing-prototypes
+                     Linker flags : 
+
+                           prefix : /usr
+                      sysconf dir : /etc
+                          bin dir : ${exec_prefix}/bin
+                         sbin dir : ${exec_prefix}/sbin
+                         data dir : ${datarootdir}
+
+     Debug messages (libmatedict) : no
+      API Reference (libmatedict) : no
+  Logview built with ZLib support : yes
+     Dictionary mate-panel applet : yes
+          Native Language support : yes

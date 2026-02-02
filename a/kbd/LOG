@@ -1,0 +1,2795 @@
+Automatically setting arch to x86_64
+kbd-2.6.3.tar.xz found in current directory
+fix-euro2.patch found in current directory
+vlock.pam found in current directory
+build-kbd.sh has been created
+tar -xf kbd-2.6.3.tar.xz
+patching file data/keymaps/i386/include/euro2.map
+Copying file m4/codeset.m4
+Copying file m4/extern-inline.m4
+Copying file m4/fcntl-o.m4
+Copying file m4/glibc2.m4
+Copying file m4/glibc21.m4
+Copying file m4/intdiv0.m4
+Copying file m4/intl.m4
+Copying file m4/intldir.m4
+Copying file m4/intmax.m4
+Copying file m4/inttypes-pri.m4
+Copying file m4/inttypes_h.m4
+Copying file m4/lcmessage.m4
+Copying file m4/lock.m4
+Copying file m4/longlong.m4
+Copying file m4/printf-posix.m4
+Copying file m4/size_max.m4
+Copying file m4/stdint_h.m4
+Copying file m4/threadlib.m4
+Copying file m4/uintmax_t.m4
+Copying file m4/visibility.m4
+Copying file m4/wchar_t.m4
+Copying file m4/wint_t.m4
+Copying file m4/xsize.m4
+Copying file po/Makevars.template
+configure.ac:5: error: Autoconf version 2.71 or higher is required
+configure.ac:5: the top level
+autom4te: /usr/bin/m4 failed with exit status: 63
+aclocal: error: echo failed with exit status: 63
+autoreconf: aclocal failed with exit status: 63
+checking for a BSD-compatible install... /usr/bin/ginstall -c
+checking whether build environment is sane... yes
+checking for a race-free mkdir -p... /usr/bin/mkdir -p
+checking for gawk... gawk
+checking whether make sets $(MAKE)... yes
+checking whether make supports nested variables... yes
+checking for pkg-config... /usr/bin/pkg-config
+checking pkg-config is at least version 0.9.0... yes
+checking whether to build with code coverage support... no
+checking whether make supports nested variables... (cached) yes
+checking for gcc... gcc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether the compiler supports GNU C... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to enable C11 features... none needed
+checking whether gcc understands -c and -o together... yes
+checking whether make supports the include directive... yes (GNU style)
+checking dependency style of gcc... gcc3
+checking for bison... bison -y
+checking for flex... flex
+checking for lex output file root... lex.yy
+checking for lex library... none needed
+checking whether yytext is a pointer... yes
+checking for a sed that does not truncate output... /usr/bin/sed
+checking whether ln -s works... yes
+checking whether make sets $(MAKE)... (cached) yes
+checking build system type... x86_64-pc-linux-gnu
+checking host system type... x86_64-pc-linux-gnu
+checking for ar... ar
+checking the archiver (ar) interface... ar
+checking how to print strings... printf
+checking for a sed that does not truncate output... (cached) /usr/bin/sed
+checking for grep that handles long lines and -e... /usr/bin/grep
+checking for egrep... /usr/bin/grep -E
+checking for fgrep... /usr/bin/grep -F
+checking for ld used by gcc... /usr/bin/ld
+checking if the linker (/usr/bin/ld) is GNU ld... yes
+checking for BSD- or MS-compatible name lister (nm)... /usr/bin/nm -B
+checking the name lister (/usr/bin/nm -B) interface... BSD nm
+checking the maximum length of command line arguments... 1572864
+checking how to convert x86_64-pc-linux-gnu file names to x86_64-pc-linux-gnu format... func_convert_file_noop
+checking how to convert x86_64-pc-linux-gnu file names to toolchain format... func_convert_file_noop
+checking for /usr/bin/ld option to reload object files... -r
+checking for file... file
+checking for objdump... objdump
+checking how to recognize dependent libraries... pass_all
+checking for dlltool... dlltool
+checking how to associate runtime and link libraries... printf %s\n
+checking for archiver @FILE support... @
+checking for strip... strip
+checking for ranlib... ranlib
+checking command to parse /usr/bin/nm -B output from gcc object... ok
+checking for sysroot... no
+checking for a working dd... /usr/bin/dd
+checking how to truncate binary pipes... /usr/bin/dd bs=4096 count=1
+checking for mt... mt
+checking if mt is a manifest tool... no
+checking for stdio.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for strings.h... yes
+checking for sys/stat.h... yes
+checking for sys/types.h... yes
+checking for unistd.h... yes
+checking for vfork.h... no
+checking for dlfcn.h... yes
+checking for objdir... .libs
+checking if gcc supports -fno-rtti -fno-exceptions... no
+checking for gcc option to produce PIC... -fPIC -DPIC
+checking if gcc PIC flag -fPIC -DPIC works... yes
+checking if gcc static flag -static works... yes
+checking if gcc supports -c -o file.o... yes
+checking if gcc supports -c -o file.o... (cached) yes
+checking whether the gcc linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
+checking whether -lc should be explicitly linked in... no
+checking dynamic linker characteristics... GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... yes
+checking whether to build static libraries... yes
+checking whether NLS is requested... yes
+checking for msgfmt... /usr/bin/msgfmt
+checking for gmsgfmt... /usr/bin/msgfmt
+checking for xgettext... /usr/bin/xgettext
+checking for msgmerge... /usr/bin/msgmerge
+checking for ld used by gcc... /usr/bin/ld -m elf_x86_64
+checking if the linker (/usr/bin/ld -m elf_x86_64) is GNU ld... yes
+checking for shared library run path origin... done
+checking how to run the C preprocessor... gcc -E
+checking for CFPreferencesCopyAppValue... no
+checking for CFLocaleCopyCurrent... no
+checking for GNU gettext in libc... yes
+checking whether to use NLS... yes
+checking where the gettext function comes from... libc
+checking for dirent.h that defines DIR... yes
+checking for library containing opendir... none required
+checking for sys/wait.h that is POSIX.1 compatible... yes
+checking for fcntl.h... yes
+checking for libintl.h... yes
+checking for locale.h... yes
+checking for memory.h... yes
+checking for stdlib.h... (cached) yes
+checking for string.h... (cached) yes
+checking for sys/file.h... yes
+checking for sys/ioctl.h... yes
+checking for termios.h... yes
+checking for unistd.h... (cached) yes
+checking for an ANSI C-conforming const... yes
+checking for inline... inline
+checking for size_t... yes
+checking whether struct tm is in sys/time.h or time.h... time.h
+checking for uid_t in sys/types.h... yes
+checking whether gcc needs -traditional... no
+checking for working chown... yes
+checking whether closedir returns void... no
+checking for pid_t... yes
+checking for fork... yes
+checking for vfork... yes
+checking for working fork... yes
+checking for working vfork... (cached) yes
+checking whether lstat correctly handles trailing slash... yes
+checking whether stat accepts an empty string... no
+checking for alarm... yes
+checking for memset... yes
+checking for setlocale... yes
+checking for strcasecmp... yes
+checking for strchr... yes
+checking for strdup... yes
+checking for strerror... yes
+checking for strspn... yes
+checking for strstr... yes
+checking for strtol... yes
+checking for strtoul... yes
+checking for setpgrp... yes
+checking for malloc... yes
+checking for realloc... yes
+checking for library containing timer_create... -lrt
+checking if gcc supports -Waggregate-return flag... yes
+checking if gcc supports -Wall flag... yes
+checking if gcc supports -Wcast-align flag... yes
+checking if gcc supports -Wconversion flag... yes
+checking if gcc supports -Wdisabled-optimization flag... yes
+checking if gcc supports -Wextra flag... yes
+checking if gcc supports -Wmissing-declarations flag... yes
+checking if gcc supports -Wmissing-format-attribute flag... yes
+checking if gcc supports -Wmissing-noreturn flag... yes
+checking if gcc supports -Wmissing-prototypes flag... yes
+checking if gcc supports -Wpointer-arith flag... yes
+checking if gcc supports -Wredundant-decls flag... yes
+checking if gcc supports -Wshadow flag... yes
+checking if gcc supports -Wstrict-prototypes flag... yes
+checking if gcc supports -Wwrite-strings flag... yes
+checking for pam_start in -lpam... yes
+checking for security/pam_appl.h... yes
+checking for misc_conv in -lpam_misc... yes
+checking for security/pam_misc.h... yes
+checking for doxygen... yes
+checking that generated files are newer than configure... done
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating data/Makefile
+config.status: creating docs/Makefile
+config.status: creating docs/man/Makefile
+config.status: creating docs/man/man1/Makefile
+config.status: creating docs/man/man1/dumpkeys.1
+config.status: creating docs/man/man1/loadkeys.1
+config.status: creating docs/man/man1misc/Makefile
+config.status: creating docs/man/man5/Makefile
+config.status: creating docs/man/man8/Makefile
+config.status: creating docs/man/man8/loadunimap.8
+config.status: creating docs/man/man8/mapscrn.8
+config.status: creating docs/man/man8/setfont.8
+config.status: creating docs/man/man8misc/Makefile
+config.status: creating docs/reference/Makefile
+config.status: creating docs/reference/libkeymap/Makefile
+config.status: creating po/Makefile.in
+config.status: creating src/Makefile
+config.status: creating src/libcommon/Makefile
+config.status: creating src/libkbdfile/Makefile
+config.status: creating src/libkfont/Makefile
+config.status: creating src/libkeymap/Makefile
+config.status: creating src/vlock/Makefile
+config.status: creating tests/helpers/Makefile
+config.status: creating tests/libkbdfile/Makefile
+config.status: creating tests/libkeymap/Makefile
+config.status: creating tests/Makefile
+config.status: creating config.h
+config.status: executing tests/atconfig commands
+config.status: executing depfiles commands
+config.status: executing libtool commands
+config.status: executing po-directories commands
+config.status: creating po/POTFILES
+config.status: creating po/Makefile
+
+	kbd 2.6.3
+	======
+
+	prefix:                 /usr
+	libdir:                 ${exec_prefix}/lib
+	bindir:                 ${exec_prefix}/bin
+	datadir:                /usr/share/kbd
+
+	compiler:               gcc
+	cflags:                 -O2 -D_FORTIFY_SOURCE=2 -O2 -fPIC -Waggregate-return -Wall -Wcast-align -Wconversion -Wdisabled-optimization -Wextra -Wmissing-declarations -Wmissing-format-attribute -Wmissing-noreturn -Wmissing-prototypes -Wpointer-arith -Wredundant-decls -Wshadow -Wstrict-prototypes -Wwrite-strings
+
+	{get,set}keycodes:      yes
+	resizecons:             yes
+	optional progs:         yes
+	vlock:                  yes
+	libkbdfile:             no
+	libkeymap:              no
+	libkfont:               no
+
+make  all-recursive
+make[1] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3 »
+Making all in src
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src »
+Making all in libcommon
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libcommon »
+  CC       getfd.o
+  CC       error.o
+  CC       version.o
+  AR       libcommon.a
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libcommon »
+Making all in libkbdfile
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libkbdfile »
+  CC       init.lo
+  CC       kbdfile.lo
+  CCLD     libkbdfile.la
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libkbdfile »
+Making all in libkfont
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libkfont »
+  CC       psffontop.lo
+  CC       psfxtable.lo
+  CC       context.lo
+  CC       unicode.lo
+  CC       utf8.lo
+  CC       kdmapop.lo
+  CC       loadunimap.lo
+  CC       mapscrn.lo
+  CC       setfont.lo
+setfont.c: Dans la fonction « try_loadfont »:
+setfont.c:102:63: attention: la conversion de « int » vers « unsigned char » peut changer la valeur [-Wconversion]
+  102 |                                                         b2 |= 3 << (j * 2);
+      |                                                               ^
+  CC       kdfontop.lo
+  CCLD     libkfont.la
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libkfont »
+Making all in libkeymap
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libkeymap »
+make  all-am
+make[4] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libkeymap »
+  CC       array.lo
+  CC       common.lo
+  CC       kernel.lo
+  CC       dump.lo
+  CC       kmap.lo
+  CC       diacr.lo
+  CC       func.lo
+  CC       summary.lo
+  CC       loadkeys.lo
+  CC       parser.lo
+  CC       analyze.lo
+  CC       modifiers.lo
+  CC       ksyms.lo
+  CCLD     libkeymap.la
+make[4] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libkeymap »
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libkeymap »
+Making all in vlock
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/vlock »
+  CC       auth.o
+  CC       pam.o
+  CC       parse.o
+  CC       screen.o
+  CC       username.o
+  CC       vlock.o
+  CC       vt.o
+  CCLD     vlock
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/vlock »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src »
+  CC       mapscrn.o
+  CCLD     mapscrn
+  CC       loadunimap.o
+  CCLD     loadunimap
+  CC       dumpkeys.o
+  CCLD     dumpkeys
+  CC       loadkeys.o
+  CCLD     loadkeys
+  CC       showkey.o
+showkey.c: Dans la fonction « main »:
+showkey.c:275:31: attention: la conversion vers « unsigned int » depuis « int » peut changer le signe du résultat [-Wsign-conversion]
+  275 |                         alarm(timeout);
+      |                               ^~~~~~~
+showkey.c:287:23: attention: la conversion vers « unsigned int » depuis « int » peut changer le signe du résultat [-Wsign-conversion]
+  287 |                 alarm(timeout);
+      |                       ^~~~~~~
+  CCLD     showkey
+  CC       setfont.o
+  CCLD     setfont
+  CC       showconsolefont.o
+  CCLD     showconsolefont
+  CC       setleds.o
+  CCLD     setleds
+  CC       setmetamode.o
+  CCLD     setmetamode
+  CC       kbd_mode.o
+  CCLD     kbd_mode
+  CC       psfxtable.o
+  CCLD     psfxtable
+  CC       fgconsole.o
+  CCLD     fgconsole
+  CC       kbdrate.o
+  CCLD     kbdrate
+  CC       chvt.o
+  CCLD     chvt
+  CC       deallocvt.o
+  CCLD     deallocvt
+  CC       openvt.o
+  CCLD     openvt
+  CC       kbdinfo.o
+  CCLD     kbdinfo
+  CC       setvtrgb.o
+  CCLD     setvtrgb
+  CC       getkeycodes.o
+  CCLD     getkeycodes
+  CC       setkeycodes.o
+  CCLD     setkeycodes
+  CC       resizecons.o
+  CCLD     resizecons
+  CC       setlogcons.o
+  CCLD     setlogcons
+  CC       setvesablank.o
+  CCLD     setvesablank
+  CC       getunimap-getunimap.o
+  CCLD     getunimap
+  CC       clrunimap.o
+  CCLD     clrunimap
+  CC       outpsfheader.o
+  CCLD     outpsfheader
+  CC       setpalette.o
+  CCLD     setpalette
+  CC       screendump.o
+  CCLD     screendump
+  CC       spawn_console.o
+  CCLD     spawn_console
+  CC       spawn_login.o
+  CCLD     spawn_login
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src »
+Making all in data
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/data »
+make[2]: rien à faire pour « all ».
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/data »
+Making all in po
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/po »
+make[2]: rien à faire pour « all ».
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/po »
+Making all in docs
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs »
+Making all in man
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man »
+Making all in man1
+make[4] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man1 »
+make[4]: rien à faire pour « all ».
+make[4] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man1 »
+Making all in man5
+make[4] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man5 »
+make[4]: rien à faire pour « all ».
+make[4] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man5 »
+Making all in man8
+make[4] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man8 »
+make[4]: rien à faire pour « all ».
+make[4] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man8 »
+Making all in man1misc
+make[4] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man1misc »
+make[4]: rien à faire pour « all ».
+make[4] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man1misc »
+Making all in man8misc
+make[4] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man8misc »
+make[4]: rien à faire pour « all ».
+make[4] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man8misc »
+make[4] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man »
+make[4]: rien à faire pour « all-am ».
+make[4] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man »
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man »
+Making all in reference
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/reference »
+make[4] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/reference »
+make[4]: rien à faire pour « all-am ».
+make[4] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/reference »
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/reference »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs »
+make[3]: rien à faire pour « all-am ».
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs »
+Making all in tests
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests »
+Making all in helpers
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests/helpers »
+  CC       libkeymap-bkeymap.o
+  CCLD     libkeymap-bkeymap
+  CC       libkeymap-dumpkeys.o
+  CCLD     libkeymap-dumpkeys
+  CC       libkeymap-mktable.o
+  CCLD     libkeymap-mktable
+  CC       libkeymap-showmaps.o
+libkeymap-showmaps.c: Dans la fonction « main »:
+libkeymap-showmaps.c:36:41: attention: la conversion vers « int » depuis « unsigned int » peut changer le signe du résultat [-Wsign-conversion]
+   36 |                 if (!lk_map_exists(ctx, i))
+      |                                         ^
+  CCLD     libkeymap-showmaps
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests/helpers »
+Making all in libkbdfile
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests/libkbdfile »
+  CC       libkbdfile-test01.o
+  CCLD     libkbdfile-test01
+  CC       libkbdfile-test02.o
+  CCLD     libkbdfile-test02
+  CC       libkbdfile-test03.o
+  CCLD     libkbdfile-test03
+  CC       libkbdfile-test04.o
+  CCLD     libkbdfile-test04
+  CC       libkbdfile-test05.o
+  CCLD     libkbdfile-test05
+  CC       libkbdfile-test06.o
+  CCLD     libkbdfile-test06
+  CC       libkbdfile-test07.o
+  CCLD     libkbdfile-test07
+  CC       libkbdfile-test08.o
+  CCLD     libkbdfile-test08
+  CC       libkbdfile-test09.o
+  CCLD     libkbdfile-test09
+  CC       libkbdfile-test10.o
+  CCLD     libkbdfile-test10
+  CC       libkbdfile-test11.o
+  CCLD     libkbdfile-test11
+  CC       libkbdfile-test12.o
+  CCLD     libkbdfile-test12
+  CC       libkbdfile-test13.o
+  CCLD     libkbdfile-test13
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests/libkbdfile »
+Making all in libkeymap
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests/libkeymap »
+  CC       libkeymap-test01.o
+  CCLD     libkeymap-test01
+  CC       libkeymap-test02.o
+  CCLD     libkeymap-test02
+  CC       libkeymap-test03.o
+  CCLD     libkeymap-test03
+  CC       libkeymap-test04.o
+  CCLD     libkeymap-test04
+  CC       libkeymap-test05.o
+  CCLD     libkeymap-test05
+  CC       libkeymap-test06.o
+  CCLD     libkeymap-test06
+  CC       libkeymap-test07.o
+libkeymap-test07.c: Dans la fonction « main »:
+libkeymap-test07.c:43:41: attention: la conversion vers « int » depuis « unsigned int » peut changer le signe du résultat [-Wsign-conversion]
+   43 |                 int c = lk_get_key(ctx, i, 17);
+      |                                         ^
+  CCLD     libkeymap-test07
+  CC       libkeymap-test08.o
+libkeymap-test08.c: Dans la fonction « main »:
+libkeymap-test08.c:44:41: attention: la conversion vers « int » depuis « unsigned int » peut changer le signe du résultat [-Wsign-conversion]
+   44 |                 int c = lk_get_key(ctx, i, 17);
+      |                                         ^
+  CCLD     libkeymap-test08
+  CC       libkeymap-test09.o
+  CCLD     libkeymap-test09
+  CC       libkeymap-test10.o
+  CCLD     libkeymap-test10
+  CC       libkeymap-test11.o
+  CCLD     libkeymap-test11
+  CC       libkeymap-test12.o
+  CCLD     libkeymap-test12
+  CC       libkeymap-test13.o
+  CCLD     libkeymap-test13
+  CC       libkeymap-test14.o
+  CCLD     libkeymap-test14
+  CC       libkeymap-test15.o
+  CCLD     libkeymap-test15
+  CC       libkeymap-test16.o
+libkeymap-test16.c: Dans la fonction « main »:
+libkeymap-test16.c:18:34: attention: conversion implicite de « enum <anonyme> » vers « lk_flags » [-Wenum-conversion]
+   18 |         lk_set_parser_flags(ctx, LK_KEYWORD_ALTISMETA);
+      |                                  ^~~~~~~~~~~~~~~~~~~~
+  CCLD     libkeymap-test16
+  CC       libkeymap-test17.o
+  CCLD     libkeymap-test17
+  CC       libkeymap-test18.o
+  CCLD     libkeymap-test18
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests/libkeymap »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests »
+make[3]: rien à faire pour « all-am ».
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests »
+:;{ \
+    echo '# Signature of the current package.';                       \
+    echo 'm4_define([AT_PACKAGE_NAME],      [kbd])';      \
+    echo 'm4_define([AT_PACKAGE_TARNAME],   [kbd])';   \
+    echo 'm4_define([AT_PACKAGE_VERSION],   [2.6.3])';   \
+    echo 'm4_define([AT_PACKAGE_STRING],    [kbd 2.6.3])';    \
+    echo 'm4_define([AT_PACKAGE_BUGREPORT], [gladkov.alexey@gmail.com])'; \
+    echo 'm4_define([AT_PACKAGE_URL],       [https://kbd-project.org/])';       \
+} >'/repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests/atpackage'
+/bin/sh ../config/missing --run autom4te --language=autotest -I '.' -o - testsuite.at > /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests/testsuite
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests »
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3 »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3 »
+make[1] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3 »
+Making install in src
+make[1] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src »
+Making install in libcommon
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libcommon »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libcommon »
+make[3]: rien à faire pour « install-exec-am ».
+make[3]: rien à faire pour « install-data-am ».
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libcommon »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libcommon »
+Making install in libkbdfile
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libkbdfile »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libkbdfile »
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libkbdfile »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libkbdfile »
+Making install in libkfont
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libkfont »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libkfont »
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libkfont »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libkfont »
+Making install in libkeymap
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libkeymap »
+make  install-am
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libkeymap »
+make[4] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libkeymap »
+make[4] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libkeymap »
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libkeymap »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/libkeymap »
+Making install in vlock
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/vlock »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/vlock »
+ /usr/bin/mkdir -p '/repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin'
+  /bin/sh ../../libtool   --mode=install /usr/bin/ginstall -c vlock '/repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin'
+libtool: install: /usr/bin/ginstall -c vlock /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/vlock
+install -Dm644 ./vlock.pamd /repo/x86_64/slint-15.0/source/kbd/pkg/etc/pam.d/vlock
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/vlock »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src/vlock »
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src »
+ /usr/bin/mkdir -p '/repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin'
+  /bin/sh ../libtool   --mode=install /usr/bin/ginstall -c mapscrn loadunimap dumpkeys loadkeys showkey setfont showconsolefont setleds setmetamode kbd_mode psfxtable fgconsole kbdrate chvt deallocvt openvt kbdinfo setvtrgb getkeycodes setkeycodes resizecons setlogcons setvesablank getunimap clrunimap outpsfheader setpalette screendump spawn_console spawn_login '/repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin'
+libtool: install: /usr/bin/ginstall -c mapscrn /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/mapscrn
+libtool: install: /usr/bin/ginstall -c loadunimap /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/loadunimap
+libtool: install: /usr/bin/ginstall -c dumpkeys /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/dumpkeys
+libtool: install: /usr/bin/ginstall -c loadkeys /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/loadkeys
+libtool: install: /usr/bin/ginstall -c showkey /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/showkey
+libtool: install: /usr/bin/ginstall -c setfont /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/setfont
+libtool: install: /usr/bin/ginstall -c showconsolefont /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/showconsolefont
+libtool: install: /usr/bin/ginstall -c setleds /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/setleds
+libtool: install: /usr/bin/ginstall -c setmetamode /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/setmetamode
+libtool: install: /usr/bin/ginstall -c kbd_mode /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/kbd_mode
+libtool: install: /usr/bin/ginstall -c psfxtable /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/psfxtable
+libtool: install: /usr/bin/ginstall -c fgconsole /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/fgconsole
+libtool: install: /usr/bin/ginstall -c kbdrate /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/kbdrate
+libtool: install: /usr/bin/ginstall -c chvt /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/chvt
+libtool: install: /usr/bin/ginstall -c deallocvt /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/deallocvt
+libtool: install: /usr/bin/ginstall -c openvt /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/openvt
+libtool: install: /usr/bin/ginstall -c kbdinfo /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/kbdinfo
+libtool: install: /usr/bin/ginstall -c setvtrgb /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/setvtrgb
+libtool: install: /usr/bin/ginstall -c getkeycodes /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/getkeycodes
+libtool: install: /usr/bin/ginstall -c setkeycodes /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/setkeycodes
+libtool: install: /usr/bin/ginstall -c resizecons /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/resizecons
+libtool: install: /usr/bin/ginstall -c setlogcons /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/setlogcons
+libtool: install: /usr/bin/ginstall -c setvesablank /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/setvesablank
+libtool: install: /usr/bin/ginstall -c getunimap /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/getunimap
+libtool: install: /usr/bin/ginstall -c clrunimap /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/clrunimap
+libtool: install: /usr/bin/ginstall -c outpsfheader /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/outpsfheader
+libtool: install: /usr/bin/ginstall -c setpalette /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/setpalette
+libtool: install: /usr/bin/ginstall -c screendump /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/screendump
+libtool: install: /usr/bin/ginstall -c spawn_console /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/spawn_console
+libtool: install: /usr/bin/ginstall -c spawn_login /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/spawn_login
+ /usr/bin/mkdir -p '/repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin'
+ /usr/bin/ginstall -c unicode_start unicode_stop '/repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin'
+make  install-exec-hook
+make[4] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src »
+for i in psfaddtable psfgettable psfstriptable; do \
+	rm -f /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/$i; \
+	ln -s psfxtable /repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin/$i || exit $?; \
+done
+make[4] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src »
+make[3]: rien à faire pour « install-data-am ».
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src »
+make[1] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/src »
+Making install in data
+make[1] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/data »
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/data »
+make[2]: rien à faire pour « install-exec-am ».
+make  install-data-hook
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/data »
+cp -r ./keymaps keymaps_Z
+chmod -R u+w keymaps_Z
+cd keymaps_Z; \
+for f in */*.map */*/*.map; do \
+  gzip -f -n -9 < "$f" > "$f.gz"; \
+done; \
+rm -f -- */*.map */*/*.map;
+cp -r ./consolefonts consolefonts_Z
+cp -r ./partialfonts partialfonts_Z
+chmod -R u+w consolefonts_Z partialfonts_Z
+cd consolefonts_Z && gzip -f -n -9 * && gunzip ERRORS* README*
+cd partialfonts_Z && gzip -f -n -9 *
+install -d -m 755 /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd
+install -d -m 755 /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/consolefonts
+install -m 644 consolefonts_Z/* /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/consolefonts
+install -d -m 755 /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/consolefonts/partialfonts
+install -m 644 partialfonts_Z/* /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/consolefonts/partialfonts
+install -d -m 755 /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/consoletrans
+install -m 644 ./consoletrans/* /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/consoletrans
+install -d -m 755 /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/unimaps
+install -m 644 ./unimaps/* /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/unimaps
+install -d -m 755 /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps
+install -d -m 755 /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps/i386
+install -d -m 755 /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps/mac
+for i in include sun amiga atari i386/azerty i386/bepo i386/dvorak i386/fgGIod i386/qwerty i386/qwertz i386/include i386/olpc i386/colemak i386/carpalx i386/neo mac/include mac/all pine; do \
+	install -d -m 755 /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps/$i ;\
+	install -m 644 keymaps_Z/$i/* /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps/$i ;\
+done
+rm -f /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps/ppc; ln -s mac /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps/ppc
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/data »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/data »
+make[1] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/data »
+Making install in po
+make[1] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/po »
+installing cs.gmo as /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/cs/LC_MESSAGES/kbd.mo
+installing da.gmo as /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/da/LC_MESSAGES/kbd.mo
+installing de.gmo as /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/de/LC_MESSAGES/kbd.mo
+installing el.gmo as /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/el/LC_MESSAGES/kbd.mo
+installing eo.gmo as /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/eo/LC_MESSAGES/kbd.mo
+installing es.gmo as /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/es/LC_MESSAGES/kbd.mo
+installing fr.gmo as /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/fr/LC_MESSAGES/kbd.mo
+installing gr.gmo as /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/gr/LC_MESSAGES/kbd.mo
+installing id.gmo as /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/id/LC_MESSAGES/kbd.mo
+installing it.gmo as /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/it/LC_MESSAGES/kbd.mo
+installing nl.gmo as /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/nl/LC_MESSAGES/kbd.mo
+installing pl.gmo as /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/pl/LC_MESSAGES/kbd.mo
+installing pt.gmo as /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/pt/LC_MESSAGES/kbd.mo
+installing pt_BR.gmo as /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/pt_BR/LC_MESSAGES/kbd.mo
+installing ro.gmo as /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/ro/LC_MESSAGES/kbd.mo
+installing ru.gmo as /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/ru/LC_MESSAGES/kbd.mo
+installing sr.gmo as /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/sr/LC_MESSAGES/kbd.mo
+installing sv.gmo as /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/sv/LC_MESSAGES/kbd.mo
+installing tr.gmo as /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/tr/LC_MESSAGES/kbd.mo
+installing uk.gmo as /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/uk/LC_MESSAGES/kbd.mo
+installing vi.gmo as /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/vi/LC_MESSAGES/kbd.mo
+installing zh_CN.gmo as /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/zh_CN/LC_MESSAGES/kbd.mo
+if test "kbd" = "gettext-tools"; then \
+  /usr/bin/mkdir -p /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/gettext/po; \
+  for file in Makefile.in.in remove-potcdate.sin quot.sed boldquot.sed en@quot.header en@boldquot.header insert-header.sin Rules-quot   Makevars.template; do \
+    /usr/bin/ginstall -c -m 644 ./$file \
+		    /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/gettext/po/$file; \
+  done; \
+  for file in Makevars; do \
+    rm -f /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/gettext/po/$file; \
+  done; \
+else \
+  : ; \
+fi
+make[1] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/po »
+Making install in docs
+make[1] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs »
+Making install in man
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man »
+Making install in man1
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man1 »
+make[4] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man1 »
+make[4]: rien à faire pour « install-exec-am ».
+ /usr/bin/mkdir -p '/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/man/man1'
+ /usr/bin/ginstall -c -m 644 chvt.1 deallocvt.1 fgconsole.1 kbd_mode.1 openvt.1 psfaddtable.1 psfgettable.1 psfstriptable.1 psfxtable.1 setleds.1 setmetamode.1 showkey.1 unicode_start.1 unicode_stop.1 kbdinfo.1 dumpkeys.1 loadkeys.1 vlock.1 '/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/man/man1'
+make  install-data-hook
+make[5] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man1 »
+cd /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/man/man1 && \
+for f in dumpkeys.1 loadkeys.1; do \
+	/usr/bin/sed -e "s#@DATADIR\@#/usr/share/kbd#g" "$f" > "$f.new"; \
+	mv -f -- "$f.new" "$f"; \
+done
+make[5] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man1 »
+make[4] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man1 »
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man1 »
+Making install in man5
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man5 »
+make[4] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man5 »
+make[4]: rien à faire pour « install-exec-am ».
+ /usr/bin/mkdir -p '/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/man/man5'
+ /usr/bin/ginstall -c -m 644 keymaps.5 '/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/man/man5'
+make[4] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man5 »
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man5 »
+Making install in man8
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man8 »
+make[4] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man8 »
+make[4]: rien à faire pour « install-exec-am ».
+ /usr/bin/mkdir -p '/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/man/man8'
+ /usr/bin/ginstall -c -m 644 getkeycodes.8 kbdrate.8 resizecons.8 setkeycodes.8 showconsolefont.8 setvtrgb.8 loadunimap.8 mapscrn.8 setfont.8 '/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/man/man8'
+make  install-data-hook
+make[5] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man8 »
+cd /repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/man/man8 && \
+for f in loadunimap.8 mapscrn.8 setfont.8; do \
+	/usr/bin/sed -e "s#@DATADIR\@#/usr/share/kbd#g" "$f" > "$f.new"; \
+	mv -f -- "$f.new" "$f"; \
+done
+make[5] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man8 »
+make[4] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man8 »
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man8 »
+Making install in man1misc
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man1misc »
+make[4] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man1misc »
+make[4]: rien à faire pour « install-exec-am ».
+ /usr/bin/mkdir -p '/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/man/man1'
+ /usr/bin/ginstall -c -m 644 codepage.1 screendump.1 splitfont.1 '/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/man/man1'
+make[4] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man1misc »
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man1misc »
+Making install in man8misc
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man8misc »
+make[4] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man8misc »
+make[4]: rien à faire pour « install-exec-am ».
+ /usr/bin/mkdir -p '/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/man/man8'
+ /usr/bin/ginstall -c -m 644 clrunimap.8 getunimap.8 mk_modmap.8 setlogcons.8 setvesablank.8 vcstime.8 '/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/man/man8'
+make[4] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man8misc »
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man/man8misc »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man »
+make[4] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man »
+make[4]: rien à faire pour « install-exec-am ».
+make[4]: rien à faire pour « install-data-am ».
+make[4] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man »
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/man »
+Making install in reference
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/reference »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/reference »
+make[4] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/reference »
+make[4]: rien à faire pour « install-exec-am ».
+make[4]: rien à faire pour « install-data-am ».
+make[4] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/reference »
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/reference »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs/reference »
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs »
+make[3]: rien à faire pour « install-exec-am ».
+make[3]: rien à faire pour « install-data-am ».
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs »
+make[1] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/docs »
+Making install in tests
+make[1] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests »
+Making install in helpers
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests/helpers »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests/helpers »
+make[3]: rien à faire pour « install-exec-am ».
+make[3]: rien à faire pour « install-data-am ».
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests/helpers »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests/helpers »
+Making install in libkbdfile
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests/libkbdfile »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests/libkbdfile »
+make[3]: rien à faire pour « install-exec-am ».
+make[3]: rien à faire pour « install-data-am ».
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests/libkbdfile »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests/libkbdfile »
+Making install in libkeymap
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests/libkeymap »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests/libkeymap »
+make[3]: rien à faire pour « install-exec-am ».
+make[3]: rien à faire pour « install-data-am ».
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests/libkeymap »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests/libkeymap »
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests »
+make[3] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests »
+make[3]: rien à faire pour « install-exec-am ».
+make[3]: rien à faire pour « install-data-am ».
+make[3] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests »
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests »
+make[1] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3/tests »
+make[1] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3 »
+make[2] : on entre dans le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3 »
+make[2]: rien à faire pour « install-exec-am ».
+make[2]: rien à faire pour « install-data-am ».
+make[2] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3 »
+make[1] : on quitte le répertoire « /repo/x86_64/slint-15.0/source/kbd/src/kbd-2.6.3 »
+/repo/x86_64/slint-15.0/source/kbd/pkg:
+total 0
+drwxr-xr-x 1 root root 18 sept. 22 23:36 etc
+drwxr-xr-x 1 root root 38 sept. 22 23:36 install
+drwxr-xr-x 1 root root 34 sept. 22 23:36 usr
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/etc:
+total 0
+drwxr-xr-x 1 root root 10 sept. 22 23:36 pam.d
+drwxr-xr-x 1 root root 22 sept. 22 23:36 rc.d
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/etc/pam.d:
+total 4
+-rw-r--r-- 1 root root 124 sept. 22 23:36 vlock
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/etc/rc.d:
+total 4
+-rw-r--r-- 1 root root 121 sept. 22 23:36 rc.font.new
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/install:
+total 8
+-rw-r--r-- 1 root root 266 sept. 22 23:36 doinst.sh
+-rw-r--r-- 1 root root 109 sept. 22 23:36 slack-desc
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr:
+total 0
+drwxr-xr-x 1 root root 680 sept. 22 23:36 bin
+drwxr-xr-x 1 root root  18 sept. 22 23:36 doc
+drwxr-xr-x 1 root root  24 sept. 22 23:36 man
+drwxr-xr-x 1 root root  18 sept. 22 23:36 share
+drwxr-xr-x 1 root root  18 sept. 22 23:35 src
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/bin:
+total 888
+-rwxr-xr-x 1 root root  14664 sept. 22 23:36 chvt
+-rwxr-xr-x 1 root root  14640 sept. 22 23:36 clrunimap
+-rwxr-xr-x 1 root root  14624 sept. 22 23:36 deallocvt
+-rwxr-xr-x 1 root root 105368 sept. 22 23:36 dumpkeys
+-rwxr-xr-x 1 root root  14616 sept. 22 23:36 fgconsole
+-rwxr-xr-x 1 root root  14624 sept. 22 23:36 getkeycodes
+-rwxr-xr-x 1 root root  18776 sept. 22 23:36 getunimap
+-rwxr-xr-x 1 root root  14936 sept. 22 23:36 kbd_mode
+-rwxr-xr-x 1 root root  14624 sept. 22 23:36 kbdinfo
+-rwxr-xr-x 1 root root  14608 sept. 22 23:36 kbdrate
+-rwxr-xr-x 1 root root 150632 sept. 22 23:36 loadkeys
+-rwxr-xr-x 1 root root  39528 sept. 22 23:36 loadunimap
+-rwxr-xr-x 1 root root  35400 sept. 22 23:36 mapscrn
+-rwxr-xr-x 1 root root  23416 sept. 22 23:36 openvt
+-rwxr-xr-x 1 root root  14408 sept. 22 23:36 outpsfheader
+lrwxrwxrwx 1 root root      9 sept. 22 23:36 psfaddtable -> psfxtable
+lrwxrwxrwx 1 root root      9 sept. 22 23:36 psfgettable -> psfxtable
+lrwxrwxrwx 1 root root      9 sept. 22 23:36 psfstriptable -> psfxtable
+-rwxr-xr-x 1 root root  27000 sept. 22 23:36 psfxtable
+-rwxr-xr-x 1 root root  31304 sept. 22 23:36 resizecons
+-rwxr-xr-x 1 root root  14552 sept. 22 23:36 screendump
+-rwxr-xr-x 1 root root  60072 sept. 22 23:36 setfont
+-rwxr-xr-x 1 root root  14616 sept. 22 23:36 setkeycodes
+-rwxr-xr-x 1 root root  18680 sept. 22 23:36 setleds
+-rwxr-xr-x 1 root root  14616 sept. 22 23:36 setlogcons
+-rwxr-xr-x 1 root root  14744 sept. 22 23:36 setmetamode
+-rwxr-xr-x 1 root root  14608 sept. 22 23:36 setpalette
+-rwxr-xr-x 1 root root  14600 sept. 22 23:36 setvesablank
+-rwxr-xr-x 1 root root  14728 sept. 22 23:36 setvtrgb
+-rwxr-xr-x 1 root root  22856 sept. 22 23:36 showconsolefont
+-rwxr-xr-x 1 root root  18760 sept. 22 23:36 showkey
+-rwxr-xr-x 1 root root  14520 sept. 22 23:36 spawn_console
+-rwxr-xr-x 1 root root  14520 sept. 22 23:36 spawn_login
+-rwxr-xr-x 1 root root   2435 sept. 22 23:36 unicode_start
+-rwxr-xr-x 1 root root    361 sept. 22 23:36 unicode_stop
+-rwxr-xr-x 1 root root  23184 sept. 22 23:36 vlock
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/doc:
+total 0
+drwxr-xr-x 1 root root 40 sept. 22 23:36 kbd-2.6.3
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/doc/kbd-2.6.3:
+total 28
+-rw-r--r-- 1 root root 18092 sept. 22 23:36 COPYING
+-rw-r--r-- 1 root root  2530 sept. 22 23:36 CREDITS
+-rw-r--r-- 1 root root  2446 sept. 22 23:36 README
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/man:
+total 0
+drwxr-xr-x 1 root root 580 sept. 22 23:36 man1
+drwxr-xr-x 1 root root  24 sept. 22 23:36 man5
+drwxr-xr-x 1 root root 434 sept. 22 23:36 man8
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/man/man1:
+total 84
+-rw-r--r-- 1 root root  424 sept. 22 23:36 chvt.1.gz
+-rw-r--r-- 1 root root  487 sept. 22 23:36 codepage.1.gz
+-rw-r--r-- 1 root root  479 sept. 22 23:36 deallocvt.1.gz
+-rw-r--r-- 1 root root 2339 sept. 22 23:36 dumpkeys.1.gz
+-rw-r--r-- 1 root root  556 sept. 22 23:36 fgconsole.1.gz
+-rw-r--r-- 1 root root  806 sept. 22 23:36 kbd_mode.1.gz
+-rw-r--r-- 1 root root  986 sept. 22 23:36 kbdinfo.1.gz
+-rw-r--r-- 1 root root 2422 sept. 22 23:36 loadkeys.1.gz
+-rw-r--r-- 1 root root 1246 sept. 22 23:36 openvt.1.gz
+-rw-r--r-- 1 root root  784 sept. 22 23:36 psfaddtable.1.gz
+-rw-r--r-- 1 root root  366 sept. 22 23:36 psfgettable.1.gz
+-rw-r--r-- 1 root root  373 sept. 22 23:36 psfstriptable.1.gz
+-rw-r--r-- 1 root root  704 sept. 22 23:36 psfxtable.1.gz
+-rw-r--r-- 1 root root  575 sept. 22 23:36 screendump.1.gz
+-rw-r--r-- 1 root root 1077 sept. 22 23:36 setleds.1.gz
+-rw-r--r-- 1 root root  667 sept. 22 23:36 setmetamode.1.gz
+-rw-r--r-- 1 root root 1603 sept. 22 23:36 showkey.1.gz
+-rw-r--r-- 1 root root  346 sept. 22 23:36 splitfont.1.gz
+-rw-r--r-- 1 root root  692 sept. 22 23:36 unicode_start.1.gz
+-rw-r--r-- 1 root root  338 sept. 22 23:36 unicode_stop.1.gz
+-rw-r--r-- 1 root root  903 sept. 22 23:36 vlock.1.gz
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/man/man5:
+total 8
+-rw-r--r-- 1 root root 4937 sept. 22 23:36 keymaps.5.gz
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/man/man8:
+total 60
+-rw-r--r-- 1 root root  365 sept. 22 23:36 clrunimap.8.gz
+-rw-r--r-- 1 root root  252 sept. 22 23:36 getkeycodes.8.gz
+-rw-r--r-- 1 root root  691 sept. 22 23:36 getunimap.8.gz
+-rw-r--r-- 1 root root 1203 sept. 22 23:36 kbdrate.8.gz
+-rw-r--r-- 1 root root  600 sept. 22 23:36 loadunimap.8.gz
+-rw-r--r-- 1 root root 1512 sept. 22 23:36 mapscrn.8.gz
+-rw-r--r-- 1 root root  577 sept. 22 23:36 mk_modmap.8.gz
+-rw-r--r-- 1 root root 1140 sept. 22 23:36 resizecons.8.gz
+-rw-r--r-- 1 root root 3184 sept. 22 23:36 setfont.8.gz
+-rw-r--r-- 1 root root 1163 sept. 22 23:36 setkeycodes.8.gz
+-rw-r--r-- 1 root root  343 sept. 22 23:36 setlogcons.8.gz
+-rw-r--r-- 1 root root  347 sept. 22 23:36 setvesablank.8.gz
+-rw-r--r-- 1 root root  805 sept. 22 23:36 setvtrgb.8.gz
+-rw-r--r-- 1 root root  420 sept. 22 23:36 showconsolefont.8.gz
+-rw-r--r-- 1 root root  429 sept. 22 23:36 vcstime.8.gz
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share:
+total 0
+drwxr-xr-x 1 root root  76 sept. 22 23:36 kbd
+drwxr-xr-x 1 root root 100 sept. 22 23:36 locale
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd:
+total 0
+drwxr-xr-x 1 root root 6506 sept. 22 23:36 consolefonts
+drwxr-xr-x 1 root root 1646 sept. 22 23:36 consoletrans
+drwxr-xr-x 1 root root   68 sept. 22 23:36 keymaps
+drwxr-xr-x 1 root root 1396 sept. 22 23:36 unimaps
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/consolefonts:
+total 932
+-rw-r--r-- 1 root root  3019 sept. 22 23:36 161.cp.gz
+-rw-r--r-- 1 root root  3086 sept. 22 23:36 162.cp.gz
+-rw-r--r-- 1 root root  3069 sept. 22 23:36 163.cp.gz
+-rw-r--r-- 1 root root  3136 sept. 22 23:36 164.cp.gz
+-rw-r--r-- 1 root root  3247 sept. 22 23:36 165.cp.gz
+-rw-r--r-- 1 root root  2948 sept. 22 23:36 737.cp.gz
+-rw-r--r-- 1 root root  2914 sept. 22 23:36 880.cp.gz
+-rw-r--r-- 1 root root  2759 sept. 22 23:36 928.cp.gz
+-rw-r--r-- 1 root root  2159 sept. 22 23:36 972.cp.gz
+-rw-r--r-- 1 root root  3791 sept. 22 23:36 Agafari-12.psfu.gz
+-rw-r--r-- 1 root root  3839 sept. 22 23:36 Agafari-14.psfu.gz
+-rw-r--r-- 1 root root  3904 sept. 22 23:36 Agafari-16.psfu.gz
+-rw-r--r-- 1 root root  1985 sept. 22 23:36 Cyr_a8x14.psfu.gz
+-rw-r--r-- 1 root root  2020 sept. 22 23:36 Cyr_a8x16.psfu.gz
+-rw-r--r-- 1 root root  1751 sept. 22 23:36 Cyr_a8x8.psfu.gz
+-rw-r--r-- 1 root root   191 sept. 22 23:36 ERRORS
+-rw-r--r-- 1 root root  3702 sept. 22 23:36 Goha-12.psfu.gz
+-rw-r--r-- 1 root root  3715 sept. 22 23:36 Goha-14.psfu.gz
+-rw-r--r-- 1 root root  3779 sept. 22 23:36 Goha-16.psfu.gz
+-rw-r--r-- 1 root root  3698 sept. 22 23:36 GohaClassic-12.psfu.gz
+-rw-r--r-- 1 root root  3724 sept. 22 23:36 GohaClassic-14.psfu.gz
+-rw-r--r-- 1 root root  3789 sept. 22 23:36 GohaClassic-16.psfu.gz
+-rw-r--r-- 1 root root  2022 sept. 22 23:36 Lat2-Terminus16.psfu.gz
+-rw-r--r-- 1 root root  3584 sept. 22 23:36 LatArCyrHeb-08.psfu.gz
+-rw-r--r-- 1 root root  4089 sept. 22 23:36 LatArCyrHeb-14.psfu.gz
+-rw-r--r-- 1 root root  4184 sept. 22 23:36 LatArCyrHeb-16+.psfu.gz
+-rw-r--r-- 1 root root  4096 sept. 22 23:36 LatArCyrHeb-16.psfu.gz
+-rw-r--r-- 1 root root  4260 sept. 22 23:36 LatArCyrHeb-19.psfu.gz
+-rw-r--r-- 1 root root  6004 sept. 22 23:36 LatGrkCyr-12x22.psfu.gz
+-rw-r--r-- 1 root root  3813 sept. 22 23:36 LatGrkCyr-8x16.psfu.gz
+-rw-r--r-- 1 root root  4113 sept. 22 23:36 LatKaCyrHeb-14.psfu.gz
+-rw-r--r-- 1 root root  1387 sept. 22 23:36 Mik_8x16.gz
+-rw-r--r-- 1 root root   178 sept. 22 23:36 README.12x22
+-rw-r--r-- 1 root root   256 sept. 22 23:36 README.Arabic
+-rw-r--r-- 1 root root  1846 sept. 22 23:36 README.Cyrillic
+-rw-r--r-- 1 root root  1092 sept. 22 23:36 README.Ethiopic
+-rw-r--r-- 1 root root   868 sept. 22 23:36 README.Greek
+-rw-r--r-- 1 root root   130 sept. 22 23:36 README.Hebrew
+-rw-r--r-- 1 root root 11134 sept. 22 23:36 README.Lat2-Terminus16
+-rw-r--r-- 1 root root  3863 sept. 22 23:36 README.LatGrkCyr
+-rw-r--r-- 1 root root  1159 sept. 22 23:36 README.Sun
+-rw-r--r-- 1 root root   333 sept. 22 23:36 README.cp1250
+-rw-r--r-- 1 root root   917 sept. 22 23:36 README.cybercafe
+-rw-r--r-- 1 root root   202 sept. 22 23:36 README.drdos
+-rw-r--r-- 1 root root 53627 sept. 22 23:36 README.eurlatgr
+-rw-r--r-- 1 root root  7811 sept. 22 23:36 README.eurlatgr.mappings
+-rw-r--r-- 1 root root   449 sept. 22 23:36 README.lat0
+-rw-r--r-- 1 root root   376 sept. 22 23:36 README.lat7
+-rw-r--r-- 1 root root  3143 sept. 22 23:36 README.lat9
+-rw-r--r-- 1 root root   326 sept. 22 23:36 README.psfu
+-rw-r--r-- 1 root root  2709 sept. 22 23:36 UniCyrExt_8x16.psf.gz
+-rw-r--r-- 1 root root  1929 sept. 22 23:36 UniCyr_8x14.psf.gz
+-rw-r--r-- 1 root root  1996 sept. 22 23:36 UniCyr_8x16.psf.gz
+-rw-r--r-- 1 root root  1728 sept. 22 23:36 UniCyr_8x8.psf.gz
+-rw-r--r-- 1 root root  1290 sept. 22 23:36 alt-8x14.gz
+-rw-r--r-- 1 root root  1488 sept. 22 23:36 alt-8x16.gz
+-rw-r--r-- 1 root root  1084 sept. 22 23:36 alt-8x8.gz
+-rw-r--r-- 1 root root  1415 sept. 22 23:36 altc-8x16.gz
+-rw-r--r-- 1 root root  1114 sept. 22 23:36 aply16.psf.gz
+-rw-r--r-- 1 root root  1593 sept. 22 23:36 arm8.fnt.gz
+-rw-r--r-- 1 root root  1877 sept. 22 23:36 cp1250.psfu.gz
+-rw-r--r-- 1 root root  1963 sept. 22 23:36 cp850-8x14.psfu.gz
+-rw-r--r-- 1 root root  2025 sept. 22 23:36 cp850-8x16.psfu.gz
+-rw-r--r-- 1 root root  1760 sept. 22 23:36 cp850-8x8.psfu.gz
+-rw-r--r-- 1 root root  1106 sept. 22 23:36 cp857.08.gz
+-rw-r--r-- 1 root root  1282 sept. 22 23:36 cp857.14.gz
+-rw-r--r-- 1 root root  1342 sept. 22 23:36 cp857.16.gz
+-rw-r--r-- 1 root root  1989 sept. 22 23:36 cp865-8x14.psfu.gz
+-rw-r--r-- 1 root root  2050 sept. 22 23:36 cp865-8x16.psfu.gz
+-rw-r--r-- 1 root root  1768 sept. 22 23:36 cp865-8x8.psfu.gz
+-rw-r--r-- 1 root root  1329 sept. 22 23:36 cp866-8x14.psf.gz
+-rw-r--r-- 1 root root  1351 sept. 22 23:36 cp866-8x16.psf.gz
+-rw-r--r-- 1 root root  1112 sept. 22 23:36 cp866-8x8.psf.gz
+-rw-r--r-- 1 root root  1212 sept. 22 23:36 cybercafe.fnt.gz
+-rw-r--r-- 1 root root  2070 sept. 22 23:36 cyr-sun16.psfu.gz
+-rw-r--r-- 1 root root  2076 sept. 22 23:36 default8x16.psfu.gz
+-rw-r--r-- 1 root root  1879 sept. 22 23:36 default8x9.psfu.gz
+-rw-r--r-- 1 root root  3412 sept. 22 23:36 drdos8x14.psfu.gz
+-rw-r--r-- 1 root root  3486 sept. 22 23:36 drdos8x16.psfu.gz
+-rw-r--r-- 1 root root  2558 sept. 22 23:36 drdos8x6.psfu.gz
+-rw-r--r-- 1 root root  3065 sept. 22 23:36 drdos8x8.psfu.gz
+-rw-r--r-- 1 root root  4126 sept. 22 23:36 eurlatgr.psfu.gz
+-rw-r--r-- 1 root root  1707 sept. 22 23:36 gr737a-8x8.psfu.gz
+-rw-r--r-- 1 root root  1915 sept. 22 23:36 gr737a-9x14.psfu.gz
+-rw-r--r-- 1 root root  1975 sept. 22 23:36 gr737a-9x16.psfu.gz
+-rw-r--r-- 1 root root  1819 sept. 22 23:36 gr737b-8x11.psfu.gz
+-rw-r--r-- 1 root root  2137 sept. 22 23:36 gr737b-9x16-medieval.psfu.gz
+-rw-r--r-- 1 root root  1932 sept. 22 23:36 gr737c-8x14.psfu.gz
+-rw-r--r-- 1 root root  1970 sept. 22 23:36 gr737c-8x16.psfu.gz
+-rw-r--r-- 1 root root  1516 sept. 22 23:36 gr737c-8x6.psfu.gz
+-rw-r--r-- 1 root root  1563 sept. 22 23:36 gr737c-8x7.psfu.gz
+-rw-r--r-- 1 root root  1743 sept. 22 23:36 gr737c-8x8.psfu.gz
+-rw-r--r-- 1 root root  1970 sept. 22 23:36 gr737d-8x16.psfu.gz
+-rw-r--r-- 1 root root  1737 sept. 22 23:36 gr928-8x16-thin.psfu.gz
+-rw-r--r-- 1 root root  1774 sept. 22 23:36 gr928-9x14.psfu.gz
+-rw-r--r-- 1 root root  1809 sept. 22 23:36 gr928-9x16.psfu.gz
+-rw-r--r-- 1 root root  1784 sept. 22 23:36 gr928a-8x14.psfu.gz
+-rw-r--r-- 1 root root  1824 sept. 22 23:36 gr928a-8x16.psfu.gz
+-rw-r--r-- 1 root root  2057 sept. 22 23:36 gr928b-8x14.psfu.gz
+-rw-r--r-- 1 root root  2100 sept. 22 23:36 gr928b-8x16.psfu.gz
+-rw-r--r-- 1 root root  3162 sept. 22 23:36 greek-polytonic.psfu.gz
+-rw-r--r-- 1 root root  3211 sept. 22 23:36 iso01-12x22.psfu.gz
+-rw-r--r-- 1 root root    85 sept. 22 23:36 iso01.08.gz
+-rw-r--r-- 1 root root    85 sept. 22 23:36 iso01.14.gz
+-rw-r--r-- 1 root root    85 sept. 22 23:36 iso01.16.gz
+-rw-r--r-- 1 root root  3211 sept. 22 23:36 iso02-12x22.psfu.gz
+-rw-r--r-- 1 root root    85 sept. 22 23:36 iso02.08.gz
+-rw-r--r-- 1 root root    85 sept. 22 23:36 iso02.14.gz
+-rw-r--r-- 1 root root    85 sept. 22 23:36 iso02.16.gz
+-rw-r--r-- 1 root root    85 sept. 22 23:36 iso03.08.gz
+-rw-r--r-- 1 root root    85 sept. 22 23:36 iso03.14.gz
+-rw-r--r-- 1 root root    85 sept. 22 23:36 iso03.16.gz
+-rw-r--r-- 1 root root    85 sept. 22 23:36 iso04.08.gz
+-rw-r--r-- 1 root root    85 sept. 22 23:36 iso04.14.gz
+-rw-r--r-- 1 root root    85 sept. 22 23:36 iso04.16.gz
+-rw-r--r-- 1 root root    85 sept. 22 23:36 iso05.08.gz
+-rw-r--r-- 1 root root    85 sept. 22 23:36 iso05.14.gz
+-rw-r--r-- 1 root root    85 sept. 22 23:36 iso05.16.gz
+-rw-r--r-- 1 root root    85 sept. 22 23:36 iso06.08.gz
+-rw-r--r-- 1 root root    85 sept. 22 23:36 iso06.14.gz
+-rw-r--r-- 1 root root    85 sept. 22 23:36 iso06.16.gz
+-rw-r--r-- 1 root root    85 sept. 22 23:36 iso07.14.gz
+-rw-r--r-- 1 root root    85 sept. 22 23:36 iso07.16.gz
+-rw-r--r-- 1 root root  2082 sept. 22 23:36 iso07u-16.psfu.gz
+-rw-r--r-- 1 root root    85 sept. 22 23:36 iso08.08.gz
+-rw-r--r-- 1 root root    85 sept. 22 23:36 iso08.14.gz
+-rw-r--r-- 1 root root    85 sept. 22 23:36 iso08.16.gz
+-rw-r--r-- 1 root root    85 sept. 22 23:36 iso09.08.gz
+-rw-r--r-- 1 root root    85 sept. 22 23:36 iso09.14.gz
+-rw-r--r-- 1 root root    85 sept. 22 23:36 iso09.16.gz
+-rw-r--r-- 1 root root    86 sept. 22 23:36 iso10.08.gz
+-rw-r--r-- 1 root root    86 sept. 22 23:36 iso10.14.gz
+-rw-r--r-- 1 root root    86 sept. 22 23:36 iso10.16.gz
+-rw-r--r-- 1 root root  1261 sept. 22 23:36 koi8-14.psf.gz
+-rw-r--r-- 1 root root  1412 sept. 22 23:36 koi8c-8x16.gz
+-rw-r--r-- 1 root root  1299 sept. 22 23:36 koi8r-8x14.gz
+-rw-r--r-- 1 root root  1493 sept. 22 23:36 koi8r-8x16.gz
+-rw-r--r-- 1 root root  1090 sept. 22 23:36 koi8r-8x8.gz
+-rw-r--r-- 1 root root  1768 sept. 22 23:36 koi8r.8x8.psfu.gz
+-rw-r--r-- 1 root root  2090 sept. 22 23:36 koi8u_8x14.psfu.gz
+-rw-r--r-- 1 root root  2111 sept. 22 23:36 koi8u_8x16.psfu.gz
+-rw-r--r-- 1 root root  1835 sept. 22 23:36 koi8u_8x8.psfu.gz
+-rw-r--r-- 1 root root  1790 sept. 22 23:36 lat0-08.psfu.gz
+-rw-r--r-- 1 root root  1868 sept. 22 23:36 lat0-10.psfu.gz
+-rw-r--r-- 1 root root  1978 sept. 22 23:36 lat0-12.psfu.gz
+-rw-r--r-- 1 root root  2011 sept. 22 23:36 lat0-14.psfu.gz
+-rw-r--r-- 1 root root  2063 sept. 22 23:36 lat0-16.psfu.gz
+-rw-r--r-- 1 root root  1989 sept. 22 23:36 lat0-sun16.psfu.gz
+-rw-r--r-- 1 root root  1779 sept. 22 23:36 lat1-08.psfu.gz
+-rw-r--r-- 1 root root  1861 sept. 22 23:36 lat1-10.psfu.gz
+-rw-r--r-- 1 root root  1964 sept. 22 23:36 lat1-12.psfu.gz
+-rw-r--r-- 1 root root  1998 sept. 22 23:36 lat1-14.psfu.gz
+-rw-r--r-- 1 root root  2076 sept. 22 23:36 lat1-16.psfu.gz
+-rw-r--r-- 1 root root  1748 sept. 22 23:36 lat2-08.psfu.gz
+-rw-r--r-- 1 root root  1868 sept. 22 23:36 lat2-10.psfu.gz
+-rw-r--r-- 1 root root  1910 sept. 22 23:36 lat2-12.psfu.gz
+-rw-r--r-- 1 root root  1982 sept. 22 23:36 lat2-14.psfu.gz
+-rw-r--r-- 1 root root  1991 sept. 22 23:36 lat2-16.psfu.gz
+-rw-r--r-- 1 root root  1984 sept. 22 23:36 lat2-sun16.psfu.gz
+-rw-r--r-- 1 root root  2018 sept. 22 23:36 lat2a-16.psfu.gz
+-rw-r--r-- 1 root root  1821 sept. 22 23:36 lat4-08.psfu.gz
+-rw-r--r-- 1 root root  1925 sept. 22 23:36 lat4-10.psfu.gz
+-rw-r--r-- 1 root root  1995 sept. 22 23:36 lat4-12.psfu.gz
+-rw-r--r-- 1 root root  2046 sept. 22 23:36 lat4-14.psfu.gz
+-rw-r--r-- 1 root root  2151 sept. 22 23:36 lat4-16+.psfu.gz
+-rw-r--r-- 1 root root  2057 sept. 22 23:36 lat4-16.psfu.gz
+-rw-r--r-- 1 root root  2197 sept. 22 23:36 lat4-19.psfu.gz
+-rw-r--r-- 1 root root  1820 sept. 22 23:36 lat4a-08.psfu.gz
+-rw-r--r-- 1 root root  1927 sept. 22 23:36 lat4a-10.psfu.gz
+-rw-r--r-- 1 root root  1995 sept. 22 23:36 lat4a-12.psfu.gz
+-rw-r--r-- 1 root root  2048 sept. 22 23:36 lat4a-14.psfu.gz
+-rw-r--r-- 1 root root  2152 sept. 22 23:36 lat4a-16+.psfu.gz
+-rw-r--r-- 1 root root  2054 sept. 22 23:36 lat4a-16.psfu.gz
+-rw-r--r-- 1 root root  2193 sept. 22 23:36 lat4a-19.psfu.gz
+-rw-r--r-- 1 root root  1965 sept. 22 23:36 lat5-12.psfu.gz
+-rw-r--r-- 1 root root  1995 sept. 22 23:36 lat5-14.psfu.gz
+-rw-r--r-- 1 root root  2061 sept. 22 23:36 lat5-16.psfu.gz
+-rw-r--r-- 1 root root  1838 sept. 22 23:36 lat7-14.psfu.gz
+-rw-r--r-- 1 root root  2083 sept. 22 23:36 lat7a-14.psfu.gz
+-rw-r--r-- 1 root root  1372 sept. 22 23:36 lat7a-16.psf.gz
+-rw-r--r-- 1 root root  1099 sept. 22 23:36 lat9-08.psf.gz
+-rw-r--r-- 1 root root  1175 sept. 22 23:36 lat9-10.psf.gz
+-rw-r--r-- 1 root root  1290 sept. 22 23:36 lat9-12.psf.gz
+-rw-r--r-- 1 root root  1308 sept. 22 23:36 lat9-14.psf.gz
+-rw-r--r-- 1 root root  1364 sept. 22 23:36 lat9-16.psf.gz
+-rw-r--r-- 1 root root  1783 sept. 22 23:36 lat9u-08.psfu.gz
+-rw-r--r-- 1 root root  1865 sept. 22 23:36 lat9u-10.psfu.gz
+-rw-r--r-- 1 root root  1976 sept. 22 23:36 lat9u-12.psfu.gz
+-rw-r--r-- 1 root root  2009 sept. 22 23:36 lat9u-14.psfu.gz
+-rw-r--r-- 1 root root  2061 sept. 22 23:36 lat9u-16.psfu.gz
+-rw-r--r-- 1 root root  1771 sept. 22 23:36 lat9v-08.psfu.gz
+-rw-r--r-- 1 root root  1853 sept. 22 23:36 lat9v-10.psfu.gz
+-rw-r--r-- 1 root root  1973 sept. 22 23:36 lat9v-12.psfu.gz
+-rw-r--r-- 1 root root  1999 sept. 22 23:36 lat9v-14.psfu.gz
+-rw-r--r-- 1 root root  2054 sept. 22 23:36 lat9v-16.psfu.gz
+-rw-r--r-- 1 root root  1787 sept. 22 23:36 lat9w-08.psfu.gz
+-rw-r--r-- 1 root root  1870 sept. 22 23:36 lat9w-10.psfu.gz
+-rw-r--r-- 1 root root  1989 sept. 22 23:36 lat9w-12.psfu.gz
+-rw-r--r-- 1 root root  2015 sept. 22 23:36 lat9w-14.psfu.gz
+-rw-r--r-- 1 root root  2069 sept. 22 23:36 lat9w-16.psfu.gz
+-rw-r--r-- 1 root root  3803 sept. 22 23:36 latarcyrheb-sun16.psfu.gz
+-rw-r--r-- 1 root root  5171 sept. 22 23:36 latarcyrheb-sun32.psfu.gz
+-rw-r--r-- 1 root root  3412 sept. 22 23:36 pancyrillic.f16.psfu.gz
+drwxr-xr-x 1 root root  1386 sept. 22 23:36 partialfonts
+-rw-r--r-- 1 root root  2084 sept. 22 23:36 ruscii_8x16.psfu.gz
+-rw-r--r-- 1 root root  2059 sept. 22 23:36 ruscii_8x8.psfu.gz
+-rw-r--r-- 1 root root  3928 sept. 22 23:36 solar24x32.psfu.gz
+-rw-r--r-- 1 root root  3287 sept. 22 23:36 sun12x22.psfu.gz
+-rw-r--r-- 1 root root  1467 sept. 22 23:36 t.fnt.gz
+-rw-r--r-- 1 root root  1515 sept. 22 23:36 t850b.fnt.gz
+-rw-r--r-- 1 root root  1363 sept. 22 23:36 tcvn8x16.psf.gz
+-rw-r--r-- 1 root root  1891 sept. 22 23:36 viscii10-8x16.psfu.gz
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/consolefonts/partialfonts:
+total 156
+-rw-r--r-- 1 root root 693 sept. 22 23:36 8859-1.a0-ff.08.gz
+-rw-r--r-- 1 root root 805 sept. 22 23:36 8859-1.a0-ff.14.gz
+-rw-r--r-- 1 root root 812 sept. 22 23:36 8859-1.a0-ff.16.gz
+-rw-r--r-- 1 root root 710 sept. 22 23:36 8859-10.a0-ff.08.gz
+-rw-r--r-- 1 root root 818 sept. 22 23:36 8859-10.a0-ff.14.gz
+-rw-r--r-- 1 root root 825 sept. 22 23:36 8859-10.a0-ff.16.gz
+-rw-r--r-- 1 root root 713 sept. 22 23:36 8859-2.a0-ff.08.gz
+-rw-r--r-- 1 root root 803 sept. 22 23:36 8859-2.a0-ff.14.gz
+-rw-r--r-- 1 root root 800 sept. 22 23:36 8859-2.a0-ff.16.gz
+-rw-r--r-- 1 root root 659 sept. 22 23:36 8859-3.a0-ff.08.gz
+-rw-r--r-- 1 root root 744 sept. 22 23:36 8859-3.a0-ff.14.gz
+-rw-r--r-- 1 root root 752 sept. 22 23:36 8859-3.a0-ff.16.gz
+-rw-r--r-- 1 root root 707 sept. 22 23:36 8859-4.a0-ff.08.gz
+-rw-r--r-- 1 root root 819 sept. 22 23:36 8859-4.a0-ff.14.gz
+-rw-r--r-- 1 root root 822 sept. 22 23:36 8859-4.a0-ff.16.gz
+-rw-r--r-- 1 root root 709 sept. 22 23:36 8859-5.a0-ff.08.gz
+-rw-r--r-- 1 root root 800 sept. 22 23:36 8859-5.a0-ff.14.gz
+-rw-r--r-- 1 root root 825 sept. 22 23:36 8859-5.a0-ff.16.gz
+-rw-r--r-- 1 root root 436 sept. 22 23:36 8859-6.a0-ff.08.gz
+-rw-r--r-- 1 root root 498 sept. 22 23:36 8859-6.a0-ff.14.gz
+-rw-r--r-- 1 root root 499 sept. 22 23:36 8859-6.a0-ff.16.gz
+-rw-r--r-- 1 root root 648 sept. 22 23:36 8859-7.a0-ff.08.gz
+-rw-r--r-- 1 root root 803 sept. 22 23:36 8859-7.a0-ff.14.gz
+-rw-r--r-- 1 root root 818 sept. 22 23:36 8859-7.a0-ff.16.gz
+-rw-r--r-- 1 root root 501 sept. 22 23:36 8859-8.a0-ff.08.gz
+-rw-r--r-- 1 root root 565 sept. 22 23:36 8859-8.a0-ff.14.gz
+-rw-r--r-- 1 root root 576 sept. 22 23:36 8859-8.a0-ff.16.gz
+-rw-r--r-- 1 root root 699 sept. 22 23:36 8859-9.a0-ff.08.gz
+-rw-r--r-- 1 root root 791 sept. 22 23:36 8859-9.a0-ff.14.gz
+-rw-r--r-- 1 root root 814 sept. 22 23:36 8859-9.a0-ff.16.gz
+-rw-r--r-- 1 root root 650 sept. 22 23:36 ascii.20-7f.08.gz
+-rw-r--r-- 1 root root 749 sept. 22 23:36 ascii.20-7f.14.gz
+-rw-r--r-- 1 root root 778 sept. 22 23:36 ascii.20-7f.16.gz
+-rw-r--r-- 1 root root 330 sept. 22 23:36 cp437.00-1f.08.gz
+-rw-r--r-- 1 root root 371 sept. 22 23:36 cp437.00-1f.14.gz
+-rw-r--r-- 1 root root 380 sept. 22 23:36 cp437.00-1f.16.gz
+-rw-r--r-- 1 root root  36 sept. 22 23:36 none.00-17.08.gz
+-rw-r--r-- 1 root root  40 sept. 22 23:36 none.00-17.14.gz
+-rw-r--r-- 1 root root  40 sept. 22 23:36 none.00-17.16.gz
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/consoletrans:
+total 500
+-rw-r--r-- 1 root root  9216 sept. 22 23:36 8859-10_to_uni.trans
+-rw-r--r-- 1 root root  8994 sept. 22 23:36 8859-13_to_uni.trans
+-rw-r--r-- 1 root root  9279 sept. 22 23:36 8859-14_to_uni.trans
+-rw-r--r-- 1 root root  8839 sept. 22 23:36 8859-15_to_uni.trans
+-rw-r--r-- 1 root root  8806 sept. 22 23:36 8859-1_to_uni.trans
+-rw-r--r-- 1 root root  9034 sept. 22 23:36 8859-2_to_uni.trans
+-rw-r--r-- 1 root root  8712 sept. 22 23:36 8859-3_to_uni.trans
+-rw-r--r-- 1 root root  9006 sept. 22 23:36 8859-4_to_uni.trans
+-rw-r--r-- 1 root root  8645 sept. 22 23:36 8859-5_to_uni.trans
+-rw-r--r-- 1 root root  6418 sept. 22 23:36 8859-6_to_uni.trans
+-rw-r--r-- 1 root root  8471 sept. 22 23:36 8859-7_to_uni.trans
+-rw-r--r-- 1 root root  6566 sept. 22 23:36 8859-8_to_uni.trans
+-rw-r--r-- 1 root root  8786 sept. 22 23:36 8859-9_to_uni.trans
+-rw-r--r-- 1 root root  1698 sept. 22 23:36 baltic.trans
+-rw-r--r-- 1 root root  9307 sept. 22 23:36 cp1250_to_uni.trans
+-rw-r--r-- 1 root root  9769 sept. 22 23:36 cp1251_to_uni.trans
+-rw-r--r-- 1 root root  1834 sept. 22 23:36 cp437_to_iso01.trans
+-rw-r--r-- 1 root root  9529 sept. 22 23:36 cp437_to_uni.trans
+-rw-r--r-- 1 root root  9568 sept. 22 23:36 cp737_to_uni.trans
+-rw-r--r-- 1 root root  9500 sept. 22 23:36 cp775_to_uni.trans
+-rw-r--r-- 1 root root  1172 sept. 22 23:36 cp850_to_iso01.trans
+-rw-r--r-- 1 root root  9378 sept. 22 23:36 cp850_to_uni.trans
+-rw-r--r-- 1 root root  9677 sept. 22 23:36 cp852_to_uni.trans
+-rw-r--r-- 1 root root  9562 sept. 22 23:36 cp853_to_uni.trans
+-rw-r--r-- 1 root root  9293 sept. 22 23:36 cp855_to_uni.trans
+-rw-r--r-- 1 root root  9369 sept. 22 23:36 cp857_to_uni.trans
+-rw-r--r-- 1 root root  9570 sept. 22 23:36 cp860_to_uni.trans
+-rw-r--r-- 1 root root  9554 sept. 22 23:36 cp861_to_uni.trans
+-rw-r--r-- 1 root root  9133 sept. 22 23:36 cp862_to_uni.trans
+-rw-r--r-- 1 root root  9427 sept. 22 23:36 cp863_to_uni.trans
+-rw-r--r-- 1 root root  9333 sept. 22 23:36 cp864_to_uni.trans
+-rw-r--r-- 1 root root  9549 sept. 22 23:36 cp865_to_uni.trans
+-rw-r--r-- 1 root root  9475 sept. 22 23:36 cp866_to_uni.trans
+-rw-r--r-- 1 root root  9109 sept. 22 23:36 cp869_to_uni.trans
+-rw-r--r-- 1 root root  8219 sept. 22 23:36 cp874_to_uni.trans
+-rw-r--r-- 1 root root  5914 sept. 22 23:36 iso02_to_cp1250.trans
+-rw-r--r-- 1 root root  2455 sept. 22 23:36 koi2alt
+-rw-r--r-- 1 root root 10105 sept. 22 23:36 koi8-r_to_uni.trans
+-rw-r--r-- 1 root root 10067 sept. 22 23:36 koi8-u_to_uni.trans
+-rw-r--r-- 1 root root  1468 sept. 22 23:36 koi8u2ruscii
+-rw-r--r-- 1 root root   256 sept. 22 23:36 latin2u.trans
+-rw-r--r-- 1 root root   923 sept. 22 23:36 null
+-rw-r--r-- 1 root root  2122 sept. 22 23:36 space
+-rw-r--r-- 1 root root  1891 sept. 22 23:36 trivial
+-rw-r--r-- 1 root root 40749 sept. 22 23:36 utflist
+-rw-r--r-- 1 root root  1698 sept. 22 23:36 vga2iso
+-rw-r--r-- 1 root root  1418 sept. 22 23:36 viscii1.0_to_tcvn.trans
+-rw-r--r-- 1 root root  1847 sept. 22 23:36 viscii1.0_to_viscii1.1.trans
+-rw-r--r-- 1 root root  1747 sept. 22 23:36 zero
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps:
+total 4
+drwxr-xr-x 1 root root  60 sept. 22 23:36 amiga
+drwxr-xr-x 1 root root 134 sept. 22 23:36 atari
+drwxr-xr-x 1 root root 124 sept. 22 23:36 i386
+drwxr-xr-x 1 root root 230 sept. 22 23:36 include
+drwxr-xr-x 1 root root  20 sept. 22 23:36 mac
+drwxr-xr-x 1 root root  18 sept. 22 23:36 pine
+lrwxrwxrwx 1 root root   3 sept. 22 23:36 ppc -> mac
+drwxr-xr-x 1 root root 576 sept. 22 23:36 sun
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps/amiga:
+total 8
+-rw-r--r-- 1 root root 2970 sept. 22 23:36 amiga-de.map.gz
+-rw-r--r-- 1 root root 1889 sept. 22 23:36 amiga-us.map.gz
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps/atari:
+total 16
+-rw-r--r-- 1 root root 2741 sept. 22 23:36 atari-de.map.gz
+-rw-r--r-- 1 root root 2925 sept. 22 23:36 atari-se.map.gz
+-rw-r--r-- 1 root root 2767 sept. 22 23:36 atari-uk-falcon.map.gz
+-rw-r--r-- 1 root root 2985 sept. 22 23:36 atari-us.map.gz
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps/i386:
+total 0
+drwxr-xr-x 1 root root  218 sept. 22 23:36 azerty
+drwxr-xr-x 1 root root   70 sept. 22 23:36 bepo
+drwxr-xr-x 1 root root   66 sept. 22 23:36 carpalx
+drwxr-xr-x 1 root root  516 sept. 22 23:36 colemak
+drwxr-xr-x 1 root root  542 sept. 22 23:36 dvorak
+drwxr-xr-x 1 root root   70 sept. 22 23:36 fgGIod
+drwxr-xr-x 1 root root  628 sept. 22 23:36 include
+drwxr-xr-x 1 root root  152 sept. 22 23:36 neo
+drwxr-xr-x 1 root root   56 sept. 22 23:36 olpc
+drwxr-xr-x 1 root root 3630 sept. 22 23:36 qwerty
+drwxr-xr-x 1 root root  610 sept. 22 23:36 qwertz
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps/i386/azerty:
+total 36
+-rw-r--r-- 1 root root  886 sept. 22 23:36 azerty.map.gz
+-rw-r--r-- 1 root root  901 sept. 22 23:36 be-latin1.map.gz
+-rw-r--r-- 1 root root  873 sept. 22 23:36 fr-latin1.map.gz
+-rw-r--r-- 1 root root 5683 sept. 22 23:36 fr-latin9.map.gz
+-rw-r--r-- 1 root root  957 sept. 22 23:36 fr-pc.map.gz
+-rw-r--r-- 1 root root  842 sept. 22 23:36 fr.map.gz
+-rw-r--r-- 1 root root  343 sept. 22 23:36 wangbe.map.gz
+-rw-r--r-- 1 root root 1786 sept. 22 23:36 wangbe2.map.gz
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps/i386/bepo:
+total 12
+-rw-r--r-- 1 root root 5617 sept. 22 23:36 fr-bepo-latin9.map.gz
+-rw-r--r-- 1 root root 1913 sept. 22 23:36 fr-bepo.map.gz
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps/i386/carpalx:
+total 8
+-rw-r--r-- 1 root root 198 sept. 22 23:36 carpalx-full.map.gz
+-rw-r--r-- 1 root root 819 sept. 22 23:36 carpalx.map.gz
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps/i386/colemak:
+total 44
+-rw-r--r-- 1 root root 1449 sept. 22 23:36 colemak.map.gz
+-rw-r--r-- 1 root root 1355 sept. 22 23:36 mod-dh-ansi-us-awing.map.gz
+-rw-r--r-- 1 root root 1368 sept. 22 23:36 mod-dh-ansi-us-fatz-wide.map.gz
+-rw-r--r-- 1 root root 1356 sept. 22 23:36 mod-dh-ansi-us-fatz.map.gz
+-rw-r--r-- 1 root root 1361 sept. 22 23:36 mod-dh-ansi-us-wide.map.gz
+-rw-r--r-- 1 root root 1347 sept. 22 23:36 mod-dh-ansi-us.map.gz
+-rw-r--r-- 1 root root 1351 sept. 22 23:36 mod-dh-iso-uk-wide.map.gz
+-rw-r--r-- 1 root root 1340 sept. 22 23:36 mod-dh-iso-uk.map.gz
+-rw-r--r-- 1 root root 1353 sept. 22 23:36 mod-dh-iso-us-wide.map.gz
+-rw-r--r-- 1 root root 1342 sept. 22 23:36 mod-dh-iso-us.map.gz
+-rw-r--r-- 1 root root 1346 sept. 22 23:36 mod-dh-matrix-us.map.gz
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps/i386/dvorak:
+total 64
+-rw-r--r-- 1 root root  145 sept. 22 23:36 ANSI-dvorak.map.gz
+-rw-r--r-- 1 root root 1314 sept. 22 23:36 dvorak-ca-fr.map.gz
+-rw-r--r-- 1 root root 3753 sept. 22 23:36 dvorak-de.map.gz
+-rw-r--r-- 1 root root 1312 sept. 22 23:36 dvorak-es.map.gz
+-rw-r--r-- 1 root root 1227 sept. 22 23:36 dvorak-fr.map.gz
+-rw-r--r-- 1 root root 1205 sept. 22 23:36 dvorak-l.map.gz
+-rw-r--r-- 1 root root  904 sept. 22 23:36 dvorak-la.map.gz
+-rw-r--r-- 1 root root 1045 sept. 22 23:36 dvorak-no.map.gz
+-rw-r--r-- 1 root root 1098 sept. 22 23:36 dvorak-programmer.map.gz
+-rw-r--r-- 1 root root 1202 sept. 22 23:36 dvorak-r.map.gz
+-rw-r--r-- 1 root root 2598 sept. 22 23:36 dvorak-ru.map.gz
+-rw-r--r-- 1 root root 1242 sept. 22 23:36 dvorak-sv-a1.map.gz
+-rw-r--r-- 1 root root 1023 sept. 22 23:36 dvorak-sv-a5.map.gz
+-rw-r--r-- 1 root root  841 sept. 22 23:36 dvorak-uk.map.gz
+-rw-r--r-- 1 root root  890 sept. 22 23:36 dvorak-ukp.map.gz
+-rw-r--r-- 1 root root  782 sept. 22 23:36 dvorak.map.gz
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps/i386/fgGIod:
+total 8
+-rw-r--r-- 1 root root 2258 sept. 22 23:36 tr_f-latin5.map.gz
+-rw-r--r-- 1 root root 1035 sept. 22 23:36 trf-fgGIod.map.gz
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps/i386/include:
+total 80
+-rw-r--r-- 1 root root  230 sept. 22 23:36 applkey.map.gz
+-rw-r--r-- 1 root root  438 sept. 22 23:36 azerty-layout.inc
+-rw-r--r-- 1 root root   65 sept. 22 23:36 backspace.map.gz
+-rw-r--r-- 1 root root  278 sept. 22 23:36 compose.inc
+-rw-r--r-- 1 root root  126 sept. 22 23:36 ctrl.map.gz
+-rw-r--r-- 1 root root  182 sept. 22 23:36 euro.map.gz
+-rw-r--r-- 1 root root  253 sept. 22 23:36 euro1.inc
+-rw-r--r-- 1 root root  193 sept. 22 23:36 euro1.map.gz
+-rw-r--r-- 1 root root  191 sept. 22 23:36 euro2.map.gz
+-rw-r--r-- 1 root root  453 sept. 22 23:36 keypad.map.gz
+-rw-r--r-- 1 root root 4353 sept. 22 23:36 linux-keys-bare.inc
+-rw-r--r-- 1 root root 1148 sept. 22 23:36 linux-keys-extd.inc
+-rw-r--r-- 1 root root  746 sept. 22 23:36 linux-with-alt-and-altgr.inc
+-rw-r--r-- 1 root root 3029 sept. 22 23:36 linux-with-modeshift-altgr.inc
+-rw-r--r-- 1 root root  146 sept. 22 23:36 linux-with-two-alt-keys.inc
+-rw-r--r-- 1 root root  456 sept. 22 23:36 qwerty-layout.inc
+-rw-r--r-- 1 root root  456 sept. 22 23:36 qwertz-layout.inc
+-rw-r--r-- 1 root root  426 sept. 22 23:36 unicode.map.gz
+-rw-r--r-- 1 root root  116 sept. 22 23:36 windowkeys.map.gz
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps/i386/neo:
+total 52
+-rw-r--r-- 1 root root 2328 sept. 22 23:36 3l.map.gz
+-rw-r--r-- 1 root root 1429 sept. 22 23:36 README.md
+-rw-r--r-- 1 root root 4699 sept. 22 23:36 adnw.map.gz
+-rw-r--r-- 1 root root 4691 sept. 22 23:36 bone.map.gz
+-rw-r--r-- 1 root root 4655 sept. 22 23:36 koy.map.gz
+-rw-r--r-- 1 root root 9434 sept. 22 23:36 neo.map.gz
+-rw-r--r-- 1 root root 4704 sept. 22 23:36 neoqwertz.map.gz
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps/i386/olpc:
+total 8
+-rw-r--r-- 1 root root 876 sept. 22 23:36 es-olpc.map.gz
+-rw-r--r-- 1 root root 852 sept. 22 23:36 pt-olpc.map.gz
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps/i386/qwerty:
+total 552
+-rw-r--r-- 1 root root  2499 sept. 22 23:36 bashkir.map.gz
+-rw-r--r-- 1 root root  2981 sept. 22 23:36 bg-cp1251.map.gz
+-rw-r--r-- 1 root root  2328 sept. 22 23:36 bg-cp855.map.gz
+-rw-r--r-- 1 root root  4627 sept. 22 23:36 bg_bds-cp1251.map.gz
+-rw-r--r-- 1 root root  4622 sept. 22 23:36 bg_bds-utf8.map.gz
+-rw-r--r-- 1 root root  4540 sept. 22 23:36 bg_pho-cp1251.map.gz
+-rw-r--r-- 1 root root  4528 sept. 22 23:36 bg_pho-utf8.map.gz
+-rw-r--r-- 1 root root  2026 sept. 22 23:36 br-abnt.map.gz
+-rw-r--r-- 1 root root  1168 sept. 22 23:36 br-abnt2.map.gz
+-rw-r--r-- 1 root root  1106 sept. 22 23:36 br-latin1-abnt2.map.gz
+-rw-r--r-- 1 root root   984 sept. 22 23:36 br-latin1-us.map.gz
+-rw-r--r-- 1 root root  2332 sept. 22 23:36 by-cp1251.map.gz
+-rw-r--r-- 1 root root  2854 sept. 22 23:36 by.map.gz
+-rw-r--r-- 1 root root  2330 sept. 22 23:36 bywin-cp1251.map.gz
+-rw-r--r-- 1 root root  1134 sept. 22 23:36 ca.map.gz
+-rw-r--r-- 1 root root  1174 sept. 22 23:36 cf.map.gz
+-rw-r--r-- 1 root root  2568 sept. 22 23:36 cz-cp1250.map.gz
+-rw-r--r-- 1 root root  2726 sept. 22 23:36 cz-lat2-prog.map.gz
+-rw-r--r-- 1 root root  2655 sept. 22 23:36 cz-lat2.map.gz
+-rw-r--r-- 1 root root  8760 sept. 22 23:36 cz.map.gz
+-rw-r--r-- 1 root root  2408 sept. 22 23:36 defkeymap.map.gz
+-rw-r--r-- 1 root root  2181 sept. 22 23:36 defkeymap_V1.0.map.gz
+-rw-r--r-- 1 root root   962 sept. 22 23:36 dk-latin1.map.gz
+-rw-r--r-- 1 root root   941 sept. 22 23:36 dk.map.gz
+-rw-r--r-- 1 root root   987 sept. 22 23:36 emacs.map.gz
+-rw-r--r-- 1 root root   775 sept. 22 23:36 emacs2.map.gz
+-rw-r--r-- 1 root root  1511 sept. 22 23:36 es-cp850.map.gz
+-rw-r--r-- 1 root root  1133 sept. 22 23:36 es.map.gz
+-rw-r--r-- 1 root root   153 sept. 22 23:36 et-nodeadkeys.map.gz
+-rw-r--r-- 1 root root  1141 sept. 22 23:36 et.map.gz
+-rw-r--r-- 1 root root  1812 sept. 22 23:36 fa.map.gz
+-rw-r--r-- 1 root root  1463 sept. 22 23:36 fi.map.gz
+-rw-r--r-- 1 root root  2377 sept. 22 23:36 gr-pc.map.gz
+-rw-r--r-- 1 root root  3660 sept. 22 23:36 gr.map.gz
+-rw-r--r-- 1 root root  1313 sept. 22 23:36 hu101.map.gz
+-rw-r--r-- 1 root root 12055 sept. 22 23:36 hypermap.m4
+-rw-r--r-- 1 root root  1088 sept. 22 23:36 ie.map.gz
+-rw-r--r-- 1 root root  1445 sept. 22 23:36 il-heb.map.gz
+-rw-r--r-- 1 root root  1360 sept. 22 23:36 il-phonetic.map.gz
+-rw-r--r-- 1 root root  2410 sept. 22 23:36 il.map.gz
+-rw-r--r-- 1 root root  1762 sept. 22 23:36 is-latin1-us.map.gz
+-rw-r--r-- 1 root root  1219 sept. 22 23:36 is-latin1.map.gz
+-rw-r--r-- 1 root root  1054 sept. 22 23:36 it-ibm.map.gz
+-rw-r--r-- 1 root root  1285 sept. 22 23:36 it.map.gz
+-rw-r--r-- 1 root root  2046 sept. 22 23:36 it2.map.gz
+-rw-r--r-- 1 root root   779 sept. 22 23:36 jp106.map.gz
+-rw-r--r-- 1 root root  2495 sept. 22 23:36 kazakh.map.gz
+-rw-r--r-- 1 root root  3387 sept. 22 23:36 ky_alt_sh-UTF-8.map.gz
+-rw-r--r-- 1 root root  2420 sept. 22 23:36 kyrgyz.map.gz
+-rw-r--r-- 1 root root  1043 sept. 22 23:36 la-latin1.map.gz
+-rw-r--r-- 1 root root  2313 sept. 22 23:36 lt.baltic.map.gz
+-rw-r--r-- 1 root root  6095 sept. 22 23:36 lt.l4.map.gz
+-rw-r--r-- 1 root root  6172 sept. 22 23:36 lt.map.gz
+-rw-r--r-- 1 root root   542 sept. 22 23:36 lv-tilde.map.gz
+-rw-r--r-- 1 root root  1285 sept. 22 23:36 lv.map.gz
+-rw-r--r-- 1 root root  3147 sept. 22 23:36 mk-cp1251.map.gz
+-rw-r--r-- 1 root root  3201 sept. 22 23:36 mk-utf.map.gz
+-rw-r--r-- 1 root root  3164 sept. 22 23:36 mk.map.gz
+-rw-r--r-- 1 root root  1745 sept. 22 23:36 mk0.map.gz
+-rw-r--r-- 1 root root  1075 sept. 22 23:36 nl.map.gz
+-rw-r--r-- 1 root root  1220 sept. 22 23:36 nl2.map.gz
+-rw-r--r-- 1 root root  1714 sept. 22 23:36 no-latin1.doc
+-rw-r--r-- 1 root root  1533 sept. 22 23:36 no-latin1.map.gz
+-rw-r--r-- 1 root root   835 sept. 22 23:36 no.map.gz
+-rw-r--r-- 1 root root   387 sept. 22 23:36 pc110.map.gz
+-rw-r--r-- 1 root root  1306 sept. 22 23:36 pl.map.gz
+-rw-r--r-- 1 root root  1234 sept. 22 23:36 pl1.map.gz
+-rw-r--r-- 1 root root  2247 sept. 22 23:36 pl2.map.gz
+-rw-r--r-- 1 root root  2327 sept. 22 23:36 pl3.map.gz
+-rw-r--r-- 1 root root  1165 sept. 22 23:36 pl4.map.gz
+-rw-r--r-- 1 root root   996 sept. 22 23:36 pt-latin1.map.gz
+-rw-r--r-- 1 root root   939 sept. 22 23:36 pt-latin9.map.gz
+-rw-r--r-- 1 root root  1618 sept. 22 23:36 ro.map.gz
+-rw-r--r-- 1 root root  1435 sept. 22 23:36 ro_std.map.gz
+-rw-r--r-- 1 root root  1028 sept. 22 23:36 ro_win.map.gz
+-rw-r--r-- 1 root root  2316 sept. 22 23:36 ru-cp1251.map.gz
+-rw-r--r-- 1 root root  3055 sept. 22 23:36 ru-ms.map.gz
+-rw-r--r-- 1 root root  3046 sept. 22 23:36 ru-yawerty.map.gz
+-rw-r--r-- 1 root root  3779 sept. 22 23:36 ru.map.gz
+-rw-r--r-- 1 root root  3499 sept. 22 23:36 ru1.map.gz
+-rw-r--r-- 1 root root  2591 sept. 22 23:36 ru2.map.gz
+-rw-r--r-- 1 root root  3383 sept. 22 23:36 ru3.map.gz
+-rw-r--r-- 1 root root  3378 sept. 22 23:36 ru4.map.gz
+-rw-r--r-- 1 root root  2571 sept. 22 23:36 ru_win.map.gz
+-rw-r--r-- 1 root root  3487 sept. 22 23:36 ruwin_alt-CP1251.map.gz
+-rw-r--r-- 1 root root  3350 sept. 22 23:36 ruwin_alt-KOI8-R.map.gz
+-rw-r--r-- 1 root root  3476 sept. 22 23:36 ruwin_alt-UTF-8.map.gz
+-rw-r--r-- 1 root root  3456 sept. 22 23:36 ruwin_alt_sh-UTF-8.map.gz
+-rw-r--r-- 1 root root  3373 sept. 22 23:36 ruwin_cplk-CP1251.map.gz
+-rw-r--r-- 1 root root  3236 sept. 22 23:36 ruwin_cplk-KOI8-R.map.gz
+-rw-r--r-- 1 root root  3363 sept. 22 23:36 ruwin_cplk-UTF-8.map.gz
+-rw-r--r-- 1 root root  3398 sept. 22 23:36 ruwin_ct_sh-CP1251.map.gz
+-rw-r--r-- 1 root root  3262 sept. 22 23:36 ruwin_ct_sh-KOI8-R.map.gz
+-rw-r--r-- 1 root root  3389 sept. 22 23:36 ruwin_ct_sh-UTF-8.map.gz
+-rw-r--r-- 1 root root  3344 sept. 22 23:36 ruwin_ctrl-CP1251.map.gz
+-rw-r--r-- 1 root root  3207 sept. 22 23:36 ruwin_ctrl-KOI8-R.map.gz
+-rw-r--r-- 1 root root  3334 sept. 22 23:36 ruwin_ctrl-UTF-8.map.gz
+-rw-r--r-- 1 root root   177 sept. 22 23:36 se-fi-ir209.map.gz
+-rw-r--r-- 1 root root   189 sept. 22 23:36 se-fi-lat6.map.gz
+-rw-r--r-- 1 root root  2432 sept. 22 23:36 se-ir209.map.gz
+-rw-r--r-- 1 root root  2540 sept. 22 23:36 se-lat6.map.gz
+-rw-r--r-- 1 root root  2614 sept. 22 23:36 sk-prog-qwerty.map.gz
+-rw-r--r-- 1 root root  1868 sept. 22 23:36 sk-qwerty.map.gz
+-rw-r--r-- 1 root root  3307 sept. 22 23:36 sr-cy.map.gz
+-rw-r--r-- 1 root root  1121 sept. 22 23:36 sv-latin1.map.gz
+-rw-r--r-- 1 root root  3490 sept. 22 23:36 tj_alt-UTF8.map.gz
+-rw-r--r-- 1 root root  1166 sept. 22 23:36 tr_q-latin5.map.gz
+-rw-r--r-- 1 root root  1132 sept. 22 23:36 tralt.map.gz
+-rw-r--r-- 1 root root  1578 sept. 22 23:36 trf.map.gz
+-rw-r--r-- 1 root root  1126 sept. 22 23:36 trq.map.gz
+-rw-r--r-- 1 root root  3374 sept. 22 23:36 ttwin_alt-UTF-8.map.gz
+-rw-r--r-- 1 root root  3384 sept. 22 23:36 ttwin_cplk-UTF-8.map.gz
+-rw-r--r-- 1 root root  3367 sept. 22 23:36 ttwin_ct_sh-UTF-8.map.gz
+-rw-r--r-- 1 root root  3348 sept. 22 23:36 ttwin_ctrl-UTF-8.map.gz
+-rw-r--r-- 1 root root  4232 sept. 22 23:36 ua-cp1251.map.gz
+-rw-r--r-- 1 root root  6958 sept. 22 23:36 ua-utf-ws.map.gz
+-rw-r--r-- 1 root root  6866 sept. 22 23:36 ua-utf.map.gz
+-rw-r--r-- 1 root root  6932 sept. 22 23:36 ua-ws.map.gz
+-rw-r--r-- 1 root root  6853 sept. 22 23:36 ua.map.gz
+-rw-r--r-- 1 root root   765 sept. 22 23:36 uk.map.gz
+-rw-r--r-- 1 root root  2549 sept. 22 23:36 us-acentos.map.gz
+-rw-r--r-- 1 root root   666 sept. 22 23:36 us.map.gz
+-rw-r--r-- 1 root root   117 sept. 22 23:36 us1.map.gz
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps/i386/qwertz:
+total 84
+-rw-r--r-- 1 root root 1286 sept. 22 23:36 croat.map.gz
+-rw-r--r-- 1 root root 8706 sept. 22 23:36 cz-qwertz.map.gz
+-rw-r--r-- 1 root root 2539 sept. 22 23:36 cz-us-qwertz.map.gz
+-rw-r--r-- 1 root root  270 sept. 22 23:36 de-latin1-nodeadkeys.map.gz
+-rw-r--r-- 1 root root  898 sept. 22 23:36 de-latin1.map.gz
+-rw-r--r-- 1 root root  347 sept. 22 23:36 de-mobii.map.gz
+-rw-r--r-- 1 root root  847 sept. 22 23:36 de.map.gz
+-rw-r--r-- 1 root root  294 sept. 22 23:36 de_CH-latin1.map.gz
+-rw-r--r-- 1 root root 2377 sept. 22 23:36 de_alt_UTF-8.map.gz
+-rw-r--r-- 1 root root  973 sept. 22 23:36 fr_CH-latin1.map.gz
+-rw-r--r-- 1 root root  873 sept. 22 23:36 fr_CH.map.gz
+-rw-r--r-- 1 root root 1252 sept. 22 23:36 hu.map.gz
+-rw-r--r-- 1 root root  942 sept. 22 23:36 sg-latin1-lk450.map.gz
+-rw-r--r-- 1 root root  992 sept. 22 23:36 sg-latin1.map.gz
+-rw-r--r-- 1 root root  923 sept. 22 23:36 sg.map.gz
+-rw-r--r-- 1 root root 2611 sept. 22 23:36 sk-prog-qwertz.map.gz
+-rw-r--r-- 1 root root 2690 sept. 22 23:36 sk-qwertz.map.gz
+-rw-r--r-- 1 root root 1191 sept. 22 23:36 slovene.map.gz
+-rw-r--r-- 1 root root 1191 sept. 22 23:36 sr-latin.map.gz
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps/include:
+total 44
+-rw-r--r-- 1 root root  517 sept. 22 23:36 compose.8859_7
+-rw-r--r-- 1 root root   23 sept. 22 23:36 compose.8859_8
+-rw-r--r-- 1 root root 6030 sept. 22 23:36 compose.latin
+-rw-r--r-- 1 root root 3889 sept. 22 23:36 compose.latin1
+-rw-r--r-- 1 root root 3465 sept. 22 23:36 compose.latin2
+-rw-r--r-- 1 root root 2037 sept. 22 23:36 compose.latin3
+-rw-r--r-- 1 root root 2897 sept. 22 23:36 compose.latin4
+-rw-r--r-- 1 root root 8402 sept. 22 23:36 vim-compose.latin1
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps/mac:
+total 0
+drwxr-xr-x 1 root root 954 sept. 22 23:36 all
+drwxr-xr-x 1 root root 362 sept. 22 23:36 include
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps/mac/all:
+total 100
+-rw-r--r-- 1 root root 1307 sept. 22 23:36 apple-a1048-sv.map.gz
+-rw-r--r-- 1 root root  323 sept. 22 23:36 apple-a1243-sv-fn-reverse.map.gz
+-rw-r--r-- 1 root root  406 sept. 22 23:36 apple-a1243-sv.map.gz
+-rw-r--r-- 1 root root  352 sept. 22 23:36 apple-internal-0x0253-sv-fn-reverse.map.gz
+-rw-r--r-- 1 root root  347 sept. 22 23:36 apple-internal-0x0253-sv.map.gz
+-rw-r--r-- 1 root root  501 sept. 22 23:36 mac-be.map.gz
+-rw-r--r-- 1 root root  288 sept. 22 23:36 mac-de-latin1-nodeadkeys.map.gz
+-rw-r--r-- 1 root root  904 sept. 22 23:36 mac-de-latin1.map.gz
+-rw-r--r-- 1 root root  767 sept. 22 23:36 mac-de_CH.map.gz
+-rw-r--r-- 1 root root  639 sept. 22 23:36 mac-dk-latin1.map.gz
+-rw-r--r-- 1 root root  799 sept. 22 23:36 mac-dvorak.map.gz
+-rw-r--r-- 1 root root  490 sept. 22 23:36 mac-es.map.gz
+-rw-r--r-- 1 root root  893 sept. 22 23:36 mac-fi-latin1.map.gz
+-rw-r--r-- 1 root root 1108 sept. 22 23:36 mac-fr-legacy.map.gz
+-rw-r--r-- 1 root root 5714 sept. 22 23:36 mac-fr.map.gz
+-rw-r--r-- 1 root root  786 sept. 22 23:36 mac-fr_CH-latin1.map.gz
+-rw-r--r-- 1 root root  658 sept. 22 23:36 mac-it.map.gz
+-rw-r--r-- 1 root root 1568 sept. 22 23:36 mac-no-latin1.map.gz
+-rw-r--r-- 1 root root 1160 sept. 22 23:36 mac-pl.map.gz
+-rw-r--r-- 1 root root  431 sept. 22 23:36 mac-pt-latin1.map.gz
+-rw-r--r-- 1 root root  508 sept. 22 23:36 mac-se.map.gz
+-rw-r--r-- 1 root root  264 sept. 22 23:36 mac-template.map.gz
+-rw-r--r-- 1 root root  760 sept. 22 23:36 mac-uk.map.gz
+-rw-r--r-- 1 root root  900 sept. 22 23:36 mac-us.map.gz
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps/mac/include:
+total 40
+-rw-r--r-- 1 root root 2627 sept. 22 23:36 apple-a1048-base.inc
+-rw-r--r-- 1 root root 2219 sept. 22 23:36 apple-a1243-fn-reverse.inc
+-rw-r--r-- 1 root root 2293 sept. 22 23:36 apple-a1243-fn.inc
+-rw-r--r-- 1 root root  439 sept. 22 23:36 mac-azerty-layout.inc
+-rw-r--r-- 1 root root  182 sept. 22 23:36 mac-euro.map.gz
+-rw-r--r-- 1 root root  196 sept. 22 23:36 mac-euro2.map.gz
+-rw-r--r-- 1 root root 4956 sept. 22 23:36 mac-linux-keys-bare.inc
+-rw-r--r-- 1 root root  438 sept. 22 23:36 mac-qwerty-layout.inc
+-rw-r--r-- 1 root root  438 sept. 22 23:36 mac-qwertz-layout.inc
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps/pine:
+total 4
+-rw-r--r-- 1 root root 1987 sept. 22 23:36 en.map.gz
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/keymaps/sun:
+total 72
+-rw-r--r-- 1 root root 3022 sept. 22 23:36 sun-pl-altgraph.map.gz
+-rw-r--r-- 1 root root 3186 sept. 22 23:36 sun-pl.map.gz
+-rw-r--r-- 1 root root 2434 sept. 22 23:36 sundvorak.map.gz
+-rw-r--r-- 1 root root 2433 sept. 22 23:36 sunkeymap.map.gz
+-rw-r--r-- 1 root root 2086 sept. 22 23:36 sunt4-es.map.gz
+-rw-r--r-- 1 root root 2167 sept. 22 23:36 sunt4-fi-latin1.map.gz
+-rw-r--r-- 1 root root 2091 sept. 22 23:36 sunt4-no-latin1.map.gz
+-rw-r--r-- 1 root root 4931 sept. 22 23:36 sunt5-cz-us.map.gz
+-rw-r--r-- 1 root root 2047 sept. 22 23:36 sunt5-de-latin1.map.gz
+-rw-r--r-- 1 root root 2145 sept. 22 23:36 sunt5-es.map.gz
+-rw-r--r-- 1 root root 2063 sept. 22 23:36 sunt5-fi-latin1.map.gz
+-rw-r--r-- 1 root root 2488 sept. 22 23:36 sunt5-fr-latin1.map.gz
+-rw-r--r-- 1 root root 2518 sept. 22 23:36 sunt5-ru.map.gz
+-rw-r--r-- 1 root root 2274 sept. 22 23:36 sunt5-uk.map.gz
+-rw-r--r-- 1 root root 4926 sept. 22 23:36 sunt5-us-cz.map.gz
+-rw-r--r-- 1 root root 1706 sept. 22 23:36 sunt6-uk.map.gz
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/kbd/unimaps:
+total 368
+-rw-r--r-- 1 root root 4244 sept. 22 23:36 8859-1.a0-ff.uni
+-rw-r--r-- 1 root root 4706 sept. 22 23:36 8859-10.a0-ff.uni
+-rw-r--r-- 1 root root 4426 sept. 22 23:36 8859-13.a0-ff.uni
+-rw-r--r-- 1 root root 4816 sept. 22 23:36 8859-14.a0-ff.uni
+-rw-r--r-- 1 root root 4376 sept. 22 23:36 8859-15.a0-ff.uni
+-rw-r--r-- 1 root root 4479 sept. 22 23:36 8859-2.a0-ff.uni
+-rw-r--r-- 1 root root 4240 sept. 22 23:36 8859-3.a0-ff.uni
+-rw-r--r-- 1 root root 4548 sept. 22 23:36 8859-4.a0-ff.uni
+-rw-r--r-- 1 root root 4188 sept. 22 23:36 8859-5.a0-ff.uni
+-rw-r--r-- 1 root root 1869 sept. 22 23:36 8859-6.a0-ff.uni
+-rw-r--r-- 1 root root 3928 sept. 22 23:36 8859-7.a0-ff.uni
+-rw-r--r-- 1 root root 2035 sept. 22 23:36 8859-8.a0-ff.uni
+-rw-r--r-- 1 root root 4332 sept. 22 23:36 8859-9.a0-ff.uni
+-rw-r--r-- 1 root root 1501 sept. 22 23:36 ECMA144.uni
+-rw-r--r-- 1 root root  137 sept. 22 23:36 README
+-rw-r--r-- 1 root root 1378 sept. 22 23:36 armscii8.uni
+-rw-r--r-- 1 root root 1707 sept. 22 23:36 ascii.20-7f.uni
+-rw-r--r-- 1 root root 5485 sept. 22 23:36 cp1250.uni
+-rw-r--r-- 1 root root  453 sept. 22 23:36 cp437.00-1f.uni
+-rw-r--r-- 1 root root 4482 sept. 22 23:36 cp437.uni
+-rw-r--r-- 1 root root 5674 sept. 22 23:36 cp737.uni
+-rw-r--r-- 1 root root 6206 sept. 22 23:36 cp737a.uni
+-rw-r--r-- 1 root root 6222 sept. 22 23:36 cp737b.uni
+-rw-r--r-- 1 root root 6273 sept. 22 23:36 cp737c.uni
+-rw-r--r-- 1 root root 5456 sept. 22 23:36 cp850.uni
+-rw-r--r-- 1 root root 5992 sept. 22 23:36 cp850a.uni
+-rw-r--r-- 1 root root 4018 sept. 22 23:36 cp850b.uni
+-rw-r--r-- 1 root root 3887 sept. 22 23:36 cp850z.uni
+-rw-r--r-- 1 root root 5627 sept. 22 23:36 cp865.uni
+-rw-r--r-- 1 root root 6162 sept. 22 23:36 cp865a.uni
+-rw-r--r-- 1 root root 5553 sept. 22 23:36 cp866.uni
+-rw-r--r-- 1 root root 6181 sept. 22 23:36 cp866a.uni
+-rw-r--r-- 1 root root 2558 sept. 22 23:36 cybercafe.uni
+-rw-r--r-- 1 root root 4159 sept. 22 23:36 cyralt.uni
+-rw-r--r-- 1 root root 2213 sept. 22 23:36 def.uni
+-rw-r--r-- 1 root root   22 sept. 22 23:36 empty.uni
+-rw-r--r-- 1 root root 5988 sept. 22 23:36 ethiopic.uni
+-rw-r--r-- 1 root root  681 sept. 22 23:36 iso01.uni
+-rw-r--r-- 1 root root 1822 sept. 22 23:36 iso02.uni
+-rw-r--r-- 1 root root 1836 sept. 22 23:36 iso03.uni
+-rw-r--r-- 1 root root 1822 sept. 22 23:36 iso04.uni
+-rw-r--r-- 1 root root 1822 sept. 22 23:36 iso05.uni
+-rw-r--r-- 1 root root 1282 sept. 22 23:36 iso06.uni
+-rw-r--r-- 1 root root 1751 sept. 22 23:36 iso07.uni
+-rw-r--r-- 1 root root 2514 sept. 22 23:36 iso07u.uni
+-rw-r--r-- 1 root root 1126 sept. 22 23:36 iso08.uni
+-rw-r--r-- 1 root root  812 sept. 22 23:36 iso09.uni
+-rw-r--r-- 1 root root 1496 sept. 22 23:36 iso10.uni
+-rw-r--r-- 1 root root  883 sept. 22 23:36 iso15.uni
+-rw-r--r-- 1 root root 4005 sept. 22 23:36 koi8r.uni
+-rw-r--r-- 1 root root 5231 sept. 22 23:36 koi8u.uni
+-rw-r--r-- 1 root root 1030 sept. 22 23:36 lat1.uni
+-rw-r--r-- 1 root root 2177 sept. 22 23:36 lat1u.uni
+-rw-r--r-- 1 root root 5302 sept. 22 23:36 lat2.uni
+-rw-r--r-- 1 root root 3639 sept. 22 23:36 lat2u.uni
+-rw-r--r-- 1 root root 3251 sept. 22 23:36 lat4.uni
+-rw-r--r-- 1 root root 5046 sept. 22 23:36 lat4u.uni
+-rw-r--r-- 1 root root 7282 sept. 22 23:36 lat7.uni
+-rw-r--r-- 1 root root 3579 sept. 22 23:36 lat9u.uni
+-rw-r--r-- 1 root root 3771 sept. 22 23:36 lat9v.uni
+-rw-r--r-- 1 root root 3635 sept. 22 23:36 lat9w.uni
+-rw-r--r-- 1 root root 4037 sept. 22 23:36 ruscii.uni
+-rw-r--r-- 1 root root 1009 sept. 22 23:36 tcvn.uni
+-rw-r--r-- 1 root root 1811 sept. 22 23:36 viscii.uni
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale:
+total 0
+drwxr-xr-x 1 root root 22 sept. 22 23:36 cs
+drwxr-xr-x 1 root root 22 sept. 22 23:36 da
+drwxr-xr-x 1 root root 22 sept. 22 23:36 de
+drwxr-xr-x 1 root root 22 sept. 22 23:36 el
+drwxr-xr-x 1 root root 22 sept. 22 23:36 eo
+drwxr-xr-x 1 root root 22 sept. 22 23:36 es
+drwxr-xr-x 1 root root 22 sept. 22 23:36 fr
+drwxr-xr-x 1 root root 22 sept. 22 23:36 gr
+drwxr-xr-x 1 root root 22 sept. 22 23:36 id
+drwxr-xr-x 1 root root 22 sept. 22 23:36 it
+drwxr-xr-x 1 root root 22 sept. 22 23:36 nl
+drwxr-xr-x 1 root root 22 sept. 22 23:36 pl
+drwxr-xr-x 1 root root 22 sept. 22 23:36 pt
+drwxr-xr-x 1 root root 22 sept. 22 23:36 pt_BR
+drwxr-xr-x 1 root root 22 sept. 22 23:36 ro
+drwxr-xr-x 1 root root 22 sept. 22 23:36 ru
+drwxr-xr-x 1 root root 22 sept. 22 23:36 sr
+drwxr-xr-x 1 root root 22 sept. 22 23:36 sv
+drwxr-xr-x 1 root root 22 sept. 22 23:36 tr
+drwxr-xr-x 1 root root 22 sept. 22 23:36 uk
+drwxr-xr-x 1 root root 22 sept. 22 23:36 vi
+drwxr-xr-x 1 root root 22 sept. 22 23:36 zh_CN
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/cs:
+total 0
+drwxr-xr-x 1 root root 12 sept. 22 23:36 LC_MESSAGES
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/cs/LC_MESSAGES:
+total 44
+-rw-r--r-- 1 root root 41707 sept. 22 23:36 kbd.mo
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/da:
+total 0
+drwxr-xr-x 1 root root 12 sept. 22 23:36 LC_MESSAGES
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/da/LC_MESSAGES:
+total 8
+-rw-r--r-- 1 root root 7804 sept. 22 23:36 kbd.mo
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/de:
+total 0
+drwxr-xr-x 1 root root 12 sept. 22 23:36 LC_MESSAGES
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/de/LC_MESSAGES:
+total 44
+-rw-r--r-- 1 root root 42452 sept. 22 23:36 kbd.mo
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/el:
+total 0
+drwxr-xr-x 1 root root 12 sept. 22 23:36 LC_MESSAGES
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/el/LC_MESSAGES:
+total 52
+-rw-r--r-- 1 root root 52396 sept. 22 23:36 kbd.mo
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/eo:
+total 0
+drwxr-xr-x 1 root root 12 sept. 22 23:36 LC_MESSAGES
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/eo/LC_MESSAGES:
+total 40
+-rw-r--r-- 1 root root 38073 sept. 22 23:36 kbd.mo
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/es:
+total 0
+drwxr-xr-x 1 root root 12 sept. 22 23:36 LC_MESSAGES
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/es/LC_MESSAGES:
+total 44
+-rw-r--r-- 1 root root 42886 sept. 22 23:36 kbd.mo
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/fr:
+total 0
+drwxr-xr-x 1 root root 12 sept. 22 23:36 LC_MESSAGES
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/fr/LC_MESSAGES:
+total 40
+-rw-r--r-- 1 root root 37394 sept. 22 23:36 kbd.mo
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/gr:
+total 0
+drwxr-xr-x 1 root root 12 sept. 22 23:36 LC_MESSAGES
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/gr/LC_MESSAGES:
+total 8
+-rw-r--r-- 1 root root 7157 sept. 22 23:36 kbd.mo
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/id:
+total 0
+drwxr-xr-x 1 root root 12 sept. 22 23:36 LC_MESSAGES
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/id/LC_MESSAGES:
+total 8
+-rw-r--r-- 1 root root 6288 sept. 22 23:36 kbd.mo
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/it:
+total 0
+drwxr-xr-x 1 root root 12 sept. 22 23:36 LC_MESSAGES
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/it/LC_MESSAGES:
+total 12
+-rw-r--r-- 1 root root 8321 sept. 22 23:36 kbd.mo
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/nl:
+total 0
+drwxr-xr-x 1 root root 12 sept. 22 23:36 LC_MESSAGES
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/nl/LC_MESSAGES:
+total 16
+-rw-r--r-- 1 root root 14049 sept. 22 23:36 kbd.mo
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/pl:
+total 0
+drwxr-xr-x 1 root root 12 sept. 22 23:36 LC_MESSAGES
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/pl/LC_MESSAGES:
+total 44
+-rw-r--r-- 1 root root 41587 sept. 22 23:36 kbd.mo
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/pt:
+total 0
+drwxr-xr-x 1 root root 12 sept. 22 23:36 LC_MESSAGES
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/pt/LC_MESSAGES:
+total 40
+-rw-r--r-- 1 root root 38566 sept. 22 23:36 kbd.mo
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/pt_BR:
+total 0
+drwxr-xr-x 1 root root 12 sept. 22 23:36 LC_MESSAGES
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/pt_BR/LC_MESSAGES:
+total 40
+-rw-r--r-- 1 root root 39868 sept. 22 23:36 kbd.mo
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/ro:
+total 0
+drwxr-xr-x 1 root root 12 sept. 22 23:36 LC_MESSAGES
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/ro/LC_MESSAGES:
+total 44
+-rw-r--r-- 1 root root 43916 sept. 22 23:36 kbd.mo
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/ru:
+total 0
+drwxr-xr-x 1 root root 12 sept. 22 23:36 LC_MESSAGES
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/ru/LC_MESSAGES:
+total 56
+-rw-r--r-- 1 root root 54642 sept. 22 23:36 kbd.mo
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/sr:
+total 0
+drwxr-xr-x 1 root root 12 sept. 22 23:36 LC_MESSAGES
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/sr/LC_MESSAGES:
+total 52
+-rw-r--r-- 1 root root 52996 sept. 22 23:36 kbd.mo
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/sv:
+total 0
+drwxr-xr-x 1 root root 12 sept. 22 23:36 LC_MESSAGES
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/sv/LC_MESSAGES:
+total 40
+-rw-r--r-- 1 root root 40873 sept. 22 23:36 kbd.mo
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/tr:
+total 0
+drwxr-xr-x 1 root root 12 sept. 22 23:36 LC_MESSAGES
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/tr/LC_MESSAGES:
+total 8
+-rw-r--r-- 1 root root 5694 sept. 22 23:36 kbd.mo
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/uk:
+total 0
+drwxr-xr-x 1 root root 12 sept. 22 23:36 LC_MESSAGES
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/uk/LC_MESSAGES:
+total 56
+-rw-r--r-- 1 root root 54663 sept. 22 23:36 kbd.mo
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/vi:
+total 0
+drwxr-xr-x 1 root root 12 sept. 22 23:36 LC_MESSAGES
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/vi/LC_MESSAGES:
+total 16
+-rw-r--r-- 1 root root 15132 sept. 22 23:36 kbd.mo
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/zh_CN:
+total 0
+drwxr-xr-x 1 root root 12 sept. 22 23:36 LC_MESSAGES
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/share/locale/zh_CN/LC_MESSAGES:
+total 20
+-rw-r--r-- 1 root root 18131 sept. 22 23:36 kbd.mo
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/src:
+total 0
+drwxr-xr-x 1 root root 64 sept. 22 23:36 kbd-2.6.3
+
+/repo/x86_64/slint-15.0/source/kbd/pkg/usr/src/kbd-2.6.3:
+total 12
+-rw-r--r-- 1 root root 2518 sept. 22 23:36 SLKBUILD
+-rw-r--r-- 1 root root  462 sept. 22 23:35 fix-euro2.patch
+-rw-r--r-- 1 root root  124 sept. 22 23:35 vlock.pam
+
+Slackware package maker, version 3.14159265.
+
+Searching for symbolic links:
+usr/bin/psfaddtable	psfxtable
+usr/bin/psfgettable	psfxtable
+usr/bin/psfstriptable	psfxtable
+usr/share/kbd/keymaps/ppc	mac
+
+Making symbolic link creation script:
+( cd usr/bin ; rm -rf psfaddtable )
+( cd usr/bin ; ln -sf psfxtable psfaddtable )
+( cd usr/bin ; rm -rf psfgettable )
+( cd usr/bin ; ln -sf psfxtable psfgettable )
+( cd usr/bin ; rm -rf psfstriptable )
+( cd usr/bin ; ln -sf psfxtable psfstriptable )
+( cd usr/share/kbd/keymaps ; rm -rf ppc )
+( cd usr/share/kbd/keymaps ; ln -sf mac ppc )
+
+Unless your existing installation script already contains the code
+to create these links, you should append these lines to your existing
+install script. Now's your chance. :^)
+
+Would you like to add this stuff to the existing install script and
+remove the symbolic links ([y]es, [n]o)? y
+
+
+Removing symbolic links:
+'./usr/bin/psfaddtable' supprimé
+'./usr/bin/psfgettable' supprimé
+'./usr/bin/psfstriptable' supprimé
+'./usr/share/kbd/keymaps/ppc' supprimé
+
+/sbin/makepkg: ligne 374: gettexet : commande introuvable
+
+
+This next step is optional - you can set the directories in your package
+to some sane permissions. If any of the directories in your package have
+special permissions, then DO NOT reset them here!
+
+Would you like to reset all directory permissions to 755 (drwxr-xr-x) and
+directory ownerships to root.root ([y]es, [n]o)? 
+n
+
+Creating Slackware package:  /repo/x86_64/slint-15.0/source/kbd/kbd-2.6.3-x86_64-1slint.txz
+
+./
+etc/
+etc/pam.d/
+etc/pam.d/vlock
+etc/rc.d/
+etc/rc.d/rc.font.new
+install/
+install/doinst.sh
+install/slack-desc
+usr/
+usr/bin/
+usr/bin/chvt
+usr/bin/clrunimap
+usr/bin/deallocvt
+usr/bin/dumpkeys
+usr/bin/fgconsole
+usr/bin/getkeycodes
+usr/bin/getunimap
+usr/bin/kbd_mode
+usr/bin/kbdinfo
+usr/bin/kbdrate
+usr/bin/loadkeys
+usr/bin/loadunimap
+usr/bin/mapscrn
+usr/bin/openvt
+usr/bin/outpsfheader
+usr/bin/psfxtable
+usr/bin/resizecons
+usr/bin/screendump
+usr/bin/setfont
+usr/bin/setkeycodes
+usr/bin/setleds
+usr/bin/setlogcons
+usr/bin/setmetamode
+usr/bin/setpalette
+usr/bin/setvesablank
+usr/bin/setvtrgb
+usr/bin/showconsolefont
+usr/bin/showkey
+usr/bin/spawn_console
+usr/bin/spawn_login
+usr/bin/unicode_start
+usr/bin/unicode_stop
+usr/bin/vlock
+usr/doc/
+usr/doc/kbd-2.6.3/
+usr/doc/kbd-2.6.3/COPYING
+usr/doc/kbd-2.6.3/CREDITS
+usr/doc/kbd-2.6.3/README
+usr/man/
+usr/man/man1/
+usr/man/man1/chvt.1.gz
+usr/man/man1/codepage.1.gz
+usr/man/man1/deallocvt.1.gz
+usr/man/man1/dumpkeys.1.gz
+usr/man/man1/fgconsole.1.gz
+usr/man/man1/kbd_mode.1.gz
+usr/man/man1/kbdinfo.1.gz
+usr/man/man1/loadkeys.1.gz
+usr/man/man1/openvt.1.gz
+usr/man/man1/psfaddtable.1.gz
+usr/man/man1/psfgettable.1.gz
+usr/man/man1/psfstriptable.1.gz
+usr/man/man1/psfxtable.1.gz
+usr/man/man1/screendump.1.gz
+usr/man/man1/setleds.1.gz
+usr/man/man1/setmetamode.1.gz
+usr/man/man1/showkey.1.gz
+usr/man/man1/splitfont.1.gz
+usr/man/man1/unicode_start.1.gz
+usr/man/man1/unicode_stop.1.gz
+usr/man/man1/vlock.1.gz
+usr/man/man5/
+usr/man/man5/keymaps.5.gz
+usr/man/man8/
+usr/man/man8/clrunimap.8.gz
+usr/man/man8/getkeycodes.8.gz
+usr/man/man8/getunimap.8.gz
+usr/man/man8/kbdrate.8.gz
+usr/man/man8/loadunimap.8.gz
+usr/man/man8/mapscrn.8.gz
+usr/man/man8/mk_modmap.8.gz
+usr/man/man8/resizecons.8.gz
+usr/man/man8/setfont.8.gz
+usr/man/man8/setkeycodes.8.gz
+usr/man/man8/setlogcons.8.gz
+usr/man/man8/setvesablank.8.gz
+usr/man/man8/setvtrgb.8.gz
+usr/man/man8/showconsolefont.8.gz
+usr/man/man8/vcstime.8.gz
+usr/share/
+usr/share/kbd/
+usr/share/kbd/consolefonts/
+usr/share/kbd/consolefonts/161.cp.gz
+usr/share/kbd/consolefonts/162.cp.gz
+usr/share/kbd/consolefonts/163.cp.gz
+usr/share/kbd/consolefonts/164.cp.gz
+usr/share/kbd/consolefonts/165.cp.gz
+usr/share/kbd/consolefonts/737.cp.gz
+usr/share/kbd/consolefonts/880.cp.gz
+usr/share/kbd/consolefonts/928.cp.gz
+usr/share/kbd/consolefonts/972.cp.gz
+usr/share/kbd/consolefonts/Agafari-12.psfu.gz
+usr/share/kbd/consolefonts/Agafari-14.psfu.gz
+usr/share/kbd/consolefonts/Agafari-16.psfu.gz
+usr/share/kbd/consolefonts/Cyr_a8x14.psfu.gz
+usr/share/kbd/consolefonts/Cyr_a8x16.psfu.gz
+usr/share/kbd/consolefonts/Cyr_a8x8.psfu.gz
+usr/share/kbd/consolefonts/ERRORS
+usr/share/kbd/consolefonts/Goha-12.psfu.gz
+usr/share/kbd/consolefonts/Goha-14.psfu.gz
+usr/share/kbd/consolefonts/Goha-16.psfu.gz
+usr/share/kbd/consolefonts/GohaClassic-12.psfu.gz
+usr/share/kbd/consolefonts/GohaClassic-14.psfu.gz
+usr/share/kbd/consolefonts/GohaClassic-16.psfu.gz
+usr/share/kbd/consolefonts/Lat2-Terminus16.psfu.gz
+usr/share/kbd/consolefonts/LatArCyrHeb-08.psfu.gz
+usr/share/kbd/consolefonts/LatArCyrHeb-14.psfu.gz
+usr/share/kbd/consolefonts/LatArCyrHeb-16+.psfu.gz
+usr/share/kbd/consolefonts/LatArCyrHeb-16.psfu.gz
+usr/share/kbd/consolefonts/LatArCyrHeb-19.psfu.gz
+usr/share/kbd/consolefonts/LatGrkCyr-12x22.psfu.gz
+usr/share/kbd/consolefonts/LatGrkCyr-8x16.psfu.gz
+usr/share/kbd/consolefonts/LatKaCyrHeb-14.psfu.gz
+usr/share/kbd/consolefonts/Mik_8x16.gz
+usr/share/kbd/consolefonts/README.12x22
+usr/share/kbd/consolefonts/README.Arabic
+usr/share/kbd/consolefonts/README.Cyrillic
+usr/share/kbd/consolefonts/README.Ethiopic
+usr/share/kbd/consolefonts/README.Greek
+usr/share/kbd/consolefonts/README.Hebrew
+usr/share/kbd/consolefonts/README.Lat2-Terminus16
+usr/share/kbd/consolefonts/README.LatGrkCyr
+usr/share/kbd/consolefonts/README.Sun
+usr/share/kbd/consolefonts/README.cp1250
+usr/share/kbd/consolefonts/README.cybercafe
+usr/share/kbd/consolefonts/README.drdos
+usr/share/kbd/consolefonts/README.eurlatgr
+usr/share/kbd/consolefonts/README.eurlatgr.mappings
+usr/share/kbd/consolefonts/README.lat0
+usr/share/kbd/consolefonts/README.lat7
+usr/share/kbd/consolefonts/README.lat9
+usr/share/kbd/consolefonts/README.psfu
+usr/share/kbd/consolefonts/UniCyrExt_8x16.psf.gz
+usr/share/kbd/consolefonts/UniCyr_8x14.psf.gz
+usr/share/kbd/consolefonts/UniCyr_8x16.psf.gz
+usr/share/kbd/consolefonts/UniCyr_8x8.psf.gz
+usr/share/kbd/consolefonts/alt-8x14.gz
+usr/share/kbd/consolefonts/alt-8x16.gz
+usr/share/kbd/consolefonts/alt-8x8.gz
+usr/share/kbd/consolefonts/altc-8x16.gz
+usr/share/kbd/consolefonts/aply16.psf.gz
+usr/share/kbd/consolefonts/arm8.fnt.gz
+usr/share/kbd/consolefonts/cp1250.psfu.gz
+usr/share/kbd/consolefonts/cp850-8x14.psfu.gz
+usr/share/kbd/consolefonts/cp850-8x16.psfu.gz
+usr/share/kbd/consolefonts/cp850-8x8.psfu.gz
+usr/share/kbd/consolefonts/cp857.08.gz
+usr/share/kbd/consolefonts/cp857.14.gz
+usr/share/kbd/consolefonts/cp857.16.gz
+usr/share/kbd/consolefonts/cp865-8x14.psfu.gz
+usr/share/kbd/consolefonts/cp865-8x16.psfu.gz
+usr/share/kbd/consolefonts/cp865-8x8.psfu.gz
+usr/share/kbd/consolefonts/cp866-8x14.psf.gz
+usr/share/kbd/consolefonts/cp866-8x16.psf.gz
+usr/share/kbd/consolefonts/cp866-8x8.psf.gz
+usr/share/kbd/consolefonts/cybercafe.fnt.gz
+usr/share/kbd/consolefonts/cyr-sun16.psfu.gz
+usr/share/kbd/consolefonts/default8x16.psfu.gz
+usr/share/kbd/consolefonts/default8x9.psfu.gz
+usr/share/kbd/consolefonts/drdos8x14.psfu.gz
+usr/share/kbd/consolefonts/drdos8x16.psfu.gz
+usr/share/kbd/consolefonts/drdos8x6.psfu.gz
+usr/share/kbd/consolefonts/drdos8x8.psfu.gz
+usr/share/kbd/consolefonts/eurlatgr.psfu.gz
+usr/share/kbd/consolefonts/gr737a-8x8.psfu.gz
+usr/share/kbd/consolefonts/gr737a-9x14.psfu.gz
+usr/share/kbd/consolefonts/gr737a-9x16.psfu.gz
+usr/share/kbd/consolefonts/gr737b-8x11.psfu.gz
+usr/share/kbd/consolefonts/gr737b-9x16-medieval.psfu.gz
+usr/share/kbd/consolefonts/gr737c-8x14.psfu.gz
+usr/share/kbd/consolefonts/gr737c-8x16.psfu.gz
+usr/share/kbd/consolefonts/gr737c-8x6.psfu.gz
+usr/share/kbd/consolefonts/gr737c-8x7.psfu.gz
+usr/share/kbd/consolefonts/gr737c-8x8.psfu.gz
+usr/share/kbd/consolefonts/gr737d-8x16.psfu.gz
+usr/share/kbd/consolefonts/gr928-8x16-thin.psfu.gz
+usr/share/kbd/consolefonts/gr928-9x14.psfu.gz
+usr/share/kbd/consolefonts/gr928-9x16.psfu.gz
+usr/share/kbd/consolefonts/gr928a-8x14.psfu.gz
+usr/share/kbd/consolefonts/gr928a-8x16.psfu.gz
+usr/share/kbd/consolefonts/gr928b-8x14.psfu.gz
+usr/share/kbd/consolefonts/gr928b-8x16.psfu.gz
+usr/share/kbd/consolefonts/greek-polytonic.psfu.gz
+usr/share/kbd/consolefonts/iso01-12x22.psfu.gz
+usr/share/kbd/consolefonts/iso01.08.gz
+usr/share/kbd/consolefonts/iso01.14.gz
+usr/share/kbd/consolefonts/iso01.16.gz
+usr/share/kbd/consolefonts/iso02-12x22.psfu.gz
+usr/share/kbd/consolefonts/iso02.08.gz
+usr/share/kbd/consolefonts/iso02.14.gz
+usr/share/kbd/consolefonts/iso02.16.gz
+usr/share/kbd/consolefonts/iso03.08.gz
+usr/share/kbd/consolefonts/iso03.14.gz
+usr/share/kbd/consolefonts/iso03.16.gz
+usr/share/kbd/consolefonts/iso04.08.gz
+usr/share/kbd/consolefonts/iso04.14.gz
+usr/share/kbd/consolefonts/iso04.16.gz
+usr/share/kbd/consolefonts/iso05.08.gz
+usr/share/kbd/consolefonts/iso05.14.gz
+usr/share/kbd/consolefonts/iso05.16.gz
+usr/share/kbd/consolefonts/iso06.08.gz
+usr/share/kbd/consolefonts/iso06.14.gz
+usr/share/kbd/consolefonts/iso06.16.gz
+usr/share/kbd/consolefonts/iso07.14.gz
+usr/share/kbd/consolefonts/iso07.16.gz
+usr/share/kbd/consolefonts/iso07u-16.psfu.gz
+usr/share/kbd/consolefonts/iso08.08.gz
+usr/share/kbd/consolefonts/iso08.14.gz
+usr/share/kbd/consolefonts/iso08.16.gz
+usr/share/kbd/consolefonts/iso09.08.gz
+usr/share/kbd/consolefonts/iso09.14.gz
+usr/share/kbd/consolefonts/iso09.16.gz
+usr/share/kbd/consolefonts/iso10.08.gz
+usr/share/kbd/consolefonts/iso10.14.gz
+usr/share/kbd/consolefonts/iso10.16.gz
+usr/share/kbd/consolefonts/koi8-14.psf.gz
+usr/share/kbd/consolefonts/koi8c-8x16.gz
+usr/share/kbd/consolefonts/koi8r-8x14.gz
+usr/share/kbd/consolefonts/koi8r-8x16.gz
+usr/share/kbd/consolefonts/koi8r-8x8.gz
+usr/share/kbd/consolefonts/koi8r.8x8.psfu.gz
+usr/share/kbd/consolefonts/koi8u_8x14.psfu.gz
+usr/share/kbd/consolefonts/koi8u_8x16.psfu.gz
+usr/share/kbd/consolefonts/koi8u_8x8.psfu.gz
+usr/share/kbd/consolefonts/lat0-08.psfu.gz
+usr/share/kbd/consolefonts/lat0-10.psfu.gz
+usr/share/kbd/consolefonts/lat0-12.psfu.gz
+usr/share/kbd/consolefonts/lat0-14.psfu.gz
+usr/share/kbd/consolefonts/lat0-16.psfu.gz
+usr/share/kbd/consolefonts/lat0-sun16.psfu.gz
+usr/share/kbd/consolefonts/lat1-08.psfu.gz
+usr/share/kbd/consolefonts/lat1-10.psfu.gz
+usr/share/kbd/consolefonts/lat1-12.psfu.gz
+usr/share/kbd/consolefonts/lat1-14.psfu.gz
+usr/share/kbd/consolefonts/lat1-16.psfu.gz
+usr/share/kbd/consolefonts/lat2-08.psfu.gz
+usr/share/kbd/consolefonts/lat2-10.psfu.gz
+usr/share/kbd/consolefonts/lat2-12.psfu.gz
+usr/share/kbd/consolefonts/lat2-14.psfu.gz
+usr/share/kbd/consolefonts/lat2-16.psfu.gz
+usr/share/kbd/consolefonts/lat2-sun16.psfu.gz
+usr/share/kbd/consolefonts/lat2a-16.psfu.gz
+usr/share/kbd/consolefonts/lat4-08.psfu.gz
+usr/share/kbd/consolefonts/lat4-10.psfu.gz
+usr/share/kbd/consolefonts/lat4-12.psfu.gz
+usr/share/kbd/consolefonts/lat4-14.psfu.gz
+usr/share/kbd/consolefonts/lat4-16+.psfu.gz
+usr/share/kbd/consolefonts/lat4-16.psfu.gz
+usr/share/kbd/consolefonts/lat4-19.psfu.gz
+usr/share/kbd/consolefonts/lat4a-08.psfu.gz
+usr/share/kbd/consolefonts/lat4a-10.psfu.gz
+usr/share/kbd/consolefonts/lat4a-12.psfu.gz
+usr/share/kbd/consolefonts/lat4a-14.psfu.gz
+usr/share/kbd/consolefonts/lat4a-16+.psfu.gz
+usr/share/kbd/consolefonts/lat4a-16.psfu.gz
+usr/share/kbd/consolefonts/lat4a-19.psfu.gz
+usr/share/kbd/consolefonts/lat5-12.psfu.gz
+usr/share/kbd/consolefonts/lat5-14.psfu.gz
+usr/share/kbd/consolefonts/lat5-16.psfu.gz
+usr/share/kbd/consolefonts/lat7-14.psfu.gz
+usr/share/kbd/consolefonts/lat7a-14.psfu.gz
+usr/share/kbd/consolefonts/lat7a-16.psf.gz
+usr/share/kbd/consolefonts/lat9-08.psf.gz
+usr/share/kbd/consolefonts/lat9-10.psf.gz
+usr/share/kbd/consolefonts/lat9-12.psf.gz
+usr/share/kbd/consolefonts/lat9-14.psf.gz
+usr/share/kbd/consolefonts/lat9-16.psf.gz
+usr/share/kbd/consolefonts/lat9u-08.psfu.gz
+usr/share/kbd/consolefonts/lat9u-10.psfu.gz
+usr/share/kbd/consolefonts/lat9u-12.psfu.gz
+usr/share/kbd/consolefonts/lat9u-14.psfu.gz
+usr/share/kbd/consolefonts/lat9u-16.psfu.gz
+usr/share/kbd/consolefonts/lat9v-08.psfu.gz
+usr/share/kbd/consolefonts/lat9v-10.psfu.gz
+usr/share/kbd/consolefonts/lat9v-12.psfu.gz
+usr/share/kbd/consolefonts/lat9v-14.psfu.gz
+usr/share/kbd/consolefonts/lat9v-16.psfu.gz
+usr/share/kbd/consolefonts/lat9w-08.psfu.gz
+usr/share/kbd/consolefonts/lat9w-10.psfu.gz
+usr/share/kbd/consolefonts/lat9w-12.psfu.gz
+usr/share/kbd/consolefonts/lat9w-14.psfu.gz
+usr/share/kbd/consolefonts/lat9w-16.psfu.gz
+usr/share/kbd/consolefonts/latarcyrheb-sun16.psfu.gz
+usr/share/kbd/consolefonts/latarcyrheb-sun32.psfu.gz
+usr/share/kbd/consolefonts/pancyrillic.f16.psfu.gz
+usr/share/kbd/consolefonts/partialfonts/
+usr/share/kbd/consolefonts/partialfonts/8859-1.a0-ff.08.gz
+usr/share/kbd/consolefonts/partialfonts/8859-1.a0-ff.14.gz
+usr/share/kbd/consolefonts/partialfonts/8859-1.a0-ff.16.gz
+usr/share/kbd/consolefonts/partialfonts/8859-10.a0-ff.08.gz
+usr/share/kbd/consolefonts/partialfonts/8859-10.a0-ff.14.gz
+usr/share/kbd/consolefonts/partialfonts/8859-10.a0-ff.16.gz
+usr/share/kbd/consolefonts/partialfonts/8859-2.a0-ff.08.gz
+usr/share/kbd/consolefonts/partialfonts/8859-2.a0-ff.14.gz
+usr/share/kbd/consolefonts/partialfonts/8859-2.a0-ff.16.gz
+usr/share/kbd/consolefonts/partialfonts/8859-3.a0-ff.08.gz
+usr/share/kbd/consolefonts/partialfonts/8859-3.a0-ff.14.gz
+usr/share/kbd/consolefonts/partialfonts/8859-3.a0-ff.16.gz
+usr/share/kbd/consolefonts/partialfonts/8859-4.a0-ff.08.gz
+usr/share/kbd/consolefonts/partialfonts/8859-4.a0-ff.14.gz
+usr/share/kbd/consolefonts/partialfonts/8859-4.a0-ff.16.gz
+usr/share/kbd/consolefonts/partialfonts/8859-5.a0-ff.08.gz
+usr/share/kbd/consolefonts/partialfonts/8859-5.a0-ff.14.gz
+usr/share/kbd/consolefonts/partialfonts/8859-5.a0-ff.16.gz
+usr/share/kbd/consolefonts/partialfonts/8859-6.a0-ff.08.gz
+usr/share/kbd/consolefonts/partialfonts/8859-6.a0-ff.14.gz
+usr/share/kbd/consolefonts/partialfonts/8859-6.a0-ff.16.gz
+usr/share/kbd/consolefonts/partialfonts/8859-7.a0-ff.08.gz
+usr/share/kbd/consolefonts/partialfonts/8859-7.a0-ff.14.gz
+usr/share/kbd/consolefonts/partialfonts/8859-7.a0-ff.16.gz
+usr/share/kbd/consolefonts/partialfonts/8859-8.a0-ff.08.gz
+usr/share/kbd/consolefonts/partialfonts/8859-8.a0-ff.14.gz
+usr/share/kbd/consolefonts/partialfonts/8859-8.a0-ff.16.gz
+usr/share/kbd/consolefonts/partialfonts/8859-9.a0-ff.08.gz
+usr/share/kbd/consolefonts/partialfonts/8859-9.a0-ff.14.gz
+usr/share/kbd/consolefonts/partialfonts/8859-9.a0-ff.16.gz
+usr/share/kbd/consolefonts/partialfonts/ascii.20-7f.08.gz
+usr/share/kbd/consolefonts/partialfonts/ascii.20-7f.14.gz
+usr/share/kbd/consolefonts/partialfonts/ascii.20-7f.16.gz
+usr/share/kbd/consolefonts/partialfonts/cp437.00-1f.08.gz
+usr/share/kbd/consolefonts/partialfonts/cp437.00-1f.14.gz
+usr/share/kbd/consolefonts/partialfonts/cp437.00-1f.16.gz
+usr/share/kbd/consolefonts/partialfonts/none.00-17.08.gz
+usr/share/kbd/consolefonts/partialfonts/none.00-17.14.gz
+usr/share/kbd/consolefonts/partialfonts/none.00-17.16.gz
+usr/share/kbd/consolefonts/ruscii_8x16.psfu.gz
+usr/share/kbd/consolefonts/ruscii_8x8.psfu.gz
+usr/share/kbd/consolefonts/solar24x32.psfu.gz
+usr/share/kbd/consolefonts/sun12x22.psfu.gz
+usr/share/kbd/consolefonts/t.fnt.gz
+usr/share/kbd/consolefonts/t850b.fnt.gz
+usr/share/kbd/consolefonts/tcvn8x16.psf.gz
+usr/share/kbd/consolefonts/viscii10-8x16.psfu.gz
+usr/share/kbd/consoletrans/
+usr/share/kbd/consoletrans/8859-10_to_uni.trans
+usr/share/kbd/consoletrans/8859-13_to_uni.trans
+usr/share/kbd/consoletrans/8859-14_to_uni.trans
+usr/share/kbd/consoletrans/8859-15_to_uni.trans
+usr/share/kbd/consoletrans/8859-1_to_uni.trans
+usr/share/kbd/consoletrans/8859-2_to_uni.trans
+usr/share/kbd/consoletrans/8859-3_to_uni.trans
+usr/share/kbd/consoletrans/8859-4_to_uni.trans
+usr/share/kbd/consoletrans/8859-5_to_uni.trans
+usr/share/kbd/consoletrans/8859-6_to_uni.trans
+usr/share/kbd/consoletrans/8859-7_to_uni.trans
+usr/share/kbd/consoletrans/8859-8_to_uni.trans
+usr/share/kbd/consoletrans/8859-9_to_uni.trans
+usr/share/kbd/consoletrans/baltic.trans
+usr/share/kbd/consoletrans/cp1250_to_uni.trans
+usr/share/kbd/consoletrans/cp1251_to_uni.trans
+usr/share/kbd/consoletrans/cp437_to_iso01.trans
+usr/share/kbd/consoletrans/cp437_to_uni.trans
+usr/share/kbd/consoletrans/cp737_to_uni.trans
+usr/share/kbd/consoletrans/cp775_to_uni.trans
+usr/share/kbd/consoletrans/cp850_to_iso01.trans
+usr/share/kbd/consoletrans/cp850_to_uni.trans
+usr/share/kbd/consoletrans/cp852_to_uni.trans
+usr/share/kbd/consoletrans/cp853_to_uni.trans
+usr/share/kbd/consoletrans/cp855_to_uni.trans
+usr/share/kbd/consoletrans/cp857_to_uni.trans
+usr/share/kbd/consoletrans/cp860_to_uni.trans
+usr/share/kbd/consoletrans/cp861_to_uni.trans
+usr/share/kbd/consoletrans/cp862_to_uni.trans
+usr/share/kbd/consoletrans/cp863_to_uni.trans
+usr/share/kbd/consoletrans/cp864_to_uni.trans
+usr/share/kbd/consoletrans/cp865_to_uni.trans
+usr/share/kbd/consoletrans/cp866_to_uni.trans
+usr/share/kbd/consoletrans/cp869_to_uni.trans
+usr/share/kbd/consoletrans/cp874_to_uni.trans
+usr/share/kbd/consoletrans/iso02_to_cp1250.trans
+usr/share/kbd/consoletrans/koi2alt
+usr/share/kbd/consoletrans/koi8-r_to_uni.trans
+usr/share/kbd/consoletrans/koi8-u_to_uni.trans
+usr/share/kbd/consoletrans/koi8u2ruscii
+usr/share/kbd/consoletrans/latin2u.trans
+usr/share/kbd/consoletrans/null
+usr/share/kbd/consoletrans/space
+usr/share/kbd/consoletrans/trivial
+usr/share/kbd/consoletrans/utflist
+usr/share/kbd/consoletrans/vga2iso
+usr/share/kbd/consoletrans/viscii1.0_to_tcvn.trans
+usr/share/kbd/consoletrans/viscii1.0_to_viscii1.1.trans
+usr/share/kbd/consoletrans/zero
+usr/share/kbd/keymaps/
+usr/share/kbd/keymaps/amiga/
+usr/share/kbd/keymaps/amiga/amiga-de.map.gz
+usr/share/kbd/keymaps/amiga/amiga-us.map.gz
+usr/share/kbd/keymaps/atari/
+usr/share/kbd/keymaps/atari/atari-de.map.gz
+usr/share/kbd/keymaps/atari/atari-se.map.gz
+usr/share/kbd/keymaps/atari/atari-uk-falcon.map.gz
+usr/share/kbd/keymaps/atari/atari-us.map.gz
+usr/share/kbd/keymaps/i386/
+usr/share/kbd/keymaps/i386/azerty/
+usr/share/kbd/keymaps/i386/azerty/azerty.map.gz
+usr/share/kbd/keymaps/i386/azerty/be-latin1.map.gz
+usr/share/kbd/keymaps/i386/azerty/fr-latin1.map.gz
+usr/share/kbd/keymaps/i386/azerty/fr-latin9.map.gz
+usr/share/kbd/keymaps/i386/azerty/fr-pc.map.gz
+usr/share/kbd/keymaps/i386/azerty/fr.map.gz
+usr/share/kbd/keymaps/i386/azerty/wangbe.map.gz
+usr/share/kbd/keymaps/i386/azerty/wangbe2.map.gz
+usr/share/kbd/keymaps/i386/bepo/
+usr/share/kbd/keymaps/i386/bepo/fr-bepo-latin9.map.gz
+usr/share/kbd/keymaps/i386/bepo/fr-bepo.map.gz
+usr/share/kbd/keymaps/i386/carpalx/
+usr/share/kbd/keymaps/i386/carpalx/carpalx-full.map.gz
+usr/share/kbd/keymaps/i386/carpalx/carpalx.map.gz
+usr/share/kbd/keymaps/i386/colemak/
+usr/share/kbd/keymaps/i386/colemak/colemak.map.gz
+usr/share/kbd/keymaps/i386/colemak/mod-dh-ansi-us-awing.map.gz
+usr/share/kbd/keymaps/i386/colemak/mod-dh-ansi-us-fatz-wide.map.gz
+usr/share/kbd/keymaps/i386/colemak/mod-dh-ansi-us-fatz.map.gz
+usr/share/kbd/keymaps/i386/colemak/mod-dh-ansi-us-wide.map.gz
+usr/share/kbd/keymaps/i386/colemak/mod-dh-ansi-us.map.gz
+usr/share/kbd/keymaps/i386/colemak/mod-dh-iso-uk-wide.map.gz
+usr/share/kbd/keymaps/i386/colemak/mod-dh-iso-uk.map.gz
+usr/share/kbd/keymaps/i386/colemak/mod-dh-iso-us-wide.map.gz
+usr/share/kbd/keymaps/i386/colemak/mod-dh-iso-us.map.gz
+usr/share/kbd/keymaps/i386/colemak/mod-dh-matrix-us.map.gz
+usr/share/kbd/keymaps/i386/dvorak/
+usr/share/kbd/keymaps/i386/dvorak/ANSI-dvorak.map.gz
+usr/share/kbd/keymaps/i386/dvorak/dvorak-ca-fr.map.gz
+usr/share/kbd/keymaps/i386/dvorak/dvorak-de.map.gz
+usr/share/kbd/keymaps/i386/dvorak/dvorak-es.map.gz
+usr/share/kbd/keymaps/i386/dvorak/dvorak-fr.map.gz
+usr/share/kbd/keymaps/i386/dvorak/dvorak-l.map.gz
+usr/share/kbd/keymaps/i386/dvorak/dvorak-la.map.gz
+usr/share/kbd/keymaps/i386/dvorak/dvorak-no.map.gz
+usr/share/kbd/keymaps/i386/dvorak/dvorak-programmer.map.gz
+usr/share/kbd/keymaps/i386/dvorak/dvorak-r.map.gz
+usr/share/kbd/keymaps/i386/dvorak/dvorak-ru.map.gz
+usr/share/kbd/keymaps/i386/dvorak/dvorak-sv-a1.map.gz
+usr/share/kbd/keymaps/i386/dvorak/dvorak-sv-a5.map.gz
+usr/share/kbd/keymaps/i386/dvorak/dvorak-uk.map.gz
+usr/share/kbd/keymaps/i386/dvorak/dvorak-ukp.map.gz
+usr/share/kbd/keymaps/i386/dvorak/dvorak.map.gz
+usr/share/kbd/keymaps/i386/fgGIod/
+usr/share/kbd/keymaps/i386/fgGIod/tr_f-latin5.map.gz
+usr/share/kbd/keymaps/i386/fgGIod/trf-fgGIod.map.gz
+usr/share/kbd/keymaps/i386/include/
+usr/share/kbd/keymaps/i386/include/applkey.map.gz
+usr/share/kbd/keymaps/i386/include/azerty-layout.inc
+usr/share/kbd/keymaps/i386/include/backspace.map.gz
+usr/share/kbd/keymaps/i386/include/compose.inc
+usr/share/kbd/keymaps/i386/include/ctrl.map.gz
+usr/share/kbd/keymaps/i386/include/euro.map.gz
+usr/share/kbd/keymaps/i386/include/euro1.inc
+usr/share/kbd/keymaps/i386/include/euro1.map.gz
+usr/share/kbd/keymaps/i386/include/euro2.map.gz
+usr/share/kbd/keymaps/i386/include/keypad.map.gz
+usr/share/kbd/keymaps/i386/include/linux-keys-bare.inc
+usr/share/kbd/keymaps/i386/include/linux-keys-extd.inc
+usr/share/kbd/keymaps/i386/include/linux-with-alt-and-altgr.inc
+usr/share/kbd/keymaps/i386/include/linux-with-modeshift-altgr.inc
+usr/share/kbd/keymaps/i386/include/linux-with-two-alt-keys.inc
+usr/share/kbd/keymaps/i386/include/qwerty-layout.inc
+usr/share/kbd/keymaps/i386/include/qwertz-layout.inc
+usr/share/kbd/keymaps/i386/include/unicode.map.gz
+usr/share/kbd/keymaps/i386/include/windowkeys.map.gz
+usr/share/kbd/keymaps/i386/neo/
+usr/share/kbd/keymaps/i386/neo/3l.map.gz
+usr/share/kbd/keymaps/i386/neo/README.md
+usr/share/kbd/keymaps/i386/neo/adnw.map.gz
+usr/share/kbd/keymaps/i386/neo/bone.map.gz
+usr/share/kbd/keymaps/i386/neo/koy.map.gz
+usr/share/kbd/keymaps/i386/neo/neo.map.gz
+usr/share/kbd/keymaps/i386/neo/neoqwertz.map.gz
+usr/share/kbd/keymaps/i386/olpc/
+usr/share/kbd/keymaps/i386/olpc/es-olpc.map.gz
+usr/share/kbd/keymaps/i386/olpc/pt-olpc.map.gz
+usr/share/kbd/keymaps/i386/qwerty/
+usr/share/kbd/keymaps/i386/qwerty/bashkir.map.gz
+usr/share/kbd/keymaps/i386/qwerty/bg-cp1251.map.gz
+usr/share/kbd/keymaps/i386/qwerty/bg-cp855.map.gz
+usr/share/kbd/keymaps/i386/qwerty/bg_bds-cp1251.map.gz
+usr/share/kbd/keymaps/i386/qwerty/bg_bds-utf8.map.gz
+usr/share/kbd/keymaps/i386/qwerty/bg_pho-cp1251.map.gz
+usr/share/kbd/keymaps/i386/qwerty/bg_pho-utf8.map.gz
+usr/share/kbd/keymaps/i386/qwerty/br-abnt.map.gz
+usr/share/kbd/keymaps/i386/qwerty/br-abnt2.map.gz
+usr/share/kbd/keymaps/i386/qwerty/br-latin1-abnt2.map.gz
+usr/share/kbd/keymaps/i386/qwerty/br-latin1-us.map.gz
+usr/share/kbd/keymaps/i386/qwerty/by-cp1251.map.gz
+usr/share/kbd/keymaps/i386/qwerty/by.map.gz
+usr/share/kbd/keymaps/i386/qwerty/bywin-cp1251.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ca.map.gz
+usr/share/kbd/keymaps/i386/qwerty/cf.map.gz
+usr/share/kbd/keymaps/i386/qwerty/cz-cp1250.map.gz
+usr/share/kbd/keymaps/i386/qwerty/cz-lat2-prog.map.gz
+usr/share/kbd/keymaps/i386/qwerty/cz-lat2.map.gz
+usr/share/kbd/keymaps/i386/qwerty/cz.map.gz
+usr/share/kbd/keymaps/i386/qwerty/defkeymap.map.gz
+usr/share/kbd/keymaps/i386/qwerty/defkeymap_V1.0.map.gz
+usr/share/kbd/keymaps/i386/qwerty/dk-latin1.map.gz
+usr/share/kbd/keymaps/i386/qwerty/dk.map.gz
+usr/share/kbd/keymaps/i386/qwerty/emacs.map.gz
+usr/share/kbd/keymaps/i386/qwerty/emacs2.map.gz
+usr/share/kbd/keymaps/i386/qwerty/es-cp850.map.gz
+usr/share/kbd/keymaps/i386/qwerty/es.map.gz
+usr/share/kbd/keymaps/i386/qwerty/et-nodeadkeys.map.gz
+usr/share/kbd/keymaps/i386/qwerty/et.map.gz
+usr/share/kbd/keymaps/i386/qwerty/fa.map.gz
+usr/share/kbd/keymaps/i386/qwerty/fi.map.gz
+usr/share/kbd/keymaps/i386/qwerty/gr-pc.map.gz
+usr/share/kbd/keymaps/i386/qwerty/gr.map.gz
+usr/share/kbd/keymaps/i386/qwerty/hu101.map.gz
+usr/share/kbd/keymaps/i386/qwerty/hypermap.m4
+usr/share/kbd/keymaps/i386/qwerty/ie.map.gz
+usr/share/kbd/keymaps/i386/qwerty/il-heb.map.gz
+usr/share/kbd/keymaps/i386/qwerty/il-phonetic.map.gz
+usr/share/kbd/keymaps/i386/qwerty/il.map.gz
+usr/share/kbd/keymaps/i386/qwerty/is-latin1-us.map.gz
+usr/share/kbd/keymaps/i386/qwerty/is-latin1.map.gz
+usr/share/kbd/keymaps/i386/qwerty/it-ibm.map.gz
+usr/share/kbd/keymaps/i386/qwerty/it.map.gz
+usr/share/kbd/keymaps/i386/qwerty/it2.map.gz
+usr/share/kbd/keymaps/i386/qwerty/jp106.map.gz
+usr/share/kbd/keymaps/i386/qwerty/kazakh.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ky_alt_sh-UTF-8.map.gz
+usr/share/kbd/keymaps/i386/qwerty/kyrgyz.map.gz
+usr/share/kbd/keymaps/i386/qwerty/la-latin1.map.gz
+usr/share/kbd/keymaps/i386/qwerty/lt.baltic.map.gz
+usr/share/kbd/keymaps/i386/qwerty/lt.l4.map.gz
+usr/share/kbd/keymaps/i386/qwerty/lt.map.gz
+usr/share/kbd/keymaps/i386/qwerty/lv-tilde.map.gz
+usr/share/kbd/keymaps/i386/qwerty/lv.map.gz
+usr/share/kbd/keymaps/i386/qwerty/mk-cp1251.map.gz
+usr/share/kbd/keymaps/i386/qwerty/mk-utf.map.gz
+usr/share/kbd/keymaps/i386/qwerty/mk.map.gz
+usr/share/kbd/keymaps/i386/qwerty/mk0.map.gz
+usr/share/kbd/keymaps/i386/qwerty/nl.map.gz
+usr/share/kbd/keymaps/i386/qwerty/nl2.map.gz
+usr/share/kbd/keymaps/i386/qwerty/no-latin1.doc
+usr/share/kbd/keymaps/i386/qwerty/no-latin1.map.gz
+usr/share/kbd/keymaps/i386/qwerty/no.map.gz
+usr/share/kbd/keymaps/i386/qwerty/pc110.map.gz
+usr/share/kbd/keymaps/i386/qwerty/pl.map.gz
+usr/share/kbd/keymaps/i386/qwerty/pl1.map.gz
+usr/share/kbd/keymaps/i386/qwerty/pl2.map.gz
+usr/share/kbd/keymaps/i386/qwerty/pl3.map.gz
+usr/share/kbd/keymaps/i386/qwerty/pl4.map.gz
+usr/share/kbd/keymaps/i386/qwerty/pt-latin1.map.gz
+usr/share/kbd/keymaps/i386/qwerty/pt-latin9.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ro.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ro_std.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ro_win.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ru-cp1251.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ru-ms.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ru-yawerty.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ru.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ru1.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ru2.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ru3.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ru4.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ru_win.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ruwin_alt-CP1251.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ruwin_alt-KOI8-R.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ruwin_alt-UTF-8.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ruwin_alt_sh-UTF-8.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ruwin_cplk-CP1251.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ruwin_cplk-KOI8-R.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ruwin_cplk-UTF-8.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ruwin_ct_sh-CP1251.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ruwin_ct_sh-KOI8-R.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ruwin_ct_sh-UTF-8.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ruwin_ctrl-CP1251.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ruwin_ctrl-KOI8-R.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ruwin_ctrl-UTF-8.map.gz
+usr/share/kbd/keymaps/i386/qwerty/se-fi-ir209.map.gz
+usr/share/kbd/keymaps/i386/qwerty/se-fi-lat6.map.gz
+usr/share/kbd/keymaps/i386/qwerty/se-ir209.map.gz
+usr/share/kbd/keymaps/i386/qwerty/se-lat6.map.gz
+usr/share/kbd/keymaps/i386/qwerty/sk-prog-qwerty.map.gz
+usr/share/kbd/keymaps/i386/qwerty/sk-qwerty.map.gz
+usr/share/kbd/keymaps/i386/qwerty/sr-cy.map.gz
+usr/share/kbd/keymaps/i386/qwerty/sv-latin1.map.gz
+usr/share/kbd/keymaps/i386/qwerty/tj_alt-UTF8.map.gz
+usr/share/kbd/keymaps/i386/qwerty/tr_q-latin5.map.gz
+usr/share/kbd/keymaps/i386/qwerty/tralt.map.gz
+usr/share/kbd/keymaps/i386/qwerty/trf.map.gz
+usr/share/kbd/keymaps/i386/qwerty/trq.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ttwin_alt-UTF-8.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ttwin_cplk-UTF-8.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ttwin_ct_sh-UTF-8.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ttwin_ctrl-UTF-8.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ua-cp1251.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ua-utf-ws.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ua-utf.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ua-ws.map.gz
+usr/share/kbd/keymaps/i386/qwerty/ua.map.gz
+usr/share/kbd/keymaps/i386/qwerty/uk.map.gz
+usr/share/kbd/keymaps/i386/qwerty/us-acentos.map.gz
+usr/share/kbd/keymaps/i386/qwerty/us.map.gz
+usr/share/kbd/keymaps/i386/qwerty/us1.map.gz
+usr/share/kbd/keymaps/i386/qwertz/
+usr/share/kbd/keymaps/i386/qwertz/croat.map.gz
+usr/share/kbd/keymaps/i386/qwertz/cz-qwertz.map.gz
+usr/share/kbd/keymaps/i386/qwertz/cz-us-qwertz.map.gz
+usr/share/kbd/keymaps/i386/qwertz/de-latin1-nodeadkeys.map.gz
+usr/share/kbd/keymaps/i386/qwertz/de-latin1.map.gz
+usr/share/kbd/keymaps/i386/qwertz/de-mobii.map.gz
+usr/share/kbd/keymaps/i386/qwertz/de.map.gz
+usr/share/kbd/keymaps/i386/qwertz/de_CH-latin1.map.gz
+usr/share/kbd/keymaps/i386/qwertz/de_alt_UTF-8.map.gz
+usr/share/kbd/keymaps/i386/qwertz/fr_CH-latin1.map.gz
+usr/share/kbd/keymaps/i386/qwertz/fr_CH.map.gz
+usr/share/kbd/keymaps/i386/qwertz/hu.map.gz
+usr/share/kbd/keymaps/i386/qwertz/sg-latin1-lk450.map.gz
+usr/share/kbd/keymaps/i386/qwertz/sg-latin1.map.gz
+usr/share/kbd/keymaps/i386/qwertz/sg.map.gz
+usr/share/kbd/keymaps/i386/qwertz/sk-prog-qwertz.map.gz
+usr/share/kbd/keymaps/i386/qwertz/sk-qwertz.map.gz
+usr/share/kbd/keymaps/i386/qwertz/slovene.map.gz
+usr/share/kbd/keymaps/i386/qwertz/sr-latin.map.gz
+usr/share/kbd/keymaps/include/
+usr/share/kbd/keymaps/include/compose.8859_7
+usr/share/kbd/keymaps/include/compose.8859_8
+usr/share/kbd/keymaps/include/compose.latin
+usr/share/kbd/keymaps/include/compose.latin1
+usr/share/kbd/keymaps/include/compose.latin2
+usr/share/kbd/keymaps/include/compose.latin3
+usr/share/kbd/keymaps/include/compose.latin4
+usr/share/kbd/keymaps/include/vim-compose.latin1
+usr/share/kbd/keymaps/mac/
+usr/share/kbd/keymaps/mac/all/
+usr/share/kbd/keymaps/mac/all/apple-a1048-sv.map.gz
+usr/share/kbd/keymaps/mac/all/apple-a1243-sv-fn-reverse.map.gz
+usr/share/kbd/keymaps/mac/all/apple-a1243-sv.map.gz
+usr/share/kbd/keymaps/mac/all/apple-internal-0x0253-sv-fn-reverse.map.gz
+usr/share/kbd/keymaps/mac/all/apple-internal-0x0253-sv.map.gz
+usr/share/kbd/keymaps/mac/all/mac-be.map.gz
+usr/share/kbd/keymaps/mac/all/mac-de-latin1-nodeadkeys.map.gz
+usr/share/kbd/keymaps/mac/all/mac-de-latin1.map.gz
+usr/share/kbd/keymaps/mac/all/mac-de_CH.map.gz
+usr/share/kbd/keymaps/mac/all/mac-dk-latin1.map.gz
+usr/share/kbd/keymaps/mac/all/mac-dvorak.map.gz
+usr/share/kbd/keymaps/mac/all/mac-es.map.gz
+usr/share/kbd/keymaps/mac/all/mac-fi-latin1.map.gz
+usr/share/kbd/keymaps/mac/all/mac-fr-legacy.map.gz
+usr/share/kbd/keymaps/mac/all/mac-fr.map.gz
+usr/share/kbd/keymaps/mac/all/mac-fr_CH-latin1.map.gz
+usr/share/kbd/keymaps/mac/all/mac-it.map.gz
+usr/share/kbd/keymaps/mac/all/mac-no-latin1.map.gz
+usr/share/kbd/keymaps/mac/all/mac-pl.map.gz
+usr/share/kbd/keymaps/mac/all/mac-pt-latin1.map.gz
+usr/share/kbd/keymaps/mac/all/mac-se.map.gz
+usr/share/kbd/keymaps/mac/all/mac-template.map.gz
+usr/share/kbd/keymaps/mac/all/mac-uk.map.gz
+usr/share/kbd/keymaps/mac/all/mac-us.map.gz
+usr/share/kbd/keymaps/mac/include/
+usr/share/kbd/keymaps/mac/include/apple-a1048-base.inc
+usr/share/kbd/keymaps/mac/include/apple-a1243-fn-reverse.inc
+usr/share/kbd/keymaps/mac/include/apple-a1243-fn.inc
+usr/share/kbd/keymaps/mac/include/mac-azerty-layout.inc
+usr/share/kbd/keymaps/mac/include/mac-euro.map.gz
+usr/share/kbd/keymaps/mac/include/mac-euro2.map.gz
+usr/share/kbd/keymaps/mac/include/mac-linux-keys-bare.inc
+usr/share/kbd/keymaps/mac/include/mac-qwerty-layout.inc
+usr/share/kbd/keymaps/mac/include/mac-qwertz-layout.inc
+usr/share/kbd/keymaps/pine/
+usr/share/kbd/keymaps/pine/en.map.gz
+usr/share/kbd/keymaps/sun/
+usr/share/kbd/keymaps/sun/sun-pl-altgraph.map.gz
+usr/share/kbd/keymaps/sun/sun-pl.map.gz
+usr/share/kbd/keymaps/sun/sundvorak.map.gz
+usr/share/kbd/keymaps/sun/sunkeymap.map.gz
+usr/share/kbd/keymaps/sun/sunt4-es.map.gz
+usr/share/kbd/keymaps/sun/sunt4-fi-latin1.map.gz
+usr/share/kbd/keymaps/sun/sunt4-no-latin1.map.gz
+usr/share/kbd/keymaps/sun/sunt5-cz-us.map.gz
+usr/share/kbd/keymaps/sun/sunt5-de-latin1.map.gz
+usr/share/kbd/keymaps/sun/sunt5-es.map.gz
+usr/share/kbd/keymaps/sun/sunt5-fi-latin1.map.gz
+usr/share/kbd/keymaps/sun/sunt5-fr-latin1.map.gz
+usr/share/kbd/keymaps/sun/sunt5-ru.map.gz
+usr/share/kbd/keymaps/sun/sunt5-uk.map.gz
+usr/share/kbd/keymaps/sun/sunt5-us-cz.map.gz
+usr/share/kbd/keymaps/sun/sunt6-uk.map.gz
+usr/share/kbd/unimaps/
+usr/share/kbd/unimaps/8859-1.a0-ff.uni
+usr/share/kbd/unimaps/8859-10.a0-ff.uni
+usr/share/kbd/unimaps/8859-13.a0-ff.uni
+usr/share/kbd/unimaps/8859-14.a0-ff.uni
+usr/share/kbd/unimaps/8859-15.a0-ff.uni
+usr/share/kbd/unimaps/8859-2.a0-ff.uni
+usr/share/kbd/unimaps/8859-3.a0-ff.uni
+usr/share/kbd/unimaps/8859-4.a0-ff.uni
+usr/share/kbd/unimaps/8859-5.a0-ff.uni
+usr/share/kbd/unimaps/8859-6.a0-ff.uni
+usr/share/kbd/unimaps/8859-7.a0-ff.uni
+usr/share/kbd/unimaps/8859-8.a0-ff.uni
+usr/share/kbd/unimaps/8859-9.a0-ff.uni
+usr/share/kbd/unimaps/ECMA144.uni
+usr/share/kbd/unimaps/README
+usr/share/kbd/unimaps/armscii8.uni
+usr/share/kbd/unimaps/ascii.20-7f.uni
+usr/share/kbd/unimaps/cp1250.uni
+usr/share/kbd/unimaps/cp437.00-1f.uni
+usr/share/kbd/unimaps/cp437.uni
+usr/share/kbd/unimaps/cp737.uni
+usr/share/kbd/unimaps/cp737a.uni
+usr/share/kbd/unimaps/cp737b.uni
+usr/share/kbd/unimaps/cp737c.uni
+usr/share/kbd/unimaps/cp850.uni
+usr/share/kbd/unimaps/cp850a.uni
+usr/share/kbd/unimaps/cp850b.uni
+usr/share/kbd/unimaps/cp850z.uni
+usr/share/kbd/unimaps/cp865.uni
+usr/share/kbd/unimaps/cp865a.uni
+usr/share/kbd/unimaps/cp866.uni
+usr/share/kbd/unimaps/cp866a.uni
+usr/share/kbd/unimaps/cybercafe.uni
+usr/share/kbd/unimaps/cyralt.uni
+usr/share/kbd/unimaps/def.uni
+usr/share/kbd/unimaps/empty.uni
+usr/share/kbd/unimaps/ethiopic.uni
+usr/share/kbd/unimaps/iso01.uni
+usr/share/kbd/unimaps/iso02.uni
+usr/share/kbd/unimaps/iso03.uni
+usr/share/kbd/unimaps/iso04.uni
+usr/share/kbd/unimaps/iso05.uni
+usr/share/kbd/unimaps/iso06.uni
+usr/share/kbd/unimaps/iso07.uni
+usr/share/kbd/unimaps/iso07u.uni
+usr/share/kbd/unimaps/iso08.uni
+usr/share/kbd/unimaps/iso09.uni
+usr/share/kbd/unimaps/iso10.uni
+usr/share/kbd/unimaps/iso15.uni
+usr/share/kbd/unimaps/koi8r.uni
+usr/share/kbd/unimaps/koi8u.uni
+usr/share/kbd/unimaps/lat1.uni
+usr/share/kbd/unimaps/lat1u.uni
+usr/share/kbd/unimaps/lat2.uni
+usr/share/kbd/unimaps/lat2u.uni
+usr/share/kbd/unimaps/lat4.uni
+usr/share/kbd/unimaps/lat4u.uni
+usr/share/kbd/unimaps/lat7.uni
+usr/share/kbd/unimaps/lat9u.uni
+usr/share/kbd/unimaps/lat9v.uni
+usr/share/kbd/unimaps/lat9w.uni
+usr/share/kbd/unimaps/ruscii.uni
+usr/share/kbd/unimaps/tcvn.uni
+usr/share/kbd/unimaps/viscii.uni
+usr/share/locale/
+usr/share/locale/cs/
+usr/share/locale/cs/LC_MESSAGES/
+usr/share/locale/cs/LC_MESSAGES/kbd.mo
+usr/share/locale/da/
+usr/share/locale/da/LC_MESSAGES/
+usr/share/locale/da/LC_MESSAGES/kbd.mo
+usr/share/locale/de/
+usr/share/locale/de/LC_MESSAGES/
+usr/share/locale/de/LC_MESSAGES/kbd.mo
+usr/share/locale/el/
+usr/share/locale/el/LC_MESSAGES/
+usr/share/locale/el/LC_MESSAGES/kbd.mo
+usr/share/locale/eo/
+usr/share/locale/eo/LC_MESSAGES/
+usr/share/locale/eo/LC_MESSAGES/kbd.mo
+usr/share/locale/es/
+usr/share/locale/es/LC_MESSAGES/
+usr/share/locale/es/LC_MESSAGES/kbd.mo
+usr/share/locale/fr/
+usr/share/locale/fr/LC_MESSAGES/
+usr/share/locale/fr/LC_MESSAGES/kbd.mo
+usr/share/locale/gr/
+usr/share/locale/gr/LC_MESSAGES/
+usr/share/locale/gr/LC_MESSAGES/kbd.mo
+usr/share/locale/id/
+usr/share/locale/id/LC_MESSAGES/
+usr/share/locale/id/LC_MESSAGES/kbd.mo
+usr/share/locale/it/
+usr/share/locale/it/LC_MESSAGES/
+usr/share/locale/it/LC_MESSAGES/kbd.mo
+usr/share/locale/nl/
+usr/share/locale/nl/LC_MESSAGES/
+usr/share/locale/nl/LC_MESSAGES/kbd.mo
+usr/share/locale/pl/
+usr/share/locale/pl/LC_MESSAGES/
+usr/share/locale/pl/LC_MESSAGES/kbd.mo
+usr/share/locale/pt/
+usr/share/locale/pt/LC_MESSAGES/
+usr/share/locale/pt/LC_MESSAGES/kbd.mo
+usr/share/locale/pt_BR/
+usr/share/locale/pt_BR/LC_MESSAGES/
+usr/share/locale/pt_BR/LC_MESSAGES/kbd.mo
+usr/share/locale/ro/
+usr/share/locale/ro/LC_MESSAGES/
+usr/share/locale/ro/LC_MESSAGES/kbd.mo
+usr/share/locale/ru/
+usr/share/locale/ru/LC_MESSAGES/
+usr/share/locale/ru/LC_MESSAGES/kbd.mo
+usr/share/locale/sr/
+usr/share/locale/sr/LC_MESSAGES/
+usr/share/locale/sr/LC_MESSAGES/kbd.mo
+usr/share/locale/sv/
+usr/share/locale/sv/LC_MESSAGES/
+usr/share/locale/sv/LC_MESSAGES/kbd.mo
+usr/share/locale/tr/
+usr/share/locale/tr/LC_MESSAGES/
+usr/share/locale/tr/LC_MESSAGES/kbd.mo
+usr/share/locale/uk/
+usr/share/locale/uk/LC_MESSAGES/
+usr/share/locale/uk/LC_MESSAGES/kbd.mo
+usr/share/locale/vi/
+usr/share/locale/vi/LC_MESSAGES/
+usr/share/locale/vi/LC_MESSAGES/kbd.mo
+usr/share/locale/zh_CN/
+usr/share/locale/zh_CN/LC_MESSAGES/
+usr/share/locale/zh_CN/LC_MESSAGES/kbd.mo
+usr/src/
+usr/src/kbd-2.6.3/
+usr/src/kbd-2.6.3/SLKBUILD
+usr/src/kbd-2.6.3/fix-euro2.patch
+usr/src/kbd-2.6.3/vlock.pam
+
+Slackware package /repo/x86_64/slint-15.0/source/kbd/kbd-2.6.3-x86_64-1slint.txz created.
+Package has been built.

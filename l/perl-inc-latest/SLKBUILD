@@ -1,0 +1,31 @@
+#Packager: George Vlahavas <vlahavas~at~gmail~dot~com>
+
+pkgname=perl-inc-latest
+pkgver=0.500
+pkgrel=2slint
+source=("https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/inc-latest-$pkgver.tar.gz")
+docs=("readme" "install" "copying" "changelog" "authors" "news" "todo")
+url=https://metacpan.org/pod/inc::latest
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"perl-inc-latest (use bundled modules)"
+"inc-latest allows to use Perl modules bundled in inc/ if they are"
+"newer than installed ones."
+)
+
+
+build() {
+	cd $startdir/src/inc-latest-$pkgver
+
+	perl Makefile.PL || exit 1
+	make OPTIMIZE="$CFLAGS" || exit 1
+	make install INSTALLDIRS=vendor DESTDIR=$startdir/pkg || exit 1
+
+	# Remove perllocal.pod and .packlist if present in the package
+	( for i in perllocal.pod .packlist; do
+	        find $startdir/pkg -name "$i" -exec rm -rf {} \;
+		  done
+	) || exit 1
+} 

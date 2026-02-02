@@ -1,0 +1,59 @@
+Submitted By:            Douglas R. Reno <renodr at linuxfromscratch dot org>
+Date:                    2024-02-02
+Initial Package Version: 24.2.0.3
+Origin:                  Upstream and Marty Jack (Ticket #19221)
+Upstream Status:         Applied and unknown
+Description:             Fixes building Libreoffice-24.2.0.3 with libxml2-2.12.x
+                         and also resolves a problem that occurs when linking
+                         to zlib when the wpftdraw component is built. Thanks
+                         goes to Marty Jack for the patches.
+
+diff -Nuarp libreoffice-7.6.3.2.orig/external/liblangtag/liblangtag-libxml2.patch libreoffice-7.6.3.2/external/liblangtag/liblangtag-libxml2.patch
+--- libreoffice-7.6.3.2.orig/external/liblangtag/liblangtag-libxml2.patch	1969-12-31 19:00:00.000000000 -0500
++++ libreoffice-7.6.3.2/external/liblangtag/liblangtag-libxml2.patch	2023-11-24 14:02:32.526647691 -0500
+@@ -0,0 +1,20 @@
++--- liblangtag/lt-tag.c.orig	2017-10-21 04:25:25.000000000 -0400
+++++ liblangtag/lt-tag.c	2023-11-23 11:14:36.264330458 -0500
++@@ -16,6 +16,7 @@
++ 
++ #include "lt-stdint.h"
++ 
+++#include <stdlib.h>
++ #include <ctype.h>
++ #include <locale.h>
++ #include <string.h>
++--- extensions/lt-ext-ldml-u.c.orig	2015-11-25 04:44:04.000000000 -0500
+++++ extensions/lt-ext-ldml-u.c	2023-11-23 11:43:06.530712707 -0500
++@@ -16,6 +16,7 @@
++ 
++ #include "lt-stdint.h"
++ 
+++#include <stdlib.h>
++ #include <string.h>
++ #include <libxml/xpath.h>
++ #include "lt-error.h"
+diff -Nuarp libreoffice-7.6.3.2.orig/external/liblangtag/UnpackedTarball_liblangtag.mk libreoffice-7.6.3.2/external/liblangtag/UnpackedTarball_liblangtag.mk
+--- libreoffice-7.6.3.2.orig/external/liblangtag/UnpackedTarball_liblangtag.mk	2023-11-16 18:06:03.000000000 -0500
++++ libreoffice-7.6.3.2/external/liblangtag/UnpackedTarball_liblangtag.mk	2023-11-24 14:06:28.720720988 -0500
+@@ -32,4 +32,8 @@ $(eval $(call gb_UnpackedTarball_add_pat
+     external/liblangtag/clang-cl.patch.0 \
+ ))
+ 
++$(eval $(call gb_UnpackedTarball_add_patches,liblangtag,\
++	external/liblangtag/liblangtag-libxml2.patch \
++))
++
+ # vim: set noet sw=4 ts=4:
+
+diff -Naur libreoffice-24.2.0.3.orig/writerperfect/Library_wpftdraw.mk libreoffice-24.2.0.3/writerperfect/Library_wpftdraw.mk
+--- libreoffice-24.2.0.3.orig/writerperfect/Library_wpftdraw.mk	2024-01-26 06:15:05.000000000 -0500
++++ libreoffice-24.2.0.3/writerperfect/Library_wpftdraw.mk	2024-01-31 18:03:24.962996387 -0500
+@@ -65,6 +65,7 @@
+ 	icu_headers \
+ 	icui18n \
+ 	icuuc \
++	zlib \
+ ))
+ 
+ $(eval $(call gb_Library_add_exception_objects,wpftdraw,\
+

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<legalnotice id="legalnotice">
+	<para>Udziela się zgody na kopiowanie, dystrybucję i/lub modyfikację tego tekstu na warunkach licencji GNU Free Documentation License (GFDL) w wersji 1.1 lub nowszej, opublikowanej przez Free Software Foundation bez Sekcji Niezmiennych, bez Strony Tytułowej i bez Treści Okładki. Kopia tekstu licencji GFDL umieszczona została  pod tym <ulink type="help" url="help:fdl">odnośnik</ulink> lub w pliku COPYING-DOCS rozpowszechnianym razem z tą instrukcją.</para>
+         <para>Ten podręcznik jest częścią zestawu podręczników MATE rozpowszechnianych na licencji GFDL. Jeżeli chcesz rozpowszechnić tą instrukcję osobno od zestawu, możesz to zrobić dodając kopię licencji do podręcznika, jak opisano w dziale 6 tej licencji.</para>
+
+	<para>Wiele nazw używanych przez firmy do rozróżnienia ich produktów i usług jest zgłoszonych jako znaki towarowe. W przypadku pojawienia się tych nazw w dowolnej dokumentacji MATE, a członkowie Projektu Dokumentacji MATE są świadomi tych znaków towarowych, wówczas nazwy są pisane wielkimi literami lub pierwszymi wielkimi literami.</para>
+
+	<para>DOKUMENT I ZMODYFIKOWANE WERSJE DOKUMENTU SĄ DOSTARCZANE NA WARUNKACH LICENCJI WOLNEJ DOKUMENTACJI GNU Z DALSZYM ZROZUMIENIEM, ŻE:<orderedlist>
+		<listitem>
+		  <para>DOKUMENT JEST DOSTARCZANY W STANIE „TAK JAK JEST”, BEZ JAKIEGOKOLWIEK WYRAŻENIA,  DOMNIEMANIA GWARANCJI, W TYM MIĘDZY INNYMI GWARANCJI, ŻE DOKUMENT LUB ZMODYFIKOWANA WERSJA DOKUMENTU JEST WOLNA OD WAD HANDLOWYCH LUB DO OKREŚLONEGO CELU -NARUSZENIE. CAŁKOWITE RYZYKO DOTYCZĄCE JAKOŚCI, DOKŁADNOŚCI I WYDAJNOŚCI DOKUMENTU LUB ZMODYFIKOWANEJ WERSJI DOKUMENTU SPOCZYWA NA UŻYTKOWNIKU. JEŻELI JAKIKOLWIEK DOKUMENT LUB ZMODYFIKOWANA WERSJA OKAŻE SIĘ WADLIWA POD JAKIMKOLWIEK WZGLĘGEM, UŻYTKOWNIK (NIE WSTĘPNY PISARZ, AUTOR CZY ŻADEN WSPÓŁPRACOWNIK) PONOSI KOSZTY WSZELKICH NIEZBĘDNYCH SERWISÓW, NAPRAW LUB POPRAWEK. NINIEJSZE WYŁĄCZENIE GWARANCJI STANOWI ISTOTNĄ CZĘŚĆ LICENCJI. ZGODNIE Z NINIEJSZYM WYŁĄCZENIEM ODPOWIEDZIALNOŚCI NIE JEST ZEZWOLONE NA KORZYSTANIE Z JAKICHKOLWIEK DOKUMENTÓW LUB ZMODYFIKOWANYCH WERSJI DOKUMENTU; ORAZ </para>
+		</listitem>
+		<listitem>
+		  <para>W ŻADNYM PRZYPADKU I W ŻADNEJ TEORII PRAWNEJ, CZY W DZIAŁANIU CZYNNYM (W TYM ZANIEDBANIA), UMOWY LUB W INNY SPOSÓB, AUTOR, PISARZ WSTĘPNY, WSPÓŁPRACOWNIK ANI DYSTRYBUTOR DOKUMENTU LUB ZMODYFIKOWANA WERSJA DOKUMENTU TAKICH STRON NIE PONOSI ODPOWIEDZIALNOŚCI WOBEC JAKICHKOLWIEK OSÓB ZA JAKIEKOLWIEK BEZPOŚREDNIE, POŚREDNIE, SZCZEGÓLNE, PRZYPADKOWE LUB WTÓRNE SZKODY JAKIEGOKOLWIEK CHARAKTERU, W TYM MIĘDZY INNYMI USZKODZENIA ZA UTRATĘ WŁAŚCIWOŚCI, PRZERWY W PRACY, AWARIE LUB INNE USZKODZENIA KOMPUTERA LUB STRATY WYNIKAJĄCE Z KORZYSTANIA Z DOKUMENTU I ZMODYFIKOWANYCH WERSJI DOKUMENTU, NAWET JEŚLI STRONA ZOSTAŁA POINFORMOWANA O MOŻLIWOŚCI WYSTĄPIENIA TAKICH SZKÓD.</para>
+		</listitem>
+	  </orderedlist></para>
+  </legalnotice>

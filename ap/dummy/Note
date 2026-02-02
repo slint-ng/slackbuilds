@@ -1,0 +1,2 @@
+If we create a dummy package A for folowing a renaming A->B in Slint, make B
+a dependency of A so that an upgrade of A triggers installation of B.

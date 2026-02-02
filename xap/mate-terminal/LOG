@@ -1,0 +1,12 @@
+	mate-terminal 1.28.1
+	====================
+
+	prefix:                 /usr
+	source code location:   .
+	compiler:               gcc
+	cflags:                 -O2 -fPIC
+	warning flags:          -Wall -Wmissing-prototypes
+	linker flags:           
+
+	smclient support:       yes
+	s/key support:          yes

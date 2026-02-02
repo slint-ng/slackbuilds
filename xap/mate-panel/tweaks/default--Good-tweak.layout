@@ -1,0 +1,64 @@
+[Toplevel toplevel-0]
+enable-buttons=true
+size=28
+screen=0
+monitor=0
+expand=true
+orientation=bottom
+
+[Object object-1]
+locked=true
+toplevel-id=toplevel-0
+position=0
+object-type=applet
+applet-iid=WnckletFactory::ShowDesktopApplet
+panel-right-stick=false
+
+[Object object-2]
+locked=true
+toplevel-id=toplevel-0
+position=24
+object-type=applet
+applet-iid=BriskMenuFactory::BriskMenu
+panel-right-stick=false
+
+[Object object-4]
+locked=true
+toplevel-id=toplevel-0
+position=84
+object-type=applet
+applet-iid=DockAppletFactory::DockApplet
+panel-right-stick=false
+
+[Object object-3]
+locked=true
+toplevel-id=toplevel-0
+position=114
+object-type=applet
+applet-iid=ClockAppletFactory::ClockApplet
+panel-right-stick=true
+
+[Object object-5]
+locked=true
+toplevel-id=toplevel-0
+position=371
+object-type=applet
+applet-iid=NotificationAreaAppletFactory::NotificationArea
+panel-right-stick=true
+
+[Object object-6]
+locked=true
+toplevel-id=toplevel-0
+position=313
+object-type=applet
+applet-iid=WnckletFactory::WorkspaceSwitcherApplet
+panel-right-stick=true
+
+[Customsetting maximusdecoration]
+mate-maximus-recorded=False
+
+[Customsetting windowcontrollayout]
+mate-general=menu:minimize,maximize,close
+mate-interface=menu:minimize,maximize,close
+gnome-wm-preferences=appmenu:close
+
