@@ -1,3 +1,0 @@
-Built 1.22.2 because Cython on Slackware64-15.0 is too old to build 1.22.3
-Replaces numpy3
-Built with the SLKBUILD copied from Arch's PKGBUILD

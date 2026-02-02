@@ -1,4 +1,0 @@
-Configuration:
-    audiofile library:         false
-    mpeg audio support:        true
-    xmms volume adjust plugin: false

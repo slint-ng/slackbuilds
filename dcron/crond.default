@@ -1,9 +1,0 @@
-# In Slint by default the level is "info", so that cron log its  activity
-# to /var/log/cron.
-#
-# Valid log levels are:
-# alert, crit, debug, emerg, err, error (deprecated synonym for err),
-# info, notice, panic (deprecated synonym for emerg), warning,
-# warn (deprecated synonym for warning).
-
-CROND_OPTS="-l info"

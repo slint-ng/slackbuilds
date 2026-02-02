@@ -1,6 +1,0 @@
-sed '
-/CFLAGS/d
-/CXXFLAGS/d
-s/LIBDIRSUFFIX=""/LIBDIRSUFFIX="64"/
-s/i686/x86_64/' build-apulse.sh > bof
-mv bof build-apulse.sh

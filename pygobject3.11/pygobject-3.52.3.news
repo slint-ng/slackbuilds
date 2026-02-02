@@ -1,5 +1,0 @@
-3.52.3 - 2025-03-16
--------------------
-
-* Remove invalid error check for gi_constant_info_get_value :mr:`417`
-

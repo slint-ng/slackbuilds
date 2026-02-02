@@ -1,3 +1,0 @@
- ■  Warning (comp): /usr/share/emacs/site-lisp/emacspeak/lisp/emacspeak-speak.el: Error: Symbol's value as variable is void emacspeak-sounds-dir
- ■  Warning (comp): /usr/share/emacs/site-lisp/emacspeak/lisp/emacspeak-pronounce.el: Error: Symbol's value as variable is void emacspeak-sounds-dir
- ■  Warning (comp): /usr/share/emacs/site-lisp/emacspeak/lisp/emacspeak-preamble.el: Error: Symbol's value as variable is void emacspeak-xslt-directory

@@ -1,8 +1,0 @@
-PRGNAM="lxqt-session"
-VERSION="2.3.0"
-HOMEPAGE="https://github.com/lxqt/lxqt-session"
-DOWNLOAD="https://github.com/lxqt/lxqt-session/releases/download/2.3.0/lxqt-session-2.3.0.tar.xz"
-MD5SUM="906806304592ba40b71b074c848d4e3e"
-REQUIRES=""
-MAINTAINER="Frank Honolka"
-EMAIL="slackernetuk@gmail.com"

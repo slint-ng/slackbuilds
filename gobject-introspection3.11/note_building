@@ -1,4 +1,0 @@
-(cd /usr/bin
-ln -sf python3.11 python3
-)
-#Do not forget to revert after building

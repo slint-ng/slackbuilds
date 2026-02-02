@@ -1,8 +1,0 @@
-Raptor build summary:
-  RDF parsers available     : rdfxml ntriples turtle trig guess rss-tag-soup rdfa nquads grddl json
-  RDF parsers enabled       : rdfxml ntriples turtle trig guess rss-tag-soup rdfa nquads grddl json
-  RDF serializers available : rdfxml rdfxml-abbrev turtle mkr ntriples rss-1.0 dot html json atom nquads
-  RDF serializers enabled   : rdfxml rdfxml-abbrev turtle mkr ntriples rss-1.0 dot html json atom nquads
-  XML parser                : libxml 2.11.6 via xml2-config
-  WWW library               : libcurl 8.4.0 via curl-config
-  NFC check library         : ICU UC 69.1

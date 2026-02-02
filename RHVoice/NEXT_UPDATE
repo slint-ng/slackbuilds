@@ -1,5 +1,0 @@
-(11:26:59) bmivzkrp: Could you improve the future version of the RHVoice package?
-(11:26:59) bmivzkrp: 1. After installation, we check which system language the user uses.
-(11:26:59) bmivzkrp: 2. In / etc / RHVoice the example of a configuration file depending on result of check is copied.
-(11:26:59) bmivzkrp: There are now examples of the configuration file not only for English and Russian, but also for Ukrainian.
-(12:16:40) DidierSpaier: bmivzkrp: Will look at it upon next update.

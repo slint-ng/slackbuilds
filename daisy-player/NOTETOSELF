@@ -1,6 +1,0 @@
-remove from build-daisy-player.sh:
-export CFLAGS="-O2 -fPIC"
-export CXXFLAGS="-O2 -fPIC"
-export SLKCFLAGS="-O2 -fPIC"
-
-else the build fails

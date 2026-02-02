@@ -1,8 +1,0 @@
-PRGNAM="xdg-desktop-portal-lxqt"
-VERSION="4.3.0"
-HOMEPAGE="https://github.com/lxqt/qtxdg-tools"
-DOWNLOAD="https://github.com/lxqt/qtxdg-tools/releases/download/4.3.0/qtxdg-tools-4.3.0.tar.xz"
-MD5SUM="0ecbe5997cb0ba02c23700e776fef620"
-REQUIRES=""
-MAINTAINER="Frank Honolka"
-EMAIL="slackernetuk@gmail.com"

@@ -1,2 +1,0 @@
-configure: output modules to be built are cicero dummy festival openjtalk generic espeak-ng flite pico
-configure: audio methods to be built are  pulse libao pipewire alsa

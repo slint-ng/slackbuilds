@@ -1,8 +1,0 @@
-PRGNAM="lxqt-qtplugin"
-VERSION="2.3.0"
-HOMEPAGE="https://github.com/lxqt/lxqt-qtplugin"
-DOWNLOAD="https://github.com/lxqt/lxqt-qtplugin/releases/download/2.3.0/lxqt-qtplugin-2.3.0.tar.xz"
-MD5SUM="aa2106968922a96b4205c80f6cbbc542"
-REQUIRES=""
-MAINTAINER="Frank Honolka"
-EMAIL="slackernetuk@gmail.com"

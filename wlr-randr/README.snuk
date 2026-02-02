@@ -1,1 +1,0 @@
-wlr-randr --output Virtual-1 --on --mode 1920x1080@60 --scale 1.05

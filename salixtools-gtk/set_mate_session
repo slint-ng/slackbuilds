@@ -1,8 +1,0 @@
-#!/bin/sh
-user=$1
-if grep -q "NAME=Slint" /etc/os-release && grep -q "VERSION_ID=15" /etc/os-release && [ -x /usr/bin/session-chooser ]; then
-	cp /etc/X11/xinit/xinitrc.mate /home/"$user"/.xinitrc
-	echo "[Desktop]" > /home/"$user"/.dmrc
-	echo "Session=mate" >> /home/"$user"/.dmrc
-	chown $user: /home/"$user"/.xinitrc /home/"$user"/.dmrc
-fi

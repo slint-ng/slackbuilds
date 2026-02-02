@@ -1,8 +1,0 @@
-PRGNAM="lxqt-policykit"
-VERSION="2.3.0"
-HOMEPAGE="https://github.com/lxqt/lxqt-policykit"
-DOWNLOAD="https://github.com/lxqt/lxqt-policykit/releases/download/2.3.0/lxqt-policykit-2.3.0.tar.xz"
-MD5SUM="b70be830f40387207b6ad844daed6cd0"
-REQUIRES=""
-MAINTAINER="Frank Honolka"
-EMAIL="slackernetuk@gmail.com"

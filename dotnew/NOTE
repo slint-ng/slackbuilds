@@ -1,4 +1,0 @@
-echo "dialog,diffutils" > dotnew...dep
-Else gtk and such are required even if dotnew is used in a console
-only system
-It would be cleaner to make a separate dotnew-gtk package.

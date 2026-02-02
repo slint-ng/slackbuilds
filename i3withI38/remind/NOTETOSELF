@@ -1,2 +1,0 @@
-depfinder ne trouve rien, donc lors d'une MAJ faire:
-cp deps remind-$version-$arch-$build

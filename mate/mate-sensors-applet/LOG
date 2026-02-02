@@ -1,8 +1,0 @@
-       mate-sensors-applet 1.28.0
-       ==========================
-
-       prefix:               /usr
-       compiler:             gcc
-       cflags:               -O2 -fPIC
-       warning flags:        -Wall -Wmissing-prototypes
-       Build in-process:     yes

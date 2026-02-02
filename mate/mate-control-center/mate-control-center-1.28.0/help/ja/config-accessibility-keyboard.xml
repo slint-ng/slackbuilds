@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<sect1 id="config-accessibility-keyboard">
-  <abstract role="description">
-    <para>必要に応じて、ユーザにキーボードの操作を助けるために、拡張キーボードの機能を調整します。</para>
-  </abstract>
-  <title>キーボード操作支援 (AccessX)</title>
-  <para/>
-</sect1>

@@ -1,6 +1,0 @@
-txt2man is requested when building daisy-player, although missing it does
-not prevent to build its man page despite an error 2.
-
-Built from git master on 08 March 2022, cloned like this in
-this directory:
-git clone https://github.com/mvertes/txt2man.git

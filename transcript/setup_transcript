@@ -1,4 +1,0 @@
-python3 -m venv ~/.venvs/whisper
-. ~/.venvs/whisper/bin/activate
-pip install --upgrade pip
-pip install faster-whisper

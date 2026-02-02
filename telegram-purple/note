@@ -1,3 +1,0 @@
-Will be replaced by https://github.com/ars3niy/tdlib-purple in a maybe not so distant future
-
-do not compile withe the option --disable-gcrypt -(using OpenSSL instead) as this would forbid to distribute the binaries.

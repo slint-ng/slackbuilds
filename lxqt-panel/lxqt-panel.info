@@ -1,8 +1,0 @@
-PRGNAM="lxqt-panel"
-VERSION="2.3.1"
-HOMEPAGE="https://github.com/lxqt/lxqt-panel"
-DOWNLOAD="https://github.com/lxqt/lxqt-panel/releases/download/2.3.1/lxqt-panel-2.3.1.tar.xz"
-MD5SUM="cb9a19be6d221ab36f2e77a6a9ff5a3c"
-REQUIRES=""
-MAINTAINER="Frank Honolka"
-EMAIL="slackernetuk@gmail.com"

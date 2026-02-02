@@ -1,5 +1,0 @@
-### mate-screensaver 1.28.0
-
-* Translations update
-* configure.ac: The macro 'AC_HELP_STRING' is obsolete
-

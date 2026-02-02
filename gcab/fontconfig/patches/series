@@ -1,7 +1,0 @@
-02_indic_names.patch
-04_mgopen_fonts.patch
-disable-crbug1004354.patch
-fontconfig-sleep-less.patch
-fontconfig-remove-uuid.patch
-fontconfig-drop-lang-from-pkgkit-format.patch
-fontconfig-fix-SAST.patch

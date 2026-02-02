@@ -1,9 +1,0 @@
-All packages in the LXQt set for Slackware64-15.0 have been built using
-the build scripts provided by Frank Honolka in this repository:
-https://codeberg.org/snuk/lxqt-for-slint.
-Thanks Frank for the great work!
-
-The source directories, previously stored here, have been moved to the
-main 'source' directory since Saturday 27 December 2025.
-
-

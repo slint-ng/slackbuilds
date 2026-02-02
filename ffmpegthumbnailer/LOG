@@ -1,9 +1,0 @@
--- CONFIGURATION SUMMARY
--- png support          : enabled
--- jpeg support         : enabled
--- gio support          : enabled
--- register thumbnailer : enabled
--- unittests            : enabled
--- shared library       : enabled
--- static library       : disabled
--- debug mode           : disabled

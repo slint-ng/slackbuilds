@@ -1,5 +1,0 @@
-if [ -f /usr/doc/slint-15.0/${LANG%.*}.HandBook.html ]; then 
-	firefox /usr/doc/slint-15.0/${LANG%.*}.HandBook.html
-else
-	firefox /usr/doc/slint-15.0/en_US.HandBook.html
-fi 

@@ -1,4 +1,0 @@
-Before building spkg, install the static versions of judy and glib2
-that are stored in their respective subdirectories.
-
-After building, run slapt-get --upgrade to restore the dynamic versions.

@@ -1,7 +1,0 @@
-  Build Environment
-    Install Prefix:     /usr
-    Zeitgeist support:  yes
-
-  Optional dependencies
-    Rest:               no
-    AppIndicator:       yes

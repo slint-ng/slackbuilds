@@ -1,6 +1,0 @@
-#!/bin/sh
-if [ -e /boot/grub/grub.cfg ]; then
-  mv -n /boot/grub/grub.cfg /boot/grub/grub.cfg.old.$$ || exit 1
-fi
-grub-mkconfig -o /boot/grub/grub.cfg "$@"
-

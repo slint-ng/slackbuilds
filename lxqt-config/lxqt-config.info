@@ -1,8 +1,0 @@
-PRGNAM="lxqt-config"
-VERSION="2.3.0"
-HOMEPAGE="https://github.com/lxqt/lxqt-config"
-DOWNLOAD="https://github.com/lxqt/lxqt-config/releases/download/2.3.0/lxqt-config-2.3.0.tar.xz"
-MD5SUM="1e5a3ab6a0b85f1339b7b02bc35b5dd5"
-REQUIRES=""
-MAINTAINER="Frank Honolka"
-EMAIL="slackernetuk@gmail.com"

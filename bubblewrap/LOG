@@ -1,8 +1,0 @@
-    bubblewrap 0.10.0
-    ===================
-
-    man pages (xsltproc):                         yes
-    SELinux:                                      no
-    setuid mode on make install:                  none
-    require default userns:                       no
-    mysteriously satisfying to pop:               yes

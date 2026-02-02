@@ -1,8 +1,0 @@
-# The package firmware-installer is used only during installation and as such
-# should be stored in http://slackware.uk/slint/x86_64/slint-15.0/slint/installer/
-# It should be updated follwing each and every update of kernel and/or kernel-firmware packages
-# After having built a kernel or kernel-fimware package and put them under ../../slint,
-# run build_firmware-installer; then type:
-rm -f ../../slint/installer/firmware-installer*
-mv firmware-installer*txz ../../packages/installer
-# Or just: sh Note_package_firmware_installer

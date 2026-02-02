@@ -1,7 +1,0 @@
-Install prefix ......... : /usr
-NLS support ............ : yes
-TLS support ............ : yes (Library: GnuTLS)
-IDN support ............ : yes (no library required)
-GNU SASL support ....... : no (most likely unnecessary)
-Libsecret support (GNOME): yes
-MacOS X Keychain support : no

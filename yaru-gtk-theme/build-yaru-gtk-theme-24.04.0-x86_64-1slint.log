@@ -1,2 +1,0 @@
-tar -xf 25.10.2.tar.gz
-./build-yaru-gtk-theme.sh: ligne 212 : cd: yaru-24.04.0: Aucun fichier ou dossier de ce type

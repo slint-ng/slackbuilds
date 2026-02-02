@@ -1,2 +1,0 @@
-# Options to use when running snmpd:
-SNMPD_OPTIONS="-A -p /var/run/snmpd -a"

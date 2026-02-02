@@ -1,5 +1,0 @@
-### mate-desktop 1.28.2
-
-* Make MateImageMenuItem subclassable
-* MateImageMenuItem: Remove unnecessary label field
-
