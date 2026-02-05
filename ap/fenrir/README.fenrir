@@ -1,0 +1,29 @@
+fenrir is a console screen reader similar in features to espeakup or
+speechd-up, that can use all voices available through Speech Dispatcher.
+
+Currently it has to be run as root. The script /etc/rc.c/rc.fenrir
+allows to manage the fenrir daemon.
+
+To start fenrir and have it running at startup, type as root:
+speak-with fenrir
+This will also disable espeakup and speech-up that conflict with fenrir.
+
+To just start fenrir type as root:
+service start fenrir
+
+To (re)configure fenrir, type as root or using sudo:
+configure-fenrir
+
+This will edit the main configuration file:
+/etc/fenrirscreenreader/settings/settings.conf
+
+Please read the comments it includes to know how to set fenrir,
+especially the synthesizer to use through speech-dispatcher the default
+voice or language and the languages between which you might want to be
+able to switch on the fly.
+
+To know more, vist this repository:
+https://git.stormux.org/storm/fenrir/
+and read:
+https://git.stormux.org/storm/fenrir/src/branch/master/README.md
+

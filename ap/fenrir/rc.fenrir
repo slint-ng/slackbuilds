@@ -1,0 +1,53 @@
+#!/bin/sh
+if [ -f /etc/fenrir.conf ]; then
+	. /etc/fenrir.conf
+	if [ ALSA_CARD ]; then
+		export ALSA_CARD
+	fi
+fi
+fenrir_start() {
+	if [ ! "`ps -C fenrir --noheaders|wc -l`" = "0" ]; then
+		echo "fenrir is already running."
+		exit
+	fi
+	if [ -x /usr/bin/fenrir ]; then
+		echo "Starting fenrir..."
+		/usr/bin/fenrir
+	else
+		echo "/usr/bin/fenrir not found or not executable"
+	fi
+}
+fenrir_status() {
+	NBPROC="`ps -C fenrir --noheaders|wc -l`"
+	if [ "$NBPROC" = "0" ]; then
+		echo "fenrir is not running"
+	else
+		echo "fenrir is running"
+	fi
+}
+fenrir_stop() {
+	NBPROC="`ps -C fenrir --noheaders|wc -l`"
+	if [ "$NBPROC" = "0" ]; then
+		echo "fenrir is not running"
+	else
+		echo "Stopping fenrir..."
+		killall -9 fenrir
+	fi
+}
+fenrir_restart() {
+    fenrir_stop
+    sleep 4
+    fenrir_start
+}
+case "$1" in
+    start)
+	    fenrir_start;;
+    stop)
+		fenrir_stop;;
+    restart)
+		fenrir_restart;;
+    status)
+		fenrir_status;;
+    *)
+        echo "Usage: $0 {start|stop|restart|status}";;
+esac

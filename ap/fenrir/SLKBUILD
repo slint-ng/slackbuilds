@@ -1,0 +1,52 @@
+# Maintainer: Storm Dragon <storm_dragon@linux-a11y.org>
+# Maintainer: Chrys <chrys@linux-a11y.org>
+# Adapted to Slint by Didier Spaier didieratslintdotfr
+pkgname='fenrir'
+export commit=61868c94e5
+pkgver=git$commit
+#pkgver=
+pkgrel=1slint
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (A user space console screen reader written in python3)"
+"Developers: Chrys, Storm Dragon and contributors."
+"Home page: https://git.stormux.org/storm/fenrir"
+)
+
+
+docs=("CREDITS" "LICENCE" "README.fenrir" "fenrir-user-guide.html" "fenrir-user-guide.pdf")
+license=('LGPL')
+depends=('python' 'python-pyudev' 'python-daemonize' 'python-evdev' 'python-dbus' 'python-pyte')
+optdepends=('brltty: For Braille support'
+'gstreamer: for soundicons via gstreamer'
+'socat: Control running Fenrir screenreader'
+  'sox: The default sound driver'
+  'python-espeak: TTS support'
+  'python-pyenchant: for spell check functionality'
+  'xclip: for copy to X session clipboard'
+  'speech-dispatcher: TTS support')
+makedepends=('python-setuptools')
+#source=("fenrir-2025.12.06.tar.gz")
+doinst (){
+	(cd /usr/sbin
+	ln -sf /usr/share/fenrirscreenreader/tools/configure_fenrir.py ./configure-fenrir
+	)
+}
+
+build() {
+  git clone -b testing --single-branch https://git.stormux.org/storm/fenrir.git
+  cd $pkgname
+  git checkout $commit
+  python3 setup.py install --force-settings --root="$PKG" --optimize=1
+  mkdir -p $PKG/etc/rc.d $PKG/usr/doc/${pkgname}-${pkgver}
+  mkdir -p $PKG/usr/share/fenrirscreenreader/scripts
+  chmod -R 755 $PKG/usr/share/fenrirscreenreader/scripts
+  cp $startdir/README.fenrir $PKG/usr/doc/${pkgname}-${pkgver}
+  cp $startdir/rc.fenrir $PKG/etc/rc.d/
+#  cp $startdir/fenrir.conf $PKG/etc
+  chmod 644 $PKG/etc/rc.d/rc.fenrir
+
+}
+
+# vim: set ts=2 sw=2 et:
