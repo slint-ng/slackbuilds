@@ -1,33 +1,42 @@
 # Maintainer: Storm Dragon <storm_dragon@linux-a11y.org>
-# Maintainer: Chrys <chrys@linux-a11y.org>
-# Adapted to Slint by Didier Spaier didieratslintdotfr
+# Contributor: Didier Spaier
 pkgname='fenrir'
-export commit=61868c94e5
-pkgver=git$commit
-#pkgver=
+pkgver=2026.01.28
 pkgrel=1slint
+source=(https://git.stormux.org/storm/fenrir/archive/${pkgver}.tar.gz)
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (A user space console screen reader written in python3)"
-"Developers: Chrys, Storm Dragon and contributors."
+"Developers: Storm Dragon, Chrys and contributors."
 "Home page: https://git.stormux.org/storm/fenrir"
 )
 
 
 docs=("CREDITS" "LICENCE" "README.fenrir" "fenrir-user-guide.html" "fenrir-user-guide.pdf")
 license=('LGPL')
-depends=('python' 'python-pyudev' 'python-daemonize' 'python-evdev' 'python-dbus' 'python-pyte')
+depends=('gstreamer'
+  'gst-plugins-base'
+  'gst-plugins-good'
+  'python'
+  'python-daemonize'
+  'python-dbus'
+  'python-evdev'
+  'python-gobject'
+  'python-pexpect'
+  'python-pyenchant'
+  'python-pyperclip'
+  'python-pyte'
+  'python-pyudev'
+  'python-pyxdg'
+  'python-setproctitle'
+  'speech-dispatcher')
 optdepends=('brltty: For Braille support'
-'gstreamer: for soundicons via gstreamer'
-'socat: Control running Fenrir screenreader'
+  'socat: Control running Fenrir screenreader'
   'sox: The default sound driver'
   'python-espeak: TTS support'
-  'python-pyenchant: for spell check functionality'
-  'xclip: for copy to X session clipboard'
-  'speech-dispatcher: TTS support')
+  'xclip: for copy to X session clipboard')
 makedepends=('python-setuptools')
-#source=("fenrir-2025.12.06.tar.gz")
 doinst (){
 	(cd /usr/sbin
 	ln -sf /usr/share/fenrirscreenreader/tools/configure_fenrir.py ./configure-fenrir
@@ -35,9 +44,7 @@ doinst (){
 }
 
 build() {
-  git clone -b testing --single-branch https://git.stormux.org/storm/fenrir.git
-  cd $pkgname
-  git checkout $commit
+  cd $SRC/${pkgname}-${pkgver}
   python3 setup.py install --force-settings --root="$PKG" --optimize=1
   mkdir -p $PKG/etc/rc.d $PKG/usr/doc/${pkgname}-${pkgver}
   mkdir -p $PKG/usr/share/fenrirscreenreader/scripts
