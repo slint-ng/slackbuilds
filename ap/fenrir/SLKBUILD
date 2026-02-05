@@ -42,9 +42,7 @@ doinst (){
 }
 
 build() {
-  srcdir="$SRC/${pkgname}-${pkgver}"
-  [ -d "$srcdir" ] || srcdir="$SRC/${pkgver}"
-  cd "$srcdir"
+  cd "$SRC/fenrir"
   python3 setup.py install --force-settings --root="$PKG" --optimize=1
   mkdir -p $PKG/etc/rc.d $PKG/usr/doc/${pkgname}-${pkgver}
   mkdir -p $PKG/usr/share/fenrirscreenreader/scripts
