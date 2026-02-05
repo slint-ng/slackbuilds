@@ -31,10 +31,8 @@ depends=('gstreamer'
   'python-pyxdg'
   'python-setproctitle'
   'speech-dispatcher')
-optdepends=('brltty: For Braille support'
-  'socat: Control running Fenrir screenreader'
-  'sox: The default sound driver'
-  'python-espeak: TTS support'
+optdepends=('socat: Control running Fenrir screenreader'
+  'sox: sound driver'
   'xclip: for copy to X session clipboard')
 makedepends=('python-setuptools')
 doinst (){
@@ -44,7 +42,9 @@ doinst (){
 }
 
 build() {
-  cd $SRC/${pkgname}-${pkgver}
+  srcdir="$SRC/${pkgname}-${pkgver}"
+  [ -d "$srcdir" ] || srcdir="$SRC/${pkgver}"
+  cd "$srcdir"
   python3 setup.py install --force-settings --root="$PKG" --optimize=1
   mkdir -p $PKG/etc/rc.d $PKG/usr/doc/${pkgname}-${pkgver}
   mkdir -p $PKG/usr/share/fenrirscreenreader/scripts
