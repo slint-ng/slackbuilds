@@ -2,7 +2,7 @@
 
 pkgname=wheel-sudo
 pkgver=1
-pkgrel=2slint
+pkgrel=3slint
 arch=noarch
 source=("10-wheel" "wheel-path.sh" "wheel-path.csh")
 options=('noautodotnew' 'nosrcpack')
@@ -14,8 +14,13 @@ slackdesc=\
 "This package makes it possible for any user in the wheel group to"
 "launch commands as a priviliged user using sudo. It also adds"
 "/usr/local/sbin, /sbin and /usr/sbin to the default path of any user"
-"in the wheel group. The user wil be requested root's password"
+"in the wheel group. The user will be requested their own password"
 )
+
+doinst() {
+	echo "wheel-sudo: sudo now prompts for the invoking user's password."
+	echo "wheel-sudo: Ensure intended users are in the wheel group."
+}
 
 
 build() {
