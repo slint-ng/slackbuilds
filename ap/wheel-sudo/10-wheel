@@ -2,3 +2,4 @@
 # commands with superuser priviliges through sudo
 
 %wheel ALL=(ALL:ALL) ALL
+Defaults passprompt="[sudo] password for %u: "
