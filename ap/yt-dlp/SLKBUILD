@@ -1,0 +1,35 @@
+# Maintainer: B. Watson (urchlay@slackware.uk)
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=yt-dlp
+pkgver=2026.02.04
+pkgrel=1slint
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"yt-dlp (download videos from youtube)"
+"yt-dlp is a youtube-dl fork based on the now inactive youtube-dlc. The"
+"main focus of this project is adding new features and patches while"
+"also keeping up to date with the original project."
+)
+url="https://github.com/yt-dlp/yt-dlp"
+license=("Unlicense")
+depends=("python")
+makedepends=("python-build" "python-hatchling" "python-installer" "python-wheel")
+source=("https://github.com/yt-dlp/yt-dlp/archive/${pkgver}/yt-dlp-${pkgver}.tar.gz")
+
+build() {
+  cd "$SRC/${pkgname}-${pkgver}" || return 1
+  sed -i "/Programming Language :: Python :: 3.14/d" pyproject.toml
+  python3.11 -m build --wheel --no-isolation
+  python3.11 -m installer --destdir "$PKG" dist/*.whl
+
+  mkdir -p "$PKG/usr/man/man1"
+  gzip -9c < "$startdir/$pkgname.1" > "$PKG/usr/man/man1/$pkgname.1.gz"
+
+  mkdir -p "$PKG/usr/doc/${pkgname}-${pkgver}"
+  cp -a LICENSE ./*.md "$PKG/usr/doc/${pkgname}-${pkgver}"
+}
+
+# vim: set ts=2 sw=2 et:
