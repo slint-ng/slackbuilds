@@ -1,0 +1,122 @@
+# Packager: Storm Dragon <storm_dragon@stormux.org>
+
+pkgname=cthulhu
+pkgver=2026.01.26
+pkgrel=1slint
+source=()
+url="https://git.stormux.org/storm/cthulhu"
+options=('nosrcpack')
+
+depends=(
+  'at-spi2-core'
+  'brltty'
+  'gobject-introspection'
+  'gsettings-desktop-schemas'
+  'gstreamer'
+  'gst-plugins-base'
+  'gst-plugins-good'
+  'gtk3'
+  'hicolor-icon-theme'
+  'liblouis'
+  'libwnck3'
+  'pango'
+  'python-requests'
+  'python3-atspi'
+  'python3-cairo'
+  'python3-dasbus'
+  'python3-gobject'
+  'python3-pluggy'
+  'python3-setproctitle'
+  'socat'
+  'speech-dispatcher'
+  'xorg-xkbcomp'
+  'xorg-xmodmap'
+)
+optdepends=(
+  'python-pyautogui: AI assistant actions'
+  'msgpack-python: nvda2cthulhu'
+  'python-tornado: nvda2cthulhu WebSocket'
+)
+makedepends=(
+  'git'
+  'meson'
+  'ninja'
+  'pandoc'
+)
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"cthulhu (Screen reader for blind or visually impaired users)"
+""
+"Cthulhu is a screen reader for individuals who are blind or visually"
+"impaired, forked from Orca. It provides a way to access applications"
+"and toolkits that support the AT-SPI (e.g., the GNOME desktop)."
+""
+"Homepage: https://git.stormux.org/storm/cthulhu"
+""
+""
+""
+""
+)
+
+doinst() {
+if [ -x /usr/bin/update-desktop-database ]; then
+  /usr/bin/update-desktop-database -q usr/share/applications >/dev/null 2>&1
+fi
+
+if [ -e usr/share/icons/hicolor/icon-theme.cache ]; then
+  if [ -x /usr/bin/gtk-update-icon-cache ]; then
+    /usr/bin/gtk-update-icon-cache usr/share/icons/hicolor >/dev/null 2>&1
+  fi
+fi
+}
+
+build() {
+  cd "$SRC"
+  rm -rf "$pkgname-$pkgver"
+  git clone -b "$pkgver" https://git.stormux.org/storm/cthulhu.git "$pkgname-$pkgver"
+  cd "$pkgname-$pkgver"
+
+  chown -R root:root .
+  find -L . \
+    \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
+    -o -perm 511 \) -exec chmod 755 {} \; -o \
+    \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
+    -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
+
+  mkdir -p "$PKG/usr/share/glib-2.0/schemas"
+  cp "$startdir/toggle.screenreader.gschema.xml" "$PKG/usr/share/glib-2.0/schemas"
+  mkdir -p "$PKG/usr/libexec"
+  cp "$startdir/toggle_screenreader.sh" "$PKG/usr/libexec"
+  chmod 755 "$PKG/usr/libexec/toggle_screenreader.sh"
+
+  rm -rf build
+  CFLAGS="$SLKCFLAGS" \
+  CXXFLAGS="$SLKCFLAGS" \
+  meson setup build \
+    --prefix=/usr \
+    --libdir=/usr/lib${LIBDIRSUFFIX} \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release
+
+  meson compile -C build -j $numjobs
+  DESTDIR="$PKG" meson install -C build
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver"
+  pandoc README.md -o "$PKG/usr/doc/$pkgname-$pkgver/README.html"
+  pandoc README.md -o "$PKG/usr/doc/$pkgname-$pkgver/README.pdf"
+  pandoc "$startdir/Cthulhu_and_Orca.md" -o \
+    "$PKG/usr/doc/$pkgname-$pkgver/Cthulhu_and_Orca.html"
+  pandoc "$startdir/Cthulhu_and_Orca.md" -o \
+    "$PKG/usr/doc/$pkgname-$pkgver/Cthulhu_and_Orca.pdf"
+  cp -a COPYING ChangeLog NEWS README.md \
+    "$PKG/usr/doc/$pkgname-$pkgver"
+  sed 's#Cthulhu Authors#Orca authors#' AUTHORS > \
+    "$PKG/usr/doc/$pkgname-$pkgver/AUTHORS"
+  cp "$startdir/SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/SLKBUILD"
+
+  chmod 755 "$PKG/usr/bin/$pkgname"
+}
