@@ -1,0 +1,57 @@
+# Packager: Didier Spaier didieratslintdotfr
+
+pkgname=pygobject3.11
+_srcname=pygobject
+pkgver=3.52.3
+pkgrel=1slint
+source=("$_srcname-$pkgver.tar.xz")
+url="https://live.gnome.org/PyGObject"
+makedepends=('meson' 'ninja' 'python')
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"pygobject3.11: pygobject3.11 (GObject bindings for Python, v3)"
+"pygobject3.11:"
+"pygobject3.11: This archive contains bindings for the GObject, to be used in Python."
+"pygobject3.11: It is a fairly complete set of bindings, it's already rather useful,"
+"pygobject3.11: and is usable to write moderately complex programs."
+"pygobject3.11:"
+"pygobject3.11: Homepage: https://live.gnome.org/PyGObject"
+"pygobject3.11:"
+"pygobject3.11:"
+"pygobject3.11:"
+"pygobject3.11:"
+)
+
+build() {
+  cd "$SRC/$_srcname-$pkgver" || exit 1
+  export CFLAGS="$SLKCFLAGS"
+  export CXXFLAGS="$SLKCFLAGS"
+
+  meson setup \
+    --prefix=/usr \
+    --libdir=lib${LIBDIRSUFFIX} \
+    --libexecdir=/usr/libexec \
+    --bindir=/usr/bin \
+    --sbindir=/usr/sbin \
+    --includedir=/usr/include \
+    --datadir=/usr/share \
+    --mandir=/usr/man \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release \
+    -Dpython=python3.11 \
+    meson-build
+
+  meson compile -C meson-build -j $numjobs
+  DESTDIR="$PKG" meson install -C meson-build
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver"
+  cp -a COPYING* NEWS README* \
+    "$PKG/usr/doc/$pkgname-$pkgver"
+  (
+    cd "$PKG/usr/doc/$pkgname-$pkgver" || exit 1
+    ln -s ../../share/gtk-doc/html/pygobject html
+  )
+}

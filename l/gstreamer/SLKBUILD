@@ -1,0 +1,49 @@
+# Packager: Didier Spaier didieratslintdotfr
+
+pkgname=gstreamer
+pkgver=1.20.4
+pkgrel=1slint
+source=("$pkgname-$pkgver.tar.xz")
+url="https://gstreamer.freedesktop.org/"
+makedepends=('meson' 'ninja')
+docs=("AUTHORS*" "COPYING*i" "ChangeLog" "MAINTAINERS*" "NEWS*" "README*" "RELEASE*")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"gstreamer: gstreamer (streaming multimedia framework)"
+"gstreamer:"
+"gstreamer: GStreamer is a library that allows the construction of graphs of a"
+"gstreamer: media-handling components, ranging from simple Ogg/Vorbis playback"
+"gstreamer: to complex audio (mixing) and video (non-linear editing) processing."
+"gstreamer: Applications can take advantage of advances in codec and filter"
+"gstreamer: technology transparently. Developers can add new codecs and filters"
+"gstreamer: by writing a simple plugin with a clean, generic interface."
+"gstreamer:"
+"gstreamer: GStreamer is released under the LGPL."
+"gstreamer:"
+)
+
+build() {
+  cd "$SRC/$pkgname-$pkgver" || exit 1
+  export CFLAGS="$SLKCFLAGS"
+  export CXXFLAGS="$SLKCFLAGS"
+
+  meson setup \
+    --prefix=/usr \
+    --libdir=lib${LIBDIRSUFFIX} \
+    --libexecdir=/usr/libexec \
+    --bindir=/usr/bin \
+    --sbindir=/usr/sbin \
+    --includedir=/usr/include \
+    --datadir=/usr/share \
+    --mandir=/usr/man \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release \
+    -Dcoretracers=enabled \
+    meson-build
+
+  meson compile -C meson-build -j $numjobs
+  DESTDIR="$PKG" meson install -C meson-build
+}

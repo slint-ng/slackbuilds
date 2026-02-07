@@ -1,0 +1,123 @@
+# Packager: Didier Spaier didieratslintdotfr
+
+pkgname=brltty
+commit=d6d71a1
+pkgver=git$commit
+pkgrel=1slint
+source=()
+url="https://github.com/brltty/brltty"
+options=('nosrcpack')
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"brltty: brltty (Braille display daemon)"
+"brltty:"
+"brltty: BRLTTY is a daemon which provides access to the Linux console (text"
+"brltty: mode) for a blind person using a soft braille display.  It drives the"
+"brltty: braille terminal and provides complete screen review functionality."
+"brltty: After installation, brltty will be started at boot time. If you"
+"brltty: don't want that, make non-executable the script /etc/rc.d/rc.brltty"
+"brltty:"
+"brltty: To configure brltty, run /usr/sbin/bp2cf or edit /etc/brltty.conf"
+"brltty: You can get braille on the desktop through orca. To enable it, you"
+"brltty: need to add your user to the 'braille' group."
+)
+
+doinst() {
+config() {
+  newFile="$1"
+  oldFile="$(dirname "$newFile")/$(basename "$newFile" .new)"
+  if [ ! -r "$oldFile" ]; then
+    mv "$newFile" "$oldFile"
+  elif [ "$(cat "$oldFile" | md5sum)" = "$(cat "$newFile" | md5sum)" ]; then
+    rm "$newFile"
+  fi
+}
+
+config etc/brltty.conf.new
+config etc/rc.d/rc.brltty.new
+if [ ! -f etc/brlapi.key ]; then
+  brltty-genkey
+  chgrp braille etc/brlapi.key
+  chmod 640 etc/brlapi.key
+fi
+mkdir -p /var/brltty
+if [ "$(grep ^pulse-access /etc/group)" = "" ]; then
+  groupadd -g 493 pulse-access
+fi
+if [ "$(grep ^brltty /etc/passwd)" = "" ]; then
+  brltty-mkuser -N
+fi
+brltty-setcaps "$(which brltty)"
+}
+
+build() {
+  cd "$SRC" || exit 1
+  rm -rf brltty
+  git clone https://github.com/brltty/brltty.git
+  cd brltty || exit 1
+  git checkout $commit || exit 1
+  rm -rf DOS Windows
+
+  CPPFLAGS="-I/usr/include -I/usr/include/speech-dispatcher" \
+  ./autogen
+  PYTHON=/usr/bin/python3.11 \
+  ./configure \
+    --prefix=/usr \
+    --bindir=/bin \
+    --sbindir=/sbin \
+    --libdir=/lib${LIBDIRSUFFIX} \
+    --infodir=/usr/info \
+    --mandir=/usr/man \
+    --docdir=/usr/doc/brltty-$pkgver \
+    --htmldir=/usr/doc/brltty-$pkgver/html \
+    --pdfdir=/usr/doc/brltty-$pkgver/pdf \
+    --with-writable-directory=/var/brltty \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --disable-tcl-bindings \
+    --disable-java-bindings \
+    --with-espeak_ng=/usr \
+    --without-espeak \
+    --build=$arch-slackware-linux || exit 1
+
+  make -j $numjobs || exit 1
+  make install INSTALL_ROOT="$PKG" || exit 1
+
+  chmod 755 "$PKG/bin/"* "$PKG/lib${LIBDIRSUFFIX}/brltty/"*
+  make install-udev INSTALL_ROOT="$PKG" || exit 1
+  make install-polkit INSTALL_ROOT="$PKG" || exit 1
+
+  mkdir -p "$PKG/usr/sbin"
+  cp Bootdisks/bp2cf "$PKG/usr/sbin"
+  chmod 755 "$PKG/usr/sbin/bp2cf"
+
+  docDir="$PKG/usr/doc/brltty-$pkgver"
+  mkdir -p "$docDir"
+  (
+    cd Documents || exit 1
+    make
+    find Manual-BRLTTY -name "*html" | while read -r filePath; do
+      mkdir -p "$docDir/$(dirname "$filePath")"
+      cp "$filePath" "$docDir/$(dirname "$filePath")"
+    done
+    mkdir -p "$docDir/Manual-BRLTTY/Portuguese"
+    cp Manual-BRLTTY/Portuguese/BRLTTY.txt "$docDir/Manual-BRLTTY/Portuguese"
+  )
+  cp -a \
+    README \
+    LICENSE-LGPL \
+    Documents/README* \
+    Documents/TODO \
+    Documents/CONTRIBUTORS \
+    Documents/HISTORY \
+    "$docDir"
+  sed -n 1,328p Documents/ChangeLog > "$docDir/ChangeLog"
+
+  mkdir -p "$PKG/etc"
+  cp -a Documents/brltty.conf "$PKG/etc/brltty.conf.new"
+  mkdir -p "$PKG/etc/rc.d"
+  cp -a "$startdir/rc.brltty" "$PKG/etc/rc.d/rc.brltty.new"
+  chmod 755 "$PKG/etc/rc.d/rc.brltty.new"
+}

@@ -1,0 +1,48 @@
+# Packager: Didier Spaier didieratslintdotfr
+
+pkgname=gst-plugins-good
+pkgver=1.20.4
+pkgrel=2slint
+source=("$pkgname-$pkgver.tar.xz")
+url="https://gstreamer.freedesktop.org/"
+makedepends=('meson' 'ninja')
+docs=("AUTHORS*" "COPYING*" "ChangeLog" "NEWS*" "README*" "RELEASE*")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"gst-plugins-good: gst-plugins-good (good set of GStreamer plugins)"
+"gst-plugins-good:"
+"gst-plugins-good: GStreamer Good Plug-ins is a set of plug-ins that have good quality"
+"gst-plugins-good: code, correct functionality, and a good license (LGPL for the plug-in"
+"gst-plugins-good: code, LGPL or LGPL-compatible for the supporting library)."
+"gst-plugins-good:"
+"gst-plugins-good:"
+"gst-plugins-good:"
+"gst-plugins-good:"
+"gst-plugins-good:"
+"gst-plugins-good:"
+)
+
+build() {
+  cd "$SRC/$pkgname-$pkgver" || exit 1
+  export CFLAGS="$SLKCFLAGS"
+  export CXXFLAGS="$SLKCFLAGS"
+
+  meson setup \
+    --prefix=/usr \
+    --libdir=lib${LIBDIRSUFFIX} \
+    --libexecdir=/usr/libexec \
+    --bindir=/usr/bin \
+    --sbindir=/usr/sbin \
+    --includedir=/usr/include \
+    --datadir=/usr/share \
+    --mandir=/usr/man \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release \
+    meson-build
+
+  meson compile -C meson-build -j $numjobs
+  DESTDIR="$PKG" meson install -C meson-build
+}

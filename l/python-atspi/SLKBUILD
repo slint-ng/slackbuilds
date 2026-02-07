@@ -1,0 +1,41 @@
+# Packager: Didier Spaier didieratslintdotfr
+
+pkgname=python-atspi
+_srcname=pyatspi
+pkgver=2.58.0
+pkgrel=1slint
+source=("$_srcname-$pkgver.tar.xz")
+docs=("AUTHORS" "COPYING" "INSTALL" "NEWS" "README*")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"python-atspi: python-atspi (Python bindings for AT-SPI2)"
+"python-atspi:"
+"python-atspi: Python bindings for AT-SPI2."
+"python-atspi:"
+"python-atspi:"
+"python-atspi:"
+"python-atspi:"
+"python-atspi:"
+"python-atspi:"
+"python-atspi:"
+"python-atspi:"
+)
+
+build() {
+  cd "$SRC/$_srcname-$pkgver" || exit 1
+  export CFLAGS="$SLKCFLAGS"
+  export CXXFLAGS="$SLKCFLAGS"
+
+  meson setup \
+    --prefix=/usr \
+    --libdir=/usr/lib${LIBDIRSUFFIX} \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    build
+
+  meson compile -C build -j $numjobs
+  DESTDIR="$PKG" meson install -C build
+}

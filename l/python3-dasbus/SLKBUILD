@@ -1,0 +1,30 @@
+# Packager: Didier Spaier didieratslintdotfr
+
+pkgname=python3-dasbus
+_srcname=dasbus
+pkgver=1.7
+pkgrel=1slint
+source=("https://files.pythonhosted.org/packages/37/79/9c5984d723ffbe2e839ee649690f3e1fa6544ab6a17a5150e5ac14a47072/dasbus-$pkgver.tar.gz")
+url="https://github.com/rhinstaller/dasbus"
+docs=("PKG-INFO" "README.md" "LICENSE")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"python3-dasbus: python3-dasbus (python3 DBus library based on glib)"
+"python3-dasbus:"
+"python3-dasbus: Dasbus is a DBus library written in Python 3, based on GLib and"
+"python3-dasbus: inspired by pydbus. The code used to be part of the Anaconda"
+"python3-dasbus: Installer project. It was based on the pydbus library, but we"
+"python3-dasbus: replaced it with our own solution because its upstream development"
+"python3-dasbus: stalled. The dasbus library is a result of this effort."
+"python3-dasbus:"
+"python3-dasbus: Homepage: https://github.com/rhinstaller/dasbus"
+"python3-dasbus:"
+"python3-dasbus:"
+)
+
+build() {
+  cd "$SRC/$_srcname-$pkgver" || exit 1
+  python3 setup.py install --root="$PKG"
+}

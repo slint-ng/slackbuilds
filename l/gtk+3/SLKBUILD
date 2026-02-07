@@ -1,0 +1,123 @@
+# Packager: Didier Spaier didieratslintdotfr
+
+pkgname=gtk+3
+_srcname=gtk
+pkgver=3.24.49
+pkgrel=1slint
+source=("$_srcname-$pkgver.tar.xz" "update-gtk-immodules-3.0")
+docs=()
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"gtk+3: gtk+3 (multi-platform GUI toolkit v3)"
+"gtk+3:"
+"gtk+3: This is GTK+, a multi-platform toolkit for creating graphical user"
+"gtk+3: interfaces. Offering a complete set of widgets, GTK+ is suitable for"
+"gtk+3: projects ranging from small one-off projects to complete application"
+"gtk+3: suites."
+"gtk+3:"
+"gtk+3:"
+"gtk+3:"
+"gtk+3:"
+"gtk+3:"
+)
+
+doinst() {
+config() {
+  newFile="$1"
+  oldFile="$(dirname "$newFile")/$(basename "$newFile" .new)"
+  if [ ! -r "$oldFile" ]; then
+    mv "$newFile" "$oldFile"
+  elif [ "$(cat "$oldFile" | md5sum)" = "$(cat "$newFile" | md5sum)" ]; then
+    rm "$newFile"
+  fi
+}
+
+if grep -q GTK etc/gtk-3.0/gtkrc 2> /dev/null ; then
+  mv etc/gtk-3.0/gtkrc etc/gtk-3.0/gtkrc.bak
+fi
+config etc/gtk-3.0/gtkrc.new
+config etc/gtk-3.0/im-multipress.conf.new
+rm -f etc/gtk-3.0/gtkrc.new
+
+chroot . rm -f /usr/share/icons/*/icon-theme.cache 1> /dev/null 2> /dev/null
+
+if [ -x /usr/bin/update-gtk-immodules-3.0 ]; then
+  /usr/bin/update-gtk-immodules-3.0
+fi
+if [ -e /usr/share/glib-2.0/schemas ]; then
+  if [ -x /usr/bin/glib-compile-schemas ]; then
+    /usr/bin/glib-compile-schemas /usr/share/glib-2.0/schemas >/dev/null 2>&1
+  fi
+fi
+
+chroot . /usr/bin/update-gdk-pixbuf-loaders 1> /dev/null 2> /dev/null
+}
+
+build() {
+  cd "$SRC/$_srcname-$pkgver" || exit 1
+  export CFLAGS="$SLKCFLAGS -DG_ENABLE_DEBUG -DG_DISABLE_CAST_CHECKS"
+  export CXXFLAGS="$SLKCFLAGS -DG_ENABLE_DEBUG -DG_DISABLE_CAST_CHECKS"
+
+  meson setup \
+    --prefix=/usr \
+    --libdir=lib${LIBDIRSUFFIX} \
+    --libexecdir=/usr/libexec \
+    --bindir=/usr/bin \
+    --sbindir=/usr/sbin \
+    --includedir=/usr/include \
+    --datadir=/usr/share \
+    --mandir=/usr/man \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release \
+    -Dman=true \
+    -Ddemos=true \
+    -Dgtk_doc=true \
+    -Dbroadway_backend=true \
+    -Dexamples=false \
+    -Dtests=false \
+    -Dinstalled_tests=false \
+    -Dwayland_backend=true \
+    meson-build
+
+  meson compile -C meson-build -j $numjobs
+  DESTDIR="$PKG" meson install -C meson-build
+
+  mv "$PKG/etc/gtk-3.0/im-multipress.conf" \
+    "$PKG/etc/gtk-3.0/im-multipress.conf.new"
+  echo 'gtk-theme-name="Adwaita"' > "$PKG/etc/gtk-3.0/gtkrc.new"
+
+  if [ "$LIBDIRSUFFIX" = "64" ]; then
+    mv "$PKG/usr/bin/gtk-query-immodules-3.0" \
+      "$PKG/usr/bin/gtk-query-immodules-3.0-64"
+    (
+      cd "$PKG/usr/bin" || exit 1
+      ln -sf gtk-query-immodules-3.0-64 gtk-query-immodules-3.0
+    )
+  else
+    mv "$PKG/usr/bin/gtk-query-immodules-3.0" \
+      "$PKG/usr/bin/gtk-query-immodules-3.0-32"
+    (
+      cd "$PKG/usr/bin" || exit 1
+      ln -sf gtk-query-immodules-3.0-32 gtk-query-immodules-3.0
+    )
+  fi
+
+  cp "$startdir/update-gtk-immodules-3.0" \
+    "$PKG/usr/bin/update-gtk-immodules-3.0"
+  chmod 0755 "$PKG/usr/bin/update-gtk-immodules-3.0"
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver"
+  cp -a \
+    AUTHORS* CONTRIBUTING* COPYING* INSTALL* NEWS* README* \
+    "$PKG/usr/doc/$pkgname-$pkgver"
+  (
+    cd "$PKG/usr/doc/$pkgname-$pkgver" || exit 1
+    ln -s /usr/share/gtk-doc/html/gail-libgail-util .
+    ln -s /usr/share/gtk-doc/html/gdk3 .
+    ln -s /usr/share/gtk-doc/html/gtk3 .
+  )
+  find "$PKG/usr/doc/$pkgname-$pkgver" -type f -exec chmod 644 {} \;
+}

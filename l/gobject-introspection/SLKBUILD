@@ -1,0 +1,52 @@
+# Packager: Didier Spaier didieratslintdotfr
+
+pkgname=gobject-introspection
+pkgver=1.84.0
+pkgrel=3slint
+source=("$pkgname-$pkgver.tar.xz")
+url="https://gi.readthedocs.io/en/latest/"
+makedepends=('meson' 'ninja' 'python')
+docs=("COPYING*" "NEWS" "README*")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"gobject-introspection: gobject-introspection (GObject interface introspection library)"
+"gobject-introspection:"
+"gobject-introspection: GObject Introspection is a project for providing machine readable"
+"gobject-introspection: introspection data of the API of C libraries. This introspection data"
+"gobject-introspection: can be used for automatic code generation for bindings, API"
+"gobject-introspection: verification, and documentation generation."
+"gobject-introspection:"
+"gobject-introspection: Homepage: https://gi.readthedocs.io/en/latest/"
+"gobject-introspection:"
+"gobject-introspection:"
+"gobject-introspection:"
+)
+
+build() {
+  cd "$SRC/$pkgname-$pkgver" || exit 1
+  export CFLAGS="$SLKCFLAGS"
+  export CXXFLAGS="$SLKCFLAGS"
+  export PKG_CONFIG_PATH="/opt/glib2.84/lib64/pkgconfig:${PKG_CONFIG_PATH:-}"
+  export LD_LIBRARY_PATH="/opt/glib2.84/lib64:${LD_LIBRARY_PATH:-}"
+
+  meson setup \
+    --prefix=/usr \
+    --libdir=lib${LIBDIRSUFFIX} \
+    --libexecdir=/usr/libexec \
+    --bindir=/usr/bin \
+    --sbindir=/usr/sbin \
+    --includedir=/usr/include \
+    --datadir=/usr/share \
+    --mandir=/usr/man \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release \
+    -Dgtk_doc=false \
+    -Dpython=/usr/bin/python3.9 \
+    meson-build
+
+  meson compile -C meson-build -j $numjobs
+  DESTDIR="$PKG" meson install -C meson-build
+}

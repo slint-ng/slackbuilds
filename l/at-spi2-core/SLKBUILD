@@ -1,0 +1,50 @@
+# Packager: Didier Spaier didieratslintdotfr
+
+pkgname=at-spi2-core
+pkgver=2.58.1
+pkgrel=slint
+source=("$pkgname-$pkgver.tar.xz")
+docs=("AUTHORS" "COPYING" "INSTALL" "NEWS" "README.md")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"at-spi2-core: at-spi2-core (Assistive Technology Service Provider Interface core)"
+"at-spi2-core:"
+"at-spi2-core: The At-Spi2 Core package is a part of the GNOME Accessibility"
+"at-spi2-core: Project. It provides a service provider interface for the"
+"at-spi2-core: assistive technologies available on the GNOME platform and a"
+"at-spi2-core: library against which applications can be linked."
+"at-spi2-core:"
+"at-spi2-core:"
+"at-spi2-core:"
+"at-spi2-core:"
+"at-spi2-core:"
+)
+
+doinst() {
+if ls /var/lib/pkgtools/packages/ | grep -q at-spi2-atk- ; then
+  /sbin/removepkg at-spi2-atk
+fi
+if ls /var/lib/pkgtools/packages/ | grep -q atk- ; then
+  /sbin/removepkg atk
+fi
+}
+
+build() {
+  cd "$SRC/$pkgname-$pkgver" || exit 1
+  export CFLAGS="$SLKCFLAGS"
+  export CXXFLAGS="$SLKCFLAGS"
+
+  meson setup \
+    --prefix=/usr \
+    --libdir=lib${LIBDIRSUFFIX} \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    -Dpython=python3.11 \
+    build
+
+  meson compile -C build -j $numjobs
+  DESTDIR="$PKG" meson install -C build
+}

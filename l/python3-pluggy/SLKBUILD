@@ -1,0 +1,39 @@
+# Packager: Didier Spaier didieratslintdotfr
+
+pkgname=python3-pluggy
+pkgver=1.5.0
+pkgrel=2slint
+source=()
+url="https://github.com/pytest-dev/pluggy"
+makedepends=('git' 'python')
+options=('nosrcpack')
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"python3-pluggy: python3-pluggy (mechanisms for python)"
+"python3-pluggy:"
+"python3-pluggy: This is the plugin manager as used by pytest but stripped of pytest"
+"python3-pluggy: specific details."
+"python3-pluggy:"
+"python3-pluggy: Homepage: https://github.com/pytest-dev/pluggy"
+"python3-pluggy:"
+"python3-pluggy:"
+"python3-pluggy:"
+"python3-pluggy:"
+"python3-pluggy:"
+)
+
+build() {
+  cd "$SRC" || exit 1
+  rm -rf pluggy
+  git clone -b $pkgver https://github.com/pytest-dev/pluggy
+  cd pluggy || exit 1
+
+  python3.9 setup.py install --root="$PKG"
+  python3.11 setup.py install --root="$PKG"
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver"
+  cp -a CHANGELOG.rst LICENSE README.rst \
+    "$PKG/usr/doc/$pkgname-$pkgver"
+}
