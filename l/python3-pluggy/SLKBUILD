@@ -13,8 +13,8 @@ slackdesc=\
 #|-----handy-ruler------------------------------------------------------|
 "python3-pluggy: python3-pluggy (mechanisms for python)"
 "python3-pluggy:"
-"python3-pluggy: This is the plugin manager as used by pytest but stripped of pytest"
-"python3-pluggy: specific details."
+"python3-pluggy: Plugin manager used by pytest, without pytest details."
+"python3-pluggy:"
 "python3-pluggy:"
 "python3-pluggy: Homepage: https://github.com/pytest-dev/pluggy"
 "python3-pluggy:"

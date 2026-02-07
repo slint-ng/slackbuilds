@@ -11,12 +11,11 @@ docs=("COPYING*" "NEWS" "README*")
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|
-"gobject-introspection: gobject-introspection (GObject interface introspection library)"
+"gobject-introspection: GObject introspection library"
 "gobject-introspection:"
-"gobject-introspection: GObject Introspection is a project for providing machine readable"
-"gobject-introspection: introspection data of the API of C libraries. This introspection data"
-"gobject-introspection: can be used for automatic code generation for bindings, API"
-"gobject-introspection: verification, and documentation generation."
+"gobject-introspection: Machine-readable introspection data for C APIs."
+"gobject-introspection: Used for binding generation and API docs."
+"gobject-introspection:"
 "gobject-introspection:"
 "gobject-introspection: Homepage: https://gi.readthedocs.io/en/latest/"
 "gobject-introspection:"

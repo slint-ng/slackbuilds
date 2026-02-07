@@ -13,9 +13,9 @@ slackdesc=\
 #|-----handy-ruler------------------------------------------------------|
 "gst-plugins-good: gst-plugins-good (good set of GStreamer plugins)"
 "gst-plugins-good:"
-"gst-plugins-good: GStreamer Good Plug-ins is a set of plug-ins that have good quality"
-"gst-plugins-good: code, correct functionality, and a good license (LGPL for the plug-in"
-"gst-plugins-good: code, LGPL or LGPL-compatible for the supporting library)."
+"gst-plugins-good: GStreamer Good Plug-ins are high-quality plug-ins."
+"gst-plugins-good: Correct functionality and a good license."
+"gst-plugins-good: LGPL for plug-in code; LGPL-compatible for libs."
 "gst-plugins-good:"
 "gst-plugins-good:"
 "gst-plugins-good:"

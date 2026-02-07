@@ -1,0 +1,4 @@
+interface:
+  display_name: "Slint Packaging"
+  short_description: "SlackBuild/SLKBUILD maintenance for Slint"
+  default_prompt: "Follow Slint SlackBuild/SLKBUILD conventions; keep slackdesc lines <=70 chars and <=10 lines; include handy ruler; remove redundant files after conversion."
