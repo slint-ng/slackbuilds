@@ -1,0 +1,6 @@
+msgpack-python (MessagePack serialization library)
+
+  msgpack-python provides MessagePack serialization support for
+  Python.
+
+  This is the Python 3 build of msgpack-python.

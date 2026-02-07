@@ -1,0 +1,7 @@
+pyscreeze (screenshot and image locate helpers)
+
+  PyScreeze can take screenshots and locate images on the screen.
+
+  This is the Python 3 build of pyscreeze.
+
+  Requires: python3-pillow python3-xlib

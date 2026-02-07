@@ -38,12 +38,13 @@
 # 20230222 bkw: updated for v2023.02.17
 # 20230104 bkw: updated for v2023.01.02
 
-cd $(dirname $0) ; CWD=$(pwd)
+cd "$(dirname "$0")" || exit 1
+CWD=$(pwd)
 
 # Included in Slint by Didier Spaier didieratslintdotfr
 
 PRGNAM=yt-dlp
-VERSION=${VERSION:-2025.12.08}
+VERSION=${VERSION:-2026.02.04}
 BUILD=${BUILD:-1}
 TAG=slint
 PKGTYPE=${PKGTYPE:-txz}
@@ -70,12 +71,12 @@ OUTPUT=$CWD
 
 set -e
 
-rm -rf $PKG
-mkdir -p $TMP $PKG $OUTPUT
-cd $TMP
-rm -rf $PRGNAM-$VERSION
-tar xf $CWD/$PRGNAM-$VERSION.tar.gz
-cd $PRGNAM-$VERSION
+rm -rf "$PKG"
+mkdir -p "$TMP" "$PKG" "$OUTPUT"
+cd "$TMP"
+rm -rf "$PRGNAM-$VERSION"
+tar xf "$CWD/$PRGNAM-$VERSION.tar.gz"
+cd "$PRGNAM-$VERSION"
 sed -i "/Programming Language :: Python :: 3.14/d" pyproject.toml
 chown -R root:root .
 find -L .  -perm /111 -a \! -perm 755 -a -exec chmod 755 {} \+ -o \
@@ -84,17 +85,17 @@ find -L .  -perm /111 -a \! -perm 755 -a -exec chmod 755 {} \+ -o \
 python3.11 -m build --wheel --no-isolation
 python3.11 -m installer --destdir "$PKG" dist/*.whl
 
-mkdir -p $PKG/usr/man/man1
-gzip -9c < $CWD/$PRGNAM.1 > $PKG/usr/man/man1/$PRGNAM.1.gz
+mkdir -p "$PKG/usr/man/man1"
+gzip -9c < "$CWD/$PRGNAM.1" > "$PKG/usr/man/man1/$PRGNAM.1.gz"
 
 # AUTHORS is 0 bytes in 2022.01.21 (still is, in 2023.03.04).
 PKGDOC=$PKG/usr/doc/$PRGNAM-$VERSION
-mkdir -p $PKGDOC
-cp -a LICENSE *.md $PKGDOC
-cat $CWD/$PRGNAM.SlackBuild > $PKGDOC/$PRGNAM.SlackBuild
+mkdir -p "$PKGDOC"
+cp -a LICENSE ./*.md "$PKGDOC"
+cat "$CWD/$PRGNAM.SlackBuild" > "$PKGDOC/$PRGNAM.SlackBuild"
 
-mkdir -p $PKG/install
-cat $CWD/slack-desc > $PKG/install/slack-desc
+mkdir -p "$PKG/install"
+cat "$CWD/slack-desc" > "$PKG/install/slack-desc"
 
-cd $PKG
-/sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.$PKGTYPE
+cd "$PKG"
+/sbin/makepkg -l y -c n "$OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.$PKGTYPE"

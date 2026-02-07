@@ -1,0 +1,5 @@
+xlib (X11 client library for Python)
+
+  Python Xlib is a pure-Python X11 client library.
+
+  This is the Python 3 build of xlib.

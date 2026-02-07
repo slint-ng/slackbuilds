@@ -1,0 +1,10 @@
+pyautogui (GUI automation for mouse and keyboard)
+
+  PyAutoGUI provides cross-platform GUI automation for controlling the
+  mouse and keyboard.
+
+  This is the Python 3 build of pyautogui.
+
+  Requires: python3-pillow python3-pyscreeze python3-pymsgbox
+  python3-pytweening python3-xlib python3-pygetwindow
+  python3-mouseinfo

@@ -25,13 +25,14 @@
 #   (15.1 or 16.0, whatever it ends up being called). this means no
 #   32-bit x86 support, sorry.
 
-cd $(dirname $0) ; CWD=$(pwd)
+cd "$(dirname "$0")" || exit 1
+CWD=$(pwd)
 
 # Included in Slint by Didier Spaier didieratslintdotfr
 
 PRGNAM=yt-dlp-bin
 SRCNAM=${PRGNAM%-bin}
-VERSION=${VERSION:-2025.09.26}
+VERSION=${VERSION:-2026.02.04}
 BUILD=${BUILD:-1}
 TAG=slint
 PKGTYPE=${PKGTYPE:-txz}
@@ -72,18 +73,18 @@ OUTPUT=$CWD
 
 set -e
 
-rm -rf $PKG
-mkdir -p $TMP $PKG $OUTPUT
+rm -rf "$PKG"
+mkdir -p "$TMP" "$PKG" "$OUTPUT"
 
 # 20250826 bkw: the -s option for install means we can't build an
 # aarch64 package on x86_64 or vice versa. stripping the binary
 # doesn't make it much smaller, but it doesn't hurt either.
-mkdir -p $PKG/usr/bin
-install -s -m0755 -oroot -groot $CWD/$SRCNAM $PKG/usr/bin/yt-dlp
+mkdir -p "$PKG/usr/bin"
+install -s -m0755 -oroot -groot "$CWD/$SRCNAM" "$PKG/usr/bin/yt-dlp"
 
 # 20250913 bkw: the download filename never changes when the version
 # does, so make sure we have the right one.
-BINVER="$( $PKG/usr/bin/yt-dlp --version )"
+BINVER="$("$PKG/usr/bin/yt-dlp" --version)"
 if [ "$BINVER" != "$VERSION" ]; then
   cat <<EOF
 
@@ -100,14 +101,15 @@ EOF
 fi
 
 PKGDOC=$PKG/usr/doc/$PRGNAM-$VERSION
-mkdir -p $PKGDOC
-for i in $CWD/docs/*; do
-  cat $i > $PKGDOC/$( basename $i )
+mkdir -p "$PKGDOC"
+for i in "$CWD"/docs/*; do
+  [ -e "$i" ] || continue
+  cat "$i" > "$PKGDOC/$( basename "$i" )"
 done
-cat $CWD/$PRGNAM.SlackBuild > $PKGDOC/$PRGNAM.SlackBuild
+cat "$CWD/$PRGNAM.SlackBuild" > "$PKGDOC/$PRGNAM.SlackBuild"
 
-mkdir -p $PKG/install
-cat $CWD/slack-desc > $PKG/install/slack-desc
+mkdir -p "$PKG/install"
+cat "$CWD/slack-desc" > "$PKG/install/slack-desc"
 
-cd $PKG
-/sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.$PKGTYPE
+cd "$PKG"
+/sbin/makepkg -l y -c n "$OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.$PKGTYPE"

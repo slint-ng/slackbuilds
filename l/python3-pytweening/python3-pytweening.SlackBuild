@@ -1,17 +1,17 @@
 #!/bin/bash
 
-# Slackware build script for cthulhu
-# Created based on PKGBUILD from Storm Dragon <storm_dragon@stormux.org>
+# Slackware build script for python3-pytweening
 
 set -e
 
 cwd="$(cd "$(dirname "$0")" && pwd)"
 
-prgName="cthulhu"
-version="2026.01.26"
-build="1"
-tag="slint"
-pkgType="txz"
+prgName="python3-pytweening"
+version="${VERSION:-1.2.0}"
+build="${BUILD:-1}"
+tag="${TAG:-slint}"
+pkgType="${PKGTYPE:-txz}"
+srcArchive="pytweening-1.2.0.tar.gz"
 
 printPackageName="${PRINT_PACKAGE_NAME:-}"
 if [ -n "$printPackageName" ]; then
@@ -42,24 +42,21 @@ outputDir="$cwd"
 
 if [ "$arch" = "i586" ]; then
   slkCFlags="-O2 -march=i586 -mtune=i686"
-  libDirSuffix=""
 elif [ "$arch" = "i686" ]; then
   slkCFlags="-O2 -march=i686 -mtune=i686"
-  libDirSuffix=""
 elif [ "$arch" = "x86_64" ]; then
   slkCFlags="-O2 -fPIC"
-  libDirSuffix="64"
 else
   slkCFlags="-O2"
-  libDirSuffix=""
 fi
 
 rm -rf "$pkgDir"
 mkdir -p "$tmpDir" "$pkgDir" "$outputDir"
 cd "$tmpDir"
-rm -rf "$prgName"
-git clone -b "$version" https://git.stormux.org/storm/cthulhu.git "$prgName"
-cd "$prgName"
+srcDir="$(tar tf "$cwd/$srcArchive" | head -1 | sed 's#^\./##' | cut -d/ -f1)"
+rm -rf "$srcDir"
+tar xf "$cwd/$srcArchive"
+cd "$srcDir"
 chown -R root:root .
 find -L . \
   \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
@@ -67,47 +64,29 @@ find -L . \
   \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
   -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
 
-mkdir -p "$pkgDir/usr/share/glib-2.0/schemas"
-cp "$cwd/toggle.screenreader.gschema.xml" "$pkgDir/usr/share/glib-2.0/schemas"
-mkdir -p "$pkgDir/usr/libexec"
-cp "$cwd/toggle_screenreader.sh" "$pkgDir/usr/libexec"
-chmod -R 755 "$pkgDir/usr/libexec"
-
-rm -rf build
 CFLAGS="$slkCFlags" \
 CXXFLAGS="$slkCFlags" \
-meson setup build \
-  --prefix=/usr \
-  --libdir=/usr/lib${libDirSuffix} \
-  --sysconfdir=/etc \
-  --localstatedir=/var \
-  --buildtype=release
+python3.9 setup.py install --root="$pkgDir"
 
-meson compile -C build
-DESTDIR="$pkgDir" meson install -C build
+CFLAGS="$slkCFlags" \
+CXXFLAGS="$slkCFlags" \
+python3.11 setup.py install --root="$pkgDir"
 
 find "$pkgDir" -print0 | xargs -0 file | grep -e "executable" -e "shared object" | \
   grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
 
-mkdir -p "$pkgDir/usr/doc/$prgName-$version"
-pandoc README.md -o "$pkgDir/usr/doc/$prgName-$version/README.html"
-pandoc README.md -o "$pkgDir/usr/doc/$prgName-$version/README.pdf"
-pandoc "$cwd/Cthulhu_and_Orca.md" -o \
-  "$pkgDir/usr/doc/$prgName-$version/Cthulhu_and_Orca.html"
-pandoc "$cwd/Cthulhu_and_Orca.md" -o \
-  "$pkgDir/usr/doc/$prgName-$version/Cthulhu_and_Orca.pdf"
-cp -a COPYING ChangeLog NEWS README.md \
-  "$pkgDir/usr/doc/$prgName-$version"
-sed 's#Cthulhu Authors#Orca authors#' AUTHORS > \
-  "$pkgDir/usr/doc/$prgName-$version/AUTHORS"
-cat "$cwd/$prgName.SlackBuild" > \
-  "$pkgDir/usr/doc/$prgName-$version/$prgName.SlackBuild"
+docDir="$pkgDir/usr/doc/$prgName-$version"
+mkdir -p "$docDir"
+for doc in AUTHORS AUTHORS.txt CHANGELOG ChangeLog CHANGES CHANGES.txt CHANGES.md COPYING COPYING.txt LICENSE LICENSE.txt README README.md README.rst README.txt PKG-INFO; do
+  if [ -f "$doc" ]; then
+    cp -a "$doc" "$docDir"
+  fi
+done
+cat "$cwd/$prgName.SlackBuild" > "$docDir/$prgName.SlackBuild"
 
 mkdir -p "$pkgDir/install"
 cat "$cwd/slack-desc" > "$pkgDir/install/slack-desc"
-cat "$cwd/doinst.sh" > "$pkgDir/install/doinst.sh"
 
 cd "$pkgDir"
-chmod 755 "usr/bin/$prgName"
 /sbin/makepkg -l y -c n \
   "$outputDir/$prgName-$version-$arch-$build$tag.$pkgType"

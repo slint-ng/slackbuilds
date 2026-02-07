@@ -2,9 +2,9 @@
 
 #Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=yt-dlp-ejs
-pkgver=0.3.2
+pkgver=0.4.0
 pkgrel=1slint
-export commit=06d7145
+export commit=e91d03f
 export srcname=ejs
 slackdesc="$pkgname (External JavaScript for yt-dlp supporting many runtimes)"
 url='https://github.com/yt-dlp/ejs'
@@ -18,7 +18,7 @@ makedepends=(git
              python-installer)
 checkdepends=(python-pytest)
 #source=(https://github.com/yt-dlp/ejs/archive/refs/tags/${pkgver}.tar.gz)
-sha256sums=('742c88b0af94ef76a8690cba6d344d4e09c55a36cdd2e8312f445eaf30dfc785')
+sha256sums=('3c67e0e971812df363bb837d2f333091d6735092314fa01c4d6e5127b1ae00ef')
 docs=("LICENSE" "README.md")
 build() {
   git clone https://github.com/yt-dlp/ejs.git	

@@ -1,15 +1,16 @@
-Cthulhu is a screen reader for individuals who are blind or visually impaired,
-forked from Orca. It provides access to applications and toolkits that support
-the AT-SPI (e.g., the GNOME desktop).
+Cthulhu is a screen reader for individuals who are blind or visually
+impaired, forked from Orca. It provides access to applications and
+toolkits that support the AT-SPI (e.g., the GNOME desktop).
 
-This screen reader helps users navigate their desktop environment and applications
-through speech synthesis and braille output.
+This screen reader helps users navigate their desktop environment and
+applications through speech synthesis and braille output.
 
-After installation, you can start Cthulhu through the GNOME desktop environment
-or by running 'cthulhu' from the command line.
+After installation, you can start Cthulhu through the GNOME desktop
+environment or by running 'cthulhu' from the command line.
 
 DEPENDENCIES:
-This package requires the following packages, all available from SlackBuilds.org:
+This package requires the following packages, all available from
+SlackBuilds.org:
 - at-spi2-core
 - brltty
 - gobject-introspection
@@ -18,11 +19,24 @@ This package requires the following packages, all available from SlackBuilds.org
 - gst-plugins-base
 - gst-plugins-good
 - gtk3
+- hicolor-icon-theme
 - liblouis
-- libpeas
 - libwnck3
+- pango
+- python-requests
 - python3-atspi
 - python3-cairo
+- python3-dasbus
 - python3-gobject
+- python3-pluggy
 - python3-setproctitle
+- socat
 - speech-dispatcher
+- xorg-xkbcomp
+- xorg-xmodmap
+
+Optional features need Python packages not yet in Slint:
+- python-pyautogui (AI assistant actions)
+- msgpack-python (nvda2cthulhu)
+- python-tornado (nvda2cthulhu WebSocket)
+These can be installed with pip if desired.

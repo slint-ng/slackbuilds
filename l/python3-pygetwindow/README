@@ -1,0 +1,6 @@
+pygetwindow (window information and control)
+
+  PyGetWindow provides functions for obtaining and controlling window
+  objects.
+
+  This is the Python 3 build of pygetwindow.
