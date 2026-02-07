@@ -21,7 +21,6 @@ slackdesc=\
 "python-requests:"
 "python-requests: Homepage: http://docs.python-requests.org/en/master/"
 "python-requests:"
-"python-requests:"
 )
 
 build() {

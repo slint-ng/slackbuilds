@@ -21,7 +21,6 @@ slackdesc=\
 "gstreamer: by writing a simple plugin with a clean, generic interface."
 "gstreamer:"
 "gstreamer: GStreamer is released under the LGPL."
-"gstreamer:"
 )
 
 build() {

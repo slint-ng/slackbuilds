@@ -21,7 +21,6 @@ slackdesc=\
 "gst-plugins-good:"
 "gst-plugins-good:"
 "gst-plugins-good:"
-"gst-plugins-good:"
 )
 
 build() {

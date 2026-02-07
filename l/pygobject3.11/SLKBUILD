@@ -21,7 +21,6 @@ slackdesc=\
 "pygobject3.11:"
 "pygobject3.11:"
 "pygobject3.11:"
-"pygobject3.11:"
 )
 
 build() {

@@ -21,7 +21,6 @@ slackdesc=\
 "python3-dasbus:"
 "python3-dasbus: Homepage: https://github.com/rhinstaller/dasbus"
 "python3-dasbus:"
-"python3-dasbus:"
 )
 
 build() {

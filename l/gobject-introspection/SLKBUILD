@@ -21,7 +21,6 @@ slackdesc=\
 "gobject-introspection: Homepage: https://gi.readthedocs.io/en/latest/"
 "gobject-introspection:"
 "gobject-introspection:"
-"gobject-introspection:"
 )
 
 build() {

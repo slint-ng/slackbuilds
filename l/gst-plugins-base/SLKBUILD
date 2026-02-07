@@ -21,7 +21,6 @@ slackdesc=\
 "gst-plugins-base: and audio decoders, encoders, and filters are included."
 "gst-plugins-base:"
 "gst-plugins-base:"
-"gst-plugins-base:"
 )
 
 build() {

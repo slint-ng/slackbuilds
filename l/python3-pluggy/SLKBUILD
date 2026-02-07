@@ -21,7 +21,6 @@ slackdesc=\
 "python3-pluggy:"
 "python3-pluggy:"
 "python3-pluggy:"
-"python3-pluggy:"
 )
 
 build() {

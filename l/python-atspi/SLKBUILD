@@ -20,7 +20,6 @@ slackdesc=\
 "python-atspi:"
 "python-atspi:"
 "python-atspi:"
-"python-atspi:"
 )
 
 build() {

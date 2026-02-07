@@ -22,7 +22,6 @@ slackdesc=\
 "pycairo3.11:"
 "pycairo3.11:"
 "pycairo3.11:"
-"pycairo3.11:"
 )
 
 build() {
