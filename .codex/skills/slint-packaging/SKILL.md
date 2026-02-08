@@ -23,6 +23,7 @@ On first use in a session, explicitly mention:
 - List files and read `README`, `*.info`, `slack-desc`, `doinst.sh`, patches, and the build script.
 - Note upstream URLs, versioning, and any custom steps (git clone, meson, cmake, etc.).
 - If a similar package already uses SLKBUILD, use it as a pattern.
+- Confirm naming and headers are consistent across the directory name, `pkgname`, `slackdesc`, README, and packager header.
 
 2. Decide the task
 - **Conversion**: SlackBuild → SLKBUILD

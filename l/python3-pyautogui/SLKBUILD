@@ -1,0 +1,35 @@
+# Packager: Storm Dragon <storm_dragon@stormux.org>
+
+pkgname=python3-pyautogui
+_srcname=PyAutoGUI
+pkgver=0.9.54
+pkgrel=1slint
+source=("https://files.pythonhosted.org/packages/65/ff/cdae0a8c2118a0de74b6cf4cbcdcaf8fd25857e6c3f205ce4b1794b27814/PyAutoGUI-0.9.54.tar.gz")
+url="https://github.com/asweigart/pyautogui"
+docs=("AUTHORS" "AUTHORS.txt" "CHANGELOG" "ChangeLog" "CHANGES" \
+  "CHANGES.txt" "CHANGES.md" "COPYING" "COPYING.txt" "LICENSE" \
+  "LICENSE.txt" "README" "README.md" "README.rst" "README.txt" "PKG-INFO")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"python3-pyautogui: GUI automation for mouse and keyboard"
+"python3-pyautogui:"
+"python3-pyautogui: PyAutoGUI provides cross-platform GUI automation"
+"python3-pyautogui: for controlling the mouse and keyboard."
+"python3-pyautogui:"
+"python3-pyautogui:"
+"python3-pyautogui:"
+"python3-pyautogui:"
+"python3-pyautogui:"
+"python3-pyautogui:"
+)
+
+build() {
+  cd "$SRC/$_srcname-$pkgver" || exit 1
+  sed -i -e "s/version=__import__('pyautogui').__version__,/version='${pkgver}',/" \
+    setup.py
+
+  python3.9 setup.py install --root="$PKG"
+  python3.11 setup.py install --root="$PKG"
+}

@@ -1,4 +1,4 @@
-pyautogui (GUI automation for mouse and keyboard)
+python3-pyautogui (GUI automation for mouse and keyboard)
 
   PyAutoGUI provides cross-platform GUI automation for controlling the
   mouse and keyboard.

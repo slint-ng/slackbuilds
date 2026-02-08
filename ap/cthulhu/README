@@ -36,7 +36,7 @@ SlackBuilds.org:
 - xorg-xmodmap
 
 Optional features need Python packages not yet in Slint:
-- python-pyautogui (AI assistant actions)
+- python3-pyautogui (AI assistant actions)
 - msgpack-python (nvda2cthulhu)
 - python-tornado (nvda2cthulhu WebSocket)
 These can be installed with pip if desired.

@@ -33,7 +33,7 @@ depends=(
   'xorg-xmodmap'
 )
 optdepends=(
-  'python-pyautogui: AI assistant actions'
+  'python3-pyautogui: AI assistant actions'
   'msgpack-python: nvda2cthulhu'
   'python-tornado: nvda2cthulhu WebSocket'
 )
