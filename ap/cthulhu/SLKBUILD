@@ -34,7 +34,7 @@ depends=(
 )
 optdepends=(
   'python3-pyautogui: AI assistant actions'
-  'msgpack-python: nvda2cthulhu'
+  'python3-msgpack: nvda2cthulhu'
   'python-tornado: nvda2cthulhu WebSocket'
 )
 makedepends=(

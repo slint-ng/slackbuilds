@@ -1,0 +1,32 @@
+# Packager: Storm Dragon <storm_dragon@stormux.org>
+
+pkgname=python3-tornado
+_srcname=tornado
+pkgver=6.5.4
+pkgrel=1slint
+source=("https://files.pythonhosted.org/packages/37/1d/0a336abf618272d53f62ebe274f712e213f5a03c0b2339575430b8362ef2/tornado-6.5.4.tar.gz")
+url="https://www.tornadoweb.org/"
+docs=("AUTHORS" "AUTHORS.txt" "CHANGELOG" "ChangeLog" "CHANGES" \
+  "CHANGES.txt" "CHANGES.md" "COPYING" "COPYING.txt" "LICENSE" \
+  "LICENSE.txt" "README" "README.md" "README.rst" "README.txt" "PKG-INFO")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"python3-tornado: python web framework and async networking"
+"python3-tornado:"
+"python3-tornado: Tornado is a Python web framework and"
+"python3-tornado: asynchronous networking library."
+"python3-tornado:"
+"python3-tornado:"
+"python3-tornado:"
+"python3-tornado:"
+"python3-tornado:"
+"python3-tornado:"
+)
+
+build() {
+  cd "$SRC/$_srcname-$pkgver" || exit 1
+  python3.9 setup.py install --root="$PKG"
+  python3.11 setup.py install --root="$PKG"
+}

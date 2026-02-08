@@ -37,6 +37,6 @@ SlackBuilds.org:
 
 Optional features need Python packages not yet in Slint:
 - python3-pyautogui (AI assistant actions)
-- msgpack-python (nvda2cthulhu)
+- python3-msgpack (nvda2cthulhu)
 - python-tornado (nvda2cthulhu WebSocket)
 These can be installed with pip if desired.
