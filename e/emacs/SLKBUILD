@@ -3,11 +3,9 @@
 # Packager: sektor
 
 pkgname=emacs
-# Determine version number the tarball is labeled with:
-TARBALLVER=${TARBALLVER:-$(echo $pkgname-*.tar.xz | rev | cut -f 3- -d . | cut -f 1 -d - | rev)}
-pkgver=$TARBALLVER
+pkgver=30.2
 pkgrel=1slint
-source=("$pkgname-$pkgver.tar.xz")
+source=("https://mirror.team-cymru.com/gnu/emacs/emacs-30.2.tar.xz")
 url="http://www.gnu.org/software/emacs/"
 options=("nosrcpack")
 
