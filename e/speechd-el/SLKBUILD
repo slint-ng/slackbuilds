@@ -1,0 +1,54 @@
+# shellcheck shell=bash
+# shellcheck disable=SC2034,SC2154,SC2206
+# Packager: sektor
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=speechd-el
+pkgver=2.12
+pkgrel=1slint
+source=("https://github.com/brailcom/speechd-el/releases/download/speechd-el-${pkgver}/speechd-el-${pkgver}.tar.gz")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"speechd-el: speechd-el (Emacs speech and Braille client)"
+"speechd-el:"
+"speechd-el: Provides speech and Braille output for Emacs."
+"speechd-el:"
+"speechd-el: Aimed at visually impaired users, but useful for any"
+"speechd-el: user needing non-visual or alternative Emacs output."
+"speechd-el:"
+"speechd-el: Can enable full speech/BRLTTY support, or speak only"
+"speechd-el: in selected situations or on request."
+"speechd-el:"
+)
+
+build() {
+  rm -rf "$PKG"
+  mkdir -p "$PKG"
+
+  cd "$SRC" || exit 1
+  rm -rf "$pkgname-$pkgver"
+  tar xvf $pkgname-$pkgver.tar.?z* || exit 1
+  cd "$pkgname-$pkgver" || exit 1
+
+  rootpkg="$PKG/usr/share/emacs/site-lisp/$pkgname"
+  mkdir -p "$rootpkg"
+  cp ./*.el "$rootpkg"
+  mkdir -p "$PKG/usr/bin"
+  cp speechd-log-extractor "$PKG/usr/bin"
+  chmod -R 755 "$PKG/usr/bin"
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  mkdir -p "$docdir/texi" "$PKG/usr/info"
+  for i in *info; do
+    gzip -c9 "$i" > "$PKG/usr/info/$(basename "$i").gz"
+  done
+  find "$SRC/$pkgname-$pkgver" -name "*.texi" -exec cp {} "$docdir/texi" \;
+  cd "$docdir/texi" || exit 1
+  makeinfo --html speechd-el.texi
+  mv speechd-el ../html
+  cp -f "$SRC/$pkgname-$pkgver/speechd-speak.pdf" ./
+  cp "$SRC/$pkgname-$pkgver"/{ANNOUNCE,AUTHORS,COPYING,NEWS,README} ./
+  cp "$startdir/README.Slint" ./
+  chown -R root:root "$PKG"
+}
