@@ -83,7 +83,7 @@ build() {
   # Don't use icecream:
   PATH=$(echo "$PATH" | sed "s|/usr/libexec/icecc/bin||g" | tr -s : | sed "s/^://g" | sed "s/:$//g")
 
-  cd "$SRC"/$pkgname-"$SRCDIRVER" || return 1
+  cd "$SRC"/$pkgname-"$pkgver" || return 1
 
   chown -R root:root .
   find . \
