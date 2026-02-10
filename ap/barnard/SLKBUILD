@@ -33,8 +33,21 @@ build() {
     return 1
   fi
 
-  go build
+  export CGO_CPPFLAGS="${CPPFLAGS}"
+  export CGO_CFLAGS="${CFLAGS}"
+  export CGO_CXXFLAGS="${CXXFLAGS}"
+  export CGO_LDFLAGS="${LDFLAGS}"
+  export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw"
+  goTarget="."
+  if [ -d "cmd/$pkgname" ]; then
+    goTarget="./cmd/$pkgname"
+  fi
+  go build "$goTarget"
 
+  if [ ! -f "$pkgname" ]; then
+    echo "Built $pkgname binary not found." >&2
+    return 1
+  fi
   install -Dm755 "$pkgname" "$PKG/usr/bin/$pkgname"
 
   if [ -f "$pkgname-ui" ]; then
