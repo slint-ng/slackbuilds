@@ -1,0 +1,3 @@
+Barnard is installed from a prebuilt binary in this directory.
+The binary was built with Go 1.25.6 because older Go fails.
+See README.SBo for the build steps.
