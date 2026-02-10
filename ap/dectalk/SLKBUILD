@@ -1,0 +1,51 @@
+# Maintainer: Storm Dragon <storm_dragon@stormux.org>
+pkgname=dectalk
+commit=c3c1e4ae4117f951d8d7f9ef2848408ec79047fd
+commit_short=c3c1e4a
+pkgver=git$commit_short
+pkgrel=1slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (DECtalk text-to-speech engine and tools)"
+"DECtalk is a classic text-to-speech system originally from DEC."
+"This package builds the open-source community edition from git."
+"It provides command-line tools like gspeak and say."
+"The DECtalk libraries are included for applications."
+)
+url="https://github.com/dectalk/dectalk"
+license=('Proprietary')
+depends=('alsa-lib' 'libpulse')
+makedepends=('make' 'git' 'unzip' 'dos2unix' 'autoconf' 'automake' 'libtool')
+optdepends=('gtk+2: Needed for graphical interface')
+source=("git+https://github.com/dectalk/dectalk.git#commit=$commit"
+        "dectalk.patch"
+        "dectalk.desktop"
+        "paul.png")
+sha256sums=('SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP')
+
+prepare() {
+  cd "$pkgname" || exit 1
+  find . -type f \( -name "*.in" -o -name "*.ac" -o -name "*.h" \) -exec dos2unix {} \;
+  patch -p1 --verbose < "$SRC/dectalk.patch" || exit 1
+  cd src || exit 1
+  autoreconf -si
+  ./configure --prefix=/usr
+}
+
+build() {
+  cd "$pkgname/src" || exit 1
+  make
+}
+
+package() {
+  install -D -m0644 "$SRC/dectalk.desktop" \
+    "$PKG/usr/share/applications/dectalk.desktop"
+  install -D -m0644 "$SRC/paul.png" "$PKG/usr/share/pixmaps/paul.png"
+  cd "$pkgname/src" || exit 1
+  make DESTDIR="$PKG" install
+}
+
+# vim: set ts=2 sw=2 et:
