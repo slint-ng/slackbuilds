@@ -1,0 +1,160 @@
+# shellcheck shell=bash
+# shellcheck disable=SC2034,SC2154
+# Packager: sektor
+
+pkgname=emacs
+pkgver=30.2
+pkgrel=1slint
+source=("https://mirror.team-cymru.com/gnu/emacs/emacs-${pkgver}.tar.xz")
+url="http://www.gnu.org/software/emacs/"
+options=("nosrcpack")
+
+# OK, now what's being used as the source directory version number...  account
+# for subversions a, b, c, and d in the $TARBALLVER:
+SRCDIRVER=$(echo "$TARBALLVER" | tr -d a | tr -d b | tr -d c | tr -d d)
+
+# Build Emacs with native compilation. This has better performance, but the
+# installed package is larger. Pass NATIVECOMP=NO to do a normal build.
+NATIVECOMP=${NATIVECOMP:-YES}
+
+# Do we want X support? (causes Emacs to be linked with many X11 libraries):
+WITHX=${WITHX:-YES}
+
+# Pass this variable set to "--with-pgtk" to use GTK+3 without linking to X11
+# libraries. This might be suitable if you're going to run under Wayland.
+PGTK_OPTION=${PGTK_OPTION:-}
+
+# Set the X related options. The default X_TOOLKIT will be GTK+3, but you may
+# set the X_TOOLKIT variable to any of these: gtk, gtk2, gtk3, lucid, athena, motif.
+if [ "$WITHX" = "YES" ]; then
+  if [ "$PGTK_OPTION" = "--with-pgtk" ]; then
+    X_TOOLKIT=gtk3
+  fi
+  X_OPTIONS="--with-x --with-x-toolkit=${X_TOOLKIT:-gtk3}"
+else
+  X_OPTIONS="--with-x=no"
+fi
+
+# Set the proper options for native compilation or not:
+if [ "$NATIVECOMP" = "YES" ]; then
+  PDUMPER=${PDUMPER:-"--with-dumping=pdumper --with-native-compilation"}
+else
+  PDUMPER=${PDUMPER:-"--with-pdumper=auto --without-native-compilation"}
+fi
+
+# Tag packages that use a toolkit other than default (currently gtk3):
+if [ -z "$TAG" ] && [ -n "$X_TOOLKIT" ]; then
+  if [ "$PGTK_OPTION" = "--with-pgtk" ]; then
+    TAG="_pgtk"
+  else
+    TAG="_$X_TOOLKIT"
+  fi
+fi
+if [ -n "$TAG" ]; then
+  pkgrel="${pkgrel}${TAG}"
+fi
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"emacs (GNU Emacs)"
+"Emacs is the extensible, customizable, self-documenting real-time"
+"display editor. If this seems to be a bit of a mouthful, an easier"
+"explanation is that Emacs is a text editor and more. At its core is an"
+"interpreter for Emacs Lisp, a dialect of the Lisp programming language"
+"with extensions to support text editing."
+"Homepage: http://www.gnu.org/software/emacs/"
+)
+
+doinst() {
+# Vim ships a better (IMHO) version of ctags, and we don't want
+# to overwrite it with this one.  If you really want emacs' ctags
+# either copy or link it into place yourself, or remove the vim
+# packages and reinstall emacs.  Besides, does anyone know/use
+# *both* emacs and vi?  I'd think that would bring the universe
+# to an end.  ;-)
+if [ ! -e usr/bin/ctags ]; then
+  cp -a usr/bin/ctags-emacs usr/bin/ctags
+  cp -a usr/man/man1/ctags-emacs.1.gz usr/man/man1/ctags.1.gz
+fi
+}
+
+build() {
+  # Don't use icecream:
+  PATH=$(echo "$PATH" | sed "s|/usr/libexec/icecc/bin||g" | tr -s : | sed "s/^://g" | sed "s/:$//g")
+
+  cd "$SRC"/$pkgname-"$pkgver" || return 1
+
+  chown -R root:root .
+  find . \
+    \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+    -exec chmod 755 {} \+ -o \
+    \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+    -exec chmod 644 {} \+
+
+  # The defaults are a little too worried about adding a few more K of pure
+  # memory given the amount available on modern systems:
+  sed -i "s/#define SYSTEM_PURESIZE_EXTRA 0/#define SYSTEM_PURESIZE_EXTRA 100000/g" src/puresize.h
+
+  # shellcheck disable=SC2086
+  CFLAGS="$SLKCFLAGS" \
+  CXXFLAGS="$SLKCFLAGS" \
+  ./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --program-prefix="" \
+    --program-suffix="" \
+    --mandir=/usr/man \
+    --infodir=/usr/info \
+    --without-gconf \
+    --without-gsettings \
+    --with-modules \
+    $X_OPTIONS \
+    $PGTK_OPTION \
+    $PDUMPER \
+    --build="$arch"-slackware-linux || return 1
+
+  if [ "$NATIVECOMP" = "YES" ]; then
+    make NATIVE_FULL_AOT=1 bootstrap -j "$numjobs" || make NATIVE_FULL_AOT=1 || return 1
+  else
+    make -j "$numjobs" || make || return 1
+  fi
+  make install DESTDIR="$PKG" || return 1
+
+  # Seems like this nonsense is finally obsolete:
+  if [ -d "$PKG"/var/games/emacs ]; then
+    # I don't care for broken permissions.
+    chmod 755 "$PKG"/var/games/emacs
+    chown -R root:games "$PKG"/var/games/emacs
+    chmod 664 "$PKG"/var/games/emacs/*
+  fi
+
+  # This avoids a collision with Exuberant Ctags...
+  mv "$PKG"/usr/bin/ctags "$PKG"/usr/bin/ctags-emacs
+  if [ -r "$PKG"/usr/man/man1/ctags.1 ]; then
+    mv "$PKG"/usr/man/man1/ctags.1 "$PKG"/usr/man/man1/ctags-emacs.1
+  elif [ -r "$PKG"/usr/man/man1/ctags.1.gz ]; then
+    mv "$PKG"/usr/man/man1/ctags.1.gz "$PKG"/usr/man/man1/ctags-emacs.1.gz
+  fi
+
+  mkdir -p "$PKG"/usr/doc/$pkgname-"$pkgver"
+  cp -a \
+    AUTHORS* COPYING* INSTALL* README* \
+    "$PKG"/usr/doc/$pkgname-"$pkgver"
+
+  # Link the latest NEWS file:
+  ( cd "$PKG"/usr/doc/$pkgname-"$pkgver" || exit 1
+    if [ -r "$PKG"/usr/share/emacs/"$SRCDIRVER"/etc/NEWS ]; then 
+      ln -sf "/usr/share/emacs/$SRCDIRVER/etc/NEWS" .
+    fi
+  ) || return 1
+
+  # If there's a ChangeLog, installing at least part of the recent history
+  # is useful, but don't let it get totally out of control:
+  if [ -r ChangeLog ]; then
+    DOCSDIR="$PKG/usr/doc/${pkgname}-$pkgver"
+    head -n 1000 ChangeLog > "$DOCSDIR"/ChangeLog
+    touch -r ChangeLog "$DOCSDIR"/ChangeLog
+  fi
+}
