@@ -1,19 +1,16 @@
-# Maintainer: Storm Dragon <storm_dragon@linux-a11y.org>
-# Maintainer: Michael Taboada <michael@2mb.solutions>
+# Maintainer: Storm Dragon <storm_dragon@stormux.org>
 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 
-# Note to self run slkbuild then remove from build-barnard.sh 3 lines:
-# export CFLAGS="-O2 -fPIC"
-# export CXXFLAGS="-O2 -fPIC"
-# export SLKCFLAGS="-O2 -fPIC"
-# the run fakeroot sh build-barnard.sh
-                                                                                                                                                           
 pkgname="barnard"
 pkgrel=1slint
-# pkgver is the output of "sh SLKBUILD" after having uncommented line 37
-pkgver=gitc81c8a0
-url="https://github.com/bmmcginty/barnard"
-options=('noextract' 'nosrcpack')
+pkgver=2026.02.09
+url="https://git.stormux.org/storm/barnard"
+source=(https://git.stormux.org/storm/barnard/archive/${pkgver}.tar.gz)
+options=('nosrcpack')
+license=('GPL2')
+depends=('openal' 'opus' 'opusfile')
+optdepends=('dialog: for barnard-ui')
+makedepends=('go' 'git')
 startdir=$(pwd)
 slackdesc=\
 (
@@ -23,39 +20,41 @@ slackdesc=\
 "modified to support usage by blind users."
 "The original version from Tim Cooper is available at"
 "https://github.com/layeh/barnard"
-"This version has been modified by Brandon McGinty-Carroll and is"
-"available at https://github.com/bmmcginty/barnard"
+"This version has been modified by Storm Dragon and is"
+"available at https://git.stormux.org/storm/barnard"
 )
-# /data/GitHub/barnard is a clone of the GitHub repository.
-pkgver() {
-	cd /data/GitHub/barnard
-	git pull > /dev/null
-	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse \
-	--short HEAD)"
-	echo
-}
-#pkgver
-build(){
-	rm -rf $startdir/gopath
-	echo "=== download ==="
-	mkdir -p $startdir/gopath/src/github.com/bmmcginty
-	# a clone of the Git repo is used
-	cp -a /data/GitHub/barnard  $startdir/gopath/src/github.com/bmmcginty
-	ln -s $startdir/gopath/src/github.com/bmmcginty/barnard $startdir/barnard
-	export GOPATH="${startdir}/gopath"
-	cd $startdir/barnard
-	go get -v -d
-	echo "=== build ==="
-	cd "$startdir/gopath/src/github.com/bmmcginty/barnard"
-	go install \
-	-gcflags "all=-trimpath=$GOPATH" \
-	-asmflags "all=-trimpath=$GOPATH" -v
-	mkdir -p $PKG/usr/bin
-	mkdir -p $PKG/usr/share/doc/${pkgname}-$pkgver
-	cp $startdir/gopath/bin/barnard  $PKG/usr/bin/
-	pandoc -s -f gfm -t html5 --metadata=pagetitle:"Barnard console client" \
-	-o $PKG/usr/share/doc/${pkgname}-$pkgver/README.html \
-	$startdir/barnard/README.md
-	cp $startdir/barnard/README.md $PKG/usr/share/doc/${pkgname}-$pkgver/
-	cp $startdir/barnard/barnard-ui $PKG/usr/bin/
+build() {
+  if [ -d "$SRC/$pkgname" ]; then
+    cd "$SRC/$pkgname"
+  elif [ -d "$SRC/$pkgname-$pkgver" ]; then
+    cd "$SRC/$pkgname-$pkgver"
+  else
+    echo "Source directory for $pkgname not found." >&2
+    return 1
+  fi
+
+  go build
+
+  install -Dm755 "$pkgname" "$PKG/usr/bin/$pkgname"
+
+  if [ -f "$pkgname-ui" ]; then
+    install -Dm755 "$pkgname-ui" "$PKG/usr/bin/$pkgname-ui"
+  fi
+
+  if [ -f "extras/$pkgname-sound.sh" ]; then
+    install -Dm755 "extras/$pkgname-sound.sh" \
+      "$PKG/usr/share/$pkgname/$pkgname-sound.sh"
+  fi
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver"
+  if [ -f README.md ]; then
+    cp -a README.md "$PKG/usr/doc/$pkgname-$pkgver/"
+  fi
+  if [ -f LICENSE ]; then
+    cp -a LICENSE "$PKG/usr/doc/$pkgname-$pkgver/"
+  fi
+  if [ -f COPYING ]; then
+    cp -a COPYING "$PKG/usr/doc/$pkgname-$pkgver/"
+  fi
+  cp "$startdir/SLKBUILD" "$PKG/usr/doc/$pkgname-$pkgver/SLKBUILD"
 }
