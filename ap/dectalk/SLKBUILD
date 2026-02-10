@@ -1,8 +1,6 @@
 # Maintainer: Storm Dragon <storm_dragon@stormux.org>
 pkgname=dectalk
-commit=c3c1e4ae4117f951d8d7f9ef2848408ec79047fd
-commit_short=c3c1e4a
-pkgver=git$commit_short
+pkgver=2026.02.10
 pkgrel=1slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
@@ -15,9 +13,9 @@ slackdesc=(
 url="https://github.com/dectalk/dectalk"
 license=('Proprietary')
 depends=('alsa-lib' 'libpulse')
-makedepends=('make' 'git' 'unzip' 'dos2unix' 'autoconf' 'automake' 'libtool')
+makedepends=('make' 'unzip' 'dos2unix' 'autoconf' 'automake' 'libtool')
 optdepends=('gtk+2: Needed for graphical interface')
-source=("git+https://github.com/dectalk/dectalk.git#commit=$commit"
+source=("https://github.com/dectalk/dectalk/archive/refs/heads/develop.tar.gz"
         "dectalk.patch"
         "dectalk.desktop"
         "paul.png")
@@ -27,7 +25,7 @@ sha256sums=('SKIP'
             'SKIP')
 
 prepare() {
-  cd "$pkgname" || exit 1
+  cd "$pkgname-develop" || exit 1
   find . -type f \( -name "*.in" -o -name "*.ac" -o -name "*.h" \) -exec dos2unix {} \;
   patch -p1 --verbose < "$SRC/dectalk.patch" || exit 1
   cd src || exit 1
@@ -36,7 +34,7 @@ prepare() {
 }
 
 build() {
-  cd "$pkgname/src" || exit 1
+  cd "$pkgname-develop/src" || exit 1
   make
 }
 
@@ -44,7 +42,7 @@ package() {
   install -D -m0644 "$SRC/dectalk.desktop" \
     "$PKG/usr/share/applications/dectalk.desktop"
   install -D -m0644 "$SRC/paul.png" "$PKG/usr/share/pixmaps/paul.png"
-  cd "$pkgname/src" || exit 1
+  cd "$pkgname-develop/src" || exit 1
   make DESTDIR="$PKG" install
 }
 
