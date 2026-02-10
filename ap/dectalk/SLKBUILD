@@ -24,26 +24,18 @@ sha256sums=('SKIP'
             'SKIP'
             'SKIP')
 
-prepare() {
-  cd "$pkgname-develop" || exit 1
+build() {
+  cd "$SRC/$pkgname-develop" || exit 1
   find . -type f \( -name "*.in" -o -name "*.ac" -o -name "*.h" \) -exec dos2unix {} \;
   patch -p1 --verbose < "$SRC/dectalk.patch" || exit 1
   cd src || exit 1
   autoreconf -si
   ./configure --prefix=/usr
-}
-
-build() {
-  cd "$pkgname-develop/src" || exit 1
   make
-}
-
-package() {
+  make DESTDIR="$PKG" install
   install -D -m0644 "$SRC/dectalk.desktop" \
     "$PKG/usr/share/applications/dectalk.desktop"
   install -D -m0644 "$SRC/paul.png" "$PKG/usr/share/pixmaps/paul.png"
-  cd "$pkgname-develop/src" || exit 1
-  make DESTDIR="$PKG" install
 }
 
 # vim: set ts=2 sw=2 et:
