@@ -33,9 +33,9 @@ build() {
     return 1
   fi
 
-  mkdir -p "$TMP/go" "$TMP/gocache"
-  export GOPATH="$TMP/go"
-  export GOCACHE="$TMP/gocache"
+  export GOCACHE="${GOCACHE:-"$SRC/go-cache"}"
+  export GOMODCACHE="${GOMODCACHE:-"$SRC/go"}"
+  export GOTMPDIR="${GOTMPDIR:-"$SRC"}"
   export GO111MODULE=on
   export CGO_ENABLED=1
 
