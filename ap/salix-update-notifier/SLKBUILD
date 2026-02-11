@@ -2,10 +2,10 @@
 # Adapted for Slint by Didier Spaier didieratslintdotfr
 
 pkgname=salix-update-notifier
-pkgver=0.8.0
-pkgrel=3slint
-arch=noarch
-source=(salix-update-notifier.patch ${pkgver}.tar.gz)
+pkgver=1.0.0
+pkgrel=1slint
+source=(salix-update-notifier.patch \
+	"https://download.salixos.org/x86_64/15.0/source/xap/salix-update-notifier/${pkgname}-${pkgver}.tar.xz")
 docs=("readme" "install" "copying" "changelog" "authors" "news" "todo" "translators")
 options=('noautodotnew' 'nosrcpack')
 dotnew=('etc/salix-update-notifier.conf')
