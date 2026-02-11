@@ -14,7 +14,7 @@
 
 #Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=google-go-lang
-pkgver=1.25.1
+pkgver=1.26.0
 pkgrel=1slint
 slackdesc="$pkgname (Core compiler tools for the Go programming language)"
 url='https://golang.org/'
@@ -22,7 +22,7 @@ license=(BSD-3-Clause)
 makedepends=(git go)
 replaces=(go-pie)
 provides=(go-pie)
-source=("go${pkgver}.src.tar.gz")
+source=("https://go.dev/dl/go${pkgver}.src.tar.gz")
 docs=("README.*" LICENSE PATENTS)
 options=("nosrcpack")
 build() {
