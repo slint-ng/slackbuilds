@@ -21,7 +21,7 @@ remoteHost="slackware.uk"
 mirror="slint"
 
 # GPG configuration
-gpgBin="gpg"
+gpgBin="gpg2"
 gpgKeyId=""
 
 # If yes, fail when an existing signature (.asc) has no matching target file
@@ -97,7 +97,7 @@ select_gpg_key() {
     if [[ ${#keyLabels[@]} -eq 0 ]]; then
         echo "No GPG secret keys were found."
         echo "Create one with:"
-        echo "  gpg --full-generate-key"
+        echo "  gpg2 --full-generate-key"
         echo "Then rerun ${0##*/}."
         exit 1
     fi
