@@ -10,7 +10,7 @@ options=('nosrcpack')
 license=('GPL2')
 depends=('openal' 'opus' 'opusfile')
 optdepends=('dialog: for barnard-ui')
-makedepends=('go' 'git')
+makedepends=('google-go-lang' 'git')
 startdir=$(pwd)
 slackdesc=\
 (
@@ -33,15 +33,18 @@ build() {
     return 1
   fi
 
-  if [ ! -f "$startdir/$pkgname" ]; then
-    echo "Prebuilt $pkgname binary not found at $startdir/$pkgname." >&2
-    return 1
-  fi
-  install -Dm755 "$startdir/$pkgname" "$PKG/usr/bin/$pkgname"
+  mkdir -p "$TMP/go" "$TMP/gocache"
+  export GOPATH="$TMP/go"
+  export GOCACHE="$TMP/gocache"
+  export GO111MODULE=on
+  export CGO_ENABLED=1
 
-  if [ -f "$pkgname-ui" ]; then
-    install -Dm755 "$pkgname-ui" "$PKG/usr/bin/$pkgname-ui"
+  go build -v -o barnard .
+  install -Dm755 barnard "$PKG/usr/bin/barnard"
+  if [ -f barnard-ui ]; then
+    install -Dm755 barnard-ui "$PKG/usr/bin/barnard-ui"
   fi
+
 
   if [ -f "extras/$pkgname-sound.sh" ]; then
     install -Dm755 "extras/$pkgname-sound.sh" \

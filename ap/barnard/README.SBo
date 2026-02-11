@@ -1,8 +1,4 @@
-Build steps used for the prebuilt binary:
-1. Clone the barnard repository.
-2. Create a tmp directory inside the repo.
-3. Download the Go 1.25.6 linux amd64 tarball from the Go
-  downloads page and extract it into the tmp directory.
-4. Build using the Go binary from the tmp directory:
-  GOROOT=/path/to/tmp/go /path/to/tmp/go/bin/go build
-5. Copy the resulting barnard binary into this package directory.
+Build notes:
+  The SLKBUILD builds from source using the system Go toolchain.
+  Go 1.21.5+ is required (per go.mod).
+  Go modules are downloaded during the build.
