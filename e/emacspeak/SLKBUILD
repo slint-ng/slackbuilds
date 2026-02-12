@@ -1,0 +1,139 @@
+# shellcheck shell=bash
+# shellcheck disable=SC2034,SC2154
+# Packager: sektor
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=emacspeak
+pkgver=60.0
+pkgrel=3slint
+source=("https://github.com/tvraman/emacspeak/releases/download/${pkgver}/emacspeak-${pkgver}.tar.bz2")
+url="https://github.com/tvraman/emacspeak"
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"emacspeak: emacspeak (Emacs speech interface)"
+"emacspeak:"
+"emacspeak: Emacspeak lets blind users work in Emacs with speech."
+"emacspeak: It enables local and remote info via a unified interface."
+"emacspeak: It blends web browsing, messaging, and other online tasks."
+"emacspeak: Created by T. V. Raman, used by blind users worldwide."
+"emacspeak:"
+)
+
+build() {
+  if [ -z "$ARCH" ]; then
+    case "$(uname -m)" in
+      i?86) ARCH=i586 ;;
+      arm*) ARCH=arm ;;
+      *) ARCH=$(uname -m) ;;
+    esac
+    export ARCH
+  fi
+
+  rm -rf "$PKG"
+  mkdir -p "$PKG/usr/info"
+  
+  if [ "$ARCH" = "i586" ]; then
+    SLKCFLAGS="-O2 -march=i586 -mtune=i686"
+    LIBDIRSUFFIX=""
+  elif [ "$ARCH" = "i686" ]; then
+    SLKCFLAGS="-O2 -march=i686"
+    LIBDIRSUFFIX=""
+  elif [ "$ARCH" = "s390" ]; then
+    SLKCFLAGS="-O2"
+    LIBDIRSUFFIX=""
+  elif [ "$ARCH" = "x86_64" ]; then
+    SLKCFLAGS="-O2 -fPIC"
+    LIBDIRSUFFIX="64"
+  elif [ "$ARCH" = "armv7hl" ]; then
+    SLKCFLAGS="-O3 -march=armv7-a -mfpu=vfpv3-d16"
+    LIBDIRSUFFIX=""
+  else
+    SLKCFLAGS="-O2"
+    LIBDIRSUFFIX=""
+  fi
+  
+  cd "$SRC" || exit 1
+  rm -rf "$pkgname-$pkgver"
+  tar xf "$pkgname-$pkgver.tar."?z* || exit 1
+  cd "$pkgname-$pkgver" || exit 1
+  
+  # Make sure ownerships and permissions are sane:
+  chown -R root:root .
+  find . \
+    \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 700 -o -perm 555 -o -perm 511 \) \
+    -exec chmod 755 {} \+ -o \
+    \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+    -exec chmod 644 {} \+
+  
+  # Remove dangling symlinks:
+  find . -xtype l -exec rm -f {} \;
+  
+  # Compile the main program against Emacs:
+  make config && make
+  if [ ! -r info/emacspeak.info ]; then
+    makeinfo -o info/ info/emacspeak.texi
+  fi
+  
+  make espeak || exit 1
+  make outloud || exit 1
+  make dtk-soft || exit 1
+  
+  # Install (there is no longer a "make install" feature...):
+  mkdir -p "$PKG/usr/share/emacs/site-lisp"
+  cp -a "$SRC/$pkgname-$pkgver" "$PKG/usr/share/emacs/site-lisp/emacspeak"
+  mv "$PKG/usr/share/emacs/site-lisp/emacspeak/info/"*.info* "$PKG/usr/info"
+  rm -rf "$PKG/usr/share/emacs/site-lisp/emacspeak/info"
+  # Create an emacspeak run script:
+  mkdir -p "$PKG/usr/bin"
+  cat > "$PKG/usr/bin/emacspeak" << 'EOF'
+#!/bin/sh
+# Start emacspeak.
+# Default to using espeak unless DTK_PROGRAM is set.
+#
+:${DTK_PROGRAM} ? "Using ${DTK_PROGRAM}" : export DTK_PROGRAM="espeak"
+if [ ! -e /usr/bin/espeak -a "$DTK_PROGRAM" = "espeak" ]; then
+  echo "espeak (or espeak-ng) not installed. Please set a supported speech server like this:"
+  echo "  export DTK_PROGRAM=<speech engine>"
+  echo "Then re-run this script."
+fi
+if [ -d $HOME/.emacs.d/init.el ]; then
+  emacs -q -l /usr/share/emacs/site-lisp/emacspeak/lisp/emacspeak-setup.el -l $HOME/.emacs.d/init.el $*
+else
+  emacs -q -l /usr/share/emacs/site-lisp/emacspeak/lisp/emacspeak-setup.el $*
+fi
+EOF
+  chown root:root "$PKG/usr/bin/emacspeak"
+  chmod 755 "$PKG/usr/bin/emacspeak"
+  
+  # Strip binaries:
+  ( cd "$PKG" || exit 1
+    find . -type f -exec file {} + | grep "executable" | grep ELF | cut -f 1 -d : | \
+      while IFS= read -r bin; do
+        strip --strip-debug "$bin" 2> /dev/null
+      done
+    find . -type f -exec file {} + | grep "shared object" | grep ELF | cut -f 1 -d : | \
+      while IFS= read -r so; do
+        strip --strip-debug "$so" 2> /dev/null
+      done
+  )
+  
+  # Compress info files, if any:
+  if [ -d "$PKG/usr/info" ]; then
+    ( cd "$PKG/usr/info" || exit 1
+      rm -f dir
+      gzip -9 -- *
+    )
+  fi
+  
+  # Add a documentation directory:
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver"
+  ( cd "$PKG/usr/doc/$pkgname-$pkgver" || exit 1
+    ln -sf /usr/share/emacs/site-lisp/emacspeak/etc .
+    ln -sf etc/COPYRIGHT .
+    ln -sf etc/NEWS .
+    ln -sf /usr/share/emacs/site-lisp/emacspeak/README.md .
+    ln -sf /usr/share/emacs/site-lisp/emacspeak/blog-archive .
+  )
+}
