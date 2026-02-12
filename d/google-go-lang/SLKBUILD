@@ -29,7 +29,15 @@ build() {
   export GOARCH=amd64
   export GOAMD64=v1 # make sure we're building for the right x86-64 version
   export GOROOT_FINAL=/usr/lib64/go
-  export GOROOT_BOOTSTRAP=/usr/lib64/go
+  if [ -x /usr/lib64/go/bin/go ]; then
+    export GOROOT_BOOTSTRAP=/usr/lib64/go
+  elif [ -x /usr/lib/go/bin/go ]; then
+    export GOROOT_BOOTSTRAP=/usr/lib/go
+  else
+    echo "Bootstrap Go not found (expected /usr/lib64/go/bin/go or /usr/lib/go/bin/go)."
+    exit 1
+  fi
+  export GOROOT="${GOROOT_BOOTSTRAP}"
   cd "$SRC/go"
 [ -f README.md ] && pandoc -f gfm -t html5 -o README.html README.md
   cd "$SRC/go/src"
@@ -44,7 +52,7 @@ build() {
   # Just strip the packaged binaries as a compromise.
   strip $STRIP_BINARIES "$PKG/usr/lib64/go"{/bin/*,/pkg/tool/*/*}
 
-  cp -r doc/* "$PKG/usr/doc/go"
+  cp -r doc/* "$PKG/usr/share/doc/go"
 
   ln -sf /usr/lib64/go/bin/go "$PKG/usr/bin/go"
   ln -sf /usr/lib64/go/bin/gofmt "$PKG/usr/bin/gofmt"
