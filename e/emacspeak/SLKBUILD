@@ -78,7 +78,7 @@ build() {
   
   make espeak || exit 1
   make outloud || exit 1
-  make dtk-soft || exit 1
+  make dtk || exit 1
   
   # Install (there is no longer a "make install" feature...):
   mkdir -p "$PKG/usr/share/emacs/site-lisp"
