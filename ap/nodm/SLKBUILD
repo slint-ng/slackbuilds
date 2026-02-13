@@ -47,7 +47,7 @@ build() {
   jobCount="${numjobs:-1}"
   scriptDir="${startdir:-$PWD}"
 
-  cd "$SRC/$pkgname-$forkBranch" || exit 1
+  cd "$SRC/$pkgname-10-rebase" || exit 1
 
   ./autogen.sh || exit 1
   ./configure \
