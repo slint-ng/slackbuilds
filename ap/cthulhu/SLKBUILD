@@ -31,11 +31,9 @@ depends=(
   'speech-dispatcher'
   'xorg-xkbcomp'
   'xorg-xmodmap'
-)
-optdepends=(
-  'python3-pyautogui: AI assistant actions'
-  'python3-msgpack: nvda2cthulhu'
-  'python-tornado: nvda2cthulhu WebSocket'
+  'python3-pyautogui'
+  'python3-msgpack'
+  'python3-tornado'
 )
 makedepends=(
   'git'
