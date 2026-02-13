@@ -1,0 +1,110 @@
+# shellcheck shell=bash disable=SC2034
+# Packager: Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=slint-scripts
+pkgver=15.0
+pkgrel=$(date +%Y%m%d_%H%M)slint
+arch=noarch
+source=("rescuebootstick.desktop")
+url="https://github.com/slint-ng/slint-scripts"
+options=('nosrcpack')
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (miscellaneous Slint scripts)"
+""
+"This package contains miscellaneous Slint helper scripts."
+"Source: https://github.com/slint-ng/slint-scripts"
+"Visit our website: https://slint.fr"
+""
+""
+""
+""
+""
+)
+
+doinst() {
+  if [ -x /usr/bin/update-desktop-database ]; then
+    /usr/bin/update-desktop-database -q usr/share/applications >/dev/null 2>&1
+  fi
+}
+
+build() {
+  sourceRepo=${SLINT_SCRIPTS_REPO:-$(realpath "$startdir/../../../slint-scripts")}
+  translationsRepo=${SLINT_TRANSLATIONS_REPO:-$(realpath "$startdir/../../../slint-translations")}
+  sourceRepoUrl="https://github.com/slint-ng/slint-scripts"
+  translationsRepoUrl="https://github.com/slint-ng/slint-translations"
+  domainName=slint-scripts
+
+  if [ ! -d "$sourceRepo" ]; then
+    echo "Missing slint-scripts repository at: $sourceRepo"
+    echo "Set SLINT_SCRIPTS_REPO to the repository path."
+    echo "Clone from: $sourceRepoUrl"
+    return 1
+  fi
+
+  if [ ! -d "$translationsRepo/po/$domainName" ]; then
+    echo "Missing translations directory: $translationsRepo/po/$domainName"
+    echo "Set SLINT_TRANSLATIONS_REPO to the repository path."
+    echo "Clone from: $translationsRepoUrl"
+    return 1
+  fi
+
+  mkdir -p "$PKG/usr/bin" "$PKG/usr/sbin" "$PKG/usr/share/applications"
+
+  for scriptName in \
+    clean-kernels.sh \
+    list_boot_entries \
+    login-chooser \
+    rescuebootstick \
+    speak-with \
+    speakup-restore \
+    speakup-save
+  do
+    if [ ! -f "$sourceRepo/$scriptName" ]; then
+      echo "Missing required script: $sourceRepo/$scriptName"
+      return 1
+    fi
+    installName="$scriptName"
+    [ "$scriptName" = "clean-kernels.sh" ] && installName="clean-kernels"
+    cp -a "$sourceRepo/$scriptName" "$PKG/usr/sbin/$installName" || return 1
+  done
+
+  for scriptName in \
+    list-espeak-ng-voices \
+    plank-off \
+    plank-on \
+    orca-off \
+    orca-on \
+    session-chooser \
+    spd-list \
+    switch-emerald-theme \
+    switch-off \
+    switch-on
+  do
+    if [ ! -f "$sourceRepo/$scriptName" ]; then
+      echo "Missing required script: $sourceRepo/$scriptName"
+      return 1
+    fi
+    cp -a "$sourceRepo/$scriptName" "$PKG/usr/bin/" || return 1
+  done
+
+  chmod -R 755 "$PKG/usr"
+
+  for poFile in "$translationsRepo/po/$domainName"/*.po; do
+    [ ! -f "$poFile" ] && continue
+    poBase=$(basename "$poFile")
+    localeDir=${poBase%."$domainName".po}
+    moDir="$PKG/usr/share/locale/$localeDir/LC_MESSAGES"
+    mkdir -p "$moDir"
+    msgfmt --check --output-file="$moDir/$domainName.mo" "$poFile" || return 1
+    chmod 644 "$moDir/$domainName.mo"
+  done
+
+  desktopFile="$sourceRepo/rescuebootstick.desktop"
+  [ ! -f "$desktopFile" ] && desktopFile="$SRC/rescuebootstick.desktop"
+  [ ! -f "$desktopFile" ] && desktopFile="$startdir/rescuebootstick.desktop"
+  cp "$desktopFile" "$PKG/usr/share/applications/" || return 1
+  chmod 644 "$PKG/usr/share/applications"/*
+}
