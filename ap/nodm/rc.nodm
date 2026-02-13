@@ -1,0 +1,66 @@
+#!/bin/sh
+
+programPath="/usr/bin/nodm"
+configFile="/etc/nodm.conf"
+
+start_nodm() {
+  if [ ! -x "$programPath" ]; then
+    echo "$programPath is not installed or not executable"
+    return 1
+  fi
+
+  if pgrep -x nodm > /dev/null 2>&1; then
+    echo "nodm is already running"
+    return 0
+  fi
+
+  if [ -r "$configFile" ]; then
+    # shellcheck disable=SC1090
+    . "$configFile"
+  fi
+
+  echo "Starting nodm"
+  "$programPath"
+}
+
+stop_nodm() {
+  if pgrep -x nodm > /dev/null 2>&1; then
+    echo "Stopping nodm"
+    pkill -x nodm
+  else
+    echo "nodm is not running"
+  fi
+}
+
+status_nodm() {
+  if pgrep -x nodm > /dev/null 2>&1; then
+    echo "nodm is running"
+  else
+    echo "nodm is not running"
+  fi
+}
+
+restart_nodm() {
+  stop_nodm
+  sleep 1
+  start_nodm
+}
+
+case "$1" in
+start)
+  start_nodm
+  ;;
+stop)
+  stop_nodm
+  ;;
+restart)
+  restart_nodm
+  ;;
+status)
+  status_nodm
+  ;;
+*)
+  echo "Usage: $0 start|stop|restart|status"
+  exit 1
+  ;;
+esac

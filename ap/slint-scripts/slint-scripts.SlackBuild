@@ -4,63 +4,48 @@ VERSION=15.0
 ARCH=noarch
 BUILD=$(date +%Y%m%d_%H%M)slint
 CWD=$(pwd)
+sourceRepo=${SLINT_SCRIPTS_REPO:-$(realpath "$CWD/../../../slint-scripts")}
+translationsRepo=${SLINT_TRANSLATIONS_REPO:-$(realpath "$CWD/../../../slint-translations")}
+sourceRepoUrl="https://github.com/slint-ng/slint-scripts"
+translationsRepoUrl="https://github.com/slint-ng/slint-translations"
+domainName=slint-scripts
+
+if [ ! -d "$sourceRepo" ]; then
+	echo "Missing slint-scripts repository at: $sourceRepo"
+	echo "Set SLINT_SCRIPTS_REPO to the repository path."
+	echo "Clone from: $sourceRepoUrl"
+	exit 1
+fi
+
+if [ ! -d "$translationsRepo/po/$domainName" ]; then
+	echo "Missing translations directory: $translationsRepo/po/$domainName"
+	echo "Set SLINT_TRANSLATIONS_REPO to the repository path."
+	echo "Clone from: $translationsRepoUrl"
+	exit 1
+fi
+
 rm -rf PKG
-mkdir PKG
-DOMAINNAME=slint-scripts
-rm -rf slint-translations slint-scripts
-# git clone https://github.com/DidierSpaier/slint-translations
-cp -r /data/github/slint-translations . || exit
-# git clone https://github.com/DidierSpaier/build_ISO
-ISOSCRIPTS=/data/github/build_ISO/misc
-. $ISOSCRIPTS/SeTlocales
-cd $CWD/slint-translations/po/slint-scripts || exit 1
-LANG=C
-for j in $(ls *.po); do
-	ll_TT=${j%%.*}
-	SeTLocaleDir
-	if [ "$LocaleDir" = "missing" ]; then
-		printf %b "I don't know where to install the message catalog for ${ll_TT}.\n"
-		printf %b "Please request that the file $CWD/files-ib-initrd/SeTlocales be completed\n"
-		exit
-	fi
-	MO_DIR=$CWD/PKG/usr/share/locale/$LocaleDir/LC_MESSAGES
-	mkdir -p $MO_DIR
-	msgfmt --strict -c -v -f --statistics -o $MO_DIR/${DOMAINNAME}.mo $j 2>&1|tee error
-	if ! grep -q " translated messages" error; then
-		translated=0
-	else
-		grep "^.*$j: " error > stat
-		translated=$(sed "s@.*: @@;s@ .*@@" stat)
-	fi
-	if ! grep -q "untranslated" stat; then
-		untranslated=0
-	else
-		untranslated=$(sed "s@.* translated message[s]\{0,1\}, @@;s@ .*@@" stat)
-		total=$((translated+untranslated))
-		percentage=$((translated*100/total))
-		if [ $percentage -lt 85 ]; then
-			rm $MO_DIR/${DOMAINNAME}.mo
-			echo "$j rejected, only ${percentage}% translated."
-		else
-			chown root:root $MO_DIR/${DOMAINNAME}.mo
-			chmod 644 $MO_DIR/${DOMAINNAME}.mo
-		fi
-	fi
-done
-mkdir -p $CWD/PKG/usr/bin
-mkdir -p $CWD/PKG/usr/sbin
-cd $CWD/slint-translations/sources/slint-scripts || exit 1
-for i in \
-clean-kernels \
+mkdir -p "$CWD/PKG/usr/bin" "$CWD/PKG/usr/sbin" \
+	"$CWD/PKG/usr/share/applications" "$CWD/PKG/install"
+
+for scriptName in \
+clean-kernels.sh \
 list_boot_entries \
 login-chooser \
 rescuebootstick \
 speak-with \
 speakup-restore \
 speakup-save; do
-	cp -a $i $CWD/PKG/usr/sbin || exit 1
+	if [ ! -f "$sourceRepo/$scriptName" ]; then
+		echo "Missing required script: $sourceRepo/$scriptName"
+		exit 1
+	fi
+	installName="$scriptName"
+	[ "$scriptName" = "clean-kernels.sh" ] && installName="clean-kernels"
+	cp -a "$sourceRepo/$scriptName" "$CWD/PKG/usr/sbin/$installName" || exit 1
 done
-for i in \
+
+for scriptName in \
 list-espeak-ng-voices \
 plank-off \
 plank-on \
@@ -71,21 +56,37 @@ spd-list \
 switch-emerald-theme \
 switch-off \
 switch-on; do
-cp -a $i $CWD/PKG/usr/bin || exit 1
+	if [ ! -f "$sourceRepo/$scriptName" ]; then
+		echo "Missing required script: $sourceRepo/$scriptName"
+		exit 1
+	fi
+	cp -a "$sourceRepo/$scriptName" "$CWD/PKG/usr/bin" || exit 1
 done
-mkdir -p $CWD/PKG/usr/share/applications
-chmod -R 755 $CWD/PKG/usr
-cp $CWD/rescuebootstick.desktop $CWD/PKG/usr/share/applications || exit 1
-chmod 644 $CWD/PKG/usr/share/applications/*
-mkdir -p $CWD/PKG/install
-cat $CWD/doinst.sh > $CWD/PKG/install/doinst.sh
 
-cat << EOF > $CWD/PKG/install/slack-desc
+chmod -R 755 "$CWD/PKG/usr"
+
+for poFile in "$translationsRepo/po/$domainName"/*.po; do
+	[ ! -f "$poFile" ] && continue
+	poBase=$(basename "$poFile")
+	localeDir=${poBase%."$domainName".po}
+	moDir="$CWD/PKG/usr/share/locale/$localeDir/LC_MESSAGES"
+	mkdir -p "$moDir"
+	msgfmt --check --output-file="$moDir/$domainName.mo" "$poFile" || exit 1
+	chmod 644 "$moDir/$domainName.mo"
+done
+
+desktopFile="$sourceRepo/rescuebootstick.desktop"
+[ ! -f "$desktopFile" ] && desktopFile="$CWD/rescuebootstick.desktop"
+cp "$desktopFile" "$CWD/PKG/usr/share/applications" || exit 1
+chmod 644 "$CWD/PKG/usr/share/applications"/*
+cat "$CWD/doinst.sh" > "$CWD/PKG/install/doinst.sh"
+
+cat << EOF > "$CWD"/PKG/install/slack-desc
              |-----handy-ruler------------------------------------------------------|
 slint-scripts: slint-scripts (miscellaneous Slint scripts)
 slint-scripts:
-slint-scripts: This package contains misceallaneous Slint scripts and their
-slint-scripts: translations, thanks to the translators of the Slint project.
+slint-scripts: This package contains miscellaneous Slint helper scripts.
+slint-scripts: Source: https://github.com/slint-ng/slint-scripts
 slint-scripts: Visit our website: https://slint.fr
 slint-scripts:
 slint-scripts:
@@ -93,6 +94,6 @@ slint-scripts:
 slint-scripts:
 slint-scripts:
 EOF
-( cd $CWD/PKG
-/sbin/makepkg -l y -c n $CWD/$PRGNAM-$VERSION-$ARCH-$BUILD.txz
+( cd "$CWD"/PKG || exit 1
+/sbin/makepkg -l y -c n "$CWD"/"$PRGNAM"-"$VERSION"-"$ARCH"-"$BUILD".txz
 )
