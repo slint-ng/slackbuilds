@@ -58,6 +58,12 @@ includeUpstreamBadSignatures="yes"
 
 # Function section
 
+notify() {
+    (
+        play -q -n synth .1 tri 420 : synth .2 tri 710 </dev/tty >/dev/null 2>&1 || printf '\a' >/dev/tty 2>/dev/null || true
+    ) &
+}
+
 select_gpg_key() {
     local -a keyLabels=()
     local -a keyOptions=()
@@ -342,6 +348,7 @@ prompt_orphan_signature_review() {
 
     echo "Found ${#orphanAscFiles[@]} orphaned signature file(s):"
     printf '%s\n' "${orphanAscFiles[@]}"
+    notify
     read -r -p "Review orphaned signatures above. Remove if desired, then press enter to continue."
 }
 
@@ -380,6 +387,7 @@ prompt_expired_signature_resign() {
         return 0
     fi
 
+    notify
     while true; do
         read -r -p "Replace expired signatures with your key? (yes/no): " reply
         case "${reply,,}" in
@@ -440,6 +448,7 @@ prompt_bad_signature_resign() {
         return 2
     fi
 
+    notify
     while true; do
         read -r -p "Replace bad signatures with your key? (yes/no): " reply
         case "${reply,,}" in
@@ -494,6 +503,7 @@ import_missing_signature_keys() {
     printf '%s\n' "${missingKeys[@]}"
 
     if [[ "${confirmKeyImport}" == "yes" ]]; then
+        notify
         while true; do
             read -r -p "Import missing keys from ${keyServer}? (yes/no): " reply
             case "${reply,,}" in
@@ -538,9 +548,12 @@ load_package_base_dirs() {
 
     local root=""
     local pkgFile=""
+    local pkgPath=""
     local line=""
     local location=""
     local baseDir=""
+    local relPath=""
+    local fsBaseDir=""
     local -A seenBase=()
     local -a baseDirs=()
     # Unique list of base dirs derived from PACKAGES.TXT.
@@ -571,9 +584,28 @@ load_package_base_dirs() {
             fi
         done
 
+        # Also discover top-level package dirs directly from filesystem so
+        # newly-added package paths are included before metadata regeneration.
+        while IFS= read -r -d '' pkgPath; do
+            relPath=${pkgPath#"${root}"/}
+            fsBaseDir=${relPath%%/*}
+            if [[ -n "${fsBaseDir}" && -z "${seenBase[${fsBaseDir}]-}" ]]; then
+                seenBase["${fsBaseDir}"]=1
+                uniqueBaseDirs+=("${fsBaseDir}")
+            fi
+        done < <(
+            find "${root}" \
+                -type d \( -path '*/.git' -o -path '*/.rsync-tmp' -o -path '*/previous' -o -path '*/iso' -o -path '*/source' \) -prune -o \
+                -type f -name '*.t?z' -print0
+        )
+
         if ((${#uniqueBaseDirs[@]} == 0)); then
             [[ -d "${root}/packages" ]] && uniqueBaseDirs+=("packages")
             [[ -d "${root}/slint" ]] && uniqueBaseDirs+=("slint")
+        fi
+
+        if ((${#uniqueBaseDirs[@]} > 0)); then
+            mapfile -t uniqueBaseDirs < <(printf '%s\n' "${uniqueBaseDirs[@]}" | sed '/^$/d' | sort -u)
         fi
 
         packageBaseDirsByRoot["${root}"]="${uniqueBaseDirs[*]}"
@@ -710,6 +742,7 @@ build_package_map() {
     local key=""
     local versionBuild=""
     local root=""
+    local pkgDir=""
 
     # Reset target maps for this build.
     versions=()
@@ -720,7 +753,8 @@ build_package_map() {
         while IFS= read -r -d '' pkg; do
             parsed=$(parse_package_fields "${pkg}") || continue
             IFS='|' read -r name version arch build <<< "${parsed}"
-            key="${root}|${name}|${arch}"
+            pkgDir=$(dirname "${pkg}")
+            key="${root}|${pkgDir}|${name}|${arch}"
             versionBuild="${version}-${build}"
             if version_is_newer "${versionBuild}" "${versions[${key}]}" ; then
                 versions["${key}"]="${versionBuild}"
@@ -853,7 +887,8 @@ prepend_to_file() {
     local tempFile=""
 
     tempFile=$(mktemp)
-    printf '%s' "${content}" > "${tempFile}"
+    # Ensure one terminating newline before existing file content.
+    printf '%s\n' "${content}" > "${tempFile}"
     cat "${targetFile}" >> "${tempFile}"
     mv "${tempFile}" "${targetFile}"
 }
@@ -871,6 +906,7 @@ update_changelogs() {
     local addedLines=""
     local upgradedLines=""
     local removedLines=""
+    local fileName=""
 
     entryDate=$(LC_ALL=C date '+%A %e %B %Y')
 
@@ -885,7 +921,7 @@ update_changelogs() {
         if [[ -z "${statusPadding}" ]]; then
             statusPadding=" "
         fi
-        separatorLine=$(awk 'match($0, /^\\+[-]+\\+$/, m) { print $0; exit }' "${changelogFile}")
+        separatorLine=$(awk 'match($0, /^\+[-]+\+$/, m) { print $0; exit }' "${changelogFile}")
         if [[ -z "${separatorLine}" ]]; then
             separatorLine="+-------------------------+"
         fi
@@ -915,6 +951,9 @@ update_changelogs() {
     fi
 
     for changelogFile in "${changelogFiles[@]}"; do
+        fileName=${changelogFile}
+        notify
+        read -r -p "Press enter to edit ${fileName}."
         "${editor}" "${changelogFile}"
     done
 }
@@ -1179,6 +1218,7 @@ perform_upload() {
 prompt_upload() {
     local reply=""
 
+    notify
     while true; do
         read -r -p "Perform actual upload? (yes/no): " reply
         case "${reply,,}" in
@@ -1324,6 +1364,7 @@ declare -A currentRoots
 
 build_package_map baseline
 
+notify
 echo "The mirror has been synced to this device."
 read -r -p "Add any updated packages and press enter to continue."
 echo -e "\nUpdating repository..."
