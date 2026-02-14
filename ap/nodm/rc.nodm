@@ -1,6 +1,6 @@
 #!/bin/sh
 
-programPath="/usr/bin/nodm"
+programPath="/usr/sbin/nodm"
 configFile="/etc/nodm.conf"
 
 start_nodm() {
@@ -15,8 +15,11 @@ start_nodm() {
   fi
 
   if [ -r "$configFile" ]; then
+    # Export NODM_* assignments from nodm.conf for the nodm process.
+    set -a
     # shellcheck disable=SC1090
     . "$configFile"
+    set +a
   fi
 
   echo "Starting nodm"

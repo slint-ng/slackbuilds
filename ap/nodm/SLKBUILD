@@ -52,6 +52,7 @@ build() {
   ./autogen.sh || exit 1
   ./configure \
     --prefix=/usr \
+    --sbindir=/usr/sbin \
     --sysconfdir=/etc \
     --localstatedir=/var \
     --build="${buildArch}-slackware-linux" || exit 1
