@@ -15,13 +15,12 @@ slackdesc=\
 #|-----handy-ruler------------------------------------------------------|
 "libreoffice: libreoffice (free office suite)"
 "libreoffice:"
-"libreoffice: LibreOffice is an Open Source, community-developed, office"
-"libreoffice: productivity suite.  It includes key desktop applications,"
-"libreoffice: such as a word processor, spreadsheet, presentation manager,"
-"libreoffice: formula editor and drawing program, with a user interface and"
-"libreoffice: feature set similar to other office suites.  LibreOffice also"
-"libreoffice: works transparently with a variety of file formats, including"
-"libreoffice: Microsoft Office File Formats."
+"libreoffice: LibreOffice is an open source, community-developed suite."
+"libreoffice: It includes a word processor, spreadsheet, presentation"
+"libreoffice: manager, formula editor, and drawing program."
+"libreoffice: The interface and feature set are like other suites."
+"libreoffice: LibreOffice works with many file formats, including"
+"libreoffice: Microsoft Office formats."
 "libreoffice:"
 )
 
