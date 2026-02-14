@@ -2,6 +2,9 @@
 
 programPath="/usr/sbin/nodm"
 configFile="/etc/nodm.conf"
+logDir="/var/log/nodm"
+logFile="$logDir/startnodm.log"
+oldLogFile="$logDir/startnodm.log.old"
 
 start_nodm() {
   if [ ! -x "$programPath" ]; then
@@ -22,8 +25,18 @@ start_nodm() {
     set +a
   fi
 
+  if [ ! -d "$logDir" ] && ! mkdir -p "$logDir"; then
+    echo "Could not create log directory: $logDir"
+    return 1
+  fi
+
+  if [ -f "$logFile" ] && ! mv -f "$logFile" "$oldLogFile"; then
+    echo "Could not rotate log file: $logFile"
+    return 1
+  fi
+
   echo "Starting nodm"
-  exec "$programPath"
+  exec "$programPath" --verbose --stderr --no-syslog >> "$logFile" 2>&1
 }
 
 stop_nodm() {
