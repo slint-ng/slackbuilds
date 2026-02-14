@@ -1,5 +1,5 @@
 # shellcheck shell=bash disable=SC2034
-# Maintainer: Storm Dragon <storm_dragon@linux-a11y.org>
+# Maintainer: Storm Dragon <storm_dragon@stormux.org>
 
 pkgname=nodm
 pkgver=0.13
@@ -9,7 +9,6 @@ source=(
   "https://github.com/dgw/nodm/archive/${forkBranch}.tar.gz"
   "nodm.conf"
   "rc.nodm"
-  "nodm"
 )
 url="https://github.com/dgw/nodm"
 license=('GPL')
@@ -23,7 +22,7 @@ slackdesc=\
 "nodm (automatic login display manager)"
 "nodm is a minimal X display manager for automatic logins."
 "This package uses dgw's fork with restart fixes."
-"It installs /etc/nodm.conf, /etc/pam.d/nodm and /etc/rc.d/rc.nodm."
+"It installs /etc/nodm.conf and /etc/rc.d/rc.nodm."
 )
 
 doinst() {
@@ -38,8 +37,8 @@ doinst() {
   }
 
   config etc/nodm.conf.new
-  config etc/pam.d/nodm.new
   config etc/rc.d/rc.nodm.new
+
 }
 
 build() {
@@ -59,8 +58,7 @@ build() {
   make -j "$jobCount" || exit 1
   make DESTDIR="$PKG" install || exit 1
 
-  install -d "$PKG/etc/rc.d" "$PKG/etc/pam.d"
+  install -d "$PKG/etc/rc.d"
   install -m 644 "$scriptDir/nodm.conf" "$PKG/etc/nodm.conf.new"
-  install -m 644 "$scriptDir/nodm" "$PKG/etc/pam.d/nodm.new"
   install -m 755 "$scriptDir/rc.nodm" "$PKG/etc/rc.d/rc.nodm.new"
 }
