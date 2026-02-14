@@ -23,7 +23,8 @@ start_nodm() {
   fi
 
   echo "Starting nodm"
-  "$programPath"
+  # Match the known-good manual launch behavior.
+  exec "$programPath" --verbose --stderr --no-syslog
 }
 
 stop_nodm() {
