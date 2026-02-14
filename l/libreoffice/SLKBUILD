@@ -852,6 +852,16 @@ if [ -z "$ARCH" ]; then
   esac
 fi
 
+# Ensure BUILD_ARCH is set even when ARCH is provided externally.
+if [ -z "${BUILD_ARCH:-}" ]; then
+  case "$ARCH" in
+    i?86)    export BUILD_ARCH=i386 ;;
+    armv7hl) export BUILD_ARCH=armv7hl ;;
+    arm*)    export BUILD_ARCH=arm ;;
+    *)       export BUILD_ARCH=$ARCH ;;
+  esac
+fi
+
 case "$ARCH" in
   i?86)      SLKCFLAGS="-march=${ARCH} -mtune=i686"
              SLKLDFLAGS=""; LIBDIRSUFFIX=""
