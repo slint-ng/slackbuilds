@@ -872,6 +872,9 @@ case "$ARCH" in
     *)    TARGET=$ARCH-slackware-linux ;;
 esac
 
+# Ensure pkg-config can find .pc files (especially on x86_64).
+export PKG_CONFIG_PATH="/usr/lib${LIBDIRSUFFIX}/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
+
 # Exit the script on errors:
 set -e
 trap 'echo "$0 FAILED at line ${LINENO}" | tee $OUTPUT/error-${PRGNAM}.log' ERR
@@ -1077,7 +1080,13 @@ export LDFLAGS="-Wl,-rpath,/usr/lib${LIBDIRSUFFIX}/libreoffice/program/ $SLKLDFL
 if [ "${ADD_KDE5}" = "YES" ]; then
   export CXXFLAGS="$(pkg-config --cflags Qt5Core) $SLKCFLAGS"
 else
-  export CXXFLAGS="$(pkg-config --cflags QtCore) $SLKCFLAGS"
+  if /usr/bin/pkg-config --exists Qt5Core ; then
+    export CXXFLAGS="$(pkg-config --cflags Qt5Core) $SLKCFLAGS"
+  elif /usr/bin/pkg-config --exists QtCore ; then
+    export CXXFLAGS="$(pkg-config --cflags QtCore) $SLKCFLAGS"
+  else
+    export CXXFLAGS="$SLKCFLAGS"
+  fi
 fi
 if [ "${ARCH}" != "x86_64" ]; then
   export LDFLAGS="$LDFLAGS -latomic"
@@ -1088,7 +1097,7 @@ export CPPFLAGS="-DU_USING_ICU_NAMESPACE=1"
 
 # If this local directory does not exist during configuration,
 # support for Open Clip Art will be disabled:
-mkdir -p /usr/share/openclipart
+mkdir -p /usr/share/openclipart 2>/dev/null || true
 
 # Do we generate language packs?
 if [ -z "$ADD_LANGUAGES" ]; then
