@@ -52,6 +52,13 @@ On first use in a session, explicitly mention:
 
 - `slackdesc` lines should be <= 70 chars (URLs can be longer if needed).
 - `slackdesc` should be <= 10 lines.
+- In `SLKBUILD`, use plain URL sources (for example `https://...`).
+  Do not use Arch-style `git+https://...` source syntax.
+  Tag-based git sources are fine as plain URLs, for example
+  `https://example.org/repo.git#tag=v1.2.3`.
+- Prefer simple, explicit `source=()` URLs over bash substring expansion
+  expressions such as `${name::1}` inside `source`; some `slkbuild -X`
+  generations can mis-handle those and produce bad `cd` paths.
 - If you edit a bash script, run `shellcheck` and fix reported issues.
 
 ## Resources
