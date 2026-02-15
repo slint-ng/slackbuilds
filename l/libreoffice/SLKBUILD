@@ -1601,55 +1601,8 @@ EOF
 # Back to base:
 cd $BUILDDIR
 
-# Create the package's post-install script:
-mkdir -p $PKG/install
-cat <<EOT > $PKG/install/doinst.sh
-# Handle the incoming configuration files:
-config() {
-  for infile in \$1; do
-    NEW="\$infile"
-    OLD="\$(dirname \$NEW)/\$(basename \$NEW .new)"
-    # If there's no config file by that name, mv it over:
-    if [ ! -r \$OLD ]; then
-      mv \$NEW \$OLD
-    elif [ "\$(cat \$OLD | md5sum)" = "\$(cat \$NEW | md5sum)" ]; then
-      # toss the redundant copy
-      rm \$NEW
-    fi
-    # Otherwise, we leave the .new copy for the admin to consider...
-  done
-}
-config etc/profile.d/${PRGNAM}.sh.new
-config etc/profile.d/${PRGNAM}.csh.new
-
-EOT
-
-# Install language dictionary:
-cat $SRCDIR/doinst.sh.l10n \
-  | sed -e "s/@LIBDIRSUFFIX@/${LIBDIRSUFFIX}/g" \
-        -e "s/@LANG@/$(echo ${DEF_LANG} |tr _ -)/g" -e "s/@PRGNAM@/$PRGNAM/" \
-  >> ${PKG}/install/doinst.sh
-
-cat <<EOT >> $PKG/install/doinst.sh
-
-# Update the desktop database:
-if [ -x usr/bin/update-desktop-database ]; then
-  chroot . /usr/bin/update-desktop-database usr/share/applications 1> /dev/null 2> /dev/null
-fi
-
-# Update the mime database:
-if [ -x usr/bin/update-mime-database ]; then
-  chroot . /usr/bin/update-mime-database usr/share/mime 1> /dev/null 2> /dev/null
-fi
-
-# Update hicolor theme cache:
-if [ -d usr/share/icons/hicolor ]; then
-  if [ -x /usr/bin/gtk-update-icon-cache ]; then
-    chroot . /usr/bin/gtk-update-icon-cache -f -t usr/share/icons/hicolor 1> /dev/null 2> /dev/null
-  fi
-fi
-
-EOT
+# Main package doinst.sh is provided via doinst() below so that slkbuild
+# can create $PKG/install itself without colliding with this build().
 
 # Add documentation:
 mkdir -p $PKG/usr/doc/$PRGNAM-${LOVER}${VERSION}${PKG_SUBVER}
@@ -1749,4 +1702,63 @@ fi # End splitting off the mozplugin
 # Restore the original umask:
 umask ${_UMASK_}
 
+}
+
+doinst() {
+# Handle incoming configuration files:
+config() {
+  for infile in $1; do
+    NEW="$infile"
+    OLD="$(dirname "$NEW")/$(basename "$NEW" .new)"
+    if [ ! -r "$OLD" ]; then
+      mv "$NEW" "$OLD"
+    elif [ "$(cat "$OLD" | md5sum)" = "$(cat "$NEW" | md5sum)" ]; then
+      rm "$NEW"
+    fi
+  done
+}
+config etc/profile.d/libreoffice.sh.new
+config etc/profile.d/libreoffice.csh.new
+
+# Install dictionary extension for the default language.
+if [ -x "usr/lib64/libreoffice/program/unopkg" ]; then
+  UNOPKGTMP=$(mktemp -d unopkg.XXXXXX) || UNOPKGTMP=/tmp/unopkg.$$
+  DICT_OXT=""
+  if [ -f "usr/lib64/libreoffice/share/extensions/install/dict-en-US.oxt" ]; then
+    DICT_OXT="usr/lib64/libreoffice/share/extensions/install/dict-en-US.oxt"
+  else
+    for _oxt in usr/lib64/libreoffice/share/extensions/install/dict-*.oxt ; do
+      [ -f "$_oxt" ] || continue
+      DICT_OXT="$_oxt"
+      break
+    done
+  fi
+  if [ -n "$DICT_OXT" ]; then
+    DICT_BASE=$(basename "$DICT_OXT")
+    echo "Installing shared version of '$DICT_BASE' ..."
+    chroot . /usr/lib64/libreoffice/program/unopkg remove --shared \
+      "$DICT_BASE" 1>/dev/null 2>/dev/null
+    chroot . /usr/lib64/libreoffice/program/unopkg add \
+      --suppress-license --shared "$DICT_OXT" \
+      "-env:UserInstallation=file:///$UNOPKGTMP" 1>/dev/null 2>/dev/null
+  fi
+  rm -rf "$UNOPKGTMP"
+fi
+
+# Update the desktop database:
+if [ -x usr/bin/update-desktop-database ]; then
+  chroot . /usr/bin/update-desktop-database usr/share/applications 1> /dev/null 2> /dev/null
+fi
+
+# Update the mime database:
+if [ -x usr/bin/update-mime-database ]; then
+  chroot . /usr/bin/update-mime-database usr/share/mime 1> /dev/null 2> /dev/null
+fi
+
+# Update hicolor theme cache:
+if [ -d usr/share/icons/hicolor ]; then
+  if [ -x /usr/bin/gtk-update-icon-cache ]; then
+    chroot . /usr/bin/gtk-update-icon-cache -f -t usr/share/icons/hicolor 1> /dev/null 2> /dev/null
+  fi
+fi
 }
