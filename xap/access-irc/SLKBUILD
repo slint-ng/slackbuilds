@@ -1,0 +1,39 @@
+# Maintainer: Storm Dragon <storm_dragon@stormux.org>
+
+pkgname=access-irc
+pkgver=1.7.0
+pkgrel=1slint
+slackdesc="$pkgname (Accessible IRC client with GTK3 support)"
+url="https://github.com/destructatron/access-irc"
+license=('MIT')
+depends=('python' 'python-gobject' 'python3-miniirc' 'python3-pluggy' 'gtk3' 'at-spi2-core'
+         'gst-plugins-base' 'gst-plugins-good' 'python3-gtkspellcheck')
+makedepends=('python-build' 'python-installer' 'python-wheel' 'python-setuptools')
+optdepends=('python-numpy: for sound generation'
+            'python-scipy: for sound generation')
+options=('nosrcpack')
+source=("https://github.com/destructatron/access-irc/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('fa02cc159b883d96a63ed2813360c527422f433af22fca9b4f4b62a27221c72b')
+
+build() {
+  cd "$pkgname-$pkgver" || exit 1
+  python3 -m build --wheel --no-isolation || exit 1
+  python3 -m installer --destdir="$PKG" dist/*.whl || exit 1
+
+  sitePackages="$(python3 - <<'PY'
+import sysconfig
+print(sysconfig.get_paths()["purelib"])
+PY
+)" || exit 1
+  dataDir="$PKG$sitePackages/access_irc/data"
+
+  install -dm755 "$PKG/usr/share/$pkgname/sounds" || exit 1
+  install -m644 "$dataDir"/sounds/*.wav "$PKG/usr/share/$pkgname/sounds/" || exit 1
+  install -Dm644 "$dataDir/config.json.example" \
+    "$PKG/usr/share/$pkgname/config.json.example" || exit 1
+
+  rm -rf "$dataDir"
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || exit 1
+  cp -a LICENSE README.md "$PKG/usr/doc/$pkgname-$pkgver/" || exit 1
+}

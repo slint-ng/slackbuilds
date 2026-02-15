@@ -1,0 +1,23 @@
+# Maintainer: Storm Dragon <storm_dragon@stormux.org>
+
+pkgname=python3-gtkspellcheck
+pkgver=5.0.3
+pkgrel=1slint
+slackdesc="$pkgname (Spell-checking library for GTK written in Python)"
+url='https://github.com/koehlma/pygtkspellcheck'
+license=('GPL-3.0-or-later')
+depends=('glib2' 'python' 'python-gobject' 'python-pyenchant')
+makedepends=('git' 'python-build' 'python-installer' 'python-wheel'
+             'python-myst-parser' 'python-poetry-core' 'python-sphinx_rtd_theme')
+optdepends=('gtk3: GTK 3 support'
+            'gtk4: GTK 4 support')
+options=('nosrcpack')
+source=("git+https://github.com/koehlma/pygtkspellcheck.git#tag=v$pkgver")
+b2sums=('fec3e782c09a55e9be033c426cbed66671f154151bf03266592f6ffd197f4ef4b5b0fe0aa688e759f9ccace209e4295363484b60e6ba611fbbc0792d135edf39')
+docs=(README.rst)
+
+build() {
+  cd pygtkspellcheck || exit 1
+  python3 -m build --wheel --no-isolation || exit 1
+  python3 -m installer --destdir="$PKG" dist/*.whl || exit 1
+}
