@@ -1647,7 +1647,8 @@ chmod 755 $PKG/etc/profile.d/*
 
 # Compress the man page(s):
 if [ -d $PKG/usr/man ]; then
-  find $PKG/usr/man -type f -name "*.?" -exec gzip -9f {} \;
+  # Skip already compressed pages to avoid gzip non-zero exits under set -e.
+  find $PKG/usr/man -type f -name "*.?" ! -name "*.gz" -exec gzip -9f {} \;
   for i in $(find $PKG/usr/man -type l -name "*.?") ; do ln -s $( readlink $i ).gz $i.gz ; rm $i ; done
 fi
 
