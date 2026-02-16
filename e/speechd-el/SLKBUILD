@@ -5,7 +5,7 @@
 
 pkgname=speechd-el
 pkgver=2.12
-pkgrel=1slint
+pkgrel=2slint
 source=("https://github.com/brailcom/speechd-el/releases/download/speechd-el-${pkgver}/speechd-el-${pkgver}.tar.gz")
 
 slackdesc=\
