@@ -183,11 +183,11 @@ GITURI[3]="$GITBASE/translations"
 
 # Two files that are used to determine what needs to be downloaded:
 SOURCE[4]="$SRCDIR/${LOSRC_DIR}/download.lst-${VERSION}${SUBVER}"
-SRCURL[4]="http://cgit.freedesktop.org/libreoffice/core/plain/download.lst?id=libreoffice-${VERSION}${SUBVER}"
+SRCURL[4]="https://raw.githubusercontent.com/LibreOffice/core/$PRGNAM-$VERSION$SUBVER/download.lst"
 GITURI[4]=""
 
 SOURCE[5]="$SRCDIR/${LOSRC_DIR}/Makefile.fetch-${VERSION}${SUBVER}"
-SRCURL[5]="http://cgit.freedesktop.org/libreoffice/core/plain/Makefile.fetch?id=libreoffice-${VERSION}${SUBVER}"
+SRCURL[5]="https://raw.githubusercontent.com/LibreOffice/core/$PRGNAM-$VERSION$SUBVER/Makefile.fetch"
 GITURI[5]=""
 
 #
