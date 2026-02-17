@@ -1526,8 +1526,16 @@ rm -rf $PKG/usr/share/icons/{gnome,locolor} || true
 # Add a bash-completion script that was removed (?) after 3.3.2.2:
 if [ ! -f $PKG/etc/bash_completion.d/${PRGNAM}.sh ]; then
   mkdir -p $PKG/etc/bash_completion.d
+  # Best-effort: do not abort full packaging if this write fails on odd filesystems.
   install -m0755 $SRCDIR/bash_completion.sh \
-    $PKG/etc/bash_completion.d/${PRGNAM}.sh
+    $PKG/etc/bash_completion.d/${PRGNAM}.sh \
+    2>/dev/null \
+    || {
+      cp -f $SRCDIR/bash_completion.sh \
+        $PKG/etc/bash_completion.d/${PRGNAM}.sh 2>/dev/null \
+        && chmod 0755 $PKG/etc/bash_completion.d/${PRGNAM}.sh 2>/dev/null \
+        || true
+    }
 fi
 
 # Add wrapper scripts (if they do not exist yet) that call the real binaries:
