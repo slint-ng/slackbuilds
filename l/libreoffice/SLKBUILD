@@ -1607,66 +1607,124 @@ if [ ! -f "$PKG/etc/bash_completion.d/${PRGNAM}.sh" ]; then
 fi
 echo "=== DEBUG: bash-completion block end ==="
 
-# Add wrapper scripts (if they do not exist yet) that call the real binaries:
-(
-  mkdir -p "$PKG/usr/bin"
-  cd "$PKG/usr/bin"
+POSTSPLIT_DEBUG_LOG="$OUTPUT/debug-postsplit-${PRGNAM}.log"
+{
+  echo "=== DEBUG: post-split block begin ($(date -u '+%F %T UTC')) ==="
+  echo "id: $(id)"
+  echo "whoami: $(whoami 2>/dev/null || true)"
+  echo "pwd: $(pwd)"
+  echo "umask: $(umask) / $(umask -S)"
+} > "$POSTSPLIT_DEBUG_LOG"
 
-  add_wrapper() {
-    local _target="$1"
-    local _command="$2"
-    [ -e "$_target" ] && return 0
-    cat <<EOF > "$_target"
+postsplit_log() {
+  printf '%s\n' "$*" | tee -a "$POSTSPLIT_DEBUG_LOG"
+}
+
+postsplit_run() {
+  local _label="$1"
+  shift
+  postsplit_log "[RUN $_label] $*"
+  if "$@" >> "$POSTSPLIT_DEBUG_LOG" 2>&1 ; then
+    postsplit_log "[RC $_label] 0"
+    return 0
+  fi
+  local _rc=$?
+  postsplit_log "[RC $_label] $_rc"
+  return "$_rc"
+}
+
+postsplit_run_allow_fail() {
+  local _label="$1"
+  shift
+  postsplit_log "[RUN $_label] $*"
+  if "$@" >> "$POSTSPLIT_DEBUG_LOG" 2>&1 ; then
+    postsplit_log "[RC $_label] 0"
+  else
+    local _rc=$?
+    postsplit_log "[RC $_label] $_rc (ignored)"
+  fi
+  return 0
+}
+
+# Add wrapper scripts (if they do not exist yet) that call the real binaries:
+postsplit_run wrappers_mkdir mkdir -p "$PKG/usr/bin"
+postsplit_run wrappers_cd_usrbin cd "$PKG/usr/bin"
+
+add_wrapper() {
+  local _target="$1"
+  local _command="$2"
+  if [ -e "$_target" ]; then
+    postsplit_log "[SKIP add_wrapper] $_target already exists"
+    return 0
+  fi
+  postsplit_log "[RUN add_wrapper_write $_target]"
+  if cat <<EOF > "$_target"
 #!/bin/sh
 $_command "\$@"
 EOF
-    chmod 0755 "$_target"
-  }
+  then
+    postsplit_log "[RC add_wrapper_write $_target] 0"
+  else
+    local _rc=$?
+    postsplit_log "[RC add_wrapper_write $_target] $_rc"
+    return "$_rc"
+  fi
+  postsplit_run "add_wrapper_chmod_$_target" chmod 0755 "$_target"
+}
 
-  add_wrapper "${PRGNAM}" "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice"
-  add_wrapper loweb "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --web"
-  add_wrapper localc "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --calc"
-  add_wrapper lobase "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --base"
-  add_wrapper lofromtemplate "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice .uno:NewDoc"
-  add_wrapper lowriter "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --writer"
-  add_wrapper unopkg "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/unopkg"
-  add_wrapper lodraw "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --draw"
-  add_wrapper lomath "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --math"
-  add_wrapper loimpress "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --impress"
-)
+postsplit_run wrapper_libreoffice add_wrapper "${PRGNAM}" "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice"
+postsplit_run wrapper_loweb add_wrapper loweb "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --web"
+postsplit_run wrapper_localc add_wrapper localc "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --calc"
+postsplit_run wrapper_lobase add_wrapper lobase "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --base"
+postsplit_run wrapper_lofromtemplate add_wrapper lofromtemplate "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice .uno:NewDoc"
+postsplit_run wrapper_lowriter add_wrapper lowriter "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --writer"
+postsplit_run wrapper_unopkg add_wrapper unopkg "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/unopkg"
+postsplit_run wrapper_lodraw add_wrapper lodraw "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --draw"
+postsplit_run wrapper_lomath add_wrapper lomath "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --math"
+postsplit_run wrapper_loimpress add_wrapper loimpress "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --impress"
 
 # Back to base:
-cd $BUILDDIR
+postsplit_run wrappers_cd_builddir cd "$BUILDDIR"
 
 # Main package doinst.sh is provided via doinst() below so that slkbuild
 # can create $PKG/install itself without colliding with this build().
 
 # Add documentation:
-mkdir -p $PKG/usr/doc/$PRGNAM-${LOVER}${VERSION}${PKG_SUBVER}
-cp -a $DOCS $PKG/usr/doc/$PRGNAM-${LOVER}${VERSION}${PKG_SUBVER} || true
-cat $SRCDIR/SLKBUILD > $PKG/usr/doc/$PRGNAM-${LOVER}${VERSION}${PKG_SUBVER}/$PRGNAM.SLKBUILD
+DOC_TARGET="$PKG/usr/doc/$PRGNAM-${LOVER}${VERSION}${PKG_SUBVER}"
+postsplit_run docs_mkdir mkdir -p "$DOC_TARGET"
+postsplit_run_allow_fail docs_copy_docs cp -a $DOCS "$DOC_TARGET"
+postsplit_run docs_copy_slkbuild cp -f "$SRCDIR/SLKBUILD" "$DOC_TARGET/$PRGNAM.SLKBUILD"
 #cat $SRCDIR/Slackware.conf.in > $PKG/usr/doc/$PRGNAM-${LOVER}${VERSION}${PKG_SUBVER}/Slackware.conf.in
-cp -ia $SRCDIR/patches $PKG/usr/doc/$PRGNAM-${LOVER}${VERSION}${PKG_SUBVER}/ || true
-chown -R root:root $PKG/usr/doc/$PRGNAM-${LOVER}${VERSION}${PKG_SUBVER}
-find $PKG/usr/doc -type f -exec chmod 644 {} \;
+postsplit_run_allow_fail docs_copy_patches cp -ia "$SRCDIR/patches" "$DOC_TARGET/" 
+postsplit_run docs_chown chown -R root:root "$DOC_TARGET"
+postsplit_run docs_chmod find "$PKG/usr/doc" -type f -exec chmod 644 {} \;
 
 # Fix permissions of license files:
-chmod 0644 $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/*odt  || true
-chmod 0644 $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/{LICENSE,NOTICE} || true
+postsplit_run_allow_fail perms_odt chmod 0644 "$PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/"*odt
+postsplit_run_allow_fail perms_license_notice chmod 0644 \
+  "$PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/LICENSE" \
+  "$PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/NOTICE"
 
 # Fix possible weird permissions:
-find ${PKG} -perm 444 -o -perm 640 -exec chmod 644 {} \; || true
-find ${PKG} -perm 555 -o -perm 750 -exec chmod 755 {} \; || true
+postsplit_run_allow_fail perms_fix_644 sh -c 'find "$1" -perm 444 -o -perm 640 -exec chmod 644 {} \;' sh "$PKG"
+postsplit_run_allow_fail perms_fix_755 sh -c 'find "$1" -perm 555 -o -perm 750 -exec chmod 755 {} \;' sh "$PKG"
 
 # Add the profile scripts:
-mkdir -p $PKG/etc/profile.d
+postsplit_run profiles_mkdir mkdir -p "$PKG/etc/profile.d"
 for file in "$SRCDIR"/profile.d/"${PRGNAM}"* ; do
   [ -e "$file" ] || continue
-  cat $file | sed -e "s#@LIBDIRSUFFIX@#${LIBDIRSUFFIX}#g" \
-    > $PKG/etc/profile.d/$(basename $file).new
+  profile_target="$PKG/etc/profile.d/$(basename "$file").new"
+  postsplit_log "[RUN profile_render $(basename "$file")]"
+  if sed -e "s#@LIBDIRSUFFIX@#${LIBDIRSUFFIX}#g" "$file" > "$profile_target" 2>> "$POSTSPLIT_DEBUG_LOG" ; then
+    postsplit_log "[RC profile_render $(basename "$file")] 0"
+  else
+    _rc=$?
+    postsplit_log "[RC profile_render $(basename "$file")] $_rc"
+    return "$_rc"
+  fi
 done
 if [ -d "$PKG/etc/profile.d" ]; then
-  find "$PKG/etc/profile.d" -maxdepth 1 -type f -exec chmod 755 {} \;
+  postsplit_run profile_chmod find "$PKG/etc/profile.d" -maxdepth 1 -type f -exec chmod 755 {} \;
 fi
 
 ## On Slackware older than 15.0+, also copy the libgcc_s.so and libstdc++.so
@@ -1685,39 +1743,45 @@ fi
 #fi
 
 # Normalize man/info pages to uncompressed form; slkbuild will gzip once later.
+postsplit_doc_counter=0
 for DOCS in man info ; do
   for DOCPATH in "$PKG/usr/$DOCS" "$PKG/usr/share/$DOCS" ; do
     [ -d "$DOCPATH" ] || continue
-    find "$DOCPATH" -type f -name "*.gz" -exec gunzip -f {} \; || true
+    postsplit_doc_counter=$((postsplit_doc_counter + 1))
+    postsplit_run_allow_fail "doc_gunzip_${postsplit_doc_counter}" find "$DOCPATH" -type f -name "*.gz" -exec gunzip -f {} \;
     while IFS= read -r i ; do
       LINKTARGET="$(readlink "$i" || true)"
       [ -n "$LINKTARGET" ] || continue
-      ln -sf "${LINKTARGET%.gz}" "${i%.gz}" || true
-      rm -f "$i" || true
+      postsplit_run_allow_fail "doc_relink_${postsplit_doc_counter}" ln -sf "${LINKTARGET%.gz}" "${i%.gz}"
+      postsplit_run_allow_fail "doc_rm_gzlink_${postsplit_doc_counter}" rm -f "$i"
     done < <(find "$DOCPATH" -type l -name "*.gz" 2>/dev/null || true)
   done
 done
 
 # Strip binaries (if any):
-find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF \
-  | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
+postsplit_run_allow_fail strip_elf sh -c \
+  'find "$1" | xargs file | grep -e "executable" -e "shared object" | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null' \
+  sh "$PKG"
 
 # Split off the browser plugin if we built it, not everyone will want it:
 if [ -f $PKG/usr/lib${LIBDIRSUFFIX}/$PRGNAM/program/libnpsoplugin.so ]; then
 
-  echo -e "**\n**  splitting off the mozilla plugin ...\n**"
+  postsplit_log "**"
+  postsplit_log "**  splitting off the mozilla plugin ..."
+  postsplit_log "**"
   # Move the mozilla plugin:
-  mkdir -p $PKG2/usr/lib${LIBDIRSUFFIX}/$PRGNAM/program
-  mv $PKG/usr/lib${LIBDIRSUFFIX}/$PRGNAM/program/libnpsoplugin.so \
-    $PKG2/usr/lib${LIBDIRSUFFIX}/$PRGNAM/program/
-  mkdir -p $PKG2/usr/lib${LIBDIRSUFFIX}/mozilla/
-  mv $PKG/usr/lib${LIBDIRSUFFIX}/mozilla/plugins \
-    $PKG2/usr/lib${LIBDIRSUFFIX}/mozilla/
-  rmdir $PKG/usr/lib${LIBDIRSUFFIX}/mozilla 2>/dev/null || true
+  postsplit_run moz_mkdir_program mkdir -p "$PKG2/usr/lib${LIBDIRSUFFIX}/$PRGNAM/program"
+  postsplit_run moz_move_plugin mv "$PKG/usr/lib${LIBDIRSUFFIX}/$PRGNAM/program/libnpsoplugin.so" \
+    "$PKG2/usr/lib${LIBDIRSUFFIX}/$PRGNAM/program/"
+  postsplit_run moz_mkdir_mozilla mkdir -p "$PKG2/usr/lib${LIBDIRSUFFIX}/mozilla/"
+  postsplit_run moz_move_plugins_dir mv "$PKG/usr/lib${LIBDIRSUFFIX}/mozilla/plugins" \
+    "$PKG2/usr/lib${LIBDIRSUFFIX}/mozilla/"
+  postsplit_run_allow_fail moz_rmdir_mozilla rmdir "$PKG/usr/lib${LIBDIRSUFFIX}/mozilla"
 
   # Add some package information:
-  mkdir -p $PKG2/install
-  cat <<'EOF' > $PKG2/install/slack-desc
+  postsplit_run moz_mkdir_install mkdir -p "$PKG2/install"
+  postsplit_log "[RUN moz_write_slack_desc]"
+  if cat <<'EOF' > "$PKG2/install/slack-desc"
 libreoffice-mozplugin: libreoffice-mozplugin (browser plugin)
 libreoffice-mozplugin:
 libreoffice-mozplugin: LibreOffice is an Open Source, community-developed,
@@ -1730,22 +1794,32 @@ libreoffice-mozplugin:
 libreoffice-mozplugin:
 libreoffice-mozplugin: libreoffice home: http://www.documentfoundation.org/
 EOF
-  cat $SRCDIR/slack-required.$PRGNAM2 > $PKG2/install/slack-required
+  then
+    postsplit_log "[RC moz_write_slack_desc] 0"
+  else
+    _rc=$?
+    postsplit_log "[RC moz_write_slack_desc] $_rc"
+    return "$_rc"
+  fi
+  postsplit_run moz_copy_slack_required cp -f "$SRCDIR/slack-required.$PRGNAM2" "$PKG2/install/slack-required"
 
   # Create the package:
-  ( cd $PKG2
-    makepkg --linkadd y --chown n $OUTPUT/${PRGNAM}-${PRGNAM2}-${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.${PKGTYPE:-txz} 2>&1 | tee $OUTPUT/makepkg-${PRGNAM}_${PRGNAM2}.log
-  )
-  ( cd $OUTPUT
-    md5sum ${PRGNAM}-${PRGNAM2}-${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.${PKGTYPE:-txz} > ${PRGNAM}-${PRGNAM2}-${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.${PKGTYPE:-txz}.md5
-  )
-  cp -a "$PKG2/install/slack-desc" \
+  MOZPKG="${PRGNAM}-${PRGNAM2}-${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.${PKGTYPE:-txz}"
+  postsplit_run moz_makepkg sh -c \
+    'cd "$1" && makepkg --linkadd y --chown n "$2" 2>&1 | tee "$3"' \
+    sh "$PKG2" "$OUTPUT/$MOZPKG" "$OUTPUT/makepkg-${PRGNAM}_${PRGNAM2}.log"
+  postsplit_run moz_md5sum sh -c \
+    'cd "$1" && md5sum "$2" > "$3"' \
+    sh "$OUTPUT" "$MOZPKG" "${MOZPKG}.md5"
+  postsplit_run moz_copy_txt cp -a "$PKG2/install/slack-desc" \
     "$OUTPUT/${PRGNAM}-${PRGNAM2}-${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.txt"
-  cat $PKG2/install/slack-required > $OUTPUT/${PRGNAM}-${PRGNAM2}-${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.dep
+  postsplit_run moz_copy_dep cp -f "$PKG2/install/slack-required" \
+    "$OUTPUT/${PRGNAM}-${PRGNAM2}-${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.dep"
 
 fi # End splitting off the mozplugin
 
 # Continuing with the main package:
+postsplit_log "=== DEBUG: post-split block end ==="
 
 # Restore the original umask:
 umask ${_UMASK_}
