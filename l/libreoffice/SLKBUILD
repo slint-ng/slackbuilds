@@ -1012,6 +1012,14 @@ if [ "$P1" != "--oldbuild" ]; then
   sed -i external/libebook/ExternalProject_libebook.mk \
     -e '/configure /i \\t\t&& sed -i "s/TRUE/true/g" src/lib/EBOOKCharsetConverter.cpp \\'
   sed -i i18npool/source/calendar/calendar_gregorian.cxx -e 's/TRUE/true/'
+  # Some releases do not ship sdk/idl; avoid noisy mv errors in sdk cleanup.
+  if [ -f bin/distro-install-sdk ]; then
+    sed -i \
+      -e 's|^    mv \$DESTDIR\$INSTALLDIR/sdk/idl          \$DESTDIR\$DATADIR/idl/\$INSTALLDIRNAME$|    [ -d $DESTDIR$INSTALLDIR/sdk/idl ] && mv $DESTDIR$INSTALLDIR/sdk/idl          $DESTDIR$DATADIR/idl/$INSTALLDIRNAME|' \
+      -e 's|^    ln -sf \$DATADIR/idl/\$INSTALLDIRNAME                              \$DESTDIR\$INSTALLDIR/sdk/idl$|    [ -d $DESTDIR$DATADIR/idl/$INSTALLDIRNAME ] && ln -sf $DATADIR/idl/$INSTALLDIRNAME                              $DESTDIR$INSTALLDIR/sdk/idl|' \
+      -e 's|^    echo "\$INSTALLDIR/sdk/idl"         >>\$DESTDIR/gid_Module_Root_SDK$|    [ -d $DESTDIR$DATADIR/idl/$INSTALLDIRNAME ] && echo "$INSTALLDIR/sdk/idl"         >>$DESTDIR/gid_Module_Root_SDK|' \
+      bin/distro-install-sdk
+  fi
 fi
 
 if [ "${USE_LOVER}" == "yes" ]; then
@@ -1248,7 +1256,7 @@ set +u
 export PRODUCTVERSIONSHORT PRODUCTVERSION ICONVERSION WORKDIR INSTDIR
 set -u
 
-if [ ! -L $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/classes ]; then
+if [ -d $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/classes ] && [ ! -L $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/classes ]; then
   mkdir -p $PKG/usr/share/${PRGNAM}/sdk
   mv $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/classes \
     $PKG/usr/share/${PRGNAM}/sdk/
@@ -1256,7 +1264,7 @@ if [ ! -L $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/classes ]; then
     $(readlink -f $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk)/
 fi
 
-if [ ! -L $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/idl ]; then
+if [ -d $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/idl ] && [ ! -L $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/idl ]; then
   mkdir -p $PKG/usr/share/idl
   mv $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/idl \
     $PKG/usr/share/idl/${PRGNAM}
@@ -1264,7 +1272,7 @@ if [ ! -L $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/idl ]; then
     $(readlink -f $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk)/idl
 fi
 
-if [ ! -L $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/include ]; then
+if [ -d $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/include ] && [ ! -L $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/include ]; then
   mkdir -p $PKG/usr/include
   mv $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/include \
     $PKG/usr/include/${PRGNAM}
@@ -1357,16 +1365,16 @@ fi
 echo "Starting split-off of dictionaries from main $PRGNAM package..."
 DICTS="$(find $INSTDIR/share/extensions -name "dict-*" -type d -maxdepth 1 -mindepth 1 |rev |cut -d/ -f1 |rev |cut -d- -f2-)"
 echo "Found the following dictionaries in $INSTDIR: $(echo $DICTS)"
-for DICTLANG in $(cat $SRCDIR/languages.dict |grep -v "^ *#" |cut -d= -f1) ; do
-  DICTLANGDESC="$(grep ^${DICTLANG}= $SRCDIR/languages.dict |cut -f2 -d=)"
-  if [ -d $INSTDIR/share/extensions/dict-${DICTLANG} ]; then
-    mkdir -p $TMP/pkg-${PRGNAM}-dict-${DICTLANG}/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/share/extensions
-    cp -a $INSTDIR/share/extensions/dict-${DICTLANG} \
-      $TMP/pkg-${PRGNAM}-dict-${DICTLANG}/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/share/extensions/
-    chown -R root:root $TMP/pkg-${PRGNAM}-dict-${DICTLANG}/usr/lib${LIBDIRSUFFIX}/$PRGNAM/share/extensions
-    mkdir -p $TMP/pkg-${PRGNAM}-dict-${DICTLANG}/install
-    cat <<'EOF' | sed -e "s/@LANG@/$DICTLANG/g"  -e "s/@LANGDESC@/$DICTLANGDESC/g" > \
-      $TMP/pkg-${PRGNAM}-dict-${DICTLANG}/install/slack-desc
+for DICTLANG in $DICTS ; do
+  DICTLANGDESC="$(grep "^${DICTLANG}=" $SRCDIR/languages.dict |cut -f2 -d=)"
+  [ -z "$DICTLANGDESC" ] && DICTLANGDESC="$DICTLANG"
+  mkdir -p $TMP/pkg-${PRGNAM}-dict-${DICTLANG}/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/share/extensions
+  cp -a $INSTDIR/share/extensions/dict-${DICTLANG} \
+    $TMP/pkg-${PRGNAM}-dict-${DICTLANG}/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/share/extensions/
+  chown -R root:root $TMP/pkg-${PRGNAM}-dict-${DICTLANG}/usr/lib${LIBDIRSUFFIX}/$PRGNAM/share/extensions
+  mkdir -p $TMP/pkg-${PRGNAM}-dict-${DICTLANG}/install
+  cat <<'EOF2' | sed -e "s/@LANG@/$DICTLANG/g"  -e "s/@LANGDESC@/$DICTLANGDESC/g" > \
+    $TMP/pkg-${PRGNAM}-dict-${DICTLANG}/install/slack-desc
 libreoffice-dict-@LANG@: libreoffice-dict-@LANG@ (LibreOffice '@LANG@' dictionaries)
 libreoffice-dict-@LANG@:
 libreoffice-dict-@LANG@: This package contains the '@LANGDESC@' dictionary for LibreOffice.
@@ -1378,17 +1386,14 @@ libreoffice-dict-@LANG@:
 libreoffice-dict-@LANG@:
 libreoffice-dict-@LANG@: libreoffice home: http://www.libreoffice.org/
 libreoffice-dict-@LANG@:
-EOF
-      cd $TMP/pkg-${PRGNAM}-dict-${DICTLANG}
-      /sbin/makepkg -p -l y -c n $OUTPUT/${PRGNAM}-dict-${DICTLANG}-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.${PKGTYPE:-txz}
-      cd -
-      cd $OUTPUT
-      md5sum ${PRGNAM}-dict-${DICTLANG}-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.${PKGTYPE:-txz} > ${PRGNAM}-dict-$DICTLANG-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.${PKGTYPE:-txz}.md5
-      cd -
-      cat $TMP/pkg-${PRGNAM}-dict-${DICTLANG}/install/slack-desc | grep "^${PRGNAM}-dict-$DICTLANG" > $OUTPUT/${PRGNAM}-dict-$DICTLANG-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.txt
-  else
-    echo "ERROR: could not find dictionary '$DICTLANG' for packageing..."
-  fi
+EOF2
+  cd $TMP/pkg-${PRGNAM}-dict-${DICTLANG}
+  /sbin/makepkg -p -l y -c n $OUTPUT/${PRGNAM}-dict-${DICTLANG}-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.${PKGTYPE:-txz}
+  cd -
+  cd $OUTPUT
+  md5sum ${PRGNAM}-dict-${DICTLANG}-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.${PKGTYPE:-txz} > ${PRGNAM}-dict-$DICTLANG-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.${PKGTYPE:-txz}.md5
+  cd -
+  cat $TMP/pkg-${PRGNAM}-dict-${DICTLANG}/install/slack-desc | grep "^${PRGNAM}-dict-$DICTLANG" > $OUTPUT/${PRGNAM}-dict-$DICTLANG-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.txt
 done
 # Remove the remaining ones, we do not package them:
 rm -rf $INSTDIR/share/extensions/dict-*
@@ -1645,12 +1650,18 @@ chmod 755 $PKG/etc/profile.d/*
 #  fi
 #fi
 
-# Compress the man page(s):
-if [ -d $PKG/usr/man ]; then
-  # Skip already compressed pages to avoid gzip non-zero exits under set -e.
-  find $PKG/usr/man -type f -name "*.?" ! -name "*.gz" -exec gzip -9f {} \;
-  for i in $(find $PKG/usr/man -type l -name "*.?") ; do ln -s $( readlink $i ).gz $i.gz ; rm $i ; done
-fi
+# Normalize man/info pages to uncompressed form; slkbuild will gzip once later.
+for DOCS in man info ; do
+  for DOCPATH in $PKG/usr/$DOCS $PKG/usr/share/$DOCS ; do
+    [ -d "$DOCPATH" ] || continue
+    find "$DOCPATH" -type f -name "*.gz" -exec gunzip -f {} \;
+    for i in $(find "$DOCPATH" -type l -name "*.gz") ; do
+      LINKTARGET="$(readlink "$i")"
+      ln -sf "${LINKTARGET%.gz}" "${i%.gz}"
+      rm -f "$i"
+    done
+  done
+done
 
 # Strip binaries (if any):
 find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF \
