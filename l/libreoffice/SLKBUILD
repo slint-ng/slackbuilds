@@ -1531,78 +1531,31 @@ if [ ! -f $PKG/etc/bash_completion.d/${PRGNAM}.sh ]; then
 fi
 
 # Add wrapper scripts (if they do not exist yet) that call the real binaries:
-( mkdir -p $PKG/usr/bin
-  cd $PKG/usr/bin
-  if ! [ -f ${PRGNAM} -o -L ${PRGNAM} ]; then
-    cat <<EOF > $PKG/usr/bin/${PRGNAM}
+(
+  mkdir -p "$PKG/usr/bin"
+  cd "$PKG/usr/bin"
+
+  add_wrapper() {
+    local _target="$1"
+    local _command="$2"
+    [ -e "$_target" ] && return 0
+    cat <<EOF > "$_target"
 #!/bin/sh
-/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice "\$@"
+$_command "\$@"
 EOF
-    chmod 0755 $PKG/usr/bin/${PRGNAM}
-  fi
-  if ! [ -f loweb -o -L loweb ]; then
-    cat <<EOF > $PKG/usr/bin/loweb
-#!/bin/sh
-/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --web "\$@"
-EOF
-    chmod 0755 $PKG/usr/bin/loweb
-  fi
-  if ! [ -f localc -o -L localc ]; then
-    cat <<EOF > $PKG/usr/bin/localc
-#!/bin/sh
-/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --calc "\$@"
-EOF
-    chmod 0755 $PKG/usr/bin/localc
-  fi
-  if ! [ -f lobase -o -L lobase ]; then
-    cat <<EOF > $PKG/usr/bin/lobase
-#!/bin/sh
-/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --base "\$@"-
-EOF
-    chmod 0755 $PKG/usr/bin/lobase
-  fi
-  if ! [ -f lofromtemplate -o -L lofromtemplate ]; then
-    cat <<EOF > $PKG/usr/bin/lofromtemplate
-#!/bin/sh
-/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice .uno:NewDoc "\$@"
-EOF
-    chmod 0755 $PKG/usr/bin/lofromtemplate
-  fi
-  if ! [ -f lowriter -o -L lowriter ]; then
-    cat <<EOF > $PKG/usr/bin/lowriter
-#!/bin/sh
-/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --writer "\$@"
-EOF
-    chmod 0755 $PKG/usr/bin/lowriter
-  fi
-  if ! [ -f unopkg -o -L unopkg ]; then
-    cat <<EOF > $PKG/usr/bin/unopkg
-#!/bin/sh
-/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/unopkg "\$@"
-EOF
-    chmod 0755 $PKG/usr/bin/unopkg
-  fi
-  if ! [ -f lodraw -o -L lodraw ]; then
-    cat <<EOF > $PKG/usr/bin/lodraw
-#!/bin/sh
-/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --draw "\$@"
-EOF
-    chmod 0755 $PKG/usr/bin/lodraw
-  fi
-  if ! [ -f lomath -o -L lomath ]; then
-    cat <<EOF > $PKG/usr/bin/lomath
-#!/bin/sh
-/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --math "\$@"
-EOF
-    chmod 0755 $PKG/usr/bin/lomath
-  fi
-  if ! [ -f loimpress -o -L loimpress ]; then
-    cat <<EOF > $PKG/usr/bin/loimpress
-#!/bin/sh
-/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --impress "\$@"
-EOF
-    chmod 0755 $PKG/usr/bin/loimpress
-  fi
+    chmod 0755 "$_target"
+  }
+
+  add_wrapper "${PRGNAM}" "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice"
+  add_wrapper loweb "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --web"
+  add_wrapper localc "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --calc"
+  add_wrapper lobase "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --base"
+  add_wrapper lofromtemplate "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice .uno:NewDoc"
+  add_wrapper lowriter "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --writer"
+  add_wrapper unopkg "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/unopkg"
+  add_wrapper lodraw "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --draw"
+  add_wrapper lomath "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --math"
+  add_wrapper loimpress "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --impress"
 )
 
 # Back to base:
@@ -1635,7 +1588,9 @@ for file in "$SRCDIR"/profile.d/"${PRGNAM}"* ; do
   cat $file | sed -e "s#@LIBDIRSUFFIX@#${LIBDIRSUFFIX}#g" \
     > $PKG/etc/profile.d/$(basename $file).new
 done
-chmod 755 $PKG/etc/profile.d/*
+if [ -d "$PKG/etc/profile.d" ]; then
+  find "$PKG/etc/profile.d" -maxdepth 1 -type f -exec chmod 755 {} \;
+fi
 
 ## On Slackware older than 15.0+, also copy the libgcc_s.so and libstdc++.so
 ## libraries into the package, because the LibreOffice binaries will
@@ -1654,14 +1609,15 @@ chmod 755 $PKG/etc/profile.d/*
 
 # Normalize man/info pages to uncompressed form; slkbuild will gzip once later.
 for DOCS in man info ; do
-  for DOCPATH in $PKG/usr/$DOCS $PKG/usr/share/$DOCS ; do
+  for DOCPATH in "$PKG/usr/$DOCS" "$PKG/usr/share/$DOCS" ; do
     [ -d "$DOCPATH" ] || continue
-    find "$DOCPATH" -type f -name "*.gz" -exec gunzip -f {} \;
-    for i in $(find "$DOCPATH" -type l -name "*.gz") ; do
-      LINKTARGET="$(readlink "$i")"
-      ln -sf "${LINKTARGET%.gz}" "${i%.gz}"
-      rm -f "$i"
-    done
+    find "$DOCPATH" -type f -name "*.gz" -exec gunzip -f {} \; || true
+    while IFS= read -r i ; do
+      LINKTARGET="$(readlink "$i" || true)"
+      [ -n "$LINKTARGET" ] || continue
+      ln -sf "${LINKTARGET%.gz}" "${i%.gz}" || true
+      rm -f "$i" || true
+    done < <(find "$DOCPATH" -type l -name "*.gz" 2>/dev/null || true)
   done
 done
 
@@ -1706,7 +1662,8 @@ EOF
   ( cd $OUTPUT
     md5sum ${PRGNAM}-${PRGNAM2}-${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.${PKGTYPE:-txz} > ${PRGNAM}-${PRGNAM2}-${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.${PKGTYPE:-txz}.md5
   )
-  cat $PKG2/install/slack-desc | grep "^${PRGNAM}-${PRGNAM2}" > $OUTPUT/${PRGNAM}-${PRGNAM2}-${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.txt
+  cp -a "$PKG2/install/slack-desc" \
+    "$OUTPUT/${PRGNAM}-${PRGNAM2}-${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.txt"
   cat $PKG2/install/slack-required > $OUTPUT/${PRGNAM}-${PRGNAM2}-${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.dep
 
 fi # End splitting off the mozplugin
