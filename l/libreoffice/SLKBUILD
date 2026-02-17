@@ -1738,22 +1738,6 @@ fi
 #  fi
 #fi
 
-# Normalize man/info pages to uncompressed form; slkbuild will gzip once later.
-postsplit_doc_counter=0
-for DOCS in man info ; do
-  for DOCPATH in "$PKG/usr/$DOCS" "$PKG/usr/share/$DOCS" ; do
-    [ -d "$DOCPATH" ] || continue
-    postsplit_doc_counter=$((postsplit_doc_counter + 1))
-    postsplit_run_allow_fail "doc_gunzip_${postsplit_doc_counter}" find "$DOCPATH" -type f -name "*.gz" -exec gunzip -f {} \;
-    while IFS= read -r i ; do
-      LINKTARGET="$(readlink "$i" || true)"
-      [ -n "$LINKTARGET" ] || continue
-      postsplit_run_allow_fail "doc_relink_${postsplit_doc_counter}" ln -sf "${LINKTARGET%.gz}" "${i%.gz}"
-      postsplit_run_allow_fail "doc_rm_gzlink_${postsplit_doc_counter}" rm -f "$i"
-    done < <(find "$DOCPATH" -type l -name "*.gz" 2>/dev/null || true)
-  done
-done
-
 # Strip binaries (if any):
 postsplit_run_allow_fail strip_elf sh -c \
   'find "$1" | xargs file | grep -e "executable" -e "shared object" | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null' \
