@@ -1393,7 +1393,8 @@ EOF2
   cd $OUTPUT
   md5sum ${PRGNAM}-dict-${DICTLANG}-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.${PKGTYPE:-txz} > ${PRGNAM}-dict-$DICTLANG-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.${PKGTYPE:-txz}.md5
   cd -
-  cat $TMP/pkg-${PRGNAM}-dict-${DICTLANG}/install/slack-desc | grep "^${PRGNAM}-dict-$DICTLANG" > $OUTPUT/${PRGNAM}-dict-$DICTLANG-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.txt
+  cp -a "$TMP/pkg-${PRGNAM}-dict-${DICTLANG}/install/slack-desc" \
+    "$OUTPUT/${PRGNAM}-dict-$DICTLANG-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.txt"
 done
 # Remove the remaining ones, we do not package them:
 rm -rf $INSTDIR/share/extensions/dict-*
@@ -1487,7 +1488,8 @@ EOF
     cd $OUTPUT
     md5sum ${PRGNAM}-l10n-${lang}-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.${PKGTYPE:-txz} > ${PRGNAM}-l10n-$lang-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.${PKGTYPE:-txz}.md5
     cd -
-    cat $PKG-l10n-$lang/install/slack-desc | grep "^${PRGNAM}-l10n-$lang" > $OUTPUT/${PRGNAM}-l10n-$lang-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.txt
+    cp -a "${PKG}-l10n-$lang/install/slack-desc" \
+      "$OUTPUT/${PRGNAM}-l10n-$lang-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.txt"
   done
 fi # End of splitting out language packs
 
