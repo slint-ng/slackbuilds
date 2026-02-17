@@ -1806,6 +1806,8 @@ EOF
 fi # End splitting off the mozplugin
 
 # Continuing with the main package:
+postsplit_run info_dir_mkdir mkdir -p "$PKG/usr/info"
+postsplit_run info_dir_seed sh -c ': > "$1"' sh "$PKG/usr/info/dir.gz"
 postsplit_log "=== DEBUG: post-split block end ==="
 
 # Restore the original umask:
