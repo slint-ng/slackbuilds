@@ -1738,6 +1738,17 @@ fi
 #  fi
 #fi
 
+# Normalize pre-compressed man/info pages so slkbuild can gzip once later.
+postsplit_doc_counter=0
+for DOCS in man info ; do
+  for DOCPATH in "$PKG/usr/$DOCS" "$PKG/usr/share/$DOCS" ; do
+    [ -d "$DOCPATH" ] || continue
+    postsplit_doc_counter=$((postsplit_doc_counter + 1))
+    postsplit_run "doc_gunzip_${postsplit_doc_counter}" \
+      find "$DOCPATH" -type f -name "*.gz" -exec gunzip -f {} \;
+  done
+done
+
 # Strip binaries (if any):
 postsplit_run_allow_fail strip_elf sh -c \
   'find "$1" | xargs file | grep -e "executable" -e "shared object" | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null' \
