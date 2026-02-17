@@ -1524,19 +1524,88 @@ EOF
 rm -rf $PKG/usr/share/icons/{gnome,locolor} || true
 
 # Add a bash-completion script that was removed (?) after 3.3.2.2:
-if [ ! -f $PKG/etc/bash_completion.d/${PRGNAM}.sh ]; then
-  mkdir -p $PKG/etc/bash_completion.d
-  # Best-effort: do not abort full packaging if this write fails on odd filesystems.
-  install -m0755 $SRCDIR/bash_completion.sh \
-    $PKG/etc/bash_completion.d/${PRGNAM}.sh \
-    2>/dev/null \
-    || {
-      cp -f $SRCDIR/bash_completion.sh \
-        $PKG/etc/bash_completion.d/${PRGNAM}.sh 2>/dev/null \
-        && chmod 0755 $PKG/etc/bash_completion.d/${PRGNAM}.sh 2>/dev/null \
-        || true
-    }
+BCOMP_DEBUG_LOG="$OUTPUT/debug-bash_completion-${PRGNAM}.log"
+echo "=== DEBUG: bash-completion block begin ==="
+{
+  echo "=== DEBUG: bash-completion block begin ($(date -u '+%F %T UTC')) ==="
+  echo "id: $(id)"
+  echo "whoami: $(whoami 2>/dev/null || true)"
+  echo "pwd: $(pwd)"
+  echo "umask: $(umask) / $(umask -S)"
+} > "$BCOMP_DEBUG_LOG"
+
+bcomp_log() {
+  printf '%s\n' "$*" | tee -a "$BCOMP_DEBUG_LOG"
+}
+
+bcomp_stat_paths() {
+  local _phase="$1"
+  local _path
+  bcomp_log "[PATHS $_phase]"
+  for _path in \
+    "$PKG" \
+    "$PKG/etc" \
+    "$PKG/etc/bash_completion.d" \
+    "$PKG/etc/bash_completion.d/${PRGNAM}.sh" \
+    "$PKG/etc/bash_completion.d/${PRGNAM}.sh.new"
+  do
+    if [ -e "$_path" ] || [ -L "$_path" ]; then
+      ls -ldn "$_path" >> "$BCOMP_DEBUG_LOG" 2>&1 || true
+      stat -c '%A %u:%g %F %n' "$_path" >> "$BCOMP_DEBUG_LOG" 2>&1 || true
+    else
+      bcomp_log "missing: $_path"
+    fi
+  done
+}
+
+bcomp_run() {
+  local _label="$1"
+  shift
+  bcomp_log "[RUN $_label] $*"
+  set +e
+  "$@" >> "$BCOMP_DEBUG_LOG" 2>&1
+  local _rc=$?
+  set -e
+  bcomp_log "[RC $_label] $_rc"
+  return "$_rc"
+}
+
+if [ ! -f "$PKG/etc/bash_completion.d/${PRGNAM}.sh" ]; then
+  bcomp_fail=0
+  bcomp_stat_paths "before"
+
+  if ! bcomp_run mkdir mkdir -p "$PKG/etc/bash_completion.d"; then
+    bcomp_fail=1
+  fi
+
+  if [ "$bcomp_fail" -eq 0 ]; then
+    if ! bcomp_run install install -m0755 "$SRCDIR/bash_completion.sh" \
+      "$PKG/etc/bash_completion.d/${PRGNAM}.sh"; then
+      if ! bcomp_run fallback_cp cp -f "$SRCDIR/bash_completion.sh" \
+        "$PKG/etc/bash_completion.d/${PRGNAM}.sh"; then
+        bcomp_fail=1
+      else
+        bcomp_run fallback_chmod chmod 0755 \
+          "$PKG/etc/bash_completion.d/${PRGNAM}.sh" || bcomp_fail=1
+      fi
+    fi
+  fi
+
+  bcomp_probe="$PKG/etc/bash_completion.d/.probe-$$"
+  if bcomp_run probe_write sh -c "printf '%s\n' probe > \"\$1\"" sh "$bcomp_probe"; then
+    bcomp_run probe_clean rm -f "$bcomp_probe" || true
+  else
+    bcomp_fail=1
+  fi
+
+  bcomp_stat_paths "after"
+  if [ "$bcomp_fail" -ne 0 ]; then
+    bcomp_log "[FAIL] bash-completion block failed"
+    echo "=== DEBUG: bash-completion block failed; see $BCOMP_DEBUG_LOG ==="
+    return 1
+  fi
 fi
+echo "=== DEBUG: bash-completion block end ==="
 
 # Add wrapper scripts (if they do not exist yet) that call the real binaries:
 (
