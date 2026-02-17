@@ -1658,11 +1658,7 @@ add_wrapper() {
     return 0
   fi
   postsplit_log "[RUN add_wrapper_write $_target]"
-  if cat <<EOF > "$_target"
-#!/bin/sh
-$_command "\$@"
-EOF
-  then
+  if printf '%s\n%s\n' '#!/bin/sh' "$_command \"\$@\"" > "$_target" 2>> "$POSTSPLIT_DEBUG_LOG" ; then
     postsplit_log "[RC add_wrapper_write $_target] 0"
   else
     local _rc=$?
