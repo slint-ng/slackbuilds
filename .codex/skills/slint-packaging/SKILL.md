@@ -7,14 +7,13 @@ description: SlackBuild/SLKBUILD maintenance for the Slint slackbuilds repo. Use
 
 ## Overview
 
-Use this skill to standardize Slint package maintenance tasks, especially SlackBuild → SLKBUILD conversions and version updates.
-
+Use this skill to standardize Slint package maintenance tasks, especially SlackBuild -> SLKBUILD conversions and version updates.
 
 ## First-use notes
 
 On first use in a session, explicitly mention:
-- `convert_slackbuild.py` is a best‑effort scaffold and requires manual review.
-- `bump_version.py` updates checksums only when sums arrays exist and sources are URL‑based.
+- `convert_slackbuild.py` is a best-effort scaffold and requires manual review.
+- `bump_version.py` updates checksums only when sums arrays exist and sources are URL-based.
 - If latest version is uncertain, ask the user to confirm (Arch is usually current).
 
 ## Workflow
@@ -26,12 +25,12 @@ On first use in a session, explicitly mention:
 - Confirm naming and headers are consistent across the directory name, `pkgname`, `slackdesc`, README, and packager header.
 
 2. Decide the task
-- **Conversion**: SlackBuild → SLKBUILD
+- **Conversion**: SlackBuild -> SLKBUILD
 - **Update**: version bump, source checksums, deps, build flags
 
-### SlackBuild → SLKBUILD conversion
+### SlackBuild -> SLKBUILD conversion
 
-- Use `scripts/convert_slackbuild.py` for a best‑effort scaffold, then review.
+- Use `scripts/convert_slackbuild.py` for a best-effort scaffold, then review.
 - Preserve the build logic exactly (configure/meson flags, install steps, docs).
 - Inline `slack-desc` into `slackdesc=(...)` and keep the handy ruler line.
 - Inline `doinst.sh` into `doinst()`.
@@ -47,6 +46,15 @@ On first use in a session, explicitly mention:
 - Use `scripts/bump_version.py` when possible to update `pkgver` and sums.
 - Sync `docs=()` with what the build installs.
 - Preserve existing build flags unless the update requires changes.
+
+## Debugging build failures
+
+- Always preserve generated build scripts before reruns (`build-<pkg>.sh`).
+- When `set -e` is active, verify failing function return status, not only stderr output.
+- Inspect slkbuild-generated helper functions (`gzip_man_and_info_pages`, post-checks, create_package) early when build() seems to pass.
+- Start diagnostics narrowly in the suspected block; widen only if the first pass is inconclusive.
+- Keep diagnostics reversible and remove them in a dedicated cleanup commit after success.
+- If a generated tail uses test-and-and patterns (for example `[ -a file ] && rm file`) under `set -e`, account for non-zero test returns so successful builds do not abort.
 
 ## Quality checks
 
@@ -65,5 +73,5 @@ On first use in a session, explicitly mention:
 
 ### scripts/
 - `check_slackdesc_len.py`: Validate slackdesc line length and line count.
-- `convert_slackbuild.py`: Best‑effort SlackBuild → SLKBUILD scaffold.
+- `convert_slackbuild.py`: Best-effort SlackBuild -> SLKBUILD scaffold.
 - `bump_version.py`: Update `pkgver` and refresh checksums if present.
