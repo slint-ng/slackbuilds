@@ -183,11 +183,11 @@ GITURI[3]="$GITBASE/translations"
 
 # Two files that are used to determine what needs to be downloaded:
 SOURCE[4]="$SRCDIR/${LOSRC_DIR}/download.lst-${VERSION}${SUBVER}"
-SRCURL[4]="http://cgit.freedesktop.org/libreoffice/core/plain/download.lst?id=libreoffice-${VERSION}${SUBVER}"
+SRCURL[4]="https://raw.githubusercontent.com/LibreOffice/core/$PRGNAM-$VERSION$SUBVER/download.lst"
 GITURI[4]=""
 
 SOURCE[5]="$SRCDIR/${LOSRC_DIR}/Makefile.fetch-${VERSION}${SUBVER}"
-SRCURL[5]="http://cgit.freedesktop.org/libreoffice/core/plain/Makefile.fetch?id=libreoffice-${VERSION}${SUBVER}"
+SRCURL[5]="https://raw.githubusercontent.com/LibreOffice/core/$PRGNAM-$VERSION$SUBVER/Makefile.fetch"
 GITURI[5]=""
 
 #
@@ -1012,6 +1012,14 @@ if [ "$P1" != "--oldbuild" ]; then
   sed -i external/libebook/ExternalProject_libebook.mk \
     -e '/configure /i \\t\t&& sed -i "s/TRUE/true/g" src/lib/EBOOKCharsetConverter.cpp \\'
   sed -i i18npool/source/calendar/calendar_gregorian.cxx -e 's/TRUE/true/'
+  # Some releases do not ship sdk/idl; avoid noisy mv errors in sdk cleanup.
+  if [ -f bin/distro-install-sdk ]; then
+    sed -i \
+      -e 's|^    mv \$DESTDIR\$INSTALLDIR/sdk/idl          \$DESTDIR\$DATADIR/idl/\$INSTALLDIRNAME$|    [ -d $DESTDIR$INSTALLDIR/sdk/idl ] && mv $DESTDIR$INSTALLDIR/sdk/idl          $DESTDIR$DATADIR/idl/$INSTALLDIRNAME|' \
+      -e 's|^    ln -sf \$DATADIR/idl/\$INSTALLDIRNAME                              \$DESTDIR\$INSTALLDIR/sdk/idl$|    [ -d $DESTDIR$DATADIR/idl/$INSTALLDIRNAME ] && ln -sf $DATADIR/idl/$INSTALLDIRNAME                              $DESTDIR$INSTALLDIR/sdk/idl|' \
+      -e 's|^    echo "\$INSTALLDIR/sdk/idl"         >>\$DESTDIR/gid_Module_Root_SDK$|    [ -d $DESTDIR$DATADIR/idl/$INSTALLDIRNAME ] && echo "$INSTALLDIR/sdk/idl"         >>$DESTDIR/gid_Module_Root_SDK|' \
+      bin/distro-install-sdk
+  fi
 fi
 
 if [ "${USE_LOVER}" == "yes" ]; then
@@ -1248,7 +1256,7 @@ set +u
 export PRODUCTVERSIONSHORT PRODUCTVERSION ICONVERSION WORKDIR INSTDIR
 set -u
 
-if [ ! -L $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/classes ]; then
+if [ -d $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/classes ] && [ ! -L $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/classes ]; then
   mkdir -p $PKG/usr/share/${PRGNAM}/sdk
   mv $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/classes \
     $PKG/usr/share/${PRGNAM}/sdk/
@@ -1256,7 +1264,7 @@ if [ ! -L $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/classes ]; then
     $(readlink -f $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk)/
 fi
 
-if [ ! -L $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/idl ]; then
+if [ -d $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/idl ] && [ ! -L $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/idl ]; then
   mkdir -p $PKG/usr/share/idl
   mv $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/idl \
     $PKG/usr/share/idl/${PRGNAM}
@@ -1264,7 +1272,7 @@ if [ ! -L $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/idl ]; then
     $(readlink -f $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk)/idl
 fi
 
-if [ ! -L $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/include ]; then
+if [ -d $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/include ] && [ ! -L $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/include ]; then
   mkdir -p $PKG/usr/include
   mv $PKG/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/sdk/include \
     $PKG/usr/include/${PRGNAM}
@@ -1357,16 +1365,16 @@ fi
 echo "Starting split-off of dictionaries from main $PRGNAM package..."
 DICTS="$(find $INSTDIR/share/extensions -name "dict-*" -type d -maxdepth 1 -mindepth 1 |rev |cut -d/ -f1 |rev |cut -d- -f2-)"
 echo "Found the following dictionaries in $INSTDIR: $(echo $DICTS)"
-for DICTLANG in $(cat $SRCDIR/languages.dict |grep -v "^ *#" |cut -d= -f1) ; do
-  DICTLANGDESC="$(grep ^${DICTLANG}= $SRCDIR/languages.dict |cut -f2 -d=)"
-  if [ -d $INSTDIR/share/extensions/dict-${DICTLANG} ]; then
-    mkdir -p $TMP/pkg-${PRGNAM}-dict-${DICTLANG}/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/share/extensions
-    cp -a $INSTDIR/share/extensions/dict-${DICTLANG} \
-      $TMP/pkg-${PRGNAM}-dict-${DICTLANG}/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/share/extensions/
-    chown -R root:root $TMP/pkg-${PRGNAM}-dict-${DICTLANG}/usr/lib${LIBDIRSUFFIX}/$PRGNAM/share/extensions
-    mkdir -p $TMP/pkg-${PRGNAM}-dict-${DICTLANG}/install
-    cat <<'EOF' | sed -e "s/@LANG@/$DICTLANG/g"  -e "s/@LANGDESC@/$DICTLANGDESC/g" > \
-      $TMP/pkg-${PRGNAM}-dict-${DICTLANG}/install/slack-desc
+for DICTLANG in $DICTS ; do
+  DICTLANGDESC="$(grep "^${DICTLANG}=" $SRCDIR/languages.dict |cut -f2 -d=)"
+  [ -z "$DICTLANGDESC" ] && DICTLANGDESC="$DICTLANG"
+  mkdir -p $TMP/pkg-${PRGNAM}-dict-${DICTLANG}/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/share/extensions
+  cp -a $INSTDIR/share/extensions/dict-${DICTLANG} \
+    $TMP/pkg-${PRGNAM}-dict-${DICTLANG}/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/share/extensions/
+  chown -R root:root $TMP/pkg-${PRGNAM}-dict-${DICTLANG}/usr/lib${LIBDIRSUFFIX}/$PRGNAM/share/extensions
+  mkdir -p $TMP/pkg-${PRGNAM}-dict-${DICTLANG}/install
+  cat <<'EOF2' | sed -e "s/@LANG@/$DICTLANG/g"  -e "s/@LANGDESC@/$DICTLANGDESC/g" > \
+    $TMP/pkg-${PRGNAM}-dict-${DICTLANG}/install/slack-desc
 libreoffice-dict-@LANG@: libreoffice-dict-@LANG@ (LibreOffice '@LANG@' dictionaries)
 libreoffice-dict-@LANG@:
 libreoffice-dict-@LANG@: This package contains the '@LANGDESC@' dictionary for LibreOffice.
@@ -1378,17 +1386,15 @@ libreoffice-dict-@LANG@:
 libreoffice-dict-@LANG@:
 libreoffice-dict-@LANG@: libreoffice home: http://www.libreoffice.org/
 libreoffice-dict-@LANG@:
-EOF
-      cd $TMP/pkg-${PRGNAM}-dict-${DICTLANG}
-      /sbin/makepkg -p -l y -c n $OUTPUT/${PRGNAM}-dict-${DICTLANG}-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.${PKGTYPE:-txz}
-      cd -
-      cd $OUTPUT
-      md5sum ${PRGNAM}-dict-${DICTLANG}-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.${PKGTYPE:-txz} > ${PRGNAM}-dict-$DICTLANG-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.${PKGTYPE:-txz}.md5
-      cd -
-      cat $TMP/pkg-${PRGNAM}-dict-${DICTLANG}/install/slack-desc | grep "^${PRGNAM}-dict-$DICTLANG" > $OUTPUT/${PRGNAM}-dict-$DICTLANG-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.txt
-  else
-    echo "ERROR: could not find dictionary '$DICTLANG' for packageing..."
-  fi
+EOF2
+  cd $TMP/pkg-${PRGNAM}-dict-${DICTLANG}
+  /sbin/makepkg -p -l y -c n $OUTPUT/${PRGNAM}-dict-${DICTLANG}-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.${PKGTYPE:-txz}
+  cd -
+  cd $OUTPUT
+  md5sum ${PRGNAM}-dict-${DICTLANG}-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.${PKGTYPE:-txz} > ${PRGNAM}-dict-$DICTLANG-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.${PKGTYPE:-txz}.md5
+  cd -
+  cp -a "$TMP/pkg-${PRGNAM}-dict-${DICTLANG}/install/slack-desc" \
+    "$OUTPUT/${PRGNAM}-dict-$DICTLANG-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.txt"
 done
 # Remove the remaining ones, we do not package them:
 rm -rf $INSTDIR/share/extensions/dict-*
@@ -1482,7 +1488,8 @@ EOF
     cd $OUTPUT
     md5sum ${PRGNAM}-l10n-${lang}-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.${PKGTYPE:-txz} > ${PRGNAM}-l10n-$lang-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.${PKGTYPE:-txz}.md5
     cd -
-    cat $PKG-l10n-$lang/install/slack-desc | grep "^${PRGNAM}-l10n-$lang" > $OUTPUT/${PRGNAM}-l10n-$lang-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.txt
+    cp -a "${PKG}-l10n-$lang/install/slack-desc" \
+      "$OUTPUT/${PRGNAM}-l10n-$lang-${LOVER}${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.txt"
   done
 fi # End of splitting out language packs
 
@@ -1519,83 +1526,44 @@ rm -rf $PKG/usr/share/icons/{gnome,locolor} || true
 # Add a bash-completion script that was removed (?) after 3.3.2.2:
 if [ ! -f $PKG/etc/bash_completion.d/${PRGNAM}.sh ]; then
   mkdir -p $PKG/etc/bash_completion.d
+  # Best-effort: do not abort full packaging if this write fails on odd filesystems.
   install -m0755 $SRCDIR/bash_completion.sh \
-    $PKG/etc/bash_completion.d/${PRGNAM}.sh
+    $PKG/etc/bash_completion.d/${PRGNAM}.sh \
+    2>/dev/null \
+    || {
+      cp -f $SRCDIR/bash_completion.sh \
+        $PKG/etc/bash_completion.d/${PRGNAM}.sh 2>/dev/null \
+        && chmod 0755 $PKG/etc/bash_completion.d/${PRGNAM}.sh 2>/dev/null \
+        || true
+    }
 fi
 
 # Add wrapper scripts (if they do not exist yet) that call the real binaries:
-( mkdir -p $PKG/usr/bin
-  cd $PKG/usr/bin
-  if ! [ -f ${PRGNAM} -o -L ${PRGNAM} ]; then
-    cat <<EOF > $PKG/usr/bin/${PRGNAM}
+(
+  mkdir -p "$PKG/usr/bin"
+  cd "$PKG/usr/bin"
+
+  add_wrapper() {
+    local _target="$1"
+    local _command="$2"
+    [ -e "$_target" ] && return 0
+    cat <<EOF > "$_target"
 #!/bin/sh
-/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice "\$@"
+$_command "\$@"
 EOF
-    chmod 0755 $PKG/usr/bin/${PRGNAM}
-  fi
-  if ! [ -f loweb -o -L loweb ]; then
-    cat <<EOF > $PKG/usr/bin/loweb
-#!/bin/sh
-/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --web "\$@"
-EOF
-    chmod 0755 $PKG/usr/bin/loweb
-  fi
-  if ! [ -f localc -o -L localc ]; then
-    cat <<EOF > $PKG/usr/bin/localc
-#!/bin/sh
-/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --calc "\$@"
-EOF
-    chmod 0755 $PKG/usr/bin/localc
-  fi
-  if ! [ -f lobase -o -L lobase ]; then
-    cat <<EOF > $PKG/usr/bin/lobase
-#!/bin/sh
-/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --base "\$@"-
-EOF
-    chmod 0755 $PKG/usr/bin/lobase
-  fi
-  if ! [ -f lofromtemplate -o -L lofromtemplate ]; then
-    cat <<EOF > $PKG/usr/bin/lofromtemplate
-#!/bin/sh
-/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice .uno:NewDoc "\$@"
-EOF
-    chmod 0755 $PKG/usr/bin/lofromtemplate
-  fi
-  if ! [ -f lowriter -o -L lowriter ]; then
-    cat <<EOF > $PKG/usr/bin/lowriter
-#!/bin/sh
-/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --writer "\$@"
-EOF
-    chmod 0755 $PKG/usr/bin/lowriter
-  fi
-  if ! [ -f unopkg -o -L unopkg ]; then
-    cat <<EOF > $PKG/usr/bin/unopkg
-#!/bin/sh
-/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/unopkg "\$@"
-EOF
-    chmod 0755 $PKG/usr/bin/unopkg
-  fi
-  if ! [ -f lodraw -o -L lodraw ]; then
-    cat <<EOF > $PKG/usr/bin/lodraw
-#!/bin/sh
-/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --draw "\$@"
-EOF
-    chmod 0755 $PKG/usr/bin/lodraw
-  fi
-  if ! [ -f lomath -o -L lomath ]; then
-    cat <<EOF > $PKG/usr/bin/lomath
-#!/bin/sh
-/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --math "\$@"
-EOF
-    chmod 0755 $PKG/usr/bin/lomath
-  fi
-  if ! [ -f loimpress -o -L loimpress ]; then
-    cat <<EOF > $PKG/usr/bin/loimpress
-#!/bin/sh
-/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --impress "\$@"
-EOF
-    chmod 0755 $PKG/usr/bin/loimpress
-  fi
+    chmod 0755 "$_target"
+  }
+
+  add_wrapper "${PRGNAM}" "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice"
+  add_wrapper loweb "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --web"
+  add_wrapper localc "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --calc"
+  add_wrapper lobase "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --base"
+  add_wrapper lofromtemplate "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice .uno:NewDoc"
+  add_wrapper lowriter "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --writer"
+  add_wrapper unopkg "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/unopkg"
+  add_wrapper lodraw "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --draw"
+  add_wrapper lomath "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --math"
+  add_wrapper loimpress "/usr/lib${LIBDIRSUFFIX}/${PRGNAM}/program/soffice --impress"
 )
 
 # Back to base:
@@ -1628,7 +1596,9 @@ for file in "$SRCDIR"/profile.d/"${PRGNAM}"* ; do
   cat $file | sed -e "s#@LIBDIRSUFFIX@#${LIBDIRSUFFIX}#g" \
     > $PKG/etc/profile.d/$(basename $file).new
 done
-chmod 755 $PKG/etc/profile.d/*
+if [ -d "$PKG/etc/profile.d" ]; then
+  find "$PKG/etc/profile.d" -maxdepth 1 -type f -exec chmod 755 {} \;
+fi
 
 ## On Slackware older than 15.0+, also copy the libgcc_s.so and libstdc++.so
 ## libraries into the package, because the LibreOffice binaries will
@@ -1645,12 +1615,13 @@ chmod 755 $PKG/etc/profile.d/*
 #  fi
 #fi
 
-# Compress the man page(s):
-if [ -d $PKG/usr/man ]; then
-  # Skip already compressed pages to avoid gzip non-zero exits under set -e.
-  find $PKG/usr/man -type f -name "*.?" ! -name "*.gz" -exec gzip -9f {} \;
-  for i in $(find $PKG/usr/man -type l -name "*.?") ; do ln -s $( readlink $i ).gz $i.gz ; rm $i ; done
-fi
+# Normalize pre-compressed man/info pages so slkbuild can gzip once later.
+for DOCS in man info ; do
+  for DOCPATH in "$PKG/usr/$DOCS" "$PKG/usr/share/$DOCS" ; do
+    [ -d "$DOCPATH" ] || continue
+    find "$DOCPATH" -type f -name "*.gz" -exec gunzip -f {} \; || true
+  done
+done
 
 # Strip binaries (if any):
 find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF \
@@ -1671,7 +1642,7 @@ if [ -f $PKG/usr/lib${LIBDIRSUFFIX}/$PRGNAM/program/libnpsoplugin.so ]; then
 
   # Add some package information:
   mkdir -p $PKG2/install
-  cat <<'EOF' > $PKG2/install/slack-desc
+  cat <<'EOF' > "$PKG2/install/slack-desc"
 libreoffice-mozplugin: libreoffice-mozplugin (browser plugin)
 libreoffice-mozplugin:
 libreoffice-mozplugin: LibreOffice is an Open Source, community-developed,
@@ -1693,12 +1664,15 @@ EOF
   ( cd $OUTPUT
     md5sum ${PRGNAM}-${PRGNAM2}-${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.${PKGTYPE:-txz} > ${PRGNAM}-${PRGNAM2}-${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.${PKGTYPE:-txz}.md5
   )
-  cat $PKG2/install/slack-desc | grep "^${PRGNAM}-${PRGNAM2}" > $OUTPUT/${PRGNAM}-${PRGNAM2}-${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.txt
+  cp -a "$PKG2/install/slack-desc" \
+    "$OUTPUT/${PRGNAM}-${PRGNAM2}-${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.txt"
   cat $PKG2/install/slack-required > $OUTPUT/${PRGNAM}-${PRGNAM2}-${VERSION}${PKG_SUBVER}-${ARCH}-${BUILD}${TAG}.dep
 
 fi # End splitting off the mozplugin
 
 # Continuing with the main package:
+mkdir -p "$PKG/usr/info"
+: > "$PKG/usr/info/dir.gz"
 
 # Restore the original umask:
 umask ${_UMASK_}
