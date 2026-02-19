@@ -1,7 +1,6 @@
 # Packager: Didier Spaier didieratslintdotfr
 
 pkgname=brltty
-commit=6447b13369c67f9ac80aa76980ba2f7450f9f64f
 pkgver=6.9
 pkgrel=1slint
 source=()
@@ -55,7 +54,7 @@ build() {
   rm -rf brltty
   git clone https://github.com/brltty/brltty.git
   cd brltty || exit 1
-  git checkout "$commit" || exit 1
+  git checkout "BRLTTY-$pkgver" || exit 1
   rm -rf DOS Windows
 
   CPPFLAGS="-I/usr/include -I/usr/include/speech-dispatcher" \
