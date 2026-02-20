@@ -1,0 +1,68 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: Didier Spaier didieratslintdotfr
+
+pkgname=sof-firmware
+pkgver=2024.03
+pkgrel=1slint
+arch=noarch
+source=("https://github.com/thesofproject/sof-bin/releases/download/v${pkgver}/sof-bin-${pkgver}.tar.gz")
+url="https://github.com/thesofproject/sof-bin"
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"sof-firmware (SOF firmware and topology binaries)"
+""
+"Sound Open Firmware is an open-source audio DSP firmware"
+"and SDK that provides firmware infrastructure and tools"
+"for audio or signal processing on modern DSPs."
+""
+"Homepage: https://www.sofproject.org"
+""
+""
+""
+)
+
+build() {
+  cd "$startdir/src/sof-bin-$pkgver" || return 1
+
+  chown -R root:root .
+  find . \
+    \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+    -exec chmod 755 {} \+ -o \
+    \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+    -exec chmod 644 {} \+
+
+  mkdir -p "$PKG/lib/firmware/intel/sof/community" "$PKG/lib/firmware/intel/sof-tplg"
+
+  for i in sof/*.ldc; do
+    [ -e "$i" ] || continue
+    mv "$i" "$PKG/lib/firmware/intel/sof/" || return 1
+  done
+
+  for i in sof/*.ri; do
+    [ -e "$i" ] || continue
+    mv "$i" "$PKG/lib/firmware/intel/sof/" || return 1
+  done
+
+  for i in sof/intel-signed/*.ri; do
+    [ -e "$i" ] || continue
+    mv "$i" "$PKG/lib/firmware/intel/sof/" || return 1
+  done
+
+  for i in sof/community/*.ri; do
+    [ -e "$i" ] || continue
+    mv "$i" "$PKG/lib/firmware/intel/sof/community/" || return 1
+  done
+
+  for i in sof-tplg/*; do
+    [ -e "$i" ] || continue
+    mv "$i" "$PKG/lib/firmware/intel/sof-tplg/" || return 1
+  done
+
+  alsatplg -c /usr/share/alsa/topology/hda-dsp/skl_hda_dsp_generic-tplg.conf \
+    -o "$PKG/lib/firmware/skl_hda_dsp_generic-tplg.bin" || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver"
+  cp -a LICENCE* Notice* README* "$PKG/usr/doc/$pkgname-$pkgver"
+}

@@ -1,0 +1,36 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: Didier Spaier didieratslintdotfr
+
+pkgname=b43-firmware
+pkgver=6.30.163.46
+pkgrel=2slint
+arch=fw
+source=("http://www.lwfinger.com/b43-firmware/broadcom-wl-$pkgver.tar.bz2")
+url="https://web.archive.org/web/20180201170335/https://wireless.wiki.kernel.org/en/users/drivers/b43"
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"b43-firmware (firmware for b43 chipsets)"
+""
+"Broadcom wireless chip firmware for b43-based devices."
+""
+""
+""
+""
+""
+""
+""
+)
+
+build() {
+  cd "$startdir/src" || return 1
+  chown root:root "broadcom-wl-${pkgver}.wl_apsta.o"
+
+  mkdir -p "$PKG/lib/firmware"
+  b43-fwcutter -w "$PKG/lib/firmware" "broadcom-wl-${pkgver}.wl_apsta.o" || return 1
+  chmod 0755 "$PKG/lib/firmware/b43"
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver"
+  cp -a "$startdir/README" "$PKG/usr/doc/$pkgname-$pkgver/"
+}

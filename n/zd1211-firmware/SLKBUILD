@@ -1,0 +1,38 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: Didier Spaier didieratslintdotfr
+
+pkgname=zd1211-firmware
+pkgver=1.5
+pkgrel=1slint
+arch=fw
+source=("$pkgname-$pkgver.tar.xz")
+url="http://zd1211.wiki.sourceforge.net/VendorDriver"
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"zd1211-firmware (Firmware for zd1211 USB wireless)"
+""
+"Firmware files for the ZD1211 WLAN USB chipset."
+"Firmware is generated from C headers in the original"
+"ZyDAS ZD1211 driver distribution."
+"GPL-licensed headers used to produce the blobs are"
+"included in this distribution."
+""
+"Vendor driver source was available from:"
+"http://zd1211.wiki.sourceforge.net/VendorDriver"
+)
+
+build() {
+  cd "$startdir/src/$pkgname" || return 1
+
+  chown -R root:root .
+  chmod 644 ./*
+
+  mkdir -p "$PKG/lib/firmware/zd1211"
+  cp -a ./* "$PKG/lib/firmware/zd1211"
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver"
+  ln -s ../../../lib/firmware/zd1211/COPYING "$PKG/usr/doc/$pkgname-$pkgver/COPYING"
+  ln -s ../../../lib/firmware/zd1211/README "$PKG/usr/doc/$pkgname-$pkgver/README"
+}
