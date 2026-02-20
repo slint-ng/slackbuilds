@@ -5,7 +5,7 @@ pkgname=b43-firmware
 pkgver=6.30.163.46
 pkgrel=2slint
 arch=fw
-source=("http://www.lwfinger.com/b43-firmware/broadcom-wl-$pkgver.tar.bz2")
+source=("https://github.com/minios-linux/b43-firmware/releases/download/b43-firmware/broadcom-wl-$pkgver.tar.bz2")
 url="https://web.archive.org/web/20180201170335/https://wireless.wiki.kernel.org/en/users/drivers/b43"
 
 slackdesc=\
@@ -25,10 +25,20 @@ slackdesc=\
 
 build() {
   cd "$startdir/src" || return 1
-  chown root:root "broadcom-wl-${pkgver}.wl_apsta.o"
+  local wlobj
+  wlobj="$(find . -maxdepth 2 -type f -name "broadcom-wl-*.wl_apsta.o" | head -n 1)"
+  if [ -z "$wlobj" ]; then
+    wlobj="$(find . -maxdepth 2 -type f -name "wl_apsta.o" | head -n 1)"
+  fi
+  if [ -z "$wlobj" ]; then
+    echo "Could not find wl_apsta.o in extracted sources."
+    echo "Remove stale broadcom-wl-$pkgver.tar.bz2 and retry."
+    return 1
+  fi
+  chown root:root "$wlobj"
 
   mkdir -p "$PKG/lib/firmware"
-  b43-fwcutter -w "$PKG/lib/firmware" "broadcom-wl-${pkgver}.wl_apsta.o" || return 1
+  b43-fwcutter -w "$PKG/lib/firmware" "$wlobj" || return 1
   chmod 0755 "$PKG/lib/firmware/b43"
 
   mkdir -p "$PKG/usr/doc/$pkgname-$pkgver"
