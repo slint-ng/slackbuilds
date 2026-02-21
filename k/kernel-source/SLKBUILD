@@ -3,7 +3,7 @@
 
 pkgname=kernel-source
 pkgver=6.19.3
-pkgrel=1slint
+pkgrel=2slint
 arch=noarch
 source=("https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${pkgver}.tar.xz")
 url="https://www.kernel.org/"
@@ -30,8 +30,15 @@ build() {
     echo "Missing kernel source directory: $srcdir"
     return 1
   fi
-
-  mkdir -p "$PKG/usr/src" || return 1
+  cd "${srcdir}" || return 1
+local config="$startdir/../kernel/configs/config-${pkgver}"
+  if [ -f "$config" ]; then
+    cp -a "$config" .config || return 1
+  fi
+make olddefconfig || return 1
+make prepare || return 1
+make modules_prepare || return 1
+mkdir -p "$PKG/usr/src" || return 1
   cp -a "$srcdir" "$PKG/usr/src/linux-$pkgver" || return 1
   ln -sfn "linux-$pkgver" "$PKG/usr/src/linux"
 
