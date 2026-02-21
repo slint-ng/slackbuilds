@@ -3,7 +3,7 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 
 pkgname=yt-dlp
-pkgver=2026.02.04
+pkgver=2026.02.21
 pkgrel=1slint
 slackdesc=\
 (
