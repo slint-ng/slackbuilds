@@ -162,7 +162,7 @@ add_payload_check() {
 if [[ -n "$txz_file" ]]; then
   tmp_tar_index="$(mktemp)"
   trap '[[ -n "$tmp_tar_index" && -f "$tmp_tar_index" ]] && rm -f "$tmp_tar_index"' EXIT
-  tar -tf "$txz_file" >"$tmp_tar_index"
+  tar -tf "$txz_file" | sed 's#^\./##' >"$tmp_tar_index"
 
   txz_base="$(basename "$txz_file" .txz)"
   txz_rel="${txz_base##*-}"
