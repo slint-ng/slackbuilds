@@ -7,7 +7,7 @@ _fwcommit=881c549
 pkgver="${_fwdate}_${_fwcommit}"
 pkgrel=1slint
 arch=noarch
-source=("https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/snapshot/linux-firmware-${_fwcommit}.tar.gz")
+source=("https://www.kernel.org/pub/linux/kernel/firmware/linux-firmware-${_fwdate}.tar.gz")
 url="https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git"
 
 slackdesc=\
