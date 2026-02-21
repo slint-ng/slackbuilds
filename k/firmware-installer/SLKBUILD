@@ -3,12 +3,12 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 
 pkgname=firmware-installer
-_fwdate=20251218
-_fwcommit=881c549
+_fwdate=20251004
+_fwcommit=46a6999
 pkgver="${_fwdate}_${_fwcommit}"
 pkgrel=1slint
 arch=noarch
-source=("https://www.kernel.org/pub/linux/kernel/firmware/linux-firmware-${_fwdate}.tar.gz")
+source=("https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/snapshot/linux-firmware-${_fwcommit}.tar.gz")
 url="https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git"
 
 slackdesc=\
