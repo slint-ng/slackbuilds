@@ -9,7 +9,7 @@ pkgrel=1slint
 arch=noarch
 source=()
 options=('nosrcpack')
-url="https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git"
+url="https://gitlab.com/kernel-firmware/linux-firmware"
 
 slackdesc=\
 (
@@ -30,16 +30,27 @@ build() {
   local srcroot="$startdir/src"
   local srcdir="$srcroot/linux-firmware"
   local workdir=""
+  local fwrepo="https://gitlab.com/kernel-firmware/linux-firmware.git"
+  local head_short=""
 
   mkdir -p "$srcroot" || return 1
   if [ ! -d "$srcdir/.git" ]; then
     rm -rf "$srcdir"
-    git clone "$url" "$srcdir" || return 1
+    git clone "$fwrepo" "$srcdir" || return 1
   fi
 
   cd "$srcdir" || return 1
   git fetch --tags --force origin || return 1
-  git checkout "$_fwcommit" || return 1
+  if git rev-parse -q --verify "refs/tags/${_fwdate}" >/dev/null; then
+    git checkout -f "tags/${_fwdate}" || return 1
+  else
+    git checkout -f "$_fwcommit" || return 1
+  fi
+  head_short="$(git rev-parse --short=7 HEAD)" || return 1
+  if [ "$head_short" != "$_fwcommit" ]; then
+    echo "Expected linux-firmware commit $_fwcommit, got $head_short"
+    return 1
+  fi
   workdir="$srcdir/.amd-microcode-work"
 
   chown -R root:root .
