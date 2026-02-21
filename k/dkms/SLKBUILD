@@ -34,6 +34,11 @@ build() {
        -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
 
   CFLAGS="$SLKCFLAGS" make -j "$numjobs" install DESTDIR="$PKG" || return 1
+  # Keep legacy helper paths used by existing local Slackware-style hooks.
+  install -D -m 0755 dkms_autoinstaller \
+    "$PKG/usr/lib/dkms/dkms_autoinstaller" || return 1
+  install -D -m 0755 dkms_common.postinst \
+    "$PKG/usr/lib/dkms/common.postinst" || return 1
   rm -f "$PKG/usr/lib64/"*.la
   mv "$PKG/usr/share/man" "$PKG/usr/man"
   rm -rf "${PKG:?}/etc/kernel" "${PKG:?}/usr/share"
