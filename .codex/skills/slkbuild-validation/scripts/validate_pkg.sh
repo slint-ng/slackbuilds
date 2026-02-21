@@ -62,6 +62,49 @@ fail_reasons=()
 hard_hits_filtered=""
 hard_hits_benign=""
 has_success_marker="no"
+use_rg="no"
+
+if command -v rg >/dev/null 2>&1; then
+  use_rg="yes"
+fi
+
+search_ci_with_lineno() {
+  local pattern="$1"
+  local file="$2"
+  if [[ "$use_rg" == "yes" ]]; then
+    rg -n -i "$pattern" "$file" || true
+  else
+    grep -n -i -E "$pattern" "$file" || true
+  fi
+}
+
+filter_ci() {
+  local pattern="$1"
+  if [[ "$use_rg" == "yes" ]]; then
+    rg -i "$pattern" || true
+  else
+    grep -i -E "$pattern" || true
+  fi
+}
+
+filter_ci_invert() {
+  local pattern="$1"
+  if [[ "$use_rg" == "yes" ]]; then
+    rg -v -i "$pattern" || true
+  else
+    grep -v -i -E "$pattern" || true
+  fi
+}
+
+has_log_marker() {
+  local pattern="$1"
+  local file="$2"
+  if [[ "$use_rg" == "yes" ]]; then
+    rg -q "$pattern" "$file"
+  else
+    grep -q -E "$pattern" "$file"
+  fi
+}
 
 if [[ -z "$log_file" ]]; then
   fail_reasons+=("Missing build log (build-*.log).")
@@ -80,17 +123,19 @@ else
 fi
 
 if [[ -n "$log_file" ]]; then
-  hard_hits="$(rg -n -i 'build\(\) failed|cannot open input file|no such file|fatal error|\bfatal:|error:' "$log_file" || true)"
+  hard_failure_re='build\(\) failed|cannot open input file|no such file|fatal error|(^|[^[:alnum:]_])fatal:|error:'
+  hard_hits="$(search_ci_with_lineno "$hard_failure_re" "$log_file")"
   if [[ -n "$hard_hits" ]]; then
     benign_re="rmdir: failed to remove 'usr/doc[^']*': No such file or directory"
-    hard_hits_benign="$(printf '%s\n' "$hard_hits" | rg -i "$benign_re" || true)"
-    hard_hits_filtered="$(printf '%s\n' "$hard_hits" | rg -v -i "$benign_re" || true)"
+    hard_hits_benign="$(printf '%s\n' "$hard_hits" | filter_ci "$benign_re")"
+    hard_hits_filtered="$(printf '%s\n' "$hard_hits" | filter_ci_invert "$benign_re")"
     if [[ -n "$hard_hits_filtered" ]]; then
       fail_reasons+=("Hard failure markers found in build log.")
     fi
   fi
 
-  if rg -q 'Slackware package .* created\.' "$log_file" || rg -q 'Package has been built\.' "$log_file"; then
+  if has_log_marker 'Slackware package .* created\.' "$log_file" \
+    || has_log_marker 'Package has been built\.' "$log_file"; then
     has_success_marker="yes"
   else
     fail_reasons+=("Success marker missing from build log.")

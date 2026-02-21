@@ -73,4 +73,35 @@ if ! printf '%s\n' "$output" | grep -Fq -- "- PASS"; then
   exit 1
 fi
 
+no_rg_bin="${tmpdir}/no-rg-bin"
+mkdir -p "$no_rg_bin"
+required_commands=(bash basename cut find grep head mktemp printf rm sed sort tar xz)
+
+for cmd in "${required_commands[@]}"; do
+  cmd_path="$(command -v "$cmd" || true)"
+  if [[ -z "$cmd_path" ]]; then
+    echo "FAIL: required command not found for no-rg test: ${cmd}"
+    exit 1
+  fi
+  ln -s "$cmd_path" "${no_rg_bin}/${cmd}"
+done
+
+if ! output_no_rg="$(HOME="$home_dir" PATH="$no_rg_bin" bash "$validator" "k/${pkg_name}")"; then
+  printf '%s\n' "$output_no_rg"
+  echo "FAIL: validator should pass when rg is unavailable."
+  exit 1
+fi
+
+if ! printf '%s\n' "$output_no_rg" | grep -Fq "Success marker present: yes"; then
+  printf '%s\n' "$output_no_rg"
+  echo "FAIL: fallback mode did not detect the success marker."
+  exit 1
+fi
+
+if ! printf '%s\n' "$output_no_rg" | grep -Fq -- "- PASS"; then
+  printf '%s\n' "$output_no_rg"
+  echo "FAIL: fallback mode verdict should be PASS."
+  exit 1
+fi
+
 echo "PASS: firmware-installer regression fixture validates successfully."
