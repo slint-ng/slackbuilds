@@ -4,7 +4,7 @@ pkgname=slkbuild
 pkgver=1.5
 pkgrel=1slint
 arch=noarch
-source=(slkbuild-$pkgver.tar.xz)
+source=("https://github.com/gapan/slkbuild/archive/refs/tags/1.5.tar.gz")
 options=('nosrcpack')
 
 slackdesc=\
