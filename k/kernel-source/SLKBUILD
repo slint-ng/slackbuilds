@@ -2,7 +2,7 @@
 # Packager: Didier Spaier didieratslintdotfr
 
 pkgname=kernel-source
-pkgver=6.18.2
+pkgver=6.19.3
 pkgrel=1slint
 arch=noarch
 source=("https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${pkgver}.tar.xz")

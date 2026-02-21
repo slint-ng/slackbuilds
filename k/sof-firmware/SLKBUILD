@@ -2,10 +2,11 @@
 # Packager: Didier Spaier didieratslintdotfr
 
 pkgname=sof-firmware
-pkgver=2024.03
+pkgver=2025.12.2
 pkgrel=1slint
 arch=noarch
 source=("https://github.com/thesofproject/sof-bin/releases/download/v${pkgver}/sof-bin-${pkgver}.tar.gz")
+sha256sums=('533f63e3a6d94c09ce05a782657b675fa683ff20787c0979226cf563ec79f517')
 url="https://github.com/thesofproject/sof-bin"
 
 slackdesc=\

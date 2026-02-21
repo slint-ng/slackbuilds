@@ -25,3 +25,9 @@
   `k/kernel`, `k/kernel-headers`, `k/kernel-source`,
   `k/modules-installer`, `a/kernel-firmware`,
   `k/amd-microcode`, and `k/firmware-installer`.
+- Upgrade prep updated on 2026-02-21:
+  `k/kernel*` and `k/modules-installer` -> `6.19.3`,
+  linux-firmware snapshot -> `20260110_06a743f`,
+  `k/dkms` -> `3.3.0`,
+  `k/intel-microcode` -> `20260210`,
+  `k/sof-firmware` -> `2025.12.2`.

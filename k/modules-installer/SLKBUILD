@@ -2,7 +2,7 @@
 # Packager: Didier Spaier didieratslintdotfr
 
 pkgname=modules-installer
-pkgver=6.18.2
+pkgver=6.19.3
 pkgrel=1slint
 arch=x86_64
 source=()

@@ -2,7 +2,7 @@
 # Packager: Didier Spaier didieratslintdotfr
 
 pkgname=kernel-headers
-pkgver=6.18.2
+pkgver=6.19.3
 pkgrel=1slint
 arch=x86
 source=("https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${pkgver}.tar.xz")
@@ -39,7 +39,7 @@ build() {
 
   if [ -f "$config" ]; then
     cp -a "$config" .config || return 1
-    make oldconfig || return 1
+    make olddefconfig || return 1
   fi
 
   make headers_install ARCH="$headers_arch" INSTALL_HDR_PATH="$PKG/usr" || return 1

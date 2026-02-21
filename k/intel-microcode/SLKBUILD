@@ -2,10 +2,11 @@
 # Packager: Didier Spaier didieratslintdotfr
 
 pkgname=intel-microcode
-pkgver=20251111
+pkgver=20260210
 pkgrel=1slint
 arch=noarch
 source=("https://github.com/intel/Intel-Linux-Processor-Microcode-Data-Files/archive/refs/tags/microcode-${pkgver}.tar.gz")
+sha256sums=('252b4c2c1ed930b0422ee0cb843140c93f5e12a75bbbcca7d64e21b1bcf05bfa')
 url="https://github.com/intel/Intel-Linux-Processor-Microcode-Data-Files"
 
 slackdesc=\

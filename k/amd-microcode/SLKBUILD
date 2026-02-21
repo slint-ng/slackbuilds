@@ -2,8 +2,8 @@
 # Packager: Didier Spaier didieratslintdotfr
 
 pkgname=amd-microcode
-_fwdate=20251218
-_fwcommit=881c549
+_fwdate=20260110
+_fwcommit=06a743f
 pkgver="${_fwdate}_${_fwcommit}"
 pkgrel=1slint
 arch=noarch

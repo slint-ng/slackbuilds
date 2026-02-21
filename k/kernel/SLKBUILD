@@ -2,7 +2,7 @@
 # Packager: Didier Spaier didieratslintdotfr
 
 pkgname=kernel
-pkgver=6.18.2
+pkgver=6.19.3
 pkgrel=1slint
 arch=x86_64
 source=("https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${pkgver}.tar.xz")
@@ -45,7 +45,7 @@ build() {
   chown -R root:root .
   chmod -R a-st,u+rwX,go-w+rX .
 
-  make oldconfig || return 1
+  make olddefconfig || return 1
   ZSTD_CLEVEL=19 make "$numjobs" || make || return 1
 
   install -m 0644 System.map "$PKG/boot/System.map-$pkgver" || return 1
