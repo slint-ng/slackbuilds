@@ -3,7 +3,7 @@
 
 pkgname=kernel-source
 pkgver=6.19.3
-pkgrel=2slint
+pkgrel=3slint
 arch=x86_64
 source=("https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${pkgver}.tar.xz")
 url="https://www.kernel.org/"
@@ -25,20 +25,27 @@ slackdesc=\
 
 build() {
   local srcdir="$startdir/src/linux-$pkgver"
+  local kernel_arch="x86"
 
   if [ ! -d "$srcdir" ]; then
     echo "Missing kernel source directory: $srcdir"
     return 1
   fi
+
   cd "${srcdir}" || return 1
-local config="$startdir/../kernel/configs/config-${pkgver}"
+  local config="$startdir/../kernel/configs/config-${pkgver}"
   if [ -f "$config" ]; then
     cp -a "$config" .config || return 1
+  else
+    echo "Kernel configuration for ${pkgver} is missing!"
+    return 1
   fi
-make olddefconfig || return 1
-make prepare || return 1
-make modules_prepare || return 1
-mkdir -p "$PKG/usr/src" || return 1
+
+  make ARCH="${kernel_arch}" olddefconfig || return 1
+  make ARCH="${kernel_arch}" prepare || return 1
+  make ARCH="${kernel_arch}" modules_prepare || return 1
+
+  mkdir -p "$PKG/usr/src" || return 1
   cp -a "$srcdir" "$PKG/usr/src/linux-$pkgver" || return 1
   ln -sfn "linux-$pkgver" "$PKG/usr/src/linux"
 
