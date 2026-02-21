@@ -99,6 +99,7 @@ fi
 
 tmp_tar_index=""
 pkgname_dir="$(basename "$pkgdir")"
+parsed_pkgname="$pkgname_dir"
 pkgver=""
 payload_checks=()
 
@@ -124,18 +125,24 @@ if [[ -n "$txz_file" ]]; then
   txz_arch="${txz_no_rel##*-}"
   txz_name_ver="${txz_base%-"${txz_arch}"-"${txz_rel}"}"
 
-  if [[ "$txz_name_ver" == "$txz_base" || "$txz_name_ver" != "${pkgname_dir}-"* ]]; then
+  if [[ "$txz_name_ver" == "$txz_base" ]]; then
     fail_reasons+=("Could not parse package version from txz name: ${txz_base}.txz")
-  else
+  elif [[ "$txz_name_ver" == "${pkgname_dir}-"* ]]; then
+    parsed_pkgname="$pkgname_dir"
     pkgver="${txz_name_ver#"${pkgname_dir}"-}"
+  elif [[ "$txz_name_ver" == *-* ]]; then
+    parsed_pkgname="${txz_name_ver%-*}"
+    pkgver="${txz_name_ver##*-}"
+  else
+    fail_reasons+=("Could not parse package name/version from txz name: ${txz_base}.txz")
   fi
 
   add_payload_check "install/slack-desc" "slack-desc present"
   if [[ -n "$pkgver" ]]; then
-    add_payload_check "usr/src/${pkgname_dir}-${pkgver}/SLKBUILD" "packaged SLKBUILD present"
+    add_payload_check "usr/src/${parsed_pkgname}-${pkgver}/SLKBUILD" "packaged SLKBUILD present"
   fi
 
-  case "$pkgname_dir" in
+  case "$parsed_pkgname" in
     amd-microcode)
       add_payload_check "boot/amd-ucode.img" "amd microcode earlyfw image"
       add_payload_check "usr/doc/amd-microcode-${pkgver}/README.Debian" "amd microcode docs"
@@ -158,10 +165,14 @@ if [[ -n "$txz_file" ]]; then
     b43-firmware)
       add_payload_check "lib/firmware/b43/" "b43 firmware tree"
       ;;
-    kernel-firmware-installer)
+    kernel-firmware-installer|firmware-installer)
       add_payload_check "linux-firmware/WHENCE" "firmware metadata bundle"
       add_payload_check "lib/firmware/" "installer firmware payload"
-      add_payload_check "usr/doc/kernel-firmware-${pkgver}/WHENCE.linux-firmware" "installer docs"
+      if [[ "$parsed_pkgname" == "firmware-installer" ]]; then
+        add_payload_check "usr/doc/firmware-installer-${pkgver}/WHENCE.linux-firmware" "installer docs"
+      else
+        add_payload_check "usr/doc/kernel-firmware-${pkgver}/WHENCE.linux-firmware" "installer docs"
+      fi
       ;;
     zd1211-firmware)
       add_payload_check "lib/firmware/zd1211/" "zd1211 firmware tree"

@@ -2,7 +2,7 @@
 # Copyright 2011, 2016, 2018, 2023 Patrick J. Volkerding, Sebeka, MN, USA
 # Included in Slint by Didier Spaier didieratslintdotfr
 
-pkgname=kernel-firmware-installer
+pkgname=firmware-installer
 _fwdate=20251111
 _fwcommit=6fc9407
 pkgver="${_fwdate}_${_fwcommit}"
@@ -14,7 +14,7 @@ url="https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|
-"kernel-firmware-installer (Firmware installer payload)"
+"firmware-installer (Firmware installer payload)"
 ""
 "This package provides a reduced linux-firmware payload"
 "for installer usage."
@@ -97,32 +97,32 @@ build() {
     make DESTDIR="$PKG" "$installtarget" 2>/dev/null
   ) || return 1
 
-  mkdir -p "$PKG/usr/doc/kernel-firmware-$pkgver" || return 1
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
   if [ -f README.md ]; then
-    cp -a README.md "$PKG/usr/doc/kernel-firmware-$pkgver/README.linux-firmware" || return 1
+    cp -a README.md "$PKG/usr/doc/$pkgname-$pkgver/README.linux-firmware" || return 1
   elif [ -f README ]; then
-    cp -a README "$PKG/usr/doc/kernel-firmware-$pkgver/README.linux-firmware" || return 1
+    cp -a README "$PKG/usr/doc/$pkgname-$pkgver/README.linux-firmware" || return 1
   fi
-  cp -a WHENCE "$PKG/usr/doc/kernel-firmware-$pkgver/WHENCE.linux-firmware" || return 1
-  cp -a GPL* LICEN* "$PKG/usr/doc/kernel-firmware-$pkgver/" || return 1
+  cp -a WHENCE "$PKG/usr/doc/$pkgname-$pkgver/WHENCE.linux-firmware" || return 1
+  cp -a GPL* LICEN* "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
 
   if [ -f amd-ucode/README ]; then
-    cp -a amd-ucode/README "$PKG/usr/doc/kernel-firmware-$pkgver/README.amd-ucode" || return 1
+    cp -a amd-ucode/README "$PKG/usr/doc/$pkgname-$pkgver/README.amd-ucode" || return 1
   fi
   if [ -f isci/README ]; then
-    cp -a isci/README "$PKG/usr/doc/kernel-firmware-$pkgver/README.isci" || return 1
+    cp -a isci/README "$PKG/usr/doc/$pkgname-$pkgver/README.isci" || return 1
   fi
   if [ -f carl9170fw/COPYRIGHT ]; then
-    cp -a carl9170fw/COPYRIGHT "$PKG/usr/doc/kernel-firmware-$pkgver/COPYRIGHT.carl9170fw" || return 1
+    cp -a carl9170fw/COPYRIGHT "$PKG/usr/doc/$pkgname-$pkgver/COPYRIGHT.carl9170fw" || return 1
   fi
   if [ -f carl9170fw/README ]; then
-    cp -a carl9170fw/README "$PKG/usr/doc/kernel-firmware-$pkgver/README.carl9170fw" || return 1
+    cp -a carl9170fw/README "$PKG/usr/doc/$pkgname-$pkgver/README.carl9170fw" || return 1
   fi
   if [ -f rtw88/README ]; then
-    cp -a rtw88/README "$PKG/usr/doc/kernel-firmware-$pkgver/README.rtw88" || return 1
+    cp -a rtw88/README "$PKG/usr/doc/$pkgname-$pkgver/README.rtw88" || return 1
   fi
   if [ -f wfx/LICENCE.wf200 ]; then
-    cp -a wfx/LICENCE.wf200 "$PKG/usr/doc/kernel-firmware-$pkgver/" || return 1
+    cp -a wfx/LICENCE.wf200 "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
   fi
 
   cp -a \
@@ -132,5 +132,5 @@ build() {
     "$startdir/net_firm" \
     "$startdir/net_firmware" \
     "$startdir/net_mods" \
-    "$PKG/usr/doc/kernel-firmware-$pkgver/" || return 1
+    "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
 }
