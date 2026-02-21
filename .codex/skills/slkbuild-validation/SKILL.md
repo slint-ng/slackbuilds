@@ -16,6 +16,8 @@ This skill assumes the mount root is always:
 It accepts either:
 - a relative package path like `k/sof-firmware`
 - a relative package path like `k/firmware-installer`
+- a relative package path like `k/kernel`
+- a relative package path like `a/kernel-firmware`
 - or a full path like `/home/alice/slkbuilds/k/sof-firmware`
 
 ## Workflow
@@ -26,6 +28,9 @@ It accepts either:
 2. Run the validator script.
 - `bash .codex/skills/slkbuild-validation/scripts/validate_pkg.sh k/sof-firmware`
 - `bash .codex/skills/slkbuild-validation/scripts/validate_pkg.sh k/firmware-installer`
+- `bash .codex/skills/slkbuild-validation/scripts/validate_pkg.sh k/kernel`
+- `bash .codex/skills/slkbuild-validation/scripts/validate_pkg.sh k/modules-installer`
+- `bash .codex/skills/slkbuild-validation/scripts/validate_pkg.sh a/kernel-firmware`
 
 3. Return the script result as a fixed checklist.
 - `Artifacts`
@@ -48,6 +53,9 @@ It accepts either:
 - Benign patterns are ignored when success markers and artifacts are present.
 - The validator derives package name/version from the built `.txz`, so package
   directory and package artifact names may differ.
+- Split kernel packages are validated with package-specific payload checks for:
+  `kernel`, `kernel-headers`, `kernel-source`, `modules-installer`,
+  and `kernel-firmware`.
 - See `references/known-benign-patterns.md`.
 
 ## Resources

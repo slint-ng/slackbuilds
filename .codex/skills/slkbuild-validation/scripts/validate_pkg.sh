@@ -165,6 +165,24 @@ if [[ -n "$txz_file" ]]; then
     b43-firmware)
       add_payload_check "lib/firmware/b43/" "b43 firmware tree"
       ;;
+    kernel)
+      add_payload_check "boot/vmlinuz-${pkgver}" "kernel image"
+      add_payload_check "lib/modules/${pkgver}/" "kernel modules tree"
+      ;;
+    kernel-headers)
+      add_payload_check "usr/include/" "kernel headers include root"
+      add_payload_check "usr/include/asm-x86/" "kernel headers arch include"
+      ;;
+    kernel-source)
+      add_payload_check "usr/src/linux-${pkgver}/" "kernel source tree"
+      ;;
+    modules-installer)
+      add_payload_check "lib/modules/${pkgver}/" "installer modules tree"
+      ;;
+    kernel-firmware)
+      add_payload_check "lib/firmware/" "kernel firmware tree"
+      add_payload_check "usr/doc/kernel-firmware-${pkgver}/WHENCE.linux-firmware" "kernel firmware docs"
+      ;;
     kernel-firmware-installer|firmware-installer)
       add_payload_check "linux-firmware/WHENCE" "firmware metadata bundle"
       add_payload_check "lib/firmware/" "installer firmware payload"
