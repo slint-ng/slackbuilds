@@ -6,7 +6,7 @@ pkgname=firmware-installer
 _fwdate=20260110
 _fwcommit=06a743f
 pkgver="${_fwdate}_${_fwcommit}"
-pkgrel=1slint
+pkgrel=2slint
 arch=noarch
 source=()
 options=('nosrcpack')
@@ -102,6 +102,7 @@ build() {
     echo "Running make DESTDIR=$PKG ${installtarget}..."
     make DESTDIR="$PKG" "$installtarget" 2>/dev/null
   ) || return 1
+  rm -rf "$PKG/linux-firmware" || return 1
 
   mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
   if [ -f README.md ]; then
