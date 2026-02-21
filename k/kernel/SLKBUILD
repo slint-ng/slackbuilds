@@ -45,7 +45,6 @@ build() {
   chown -R root:root .
   chmod -R a-st,u+rwX,go-w+rX .
 
-  make olddefconfig || return 1
   ZSTD_CLEVEL=19 make "$numjobs" || make || return 1
 
   install -m 0644 System.map "$PKG/boot/System.map-$pkgver" || return 1
