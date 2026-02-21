@@ -1,0 +1,75 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: Didier Spaier didieratslintdotfr
+
+pkgname=modules-installer
+pkgver=6.19.3
+pkgrel=1slint
+arch=x86_64
+source=()
+options=('nosrcpack')
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"modules-installer (kernel modules for the installer)"
+""
+"This package contains /lib/modules from the matching"
+"kernel package."
+""
+"Set KERNEL_PKG to an explicit kernel .txz path, or"
+"leave it unset to auto-detect from ../kernel."
+""
+""
+""
+)
+
+build() {
+  local kernel_pkg="${KERNEL_PKG:-}"
+  local detected_pkg=""
+  local kernel_ver=""
+  local modules_path=""
+
+  if [ -z "$kernel_pkg" ]; then
+    detected_pkg="$(find "$startdir/../kernel" -maxdepth 1 -type f -name "kernel-${pkgver}-*.txz" | sort -V | tail -n 1)"
+    if [ -z "$detected_pkg" ]; then
+      detected_pkg="$(find "$startdir/../kernel" -maxdepth 1 -type f -name 'kernel-[0-9]*.txz' | sort -V | tail -n 1)"
+    fi
+    kernel_pkg="$detected_pkg"
+  fi
+
+  if [ -z "$kernel_pkg" ] || [ ! -f "$kernel_pkg" ]; then
+    echo "No kernel package found."
+    echo "Set KERNEL_PKG=/path/to/kernel-<ver>-<arch>-<rel>.txz"
+    echo "or build k/kernel first so ../kernel has an artifact."
+    return 1
+  fi
+
+  kernel_ver="$(basename "$kernel_pkg" | sed 's/^kernel-\([^-]*\)-[^-]*-[^-]*\.t[xg]z$/\1/')"
+  if [ -z "$kernel_ver" ] || [ "$kernel_ver" = "$(basename "$kernel_pkg")" ]; then
+    echo "Could not parse kernel version from: $kernel_pkg"
+    return 1
+  fi
+
+  if [ "$kernel_ver" != "$pkgver" ]; then
+    echo "Kernel package version ($kernel_ver) does not match pkgver ($pkgver)."
+    echo "Update pkgver in SLKBUILD or point KERNEL_PKG to kernel-$pkgver."
+    return 1
+  fi
+
+  mkdir -p "$PKG/install" || return 1
+  if tar -tf "$kernel_pkg" | grep -Eq '^lib/modules(/|$)'; then
+    modules_path="lib/modules"
+  elif tar -tf "$kernel_pkg" | grep -Eq '^\./lib/modules(/|$)'; then
+    modules_path="./lib/modules"
+  else
+    echo "Could not find lib/modules in: $kernel_pkg"
+    return 1
+  fi
+
+  tar xf "$kernel_pkg" -C "$PKG" "$modules_path" || return 1
+
+  if [ ! -d "$PKG/lib/modules/$kernel_ver" ]; then
+    echo "Missing expected module tree after extraction: lib/modules/$kernel_ver"
+    return 1
+  fi
+}

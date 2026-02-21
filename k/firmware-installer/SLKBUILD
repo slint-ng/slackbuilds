@@ -1,0 +1,143 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Copyright 2011, 2016, 2018, 2023 Patrick J. Volkerding, Sebeka, MN, USA
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=firmware-installer
+_fwdate=20260110
+_fwcommit=06a743f
+pkgver="${_fwdate}_${_fwcommit}"
+pkgrel=2slint
+arch=noarch
+source=()
+options=('nosrcpack')
+url="https://gitlab.com/kernel-firmware/linux-firmware"
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"firmware-installer (Firmware installer payload)"
+""
+"This package provides a reduced linux-firmware payload"
+"for installer usage."
+""
+"It installs a selected firmware subset and metadata"
+"required to run linux-firmware's install targets."
+""
+"Upstream: git.kernel.org/.../firmware/linux-firmware.git"
+""
+)
+
+build() {
+  local srcroot="$startdir/src"
+  local srcdir="$srcroot/linux-firmware"
+  local fwlist="$startdir/net_firmware"
+  local installtarget
+  local fwpattern
+  local fwmatch
+  local found
+  local meta
+  local fwrepo="https://gitlab.com/kernel-firmware/linux-firmware.git"
+  local head_short=""
+
+  mkdir -p "$srcroot" || return 1
+  if [ ! -d "$srcdir/.git" ]; then
+    rm -rf "$srcdir"
+    git clone "$fwrepo" "$srcdir" || return 1
+  fi
+
+  cd "$srcdir" || return 1
+  git fetch --tags --force origin || return 1
+  if git rev-parse -q --verify "refs/tags/${_fwdate}" >/dev/null; then
+    git checkout -f "tags/${_fwdate}" || return 1
+  else
+    git checkout -f "$_fwcommit" || return 1
+  fi
+  head_short="$(git rev-parse --short=7 HEAD)" || return 1
+  if [ "$head_short" != "$_fwcommit" ]; then
+    echo "Expected linux-firmware commit $_fwcommit, got $head_short"
+    return 1
+  fi
+  chown -R root:root .
+  chmod -R a-st,u+rwX,go-w+rX .
+
+  mkdir -p "$PKG/linux-firmware" || return 1
+  for meta in LICEN* GPL* Makefile WHENCE build_packages.py check_whence.py \
+    configure copy-firmware.sh; do
+    [ -e "$meta" ] || continue
+    cp -a "$meta" "$PKG/linux-firmware/" || return 1
+  done
+
+  if [ ! -s "$fwlist" ]; then
+    echo "Missing firmware list: $fwlist"
+    return 1
+  fi
+
+  shopt -s nullglob
+  while IFS= read -r fwpattern; do
+    [ -n "$fwpattern" ] || continue
+    found=0
+    for fwmatch in $fwpattern; do
+      [ -f "$fwmatch" ] || continue
+      install -D -m 0644 "$fwmatch" "$PKG/linux-firmware/$fwmatch" || {
+        shopt -u nullglob
+        return 1
+      }
+      found=1
+    done
+    if [ "$found" -eq 0 ]; then
+      echo "Warning: firmware pattern not found: $fwpattern"
+    fi
+  done < "$fwlist"
+  shopt -u nullglob
+
+  case "${COMPRESSION:-xz}" in
+    xz) installtarget="install-xz" ;;
+    zstd) installtarget="install-zst" ;;
+    none) installtarget="install" ;;
+    *) installtarget="install" ;;
+  esac
+
+  (
+    cd "$PKG/linux-firmware" || exit 1
+    echo "Running make DESTDIR=$PKG ${installtarget}..."
+    make DESTDIR="$PKG" "$installtarget" 2>/dev/null
+  ) || return 1
+  rm -rf "$PKG/linux-firmware" || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  if [ -f README.md ]; then
+    cp -a README.md "$PKG/usr/doc/$pkgname-$pkgver/README.linux-firmware" || return 1
+  elif [ -f README ]; then
+    cp -a README "$PKG/usr/doc/$pkgname-$pkgver/README.linux-firmware" || return 1
+  fi
+  cp -a WHENCE "$PKG/usr/doc/$pkgname-$pkgver/WHENCE.linux-firmware" || return 1
+  cp -a GPL* LICEN* "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
+
+  if [ -f amd-ucode/README ]; then
+    cp -a amd-ucode/README "$PKG/usr/doc/$pkgname-$pkgver/README.amd-ucode" || return 1
+  fi
+  if [ -f isci/README ]; then
+    cp -a isci/README "$PKG/usr/doc/$pkgname-$pkgver/README.isci" || return 1
+  fi
+  if [ -f carl9170fw/COPYRIGHT ]; then
+    cp -a carl9170fw/COPYRIGHT "$PKG/usr/doc/$pkgname-$pkgver/COPYRIGHT.carl9170fw" || return 1
+  fi
+  if [ -f carl9170fw/README ]; then
+    cp -a carl9170fw/README "$PKG/usr/doc/$pkgname-$pkgver/README.carl9170fw" || return 1
+  fi
+  if [ -f rtw88/README ]; then
+    cp -a rtw88/README "$PKG/usr/doc/$pkgname-$pkgver/README.rtw88" || return 1
+  fi
+  if [ -f wfx/LICENCE.wf200 ]; then
+    cp -a wfx/LICENCE.wf200 "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
+  fi
+
+  cp -a \
+    "$startdir/excluded" \
+    "$startdir/find_wireless_firmware.sh" \
+    "$startdir/kernel.firmware" \
+    "$startdir/net_firm" \
+    "$startdir/net_firmware" \
+    "$startdir/net_mods" \
+    "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
+}

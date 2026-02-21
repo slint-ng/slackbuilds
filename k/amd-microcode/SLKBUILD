@@ -1,0 +1,77 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: Didier Spaier didieratslintdotfr
+
+pkgname=amd-microcode
+_fwdate=20260110
+_fwcommit=06a743f
+pkgver="${_fwdate}_${_fwcommit}"
+pkgrel=1slint
+arch=noarch
+source=()
+options=('nosrcpack')
+url="https://gitlab.com/kernel-firmware/linux-firmware"
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"amd-microcode (Microcode update image for AMD CPUs)"
+""
+"This package provides AMD CPU microcode files for early"
+"boot loading."
+"A CPIO archive is generated as boot/amd-ucode.img."
+""
+"Source data is taken from the linux-firmware project:"
+"git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git"
+""
+""
+)
+
+build() {
+  local srcroot="$startdir/src"
+  local srcdir="$srcroot/linux-firmware"
+  local workdir=""
+  local fwrepo="https://gitlab.com/kernel-firmware/linux-firmware.git"
+  local head_short=""
+
+  mkdir -p "$srcroot" || return 1
+  if [ ! -d "$srcdir/.git" ]; then
+    rm -rf "$srcdir"
+    git clone "$fwrepo" "$srcdir" || return 1
+  fi
+
+  cd "$srcdir" || return 1
+  git fetch --tags --force origin || return 1
+  if git rev-parse -q --verify "refs/tags/${_fwdate}" >/dev/null; then
+    git checkout -f "tags/${_fwdate}" || return 1
+  else
+    git checkout -f "$_fwcommit" || return 1
+  fi
+  head_short="$(git rev-parse --short=7 HEAD)" || return 1
+  if [ "$head_short" != "$_fwcommit" ]; then
+    echo "Expected linux-firmware commit $_fwcommit, got $head_short"
+    return 1
+  fi
+  workdir="$srcdir/.amd-microcode-work"
+
+  chown -R root:root .
+  chmod -R a-st,u+rwX,go-w+rX .
+
+  rm -rf "$workdir"
+  mkdir -p "$workdir/kernel/x86/microcode" "$PKG/boot" || return 1
+
+  cat amd-ucode/microcode_amd*.bin > "$workdir/kernel/x86/microcode/AuthenticAMD.bin" || return 1
+
+  (
+    cd "$workdir" || exit 1
+    echo kernel/x86/microcode/AuthenticAMD.bin | \
+      bsdcpio -o -H newc -R 0:0 > "$PKG/boot/amd-ucode.img"
+  ) || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a \
+    "$startdir/CONTENT" \
+    "$startdir/README.Debian" \
+    amd-ucode/README \
+    LICENSE.amd-ucode \
+    "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
+}

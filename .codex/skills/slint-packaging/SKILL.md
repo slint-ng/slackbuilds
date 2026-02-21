@@ -46,6 +46,25 @@ On first use in a session, explicitly mention:
 - Use `scripts/bump_version.py` when possible to update `pkgver` and sums.
 - Sync `docs=()` with what the build installs.
 - Preserve existing build flags unless the update requires changes.
+- For linux-firmware based packages in this repo, preserve the paired
+  date/commit versioning (`<date>_<commit>`) used by Slint and verify the
+  checkout/tag resolves to the expected commit before packaging.
+
+### Kernel and firmware conventions in this repo
+
+- Keep `a/kernel-firmware` in `a/`; do not move it to `k/` unless explicitly requested.
+- Keep AMD microcode authoritative in `k/amd-microcode`; avoid duplicate AMD
+  microcode package generation in `a/kernel-firmware`.
+- Treat kernel outputs as split packages:
+  `k/kernel`, `k/kernel-headers`, `k/kernel-source`, and `k/modules-installer`.
+- Keep `k/modules-installer` tied to built kernel artifacts (explicit `KERNEL_PKG`
+  override or deterministic local detection), not legacy `../../packages` assumptions.
+- For `k/dkms` (3.3.x+), keep legacy helper scripts in `/usr/lib/dkms/`
+  (`dkms_autoinstaller`, `common.postinst`) for existing Slint/Slackware-style
+  local hook compatibility.
+- Runtime kernel upgrade flow in this repo is dracut-based: wrappers use
+  `dracut --no-early-microcode` then `update-grub`. If installing kernels with
+  plain `upgradepkg`, run those steps manually.
 
 ## Debugging build failures
 

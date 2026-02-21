@@ -1,0 +1,54 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: Didier Spaier didieratslintdotfr
+
+pkgname=kernel-headers
+pkgver=6.19.3
+pkgrel=1slint
+arch=x86_64
+source=("https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${pkgver}.tar.xz")
+url="https://www.kernel.org/"
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"kernel-headers (Linux kernel include files)"
+""
+"These are the include files from the Linux kernel."
+""
+"You'll need these to compile most system software"
+"for Linux."
+""
+""
+""
+""
+)
+
+build() {
+  local srcdir="$startdir/src/linux-$pkgver"
+  local config="$startdir/../kernel/configs/config-$pkgver"
+  local headers_arch="x86"
+
+  if [ ! -d "$srcdir" ]; then
+    echo "Missing kernel source directory: $srcdir"
+    return 1
+  fi
+
+  cd "$srcdir" || return 1
+  chown -R root:root .
+  chmod -R a-st,u+rwX,go-w+rX .
+
+  if [ -f "$config" ]; then
+    cp -a "$config" .config || return 1
+  fi
+
+  make headers_install ARCH="$headers_arch" INSTALL_HDR_PATH="$PKG/usr" || return 1
+  cd "$PKG/usr/include" || return 1
+
+  rm -rf drm
+  if [ -d asm ]; then
+    rm -rf "asm-$headers_arch"
+    mv asm "asm-$headers_arch"
+  fi
+  ln -sfn "asm-$headers_arch" asm
+  find . -type f -name ".??*" -delete
+}

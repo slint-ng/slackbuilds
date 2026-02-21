@@ -136,6 +136,7 @@ ffmpeg
 ffmpegthumbnailer
 ffnvcodec-headers
 fim
+firmware-installer
 flac
 flatpak
 flite
@@ -236,7 +237,6 @@ kColorPicker
 keepassxc
 kernel
 kernel-firmware
-kernel-firmware-installer
 kImageAnnotator
 kitty
 ksnip
