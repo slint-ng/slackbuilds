@@ -8,7 +8,8 @@ _fwcommit=881c549
 pkgver="${_fwdate}_${_fwcommit}"
 pkgrel=1slint
 arch=noarch
-source=("https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/snapshot/linux-firmware-${_fwcommit}.tar.gz")
+source=()
+options=('nosrcpack')
 url="https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git"
 
 slackdesc=\
@@ -28,24 +29,18 @@ slackdesc=\
 
 build() {
   local srcroot="$startdir/src"
-  local srcdir=""
+  local srcdir="$srcroot/linux-firmware"
   local installtarget=""
 
-  for srcdir in \
-    "$srcroot/linux-firmware-$_fwdate" \
-    "$srcroot/linux-firmware-$_fwcommit" \
-    "$srcroot/linux-firmware"; do
-    [ -d "$srcdir" ] && break
-  done
-  if [ ! -d "$srcdir" ]; then
-    srcdir="$(find "$srcroot" -maxdepth 1 -mindepth 1 -type d -name 'linux-firmware*' | head -n 1)"
-  fi
-  if [ -z "$srcdir" ] || [ ! -d "$srcdir" ]; then
-    echo "Could not locate extracted linux-firmware source under $srcroot"
-    return 1
+  mkdir -p "$srcroot" || return 1
+  if [ ! -d "$srcdir/.git" ]; then
+    rm -rf "$srcdir"
+    git clone "$url" "$srcdir" || return 1
   fi
 
   cd "$srcdir" || return 1
+  git fetch --tags --force origin || return 1
+  git checkout "$_fwcommit" || return 1
   chown -R root:root .
   chmod -R a-st,u+rwX,go-w+rX .
 
