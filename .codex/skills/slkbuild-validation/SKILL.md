@@ -31,6 +31,8 @@ It accepts either:
 - `bash .codex/skills/slkbuild-validation/scripts/validate_pkg.sh k/kernel`
 - `bash .codex/skills/slkbuild-validation/scripts/validate_pkg.sh k/modules-installer`
 - `bash .codex/skills/slkbuild-validation/scripts/validate_pkg.sh a/kernel-firmware`
+- Optional regression check:
+  `bash .codex/skills/slkbuild-validation/scripts/test_validate_pkg.sh`
 
 3. Return the script result as a fixed checklist.
 - `Artifacts`
@@ -65,6 +67,7 @@ It accepts either:
 
 ### scripts/
 - `validate_pkg.sh`: Standard validator for logs, artifacts, and payload checks.
+- `test_validate_pkg.sh`: Regression fixture for `firmware-installer` payload checks.
 
 ### references/
 - `known-benign-patterns.md`: Non-fatal log patterns.

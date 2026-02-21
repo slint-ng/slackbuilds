@@ -185,14 +185,14 @@ if [[ -n "$txz_file" ]]; then
       add_payload_check "lib/firmware/" "kernel firmware tree"
       add_payload_check "usr/doc/kernel-firmware-${pkgver}/WHENCE.linux-firmware" "kernel firmware docs"
       ;;
-    kernel-firmware-installer|firmware-installer)
+    kernel-firmware-installer)
       add_payload_check "linux-firmware/WHENCE" "firmware metadata bundle"
       add_payload_check "lib/firmware/" "installer firmware payload"
-      if [[ "$parsed_pkgname" == "firmware-installer" ]]; then
-        add_payload_check "usr/doc/firmware-installer-${pkgver}/WHENCE.linux-firmware" "installer docs"
-      else
-        add_payload_check "usr/doc/kernel-firmware-${pkgver}/WHENCE.linux-firmware" "installer docs"
-      fi
+      add_payload_check "usr/doc/kernel-firmware-${pkgver}/WHENCE.linux-firmware" "installer docs"
+      ;;
+    firmware-installer)
+      add_payload_check "lib/firmware/" "installer firmware payload"
+      add_payload_check "usr/doc/firmware-installer-${pkgver}/WHENCE.linux-firmware" "installer docs"
       ;;
     zd1211-firmware)
       add_payload_check "lib/firmware/zd1211/" "zd1211 firmware tree"
