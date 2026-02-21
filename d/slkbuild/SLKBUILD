@@ -1,8 +1,8 @@
 #Maintainer: George Vlahavas (vlahavas~at~gmail~dot~com)
 
 pkgname=slkbuild
-pkgver=1.2
-pkgrel=2slint
+pkgver=1.5
+pkgrel=1slint
 arch=noarch
 source=(slkbuild-$pkgver.tar.xz)
 options=('nosrcpack')
