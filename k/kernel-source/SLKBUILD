@@ -1,0 +1,40 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: Didier Spaier didieratslintdotfr
+
+pkgname=kernel-source
+pkgver=6.18.2
+pkgrel=1slint
+arch=noarch
+source=("https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${pkgver}.tar.xz")
+url="https://www.kernel.org/"
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"kernel-source (Linux kernel source)"
+""
+"Source code for Linus Torvalds' Linux kernel."
+""
+"This is the complete and unmodified source code"
+"for the Linux kernel."
+""
+""
+""
+""
+)
+
+build() {
+  local srcdir="$startdir/src/linux-$pkgver"
+
+  if [ ! -d "$srcdir" ]; then
+    echo "Missing kernel source directory: $srcdir"
+    return 1
+  fi
+
+  mkdir -p "$PKG/usr/src" || return 1
+  cp -a "$srcdir" "$PKG/usr/src/linux-$pkgver" || return 1
+  ln -sfn "linux-$pkgver" "$PKG/usr/src/linux"
+
+  chown -R root:root "$PKG/usr/src/linux-$pkgver"
+  chmod -R a-st,u+rwX,go-w+rX "$PKG/usr/src/linux-$pkgver"
+}

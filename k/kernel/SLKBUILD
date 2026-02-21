@@ -1,0 +1,64 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: Didier Spaier didieratslintdotfr
+
+pkgname=kernel
+pkgver=6.18.2
+pkgrel=1slint
+arch=x86_64
+source=("https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${pkgver}.tar.xz")
+url="https://www.kernel.org/"
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"kernel (a general purpose Linux kernel)"
+""
+"This package includes a Linux kernel and associated"
+"kernel modules."
+"It is intended to be loaded with an associated"
+"initramfs with modules needed to boot the system."
+""
+""
+""
+""
+)
+
+build() {
+  local srcdir="$startdir/src/linux-$pkgver"
+  local config="$startdir/configs/config-$pkgver"
+  local numjobs="-j$(( $(nproc) + 1 ))"
+  local kernel_arch="x86"
+
+  if [ ! -d "$srcdir" ]; then
+    echo "Missing kernel source directory: $srcdir"
+    return 1
+  fi
+  if [ ! -f "$config" ]; then
+    echo "Missing kernel config: $config"
+    return 1
+  fi
+
+  mkdir -p "$PKG/boot" "$PKG/lib/modules" || return 1
+
+  cd "$srcdir" || return 1
+  cp -a "$config" .config || return 1
+  chown -R root:root .
+  chmod -R a-st,u+rwX,go-w+rX .
+
+  make oldconfig || return 1
+  ZSTD_CLEVEL=19 make "$numjobs" || make || return 1
+
+  install -m 0644 System.map "$PKG/boot/System.map-$pkgver" || return 1
+  install -m 0644 .config "$PKG/boot/config-$pkgver" || return 1
+  install -m 0644 "arch/$kernel_arch/boot/bzImage" "$PKG/boot/vmlinuz-$pkgver" || return 1
+
+  make "$numjobs" modules || return 1
+  make INSTALL_MOD_PATH="$PKG" modules_install || return 1
+
+  cd "$PKG/lib/modules/$pkgver" || return 1
+  rm -f build source
+  ln -s "/usr/src/linux-$pkgver" build
+  ln -s "/usr/src/linux-$pkgver" source
+
+  depmod -b "$PKG" -a "$pkgver" || return 1
+}

@@ -4,9 +4,10 @@
 1. `k/amd-microcode`
 2. `k/firmware-installer` (renamed from `k/kernel-firmware-installer`)
 
-## Deferred Later
-1. `k/kernel`
-2. `a/kernel-firmware`
+## Phase 3 Implemented (Validation Pending)
+1. `k/kernel` (now split across `k/kernel`, `k/kernel-headers`, `k/kernel-source`)
+2. `k/modules-installer` (replaces legacy helper script contract)
+3. `a/kernel-firmware` (converted in place, no move)
 
 ## Phase 1 Completed and Validated
 1. `k/intel-microcode`
@@ -19,3 +20,4 @@
 ## Marker
 - Validation skill added and committed: `c1b874e`
 - Installer package naming aligned with published artifact: `firmware-installer`
+- AMD microcode remains authoritative in: `k/amd-microcode`

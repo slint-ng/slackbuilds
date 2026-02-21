@@ -1,8 +1,8 @@
 # shellcheck shell=bash disable=SC2034,SC2154
 # Copyright 2011, 2016, 2018, 2023 Patrick J. Volkerding, Sebeka, MN, USA
-# Included in Slint by Didier Spaier didieratslintdotfr
+# Included in Slint and adapted by Didier Spaier didieratslintdotfr
 
-pkgname=firmware-installer
+pkgname=kernel-firmware
 _fwdate=20251218
 _fwcommit=881c549
 pkgver="${_fwdate}_${_fwcommit}"
@@ -14,27 +14,22 @@ url="https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|
-"firmware-installer (Firmware installer payload)"
+"kernel-firmware (Firmware for the kernel)"
 ""
-"This package provides a reduced linux-firmware payload"
-"for installer usage."
+"These are firmware files for the Linux kernel."
 ""
-"It installs a selected firmware subset and metadata"
-"required to run linux-firmware's install targets."
+"You'll need these to use certain hardware drivers"
+"with Linux."
 ""
-"Upstream: git.kernel.org/.../firmware/linux-firmware.git"
+"Upstream:"
+"git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git"
 ""
 )
 
 build() {
   local srcroot="$startdir/src"
   local srcdir=""
-  local fwlist="$startdir/net_firmware"
-  local installtarget
-  local fwpattern
-  local fwmatch
-  local found
-  local meta
+  local installtarget=""
 
   for srcdir in \
     "$srcroot/linux-firmware-$_fwdate" \
@@ -54,36 +49,6 @@ build() {
   chown -R root:root .
   chmod -R a-st,u+rwX,go-w+rX .
 
-  mkdir -p "$PKG/linux-firmware" || return 1
-  for meta in LICEN* GPL* Makefile WHENCE build_packages.py check_whence.py \
-    configure copy-firmware.sh; do
-    [ -e "$meta" ] || continue
-    cp -a "$meta" "$PKG/linux-firmware/" || return 1
-  done
-
-  if [ ! -s "$fwlist" ]; then
-    echo "Missing firmware list: $fwlist"
-    return 1
-  fi
-
-  shopt -s nullglob
-  while IFS= read -r fwpattern; do
-    [ -n "$fwpattern" ] || continue
-    found=0
-    for fwmatch in $fwpattern; do
-      [ -f "$fwmatch" ] || continue
-      install -D -m 0644 "$fwmatch" "$PKG/linux-firmware/$fwmatch" || {
-        shopt -u nullglob
-        return 1
-      }
-      found=1
-    done
-    if [ "$found" -eq 0 ]; then
-      echo "Warning: firmware pattern not found: $fwpattern"
-    fi
-  done < "$fwlist"
-  shopt -u nullglob
-
   case "${COMPRESSION:-xz}" in
     xz) installtarget="install-xz" ;;
     zstd) installtarget="install-zst" ;;
@@ -91,11 +56,8 @@ build() {
     *) installtarget="install" ;;
   esac
 
-  (
-    cd "$PKG/linux-firmware" || exit 1
-    echo "Running make DESTDIR=$PKG ${installtarget}..."
-    make DESTDIR="$PKG" "$installtarget" 2>/dev/null
-  ) || return 1
+  echo "Running make DESTDIR=$PKG ${installtarget}..."
+  make DESTDIR="$PKG" "$installtarget" 2>/dev/null || return 1
 
   mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
   if [ -f README.md ]; then
@@ -125,12 +87,5 @@ build() {
     cp -a wfx/LICENCE.wf200 "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
   fi
 
-  cp -a \
-    "$startdir/excluded" \
-    "$startdir/find_wireless_firmware.sh" \
-    "$startdir/kernel.firmware" \
-    "$startdir/net_firm" \
-    "$startdir/net_firmware" \
-    "$startdir/net_mods" \
-    "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
+  cp -a "$startdir/kernel.firmware" "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
 }
