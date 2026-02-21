@@ -136,6 +136,10 @@ if [[ -n "$txz_file" ]]; then
   fi
 
   case "$pkgname_dir" in
+    amd-microcode)
+      add_payload_check "boot/amd-ucode.img" "amd microcode earlyfw image"
+      add_payload_check "usr/doc/amd-microcode-${pkgver}/README.Debian" "amd microcode docs"
+      ;;
     intel-microcode)
       add_payload_check "boot/intel-ucode.img" "intel microcode earlyfw image"
       add_payload_check "lib/firmware/intel-ucode/" "intel microcode tree"
@@ -153,6 +157,11 @@ if [[ -n "$txz_file" ]]; then
       ;;
     b43-firmware)
       add_payload_check "lib/firmware/b43/" "b43 firmware tree"
+      ;;
+    kernel-firmware-installer)
+      add_payload_check "linux-firmware/WHENCE" "firmware metadata bundle"
+      add_payload_check "lib/firmware/" "installer firmware payload"
+      add_payload_check "usr/doc/kernel-firmware-${pkgver}/WHENCE.linux-firmware" "installer docs"
       ;;
     zd1211-firmware)
       add_payload_check "lib/firmware/zd1211/" "zd1211 firmware tree"

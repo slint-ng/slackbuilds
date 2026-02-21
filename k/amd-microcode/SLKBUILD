@@ -26,10 +26,26 @@ slackdesc=\
 )
 
 build() {
-  local srcdir="linux-firmware-$_fwdate"
-  local workdir="$startdir/src/$srcdir/.amd-microcode-work"
+  local srcroot="$startdir/src"
+  local srcdir=""
+  local workdir=""
 
-  cd "$startdir/src/$srcdir" || return 1
+  for srcdir in \
+    "$srcroot/linux-firmware-$_fwdate" \
+    "$srcroot/linux-firmware-$_fwcommit" \
+    "$srcroot/linux-firmware"; do
+    [ -d "$srcdir" ] && break
+  done
+  if [ ! -d "$srcdir" ]; then
+    srcdir="$(find "$srcroot" -maxdepth 1 -mindepth 1 -type d -name 'linux-firmware*' | head -n 1)"
+  fi
+  if [ -z "$srcdir" ] || [ ! -d "$srcdir" ]; then
+    echo "Could not locate extracted linux-firmware source under $srcroot"
+    return 1
+  fi
+  workdir="$srcdir/.amd-microcode-work"
+
+  cd "$srcdir" || return 1
   chown -R root:root .
   chmod -R a-st,u+rwX,go-w+rX .
 
