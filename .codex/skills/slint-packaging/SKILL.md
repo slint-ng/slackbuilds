@@ -59,6 +59,12 @@ On first use in a session, explicitly mention:
   `k/kernel`, `k/kernel-headers`, `k/kernel-source`, and `k/modules-installer`.
 - Keep `k/modules-installer` tied to built kernel artifacts (explicit `KERNEL_PKG`
   override or deterministic local detection), not legacy `../../packages` assumptions.
+- For `k/dkms` (3.3.x+), keep legacy helper scripts in `/usr/lib/dkms/`
+  (`dkms_autoinstaller`, `common.postinst`) for existing Slint/Slackware-style
+  local hook compatibility.
+- Runtime kernel upgrade flow in this repo is dracut-based: wrappers use
+  `dracut --no-early-microcode` then `update-grub`. If installing kernels with
+  plain `upgradepkg`, run those steps manually.
 
 ## Debugging build failures
 

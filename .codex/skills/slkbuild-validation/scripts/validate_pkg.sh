@@ -154,6 +154,8 @@ if [[ -n "$txz_file" ]]; then
     dkms)
       add_payload_check "usr/sbin/dkms" "dkms binary"
       add_payload_check "usr/lib/dkms/" "dkms runtime dir"
+      add_payload_check "usr/lib/dkms/dkms_autoinstaller" "dkms autoinstaller helper"
+      add_payload_check "usr/lib/dkms/common.postinst" "dkms postinst helper"
       ;;
     iucode_tool)
       add_payload_check "usr/sbin/iucode_tool" "iucode_tool binary"

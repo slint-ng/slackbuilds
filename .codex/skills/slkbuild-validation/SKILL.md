@@ -56,6 +56,9 @@ It accepts either:
 - Split kernel packages are validated with package-specific payload checks for:
   `kernel`, `kernel-headers`, `kernel-source`, `modules-installer`,
   and `kernel-firmware`.
+- Validation is build-only. For live kernel rollouts, initramfs/boot menu checks
+  still require post-install verification (`dracut`, `update-grub`,
+  `list_boot_entries`, and post-reboot `uname -r`).
 - See `references/known-benign-patterns.md`.
 
 ## Resources

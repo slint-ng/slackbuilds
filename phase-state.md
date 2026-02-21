@@ -31,3 +31,9 @@
   `k/dkms` -> `3.3.0`,
   `k/intel-microcode` -> `20260210`,
   `k/sof-firmware` -> `2025.12.2`.
+- DKMS compatibility restored on 2026-02-21:
+  `k/dkms` now keeps legacy helpers under `/usr/lib/dkms/`
+  (`dkms_autoinstaller` and `common.postinst`).
+- Runtime rollout verified on 2026-02-21:
+  host boots kernel `6.19.3`, early microcode images are present in `/boot`,
+  and `dkms status` is empty (no DKMS modules installed).
