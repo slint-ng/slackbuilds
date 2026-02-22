@@ -30,19 +30,40 @@ RSTAGE0_DIR=${RSTAGE0_DIR:-2025-12-11}
 CSTAGE0_VERSION=${CSTAGE0_VERSION:-1.92.0}
 CSTAGE0_DIR=${CSTAGE0_DIR:-$RSTAGE0_DIR}
 
+# Return success if version $1 is greater than or equal to version $2.
+version_ge() {
+  [ "$(printf '%s\n%s\n' "$2" "$1" | sort -V | head -n1)" = "$2" ]
+}
+
 build() {
   cd "$SRC/rustc-${pkgver}-src" || exit 1
 
-  # Bootstrap mode:
-  # - tarballs: use stage0 tarballs placed in $SRC
-  # - system: use installed /usr/bin/rustc and /usr/bin/cargo
-  # - auto: let x.py download stage0 toolchain itself
-  if /bin/ls "$SRC"/*-unknown-linux-gnu.tar.?z 1>/dev/null 2>/dev/null; then
-    BOOTSTRAP_MODE=tarballs
-  elif command -v rustc >/dev/null 2>&1 && command -v cargo >/dev/null 2>&1; then
-    BOOTSTRAP_MODE=system
-  else
-    BOOTSTRAP_MODE=auto
+  # BOOTSTRAP_MODE:
+  # - auto (default): prefer tarballs in $SRC, then compatible system rust, else x.py download
+  # - tarballs: force stage0 tarballs from $SRC
+  # - system: force installed /usr/bin/rustc and /usr/bin/cargo
+  BOOTSTRAP_MODE=${BOOTSTRAP_MODE:-auto}
+  case "$BOOTSTRAP_MODE" in
+    auto|tarballs|system) ;;
+    *)
+      echo "Invalid BOOTSTRAP_MODE='$BOOTSTRAP_MODE' (expected: auto|tarballs|system)"
+      exit 1
+      ;;
+  esac
+
+  if [ "$BOOTSTRAP_MODE" = "auto" ]; then
+    if /bin/ls "$SRC"/*-unknown-linux-gnu.tar.?z 1>/dev/null 2>/dev/null; then
+      BOOTSTRAP_MODE=tarballs
+    elif command -v rustc >/dev/null 2>&1 && command -v cargo >/dev/null 2>&1; then
+      SYS_RUSTC_VERSION=$(rustc -V | awk '{print $2}')
+      if version_ge "$SYS_RUSTC_VERSION" "$RSTAGE0_VERSION"; then
+        BOOTSTRAP_MODE=system
+      else
+        echo "System rustc $SYS_RUSTC_VERSION is older than required stage0 $RSTAGE0_VERSION."
+        echo "Falling back to x.py stage0 download (or provide stage0 tarballs in \$SRC)."
+        BOOTSTRAP_MODE=auto
+      fi
+    fi
   fi
 
   if [ -z "${ARCH:-}" ]; then
@@ -109,6 +130,20 @@ build() {
   fi
 
   patch -Np1 --verbose -i "$SRC/0004-compiler-Use-wasm-ld-for-wasm-targets.patch" || exit 1
+
+  if [ "$BOOTSTRAP_MODE" = "tarballs" ]; then
+    expected_bootstrap=(
+      "rust-std-$RSTAGE0_VERSION-$BARCH-unknown-linux-gnu.tar.?z"
+      "rustc-$RSTAGE0_VERSION-$BARCH-unknown-linux-gnu.tar.?z"
+      "cargo-$CSTAGE0_VERSION-$BARCH-unknown-linux-gnu.tar.?z"
+    )
+    for pattern in "${expected_bootstrap[@]}"; do
+      if ! compgen -G "$SRC/$pattern" >/dev/null; then
+        echo "Missing bootstrap tarball: $SRC/$pattern"
+        exit 1
+      fi
+    done
+  fi
 
   if [ "$BOOTSTRAP_MODE" = "tarballs" ]; then
     mkdir -p "build/cache/$RSTAGE0_DIR"
