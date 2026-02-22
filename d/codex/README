@@ -14,7 +14,7 @@ Build dependencies for this package:
   libcap, openssl, sqlite, dbus development files
 
 Optional upstream development tools not required to build codex:
-  just
-  cargo-nextest
+  just (packaged as d/just)
+  cargo-nextest (packaged as d/cargo-nextest)
+  pnpm (packaged as d/pnpm, requires nodejs)
   nodejs and npm
-  pnpm

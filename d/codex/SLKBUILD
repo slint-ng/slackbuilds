@@ -18,6 +18,10 @@ url="https://github.com/openai/codex"
 license=('Apache-2.0')
 depends=('glibc' 'libcap' 'openssl' 'sqlite' 'dbus')
 makedepends=('rust' 'cargo' 'gcc' 'git' 'pkgconf' 'cmake' 'ninja' 'perl' 'libcap' 'openssl' 'sqlite' 'dbus')
+optdepends=('just: upstream command runner used by codex justfile'
+            'cargo-nextest: optional upstream test runner'
+            'pnpm: optional npm workflow support'
+            'nodejs: required for pnpm and npm package workflows')
 source=("https://github.com/openai/codex/archive/refs/tags/${_tag}.tar.gz")
 sha256sums=('SKIP')
 options=("nosrcpack")

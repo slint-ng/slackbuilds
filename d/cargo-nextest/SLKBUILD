@@ -1,0 +1,47 @@
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=cargo-nextest
+pkgver=0.9.129
+_tag="$pkgname-$pkgver"
+pkgrel=1slint
+arch=('x86_64' 'aarch64')
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (next-generation test runner for Rust projects)"
+"cargo-nextest is a fast, modern test runner for Rust."
+"It is used as an optional test backend by upstream Codex helpers."
+)
+url="https://github.com/nextest-rs/nextest"
+license=('Apache-2.0' 'MIT')
+depends=('glibc')
+makedepends=('rust' 'cargo')
+source=("https://github.com/nextest-rs/nextest/archive/refs/tags/${_tag}.tar.gz")
+sha256sums=('4ea6afeebe539c935a3a8c5d248b16d6024aab834cc9ba45cf9c250bae524171')
+docs=("README.md" "LICENSE-MIT" "LICENSE-APACHE")
+options=("nosrcpack")
+
+build() {
+  case "${ARCH:-$(uname -m)}" in
+    x86_64) _cargo_target="x86_64-unknown-linux-gnu" ;;
+    aarch64) _cargo_target="aarch64-unknown-linux-gnu" ;;
+    *)
+      echo "Unsupported ARCH for $pkgname: ${ARCH:-unknown}"
+      exit 1
+      ;;
+  esac
+
+  cd "$SRC/nextest-$pkgname-$pkgver" || exit 1
+  cargo fetch --locked --target "$_cargo_target"
+  cargo build --release --frozen --locked \
+    --package "$pkgname" \
+    --bin "$pkgname" \
+    --target "$_cargo_target" \
+    --no-default-features \
+    --features default-no-update
+
+  install -Dm755 \
+    "target/$_cargo_target/release/$pkgname" \
+    "$PKG/usr/bin/$pkgname"
+}
