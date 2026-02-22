@@ -3,7 +3,7 @@
 
 # included in Slint by Didier Spaier didieratslintdotfr
 pkgname=gspell
-pkgver=1.8.4
+pkgver=1.9.1
 pkgrel=1slint
 slackdesc="a flexible API to implement the spell checking in a GTK+ application"
 url="https://wiki.gnome.org/Projects/gspell"
@@ -11,19 +11,9 @@ arch=(x86_64)
 license=(GPL2)
 depends=(gtk3 enchant libxml2 iso-codes)
 makedepends=(gobject-introspection vala gtk-doc autoconf-archive git)
-_commit=afd6d46d900dff621be840079c34488d9b3e8259
-source=("https://download.gnome.org/sources/gspell/1.8/gspell-1.8.4.tar.xz")
-docs=("AUTHORS" "COPYING""NEWS" "README" "THANKS")
-
-pkgver() {
-  cd $pkgname
-  git describe --tags | sed 's/-/+/g'
-}
-
-prepare() {
-  cd $pkgname
-  NOCONFIGURE=1 ./autogen.sh
-}
+source=("https://download.gnome.org/sources/gspell/1.9/gspell-1.9.1.tar.xz")
+sha256sums=('dcbb769dfdde8e3c0a8ed3102ce7e661abbf7ddf85df08b29915e92cd723abdd')
+docs=("AUTHORS" "COPYING" "NEWS" "README" "THANKS")
 
 build() {
   cd $pkgname-$pkgver
@@ -33,7 +23,7 @@ build() {
   --libdir=/usr/lib${LIBDIRSUFFIX} \
   --mandir=/usr/man \
   --enable-vala=no \
-  --build=$ARCH-slackware-linux
+  --build=$ARCH-slackware-linux \
   --enable-gtk-doc
   sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
   make

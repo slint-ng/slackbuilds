@@ -31,6 +31,9 @@ On first use in a session, explicitly mention:
 ### SlackBuild -> SLKBUILD conversion
 
 - Use `scripts/convert_slackbuild.py` for a best-effort scaffold, then review.
+- If the package already exists in-tree, keep the current in-tree version
+  when converting (do not bump to a newer upstream/Arch version unless the
+  user explicitly asks for an update).
 - Preserve the build logic exactly (configure/meson flags, install steps, docs).
 - Inline `slack-desc` into `slackdesc=(...)` and keep the handy ruler line.
 - Inline `doinst.sh` into `doinst()`.
