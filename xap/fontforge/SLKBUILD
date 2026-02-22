@@ -21,8 +21,8 @@ slackdesc=\
 
 url='https://fontforge.github.io/'
 arch=('x86_64')
-makedepends=('cmake' 'git' 'python-sphinx')
-depends=('libtool' 'pango' 'giflib' 'libtiff' 'libxml2' 'libspiro' 'python'
+makedepends=('cmake' 'git' 'python-sphinx' 'python3.11')
+depends=('libtool' 'pango' 'giflib' 'libtiff' 'libxml2' 'libspiro' 'python3.11'
          'potrace' 'woff2' 'gtk3' 'libuninameslist')
 source=("https://github.com/${pkgname}/${pkgname}/releases/download/${pkgver}/${pkgname}-${pkgver}.tar.xz")
 sha256sums=('68bcba8f602819eddc29cd356ee13fafbad7a80d19b652d354c6791343476c78')
@@ -31,6 +31,8 @@ build() {
 	cd "$SRC/${pkgname}-${pkgver}"
 	mkdir build
 	cd build
+	# python3.11 in Slint ships without the unversioned libpython symlink.
+	# Pass explicit embed artifacts so FindPython3 resolves Development.Embed.
 	cmake \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=/usr \
@@ -40,6 +42,9 @@ build() {
 		-DENABLE_DOCS=FALSE \
 		-DENABLE_LIBREADLINE=FALSE \
 		-DENABLE_LIBUNINAMESLIST=FALSE \
+		-DPython3_EXECUTABLE=/usr/bin/python3.11 \
+		-DPython3_INCLUDE_DIR=/usr/include/python3.11 \
+		-DPython3_LIBRARY=/usr/lib64/libpython3.11.so.1.0 \
 		-DUNIX=TRUE \
 		..
 sed "s/-R/-Wl,-rpath=/g" CMakeCache.txt > bof
