@@ -1,7 +1,7 @@
 # Maintainer: Storm Dragon <storm_dragon@stormux.org>
 
 pkgname=python3-miniirc
-srcName=miniirc
+srcname=miniirc
 pkgver=1.10.0
 pkgrel=1slint
 slackdesc="$pkgname (A straightforward IRC client library for Python)"
@@ -16,7 +16,7 @@ sha256sums=('9811ed325924359be622563510842715012f7c7b23430545cfdeb7ff80e2eaf8')
 docs=(LICENSE README.md)
 
 build() {
-  cd "$srcName-$pkgver" || exit 1
+  cd "$srcname-$pkgver" || exit 1
   python3 -m build --wheel --no-isolation || exit 1
   python3 -m installer --destdir="$PKG" dist/*.whl || exit 1
 }
