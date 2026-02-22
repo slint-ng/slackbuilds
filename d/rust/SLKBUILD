@@ -2,7 +2,6 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 
 pkgname=rust
-srcname=rustc
 pkgver=1.85.0
 pkgrel=1slint
 slackdesc=\
@@ -17,7 +16,7 @@ url="https://www.rust-lang.org"
 license=('Apache-2.0' 'MIT')
 depends=('glibc' 'gcc-libs' 'zlib')
 makedepends=('rust' 'cargo' 'python3' 'cmake' 'ninja' 'ccache' 'curl' 'git')
-source=("https://static.rust-lang.org/dist/${srcname}-${pkgver}-src.tar.xz"
+source=("https://static.rust-lang.org/dist/rustc-${pkgver}-src.tar.xz"
         "0004-compiler-Use-wasm-ld-for-wasm-targets.patch"
         "link_libffi.diff.gz")
 options=("nosrcpack")
@@ -32,7 +31,7 @@ CSTAGE0_VERSION=${CSTAGE0_VERSION:-1.84.0}
 CSTAGE0_DIR=${CSTAGE0_DIR:-$RSTAGE0_DIR}
 
 build() {
-  cd "$SRC/${srcname}-${pkgver}-src" || exit 1
+  cd "$SRC/rustc-${pkgver}-src" || exit 1
 
   # If stage0 tarballs are present in $SRC use them, else use installed rustc.
   if /bin/ls "$SRC"/*-unknown-linux-gnu.tar.?z 1>/dev/null 2>/dev/null; then
@@ -109,7 +108,7 @@ build() {
   if [ "$LOCAL_BOOTSTRAP" != "yes" ]; then
     mkdir -p "build/cache/$RSTAGE0_DIR"
     cp "$SRC/rust-std-$RSTAGE0_VERSION-$BARCH-unknown-linux-gnu.tar."?z "build/cache/$RSTAGE0_DIR/" || exit 1
-    cp "$SRC/${srcname}-$RSTAGE0_VERSION-$BARCH-unknown-linux-gnu.tar."?z "build/cache/$RSTAGE0_DIR/" || exit 1
+    cp "$SRC/rustc-$RSTAGE0_VERSION-$BARCH-unknown-linux-gnu.tar."?z "build/cache/$RSTAGE0_DIR/" || exit 1
     mkdir -p "build/cache/$CSTAGE0_DIR"
     cp "$SRC/cargo-$CSTAGE0_VERSION-$BARCH-unknown-linux-gnu.tar."?z "build/cache/$CSTAGE0_DIR/" || exit 1
   fi
