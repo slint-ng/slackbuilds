@@ -1,5 +1,4 @@
 interface:
   display_name: "SLKBUILD Validation"
   short_description: "Validate SLKBUILD build logs and package artifacts"
-  default_prompt: "Validate build results from ~/slkbuilds/<category>/<pkg> and return a checklist with Artifacts, Log Health, Payload Checks, Verdict, and Next Action."
-
+  default_prompt: "After the user reports VM build progress, validate ~/slkbuilds/<category>/<pkg> and return a checklist with Artifacts, Log Health, Payload Checks, Verdict, and Next Action."

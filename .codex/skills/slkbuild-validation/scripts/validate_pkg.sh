@@ -53,13 +53,19 @@ latest_file() {
     | cut -d' ' -f2-
 }
 
-log_file="$(latest_file "$pkgdir" 'build-*.log')"
 txz_file="$(latest_file "$pkgdir" '*.txz')"
+pkgname_dir="$(basename "$pkgdir")"
+parsed_pkgname="$pkgname_dir"
+pkgver=""
+txz_base=""
+log_file=""
+log_selection_reason="missing"
 md5_file=""
 expected_md5=""
 
 fail_reasons=()
-hard_hits_filtered=""
+hard_hits_actionable=""
+hard_hits_soft=""
 hard_hits_benign=""
 has_success_marker="no"
 use_rg="no"
@@ -106,9 +112,46 @@ has_log_marker() {
   fi
 }
 
-if [[ -z "$log_file" ]]; then
-  fail_reasons+=("Missing build log (build-*.log).")
-fi
+select_log_file() {
+  local dir="$1"
+  local txz="$2"
+  local parsed_name="$3"
+  local parsed_ver="$4"
+  local candidate=""
+  local txz_base_local=""
+
+  if [[ -n "$txz" ]]; then
+    txz_base_local="$(basename "$txz" .txz)"
+    candidate="$dir/build-${txz_base_local}.log"
+    if [[ -f "$candidate" ]]; then
+      printf '%s|%s\n' "$candidate" "artifact-name"
+      return
+    fi
+
+    if [[ -n "$parsed_name" && -n "$parsed_ver" ]]; then
+      candidate="$(latest_file "$dir" "build-${parsed_name}-${parsed_ver}-*.log")"
+      if [[ -n "$candidate" ]]; then
+        printf '%s|%s\n' "$candidate" "pkgver-prefix"
+        return
+      fi
+    fi
+
+    if [[ -n "$parsed_name" ]]; then
+      candidate="$dir/build-${parsed_name}.log"
+      if [[ -f "$candidate" ]]; then
+        printf '%s|%s\n' "$candidate" "pkgname"
+        return
+      fi
+    fi
+  fi
+
+  candidate="$(latest_file "$dir" 'build-*.log')"
+  if [[ -n "$candidate" ]]; then
+    printf '%s|%s\n' "$candidate" "latest"
+  else
+    printf '|%s\n' "missing"
+  fi
+}
 
 if [[ -z "$txz_file" ]]; then
   fail_reasons+=("Missing package artifact (*.txz).")
@@ -120,49 +163,6 @@ else
     md5_file="$(latest_file "$pkgdir" '*.md5')"
     fail_reasons+=("Missing matching md5 file for $(basename "$txz_file").")
   fi
-fi
-
-if [[ -n "$log_file" ]]; then
-  hard_failure_re='build\(\) failed|cannot open input file|no such file|fatal error|(^|[^[:alnum:]_])fatal:|error:'
-  hard_hits="$(search_ci_with_lineno "$hard_failure_re" "$log_file")"
-  if [[ -n "$hard_hits" ]]; then
-    benign_re="rmdir: failed to remove 'usr/doc[^']*': No such file or directory"
-    hard_hits_benign="$(printf '%s\n' "$hard_hits" | filter_ci "$benign_re")"
-    hard_hits_filtered="$(printf '%s\n' "$hard_hits" | filter_ci_invert "$benign_re")"
-    if [[ -n "$hard_hits_filtered" ]]; then
-      fail_reasons+=("Hard failure markers found in build log.")
-    fi
-  fi
-
-  if has_log_marker 'Slackware package .* created\.' "$log_file" \
-    || has_log_marker 'Package has been built\.' "$log_file"; then
-    has_success_marker="yes"
-  else
-    fail_reasons+=("Success marker missing from build log.")
-  fi
-fi
-
-tmp_tar_index=""
-pkgname_dir="$(basename "$pkgdir")"
-parsed_pkgname="$pkgname_dir"
-pkgver=""
-payload_checks=()
-
-add_payload_check() {
-  local path="$1"
-  local label="$2"
-  if grep -Fxq "$path" "$tmp_tar_index"; then
-    payload_checks+=("PASS: $label -> $path")
-  else
-    payload_checks+=("FAIL: $label -> $path")
-    fail_reasons+=("Missing payload path: $path")
-  fi
-}
-
-if [[ -n "$txz_file" ]]; then
-  tmp_tar_index="$(mktemp)"
-  trap '[[ -n "$tmp_tar_index" && -f "$tmp_tar_index" ]] && rm -f "$tmp_tar_index"' EXIT
-  tar -tf "$txz_file" | sed 's#^\./##' >"$tmp_tar_index"
 
   txz_base="$(basename "$txz_file" .txz)"
   txz_rel="${txz_base##*-}"
@@ -181,6 +181,63 @@ if [[ -n "$txz_file" ]]; then
   else
     fail_reasons+=("Could not parse package name/version from txz name: ${txz_base}.txz")
   fi
+fi
+
+log_choice="$(select_log_file "$pkgdir" "$txz_file" "$parsed_pkgname" "$pkgver")"
+log_file="${log_choice%%|*}"
+log_selection_reason="${log_choice#*|}"
+
+if [[ -z "$log_file" ]]; then
+  fail_reasons+=("Missing build log (build-*.log).")
+fi
+
+if [[ -n "$log_file" ]]; then
+  if has_log_marker 'Slackware package .* created\.' "$log_file" \
+    || has_log_marker 'Package has been built\.' "$log_file"; then
+    has_success_marker="yes"
+  else
+    fail_reasons+=("Success marker missing from build log.")
+  fi
+
+  hard_failure_re='build\(\) failed|cannot open input file|no such file|fatal error|(^|[^[:alnum:]_])fatal:|error:'
+  critical_with_success_re='build\(\) failed|cannot open input file|fatal error|(^|[^[:alnum:]_])fatal:|^ERROR:'
+  hard_hits="$(search_ci_with_lineno "$hard_failure_re" "$log_file")"
+  if [[ -n "$hard_hits" ]]; then
+    benign_re="rmdir: failed to remove 'usr/doc[^']*': No such file or directory|collect2: error: ld returned [0-9]+ exit status"
+    hard_hits_benign="$(printf '%s\n' "$hard_hits" | filter_ci "$benign_re")"
+    hard_hits_non_benign="$(printf '%s\n' "$hard_hits" | filter_ci_invert "$benign_re")"
+    if [[ -n "$hard_hits_non_benign" ]]; then
+      if [[ "$has_success_marker" == "yes" ]]; then
+        hard_hits_actionable="$(printf '%s\n' "$hard_hits_non_benign" | filter_ci "$critical_with_success_re")"
+        hard_hits_soft="$(printf '%s\n' "$hard_hits_non_benign" | filter_ci_invert "$critical_with_success_re")"
+      else
+        hard_hits_actionable="$hard_hits_non_benign"
+      fi
+    fi
+    if [[ -n "$hard_hits_actionable" ]]; then
+      fail_reasons+=("Hard failure markers found in build log.")
+    fi
+  fi
+fi
+
+tmp_tar_index=""
+payload_checks=()
+
+add_payload_check() {
+  local path="$1"
+  local label="$2"
+  if grep -Fxq "$path" "$tmp_tar_index"; then
+    payload_checks+=("PASS: $label -> $path")
+  else
+    payload_checks+=("FAIL: $label -> $path")
+    fail_reasons+=("Missing payload path: $path")
+  fi
+}
+
+if [[ -n "$txz_file" ]]; then
+  tmp_tar_index="$(mktemp)"
+  trap '[[ -n "$tmp_tar_index" && -f "$tmp_tar_index" ]] && rm -f "$tmp_tar_index"' EXIT
+  tar -tf "$txz_file" | sed 's#^\./##' >"$tmp_tar_index"
 
   add_payload_check "install/slack-desc" "slack-desc present"
   if [[ -n "$pkgver" ]]; then
@@ -254,21 +311,26 @@ fi
 echo "Artifacts"
 echo "- Package directory: $pkgdir"
 echo "- Build log: ${log_file:-MISSING}"
+echo "- Log selection: $log_selection_reason"
 echo "- Package artifact: ${txz_file:-MISSING}"
 echo "- MD5 file: ${md5_file:-MISSING}"
 echo
 
 echo "Log Health"
 echo "- Success marker present: $has_success_marker"
-if [[ -n "$hard_hits_filtered" ]]; then
+if [[ -n "$hard_hits_actionable" ]]; then
   echo "- Hard-failure hits:"
-  printf '%s\n' "$hard_hits_filtered" | sed 's/^/  /'
+  printf '%s\n' "$hard_hits_actionable" | sed 's/^/  /'
 else
   echo "- Hard-failure hits: none"
 fi
 if [[ -n "$hard_hits_benign" ]]; then
   echo "- Benign hits ignored:"
   printf '%s\n' "$hard_hits_benign" | sed 's/^/  /'
+fi
+if [[ -n "$hard_hits_soft" ]]; then
+  echo "- Non-fatal error-pattern hits (success marker present):"
+  printf '%s\n' "$hard_hits_soft" | sed 's/^/  /'
 fi
 echo
 
@@ -293,8 +355,8 @@ if [[ "$verdict" == "PASS" ]]; then
 fi
 
 echo "- First failing reason: ${fail_reasons[0]}"
-if [[ -n "$hard_hits_filtered" ]]; then
-  first_hit="$(printf '%s\n' "$hard_hits_filtered" | head -n 1)"
+if [[ -n "$hard_hits_actionable" ]]; then
+  first_hit="$(printf '%s\n' "$hard_hits_actionable" | head -n 1)"
   echo "- Inspect and fix: $first_hit"
 elif [[ -z "$txz_file" ]]; then
   echo "- Re-run slkbuild and ensure a .txz is produced."

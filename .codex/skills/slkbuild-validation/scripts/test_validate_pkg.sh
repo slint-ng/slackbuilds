@@ -17,6 +17,8 @@ stage_dir="${pkg_dir}/stage"
 pkg_file="${pkg_dir}/${pkg_name}-${pkgver}-${pkg_arch}-${pkg_rel}.txz"
 md5_file="${pkg_file%.txz}.md5"
 log_file="${pkg_dir}/build-${pkg_name}.log"
+txz_log_file="${pkg_dir}/build-${pkg_name}-${pkgver}-${pkg_arch}-${pkg_rel}.log"
+noise_log_file="${pkg_dir}/build-unrelated.log"
 
 mkdir -p "${stage_dir}/install"
 mkdir -p "${stage_dir}/usr/src/${pkg_name}-${pkgver}"
@@ -70,6 +72,48 @@ fi
 if ! printf '%s\n' "$output" | grep -Fq -- "- PASS"; then
   printf '%s\n' "$output"
   echo "FAIL: validator verdict should be PASS."
+  exit 1
+fi
+
+cat > "$txz_log_file" <<EOF
+selftest error: simulated non-fatal probe result
+Slackware package ${pkg_file} created.
+EOF
+
+# Make unrelated log newer to ensure the validator is not "latest log" only.
+sleep 1
+cat > "$noise_log_file" <<'EOF'
+build() failed
+ERROR: unrelated scratch build
+EOF
+
+if ! output_matched_log="$(HOME="$home_dir" bash "$validator" "k/${pkg_name}")"; then
+  printf '%s\n' "$output_matched_log"
+  echo "FAIL: validator should pass when artifact-matched build log is valid."
+  exit 1
+fi
+
+if ! printf '%s\n' "$output_matched_log" | grep -Fq "Build log: ${txz_log_file}"; then
+  printf '%s\n' "$output_matched_log"
+  echo "FAIL: validator did not choose the artifact-matched build log."
+  exit 1
+fi
+
+if ! printf '%s\n' "$output_matched_log" | grep -Fq "Log selection: artifact-name"; then
+  printf '%s\n' "$output_matched_log"
+  echo "FAIL: validator did not report artifact-name log selection."
+  exit 1
+fi
+
+if ! printf '%s\n' "$output_matched_log" | grep -Fq "Non-fatal error-pattern hits (success marker present):"; then
+  printf '%s\n' "$output_matched_log"
+  echo "FAIL: validator did not report non-fatal error-pattern hits."
+  exit 1
+fi
+
+if ! printf '%s\n' "$output_matched_log" | grep -Fq -- "- PASS"; then
+  printf '%s\n' "$output_matched_log"
+  echo "FAIL: validator should keep non-fatal probe errors as PASS."
   exit 1
 fi
 

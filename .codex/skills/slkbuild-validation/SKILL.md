@@ -22,10 +22,16 @@ It accepts either:
 
 ## Workflow
 
-1. Resolve the package path.
+1. Wait for explicit VM build progress from the user.
+- Expected handoff format:
+  - `bead: <id>`
+  - `package: <category>/<pkg>`
+  - optional `build note: <status>`
+
+2. Resolve the package path.
 - If relative, resolve under `$HOME/slkbuilds`.
 
-2. Run the validator script.
+3. Run the validator script.
 - `bash .codex/skills/slkbuild-validation/scripts/validate_pkg.sh k/sof-firmware`
 - `bash .codex/skills/slkbuild-validation/scripts/validate_pkg.sh k/firmware-installer`
 - `bash .codex/skills/slkbuild-validation/scripts/validate_pkg.sh k/kernel`
@@ -34,14 +40,14 @@ It accepts either:
 - Optional regression check:
   `bash .codex/skills/slkbuild-validation/scripts/test_validate_pkg.sh`
 
-3. Return the script result as a fixed checklist.
+4. Return the script result as a fixed checklist.
 - `Artifacts`
 - `Log Health`
 - `Payload Checks`
 - `Verdict`
 - `Next Action`
 
-4. On failure, report the first actionable fix.
+5. On failure, report the first actionable fix.
 - Example: missing artifact, missing payload path, hard-failure marker in log.
 
 ## Scope
@@ -53,6 +59,10 @@ It accepts either:
 ## Known Behavior
 
 - Benign patterns are ignored when success markers and artifacts are present.
+- If multiple logs exist, the validator prefers a log matching the built `.txz`
+  name before falling back to the latest `build-*.log`.
+- Generic `error:` log lines are shown as non-fatal when success markers and
+  artifacts exist, unless they match critical failure markers.
 - The validator derives package name/version from the built `.txz`, so package
   directory and package artifact names may differ.
 - Split kernel packages are validated with package-specific payload checks for:

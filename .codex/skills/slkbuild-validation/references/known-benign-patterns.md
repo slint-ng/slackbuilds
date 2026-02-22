@@ -11,3 +11,6 @@ success markers and artifacts are present.
 - Seen during link/script generation in `zd1211-firmware` packaging.
 - Does not block package output.
 
+3. `collect2: error: ld returned N exit status`
+- Seen in temporary probe/feature checks in successful builds.
+- Treated as non-fatal when success markers and artifacts are present.
