@@ -5,8 +5,7 @@
 # Contributor: daniel <quite a hack org>
 
 pkgname=fim
-_pkgver='trunk'
-pkgver=0.7
+pkgver=0.7.1
 pkgrel=2
 slackdesc=("$pkgname (highly customizable and scriptable image viewer."
 "It is based on the Fbi image viewer (by Gerd Hoffmann), and works"
@@ -25,11 +24,11 @@ optdepends=('aalib: ASCII art support'
             'libspectre: postscript support'
             'libtiff: TIFF support'
             'sdl: X support')
-source=("https://download.savannah.nongnu.org/releases/fbi-improved/${pkgname}-${pkgver}-${_pkgver}.tar.gz")
-sha256sums=('fe9edb8de64ce3a0c9390f6c82d79b86436904f8f6449618ddd3178731e73668')
+source=("https://download-mirror.savannah.gnu.org/releases/fbi-improved/${pkgname}-${pkgver}.tar.bz2")
+sha256sums=('32d4e0fecec7af6f2f5da1bf72c61e072357cd76b7ec64b7d93b83c6dd25beef')
 
 build() {
-  cd "${pkgname}-${pkgver}-${_pkgver}"
+  cd "${pkgname}-${pkgver}"
   ./configure LIBS=-lpthread --prefix=/usr --disable-debug --enable-hardcoded-font \
   --disable-convert \
   --disable-ps \
