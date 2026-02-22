@@ -1,7 +1,7 @@
 # Maintainer: Storm Dragon <storm_dragon@stormux.org>
 
 pkgname=python3-miniirc
-srcname=miniirc
+_srcname=miniirc
 pkgver=1.10.0
 pkgrel=1slint
 slackdesc="$pkgname (A straightforward IRC client library for Python)"
@@ -11,12 +11,12 @@ depends=('python')
 makedepends=('python-build' 'python-installer' 'python-wheel' 'python-setuptools')
 optdepends=('python-certifi: for SSL certificate verification')
 options=('nosrcpack')
-source=("https://files.pythonhosted.org/packages/source/m/miniirc/miniirc-$pkgver.tar.gz")
+source=("https://files.pythonhosted.org/packages/source/m/miniirc/$_srcname-$pkgver.tar.gz")
 sha256sums=('9811ed325924359be622563510842715012f7c7b23430545cfdeb7ff80e2eaf8')
 docs=(LICENSE README.md)
 
 build() {
-  cd "$srcname-$pkgver" || exit 1
+  cd "$SRC/$_srcname-$pkgver" || exit 1
   python3 -m build --wheel --no-isolation || exit 1
   python3 -m installer --destdir="$PKG" dist/*.whl || exit 1
 }
