@@ -159,11 +159,11 @@ build() {
 profile = "dist"
 
 [llvm]
-ccache = "/usr/bin/ccache"
 link-shared = true
 download-ci-llvm = false
 
 [build]
+ccache = "/usr/bin/ccache"
 build = "$BARCH-unknown-linux-$BABI"
 host = ["$TARCH-unknown-linux-$BABI"]
 target = ["$TARCH-unknown-linux-$BABI"]
