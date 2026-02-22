@@ -13,6 +13,7 @@ slackdesc=(
 "it into key strokes or mouse actions for X-Windows programs."
 )
 url="https://github.com/panzi/qjoypad"
+depends=('qt5-base' 'qt5-x11extras' 'libx11' 'libxtst')
 source=("https://github.com/panzi/qjoypad/archive/v${pkgver}/${pkgname}-${pkgver}.tar.gz")
 md5sums=('2aa11e6882696c85187ea5012cbd4aa4')
 makedepends=('cmake')
