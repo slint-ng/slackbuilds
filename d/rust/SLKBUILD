@@ -33,11 +33,16 @@ CSTAGE0_DIR=${CSTAGE0_DIR:-$RSTAGE0_DIR}
 build() {
   cd "$SRC/rustc-${pkgver}-src" || exit 1
 
-  # If stage0 tarballs are present in $SRC use them, else use installed rustc.
+  # Bootstrap mode:
+  # - tarballs: use stage0 tarballs placed in $SRC
+  # - system: use installed /usr/bin/rustc and /usr/bin/cargo
+  # - auto: let x.py download stage0 toolchain itself
   if /bin/ls "$SRC"/*-unknown-linux-gnu.tar.?z 1>/dev/null 2>/dev/null; then
-    LOCAL_BOOTSTRAP=no
+    BOOTSTRAP_MODE=tarballs
+  elif command -v rustc >/dev/null 2>&1 && command -v cargo >/dev/null 2>&1; then
+    BOOTSTRAP_MODE=system
   else
-    LOCAL_BOOTSTRAP=yes
+    BOOTSTRAP_MODE=auto
   fi
 
   if [ -z "${ARCH:-}" ]; then
@@ -56,7 +61,7 @@ build() {
 
   # Bootstrapping architecture:
   if [ "$ARCH" = "i586" ]; then
-    if [ "$LOCAL_BOOTSTRAP" = "yes" ]; then
+    if [ "$BOOTSTRAP_MODE" = "system" ]; then
       if rustc -Vv | grep -q "host: i586"; then
         BARCH="$ARCH"
       else
@@ -105,7 +110,7 @@ build() {
 
   patch -Np1 --verbose -i "$SRC/0004-compiler-Use-wasm-ld-for-wasm-targets.patch" || exit 1
 
-  if [ "$LOCAL_BOOTSTRAP" != "yes" ]; then
+  if [ "$BOOTSTRAP_MODE" = "tarballs" ]; then
     mkdir -p "build/cache/$RSTAGE0_DIR"
     cp "$SRC/rust-std-$RSTAGE0_VERSION-$BARCH-unknown-linux-gnu.tar."?z "build/cache/$RSTAGE0_DIR/" || exit 1
     cp "$SRC/rustc-$RSTAGE0_VERSION-$BARCH-unknown-linux-gnu.tar."?z "build/cache/$RSTAGE0_DIR/" || exit 1
@@ -164,7 +169,7 @@ llvm-config = "/usr/bin/llvm-config"
 EOF
   fi
 
-  if [ "$LOCAL_BOOTSTRAP" = "yes" ]; then
+  if [ "$BOOTSTRAP_MODE" = "system" ]; then
     sed -i 's|^\(extended = true\)$|\1\nrustc = "/usr/bin/rustc"\ncargo = "/usr/bin/cargo"|' config.toml
   fi
 
