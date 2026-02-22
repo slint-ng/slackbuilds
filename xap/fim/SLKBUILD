@@ -25,7 +25,7 @@ optdepends=('aalib: ASCII art support'
             'libspectre: postscript support'
             'libtiff: TIFF support'
             'sdl: X support')
-source=("http://download.savannah.gnu.org/releases/fbi-improved/${pkgname}-${pkgver}-${_pkgver}.tar.gz")
+source=("https://download.savannah.nongnu.org/releases/fbi-improved/${pkgname}-${pkgver}-${_pkgver}.tar.gz")
 sha256sums=('fe9edb8de64ce3a0c9390f6c82d79b86436904f8f6449618ddd3178731e73668')
 
 build() {
