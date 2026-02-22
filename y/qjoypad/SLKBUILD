@@ -1,0 +1,45 @@
+# shellcheck shell=bash
+# shellcheck disable=SC2034
+# Maintainer: Matt Dinslage <daedra1980@gmail.com>
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=qjoypad
+pkgver=4.3.1
+pkgrel=2slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (convert gamepad buttons to keystrokes)"
+"$pkgname takes input from a gamepad or joystick and translates"
+"it into key strokes or mouse actions for X-Windows programs."
+)
+url="https://github.com/panzi/qjoypad"
+source=("https://github.com/panzi/qjoypad/archive/v${pkgver}/${pkgname}-${pkgver}.tar.gz")
+md5sums=('2aa11e6882696c85187ea5012cbd4aa4')
+makedepends=('cmake')
+docs=(LICENSE.txt README.md)
+
+doinst() {
+  if [ -x /usr/bin/update-desktop-database ]; then
+    /usr/bin/update-desktop-database -q usr/share/applications >/dev/null 2>&1
+  fi
+
+  if [ -e usr/share/icons/oxygen/icon-theme.cache ]; then
+    if [ -x /usr/bin/gtk-update-icon-cache ]; then
+      /usr/bin/gtk-update-icon-cache -f usr/share/icons/oxygen >/dev/null 2>&1
+    fi
+  fi
+}
+
+build() {
+  cmake -B build -S "${pkgname}-${pkgver}" \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DLIB_SUFFIX="${LIBDIRSUFFIX}" \
+    -DMAN_INSTALL_DIR=/usr/man \
+    -DCMAKE_BUILD_TYPE=Release
+
+  make -C build
+  make -C build DESTDIR="$PKG" install
+  rm -f "$PKG"/{,usr/}lib"${LIBDIRSUFFIX}"/*.la
+}

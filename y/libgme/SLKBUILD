@@ -1,0 +1,33 @@
+# shellcheck shell=bash
+# shellcheck disable=SC2034
+# Maintainer: pomfland
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libgme
+_srcname=game-music-emu
+pkgver=0.6.3
+pkgrel=1slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (a video game music library)"
+"$pkgname/game-music-emu handles processing"
+"multiple video game music formats."
+)
+url="https://bitbucket.org/mpyne/game-music-emu/wiki/Home"
+makedepends=('cmake')
+source=("https://bitbucket.org/mpyne/game-music-emu/downloads/${_srcname}-${pkgver}.tar.xz")
+md5sums=('SKIP')
+docs=(changes.txt design.txt gme.txt license.txt readme.txt)
+
+build() {
+  cmake -B build -S "${_srcname}-${pkgver}" \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DLIB_SUFFIX="${LIBDIRSUFFIX}" \
+    -DCMAKE_BUILD_TYPE=Release
+
+  make -C build
+  make -C build DESTDIR="$PKG" install
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}/"*.la
+}
