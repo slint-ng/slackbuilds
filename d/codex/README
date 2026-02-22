@@ -1,0 +1,20 @@
+Codex is OpenAI's local coding agent CLI.
+
+Runtime dependencies used by the codex binary:
+  glibc
+  libcap
+  openssl
+  sqlite
+  dbus
+
+Build dependencies for this package:
+  rust and cargo (rustc 1.93 or newer)
+  gcc and git
+  pkgconf, cmake, ninja, perl
+  libcap, openssl, sqlite, dbus development files
+
+Optional upstream development tools not required to build codex:
+  just
+  cargo-nextest
+  nodejs and npm
+  pnpm

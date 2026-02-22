@@ -2,7 +2,7 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 
 pkgname=rust
-pkgver=1.85.0
+pkgver=1.93.0
 pkgrel=1slint
 slackdesc=\
 (
@@ -24,10 +24,10 @@ options=("nosrcpack")
 # Set to YES to build with system LLVM instead of bundled LLVM.
 SYSTEM_LLVM=${SYSTEM_LLVM:-NO}
 
-# Bootstrap values from src/stage0 for rust 1.85.0:
-RSTAGE0_VERSION=${RSTAGE0_VERSION:-1.84.0}
-RSTAGE0_DIR=${RSTAGE0_DIR:-2025-01-09}
-CSTAGE0_VERSION=${CSTAGE0_VERSION:-1.84.0}
+# Bootstrap values from src/stage0 for rust 1.93.0:
+RSTAGE0_VERSION=${RSTAGE0_VERSION:-1.92.0}
+RSTAGE0_DIR=${RSTAGE0_DIR:-2025-12-11}
+CSTAGE0_VERSION=${CSTAGE0_VERSION:-1.92.0}
 CSTAGE0_DIR=${CSTAGE0_DIR:-$RSTAGE0_DIR}
 
 build() {
