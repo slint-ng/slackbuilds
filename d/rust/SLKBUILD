@@ -201,7 +201,9 @@ EOF
 
   # In case the rls stub doesn't get installed by the install target.
   if [ ! -x "$PKG/usr/bin/rls" ]; then
-    install -m755 build/*-linux-gnu/stage1-tools-bin/rls "$PKG/usr/bin/rls"
+    if compgen -G "build/*-linux-gnu/stage1-tools-bin/rls" >/dev/null; then
+      install -m755 build/*-linux-gnu/stage1-tools-bin/rls "$PKG/usr/bin/rls"
+    fi
   fi
 
   # Fix path to lldb_commands.
@@ -252,7 +254,12 @@ EOF
 
   # Add documentation.
   mkdir -p "$PKG/usr/doc/$pkgname-$pkgver"
-  cp -a ./*.md ./COPYRIGHT* ./COPYING* ./LICENSE* "$PKG/usr/doc/$pkgname-$pkgver" || exit 1
+  shopt -s nullglob
+  doc_files=(./*.md ./COPYRIGHT* ./COPYING* ./LICENSE*)
+  if [ "${#doc_files[@]}" -gt 0 ]; then
+    cp -a "${doc_files[@]}" "$PKG/usr/doc/$pkgname-$pkgver" || exit 1
+  fi
+  shopt -u nullglob
 
   # Include licenses from third-party vendors.
   mkdir -p "$PKG/usr/doc/$pkgname-$pkgver/vendor"
