@@ -1,0 +1,57 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=tcllib
+pkgver=1.21
+pkgrel=1slint
+source=("https://core.tcl-lang.org/tcllib/uv/$pkgname-$pkgver.tar.gz")
+url="http://core.tcl.tk/tcllib/"
+depends=()
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"tcllib (The Tcl Library, a kitchen-sink of packages.)"
+"Tcllib is a collection of utility modules for Tcl. These modules"
+"provide a wide variety of functionality, from implementations of"
+"standard data structures to implementations of common networking"
+"protocols. The intent is to collect commonly used function into a"
+"single library, which users can rely on to be available and stable."
+)
+
+build() {
+  build_arch="${ARCH:-$arch}"
+
+  cd "$startdir/src/$pkgname-$pkgver" || return 1
+
+  chown -R root:root .
+  find -L . \
+    \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
+       -o -perm 511 \) -exec chmod 755 {} \+ -o \
+    \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
+       -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \+
+
+  CFLAGS="$SLKCFLAGS" \
+  CXXFLAGS="$SLKCFLAGS" \
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --build="$build_arch-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  gzip -9 "$PKG"/usr/man/man*/*
+
+  # Remove empty files and clear executable bits from examples docs.
+  find examples -type f \
+    \( \( -empty -delete \) -o \( -perm /111 -exec chmod 644 {} \+ \) \)
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver"
+  cp -a examples "$PKG/usr/doc/$pkgname-$pkgver/examples"
+
+  rm -f "$PKG"/usr/lib*/*.la
+}
