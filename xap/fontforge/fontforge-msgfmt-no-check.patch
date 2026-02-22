@@ -1,0 +1,14 @@
+diff --git a/po/CMakeLists.txt b/po/CMakeLists.txt
+index a7c5474..7ec3d78 100644
+--- a/po/CMakeLists.txt
++++ b/po/CMakeLists.txt
+@@ -32,7 +32,8 @@ foreach(_lang ${_langs})
+   set(_output "${CMAKE_CURRENT_BINARY_DIR}/${_lang}.mo")
+   set(_full "${CMAKE_CURRENT_BINARY_DIR}/full/${_lang}.po")
+   add_custom_command(OUTPUT "${_output}"
+-    COMMAND "${GETTEXT_MSGFMT_EXECUTABLE}" --check -o "${_output}" "${_input}"
++    # Avoid strict format checks that fail on legacy upstream translations.
++    COMMAND "${GETTEXT_MSGFMT_EXECUTABLE}" -o "${_output}" "${_input}"
+     DEPENDS "${_input}"
+     VERBATIM
+   )

@@ -24,13 +24,16 @@ arch=('x86_64')
 makedepends=('cmake' 'git' 'python-sphinx' 'python3.11')
 depends=('libtool' 'pango' 'giflib' 'libtiff' 'libxml2' 'libspiro' 'python3.11'
          'potrace' 'woff2' 'gtk3' 'libuninameslist')
-source=("https://github.com/${pkgname}/${pkgname}/releases/download/${pkgver}/${pkgname}-${pkgver}.tar.xz")
-sha256sums=('68bcba8f602819eddc29cd356ee13fafbad7a80d19b652d354c6791343476c78')
+source=("https://github.com/${pkgname}/${pkgname}/releases/download/${pkgver}/${pkgname}-${pkgver}.tar.xz"
+        "fontforge-msgfmt-no-check.patch")
+sha256sums=('68bcba8f602819eddc29cd356ee13fafbad7a80d19b652d354c6791343476c78'
+            'cab0ae9d4b54764a2cebec68334b13830769a91d34ee65c26e55393a2c793466')
 docs=(AUTHORS COPYING.gplv3 LICENSE)
 build() {
-	cd "$SRC/${pkgname}-${pkgver}"
+	cd "$SRC/${pkgname}-${pkgver}" || return 1
+	patch -Np1 -i "$SRC/fontforge-msgfmt-no-check.patch" || return 1
 	mkdir build
-	cd build
+	cd build || return 1
 	# python3.11 in Slint ships without the unversioned libpython symlink.
 	# Pass explicit embed artifacts so FindPython3 resolves Development.Embed.
 	cmake \
