@@ -1,0 +1,42 @@
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=just
+pkgver=1.46.0
+pkgrel=1slint
+arch=('x86_64' 'aarch64')
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (a handy way to run project-specific commands)"
+"just is a command runner for saving and running project tasks."
+"It is often used as a lightweight build/test command dispatcher."
+)
+url="https://github.com/casey/just"
+license=('CC0-1.0')
+depends=('glibc')
+makedepends=('rust' 'cargo')
+source=("https://github.com/casey/just/archive/refs/tags/${pkgver}.tar.gz")
+sha256sums=('f60a578502d0b29eaa2a72c5b0d91390b2064dfd8d1a1291c3b2525d587fd395')
+docs=("README.md" "CHANGELOG.md" "LICENSE")
+options=("nosrcpack")
+
+build() {
+  case "${ARCH:-$(uname -m)}" in
+    x86_64) _cargo_target="x86_64-unknown-linux-gnu" ;;
+    aarch64) _cargo_target="aarch64-unknown-linux-gnu" ;;
+    *)
+      echo "Unsupported ARCH for $pkgname: ${ARCH:-unknown}"
+      exit 1
+      ;;
+  esac
+
+  cd "$SRC/$pkgname-$pkgver" || exit 1
+  cargo fetch --locked --target "$_cargo_target"
+  cargo build --release --frozen --locked --bin just --target "$_cargo_target"
+
+  install -Dm755 "target/$_cargo_target/release/just" "$PKG/usr/bin/just"
+  install -Dm644 "completions/just.bash" "$PKG/usr/share/bash-completion/completions/just"
+  install -Dm644 "completions/just.fish" "$PKG/usr/share/fish/vendor_completions.d/just.fish"
+  install -Dm644 "completions/just.zsh" "$PKG/usr/share/zsh/site-functions/_just"
+}

@@ -1,0 +1,310 @@
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=rust
+pkgver=1.93.0
+pkgrel=1slint
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (a safe, concurrent, practical language)"
+"Rust is a curly-brace, block-structured expression language."
+"Its design preserves large-system integrity, availability, and"
+"concurrency."
+)
+url="https://www.rust-lang.org"
+license=('Apache-2.0' 'MIT')
+depends=('glibc' 'gcc-libs' 'zlib')
+makedepends=('rust' 'cargo' 'python3' 'cmake' 'ninja' 'ccache' 'curl' 'git')
+source=("https://static.rust-lang.org/dist/rustc-${pkgver}-src.tar.xz"
+        "0004-compiler-Use-wasm-ld-for-wasm-targets.patch"
+        "link_libffi.diff.gz")
+options=("nosrcpack")
+
+# Set to YES to build with system LLVM instead of bundled LLVM.
+SYSTEM_LLVM=${SYSTEM_LLVM:-NO}
+
+# Bootstrap values from src/stage0 for rust 1.93.0:
+RSTAGE0_VERSION=${RSTAGE0_VERSION:-1.92.0}
+RSTAGE0_DIR=${RSTAGE0_DIR:-2025-12-11}
+CSTAGE0_VERSION=${CSTAGE0_VERSION:-1.92.0}
+CSTAGE0_DIR=${CSTAGE0_DIR:-$RSTAGE0_DIR}
+
+# Return success if version $1 is greater than or equal to version $2.
+version_ge() {
+  [ "$(printf '%s\n%s\n' "$2" "$1" | sort -V | head -n1)" = "$2" ]
+}
+
+build() {
+  cd "$SRC/rustc-${pkgver}-src" || exit 1
+
+  # BOOTSTRAP_MODE:
+  # - auto (default): prefer tarballs in $SRC, then compatible system rust, else x.py download
+  # - tarballs: force stage0 tarballs from $SRC
+  # - system: force installed /usr/bin/rustc and /usr/bin/cargo
+  BOOTSTRAP_MODE=${BOOTSTRAP_MODE:-auto}
+  case "$BOOTSTRAP_MODE" in
+    auto|tarballs|system) ;;
+    *)
+      echo "Invalid BOOTSTRAP_MODE='$BOOTSTRAP_MODE' (expected: auto|tarballs|system)"
+      exit 1
+      ;;
+  esac
+
+  if [ "$BOOTSTRAP_MODE" = "auto" ]; then
+    if /bin/ls "$SRC"/*-unknown-linux-gnu.tar.?z 1>/dev/null 2>/dev/null; then
+      BOOTSTRAP_MODE=tarballs
+    elif command -v rustc >/dev/null 2>&1 && command -v cargo >/dev/null 2>&1; then
+      SYS_RUSTC_VERSION=$(rustc -V | awk '{print $2}')
+      if version_ge "$SYS_RUSTC_VERSION" "$RSTAGE0_VERSION"; then
+        BOOTSTRAP_MODE=system
+      else
+        echo "System rustc $SYS_RUSTC_VERSION is older than required stage0 $RSTAGE0_VERSION."
+        echo "Falling back to x.py stage0 download (or provide stage0 tarballs in \$SRC)."
+        BOOTSTRAP_MODE=auto
+      fi
+    fi
+  fi
+
+  if [ -z "${ARCH:-}" ]; then
+    case "$(uname -m)" in
+      i?86) ARCH=i686 ;;
+      armv7hl) ARCH=armv7hl ;;
+      arm*) ARCH=arm ;;
+      *) ARCH=$(uname -m) ;;
+    esac
+  fi
+
+  # For compiling i686 under an x86_64 kernel:
+  if [ "$(uname -m)" = "x86_64" ] && file -L /usr/bin/gcc | grep -q "386.*32-bit"; then
+    ARCH=i686
+  fi
+
+  # Bootstrapping architecture:
+  if [ "$ARCH" = "i586" ]; then
+    if [ "$BOOTSTRAP_MODE" = "system" ]; then
+      if rustc -Vv | grep -q "host: i586"; then
+        BARCH="$ARCH"
+      else
+        BARCH="i686"
+        case "$(uname -m)" in
+          i586)
+            echo "rust must be bootstrapped from an i686 machine"
+            exit 1
+            ;;
+        esac
+      fi
+    else
+      BARCH="i686"
+      case "$(uname -m)" in
+        i586)
+          echo "rust must be bootstrapped from an i686 machine"
+          exit 1
+          ;;
+      esac
+    fi
+    TARCH="$ARCH"
+  elif [ "$ARCH" = "armv7hl" ]; then
+    BARCH="armv7"
+    TARCH="$BARCH"
+  else
+    BARCH="$ARCH"
+    TARCH="$ARCH"
+  fi
+
+  # Bootstrapping ABI:
+  if [ "$ARCH" = "armv7hl" ]; then
+    BABI="gnueabihf"
+  else
+    BABI="gnu"
+  fi
+
+  case "$ARCH" in
+    x86_64) LIBDIRSUFFIX="64" ;;
+    *) LIBDIRSUFFIX="" ;;
+  esac
+
+  # Link with -lffi when using system LLVM.
+  if [ "$SYSTEM_LLVM" = "YES" ]; then
+    zcat "$SRC/link_libffi.diff.gz" | patch -p1 --verbose || exit 1
+  fi
+
+  patch -Np1 --verbose -i "$SRC/0004-compiler-Use-wasm-ld-for-wasm-targets.patch" || exit 1
+
+  if [ "$BOOTSTRAP_MODE" = "tarballs" ]; then
+    expected_bootstrap=(
+      "rust-std-$RSTAGE0_VERSION-$BARCH-unknown-linux-gnu.tar.?z"
+      "rustc-$RSTAGE0_VERSION-$BARCH-unknown-linux-gnu.tar.?z"
+      "cargo-$CSTAGE0_VERSION-$BARCH-unknown-linux-gnu.tar.?z"
+    )
+    for pattern in "${expected_bootstrap[@]}"; do
+      if ! compgen -G "$SRC/$pattern" >/dev/null; then
+        echo "Missing bootstrap tarball: $SRC/$pattern"
+        exit 1
+      fi
+    done
+  fi
+
+  if [ "$BOOTSTRAP_MODE" = "tarballs" ]; then
+    mkdir -p "build/cache/$RSTAGE0_DIR"
+    cp "$SRC/rust-std-$RSTAGE0_VERSION-$BARCH-unknown-linux-gnu.tar."?z "build/cache/$RSTAGE0_DIR/" || exit 1
+    cp "$SRC/rustc-$RSTAGE0_VERSION-$BARCH-unknown-linux-gnu.tar."?z "build/cache/$RSTAGE0_DIR/" || exit 1
+    mkdir -p "build/cache/$CSTAGE0_DIR"
+    cp "$SRC/cargo-$CSTAGE0_VERSION-$BARCH-unknown-linux-gnu.tar."?z "build/cache/$CSTAGE0_DIR/" || exit 1
+  fi
+
+  # Build configuration:
+  cat << EOF > config.toml
+# Avoid triggering "git --local" on non-git vendored sources:
+profile = "dist"
+
+[llvm]
+link-shared = true
+download-ci-llvm = false
+
+[build]
+ccache = "/usr/bin/ccache"
+build = "$BARCH-unknown-linux-$BABI"
+host = ["$TARCH-unknown-linux-$BABI"]
+target = ["$TARCH-unknown-linux-$BABI"]
+tools = ["analysis", "cargo", "clippy", "rls", "rustfmt", "src", "rust-analyzer", "rust-demangler"]
+submodules = false
+vendor = true
+extended = true
+profiler = true
+sanitizers = true
+locked-deps = true
+
+[install]
+prefix = "/usr"
+docdir = "doc/rust-$pkgver"
+libdir = "lib$LIBDIRSUFFIX"
+mandir = "man"
+
+[rust]
+codegen-units = 0
+channel = "stable"
+rpath = false
+codegen-tests = false
+EOF
+
+  if [ "$SYSTEM_LLVM" = "YES" ]; then
+    cat << EOF >> config.toml
+[target.i586-unknown-linux-gnu]
+llvm-config = "/usr/bin/llvm-config"
+
+[target.i686-unknown-linux-gnu]
+llvm-config = "/usr/bin/llvm-config"
+
+[target.x86_64-unknown-linux-gnu]
+llvm-config = "/usr/bin/llvm-config"
+
+[target.armv7-unknown-linux-gnueabihf]
+llvm-config = "/usr/bin/llvm-config"
+EOF
+  fi
+
+  if [ "$BOOTSTRAP_MODE" = "system" ]; then
+    sed -i 's|^\(extended = true\)$|\1\nrustc = "/usr/bin/rustc"\ncargo = "/usr/bin/cargo"|' config.toml
+  fi
+
+  chown -R root:root .
+  find -L . \
+   \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+    -exec chmod 755 {} \+ -o \
+   \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+    -exec chmod 644 {} \+
+
+  export PKG_CONFIG_ALLOW_CROSS=1
+
+  if [ "$BARCH" = "i586" ]; then
+    sed -i 's/^target =.*$/target = ["i686-unknown-linux-gnu"]/' config.toml
+  elif [ "$BARCH" = "i686" ] && [ "$TARCH" = "i586" ]; then
+    export RUSTFLAGS="${RUSTFLAGS} -C link-args=-lrt -ldl -lcurses -lpthread -lz -lm"
+  fi
+
+  # Fix path to rust libraries in rust-analyzer.
+  if [ -r src/tools/rust-analyzer/crates/rust-analyzer/src/config.rs ] && [ -n "$LIBDIRSUFFIX" ]; then
+    sed -i "s,\"lib/rustlib,\"lib${LIBDIRSUFFIX}/rustlib,g" \
+      src/tools/rust-analyzer/crates/project-model/src/sysroot.rs
+  fi
+
+  export RUST_BACKTRACE=full
+  unset CFLAGS CXXFLAGS LDFLAGS
+  python3 ./x.py build || exit 1
+  DESTDIR="$PKG" python3 ./x.py install || exit 1
+
+  # In case the rls stub doesn't get installed by the install target.
+  if [ ! -x "$PKG/usr/bin/rls" ]; then
+    if compgen -G "build/*-linux-gnu/stage1-tools-bin/rls" >/dev/null; then
+      install -m755 build/*-linux-gnu/stage1-tools-bin/rls "$PKG/usr/bin/rls"
+    fi
+  fi
+
+  # Fix path to lldb_commands.
+  if [ -x "$PKG/usr/bin/rust-lldb" ] && [ -n "$LIBDIRSUFFIX" ]; then
+    sed -i "s,/lib/rustlib/,/lib$LIBDIRSUFFIX/rustlib/,g" "$PKG/usr/bin/rust-lldb"
+  fi
+
+  sed -i "s,/tmp/package-rust/,/,g" \
+    "$PKG/usr/lib$LIBDIRSUFFIX/rustlib/install.log" \
+    "$PKG"/usr/lib$LIBDIRSUFFIX/rustlib/manifest-* || exit 1
+  gzip -9 "$PKG"/usr/lib$LIBDIRSUFFIX/rustlib/manifest-* || exit 1
+
+  # Move bash completions to the system location.
+  if [ -d "$PKG/etc/bash_completion.d" ]; then
+    mkdir -p "$PKG/usr/share/bash-completion"
+    mv "$PKG/etc/bash_completion.d" "$PKG/usr/share/bash-completion/completions"
+    rmdir "$PKG/etc" 2>/dev/null || true
+  fi
+
+  # Correct permissions on shared libraries.
+  find "$PKG/usr/lib$LIBDIRSUFFIX" -name "*.so" -exec chmod 755 "{}" \+
+
+  # Save space by symlinking duplicate shared libraries.
+  (
+    cd "$PKG/usr/lib${LIBDIRSUFFIX}/rustlib/"*-linux-gnu/lib || exit 1
+    for file in *.so; do
+      if cmp -s "$file" "../../../$file"; then
+        ln -sf "../../../$file" .
+      fi
+    done
+  )
+
+  # Strip ELF objects.
+  find "$PKG" -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
+    | cut -f 1 -d : | xargs strip --strip-unneeded 2>/dev/null || true
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}/"*.old
+  rm -f "$PKG/usr/bin/"*.old
+
+  # Compress man pages.
+  if [ -d "$PKG/usr/man" ]; then
+    find "$PKG/usr/man" -type f -exec gzip -9 {} \+
+    while IFS= read -r manlink; do
+      ln -s "$(readlink "$manlink").gz" "${manlink}.gz"
+      rm "$manlink"
+    done < <(find "$PKG/usr/man" -type l)
+  fi
+
+  # Add documentation.
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver"
+  shopt -s nullglob
+  doc_files=(./*.md ./COPYRIGHT* ./COPYING* ./LICENSE*)
+  if [ "${#doc_files[@]}" -gt 0 ]; then
+    cp -a "${doc_files[@]}" "$PKG/usr/doc/$pkgname-$pkgver" || exit 1
+  fi
+  shopt -u nullglob
+
+  # Include licenses from third-party vendors.
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver/vendor"
+  (
+    cd vendor || exit 1
+    mapfile -t vendor_docs < <(
+      find . -maxdepth 2 | grep -e README -e LICENSE -e COPYING -e CHANGELOG -e PERFORMANCE -e UPGRADE
+    )
+    if [ "${#vendor_docs[@]}" -gt 0 ]; then
+      tar cf - "${vendor_docs[@]}" | (cd "$PKG/usr/doc/$pkgname-$pkgver/vendor" && tar xf -)
+    fi
+  )
+}

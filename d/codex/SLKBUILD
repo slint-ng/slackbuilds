@@ -1,0 +1,136 @@
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=codex
+pkgver=0.104.0
+_tag="rust-v${pkgver}"
+pkgrel=1slint
+arch=('x86_64' 'aarch64')
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (OpenAI local coding agent CLI)"
+"Codex is a local coding agent command line tool from OpenAI."
+"It provides interactive and non-interactive workflows for coding,"
+"patch application, and repository-aware automation."
+)
+url="https://github.com/openai/codex"
+license=('Apache-2.0')
+depends=('glibc' 'libcap' 'openssl' 'sqlite' 'dbus')
+makedepends=('rust' 'cargo' 'gcc' 'clang' 'llvm' 'git' 'pkgconf' 'cmake' 'ninja' 'perl' 'libcap' 'openssl' 'sqlite' 'dbus')
+optdepends=('just: upstream command runner used by codex justfile'
+            'cargo-nextest: optional upstream test runner'
+            'pnpm: optional npm workflow support'
+            'nodejs: required for pnpm and npm package workflows')
+source=("https://github.com/openai/codex/archive/refs/tags/${_tag}.tar.gz")
+sha256sums=('d7f93df78a5f7a89268eb1625c52322386ef27eb7ae33e6acc3e6c5a6fce80db')
+options=("nosrcpack")
+
+build() {
+  case "${ARCH:-$(uname -m)}" in
+    x86_64) _cargo_target="x86_64-unknown-linux-gnu" ;;
+    aarch64) _cargo_target="aarch64-unknown-linux-gnu" ;;
+    *)
+      echo "Unsupported ARCH for $pkgname: ${ARCH:-unknown}"
+      exit 1
+      ;;
+  esac
+
+  # Use distro Rust toolchain, not any user rustup shim in PATH.
+  export PATH=/usr/bin:/bin:/usr/sbin:/sbin
+  export CARGO=/usr/bin/cargo
+  export RUSTC=/usr/bin/rustc
+  unset RUSTUP_HOME RUSTUP_TOOLCHAIN RUSTC_WRAPPER
+  if [ ! -x "$CARGO" ] || [ ! -x "$RUSTC" ]; then
+    echo "System rust toolchain not found at /usr/bin/{cargo,rustc}."
+    exit 1
+  fi
+
+  # Upstream codex-rs/rust-toolchain.toml currently pins 1.93.x.
+  if ! "$RUSTC" --version | awk '{ split($2, v, "."); exit !((v[1] > 1) || (v[1] == 1 && v[2] >= 93)) }'; then
+    echo "rustc >= 1.93 is required to build $pkgname."
+    exit 1
+  fi
+
+  cd "$SRC/${pkgname}-${_tag}/codex-rs" || exit 1
+
+  export CARGO_HOME="$PWD/.cargo-home"
+  export CARGO_TARGET_DIR="$PWD/target-${pkgname}"
+  export CARGO_NET_GIT_FETCH_WITH_CLI=true
+  mkdir -p "$CARGO_HOME" "$CARGO_TARGET_DIR" || exit 1
+
+  # Attempt lockfile-strict resolution first.
+  # Some upstream release tarballs require lockfile normalization.
+  cargo_try_locked() {
+    local _log _rc
+    _log="$(mktemp)"
+    if "$@" >"$_log" 2>&1; then
+      cat "$_log"
+      rm -f "$_log"
+      return 0
+    fi
+    _rc=$?
+    cat "$_log"
+    if grep -qi "cannot update the lock file" "$_log"; then
+      rm -f "$_log"
+      return 88
+    fi
+    rm -f "$_log"
+    return "$_rc"
+  }
+
+  _lock_relaxed="no"
+  _fetch_rc=0
+  cargo_try_locked "$CARGO" fetch --locked --target "$_cargo_target" || _fetch_rc=$?
+  if [ "$_fetch_rc" -ne 0 ]; then
+    if [ "$_fetch_rc" -eq 88 ]; then
+      echo "cargo fetch --locked requires lockfile normalization; retrying unlocked fetch."
+      _lock_relaxed="yes"
+      "$CARGO" fetch --target "$_cargo_target" || exit 1
+    else
+      exit "$_fetch_rc"
+    fi
+  fi
+
+  if [ "$_lock_relaxed" = "yes" ]; then
+    "$CARGO" build --release \
+      --package codex-cli --bin codex --target "$_cargo_target" || exit 1
+  else
+    _build_rc=0
+    cargo_try_locked "$CARGO" build --release --locked \
+      --package codex-cli --bin codex --target "$_cargo_target" || _build_rc=$?
+    if [ "$_build_rc" -ne 0 ]; then
+      if [ "$_build_rc" -eq 88 ]; then
+        echo "cargo build --locked requires lockfile normalization; retrying unlocked build."
+        "$CARGO" build --release \
+          --package codex-cli --bin codex --target "$_cargo_target" || exit 1
+      else
+        exit "$_build_rc"
+      fi
+    fi
+  fi
+
+  if [ ! -x "$CARGO_TARGET_DIR/$_cargo_target/release/codex" ]; then
+    echo "Build succeeded but codex binary is missing from target output."
+    exit 1
+  fi
+
+  install -Dm755 "$CARGO_TARGET_DIR/$_cargo_target/release/codex" "$PKG/usr/bin/codex" || exit 1
+
+  install -dm755 "$PKG/usr/share/bash-completion/completions" || exit 1
+  install -dm755 "$PKG/usr/share/zsh/site-functions" || exit 1
+  install -dm755 "$PKG/usr/share/fish/vendor_completions.d" || exit 1
+
+  "$CARGO_TARGET_DIR/$_cargo_target/release/codex" completion bash > \
+    "$PKG/usr/share/bash-completion/completions/codex" || exit 1
+  "$CARGO_TARGET_DIR/$_cargo_target/release/codex" completion zsh > \
+    "$PKG/usr/share/zsh/site-functions/_codex" || exit 1
+  "$CARGO_TARGET_DIR/$_cargo_target/release/codex" completion fish > \
+    "$PKG/usr/share/fish/vendor_completions.d/codex.fish" || exit 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || exit 1
+  cp -a \
+    "$SRC/${pkgname}-${_tag}/README.md" \
+    "$SRC/${pkgname}-${_tag}/LICENSE" \
+    "$PKG/usr/doc/$pkgname-$pkgver" || exit 1
+}

@@ -1,14 +1,18 @@
-# Source code (repacked to .tar.lz):
-VERSION=1.84.0
+#!/bin/sh
+# shellcheck shell=sh disable=SC2086,SC2317
+
+# Source code:
+VERSION=1.93.0
+FETCH_BOOTSTRAP=${FETCH_BOOTSTRAP:-no}
+BOOTSTRAP_ARCHES=${BOOTSTRAP_ARCHES:-"i686 x86_64"}
+
 rm -f rustc-${VERSION}-src.tar.*
-lftpget https://static.rust-lang.org/dist/rustc-${VERSION}-src.tar.gz
-lftpget https://static.rust-lang.org/dist/rustc-${VERSION}-src.tar.gz.asc
-if gpg --verify rustc-${VERSION}-src.tar.gz.asc ; then
-  rm -f rustc-${VERSION}-src.tar.gz.asc
-  gzip -d rustc-*tar.gz
-  plzip -9 -v rustc-*tar
+lftpget https://static.rust-lang.org/dist/rustc-${VERSION}-src.tar.xz
+lftpget https://static.rust-lang.org/dist/rustc-${VERSION}-src.tar.xz.asc
+if gpg --verify rustc-${VERSION}-src.tar.xz.asc ; then
+  rm -f rustc-${VERSION}-src.tar.xz.asc
 else
-  echo "FATAL ERROR: Not recompressing since GPG signature failed."
+  echo "FATAL ERROR: Source signature check failed."
   exit 1
 fi
 
@@ -18,18 +22,18 @@ fi
 #
 # To find the expected date/versions for bootstrap binaries to be able to
 # update the settings below, look at src/stage0 in the Rust sources.
-exit 0
+if [ "$FETCH_BOOTSTRAP" != "yes" ]; then
+  echo "Set FETCH_BOOTSTRAP=yes to download stage0 bootstrap tarballs."
+  echo "Optional: BOOTSTRAP_ARCHES=\"x86_64\" to fetch only one architecture."
+  exit 0
+fi
 
-BOOTSTRAP_DATE=2024-11-28
-BOOTSTRAP_VERSION=1.83.0
+BOOTSTRAP_DATE=2025-12-11
+BOOTSTRAP_VERSION=1.92.0
 BOOTSTRAP_CARGO=$BOOTSTRAP_VERSION
 
-# i686 bootstrap:
-lftpget https://static.rust-lang.org/dist/${BOOTSTRAP_DATE}/cargo-${BOOTSTRAP_CARGO}-i686-unknown-linux-gnu.tar.xz
-lftpget https://static.rust-lang.org/dist/${BOOTSTRAP_DATE}/rust-std-${BOOTSTRAP_VERSION}-i686-unknown-linux-gnu.tar.xz
-lftpget https://static.rust-lang.org/dist/${BOOTSTRAP_DATE}/rustc-${BOOTSTRAP_VERSION}-i686-unknown-linux-gnu.tar.xz
-
-# x86_64 bootstrap:
-lftpget https://static.rust-lang.org/dist/${BOOTSTRAP_DATE}/cargo-${BOOTSTRAP_CARGO}-x86_64-unknown-linux-gnu.tar.xz
-lftpget https://static.rust-lang.org/dist/${BOOTSTRAP_DATE}/rust-std-${BOOTSTRAP_VERSION}-x86_64-unknown-linux-gnu.tar.xz
-lftpget https://static.rust-lang.org/dist/${BOOTSTRAP_DATE}/rustc-${BOOTSTRAP_VERSION}-x86_64-unknown-linux-gnu.tar.xz
+for _arch in $BOOTSTRAP_ARCHES ; do
+  lftpget https://static.rust-lang.org/dist/${BOOTSTRAP_DATE}/cargo-${BOOTSTRAP_CARGO}-${_arch}-unknown-linux-gnu.tar.xz
+  lftpget https://static.rust-lang.org/dist/${BOOTSTRAP_DATE}/rust-std-${BOOTSTRAP_VERSION}-${_arch}-unknown-linux-gnu.tar.xz
+  lftpget https://static.rust-lang.org/dist/${BOOTSTRAP_DATE}/rustc-${BOOTSTRAP_VERSION}-${_arch}-unknown-linux-gnu.tar.xz
+done

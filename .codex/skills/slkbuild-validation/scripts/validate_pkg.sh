@@ -200,7 +200,7 @@ if [[ -n "$log_file" ]]; then
   fi
 
   hard_failure_re='build\(\) failed|cannot open input file|no such file|fatal error|(^|[^[:alnum:]_])fatal:|error:'
-  critical_with_success_re='build\(\) failed|cannot open input file|fatal error|(^|[^[:alnum:]_])fatal:|^ERROR:'
+  critical_with_success_re='build\(\) failed|cannot open input file|cannot stat|fatal error|(^|[^[:alnum:]_])fatal:|^ERROR:'
   hard_hits="$(search_ci_with_lineno "$hard_failure_re" "$log_file")"
   if [[ -n "$hard_hits" ]]; then
     benign_re="rmdir: failed to remove 'usr/doc[^']*': No such file or directory|collect2: error: ld returned [0-9]+ exit status"
@@ -221,6 +221,7 @@ if [[ -n "$log_file" ]]; then
 fi
 
 tmp_tar_index=""
+tmp_tar_listing=""
 payload_checks=()
 
 add_payload_check() {
@@ -234,10 +235,47 @@ add_payload_check() {
   fi
 }
 
+lookup_payload_file_size() {
+  local path="$1"
+  awk -v want="$path" '
+    {
+      entry = $0
+      sub(/^[^ ]+ +[^ ]+ +[0-9]+ +[^ ]+ +[^ ]+ +/, "", entry)
+      sub(/^\.\//, "", entry)
+      if (entry == want) {
+        print $3
+        exit
+      }
+    }
+  ' "$tmp_tar_listing"
+}
+
+add_payload_nonempty_file_check() {
+  local path="$1"
+  local label="$2"
+  local file_size=""
+
+  if ! grep -Fxq "$path" "$tmp_tar_index"; then
+    payload_checks+=("FAIL: $label -> $path")
+    fail_reasons+=("Missing payload path: $path")
+    return
+  fi
+
+  file_size="$(lookup_payload_file_size "$path")"
+  if [[ "$file_size" =~ ^[0-9]+$ ]] && [[ "$file_size" -gt 0 ]]; then
+    payload_checks+=("PASS: $label -> $path")
+  else
+    payload_checks+=("FAIL: $label -> $path")
+    fail_reasons+=("Empty payload file: $path")
+  fi
+}
+
 if [[ -n "$txz_file" ]]; then
   tmp_tar_index="$(mktemp)"
-  trap '[[ -n "$tmp_tar_index" && -f "$tmp_tar_index" ]] && rm -f "$tmp_tar_index"' EXIT
+  tmp_tar_listing="$(mktemp)"
+  trap '[[ -n "$tmp_tar_index" && -f "$tmp_tar_index" ]] && rm -f "$tmp_tar_index"; [[ -n "$tmp_tar_listing" && -f "$tmp_tar_listing" ]] && rm -f "$tmp_tar_listing"' EXIT
   tar -tf "$txz_file" | sed 's#^\./##' >"$tmp_tar_index"
+  tar -tvf "$txz_file" >"$tmp_tar_listing"
 
   add_payload_check "install/slack-desc" "slack-desc present"
   if [[ -n "$pkgver" ]]; then
@@ -298,6 +336,12 @@ if [[ -n "$txz_file" ]]; then
       ;;
     zd1211-firmware)
       add_payload_check "lib/firmware/zd1211/" "zd1211 firmware tree"
+      ;;
+    codex)
+      add_payload_nonempty_file_check "usr/bin/codex" "codex binary"
+      add_payload_nonempty_file_check "usr/share/bash-completion/completions/codex" "codex bash completion"
+      add_payload_nonempty_file_check "usr/share/zsh/site-functions/_codex" "codex zsh completion"
+      add_payload_nonempty_file_check "usr/share/fish/vendor_completions.d/codex.fish" "codex fish completion"
       ;;
   esac
 fi
