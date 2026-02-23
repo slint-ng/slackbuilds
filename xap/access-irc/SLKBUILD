@@ -32,6 +32,9 @@ PY
   install -Dm644 "$dataDir/config.json.example" \
     "$PKG/usr/share/$pkgname/config.json.example" || exit 1
 
+  install -dm755 "$PKG/install" || exit 1
+  printf '%s\n' "${depends[@]}" > "$PKG/install/slack-required" || exit 1
+
   rm -rf "$dataDir"
 
   mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || exit 1
