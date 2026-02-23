@@ -1,9 +1,24 @@
-#!/bin/sh
-mkdir -p ~/.local/bin
-scversion="stable"
-rm -f ~/.local/bin/shellcheck
-wget -qO- "https://github.com/koalaman/shellcheck/releases/download/${scversion?}/shellcheck-${scversion?}.linux.x86_64.tar.xz" | tar -xJv
-cp "shellcheck-${scversion}/shellcheck" ~/.local/bin/
-#~/.local/bin/shellcheck --version
-export PATH=~/.local/bin/:$PATH
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
 
+pkgname=shellcheck
+pkgver=0.11.0
+pkgrel=1slint
+arch=('x86_64')
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"shellcheck - Static analysis for shell scripts"
+"ShellCheck finds common bugs and style issues in shell scripts."
+"This package repackages the official upstream Linux binary release."
+)
+url="https://www.shellcheck.net/"
+license=('GPL-3.0-or-later')
+source=("https://github.com/koalaman/shellcheck/releases/download/v${pkgver}/shellcheck-v${pkgver}.linux.x86_64.tar.xz")
+sha256sums=('8c3be12b05d5c177a04c29e3c78ce89ac86f1595681cab149b65b97c4e227198')
+docs=('README.txt' 'LICENSE.txt')
+options=('nosrcpack')
+
+build() {
+  cd "$startdir/src/${pkgname}-v${pkgver}" || return 1
+  install -Dm755 shellcheck "$startdir/pkg/usr/bin/shellcheck" || return 1
+}

@@ -1,0 +1,33 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=pandoc-bin
+pkgver=3.1.9
+pkgrel=1slint
+arch=('x86_64')
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"pandoc-bin - Universal document converter (prebuilt binary)"
+"Pandoc converts among many markup and document formats."
+"This package repackages the official upstream Linux binary release."
+)
+url="https://github.com/jgm/pandoc"
+license=('GPL-2.0-or-later')
+source=("https://github.com/jgm/pandoc/releases/download/${pkgver}/pandoc-${pkgver}-linux-amd64.tar.gz")
+sha256sums=('4d2ceae48a7fd49abb4e390988b0bb10999fbd47110f51af73755a35918d2c6c')
+options=('nosrcpack')
+
+build() {
+  cd "$startdir/src/pandoc-${pkgver}" || return 1
+
+  install -Dm755 "bin/pandoc" "$startdir/pkg/usr/bin/pandoc" || return 1
+  install -Dm755 "bin/pandoc-lua" "$startdir/pkg/usr/bin/pandoc-lua" || return 1
+  install -Dm755 "bin/pandoc-server" "$startdir/pkg/usr/bin/pandoc-server" || return 1
+
+  install -Dm644 "share/man/man1/pandoc.1.gz" \
+    "$startdir/pkg/usr/man/man1/pandoc.1.gz" || return 1
+  install -Dm644 "share/man/man1/pandoc-lua.1.gz" \
+    "$startdir/pkg/usr/man/man1/pandoc-lua.1.gz" || return 1
+  install -Dm644 "share/man/man1/pandoc-server.1.gz" \
+    "$startdir/pkg/usr/man/man1/pandoc-server.1.gz" || return 1
+}
