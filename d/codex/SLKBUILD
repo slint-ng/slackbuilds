@@ -44,29 +44,35 @@ build() {
 
   cd "$SRC/${pkgname}-${_tag}/codex-rs" || exit 1
 
-  export CARGO_HOME="$TMP/cargo-home"
-  export CARGO_TARGET_DIR="$TMP/target-${pkgname}"
+  export CARGO_HOME="$PWD/.cargo-home"
+  export CARGO_TARGET_DIR="$PWD/target-${pkgname}"
   export CARGO_NET_GIT_FETCH_WITH_CLI=true
+  mkdir -p "$CARGO_HOME" "$CARGO_TARGET_DIR" || exit 1
 
-  cargo fetch --locked --target "$_cargo_target"
-  cargo build --release --frozen --locked --package codex-cli --bin codex --target "$_cargo_target"
+  cargo fetch --locked --target "$_cargo_target" || exit 1
+  cargo build --release --frozen --locked --package codex-cli --bin codex --target "$_cargo_target" || exit 1
 
-  install -Dm755 "$CARGO_TARGET_DIR/$_cargo_target/release/codex" "$PKG/usr/bin/codex"
+  if [ ! -x "$CARGO_TARGET_DIR/$_cargo_target/release/codex" ]; then
+    echo "Build succeeded but codex binary is missing from target output."
+    exit 1
+  fi
 
-  install -dm755 "$PKG/usr/share/bash-completion/completions"
-  install -dm755 "$PKG/usr/share/zsh/site-functions"
-  install -dm755 "$PKG/usr/share/fish/vendor_completions.d"
+  install -Dm755 "$CARGO_TARGET_DIR/$_cargo_target/release/codex" "$PKG/usr/bin/codex" || exit 1
+
+  install -dm755 "$PKG/usr/share/bash-completion/completions" || exit 1
+  install -dm755 "$PKG/usr/share/zsh/site-functions" || exit 1
+  install -dm755 "$PKG/usr/share/fish/vendor_completions.d" || exit 1
 
   "$CARGO_TARGET_DIR/$_cargo_target/release/codex" completion bash > \
-    "$PKG/usr/share/bash-completion/completions/codex"
+    "$PKG/usr/share/bash-completion/completions/codex" || exit 1
   "$CARGO_TARGET_DIR/$_cargo_target/release/codex" completion zsh > \
-    "$PKG/usr/share/zsh/site-functions/_codex"
+    "$PKG/usr/share/zsh/site-functions/_codex" || exit 1
   "$CARGO_TARGET_DIR/$_cargo_target/release/codex" completion fish > \
-    "$PKG/usr/share/fish/vendor_completions.d/codex.fish"
+    "$PKG/usr/share/fish/vendor_completions.d/codex.fish" || exit 1
 
-  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver"
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || exit 1
   cp -a \
     "$SRC/${pkgname}-${_tag}/README.md" \
     "$SRC/${pkgname}-${_tag}/LICENSE" \
-    "$PKG/usr/doc/$pkgname-$pkgver"
+    "$PKG/usr/doc/$pkgname-$pkgver" || exit 1
 }
