@@ -17,4 +17,6 @@ Build notes from upstream source scan:
   and toolchain must be present during build.
   This SLKBUILD uses equivalent go build arguments with distro
   hardening flags and outputs /usr/bin/dolt.
+  Go caches are redirected to the source tree so builds do not fail
+  when /run/user tmpfs cache space is constrained.
   Network access is required during build to fetch Go modules.

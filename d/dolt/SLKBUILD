@@ -27,6 +27,12 @@ build() {
 
   mkdir -p build || exit 1
 
+  # Keep all Go caches in the build tree to avoid /run/user tmpfs pressure.
+  export GOPATH="$PWD/.gopath"
+  export GOCACHE="$PWD/.gocache"
+  export GOMODCACHE="$PWD/.gomodcache"
+  mkdir -p "$GOPATH" "$GOCACHE" "$GOMODCACHE" || exit 1
+
   # Preserve distro hardening flags in cgo toolchain invocations.
   export CGO_CPPFLAGS="$CPPFLAGS"
   export CGO_CFLAGS="$CFLAGS"
