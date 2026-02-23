@@ -2,7 +2,7 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 
 pkgname=beads
-pkgver=0.56.1
+pkgver=0.55.4
 _tag="v${pkgver}"
 pkgrel=1slint
 arch=('x86_64' 'aarch64')
@@ -21,7 +21,7 @@ makedepends=('go>=1.25.6' 'make' 'gcc' 'git' 'zstd' 'icu4c77')
 optdepends=('sqlite: migration shim for legacy sqlite .beads databases'
             'gh: GitHub workflow gate integration commands')
 source=("https://github.com/steveyegge/beads/archive/refs/tags/${_tag}.tar.gz")
-sha256sums=('f93efb39e4fe3f9509cde80b842c1a692f82be569b3eceadcb38b6fde90bff9f')
+sha256sums=('aef59d95f42dd9f13712411faffc02840871e43060fababc80d7f70b06b4d2c4')
 docs=('README.md' 'CHANGELOG.md' 'LICENSE')
 options=('nosrcpack')
 

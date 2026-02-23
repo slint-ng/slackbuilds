@@ -59,20 +59,14 @@ Each package directory typically contains `<pkg>.SlackBuild`, `<pkg>.info`,
 6. Push code changes:
    ```bash
    git pull --rebase
+   bd sync
    git push
    git status  # should show up to date with origin
    ```
-7. If Dolt sync is configured, validate and sync beads:
-   ```bash
-   bd config validate --json
-   bd dolt pull
-   bd dolt push
-   ```
 
 **Critical rules:**
-- Do not use `bd sync`; it is deprecated/no-op in `bd 0.56.1+`.
-- If `bd config validate --json` reports `federation.remote` missing, set it
-  before `bd dolt pull`/`bd dolt push`.
+- Use `bd sync` for bead synchronization in `bd 0.55.4`.
+- Do not use `bd dolt pull`/`bd dolt push` for the `0.55.4` workflow.
 - For package conversion/update work, validation beads are mandatory (`bug`,
   `p1`, linked with `discovered-from:<work-id>`).
 - Do not close validation beads without explicit evidence in notes/reason, to include the following:
@@ -93,6 +87,6 @@ auto-injection.
 - `bd create "Title" --type task --priority 2 --json` - Create issue
 - `bd update <id> --status in_progress --json` - Claim work
 - `bd close <id> --reason "Completed" --json` - Complete work
-- `bd dolt push` - Push beads to remote store (when configured)
+- `bd sync` - Sync beads state for commit/push workflows in `bd 0.55.4`
 
 <!-- END BEADS INTEGRATION -->
