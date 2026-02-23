@@ -48,137 +48,48 @@ Each package directory typically contains `<pkg>.SlackBuild`, `<pkg>.info`,
 
 ## Landing the Plane (Session Completion)
 
-**When ending a work session**, you MUST complete ALL steps below. Work is NOT complete until both `git push` and `bd dolt push` succeed.
+**When ending a work session**, complete all steps below:
 
-**MANDATORY WORKFLOW:**
-
-1. **File issues for remaining work** - Create issues for anything that needs follow-up
-2. **Run quality gates** (if code changed) - Tests, linters, builds
-3. **Create validation bead(s) for package work** - For every package conversion/update, create a validation issue (`bug`, `p1`) linked with `discovered-from:<work-id>`
-4. **Run validation and record evidence** - Execute validation checks and keep validation beads open until evidence is captured
-5. **Update issue status** - Close finished work, update in-progress items
-6. **PUSH TO REMOTE** - This is MANDATORY:
+1. File follow-up work in `bd` (no markdown TODO tracking).
+2. Run quality gates when code changed (tests/lint/build as applicable).
+3. For package conversion/update work, create a validation bead:
+   `bd create "Validate <pkg>: <change summary>" -t bug -p 1 --deps discovered-from:<work-id> --description="Validation scope and expected outcome" --json`
+4. Record explicit validation evidence before closing validation beads.
+5. Update and close work beads with clear reasons.
+6. Push code changes:
    ```bash
    git pull --rebase
+   git push
+   git status  # should show up to date with origin
+   ```
+7. If Dolt sync is configured, validate and sync beads:
+   ```bash
+   bd config validate --json
    bd dolt pull
    bd dolt push
-   git push
-   git status  # MUST show "up to date with origin"
    ```
-7. **Clean up** - Clear stashes, prune remote branches
-8. **Verify** - All changes committed AND pushed
-9. **Hand off** - Provide context for next session
 
-**CRITICAL RULES:**
-- Work is NOT complete until both `git push` and `bd dolt push` succeed
-- NEVER stop before pushing - that leaves work stranded locally
-- NEVER say "ready to push when you are" - YOU must push
-- If push fails, resolve and retry until it succeeds
-- Do not use `bd sync`; it is deprecated/no-op in `bd 0.56.1+`
-- For package conversion/update work, validation beads are mandatory
-- Validation beads for package work must be `bug` + `p1` and linked via `discovered-from:<work-id>`
-- Do not close validation beads without explicit validation evidence in the update/close reason
+**Critical rules:**
+- Do not use `bd sync`; it is deprecated/no-op in `bd 0.56.1+`.
+- If `bd config validate --json` reports `federation.remote` missing, set it
+  before `bd dolt pull`/`bd dolt push`.
+- For package conversion/update work, validation beads are mandatory (`bug`,
+  `p1`, linked with `discovered-from:<work-id>`).
+- Do not close validation beads without explicit evidence in notes/reason.
 
 
 <!-- BEGIN BEADS INTEGRATION -->
-## Issue Tracking with bd (beads)
+## Issue Tracking
 
-**IMPORTANT**: This project uses **bd (beads)** for ALL issue tracking. Do NOT use markdown TODOs, task lists, or other tracking methods.
+This project uses **bd (beads)** for issue tracking.
+Run `bd prime` for workflow context, or install hooks (`bd hooks install`) for
+auto-injection.
 
-### Why bd?
-
-- Dependency-aware: Track blockers and relationships between issues
-- Git-friendly: Dolt-native sync with JSONL tracked in git
-- Agent-optimized: JSON output, ready work detection, discovered-from links
-- Prevents duplicate tracking systems and confusion
-
-### Quick Start
-
-**Check for ready work:**
-
-```bash
-bd ready --json
-```
-
-**Create new issues:**
-
-```bash
-bd create "Issue title" --description="Detailed context" -t bug|feature|task -p 0-4 --json
-bd create "Issue title" --description="What this issue is about" -p 1 --deps discovered-from:bd-123 --json
-```
-
-**Create required package validation issues:**
-
-```bash
-bd create "Validate <pkg>: <change summary>" -t bug -p 1 --deps discovered-from:<work-id> --description="Validation scope and expected outcome" --json
-```
-
-**Claim and update:**
-
-```bash
-bd update bd-42 --status in_progress --json
-bd update bd-42 --priority 1 --json
-```
-
-**Complete work:**
-
-```bash
-bd close bd-42 --reason "Completed" --json
-```
-
-### Issue Types
-
-- `bug` - Something broken
-- `feature` - New functionality
-- `task` - Work item (tests, docs, refactoring)
-- `epic` - Large feature with subtasks
-- `chore` - Maintenance (dependencies, tooling)
-
-### Priorities
-
-- `0` - Critical (security, data loss, broken builds)
-- `1` - High (major features, important bugs)
-- `2` - Medium (default, nice-to-have)
-- `3` - Low (polish, optimization)
-- `4` - Backlog (future ideas)
-
-### Workflow for AI Agents
-
-1. **Check ready work**: `bd ready` shows unblocked issues
-2. **Claim your task**: `bd update <id> --status in_progress`
-3. **Work on it**: Implement, test, document
-4. **If package conversion/update changed anything**: Create a validation issue:
-   - `bd create "Validate <pkg>: <change summary>" -t bug -p 1 --deps discovered-from:<work-id> --description="Validation scope and expected outcome" --json`
-5. **Run validation and record evidence**:
-   - `bd update <validation-id> --notes "Validation evidence: <checks run + outcome>" --json`
-   - `bd close <validation-id> --reason "Validated: <checks run + outcome>" --json`
-6. **Discover new work?** Create linked issue:
-   - `bd create "Found bug" --description="Details about what was found" -p 1 --deps discovered-from:<parent-id>`
-7. **Complete**: `bd close <id> --reason "Done"`
-
-### Sync Model
-
-`bd sync` is deprecated/no-op in `bd 0.56.1+`.
-
-Use Dolt-native sync commands:
-
-- `bd dolt pull` to receive beads DB updates
-- `bd dolt push` to publish beads DB updates
-- Keep `.beads/issues.jsonl` tracked in git for audit/history, but do not rely
-  on `bd sync`
-
-### Important Rules
-
-- ✅ Use bd for ALL task tracking
-- ✅ Always use `--json` flag for programmatic use
-- ✅ Link discovered work with `discovered-from` dependencies
-- ✅ For every package conversion/update, open a validation bead (`bug`, `p1`, linked with `discovered-from`)
-- ✅ Close validation beads only after recording explicit validation evidence
-- ✅ Check `bd ready` before asking "what should I work on?"
-- ❌ Do NOT create markdown TODO lists
-- ❌ Do NOT use external issue trackers
-- ❌ Do NOT duplicate tracking systems
-
-For more details, see README.md and docs/QUICKSTART.md.
+**Quick reference:**
+- `bd ready --json` - Find unblocked work
+- `bd create "Title" --type task --priority 2 --json` - Create issue
+- `bd update <id> --status in_progress --json` - Claim work
+- `bd close <id> --reason "Completed" --json` - Complete work
+- `bd dolt push` - Push beads to remote store (when configured)
 
 <!-- END BEADS INTEGRATION -->
