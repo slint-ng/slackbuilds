@@ -1,6 +1,6 @@
 ---
 name: slkbuild-validation
-description: Validate SLKBUILD build results from ~/slkbuilds by checking build logs, package artifacts, and expected payload paths. Use when a user asks if a build "looks good", asks to validate logs/artifacts, or requests acceptance checks.
+description: Validate SLKBUILD build results from /home/sektor/projects/slackbuilds by checking build logs, package artifacts, and expected payload paths. Use when a user asks if a build "looks good", asks to validate logs/artifacts, or requests acceptance checks.
 ---
 
 # SLKBUILD Validation
@@ -10,15 +10,15 @@ description: Validate SLKBUILD build results from ~/slkbuilds by checking build 
 Use this skill to perform repeatable, build-only validation for packages built
 from `SLKBUILD`.
 
-This skill assumes the mount root is always:
-- `~/slkbuilds`
+This skill assumes the validation root is always:
+- `/home/sektor/projects/slackbuilds`
 
 It accepts either:
 - a relative package path like `k/sof-firmware`
 - a relative package path like `k/firmware-installer`
 - a relative package path like `k/kernel`
 - a relative package path like `a/kernel-firmware`
-- or a full path like `/home/alice/slkbuilds/k/sof-firmware`
+- or a full path like `/home/sektor/projects/slackbuilds/k/sof-firmware`
 
 ## Workflow
 
@@ -29,7 +29,7 @@ It accepts either:
   - optional `build note: <status>`
 
 2. Resolve the package path.
-- If relative, resolve under `$HOME/slkbuilds`.
+- If relative, resolve under `/home/sektor/projects/slackbuilds`.
 
 3. Run the validator script.
 - `bash .codex/skills/slkbuild-validation/scripts/validate_pkg.sh k/sof-firmware`

@@ -8,7 +8,7 @@ Usage:
 
 Examples:
   validate_pkg.sh k/sof-firmware
-  validate_pkg.sh /home/alice/slkbuilds/k/sof-firmware
+  validate_pkg.sh /home/sektor/projects/slackbuilds/k/sof-firmware
 EOF
 }
 
@@ -23,12 +23,12 @@ if [[ $# -lt 1 ]]; then
 fi
 
 input_path="$1"
-mount_root="$HOME/slkbuilds"
+validation_root="/home/sektor/projects/slackbuilds"
 
 if [[ "$input_path" = /* ]]; then
   pkgdir="${input_path%/}"
 else
-  pkgdir="${mount_root}/${input_path%/}"
+  pkgdir="${validation_root}/${input_path%/}"
 fi
 
 if [[ ! -d "$pkgdir" ]]; then
@@ -40,7 +40,7 @@ if [[ ! -d "$pkgdir" ]]; then
   echo "- FAIL"
   echo
   echo "Next Action"
-  echo "- Provide a valid package directory under ~/slkbuilds."
+  echo "- Provide a valid package directory under ${validation_root}."
   exit 1
 fi
 

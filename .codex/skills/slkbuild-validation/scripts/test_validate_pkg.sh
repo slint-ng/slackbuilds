@@ -3,22 +3,43 @@ set -euo pipefail
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 validator="${script_dir}/validate_pkg.sh"
+validation_root="/home/sektor/projects/slackbuilds"
 
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "$tmpdir"' EXIT
 
-home_dir="${tmpdir}/home"
+fixture_root="${tmpdir}/fixtures"
 pkgver="20260110_06a743f"
 pkg_arch="noarch"
 pkg_rel="1slint"
 pkg_name="firmware-installer"
-pkg_dir="${home_dir}/slkbuilds/k/${pkg_name}"
+pkg_dir="${fixture_root}/k/${pkg_name}"
 stage_dir="${pkg_dir}/stage"
 pkg_file="${pkg_dir}/${pkg_name}-${pkgver}-${pkg_arch}-${pkg_rel}.txz"
 md5_file="${pkg_file%.txz}.md5"
 log_file="${pkg_dir}/build-${pkg_name}.log"
 txz_log_file="${pkg_dir}/build-${pkg_name}-${pkgver}-${pkg_arch}-${pkg_rel}.log"
 noise_log_file="${pkg_dir}/build-unrelated.log"
+missing_probe="__codex_validation_probe__/$(basename "$tmpdir")"
+missing_probe_path="${validation_root}/${missing_probe}"
+
+if output_missing="$(bash "$validator" "$missing_probe" 2>&1)"; then
+  printf '%s\n' "$output_missing"
+  echo "FAIL: missing relative probe should fail."
+  exit 1
+fi
+
+if ! printf '%s\n' "$output_missing" | grep -Fq "Package directory: ${missing_probe_path}"; then
+  printf '%s\n' "$output_missing"
+  echo "FAIL: relative package probe did not resolve under repo validation root."
+  exit 1
+fi
+
+if ! printf '%s\n' "$output_missing" | grep -Fq "Provide a valid package directory under ${validation_root}."; then
+  printf '%s\n' "$output_missing"
+  echo "FAIL: missing-path guidance did not mention the repo validation root."
+  exit 1
+fi
 
 mkdir -p "${stage_dir}/install"
 mkdir -p "${stage_dir}/usr/src/${pkg_name}-${pkgver}"
@@ -45,7 +66,7 @@ cat > "$log_file" <<EOF
 Slackware package ${pkg_file} created.
 EOF
 
-if ! output="$(HOME="$home_dir" bash "$validator" "k/${pkg_name}")"; then
+if ! output="$(bash "$validator" "$pkg_dir")"; then
   printf '%s\n' "$output"
   echo "FAIL: validator should pass for firmware-installer fixture."
   exit 1
@@ -87,7 +108,7 @@ build() failed
 ERROR: unrelated scratch build
 EOF
 
-if ! output_matched_log="$(HOME="$home_dir" bash "$validator" "k/${pkg_name}")"; then
+if ! output_matched_log="$(bash "$validator" "$pkg_dir")"; then
   printf '%s\n' "$output_matched_log"
   echo "FAIL: validator should pass when artifact-matched build log is valid."
   exit 1
@@ -130,7 +151,7 @@ for cmd in "${required_commands[@]}"; do
   ln -s "$cmd_path" "${no_rg_bin}/${cmd}"
 done
 
-if ! output_no_rg="$(HOME="$home_dir" PATH="$no_rg_bin" bash "$validator" "k/${pkg_name}")"; then
+if ! output_no_rg="$(PATH="$no_rg_bin" bash "$validator" "$pkg_dir")"; then
   printf '%s\n' "$output_no_rg"
   echo "FAIL: validator should pass when rg is unavailable."
   exit 1
@@ -152,7 +173,7 @@ codex_pkg_name="codex"
 codex_pkgver="0.104.0"
 codex_pkg_arch="x86_64"
 codex_pkg_rel="1slint"
-codex_pkg_dir="${home_dir}/slkbuilds/d/${codex_pkg_name}"
+codex_pkg_dir="${fixture_root}/d/${codex_pkg_name}"
 codex_stage_dir="${codex_pkg_dir}/stage"
 codex_pkg_file="${codex_pkg_dir}/${codex_pkg_name}-${codex_pkgver}-${codex_pkg_arch}-${codex_pkg_rel}.txz"
 codex_md5_file="${codex_pkg_file%.txz}.md5"
@@ -213,7 +234,7 @@ cat > "$codex_log_file" <<EOF
 Slackware package ${codex_pkg_file} created.
 EOF
 
-if ! output_codex_pass="$(HOME="$home_dir" bash "$validator" "d/${codex_pkg_name}")"; then
+if ! output_codex_pass="$(bash "$validator" "$codex_pkg_dir")"; then
   printf '%s\n' "$output_codex_pass"
   echo "FAIL: validator should pass for codex fixture with complete payload."
   exit 1
@@ -236,7 +257,7 @@ cat > "$codex_log_file" <<EOF
 Slackware package ${codex_pkg_file} created.
 EOF
 
-if output_codex_payload_fail="$(HOME="$home_dir" bash "$validator" "d/${codex_pkg_name}")"; then
+if output_codex_payload_fail="$(bash "$validator" "$codex_pkg_dir")"; then
   printf '%s\n' "$output_codex_payload_fail"
   echo "FAIL: validator should fail when codex payload is missing/empty."
   exit 1
@@ -260,7 +281,7 @@ install: cannot stat 'target/release/codex': No such file or directory
 Slackware package ${codex_pkg_file} created.
 EOF
 
-if output_codex_log_fail="$(HOME="$home_dir" bash "$validator" "d/${codex_pkg_name}")"; then
+if output_codex_log_fail="$(bash "$validator" "$codex_pkg_dir")"; then
   printf '%s\n' "$output_codex_log_fail"
   echo "FAIL: validator should fail on cannot-stat install errors even with success marker."
   exit 1
