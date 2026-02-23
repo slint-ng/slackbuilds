@@ -1,0 +1,114 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=tcl
+pkgver=8.6.15
+pkgrel=1slint
+source=("https://downloads.sourceforge.net/tcl/tcl${pkgver}-src.tar.gz")
+url="https://www.tcl.tk"
+depends=()
+makedepends=('pandoc')
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"tcl (Tool Command Language)"
+"Tcl is a simple, text-based script language created for embedding"
+"and for writing interactive scripts with rich built-in features."
+)
+
+build() {
+  if [ -n "${ARCH:-}" ]; then
+    build_arch="$ARCH"
+  else
+    build_arch="$arch"
+    if [[ "$build_arch" == i?86 ]]; then
+      build_arch=i686
+    fi
+  fi
+
+  if [ "$build_arch" = "i586" ]; then
+    tcl_slkcflags="-O2 -march=pentium4 -mtune=generic -DHAVE_USLEEP=1"
+    confargs=(--enable-64bit)
+  elif [ "$build_arch" = "x86_64" ]; then
+    tcl_slkcflags="-O2 -fPIC -DHAVE_USLEEP=1"
+    confargs=()
+  else
+    tcl_slkcflags="-O2 -DHAVE_USLEEP=1"
+    confargs=()
+  fi
+
+  cd "$startdir/src/tcl$pkgver" || return 1
+
+  chown -R root:root .
+  find -L . \
+    \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+    -exec chmod 755 {} \+ -o \
+    \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o \
+       -perm 400 \) \
+    -exec chmod 644 {} \+
+
+  mkdir -p "$PKG/usr/doc/tcl$pkgver" || return 1
+  cp -a README* license.terms "$PKG/usr/doc/tcl$pkgver" || return 1
+  pandoc README.md -o "$PKG/usr/doc/tcl$pkgver/README.html" || return 1
+
+  cd unix || return 1
+
+  sed -i \
+    "s#TCL_LIBRARY='\$(prefix)/lib/tcl\$(VERSION)'#TCL_LIBRARY='\$(prefix)/lib${LIBDIRSUFFIX}/tcl\$(VERSION)'#" \
+    configure || return 1
+
+  CFLAGS="$tcl_slkcflags" \
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --enable-shared \
+    --enable-threads \
+    --mandir=/usr/man \
+    --enable-man-symlinks \
+    "${confargs[@]}" \
+    --build="$build_arch-slackware-linux" || return 1
+
+  make || return 1
+
+  sed -e "s@^\(TCL_SRC_DIR='\).*@\1/usr/include'@" \
+      -e "/TCL_B/s@='\(-L\)\?.*unix@='\1/usr/lib${LIBDIRSUFFIX}@" \
+      -i tclConfig.sh || return 1
+
+  make install DESTDIR="$PKG" || return 1
+  make install-private-headers DESTDIR="$PKG" || return 1
+
+  if grep -q "^usr/bin/sqlite3_analyzer$" /var/lib/pkgtools/packages/sqlite*; then
+    mv "$PKG/usr/bin/sqlite3_analyzer" "$PKG/usr/bin/sqlite3_analyzer_tcl" \
+      || return 1
+  fi
+
+  if grep -q "^usr/man/man3/Thread.3.gz$" /var/lib/pkgtools/packages/perl-*; then
+    mv "$PKG/usr/man/man3/Thread.3" "$PKG/usr/man/man3/Thread_tcl.3" \
+      || return 1
+  fi
+
+  (
+    cd "$PKG/usr/bin" || return 1
+    ln -sf tclsh8.6 tclsh || return 1
+  ) || return 1
+
+  (
+    cd "$PKG/usr/lib${LIBDIRSUFFIX}" || return 1
+    ln -sf libtcl8.6.so libtcl.so || return 1
+  ) || return 1
+
+  find "$PKG" -type f -print0 \
+    | xargs -0 file \
+    | grep -E "executable|shared object" \
+    | grep ELF \
+    | cut -d: -f1 \
+    | xargs strip --strip-unneeded 2>/dev/null || true
+
+  find "$PKG/usr/man" -type f -exec gzip -9 {} \+ || return 1
+
+  while IFS= read -r -d '' link; do
+    ln -sf "$(readlink "$link").gz" "${link}.gz" || return 1
+    rm -f "$link" || return 1
+  done < <(find "$PKG/usr/man" -type l -print0)
+}

@@ -1,0 +1,95 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=tclx
+pkgver=8.6.3
+pkgrel=1slint
+source=("https://github.com/flightaware/tclx/archive/refs/tags/v${pkgver}.tar.gz")
+url="https://github.com/flightaware/tclx"
+depends=('libtirpc' 'tcl' 'tk')
+makedepends=('libtirpc' 'tcl' 'tk')
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"tclx (Extended Tcl library and tools)"
+"Extended Tcl (TclX) adds Unix-oriented commands and utilities for"
+"system programming and larger Tcl application development."
+)
+
+build() {
+  if [ -n "${ARCH:-}" ]; then
+    build_arch="$ARCH"
+  else
+    build_arch="$arch"
+    case "$build_arch" in
+      i?86) build_arch=i586 ;;
+      arm*) build_arch=arm ;;
+    esac
+  fi
+
+  if [ "$build_arch" = "i586" ]; then
+    tclx_slkcflags="-O2 -march=i586 -mtune=i686 \
+-I/usr/include/tcl-private/generic -I/usr/include/tcl-private/unix"
+  elif [ "$build_arch" = "s390" ]; then
+    tclx_slkcflags="-O2 -I/usr/include/tcl-private/generic \
+-I/usr/include/tcl-private/unix"
+  elif [ "$build_arch" = "x86_64" ]; then
+    tclx_slkcflags="-O2 -fPIC -I/usr/include/tcl-private/generic \
+-I/usr/include/tcl-private/unix"
+  else
+    tclx_slkcflags="-O2 -I/usr/include/tcl-private/generic \
+-I/usr/include/tcl-private/unix"
+  fi
+
+  cd "$startdir/src/${pkgname}-${pkgver}" || return 1
+
+  chown -R root:root .
+  find -L . \
+    \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+    -exec chmod 755 {} \+ -o \
+    \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o \
+       -perm 400 \) \
+    -exec chmod 644 {} \+
+
+  CFLAGS="$tclx_slkcflags" \
+  CPPFLAGS="-DUSE_INTERP_RESULT" \
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --mandir=/usr/man \
+    --with-tcl="/usr/lib${LIBDIRSUFFIX}" \
+    --enable-shared \
+    --enable-threads \
+    --enable-64bit \
+    --build="$build_arch-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  (
+    cd "$PKG/usr/lib${LIBDIRSUFFIX}" || return 1
+    ln -sf tclx8.6/libtclx8.6.so . || return 1
+    ln -sf libtclx8.6.so libtclx.so || return 1
+  ) || return 1
+
+  find "$PKG" -type f -print0 \
+    | xargs -0 file \
+    | grep -E "executable|shared object" \
+    | grep ELF \
+    | cut -d: -f1 \
+    | xargs strip --strip-unneeded 2>/dev/null || true
+
+  if [ -d "$PKG/usr/man" ]; then
+    find "$PKG/usr/man" -type f ! -name '*.gz' -exec gzip -9 {} \+ \
+      || return 1
+    while IFS= read -r -d '' link; do
+      ln -sf "$(readlink "$link").gz" "${link}.gz" || return 1
+      rm -f "$link" || return 1
+    done < <(find "$PKG/usr/man" -type l ! -name '*.gz' -print0)
+  fi
+
+  mkdir -p "$PKG/usr/doc/${pkgname}-${pkgver}" || return 1
+  cp -a ChangeLog README* license.terms "$PKG/usr/doc/${pkgname}-${pkgver}" \
+    || return 1
+}
