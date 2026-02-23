@@ -119,7 +119,7 @@ fi
 
 no_rg_bin="${tmpdir}/no-rg-bin"
 mkdir -p "$no_rg_bin"
-required_commands=(bash basename cut find grep head mktemp printf rm sed sort tar xz)
+required_commands=(awk bash basename cut find grep head mktemp printf rm sed sort tar xz)
 
 for cmd in "${required_commands[@]}"; do
   cmd_path="$(command -v "$cmd" || true)"
@@ -148,4 +148,134 @@ if ! printf '%s\n' "$output_no_rg" | grep -Fq -- "- PASS"; then
   exit 1
 fi
 
-echo "PASS: firmware-installer regression fixture validates successfully."
+codex_pkg_name="codex"
+codex_pkgver="0.104.0"
+codex_pkg_arch="x86_64"
+codex_pkg_rel="1slint"
+codex_pkg_dir="${home_dir}/slkbuilds/d/${codex_pkg_name}"
+codex_stage_dir="${codex_pkg_dir}/stage"
+codex_pkg_file="${codex_pkg_dir}/${codex_pkg_name}-${codex_pkgver}-${codex_pkg_arch}-${codex_pkg_rel}.txz"
+codex_md5_file="${codex_pkg_file%.txz}.md5"
+codex_log_file="${codex_pkg_dir}/build-${codex_pkg_name}-${codex_pkgver}-${codex_pkg_arch}-${codex_pkg_rel}.log"
+
+create_codex_fixture() {
+  local include_binary="$1"
+  local empty_fish_completion="$2"
+
+  rm -rf "$codex_pkg_dir"
+  mkdir -p "${codex_stage_dir}/install"
+  mkdir -p "${codex_stage_dir}/usr/src/${codex_pkg_name}-${codex_pkgver}"
+  mkdir -p "${codex_stage_dir}/usr/bin"
+  mkdir -p "${codex_stage_dir}/usr/share/bash-completion/completions"
+  mkdir -p "${codex_stage_dir}/usr/share/zsh/site-functions"
+  mkdir -p "${codex_stage_dir}/usr/share/fish/vendor_completions.d"
+  mkdir -p "${codex_pkg_dir}"
+
+  cat > "${codex_stage_dir}/install/slack-desc" <<'EOF'
+codex: codex (test fixture)
+EOF
+
+  cat > "${codex_stage_dir}/usr/src/${codex_pkg_name}-${codex_pkgver}/SLKBUILD" <<'EOF'
+pkgname=codex
+EOF
+
+  if [[ "$include_binary" == "yes" ]]; then
+    cat > "${codex_stage_dir}/usr/bin/codex" <<'EOF'
+#!/bin/sh
+echo codex
+EOF
+    chmod 755 "${codex_stage_dir}/usr/bin/codex"
+  fi
+
+  cat > "${codex_stage_dir}/usr/share/bash-completion/completions/codex" <<'EOF'
+_codex() { :; }
+EOF
+
+  cat > "${codex_stage_dir}/usr/share/zsh/site-functions/_codex" <<'EOF'
+#compdef codex
+_arguments '*: :->args'
+EOF
+
+  if [[ "$empty_fish_completion" == "yes" ]]; then
+    : > "${codex_stage_dir}/usr/share/fish/vendor_completions.d/codex.fish"
+  else
+    cat > "${codex_stage_dir}/usr/share/fish/vendor_completions.d/codex.fish" <<'EOF'
+complete -c codex -f
+EOF
+  fi
+
+  tar -C "$codex_stage_dir" -cJf "$codex_pkg_file" install usr
+  (cd "$codex_pkg_dir" && md5sum "$(basename "$codex_pkg_file")" > "$(basename "$codex_md5_file")")
+}
+
+create_codex_fixture "yes" "no"
+cat > "$codex_log_file" <<EOF
+Slackware package ${codex_pkg_file} created.
+EOF
+
+if ! output_codex_pass="$(HOME="$home_dir" bash "$validator" "d/${codex_pkg_name}")"; then
+  printf '%s\n' "$output_codex_pass"
+  echo "FAIL: validator should pass for codex fixture with complete payload."
+  exit 1
+fi
+
+if ! printf '%s\n' "$output_codex_pass" | grep -Fq "PASS: codex binary -> usr/bin/codex"; then
+  printf '%s\n' "$output_codex_pass"
+  echo "FAIL: codex binary payload check missing."
+  exit 1
+fi
+
+if ! printf '%s\n' "$output_codex_pass" | grep -Fq -- "- PASS"; then
+  printf '%s\n' "$output_codex_pass"
+  echo "FAIL: codex complete payload fixture should PASS."
+  exit 1
+fi
+
+create_codex_fixture "no" "yes"
+cat > "$codex_log_file" <<EOF
+Slackware package ${codex_pkg_file} created.
+EOF
+
+if output_codex_payload_fail="$(HOME="$home_dir" bash "$validator" "d/${codex_pkg_name}")"; then
+  printf '%s\n' "$output_codex_payload_fail"
+  echo "FAIL: validator should fail when codex payload is missing/empty."
+  exit 1
+fi
+
+if ! printf '%s\n' "$output_codex_payload_fail" | grep -Fq "FAIL: codex binary -> usr/bin/codex"; then
+  printf '%s\n' "$output_codex_payload_fail"
+  echo "FAIL: missing codex binary was not reported as FAIL."
+  exit 1
+fi
+
+if ! printf '%s\n' "$output_codex_payload_fail" | grep -Fq "FAIL: codex fish completion -> usr/share/fish/vendor_completions.d/codex.fish"; then
+  printf '%s\n' "$output_codex_payload_fail"
+  echo "FAIL: empty codex fish completion was not reported as FAIL."
+  exit 1
+fi
+
+create_codex_fixture "yes" "no"
+cat > "$codex_log_file" <<EOF
+install: cannot stat 'target/release/codex': No such file or directory
+Slackware package ${codex_pkg_file} created.
+EOF
+
+if output_codex_log_fail="$(HOME="$home_dir" bash "$validator" "d/${codex_pkg_name}")"; then
+  printf '%s\n' "$output_codex_log_fail"
+  echo "FAIL: validator should fail on cannot-stat install errors even with success marker."
+  exit 1
+fi
+
+if ! printf '%s\n' "$output_codex_log_fail" | grep -Fq "Hard-failure hits:"; then
+  printf '%s\n' "$output_codex_log_fail"
+  echo "FAIL: cannot-stat regression should report hard-failure hits."
+  exit 1
+fi
+
+if ! printf '%s\n' "$output_codex_log_fail" | grep -Fq "cannot stat"; then
+  printf '%s\n' "$output_codex_log_fail"
+  echo "FAIL: cannot-stat regression did not include matching log evidence."
+  exit 1
+fi
+
+echo "PASS: firmware-installer and codex regression fixtures validate expected behavior."
