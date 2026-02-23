@@ -33,18 +33,12 @@ build() {
   export GOMODCACHE="$PWD/.gomodcache"
   mkdir -p "$GOPATH" "$GOCACHE" "$GOMODCACHE" || exit 1
 
-  # Preserve distro hardening flags in cgo toolchain invocations.
-  export CGO_CPPFLAGS="$CPPFLAGS"
-  export CGO_CFLAGS="$CFLAGS"
-  export CGO_CXXFLAGS="$CXXFLAGS"
-  export CGO_LDFLAGS="$LDFLAGS"
+  # Upstream requires cgo for dolt builds.
+  export CGO_ENABLED=1
 
   go build \
     -trimpath \
-    -buildmode=pie \
     -mod=readonly \
-    -modcacherw \
-    -ldflags "-extldflags \"$LDFLAGS\"" \
     -o build/dolt \
     ./cmd/dolt || exit 1
 

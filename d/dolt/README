@@ -15,8 +15,8 @@ Build notes from upstream source scan:
     go 1.25.6
   Upstream README notes cgo is required, so a working C compiler
   and toolchain must be present during build.
-  This SLKBUILD uses equivalent go build arguments with distro
-  hardening flags and outputs /usr/bin/dolt.
+  This SLKBUILD uses an upstream-equivalent go build command and
+  outputs /usr/bin/dolt.
   Go caches are redirected to the source tree so builds do not fail
   when /run/user tmpfs cache space is constrained.
   Network access is required during build to fetch Go modules.
