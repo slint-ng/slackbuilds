@@ -1,0 +1,100 @@
+# shellcheck shell=bash
+# Maintainer: Storm Dragon <storm_dragon@stormux.org>
+
+pkgname=viavoice-tts
+upstreamTag=2026.02.01-hotfix2
+pkgver=2026.02.01_hotfix2
+pkgrel=1slint
+options=('noautodotnew')
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (IBM ViaVoice 5.1 module for Speech Dispatcher)"
+"ViaVoice TTS module for speech-dispatcher using IBM ViaVoice 5.1."
+"This package builds a 32-bit module and bundles voice libraries."
+"The host system still needs 32-bit glibc support for execution."
+)
+arch=('x86_64')
+url="https://github.com/Mudb0y/ViaVoice-SPD"
+license=('Proprietary' 'BSD-2-Clause')
+depends=('speech-dispatcher')
+makedepends=('gcc' 'speech-dispatcher' 'curl' 'rpm' 'cpio' 'binutils' 'make')
+source=("https://github.com/Mudb0y/ViaVoice-SPD/archive/refs/tags/${upstreamTag}.tar.gz")
+
+doinst() {
+  config() {
+    newFile="$1"
+    oldFile="$(dirname "$newFile")/$(basename "$newFile" .new)"
+    if [ ! -r "$oldFile" ]; then
+      mv "$newFile" "$oldFile"
+    elif [ "$(md5sum "$oldFile")" = "$(md5sum "$newFile")" ]; then
+      rm "$newFile"
+    fi
+  }
+
+  config etc/speech-dispatcher/modules/viavoice.conf.new
+
+  spdModuleDir=""
+  for candidate in \
+    /usr/lib/speech-dispatcher-modules \
+    /usr/lib64/speech-dispatcher-modules \
+    /usr/libexec/speech-dispatcher-modules; do
+    if [ -d "$candidate" ]; then
+      spdModuleDir="$candidate"
+      break
+    fi
+  done
+
+  if [ -n "$spdModuleDir" ]; then
+    mkdir -p "$spdModuleDir"
+    ln -sf /opt/ViaVoiceTTS/sd_viavoice "$spdModuleDir/sd_viavoice"
+  fi
+
+  if [ -f /etc/speech-dispatcher/speechd.conf ]; then
+    if ! grep -Eq '^[[:space:]]*AddModule[[:space:]]+"viavoice"' \
+      /etc/speech-dispatcher/speechd.conf; then
+      {
+        echo ''
+        echo '# Added by viavoice-tts package'
+        echo 'AddModule "viavoice" "sd_viavoice" "viavoice.conf"'
+      } >> /etc/speech-dispatcher/speechd.conf
+    fi
+  fi
+
+  if [ ! -e /lib/ld-linux.so.2 ] && [ ! -e /lib32/ld-linux.so.2 ] && \
+    [ ! -e /lib/i386-linux-gnu/ld-linux.so.2 ]; then
+    echo 'viavoice-tts: 32-bit glibc runtime not detected.'
+    echo 'Install multilib glibc so /lib/ld-linux.so.2 is available.'
+  fi
+}
+
+build() {
+  cd "$SRC/ViaVoice-SPD-$upstreamTag" || exit 1
+
+  # speech-dispatcher headers may be under /usr/include/speech-dispatcher
+  if [ -d /usr/include/speech-dispatcher ]; then
+    export C_INCLUDE_PATH="/usr/include/speech-dispatcher${C_INCLUDE_PATH:+:$C_INCLUDE_PATH}"
+  fi
+
+  ./scripts/build-bundle.sh || exit 1
+
+  install -d "$PKG/opt/ViaVoiceTTS"
+  cp -a dist/viavoice-bundle/. "$PKG/opt/ViaVoiceTTS/" || exit 1
+
+  sed -i 's|^Path=.*|Path=/opt/ViaVoiceTTS/usr/lib/enu50.so|' \
+    "$PKG/opt/ViaVoiceTTS/usr/lib/ViaVoiceTTS/eci.ini" || exit 1
+  sed -i 's|@INSTALL_PATH@|/opt/ViaVoiceTTS|g' \
+    "$PKG/opt/ViaVoiceTTS/etc/viavoice.conf" || exit 1
+
+  install -d "$PKG/etc/speech-dispatcher/modules"
+  cp "$PKG/opt/ViaVoiceTTS/etc/viavoice.conf" \
+    "$PKG/etc/speech-dispatcher/modules/viavoice.conf.new" || exit 1
+
+  install -d "$PKG/usr/doc/${pkgname}-${pkgver}"
+  cp "$PKG/opt/ViaVoiceTTS/README.md" "$PKG/usr/doc/${pkgname}-${pkgver}/" || exit 1
+
+  chmod 755 "$PKG/opt/ViaVoiceTTS/sd_viavoice"
+  chmod 755 "$PKG/opt/ViaVoiceTTS/usr/bin/sd_viavoice.bin"
+}
+
+# vim: set ts=2 sw=2 et:

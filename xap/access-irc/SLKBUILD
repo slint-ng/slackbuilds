@@ -7,10 +7,9 @@ slackdesc="$pkgname (Accessible IRC client with GTK3 support)"
 url="https://github.com/destructatron/access-irc"
 license=('MIT')
 depends=('python' 'python-gobject' 'python3-miniirc' 'python3-pluggy' 'gtk3' 'at-spi2-core'
-         'gst-plugins-base' 'gst-plugins-good' 'python3-gtkspellcheck')
+         'gst-plugins-base' 'gst-plugins-good' 'python3-gtkspellcheck' 'python-numpy')
 makedepends=('python-build' 'python-installer' 'python-wheel' 'python-setuptools')
-optdepends=('python-numpy: for sound generation'
-            'python-scipy: for sound generation')
+optdepends=('python-scipy: for sound generation')
 options=('nosrcpack')
 source=("https://github.com/destructatron/access-irc/archive/refs/tags/v$pkgver.tar.gz")
 sha256sums=('fa02cc159b883d96a63ed2813360c527422f433af22fca9b4f4b62a27221c72b')
@@ -31,9 +30,6 @@ PY
   install -m644 "$dataDir"/sounds/*.wav "$PKG/usr/share/$pkgname/sounds/" || exit 1
   install -Dm644 "$dataDir/config.json.example" \
     "$PKG/usr/share/$pkgname/config.json.example" || exit 1
-
-  install -dm755 "$PKG/install" || exit 1
-  printf '%s\n' "${depends[@]}" > "$PKG/install/slack-required" || exit 1
 
   rm -rf "$dataDir"
 
