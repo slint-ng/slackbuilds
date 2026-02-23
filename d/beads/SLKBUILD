@@ -1,0 +1,56 @@
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=beads
+pkgver=0.56.1
+_tag="v${pkgver}"
+pkgrel=1slint
+arch=('x86_64' 'aarch64')
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (dependency-aware issue tracker for coding agents)"
+"beads provides the bd command, a git-backed issue tracker with"
+"dependency graphs and workflow commands for agent-driven software"
+"development and long-running collaborative tasks."
+)
+url="https://github.com/steveyegge/beads"
+license=('MIT')
+depends=('git' 'dolt' 'zstd' 'icu4c77')
+makedepends=('go>=1.25.6' 'make' 'gcc' 'git' 'zstd' 'icu4c77')
+optdepends=('sqlite: migration shim for legacy sqlite .beads databases'
+            'gh: GitHub workflow gate integration commands')
+source=("https://github.com/steveyegge/beads/archive/refs/tags/${_tag}.tar.gz")
+sha256sums=('f93efb39e4fe3f9509cde80b842c1a692f82be569b3eceadcb38b6fde90bff9f')
+docs=('README.md' 'CHANGELOG.md' 'LICENSE')
+options=('nosrcpack')
+
+build() {
+  cd "$SRC/${pkgname}-${pkgver}" || exit 1
+
+  # Release tarballs do not contain .git metadata used by upstream Makefile.
+  sed -i "s|main.Build=\\$\\$(git rev-parse --short HEAD)|main.Build=${pkgver}|" \
+    Makefile || exit 1
+
+  # Keep Go caches inside the build tree for reproducible sandboxed builds.
+  export GOPATH="$PWD/.gopath"
+  export GOCACHE="$PWD/.gocache"
+  export GOMODCACHE="$PWD/.gomodcache"
+  mkdir -p "$GOPATH" "$GOCACHE" "$GOMODCACHE" || exit 1
+
+  make build || exit 1
+
+  install -Dm755 bd "$PKG/usr/bin/bd" || exit 1
+  ln -sf bd "$PKG/usr/bin/beads" || exit 1
+
+  install -dm755 "$PKG/usr/share/bash-completion/completions" || exit 1
+  install -dm755 "$PKG/usr/share/zsh/site-functions" || exit 1
+  install -dm755 "$PKG/usr/share/fish/vendor_completions.d" || exit 1
+
+  "$PKG/usr/bin/bd" completion bash > \
+    "$PKG/usr/share/bash-completion/completions/bd" || exit 1
+  "$PKG/usr/bin/bd" completion zsh > \
+    "$PKG/usr/share/zsh/site-functions/_bd" || exit 1
+  "$PKG/usr/bin/bd" completion fish > \
+    "$PKG/usr/share/fish/vendor_completions.d/bd.fish" || exit 1
+}

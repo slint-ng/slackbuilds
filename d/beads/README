@@ -1,0 +1,27 @@
+beads (bd) is a git-backed issue tracker for agent workflows.
+
+Runtime dependencies used by the bd binary:
+  git
+  dolt
+  zstd
+  icu4c77
+
+Build dependencies for this package:
+  go >= 1.25.6
+  make
+  gcc
+  git
+  zstd development files
+  icu4c77 development files
+
+Optional runtime dependencies:
+  sqlite (for migration from old sqlite .beads databases)
+  gh (for GitHub gate commands)
+
+Build notes:
+  Upstream builds through a Makefile and forces CGO_ENABLED=1.
+  Release tarballs have no .git metadata, so SLKBUILD patches
+  Makefile ldflags to use pkgver for main.Build.
+  Go caches are redirected to the source tree to avoid writes to
+  user home directories during package builds.
+  A network connection is required during build to download Go modules.
