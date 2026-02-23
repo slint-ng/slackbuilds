@@ -75,7 +75,10 @@ Each package directory typically contains `<pkg>.SlackBuild`, `<pkg>.info`,
   before `bd dolt pull`/`bd dolt push`.
 - For package conversion/update work, validation beads are mandatory (`bug`,
   `p1`, linked with `discovered-from:<work-id>`).
-- Do not close validation beads without explicit evidence in notes/reason.
+- Do not close validation beads without explicit evidence in notes/reason, to include the following:
+  - shellcheck/bash -n return no errors.
+  - the package compiles
+  - relatively basic smoketests pass
 
 
 <!-- BEGIN BEADS INTEGRATION -->
