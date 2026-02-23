@@ -1,0 +1,60 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=haskell-os-string
+_hkgname=os-string
+pkgver=2.0.8
+pkgrel=1slint
+arch=('x86_64' 'aarch64')
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (operating system string handling for Haskell)"
+"Provides OsString APIs for filesystem and process strings"
+"using native operating-system encodings."
+)
+url="https://hackage.haskell.org/package/os-string"
+license=('BSD-3-Clause')
+depends=('ghc-libs')
+makedepends=('ghc')
+source=("https://hackage.haskell.org/packages/archive/${_hkgname}/${pkgver}/${_hkgname}-${pkgver}.tar.gz")
+sha256sums=('02794279dd30282e7b0d45a860dda50ee26a92b1461f5da4545f62dab4172686')
+options=('nosrcpack')
+
+build() {
+  local _ghc_version _pkgconf _pkgid _pkgconfdir
+
+  cd "$SRC/${_hkgname}-${pkgver}" || exit 1
+  _ghc_version="$(ghc --numeric-version)"
+
+  runhaskell Setup configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --libsubdir="ghc-${_ghc_version}/${_hkgname}-${pkgver}" \
+    --enable-shared \
+    --enable-library-profiling \
+    --disable-tests \
+    --disable-benchmarks \
+    --docdir="/usr/doc/${pkgname}-${pkgver}" || exit 1
+
+  runhaskell Setup build || exit 1
+  runhaskell Setup haddock || exit 1
+  runhaskell Setup copy --destdir="$PKG" || exit 1
+  runhaskell Setup register --gen-pkg-config || exit 1
+
+  _pkgconf="${_hkgname}-${pkgver}.conf"
+  _pkgid="$(sed -n 's/^id:[[:space:]]*//p' "$_pkgconf" | head -n1)"
+  if [ -z "$_pkgid" ]; then
+    echo "Unable to determine package id from ${_pkgconf}."
+    exit 1
+  fi
+
+  _pkgconfdir="/usr/lib${LIBDIRSUFFIX}/ghc-${_ghc_version}/package.conf.d"
+  install -dm755 "$PKG${_pkgconfdir}" || exit 1
+  mv "$_pkgconf" "$PKG${_pkgconfdir}/${_pkgid}.conf" || exit 1
+
+  install -dm755 "$PKG/usr/doc/${pkgname}-${pkgver}" || exit 1
+  for _doc in changelog.md README.md LICENSE; do
+    [ -f "$_doc" ] && install -m644 "$_doc" "$PKG/usr/doc/${pkgname}-${pkgver}/"
+  done
+}

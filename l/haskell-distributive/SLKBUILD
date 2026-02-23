@@ -1,0 +1,59 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=haskell-distributive
+_hkgname=distributive
+pkgver=0.6.2.1
+pkgrel=1slint
+arch=('x86_64' 'aarch64')
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"haskell-distributive (Distributive functors -- Dual to Traversable)"
+"Distributive functors -- Dual to Traversable"
+"Built from upstream source archives."
+)
+url="https://github.com/ekmett/distributive/"
+license=('BSD')
+depends=('ghc-libs' 'haskell-base-orphans' 'haskell-tagged')
+makedepends=('ghc')
+source=("https://hackage.haskell.org/packages/archive/distributive/0.6.2.1/distributive-0.6.2.1.tar.gz")
+sha512sums=('387c7b6e0b2f917fd68d52ffbc79b9db21e488629309bfaf0dc77450bfd37c0f7f8a29458532616b5395552f84f3727b462cb2876e5aca79101e2c752b26e0a7')
+options=('nosrcpack')
+
+build() {
+  local _ghc_version _pkgconf _pkgid _pkgconfdir
+
+  cd "$SRC/${_hkgname}-${pkgver}" || exit 1
+  _ghc_version="$(ghc --numeric-version)"
+
+  runhaskell Setup configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --libsubdir="ghc-${_ghc_version}/${_hkgname}-${pkgver}" \
+    --enable-shared \
+    --enable-library-profiling \
+    --disable-tests \
+    --disable-benchmarks \
+    --docdir="/usr/doc/${pkgname}-${pkgver}" || exit 1
+
+  runhaskell Setup build || exit 1
+  runhaskell Setup haddock || exit 1
+  runhaskell Setup copy --destdir="$PKG" || exit 1
+  runhaskell Setup register --gen-pkg-config || exit 1
+
+  _pkgconf="${_hkgname}-${pkgver}.conf"
+  _pkgid="$(sed -n 's/^id:[[:space:]]*//p' "${_pkgconf}" | head -n1)"
+  if [ -z "${_pkgid}" ]; then
+    echo "Unable to determine package id from ${_pkgconf}."
+    exit 1
+  fi
+
+  _pkgconfdir="/usr/lib${LIBDIRSUFFIX}/ghc-${_ghc_version}/package.conf.d"
+  install -dm755 "$PKG${_pkgconfdir}" || exit 1
+  mv "${_pkgconf}" "$PKG${_pkgconfdir}/${_pkgid}.conf" || exit 1
+
+  install -dm755 "$PKG/usr/doc/${pkgname}-${pkgver}" || exit 1
+  for _doc in CHANGELOG* CHANGES* LICENSE* README*; do
+    [ -f "${_doc}" ] && install -m644 "${_doc}" "$PKG/usr/doc/${pkgname}-${pkgver}/"
+  done
+}

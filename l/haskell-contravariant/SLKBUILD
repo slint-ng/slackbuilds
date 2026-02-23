@@ -1,0 +1,59 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=haskell-contravariant
+_hkgname=contravariant
+pkgver=1.5.5
+pkgrel=1slint
+arch=('x86_64' 'aarch64')
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"haskell-contravariant (Contravariant functors)"
+"Contravariant functors"
+"Built from upstream source archives."
+)
+url="https://github.com/ekmett/contravariant/"
+license=('BSD')
+depends=('ghc-libs' 'haskell-statevar')
+makedepends=('ghc')
+source=("https://hackage.haskell.org/packages/archive/contravariant/1.5.5/contravariant-1.5.5.tar.gz")
+sha512sums=('c5e14525cb44fe24ddaa8b1b2b5eb983e602513887119a9fb9eaed3ec1d5af28b9e858a6e461caa8d3793d52ded135459bf95a15b43b2e07e15aea33d3634bc3')
+options=('nosrcpack')
+
+build() {
+  local _ghc_version _pkgconf _pkgid _pkgconfdir
+
+  cd "$SRC/${_hkgname}-${pkgver}" || exit 1
+  _ghc_version="$(ghc --numeric-version)"
+
+  runhaskell Setup configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --libsubdir="ghc-${_ghc_version}/${_hkgname}-${pkgver}" \
+    --enable-shared \
+    --enable-library-profiling \
+    --disable-tests \
+    --disable-benchmarks \
+    --docdir="/usr/doc/${pkgname}-${pkgver}" || exit 1
+
+  runhaskell Setup build || exit 1
+  runhaskell Setup haddock || exit 1
+  runhaskell Setup copy --destdir="$PKG" || exit 1
+  runhaskell Setup register --gen-pkg-config || exit 1
+
+  _pkgconf="${_hkgname}-${pkgver}.conf"
+  _pkgid="$(sed -n 's/^id:[[:space:]]*//p' "${_pkgconf}" | head -n1)"
+  if [ -z "${_pkgid}" ]; then
+    echo "Unable to determine package id from ${_pkgconf}."
+    exit 1
+  fi
+
+  _pkgconfdir="/usr/lib${LIBDIRSUFFIX}/ghc-${_ghc_version}/package.conf.d"
+  install -dm755 "$PKG${_pkgconfdir}" || exit 1
+  mv "${_pkgconf}" "$PKG${_pkgconfdir}/${_pkgid}.conf" || exit 1
+
+  install -dm755 "$PKG/usr/doc/${pkgname}-${pkgver}" || exit 1
+  for _doc in CHANGELOG* CHANGES* LICENSE* README*; do
+    [ -f "${_doc}" ] && install -m644 "${_doc}" "$PKG/usr/doc/${pkgname}-${pkgver}/"
+  done
+}
