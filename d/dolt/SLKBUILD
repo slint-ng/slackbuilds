@@ -1,0 +1,46 @@
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=dolt
+pkgver=1.82.4
+pkgrel=1slint
+arch=('x86_64' 'aarch64')
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Git for data SQL database with versioned tables)"
+"dolt is a SQL database with Git-like version control for table"
+"schemas and row data, exposed through a CLI and MySQL-compatible"
+"server mode."
+)
+url="https://github.com/dolthub/dolt"
+license=('Apache-2.0')
+depends=('glibc')
+makedepends=('go>=1.25.6' 'gcc' 'git')
+source=("https://github.com/dolthub/dolt/archive/v${pkgver}/dolt-${pkgver}.tar.gz")
+sha256sums=('f01b49d5e1dc649e3c6cbd8ce338d690422ea6e330d0fb474f3bb0196c3a080d')
+docs=('README.md' 'LICENSE' 'go/Godeps/LICENSES')
+options=('nosrcpack')
+
+build() {
+  cd "$SRC/${pkgname}-${pkgver}/go" || exit 1
+
+  mkdir -p build || exit 1
+
+  # Preserve distro hardening flags in cgo toolchain invocations.
+  export CGO_CPPFLAGS="$CPPFLAGS"
+  export CGO_CFLAGS="$CFLAGS"
+  export CGO_CXXFLAGS="$CXXFLAGS"
+  export CGO_LDFLAGS="$LDFLAGS"
+
+  go build \
+    -trimpath \
+    -buildmode=pie \
+    -mod=readonly \
+    -modcacherw \
+    -ldflags "-extldflags \"$LDFLAGS\"" \
+    -o build/dolt \
+    ./cmd/dolt || exit 1
+
+  install -Dm755 build/dolt "$PKG/usr/bin/dolt" || exit 1
+}

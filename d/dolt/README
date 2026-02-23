@@ -1,0 +1,20 @@
+Dolt is a versioned SQL database and CLI ("Git for data").
+
+Runtime dependency used by the dolt binary:
+  glibc
+
+Build dependencies for this package:
+  go >= 1.25.6
+  gcc (cgo toolchain)
+  git (module fetch fallback for VCS sources)
+
+Build notes from upstream source scan:
+  Upstream README builds from source with:
+    go install ./cmd/dolt
+  Upstream go/go.mod requires:
+    go 1.25.6
+  Upstream README notes cgo is required, so a working C compiler
+  and toolchain must be present during build.
+  This SLKBUILD uses equivalent go build arguments with distro
+  hardening flags and outputs /usr/bin/dolt.
+  Network access is required during build to fetch Go modules.
