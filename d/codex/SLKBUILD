@@ -80,8 +80,9 @@ build() {
   }
 
   _lock_relaxed="no"
-  if ! cargo_try_locked "$CARGO" fetch --locked --target "$_cargo_target"; then
-    _fetch_rc=$?
+  _fetch_rc=0
+  cargo_try_locked "$CARGO" fetch --locked --target "$_cargo_target" || _fetch_rc=$?
+  if [ "$_fetch_rc" -ne 0 ]; then
     if [ "$_fetch_rc" -eq 88 ]; then
       echo "cargo fetch --locked requires lockfile normalization; retrying unlocked fetch."
       _lock_relaxed="yes"
@@ -95,8 +96,18 @@ build() {
     "$CARGO" build --release \
       --package codex-cli --bin codex --target "$_cargo_target" || exit 1
   else
-    "$CARGO" build --release --locked \
-      --package codex-cli --bin codex --target "$_cargo_target" || exit 1
+    _build_rc=0
+    cargo_try_locked "$CARGO" build --release --locked \
+      --package codex-cli --bin codex --target "$_cargo_target" || _build_rc=$?
+    if [ "$_build_rc" -ne 0 ]; then
+      if [ "$_build_rc" -eq 88 ]; then
+        echo "cargo build --locked requires lockfile normalization; retrying unlocked build."
+        "$CARGO" build --release \
+          --package codex-cli --bin codex --target "$_cargo_target" || exit 1
+      else
+        exit "$_build_rc"
+      fi
+    fi
   fi
 
   if [ ! -x "$CARGO_TARGET_DIR/$_cargo_target/release/codex" ]; then
