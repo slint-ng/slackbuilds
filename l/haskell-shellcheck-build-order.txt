@@ -1,0 +1,117 @@
+# Haskell Build Order For ShellCheck Chain
+# Generated from depends=() in l/haskell-*/SLKBUILD.
+#
+# Prerequisites:
+# 1) ghc-libs installed
+# 2) ghc installed
+# 3) slkbuild available
+#
+# Numbered order:
+ 1. l/haskell-base-orphans
+ 2. l/haskell-colour
+ 3. l/haskell-ansi-terminal-types
+ 4. l/haskell-ansi-terminal
+ 5. l/haskell-diff
+ 6. l/haskell-dlist
+ 7. l/haskell-erf
+ 8. l/haskell-fgl
+ 9. l/haskell-generically
+10. l/haskell-integer-logarithms
+11. l/haskell-onetuple
+12. l/haskell-os-string
+13. l/haskell-hashable
+14. l/haskell-data-fix
+15. l/haskell-prettyprinter
+16. l/haskell-prettyprinter-ansi-terminal
+17. l/haskell-primitive
+18. l/haskell-integer-conversion
+19. l/haskell-regex-base
+20. l/haskell-regex-tdfa
+21. l/haskell-scientific
+22. l/haskell-splitmix
+23. l/haskell-random
+24. l/haskell-quickcheck
+25. l/haskell-statevar
+26. l/haskell-contravariant
+27. l/haskell-tagged
+28. l/haskell-assoc
+29. l/haskell-distributive
+30. l/haskell-foldable1-classes-compat
+31. l/haskell-indexed-traversable
+32. l/haskell-text-short
+33. l/haskell-th-abstraction
+34. l/haskell-th-compat
+35. l/haskell-network-uri
+36. l/haskell-these
+37. l/haskell-strict
+38. l/haskell-time-compat
+39. l/haskell-text-iso8601
+40. l/haskell-transformers-compat
+41. l/haskell-comonad
+42. l/haskell-bifunctors
+43. l/haskell-optparse-applicative
+44. l/haskell-tasty
+45. l/haskell-unordered-containers
+46. l/haskell-semigroupoids
+47. l/haskell-uuid-types
+48. l/haskell-vector-stream
+49. l/haskell-vector
+50. l/haskell-indexed-traversable-instances
+51. l/haskell-semialign
+52. l/haskell-witherable
+53. l/haskell-aeson
+
+# Plain path list (same order):
+l/haskell-base-orphans
+l/haskell-colour
+l/haskell-ansi-terminal-types
+l/haskell-ansi-terminal
+l/haskell-diff
+l/haskell-dlist
+l/haskell-erf
+l/haskell-fgl
+l/haskell-generically
+l/haskell-integer-logarithms
+l/haskell-onetuple
+l/haskell-os-string
+l/haskell-hashable
+l/haskell-data-fix
+l/haskell-prettyprinter
+l/haskell-prettyprinter-ansi-terminal
+l/haskell-primitive
+l/haskell-integer-conversion
+l/haskell-regex-base
+l/haskell-regex-tdfa
+l/haskell-scientific
+l/haskell-splitmix
+l/haskell-random
+l/haskell-quickcheck
+l/haskell-statevar
+l/haskell-contravariant
+l/haskell-tagged
+l/haskell-assoc
+l/haskell-distributive
+l/haskell-foldable1-classes-compat
+l/haskell-indexed-traversable
+l/haskell-text-short
+l/haskell-th-abstraction
+l/haskell-th-compat
+l/haskell-network-uri
+l/haskell-these
+l/haskell-strict
+l/haskell-time-compat
+l/haskell-text-iso8601
+l/haskell-transformers-compat
+l/haskell-comonad
+l/haskell-bifunctors
+l/haskell-optparse-applicative
+l/haskell-tasty
+l/haskell-unordered-containers
+l/haskell-semigroupoids
+l/haskell-uuid-types
+l/haskell-vector-stream
+l/haskell-vector
+l/haskell-indexed-traversable-instances
+l/haskell-semialign
+l/haskell-witherable
+l/haskell-aeson
