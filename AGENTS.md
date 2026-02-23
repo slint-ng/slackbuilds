@@ -48,7 +48,7 @@ Each package directory typically contains `<pkg>.SlackBuild`, `<pkg>.info`,
 
 ## Landing the Plane (Session Completion)
 
-**When ending a work session**, you MUST complete ALL steps below. Work is NOT complete until `git push` succeeds.
+**When ending a work session**, you MUST complete ALL steps below. Work is NOT complete until both `git push` and `bd dolt push` succeed.
 
 **MANDATORY WORKFLOW:**
 
@@ -60,7 +60,8 @@ Each package directory typically contains `<pkg>.SlackBuild`, `<pkg>.info`,
 6. **PUSH TO REMOTE** - This is MANDATORY:
    ```bash
    git pull --rebase
-   bd sync
+   bd dolt pull
+   bd dolt push
    git push
    git status  # MUST show "up to date with origin"
    ```
@@ -69,10 +70,11 @@ Each package directory typically contains `<pkg>.SlackBuild`, `<pkg>.info`,
 9. **Hand off** - Provide context for next session
 
 **CRITICAL RULES:**
-- Work is NOT complete until `git push` succeeds
+- Work is NOT complete until both `git push` and `bd dolt push` succeed
 - NEVER stop before pushing - that leaves work stranded locally
 - NEVER say "ready to push when you are" - YOU must push
 - If push fails, resolve and retry until it succeeds
+- Do not use `bd sync`; it is deprecated/no-op in `bd 0.56.1+`
 - For package conversion/update work, validation beads are mandatory
 - Validation beads for package work must be `bug` + `p1` and linked via `discovered-from:<work-id>`
 - Do not close validation beads without explicit validation evidence in the update/close reason
@@ -86,7 +88,7 @@ Each package directory typically contains `<pkg>.SlackBuild`, `<pkg>.info`,
 ### Why bd?
 
 - Dependency-aware: Track blockers and relationships between issues
-- Git-friendly: Auto-syncs to JSONL for version control
+- Git-friendly: Dolt-native sync with JSONL tracked in git
 - Agent-optimized: JSON output, ready work detection, discovered-from links
 - Prevents duplicate tracking systems and confusion
 
@@ -154,13 +156,16 @@ bd close bd-42 --reason "Completed" --json
    - `bd create "Found bug" --description="Details about what was found" -p 1 --deps discovered-from:<parent-id>`
 7. **Complete**: `bd close <id> --reason "Done"`
 
-### Auto-Sync
+### Sync Model
 
-bd automatically syncs with git:
+`bd sync` is deprecated/no-op in `bd 0.56.1+`.
 
-- Exports to `.beads/issues.jsonl` after changes (5s debounce)
-- Imports from JSONL when newer (e.g., after `git pull`)
-- No manual export/import needed!
+Use Dolt-native sync commands:
+
+- `bd dolt pull` to receive beads DB updates
+- `bd dolt push` to publish beads DB updates
+- Keep `.beads/issues.jsonl` tracked in git for audit/history, but do not rely
+  on `bd sync`
 
 ### Important Rules
 
