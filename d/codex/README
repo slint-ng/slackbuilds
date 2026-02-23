@@ -17,7 +17,8 @@ Build notes:
   SLKBUILD pins the upstream source tarball with sha256sums.
   SLKBUILD forces /usr/bin/cargo and /usr/bin/rustc to avoid user rustup
   shims/toolchain auto-updates during package builds.
-  Cargo uses --locked/--frozen for lockfile-based dependency resolution.
+  Cargo tries --locked first, then falls back if upstream release
+  tarball lockfile normalization is required.
   Network is still required because Cargo.lock includes git+ sources.
 
 Optional upstream development tools not required to build codex:

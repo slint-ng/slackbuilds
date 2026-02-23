@@ -59,10 +59,45 @@ build() {
   export CARGO_NET_GIT_FETCH_WITH_CLI=true
   mkdir -p "$CARGO_HOME" "$CARGO_TARGET_DIR" || exit 1
 
-  # Enforce lockfile-based resolution for deterministic dependency selection.
-  "$CARGO" fetch --locked --target "$_cargo_target" || exit 1
-  "$CARGO" build --release --frozen --locked \
-    --package codex-cli --bin codex --target "$_cargo_target" || exit 1
+  # Attempt lockfile-strict resolution first.
+  # Some upstream release tarballs require lockfile normalization.
+  cargo_try_locked() {
+    local _log _rc
+    _log="$(mktemp)"
+    if "$@" >"$_log" 2>&1; then
+      cat "$_log"
+      rm -f "$_log"
+      return 0
+    fi
+    _rc=$?
+    cat "$_log"
+    if grep -qi "cannot update the lock file" "$_log"; then
+      rm -f "$_log"
+      return 88
+    fi
+    rm -f "$_log"
+    return "$_rc"
+  }
+
+  _lock_relaxed="no"
+  if ! cargo_try_locked "$CARGO" fetch --locked --target "$_cargo_target"; then
+    _fetch_rc=$?
+    if [ "$_fetch_rc" -eq 88 ]; then
+      echo "cargo fetch --locked requires lockfile normalization; retrying unlocked fetch."
+      _lock_relaxed="yes"
+      "$CARGO" fetch --target "$_cargo_target" || exit 1
+    else
+      exit "$_fetch_rc"
+    fi
+  fi
+
+  if [ "$_lock_relaxed" = "yes" ]; then
+    "$CARGO" build --release \
+      --package codex-cli --bin codex --target "$_cargo_target" || exit 1
+  else
+    "$CARGO" build --release --locked \
+      --package codex-cli --bin codex --target "$_cargo_target" || exit 1
+  fi
 
   if [ ! -x "$CARGO_TARGET_DIR/$_cargo_target/release/codex" ]; then
     echo "Build succeeded but codex binary is missing from target output."
