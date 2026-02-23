@@ -37,6 +37,9 @@ On first use in a session, explicitly mention:
 - Preserve the build logic exactly (configure/meson flags, install steps, docs).
 - Inline `slack-desc` into `slackdesc=(...)` and keep the handy ruler line.
 - Inline `doinst.sh` into `doinst()`.
+- Ensure dependency metadata exists as `<pkgname>.dep` in the package directory.
+  - `sourcegen.sh` reads `<pkgname>.dep` for `SLACKBUILD REQUIRES`; it does not read `depends=()` from `SLKBUILD`.
+  - Keep `.dep` comma-separated with no spaces (example: `python,gtk3,python-gobject`).
 - Keep necessary helper files (patches, scripts, extra data files) and add to `source=()` when required by the build.
 - Remove redundant files after conversion:
   - `*.SlackBuild`, `slack-desc`, `doinst.sh`, and `.info` when it is no longer used.
@@ -48,6 +51,7 @@ On first use in a session, explicitly mention:
 - Update `pkgver`, `source`, and any checksums.
 - Use `scripts/bump_version.py` when possible to update `pkgver` and sums.
 - Sync `docs=()` with what the build installs.
+- If `depends=()` changes, update `<pkgname>.dep` in the same commit.
 - Preserve existing build flags unless the update requires changes.
 - For linux-firmware based packages in this repo, preserve the paired
   date/commit versioning (`<date>_<commit>`) used by Slint and verify the
@@ -82,6 +86,9 @@ On first use in a session, explicitly mention:
 
 - `slackdesc` lines should be <= 70 chars (URLs can be longer if needed).
 - `slackdesc` should be <= 10 lines.
+- Ensure every tracked package `SLKBUILD` has a matching `<pkgname>.dep` file.
+  - Use `scripts/sync_dep_files.py --check` to audit.
+  - Use `scripts/sync_dep_files.py --write` to create/update dep files in bulk.
 - In `SLKBUILD`, use plain URL sources (for example `https://...`).
   Do not use Arch-style `git+https://...` source syntax.
   Tag-based git sources are fine as plain URLs, for example
@@ -97,3 +104,4 @@ On first use in a session, explicitly mention:
 - `check_slackdesc_len.py`: Validate slackdesc line length and line count.
 - `convert_slackbuild.py`: Best-effort SlackBuild -> SLKBUILD scaffold.
 - `bump_version.py`: Update `pkgver` and refresh checksums if present.
+- `sync_dep_files.py`: Generate/update `<pkgname>.dep` files from `depends=()` across tracked `SLKBUILD`s.

@@ -10,7 +10,22 @@ def read_text(path: Path) -> str:
 
 def parse_info(info_path: Path) -> dict:
     data = {}
-    for line in read_text(info_path).splitlines():
+    logical_lines = []
+    continued = ''
+    for raw_line in read_text(info_path).splitlines():
+        line = raw_line.rstrip()
+        if continued:
+            line = continued + line.lstrip()
+        if line.endswith('\\'):
+            continued = line[:-1].rstrip() + ' '
+            continue
+        logical_lines.append(line)
+        continued = ''
+
+    if continued:
+        logical_lines.append(continued.rstrip())
+
+    for line in logical_lines:
         line = line.strip()
         if not line or line.startswith('#') or '=' not in line:
             continue
@@ -88,6 +103,16 @@ def extract_build_body(slackbuild_path: Path) -> list[str]:
     return filtered
 
 
+def normalize_requires(value: str) -> str:
+    deps = []
+    for token in re.split(r'[\s,]+', value.strip()):
+        token = token.strip()
+        if not token or token == '%README%':
+            continue
+        deps.append(token)
+    return ','.join(deps)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description='Scaffold SLKBUILD from SlackBuild')
     parser.add_argument('package_dir', help='Package directory')
@@ -112,6 +137,7 @@ def main() -> int:
     pkgrel = '1slint'
     source_list = []
     url = ''
+    info = {}
 
     info_path = pkg_dir / f"{pkgname}.info"
     if info_path.exists():
@@ -202,6 +228,9 @@ def main() -> int:
     slkbuild_path = pkg_dir / 'SLKBUILD'
     if args.apply:
         slkbuild_path.write_text(out_text, encoding='utf-8')
+        dep_path = pkg_dir / f"{pkgname}.dep"
+        dep_line = normalize_requires(info.get('REQUIRES', ''))
+        dep_path.write_text(dep_line + '\n', encoding='utf-8')
         if not args.keep_files:
             slackbuild.unlink()
             if slack_desc_path.exists():
@@ -211,6 +240,7 @@ def main() -> int:
             if info_path.exists():
                 info_path.unlink()
         print(f"Wrote {slkbuild_path}")
+        print(f"Wrote {dep_path}")
     else:
         print(out_text)
         print(f"# Preview only. Use --apply to write {slkbuild_path}")
