@@ -8,7 +8,7 @@ pkgrel=1slint
 arch=('x86_64' 'aarch64')
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
-"haskell-these (An either-or-both data type)"
+"haskell-these - An either-or-both data type"
 "An either-or-both data type"
 "Built from upstream source archives."
 )
@@ -18,12 +18,13 @@ depends=('ghc-libs' 'haskell-assoc' 'haskell-foldable1-classes-compat' 'haskell-
 makedepends=('ghc')
 source=("https://hackage.haskell.org/packages/archive/these/1.2.1/these-1.2.1.tar.gz")
 sha512sums=('591f19347600b12b88e24a426f22707ec6b55b28ac451dc20fa1a7a9343c0278ac8130014a0224bde48ad26aa0b93f7ea745213174e7195d5afde251397641fa')
+docs=('changelog' 'changes' 'license' 'readme')
 options=('nosrcpack')
 
 build() {
   local _ghc_version _pkgconf _pkgid _pkgconfdir
 
-  cd "$SRC/${_hkgname}-${pkgver}" || exit 1
+  cd "$startdir/src/${_hkgname}-${pkgver}" || return 1
   _ghc_version="$(ghc --numeric-version)"
 
   runhaskell Setup configure \
@@ -34,26 +35,21 @@ build() {
     --enable-library-profiling \
     --disable-tests \
     --disable-benchmarks \
-    --docdir="/usr/doc/${pkgname}-${pkgver}" || exit 1
+    --docdir="/usr/doc/${pkgname}-${pkgver}" || return 1
 
-  runhaskell Setup build || exit 1
-  runhaskell Setup haddock || exit 1
-  runhaskell Setup copy --destdir="$PKG" || exit 1
-  runhaskell Setup register --gen-pkg-config || exit 1
+  runhaskell Setup build || return 1
+  runhaskell Setup haddock || return 1
+  runhaskell Setup copy --destdir="$startdir/pkg" || return 1
+  runhaskell Setup register --gen-pkg-config || return 1
 
   _pkgconf="${_hkgname}-${pkgver}.conf"
   _pkgid="$(sed -n 's/^id:[[:space:]]*//p' "${_pkgconf}" | head -n1)"
   if [ -z "${_pkgid}" ]; then
     echo "Unable to determine package id from ${_pkgconf}."
-    exit 1
+    return 1
   fi
 
   _pkgconfdir="/usr/lib${LIBDIRSUFFIX}/ghc-${_ghc_version}/package.conf.d"
-  install -dm755 "$PKG${_pkgconfdir}" || exit 1
-  mv "${_pkgconf}" "$PKG${_pkgconfdir}/${_pkgid}.conf" || exit 1
-
-  install -dm755 "$PKG/usr/doc/${pkgname}-${pkgver}" || exit 1
-  for _doc in CHANGELOG* CHANGES* LICENSE* README*; do
-    [ -f "${_doc}" ] && install -m644 "${_doc}" "$PKG/usr/doc/${pkgname}-${pkgver}/"
-  done
+  install -dm755 "$startdir/pkg${_pkgconfdir}" || return 1
+  mv "${_pkgconf}" "$startdir/pkg${_pkgconfdir}/${_pkgid}.conf" || return 1
 }
