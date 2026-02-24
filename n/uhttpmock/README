@@ -1,0 +1,6 @@
+uhttpmock (HTTP web service mocking library)
+
+uhttpmock records and replays HTTP/HTTPS request-response traces for
+tests. It provides libuhttpmock to mock external web service APIs.
+
+This build enables Vala bindings and disables gtk-doc generation.

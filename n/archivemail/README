@@ -1,0 +1,9 @@
+archivemail (archive and compress old email in mailboxes)
+
+archivemail scans mailbox files and moves old messages to compressed
+archive mailboxes to reduce active mailbox size.
+
+This build adjusts upstream scripts to run with python2.
+
+Dependency:
+python2

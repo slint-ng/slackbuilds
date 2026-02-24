@@ -1,0 +1,6 @@
+zd1211-firmware (firmware for zd1211 USB wireless devices)
+
+This package installs firmware files for the ZD1211 WLAN USB chipset
+to /lib/firmware/zd1211.
+
+No compilation is done; the firmware files are installed directly.

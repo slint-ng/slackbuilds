@@ -1,0 +1,9 @@
+claws-mail (a user-friendly, lightweight, and fast email client)
+
+Claws Mail is a GTK+ based email and news client focused on speed and
+small resource usage.
+
+This build also installs the gnome-brave icon theme.
+
+Dependency:
+libetpan
