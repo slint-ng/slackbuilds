@@ -483,7 +483,7 @@ libgccjit/libgccjit.SlackBuild 5 # script and the following notes - Didier Spaie
 libgccjit/libgccjit.SlackBuild 126 # Temporary build location (this what I use for Slint, edit that as you see fit - Didier)  
 rlwrap/rlwrap.SlackBuild 11 # Included in Slint by Didier Spaier didieratslintdotfr
 python-diff-match-patch/SLKBUILD 4 # Included in Slint by Didier Spaier didieratslintdotfr
-emacspeak-ss/emacspeak-ss.SlackBuild 2 # Didier Spaier <didier~at~slint~dot~fr>
+emacspeak-ss/SLKBUILD 4 # Included in Slint by Didier Spaier didieratslintdotfr
 telegram-purple/SLKBUILD 1 # Maintainer  Didier Spaier <didier~at~slint~dot~fr>
 lightdm-settings/start_graphically_with_gnsu_not_pkexec.diff 1 lightdm-settings needs a "graphical su" to start from a menu or the mate-control-center - Didier Spaier
 lightdm-settings/SLKBUILD 3 #Included in Slint by Didier Spaier didieratslintdotfr
