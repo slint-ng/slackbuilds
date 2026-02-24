@@ -1,0 +1,179 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=net-snmp-nomariadb
+pkgver=5.9.3
+pkgrel=1slint
+_srcname="net-snmp"
+source=("https://downloads.sourceforge.net/project/net-snmp/net-snmp/${pkgver}/${_srcname}-${pkgver}.tar.gz"
+"net-snmp-5.8-multilib.patch.gz"
+"net-snmp-5.7.2-cert-path.patch.gz"
+"net-snmp-5.8-Remove-U64-typedef.patch.gz"
+"net-snmp-5.7.3-iterator-fix.patch.gz"
+"net-snmp-5.8-modern-rpm-api.patch.gz"
+"snmpd.conf.gz"
+"rc.snmpd"
+"snmpd.default")
+url="https://sourceforge.net/projects/net-snmp/"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"net-snmp-nomariadb (SNMP tools and agent, no MariaDB)"
+"Includes an extensible SNMP agent and SNMP libraries."
+"Includes tools to query or set values on SNMP agents."
+"Includes tools to generate and process SNMP traps."
+"Includes an SNMP-based netstat implementation."
+)
+
+doinst() {
+config() {
+  NEW="$1"
+  OLD="$(dirname "$NEW")/$(basename "$NEW" .new)"
+  if [ ! -r "$OLD" ]; then
+    mv "$NEW" "$OLD"
+  elif [ "$(cat "$OLD" | md5sum)" = "$(cat "$NEW" | md5sum)" ]; then
+    rm "$NEW"
+  fi
+}
+
+if [ -e etc/rc.d/rc.snmpd ]; then
+  cp -a etc/rc.d/rc.snmpd etc/rc.d/rc.snmpd.new.incoming
+  cat etc/rc.d/rc.snmpd.new > etc/rc.d/rc.snmpd.new.incoming
+  mv etc/rc.d/rc.snmpd.new.incoming etc/rc.d/rc.snmpd.new
+fi
+
+config etc/snmp/snmpd.conf.new
+config etc/rc.d/rc.snmpd.new
+config etc/default/snmpd.new
+}
+
+build() {
+  ARCH=${ARCH:-${arch:-$(uname -m)}}
+  if [ "$ARCH" = "i586" ]; then
+    SLKCFLAGS="-O2 -march=i586 -mtune=i686"
+    LIBDIRSUFFIX=""
+  elif [ "$ARCH" = "s390" ]; then
+    SLKCFLAGS="-O2"
+    LIBDIRSUFFIX=""
+  elif [ "$ARCH" = "x86_64" ]; then
+    SLKCFLAGS="-O2 -fPIC"
+    LIBDIRSUFFIX="64"
+  else
+    SLKCFLAGS="-O2"
+    LIBDIRSUFFIX=""
+  fi
+
+  NUMJOBS=${NUMJOBS:-" -j $(expr $(nproc) + 1) "}
+
+  cd "$startdir/src/${_srcname}-${pkgver}" || exit 1
+
+  chown -R root:root .
+  find . \
+    \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+    -exec chmod 755 {} \+ -o \
+    \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+    -exec chmod 644 {} \+
+
+  zcat "$startdir/net-snmp-5.8-multilib.patch.gz" | patch -p1 --verbose || exit 1
+  zcat "$startdir/net-snmp-5.7.2-cert-path.patch.gz" | patch -p1 --verbose || exit 1
+  zcat "$startdir/net-snmp-5.8-Remove-U64-typedef.patch.gz" | patch -p1 --verbose || exit 1
+  zcat "$startdir/net-snmp-5.7.3-iterator-fix.patch.gz" | patch -p1 --verbose || exit 1
+  zcat "$startdir/net-snmp-5.8-modern-rpm-api.patch.gz" | patch -p1 --verbose || exit 1
+
+  CFLAGS="$SLKCFLAGS" \
+  ./configure \
+    --prefix=/usr \
+    --libdir=/usr/lib${LIBDIRSUFFIX} \
+    --sysconfdir=/etc/snmp \
+    --mandir=/usr/man \
+    --enable-ipv6 \
+    --disable-debugging \
+    --enable-static=no \
+    --with-libwrap \
+    --without-mysql \
+    --with-perl-modules \
+    --with-default-snmp-version=3 \
+    --with-sys-contact="root@example.org" \
+    --with-sys-location="unknown" \
+    --with-logfile="/var/log/snmpd.log" \
+    --with-persistent-directory="/var/lib/net-snmp" \
+    --without-rpm \
+    --program-suffix= \
+    --program-prefix= \
+    --with-mib-modules="ucd-snmp/lmsensorsMib ucd-snmp/diskio" \
+    --with-python-modules \
+    --build=$ARCH-slackware-linux || exit 1
+
+  make $NUMJOBS INSTALLDIRS=vendor || exit 1
+  make install INSTALLDIRS=vendor DESTDIR=$PKG || exit 1
+
+  rm -f $PKG/{,usr/}lib${LIBDIRSUFFIX}/*.la
+
+  if [ -d $PKG/usr/share/man/man3 ]; then
+    mkdir -p $PKG/usr/man/man3
+    mv $PKG/usr/share/man/man3/* $PKG/usr/man/man3
+    rmdir $PKG/usr/share/man/man3 $PKG/usr/share/man
+  fi
+
+  mkdir -p $PKG/usr
+  mkdir -p $PKG/var/lib/net-snmp/{cert,mib}_indexes
+  mkdir -p $PKG/etc/snmp
+  zcat "$startdir/snmpd.conf.gz" > $PKG/etc/snmp/snmpd.conf.new
+  mkdir -p $PKG/etc/rc.d
+  cat "$startdir/rc.snmpd" > $PKG/etc/rc.d/rc.snmpd.new
+
+  mkdir -p $PKG/etc/default
+  cat "$startdir/snmpd.default" > $PKG/etc/default/snmpd.new
+
+  find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF \
+    | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
+
+  if [ -d $PKG/usr/man ]; then
+    ( cd $PKG/usr/man
+      for manpagedir in $(find . -type d -name "man*") ; do
+        ( cd $manpagedir
+          for eachpage in $(find . -type l -maxdepth 1) ; do
+            ln -s "$(readlink "$eachpage").gz" "$eachpage.gz"
+            rm -f "$eachpage"
+          done
+          gzip -9 *.*
+        )
+      done
+    )
+  fi
+
+  if [ -d $PKG/usr/info ]; then
+    ( cd $PKG/usr/info
+      rm -f dir
+      gzip -9 *
+    )
+  fi
+
+  ( cd $PKG ; find . -name perllocal.pod -exec rm "{}" \+ )
+
+  find $PKG -name .packlist | while read plist ; do
+    sed -e "s%$PKG%%g" \
+        -e "s%/share/man%/man%g" \
+        -re "s%\.([1-9]n?|3pm)$%&.gz%g   # extend man filenames for .gz" \
+        ${plist} > ${plist}.new
+    mv -f ${plist}.new ${plist}
+done
+
+  mkdir -p $PKG/usr/doc/${pkgname}-$pkgver
+  cp -a \
+    AGENT* CHANGES ChangeLog COPYING* CodingStyle EXAMPLE* FAQ \
+    INSTALL NEWS PORTING README* TODO \
+    $PKG/usr/doc/${pkgname}-$pkgver
+
+  if [ -r ChangeLog ]; then
+    DOCSDIR=$(echo $PKG/usr/doc/*-$pkgver)
+    cat ChangeLog | head -n 1000 > $DOCSDIR/ChangeLog
+    touch -r ChangeLog $DOCSDIR/ChangeLog
+  fi
+
+  if [ -r CHANGES ]; then
+    DOCSDIR=$(echo $PKG/usr/doc/*-$pkgver)
+    cat CHANGES | head -n 1000 > $DOCSDIR/CHANGES
+    touch -r CHANGES $DOCSDIR/CHANGES
+  fi
+}
