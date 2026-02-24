@@ -2,7 +2,7 @@
 
 pkgname=access-irc
 pkgver=1.7.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (Accessible IRC client with GTK3 support)"
 url="https://github.com/destructatron/access-irc"
 license=('MIT')

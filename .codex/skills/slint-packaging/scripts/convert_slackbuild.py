@@ -107,7 +107,7 @@ def normalize_requires(value: str) -> str:
     deps = []
     for token in re.split(r'[\s,]+', value.strip()):
         token = token.strip()
-        if not token or token == '%README%':
+        if not token or token == '%README%' or token == 'python':
             continue
         deps.append(token)
     return ','.join(deps)

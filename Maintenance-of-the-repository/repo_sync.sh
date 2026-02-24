@@ -667,6 +667,81 @@ parse_package_fields() {
     printf '%s|%s|%s|%s\n' "${name}" "${version}" "${arch}" "${build}"
 }
 
+build_source_dep_index_for_root() {
+    local root=$1
+    local sourceRoot="${root}/source"
+    local sourceDep=""
+    local pkgNameFromDep=""
+
+    declare -gA sourceDepPathByPkg=()
+    declare -gA sourceDepAmbiguousByPkg=()
+
+    [[ -d "${sourceRoot}" ]] || return 0
+
+    while IFS= read -r -d '' sourceDep; do
+        pkgNameFromDep=${sourceDep##*/}
+        pkgNameFromDep=${pkgNameFromDep%.dep}
+        # Ignore malformed entries like ".dep" that do not map to a package name.
+        [[ -n "${pkgNameFromDep}" ]] || continue
+
+        if [[ -n "${sourceDepAmbiguousByPkg[${pkgNameFromDep}]-}" ]]; then
+            continue
+        fi
+        if [[ -n "${sourceDepPathByPkg[${pkgNameFromDep}]-}" ]]; then
+            unset 'sourceDepPathByPkg[$pkgNameFromDep]'
+            sourceDepAmbiguousByPkg["${pkgNameFromDep}"]=1
+            continue
+        fi
+
+        sourceDepPathByPkg["${pkgNameFromDep}"]="${sourceDep}"
+    done < <(find "${sourceRoot}" -type f -name '*.dep' -print0)
+}
+
+ensure_versioned_dep_for_package() {
+    local pkgFile=$1
+    local root=$2
+    local depFile="${pkgFile%.*}.dep"
+    local pkgDir=""
+    local parsed=""
+    local pkgName=""
+    local pkgVersion=""
+    local pkgArch=""
+    local pkgBuild=""
+    local localDepFile=""
+    local sourceDepFile=""
+    local depFileExists=0
+    [[ -f "${depFile}" ]] && depFileExists=1
+
+    parsed=$(parse_package_fields "${pkgFile}") || return 0
+    IFS='|' read -r pkgName pkgVersion pkgArch pkgBuild <<< "${parsed}"
+
+    pkgDir=$(dirname "${pkgFile}")
+    localDepFile="${pkgDir}/${pkgName}.dep"
+    if [[ -f "${localDepFile}" ]]; then
+        if [[ ${depFileExists} -eq 0 ]]; then
+            mv -f "${localDepFile}" "${depFile}"
+            echo "--> Renamed ${localDepFile##*/} to ${depFile##*/}"
+        else
+            rm -f -- "${localDepFile}"
+            echo "--> Removed duplicate ${localDepFile##*/} (using ${depFile##*/})"
+        fi
+        return 0
+    fi
+
+    [[ ${depFileExists} -eq 1 ]] && return 0
+
+    if [[ -n "${sourceDepAmbiguousByPkg[${pkgName}]-}" ]]; then
+        echo "Ambiguous source .dep matches for ${pkgName} in ${root}/source; skipping auto-create."
+        return 0
+    fi
+
+    sourceDepFile=${sourceDepPathByPkg[${pkgName}]-}
+    if [[ -n "${sourceDepFile}" && -f "${sourceDepFile}" ]]; then
+        cp -f "${sourceDepFile}" "${depFile}"
+        echo "--> Created ${depFile##*/} from ${sourceDepFile}"
+    fi
+}
+
 version_is_newer() {
     local candidateVersion=$1
     local currentVersion=$2
@@ -1068,6 +1143,7 @@ generate_meta_file() {
     local compressedK=""
     local uncompressedK=""
     local location=""
+    local rebuildMeta=0
 
     if [[ -f "${depFile}" ]]; then
         requires=$(tr -d '\n' < "${depFile}")
@@ -1080,6 +1156,19 @@ generate_meta_file() {
     fi
 
     if [[ ! -f "${metaFile}" || "${pkgFile}" -nt "${metaFile}" || "${txtFile}" -nt "${metaFile}" ]]; then
+        rebuildMeta=1
+    fi
+    if [[ -f "${depFile}" && "${depFile}" -nt "${metaFile}" ]]; then
+        rebuildMeta=1
+    fi
+    if [[ -f "${conFile}" && "${conFile}" -nt "${metaFile}" ]]; then
+        rebuildMeta=1
+    fi
+    if [[ -f "${sugFile}" && "${sugFile}" -nt "${metaFile}" ]]; then
+        rebuildMeta=1
+    fi
+
+    if [[ ${rebuildMeta} -eq 1 ]]; then
         if [[ ! -f "${txtFile}" ]]; then
             echo "Missing ${txtFile} for ${pkgName}"
             return 1
@@ -1178,7 +1267,10 @@ regenerate_metadata_for_root() {
         return 0
     fi
 
+    build_source_dep_index_for_root "${root}"
+
     for pkg in "${packageFiles[@]}"; do
+        ensure_versioned_dep_for_package "${pkg}" "${root}"
         if ! generate_txt_file "${pkg}" "${pkg%.*}.txt"; then
             return 1
         fi

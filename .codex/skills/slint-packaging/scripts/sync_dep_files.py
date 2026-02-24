@@ -117,7 +117,7 @@ def parse_depends(raw_text: str) -> list[str]:
     depends_value = parse_assignment(raw_text, "depends")
     if depends_value is None:
         return []
-    return parse_tokens(depends_value)
+    return [token for token in parse_tokens(depends_value) if token != "python"]
 
 
 def main() -> int:
