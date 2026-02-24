@@ -867,7 +867,6 @@ yelp
 yelp-tools
 yelp-xsl
 yt-dlp
-yt-dlp-bin
 yt-dlp-ejs
 zd1211-firmware
 zeitgeist

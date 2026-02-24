@@ -1,0 +1,195 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=alpine
+pkgver=2.26
+pkgrel=1slint
+pinepgpver=0.18.0
+imapdpkg=imapd
+imapdrel=1slint
+source=("https://alpineapp.email/alpine/release/src/alpine-${pkgver}.tar.xz"
+"https://mirrors.slackware.com/slackware/slackware64-current/source/n/alpine/pinepgp-${pinepgpver}.tar.gz"
+"alpine.manpage.diff.gz"
+"maildir.patch.gz"
+"pinepgp-${pinepgpver}-makefile-sed-fix.diff.gz"
+"pinepgp.pinegpgp.in.diff.gz"
+"slack-desc.imapd")
+url="https://repo.or.cz/alpine.git"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"alpine (internet news and email client)"
+"Alpine is a fast and easy to use email client."
+"It suits new users and advanced users alike."
+"It is based on the University of Washington Pine system."
+"The user experience is highly customizable."
+"Homepage: https://repo.or.cz/alpine.git"
+)
+
+doinst() {
+config() {
+  NEW="$1"
+  OLD="$(dirname "$NEW")/$(basename "$NEW" .new)"
+  if [ ! -r "$OLD" ]; then
+    mv "$NEW" "$OLD"
+  elif [ "$(cat "$OLD" | md5sum)" = "$(cat "$NEW" | md5sum)" ]; then
+    rm "$NEW"
+  fi
+}
+config etc/pine.conf.new
+
+if [ ! -e usr/bin/pine ]; then
+  ( cd usr/bin ; ln -sf alpine pine )
+fi
+}
+
+build() {
+  pinepgpver=0.18.0
+  imapdpkg=imapd
+  imapdrel=1slint
+  ARCH=${ARCH:-${arch:-$(uname -m)}}
+  BUILD_IMAPD=${BUILD_IMAPD:-NO}
+
+  if [ "$ARCH" = "i586" ]; then
+    SLKCFLAGS="-O2 -march=i586 -mtune=i686"
+  elif [ "$ARCH" = "s390" ]; then
+    SLKCFLAGS="-O2"
+  elif [ "$ARCH" = "x86_64" ]; then
+    SLKCFLAGS="-O2 -fPIC"
+  else
+    SLKCFLAGS="-O2"
+  fi
+
+  SLKCFLAGS="$SLKCFLAGS -Wno-error=incompatible-pointer-types"
+
+  cd "$SRC" || exit 1
+  rm -rf alpine-${pkgver}
+  tar xf alpine-${pkgver}.tar.?z* || exit 1
+  cd alpine-${pkgver} || exit 1
+
+  chown -R root:root .
+  find . \
+    \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 700 -o -perm 555 -o -perm 511 \) \
+    -exec chmod 755 {} \+ -o \
+    \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+    -exec chmod 644 {} \+
+
+  zcat "$startdir/alpine.manpage.diff.gz" | patch -p1 --verbose || exit 1
+  zcat "$startdir/maildir.patch.gz" | patch -p1 --verbose || exit 1
+
+  CFLAGS="$SLKCFLAGS" \
+  ./configure \
+    --prefix=/usr \
+    --mandir=/usr/man \
+    --with-ssl-dir=/usr \
+    --with-ssl-certs-dir=/etc/ssl/certs \
+    --with-c-client-target=slx \
+    --with-system-pinerc=/etc/pine.conf \
+    --with-system-fixed-pinerc=/etc/pine.conf.fixed \
+    --with-passfile=.alpine.passfile \
+    --disable-debug \
+    --with-debug-level=0 \
+    --without-tcl \
+    --program-prefix= \
+    --program-suffix= \
+    --build=$ARCH-slackware-linux || exit 1
+
+  ( cd doc/tech-notes
+    sed -i "s,/usr/local/lib/pine.info,/usr/lib/pine.info,g" tech-notes.txt
+    sed -i "s,/usr/local/lib,/etc,g" tech-notes.txt
+    sed -i "s,/usr/local,/etc,g" tech-notes.txt
+  )
+
+  echo y | make EXTRACFLAGS="-fPIC" SSLTYPE=unix || exit 1
+  make install SSLTYPE=unix DESTDIR=$PKG || exit 1
+
+  mkdir -p $PKG/etc
+  ./alpine/alpine -conf > $PKG/etc/pine.conf.new
+
+  mkdir -p $PKG/usr/doc/${pkgname}-${pkgver}
+  cp -a \
+    LICENSE NOTICE README* VERSION \
+    doc/tech-notes* doc/brochure.txt doc/mailcap.unx doc/mime.types \
+    $PKG/usr/doc/${pkgname}-${pkgver}
+
+  cd "$SRC" || exit 1
+  rm -rf pinepgp-$pinepgpver
+  tar xvf pinepgp-$pinepgpver.tar.gz || exit 1
+  cd pinepgp-$pinepgpver || exit 1
+  zcat "$startdir/pinepgp-${pinepgpver}-makefile-sed-fix.diff.gz" | patch -p1 --verbose || exit 1
+  zcat "$startdir/pinepgp.pinegpgp.in.diff.gz" | patch -p1 --verbose || exit 1
+
+  chown -R root:root .
+  find . \
+    \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+    -exec chmod 755 {} \+ -o \
+    \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+    -exec chmod 644 {} \+
+
+  ./configure --prefix=/usr
+  make || exit 1
+  make install DESTDIR=$PKG || exit 1
+  mkdir -p $PKG/usr/doc/pinepgp-$pinepgpver
+  cp -a COPYING* README $PKG/usr/doc/pinepgp-$pinepgpver
+  chmod 644 $PKG/usr/doc/pinepgp-$pinepgpver/*
+
+  find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF \
+    | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
+
+  if [ -d $PKG/usr/man ]; then
+    ( cd $PKG/usr/man
+      for manpagedir in $(find . -type d -name "man*") ; do
+        ( cd $manpagedir
+          for eachpage in $(find . -type l -maxdepth 1) ; do
+            ln -s "$(readlink "$eachpage").gz" "$eachpage.gz"
+            rm -f "$eachpage"
+          done
+          gzip -9 *.*
+        )
+      done
+    )
+  fi
+
+  if [ -d $PKG/usr/info ]; then
+    ( cd $PKG/usr/info
+      rm -f dir
+      gzip -9 *
+    )
+  fi
+
+  if [ "$BUILD_IMAPD" = "NO" ]; then
+    return 0
+  fi
+
+  PKG2=$startdir/package-imapd
+  rm -rf $PKG2
+  mkdir -p $PKG2
+  cd "$SRC/alpine-$pkgver/imap" || exit 1
+
+  mkdir -p $PKG2/usr/doc/$imapdpkg-$pkgver
+  cp -a CONTENTS LICENSE* NOTICE SUPPORT* $PKG2/usr/doc/$imapdpkg-$pkgver
+  cat << MSG > $PKG2/usr/doc/$imapdpkg-$pkgver/additional-imap-documentation
+Additional documentation for imapd may be found in the alpine
+sources in the /imap/docs directory.
+MSG
+
+  mkdir -p $PKG2/usr/man/man8
+  for file in src/imapd/imapd.8 src/ipopd/ipopd.8 ; do
+    cat "$file" | gzip -9c > $PKG2/usr/man/man8/$(basename "$file").gz
+  done
+
+  mkdir -p $PKG2/usr/sbin
+  cat imapd/imapd > $PKG2/usr/sbin/imapd
+  cat ipopd/ipop3d > $PKG2/usr/sbin/ipop3d
+  chmod 755 $PKG2/usr/sbin/imapd $PKG2/usr/sbin/ipop3d
+
+  find $PKG2 | xargs file | grep -e "executable" -e "shared object" \
+    | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
+
+  mkdir -p $PKG2/install
+  cat "$startdir/slack-desc.imapd" > $PKG2/install/slack-desc
+
+  ( cd $PKG2
+    /sbin/makepkg -l y -c n $startdir/${imapdpkg}-${pkgver}-${ARCH}-${imapdrel}.txz
+  )
+}

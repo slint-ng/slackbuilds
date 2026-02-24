@@ -1,0 +1,1 @@
+aaa_libraries|bzip2,aaa_libraries|gcc,aaa_libraries|gcc-g++,aaa_libraries|libcap,aaa_libraries|libffi,brotli,dbus,elogind,expat,fontconfig,freetype,glib2,graphite2,harfbuzz,icu4c,kwindowsystem6,libX11,libXScrnSaver,libXau,libXdmcp,libXext,libXfixes,libglvnd,liblxqt,libpng,libqtxdg,libxcb,libxkbcommon,md4c,pcre2,qt6,util-linux,xcb-util-keysyms,zlib,zstd

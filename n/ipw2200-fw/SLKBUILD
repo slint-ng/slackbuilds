@@ -1,0 +1,33 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratlintdotfr
+
+pkgname=ipw2200-fw
+pkgver=3.1
+pkgrel=1slint
+arch=fw
+source=("https://mirrors.slackware.com/slackware/slackware64-current/source/n/ipw2200-fw/${pkgname}-${pkgver}.tar.xz")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"ipw2200-fw (Intel PRO/Wireless 2200 and 2915 firmware)"
+"Firmware for the ipw2200 kernel module."
+"Supports Intel PRO/Wireless 2200BG and 2915ABG adapters."
+"License text: /usr/doc/${pkgname}-${pkgver}/LICENSE"
+"Intel wireless site: http://intellinuxwireless.org/"
+)
+
+build() {
+  cd "$SRC" || exit 1
+  rm -rf ${pkgname}-${pkgver}
+  tar xf "$SRC/${pkgname}-${pkgver}.tar.xz" || exit 1
+  cd ${pkgname}-${pkgver}
+
+  chown -R root:root .
+  chmod 644 *
+
+  mkdir -p $PKG/lib/firmware
+  cp -a * $PKG/lib/firmware
+
+  mkdir -p $PKG/usr/doc/${pkgname}-${pkgver}
+  cp -a LICENSE* $PKG/usr/doc/${pkgname}-${pkgver}
+}

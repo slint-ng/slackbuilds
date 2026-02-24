@@ -1,0 +1,127 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=wpa_supplicant-nogui
+_srcname=wpa_supplicant
+pkgver=2.10
+_srcver=$(printf '%s' "$pkgver" | tr _ -)
+pkgrel=1slint
+source=("https://w1.fi/releases/${_srcname}-${_srcver}.tar.gz")
+url="https://w1.fi/wpa_supplicant/"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"wpa_supplicant-nogui (WPA/WPA2/802.1X supplicant)"
+"Client-side IEEE 802.1X and WPA/WPA2 supplicant."
+"Handles key negotiation and WLAN authentication."
+"This package excludes the Qt GUI client."
+"Homepage: http://hostap.epitest.fi/wpa_supplicant/"
+)
+
+doinst() {
+config() {
+  NEW="$1"
+  OLD="$(dirname "$NEW")/$(basename "$NEW" .new)"
+  if [ ! -r "$OLD" ]; then
+    mv "$NEW" "$OLD"
+  elif [ "$(cat "$OLD" | md5sum)" = "$(cat "$NEW" | md5sum)" ]; then
+    rm "$NEW"
+  fi
+}
+
+config etc/wpa_supplicant.conf.new
+config etc/logrotate.d/wpa_supplicant.new
+}
+
+build() {
+  ARCH=${ARCH:-${arch:-$(uname -m)}}
+  NUMJOBS=${NUMJOBS:-" -j$(expr $(nproc) + 1) "}
+
+  if [ "$ARCH" = "i586" ]; then
+    SLKCFLAGS="-O2 -march=i586 -mtune=i686"
+    LIBDIRSUFFIX=""
+  elif [ "$ARCH" = "s390" ]; then
+    SLKCFLAGS="-O2"
+    LIBDIRSUFFIX=""
+  elif [ "$ARCH" = "x86_64" ]; then
+    SLKCFLAGS="-O2 -fPIC"
+    LIBDIRSUFFIX="64"
+  elif [ "$ARCH" = "arm" ]; then
+    SLKCFLAGS="-O2 -march=armv4 -mtune=xscale"
+    LIBDIRSUFFIX=""
+  elif [ "$ARCH" = "armel" ]; then
+    SLKCFLAGS="-O2 -march=armv4t"
+    LIBDIRSUFFIX=""
+  else
+    SLKCFLAGS="-O2"
+    LIBDIRSUFFIX=""
+  fi
+
+  cd "$SRC" || exit 1
+  rm -rf ${_srcname}-${_srcver}
+  tar xvf "$SRC/${_srcname}-${_srcver}.tar.gz" || exit 1
+  cd ${_srcname}-${_srcver} || exit 1
+
+  chown -R root:root .
+  find . \
+    \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+    -exec chmod 755 {} \+ -o \
+    \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+    -exec chmod 644 {} \+
+
+  zcat "$startdir/patches/wpa_supplicant-gui-qt4.patch.gz" | patch -p1 --verbose || exit 1
+  zcat "$startdir/patches/wpa_supplicant-quiet-scan-results-message.patch.gz" | patch -p1 --verbose || exit 1
+  zcat "$startdir/patches/allow-tlsv1.patch.gz" | patch -p1 --verbose || exit 1
+  zcat "$startdir/patches/8e6485a1bcb0baffdea9e55255a81270b768439c.patch.gz" | patch -p1 --verbose || exit 1
+
+  cd wpa_supplicant || exit 1
+
+  cat "$startdir/config/dot.config" > .config
+
+  CFLAGS="$SLKCFLAGS" \
+  make $NUMJOBS \
+    BINDIR=/usr/sbin \
+    LIBDIR=/usr/lib${LIBDIRSUFFIX} || exit 1
+
+  make -C doc/docbook man
+
+  mv wpa_supplicant.conf wpa_supplicant.conf.sample
+
+  mkdir -p $PKG/usr/sbin $PKG/usr/bin
+  cp wpa_supplicant wpa_passphrase wpa_cli $PKG/usr/sbin/
+
+  find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF \
+    | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
+
+  mkdir -p $PKG/usr/share/dbus-1/system.d/
+  cp dbus/dbus-wpa_supplicant.conf $PKG/usr/share/dbus-1/system.d/dbus-wpa_supplicant.conf
+
+  mkdir -p $PKG/usr/share/dbus-1/system-services
+  install -m644 dbus/*.service $PKG/usr/share/dbus-1/system-services/
+
+  mkdir -p $PKG/etc/logrotate.d
+  cat "$startdir/config/wpa_supplicant.logrotate" > $PKG/etc/logrotate.d/wpa_supplicant.new
+
+  for m in 5 8; do
+    mkdir -p $PKG/usr/man/man${m}
+    cp doc/docbook/*.${m} $PKG/usr/man/man${m}/
+  done
+  find $PKG/usr/man -type f -name "*.?" -exec gzip -9f {} \+
+
+  mkdir -p $PKG/etc
+  cat "$startdir/config/wpa_supplicant.conf" > $PKG/etc/wpa_supplicant.conf.new
+  chmod 600 $PKG/etc/wpa_supplicant.conf.new
+
+  mkdir -p $PKG/usr/doc/${_srcname}-${pkgver}
+  cp -a \
+    ChangeLog ../COPYING README README-{P2P,WPS} examples *.txt *.sample $startdir/README.slackware \
+    $PKG/usr/doc/${_srcname}-${pkgver}
+  chown -R root:root $PKG/usr/doc/${_srcname}-${pkgver}/*
+  chmod -R a-w $PKG/usr/doc/${_srcname}-${pkgver}/*
+
+  if [ -r ChangeLog ]; then
+    DOCSDIR=$(echo $PKG/usr/doc/${_srcname}-${pkgver})
+    cat ChangeLog | head -n 1000 > $DOCSDIR/ChangeLog
+    touch -r ChangeLog $DOCSDIR/ChangeLog
+  fi
+}

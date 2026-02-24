@@ -1,0 +1,35 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratlintdotfr
+
+pkgname=ipw2100-fw
+pkgver=1.3
+pkgrel=1slint
+arch=fw
+source=("https://mirrors.slackware.com/slackware/slackware64-current/source/n/ipw2100-fw/${pkgname}-${pkgver}.tar.bz2")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"ipw2100-fw (Intel PRO/Wireless 2100 firmware)"
+"Firmware for the ipw2100 kernel module."
+"Covers Intel PRO/Wireless 2100 mini PCI adapters."
+"License text: /usr/doc/${pkgname}-${pkgver}/LICENSE"
+"Intel wireless site: http://intellinuxwireless.org/"
+)
+
+build() {
+  cd "$SRC" || exit 1
+  rm -rf ${pkgname}-${pkgver}
+  mkdir ${pkgname}-${pkgver}
+  cd ${pkgname}-${pkgver}
+  tar xf "$SRC/${pkgname}-${pkgver}.tar.bz2" || exit 1
+
+  chown -R root:root .
+  chmod 644 *
+
+  mkdir -p $PKG/lib/firmware
+  cp -a * $PKG/lib/firmware
+  mv $PKG/lib/firmware/LICENSE $PKG/lib/firmware/LICENSE.ipw2100-fw-${pkgver}
+
+  mkdir -p $PKG/usr/doc/${pkgname}-${pkgver}
+  cp -a LICENSE $PKG/usr/doc/${pkgname}-${pkgver}
+}

@@ -1,0 +1,42 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+#Packager: George Vlahavas <vlahavas~at~gmail~dot~com>
+#Adapted for Slint by Didier Spaier <didier~at~slint~dot~fr>
+pkgname=claws-mail
+pkgver=4.0.0
+pkgrel=2slint
+source=("https://www.claws-mail.org/releases/${pkgname}-${pkgver}.tar.xz"
+"https://deb.debian.org/debian/pool/main/c/claws-mail-themes/claws-mail-themes_20140629+dfsg2.orig.tar.xz")
+url="http://www.claws-mail.org/"
+options=(nosrcpack)
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"Claws Mail (A GTK+ based, lightweight, and fast e-mail client)."
+"Claws Mail - it bites! A GTK+ based, lightweight, and fast e-mail"
+"client and newsreader. Supports POP3, APOP, IMAP, SMTP,AUTH, NNTP,"
+"LDAP. Features multiple accounts, spell-checking, address book SSL,"
+"GPG/PGP, filtering, scoring, i18n, & more."
+)
+
+build() {
+	# default theme
+	cd $startdir/src/
+	rm -rf claws-mail-themes-20140629+dfsg1
+	rm -rf claws-mail-themes-20140629+dfsg2
+	tar -xf claws-mail-themes_20140629+dfsg2.orig.tar.xz || return 1
+	theme_dir=$(find claws-mail-themes-20140629+dfsg2 -type d -name gnome-brave | head -n 1)
+	[ -n "$theme_dir" ] || { echo "Missing gnome-brave theme directory."; return 1; }
+	mkdir -p $startdir/pkg/usr/share/claws-mail/themes/
+	cp -R "$theme_dir" $startdir/pkg/usr/share/claws-mail/themes/ || return 1
+	cd $startdir/src/${pkgname}-${pkgver}
+	
+	./configure \
+	  --prefix=/usr \
+	  --libdir=/usr/lib${LIBDIRSUFFIX} \
+	  --mandir=/usr/man \
+	  --docdir=/usr/doc/$pkgname-$pkgver \
+	  --disable-static \
+	  --build=$arch-slackware-linux
+	make -j $numjobs || return 1
+	make DESTDIR=$startdir/pkg/ install
+}

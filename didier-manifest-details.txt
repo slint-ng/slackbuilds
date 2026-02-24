@@ -1099,7 +1099,6 @@ python-pyalsaaudio/python-pyalsaaudio.SlackBuild 24 # Included in Slint by Didie
 luajit/luajit.SlackBuild 23 # Included in Slint by Didier Spaier didieratslintdotfr
 libmicrohttpd/libmicrohttpd.SlackBuild 28 # Included in Slint by Didier Spaier didieratslintdotfr
 perl-Mojolicious/perl-Mojolicious.SlackBuild 25 # Included in Slint by Didier Spaier <didiert~at~slint~dot~fr>
-yt-dlp-bin/yt-dlp-bin.SlackBuild 30 # Included in Slint by Didier Spaier didieratslintdotfr
 normalize/normalize.SlackBuild 23 # Included in Slint by Didier Spaier didieratslintdotfr
 pcsc-lite/pcsc-lite.SlackBuild 32 # Included in Slint by Didier Spaier didieratslintdotfr
 libmodplug/libmodplug.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
