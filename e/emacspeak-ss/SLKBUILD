@@ -65,6 +65,14 @@ build() {
 
   ./configure --prefix=/usr || exit 1
   make || exit 1
+
+  # Makefile.in tests host paths before creating DESTDIR paths.
+  # Pre-create install destinations so install does not fail when host dirs exist.
+  mkdir -p \
+    "$PKG/usr/share/emacs/site-lisp/emacspeak/blurbs" \
+    "$PKG/usr/share/emacs/site-lisp/emacspeak/servers" \
+    "$PKG/usr/lib/emacs/common/emacspeak" || exit 1
+
   make install DESTDIR="$PKG" || exit 1
   rm -f "$PKG"/usr/lib*/*.la
   strip "$PKG/usr/lib/emacs/common/emacspeak/ping-apollo" 2> /dev/null || true
@@ -75,9 +83,12 @@ build() {
     "$PKG/usr/share/emacs/site-lisp/emacspeak/servers" || exit 1
 
   mkdir -p "$PKG/usr/doc/$pkgname-$pkgver"
-  cp -a \
-    COPYING CREDITS ChangeLog Colors INSTALL OtherSynthesizers README \
+  for doc in \
+    COPYING CREDITS ChangeLog INSTALL OtherSynthesizers README \
     README.accent README.apollo README.braillenspeak README.ciber \
-    README.doubletalk README.pchablado TODO TROUBLESHOOTING \
-    "$PKG/usr/doc/$pkgname-$pkgver" || exit 1
+    README.doubletalk README.pchablado TODO TROUBLESHOOTING; do
+    if [ -e "$doc" ]; then
+      cp -a "$doc" "$PKG/usr/doc/$pkgname-$pkgver/" || exit 1
+    fi
+  done
 }
