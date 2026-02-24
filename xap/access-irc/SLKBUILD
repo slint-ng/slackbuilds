@@ -6,7 +6,7 @@ pkgrel=2slint
 slackdesc="$pkgname (Accessible IRC client with GTK3 support)"
 url="https://github.com/destructatron/access-irc"
 license=('MIT')
-depends=('python' 'python-gobject' 'python3-miniirc' 'python3-pluggy' 'gtk3' 'at-spi2-core'
+depends=('python3-miniirc' 'python3-pluggy' 'at-spi2-core'
          'gst-plugins-base' 'gst-plugins-good' 'python3-gtkspellcheck' 'python-numpy')
 makedepends=('python-build' 'python-installer' 'python-wheel' 'python-setuptools')
 optdepends=('python-scipy: for sound generation')
