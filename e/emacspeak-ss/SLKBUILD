@@ -1,0 +1,83 @@
+# shellcheck shell=bash
+# shellcheck disable=SC2034,SC2154
+# Packager: sektor
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=emacspeak-ss
+pkgver=1.12.1
+pkgrel=2slint
+source=("https://deb.debian.org/debian/pool/main/e/emacspeak-ss/emacspeak-ss_${pkgver}.orig.tar.gz")
+url="https://packages.debian.org/source/sid/emacspeak-ss"
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"emacspeak-ss: emacspeak-ss (Extra speech servers for Emacspeak)"
+"emacspeak-ss:"
+"emacspeak-ss: Emacspeak-ss provides extra servers for hardware speech"
+"emacspeak-ss: synthesizers like DoubleTalk, Braille 'n Speak, Accent,"
+"emacspeak-ss: Apollo, Ciber 232, and PC Hablado devices."
+"emacspeak-ss: This package extends the core emacspeak package."
+"emacspeak-ss:"
+)
+
+build() {
+  if [ -z "$ARCH" ]; then
+    case "$(uname -m)" in
+      i?86) ARCH=i486 ;;
+      *) ARCH=$(uname -m) ;;
+    esac
+    export ARCH
+  fi
+
+  rm -rf "$PKG"
+  mkdir -p "$PKG"
+
+  if [ "$ARCH" = "i386" ]; then
+    SLKCFLAGS="-O2 -march=i386 -mcpu=i686"
+  elif [ "$ARCH" = "i486" ]; then
+    SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+  elif [ "$ARCH" = "x86_64" ]; then
+    SLKCFLAGS="-O2"
+  else
+    SLKCFLAGS="-O2"
+  fi
+  export CFLAGS="$SLKCFLAGS"
+  export CXXFLAGS="$SLKCFLAGS"
+
+  cd "$SRC" || exit 1
+  rm -rf "$pkgname-$pkgver"
+  tar xf "${pkgname}_${pkgver}.orig.tar.gz" || exit 1
+  cd "$pkgname-$pkgver" || exit 1
+
+  while IFS= read -r patch_name; do
+    [ -n "$patch_name" ] || continue
+    echo "patching from $patch_name"
+    patch -p1 --verbose < "$startdir/patches/$patch_name" || exit 1
+  done < "$startdir/patches/series"
+
+  chown -R root:root .
+  find -L . \
+    \( -perm 700 -o -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+    -exec chmod 755 {} \; -o \
+    \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+    -exec chmod 644 {} \;
+
+  ./configure --prefix=/usr || exit 1
+  make || exit 1
+  make install DESTDIR="$PKG" || exit 1
+  rm -f "$PKG"/usr/lib*/*.la
+  strip "$PKG/usr/lib/emacs/common/emacspeak/ping-apollo" 2> /dev/null || true
+
+  rm -rf "$PKG/usr/share/emacs/site-lisp/emacspeak/servers"
+  mkdir -p "$PKG/usr/share/emacs/site-lisp/emacspeak/servers"
+  install -m 0755 doubletalk accent braillenspeak apollo ciber pchablado \
+    "$PKG/usr/share/emacs/site-lisp/emacspeak/servers" || exit 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver"
+  cp -a \
+    COPYING CREDITS ChangeLog Colors INSTALL OtherSynthesizers README \
+    README.accent README.apollo README.braillenspeak README.ciber \
+    README.doubletalk README.pchablado TODO TROUBLESHOOTING \
+    "$PKG/usr/doc/$pkgname-$pkgver" || exit 1
+}
