@@ -1,0 +1,48 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: Didier Spaier didieratslintdotfr
+
+pkgname=python3-flit_core3.11
+_srcname=flit_core
+pkgver=3.9.0
+pkgrel=1slint
+arch=x86_64
+source=("https://files.pythonhosted.org/packages/source/f/flit_core/${_srcname}-${pkgver}.tar.gz")
+url="https://github.com/pypa/flit"
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"python3-flit_core3.11 (Flit PEP 517 backend for Python 3.11)"
+""
+"Flit is a simple way to put Python packages and modules on PyPI."
+"This package provides the PEP 517 build backend"
+"\"flit_core.buildapi\" for Python 3.11."
+""
+"Homepage: https://github.com/pypa/flit"
+""
+""
+""
+)
+
+build() {
+  cd "$startdir/src/${_srcname}-$pkgver" || return 1
+  chown -R root:root .
+  find -L . \
+    \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
+       -o -perm 511 \) -exec chmod 755 {} \+ -o \
+    \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
+       -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \+
+
+  PYTHONDIR=$(python3.11 -c 'from distutils.sysconfig import get_python_lib; print(get_python_lib())') || return 1
+  mkdir -p "$PKG$PYTHONDIR" || return 1
+
+  python3.11 -m flit_core.wheel || return 1
+  python3.11 bootstrap_install.py --installdir "$PKG$PYTHONDIR" dist/flit_core-*.whl || return 1
+
+  find "$PKG" -print0 | xargs -0 file | \
+    grep -e "executable" -e "shared object" | grep ELF | \
+    cut -f 1 -d : | xargs -r strip --strip-unneeded 2>/dev/null || true
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a LICENSE "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
+}

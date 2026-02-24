@@ -1,0 +1,61 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: Didier Spaier didieratslintdotfr
+
+pkgname=edk2-ovmf
+pkgver=20230524
+pkgrel=1slint
+arch=noarch
+_fedver=3.fc38
+source=(
+  "https://kojipkgs.fedoraproject.org/packages/edk2/$pkgver/${_fedver}/noarch/$pkgname-$pkgver-${_fedver}.noarch.rpm"
+  "https://kojipkgs.fedoraproject.org/packages/edk2/$pkgver/${_fedver}/noarch/$pkgname-ia32-$pkgver-${_fedver}.noarch.rpm"
+)
+url="https://github.com/tianocore/tianocore.github.io/wiki/OVMF"
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"edk2-ovmf (Secure Boot enabled UEFI firmware for QEMU)"
+""
+"edk2-ovmf provides Secure Boot enabled UEFI firmware for QEMU."
+"It includes 64-bit and 32-bit firmware images and varstores"
+"with pre-enrolled Secure Boot keys."
+""
+"Homepage: http://www.tianocore.org/ovmf/"
+""
+""
+""
+)
+
+build() {
+  mkdir -p "$startdir/src/$pkgname-$pkgver" || return 1
+  cd "$startdir/src/$pkgname-$pkgver" || return 1
+
+  rpm2cpio "$startdir/src/$pkgname-$pkgver-${_fedver}.noarch.rpm" | cpio -idmv || return 1
+  rpm2cpio "$startdir/src/$pkgname-ia32-$pkgver-${_fedver}.noarch.rpm" | cpio -idmv || return 1
+
+  chown -R root:root .
+  find -L . \
+    \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
+       -o -perm 511 \) -exec chmod 755 {} \; -o \
+    \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
+       -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
+
+  mkdir -p "$PKG/usr/share" || return 1
+  cp -r usr/share/edk2/ovmf "$PKG/usr/share/edk2-ovmf-x64" || return 1
+  cp -r usr/share/edk2/ovmf-ia32 "$PKG/usr/share/edk2-ovmf-ia32" || return 1
+  cp -r usr/share/qemu "$PKG/usr/share/qemu" || return 1
+
+  for fw in "$PKG"/usr/share/qemu/firmware/*x64*; do
+    [ -e "$fw" ] || continue
+    sed -i 's|edk2/ovmf|edk2-ovmf-x64|g' "$fw" || return 1
+  done
+  for fw in "$PKG"/usr/share/qemu/firmware/*ia32*; do
+    [ -e "$fw" ] || continue
+    sed -i 's|edk2/ovmf|edk2-ovmf|g' "$fw" || return 1
+  done
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a usr/share/licenses/edk2-ovmf/* "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
+  cp -a usr/share/doc/edk2-ovmf/* "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
+}

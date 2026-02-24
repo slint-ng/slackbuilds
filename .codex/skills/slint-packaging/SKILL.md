@@ -28,6 +28,12 @@ On first use in a session, explicitly mention:
 - **Conversion**: SlackBuild -> SLKBUILD
 - **Update**: version bump, source checksums, deps, build flags
 
+3. Build and dependency generation defaults
+- Prefer `fakeroot slkbuild -X` for local build+clean validation.
+  Running `slkbuild -X` as a non-root user fails by design.
+- Generate package dependency metadata only from the built package artifact,
+  never from a source directory.
+
 ### SlackBuild -> SLKBUILD conversion
 
 - Use `scripts/convert_slackbuild.py` for a best-effort scaffold, then review.
@@ -37,9 +43,22 @@ On first use in a session, explicitly mention:
 - Preserve the build logic exactly (configure/meson flags, install steps, docs).
 - Inline `slack-desc` into `slackdesc=(...)` and keep the handy ruler line.
 - Inline `doinst.sh` into `doinst()`.
-- Ensure dependency metadata exists as `<pkgname>.dep` in the package directory.
-  - `sourcegen.sh` reads `<pkgname>.dep` for `SLACKBUILD REQUIRES`; it does not read `depends=()` from `SLKBUILD`.
-  - Keep `.dep` comma-separated with no spaces (example: `python,gtk3,python-gobject`).
+- Do **not** create placeholder dependency metadata during conversion.
+  - Dependency metadata must be generated **after** building the package, from
+    the produced package artifact (`*.txz`/`*.t?z`) using `depfinder`.
+  - Keep the generated package-style dep filename:
+    `<pkgname>-<pkgver>-<arch>-<pkgrel>.dep`.
+  - Python packages: use `depfinder -p -f -3 <package>.txz`.
+    Due to a `depfinder` option parsing bug, keep `-3` as the final option.
+  - Non-Python packages: use `depfinder -f <package>.txz`.
+  - Do not run `depfinder -f .` in the package directory; it can emit malformed
+    output filenames (for example `..dep`).
+  - Treat detected `python2` dependencies as potentially valid in this repo.
+    Some packages still legitimately depend on Python 2, so do not auto-rewrite
+    `python2` deps to `python3` without package-specific verification.
+  - `.dep` content is comma-separated with no spaces.
+- For restricted/containerized environments, avoid adding `unshare -n` in
+  Python wheel bootstrap steps unless explicitly required and verified.
 - Keep necessary helper files (patches, scripts, extra data files) and add to `source=()` when required by the build.
 - Remove redundant files after conversion:
   - `*.SlackBuild`, `slack-desc`, `doinst.sh`, and `.info` when it is no longer used.
@@ -51,7 +70,8 @@ On first use in a session, explicitly mention:
 - Update `pkgver`, `source`, and any checksums.
 - Use `scripts/bump_version.py` when possible to update `pkgver` and sums.
 - Sync `docs=()` with what the build installs.
-- If `depends=()` changes, update `<pkgname>.dep` in the same commit.
+- If runtime dependencies change, rebuild and regenerate the package `.dep`
+  from the produced package artifact with `depfinder` in the same commit.
 - Preserve existing build flags unless the update requires changes.
 - For linux-firmware based packages in this repo, preserve the paired
   date/commit versioning (`<date>_<commit>`) used by Slint and verify the
@@ -86,9 +106,10 @@ On first use in a session, explicitly mention:
 
 - `slackdesc` lines should be <= 70 chars (URLs can be longer if needed).
 - `slackdesc` should be <= 10 lines.
-- Ensure every tracked package `SLKBUILD` has a matching `<pkgname>.dep` file.
-  - Use `scripts/sync_dep_files.py --check` to audit.
-  - Use `scripts/sync_dep_files.py --write` to create/update dep files in bulk.
+- `bash -n SLKBUILD` must pass before attempting build validation.
+- For converted/updated packages, ensure dependency metadata comes from
+  `depfinder` run on the built package artifact and is saved as the generated
+  package-style `.dep` filename (`<pkgfull>.dep`).
 - In `SLKBUILD`, use plain URL sources (for example `https://...`).
   Do not use Arch-style `git+https://...` source syntax.
   Tag-based git sources are fine as plain URLs, for example
@@ -104,4 +125,5 @@ On first use in a session, explicitly mention:
 - `check_slackdesc_len.py`: Validate slackdesc line length and line count.
 - `convert_slackbuild.py`: Best-effort SlackBuild -> SLKBUILD scaffold.
 - `bump_version.py`: Update `pkgver` and refresh checksums if present.
-- `sync_dep_files.py`: Generate/update `<pkgname>.dep` files from `depends=()` across tracked `SLKBUILD`s.
+- `sync_dep_files.py`: Legacy helper for `<pkgname>.dep` from `depends=()`;
+  do not use for package dependency metadata in this repo workflow.

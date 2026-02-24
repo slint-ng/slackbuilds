@@ -1,0 +1,39 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: Didier Spaier didieratslintdotfr
+
+pkgname=b43-fwcutter
+pkgver=019
+pkgrel=2slint
+arch=x86_64
+source=("http://bues.ch/b43/fwcutter/$pkgname-$pkgver.tar.bz2")
+url="https://web.archive.org/web/20180201170335/https://wireless.wiki.kernel.org/en/users/drivers/b43"
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"b43-fwcutter (Broadcom firmware extractor)"
+""
+"b43-fwcutter extracts firmware blobs for Broadcom wireless chips"
+"from proprietary driver files for use with the b43 kernel driver."
+""
+""
+""
+""
+""
+""
+)
+
+build() {
+  cd "$startdir/src/$pkgname-$pkgver" || return 1
+  chown -R root:root .
+
+  CFLAGS="$SLKCFLAGS" make || return 1
+
+  mkdir -p "$PKG/usr/bin" "$PKG/usr/man/man1" || return 1
+  install -m 0755 "$pkgname" "$PKG/usr/bin/" || return 1
+  strip --strip-unneeded "$PKG/usr/bin/$pkgname" || return 1
+  gzip -9c b43-fwcutter.1 > "$PKG/usr/man/man1/b43-fwcutter.1.gz" || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a COPYING README "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
+}

@@ -39,6 +39,8 @@ It accepts either:
 - `bash .codex/skills/slkbuild-validation/scripts/validate_pkg.sh a/kernel-firmware`
 - Optional regression check:
   `bash .codex/skills/slkbuild-validation/scripts/test_validate_pkg.sh`
+- Also run `bash -n <pkg>/SLKBUILD` and include the result in validation notes.
+- If `shellcheck` is unavailable, record that explicitly instead of assuming pass.
 
 4. Return the script result as a fixed checklist.
 - `Artifacts`
@@ -46,9 +48,13 @@ It accepts either:
 - `Payload Checks`
 - `Verdict`
 - `Next Action`
+- Include `.dep` artifact presence and filename as part of artifact evidence
+  (package-style `<pkgfull>.dep`, generated from built package).
 
 5. On failure, report the first actionable fix.
 - Example: missing artifact, missing payload path, hard-failure marker in log.
+- If `.txz`/log/md5 is missing, keep the validation bead open with an explicit
+  "build evidence missing" reason.
 
 ## Scope
 
@@ -63,6 +69,11 @@ It accepts either:
   name before falling back to the latest `build-*.log`.
 - Generic `error:` log lines are shown as non-fatal when success markers and
   artifacts exist, unless they match critical failure markers.
+- `depfinder` warnings about missing optional/test Python modules can be
+  non-fatal when build success markers, required artifacts, and payload checks
+  all pass.
+- `python2` entries in generated `.dep` files are not automatic failures in
+  this repository; some packages legitimately depend on Python 2.
 - The validator derives package name/version from the built `.txz`, so package
   directory and package artifact names may differ.
 - Split kernel packages are validated with package-specific payload checks for:
