@@ -115,7 +115,6 @@ efibootmgr
 elinks
 emacs
 emacspeak
-emacspeak.prev
 emacspeak-ss
 emerald-themes
 epsonscan2

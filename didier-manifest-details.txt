@@ -478,7 +478,6 @@ qt5/qt5.SlackBuild 30 #Included in Slint by Didier Spaier didieratslintdotfr
 pyinotify/pyinotify.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 python-wheel3.11/python-wheel3.11.SlackBuild 25 # Included in Slint by Didier Spaier didieratslintdotfr
 python-cchardet/python-cchardet.SlackBuild 25 # Included in Slint by Didier Spaier diideratsintdotfr
-emacspeak.prev/emacspeak.SlackBuild 21 # Included in Slint by Didier Spaier didieratslintdotfr
 portaudio/SLKBUILD 2 # Included in Slint by Didier Spaier didieratslintdotfr
 libgccjit/libgccjit.SlackBuild 5 # script and the following notes - Didier Spaier
 libgccjit/libgccjit.SlackBuild 126 # Temporary build location (this what I use for Slint, edit that as you see fit - Didier)  
