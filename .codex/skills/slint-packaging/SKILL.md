@@ -127,3 +127,5 @@ On first use in a session, explicitly mention:
 - `bump_version.py`: Update `pkgver` and refresh checksums if present.
 - `sync_dep_files.py`: Legacy helper for `<pkgname>.dep` from `depends=()`;
   do not use for package dependency metadata in this repo workflow.
+- `man 5 slkbuild`: documentation of the slkbuild format.
+- `man 8 slkbuild`: documentation for the slkbuild utility itself
