@@ -1144,6 +1144,9 @@ generate_meta_file() {
     local uncompressedK=""
     local location=""
     local rebuildMeta=0
+    local existingRequires=""
+    local existingConflicts=""
+    local existingSuggests=""
 
     if [[ -f "${depFile}" ]]; then
         requires=$(tr -d '\n' < "${depFile}")
@@ -1166,6 +1169,20 @@ generate_meta_file() {
     fi
     if [[ -f "${sugFile}" && "${sugFile}" -nt "${metaFile}" ]]; then
         rebuildMeta=1
+    fi
+    if [[ -f "${metaFile}" ]]; then
+        existingRequires=$(awk -F'PACKAGE REQUIRED:  ' '/^PACKAGE REQUIRED:  /{print $2; exit}' "${metaFile}")
+        existingConflicts=$(awk -F'PACKAGE CONFLICTS:  ' '/^PACKAGE CONFLICTS:  /{print $2; exit}' "${metaFile}")
+        existingSuggests=$(awk -F'PACKAGE SUGGESTS:  ' '/^PACKAGE SUGGESTS:  /{print $2; exit}' "${metaFile}")
+        if [[ "${existingRequires}" != "${requires}" ]]; then
+            rebuildMeta=1
+        fi
+        if [[ "${existingConflicts}" != "${conflicts}" ]]; then
+            rebuildMeta=1
+        fi
+        if [[ "${existingSuggests}" != "${suggests}" ]]; then
+            rebuildMeta=1
+        fi
     fi
 
     if [[ ${rebuildMeta} -eq 1 ]]; then
