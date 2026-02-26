@@ -2,7 +2,7 @@
 
 pkgname=cthulhu
 pkgver=2026.01.26
-pkgrel=1slint
+pkgrel=2slint
 source=()
 url="https://git.stormux.org/storm/cthulhu"
 options=('nosrcpack')
@@ -89,6 +89,7 @@ build() {
   chmod 755 "$PKG/usr/libexec/toggle_screenreader.sh"
 
   rm -rf build
+  export PYTHON=/usr/bin/python3.11
   CFLAGS="$SLKCFLAGS" \
   CXXFLAGS="$SLKCFLAGS" \
   meson setup build \
@@ -115,5 +116,9 @@ build() {
   cp "$startdir/SLKBUILD" \
     "$PKG/usr/doc/$pkgname-$pkgver/SLKBUILD"
 
+  sed -i \
+    -e "1s|^#!/usr/bin/python3$|#!/usr/bin/python3.11|" \
+    -e "1s|^#!/usr/bin/env python3$|#!/usr/bin/python3.11|" \
+    "$PKG/usr/bin/$pkgname"
   chmod 755 "$PKG/usr/bin/$pkgname"
 }
