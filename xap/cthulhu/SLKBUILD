@@ -90,6 +90,14 @@ build() {
 
   rm -rf build
   export PYTHON=/usr/bin/python3.11
+  if [ ! -x /usr/bin/python3.11 ]; then
+    echo "$pkgname build requires /usr/bin/python3.11" >&2
+    exit 1
+  fi
+  pythonShimDir="$(mktemp -d)"
+  ln -s /usr/bin/python3.11 "$pythonShimDir/python3"
+
+  PATH="$pythonShimDir:$PATH" \
   CFLAGS="$SLKCFLAGS" \
   CXXFLAGS="$SLKCFLAGS" \
   meson setup build \
@@ -99,8 +107,9 @@ build() {
     --localstatedir=/var \
     --buildtype=release
 
-  meson compile -C build -j $numjobs
-  DESTDIR="$PKG" meson install -C build
+  PATH="$pythonShimDir:$PATH" meson compile -C build -j $numjobs
+  PATH="$pythonShimDir:$PATH" DESTDIR="$PKG" meson install -C build
+  rm -rf "$pythonShimDir"
 
   mkdir -p "$PKG/usr/doc/$pkgname-$pkgver"
   pandoc README.md -o "$PKG/usr/doc/$pkgname-$pkgver/README.html"
