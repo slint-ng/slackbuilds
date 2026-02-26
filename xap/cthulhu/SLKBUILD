@@ -2,7 +2,7 @@
 
 pkgname=cthulhu
 pkgver=2026.01.26
-pkgrel=1slint
+pkgrel=2slint
 source=()
 url="https://git.stormux.org/storm/cthulhu"
 options=('nosrcpack')
