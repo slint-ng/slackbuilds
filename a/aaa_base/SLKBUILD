@@ -1,0 +1,32 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Packager: sektor
+
+pkgname=aaa_base
+pkgver=15.0
+_srcname="_aaa_base"
+pkgrel=1slint
+source=("${_srcname}.tar.xz")
+options=("noextract" "nosrcpack" "noautodotnew")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"aaa_base (Basic Linux filesystem package)"
+"Sets up the empty directory tree for Slint. This package should be"
+"installed first, and never uninstalled."
+""
+""
+""
+""
+""
+""
+)
+build() {
+    tar -xpf "${SRC}/${_srcname}.tar.xz" \
+      -C "${PKG}" \
+      --strip-components=1 \
+      --xattrs \
+      --xattrs-include='*' \
+      --numeric-owner || exit 1
+}

@@ -1,3 +1,0 @@
-#!/bin/bash
-#Released under GPL version 3, see COPYING for details.
-tty |cut -c6- |sed s'"/""'g

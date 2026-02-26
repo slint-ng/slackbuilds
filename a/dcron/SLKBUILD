@@ -1,0 +1,104 @@
+# shellcheck shell=bash disable=SC2034
+# Packager: sektor
+
+pkgname=dcron
+pkgver=4.5
+pkgrel=1slint
+source=("https://www.jimpryor.net/linux/releases/${pkgname}-${pkgver}.tar.gz"
+0002-README-var-spool-cron-crontabs-root.patch.gz
+"0003-CHANGELOG-tweak.patch.gz"
+"0006-Fixed-a-bug-whereby-syncs-killed-all-waiting-jobs.patch.gz"
+"0007-Update-main.c.patch.gz"
+"crontab.c.O_EXCL.diff.gz"
+"defs.h.TMPDIR.diff.gz"
+"crond.default"
+"crontab.root.gz"
+"rc.crond"
+"run-parts.8.gz"
+"run-parts.gz")
+docs=("readme" "changelog" "extra")
+dotnew=(
+"etc/default/crond"
+"etc/rc.d/rc.crond")
+
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"dcron: dcron (Dillon's Cron daemon)"
+"dcron:"
+"dcron: The cron daemon runs in the background and executes tasks for"
+"dcron: users at set times. Many system tasks are started with cron,"
+"dcron: such as nightly indexing with updatedb."
+"dcron:"
+"dcron: dcron was written entirely from scratch by Matthew Dillon."
+"dcron:"
+"dcron:"
+"dcron:"
+)
+
+doinst() {
+if [ ! -r var/spool/cron/crontabs/root ]; then
+mv var/spool/cron/crontabs/root.new var/spool/cron/crontabs/root
+fi
+rm -f var/spool/cron/crontabs/root.new
+}
+
+build() {
+cd "${pkgname}-${pkgver}" || return 1
+# Apply patches from git:
+zcat "$PWD"/../0002-README-var-spool-cron-crontabs-root.patch.gz | patch -p1 --verbose || return 1
+zcat "$PWD"/../0003-CHANGELOG-tweak.patch.gz | patch -p1 --verbose || return 1
+zcat "$PWD"/../0006-Fixed-a-bug-whereby-syncs-killed-all-waiting-jobs.patch.gz | patch -p1 --verbose || return 1
+zcat "$PWD"/../0007-Update-main.c.patch.gz | patch -p1 --verbose || return 1
+# Define TMPDIR as /run/cron instead of /tmp:
+# This eliminates possibility of stale $TMPDIR/cron.??????/ dirs as
+# they won't survive a reboot when they're in a subdir of /run
+zcat "$PWD"/../defs.h.TMPDIR.diff.gz | patch -p1 --verbose || return 1
+
+# Fix problem where user creates /var/spool/cron/crontabs/<user>.new
+# using 'crontab -', exits with control-c, and then crontab refuses to
+# overwrite the junk file. It would be better if dcron would wipe
+# the junk file in the event it were not closed correctly, but oh well.
+zcat "$PWD"/../crontab.c.O_EXCL.diff.gz | patch -p1 --verbose || return 1
+
+make \
+PREFIX=/usr \
+BINDIR=/usr/bin \
+SBINDIR=/usr/sbin \
+MANDIR=/usr/man \
+CRONTAB_GROUP=root \
+|| return 1
+
+make install DESTDIR="$PKG"
+# Preserve historical dcron package permissions.
+chmod 0755 "$PKG"/usr/sbin/crond
+chmod 4711 "$PKG"/usr/bin/crontab
+
+# Add run-parts script and man page, largely taken from Fedora:
+mkdir -p "$PKG"/usr/bin
+zcat ../run-parts.gz > "$PKG"/usr/bin/run-parts
+chmod 0755 "$PKG"/usr/bin/run-parts
+
+mkdir -p "$PKG"/usr/man/man8
+zcat "$PWD"/../run-parts.8.gz > "$PKG"/usr/man/man8/run-parts.8
+
+# Add the init script:
+install -Dm0755 "$PWD"/../rc.crond "$PKG"/etc/rc.d/rc.crond
+
+# Add the default file:
+install -Dm0644 "$PWD"/../crond.default "$PKG"/etc/default/crond
+
+# Create some other stuff we need
+mkdir -p "$PKG"/etc/cron.{hourly,daily,weekly,monthly}
+mkdir -p "$PKG"/var/spool/cron/crontabs
+mkdir -p "$PKG"/var/spool/cron/cronstamps
+chmod 0751 "$PKG"/var/spool/cron
+chmod 0750 "$PKG"/var/spool/cron/crontabs "$PKG"/var/spool/cron/cronstamps
+zcat "$PWD"/../crontab.root > "$PKG"/var/spool/cron/crontabs/root.new
+chmod 0600 "$PKG"/var/spool/cron/crontabs/root.new
+
+# dcron will whine about "unable to scan" this directory, so we'll create it
+mkdir -p "$PKG"/etc/cron.d
+
+}
