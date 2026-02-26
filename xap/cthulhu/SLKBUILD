@@ -2,7 +2,7 @@
 
 pkgname=cthulhu
 pkgver=2026.01.26
-pkgrel=2slint
+pkgrel=1slint
 source=()
 url="https://git.stormux.org/storm/cthulhu"
 options=('nosrcpack')
@@ -120,5 +120,27 @@ build() {
     -e "1s|^#!/usr/bin/python3$|#!/usr/bin/python3.11|" \
     -e "1s|^#!/usr/bin/env python3$|#!/usr/bin/python3.11|" \
     "$PKG/usr/bin/$pkgname"
+  cthulhuLauncher="$PKG/usr/bin/$pkgname"
+  tmpLauncher="$(mktemp)"
+  awk '
+    /if pythondir is None:/ {
+      print "        if pythondir is None:"
+      print "            for candidate_dir in sys.path:"
+      print "                if not candidate_dir:"
+      print "                    continue"
+      print "                if os.path.exists(os.path.join(candidate_dir, '\''cthulhu'\'', '\''__init__.py'\'')):"
+      print "                    pythondir = candidate_dir"
+      print "                    break"
+    }
+    {
+      print
+      if ($0 ~ /possible_pythondirs = \[/) {
+        print "            os.path.join(prefix, '\''lib64'\'', python_version, '\''site-packages'\''),"
+        print "            os.path.join('\''/usr'\'', '\''lib64'\'', python_version, '\''site-packages'\''),  # System lib64 fallback"
+        print "            os.path.join('\''/usr/local'\'', '\''lib64'\'', python_version, '\''site-packages'\''),  # /usr/local lib64 fallback"
+      }
+    }
+  ' "$cthulhuLauncher" > "$tmpLauncher"
+  mv "$tmpLauncher" "$cthulhuLauncher"
   chmod 755 "$PKG/usr/bin/$pkgname"
 }
