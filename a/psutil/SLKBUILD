@@ -2,10 +2,11 @@
 
 pkgname=psutil
 pkgver=5.8.0
+_srcname="${pkgname}-release-${pkgver}"
 pkgrel=1slint
-source=("https://github.com/giampaolo/psutil/archive/release-${pkgver}/${pkgname}-release-${pkgver}.tar.gz")
+source=("https://github.com/giampaolo/psutil/archive/release-${pkgver}/${_srcname}.tar.gz")
 url="https://github.com/giampaolo/psutil"
-docs=("*.rst")
+docs=("*.rst" "LICENSE" "CREDITS")
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|
@@ -13,7 +14,8 @@ slackdesc=\
 )
 
 build() {
-  # Remove shebangs
+cd "${_srcname}"
+# Remove shebangs
   find psutil -name "*\.py" | while read line; do
     sed -i.orig '/^#!/d' $line
     touch -r ${line}.orig $line
