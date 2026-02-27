@@ -1,9 +1,0 @@
-[Unit]
-Description=Testsuite service
-After=basic.target multi-user.target
-
-[Service]
-ExecStart=/sbin/test-init
-Type=oneshot
-StandardInput=tty
-StandardOutput=tty
