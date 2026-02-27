@@ -2,7 +2,7 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 
 pkgname=codex
-pkgver=0.104.0
+pkgver=0.105.0
 _tag="rust-v${pkgver}"
 pkgrel=1slint
 arch=('x86_64' 'aarch64')
