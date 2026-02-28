@@ -29,16 +29,21 @@ build() {
   cd "$SRC/${pkgname}-${pkgver}" || exit 1
 
   # Release tarballs do not contain .git metadata used by upstream Makefile.
-  sed -i "s|main.Build=\\$\\$(git rev-parse --short HEAD)|main.Build=${pkgver}|" \
+  sed -i "s|main\.Build=\\\$\\\$(git rev-parse --short HEAD)|main.Build=${pkgver}|" \
     Makefile || exit 1
 
   # Keep Go caches inside the build tree for reproducible sandboxed builds.
   export GOPATH="$PWD/.gopath"
   export GOCACHE="$PWD/.gocache"
   export GOMODCACHE="$PWD/.gomodcache"
+  export GOFLAGS="${GOFLAGS:+${GOFLAGS} }-modcacherw"
   mkdir -p "$GOPATH" "$GOCACHE" "$GOMODCACHE" || exit 1
 
   make build || exit 1
+
+  # Go makes module-cache directories read-only by default.
+  # Relax them so slkbuild -X can remove src/ cleanly after packaging.
+  chmod -R u+w "$GOMODCACHE" || exit 1
 
   install -Dm755 bd "$PKG/usr/bin/bd" || exit 1
   ln -sf bd "$PKG/usr/bin/beads" || exit 1
