@@ -1,0 +1,3 @@
+# Approved manifest deltas for the dcron SLKBUILD conversion.
++^etc/rc\.d/rc\.crond\.new$
+-^etc/rc\.d/rc\.crond$

@@ -299,4 +299,236 @@ if ! printf '%s\n' "$output_codex_log_fail" | grep -Fq "cannot stat"; then
   exit 1
 fi
 
+baseline_repo_root="${tmpdir}/baseline-repo"
+baseline_slapt_getrc="${tmpdir}/baseline-slapt-getrc"
+mkdir -p "$baseline_repo_root" "${tmpdir}/baseline-cache"
+
+create_packages_txt() {
+  local repo_dir="$1"
+  local package_file="$2"
+
+  cat > "${repo_dir}/PACKAGES.TXT" <<EOF
+PACKAGE NAME:  $(basename "$package_file")
+PACKAGE LOCATION:  .
+
+EOF
+}
+
+cat > "$baseline_slapt_getrc" <<EOF
+WORKINGDIR=${tmpdir}/baseline-cache
+SOURCE=file://${baseline_repo_root}:PREFERRED
+EOF
+
+baseline_stage_dir="${tmpdir}/baseline-stage"
+rm -rf "$baseline_stage_dir"
+mkdir -p "${baseline_stage_dir}/install"
+mkdir -p "${baseline_stage_dir}/usr/doc/${pkg_name}-${pkgver}"
+mkdir -p "${baseline_stage_dir}/lib/firmware"
+
+cat > "${baseline_stage_dir}/install/slack-desc" <<'EOF'
+firmware-installer: firmware-installer (baseline fixture)
+EOF
+
+cat > "${baseline_stage_dir}/usr/doc/${pkg_name}-${pkgver}/WHENCE.linux-firmware" <<'EOF'
+firmware metadata
+EOF
+
+baseline_pkg_file="${baseline_repo_root}/${pkg_name}-${pkgver}-${pkg_arch}-${pkg_rel}.txz"
+tar -C "$baseline_stage_dir" -cJf "$baseline_pkg_file" install usr lib
+create_packages_txt "$baseline_repo_root" "$baseline_pkg_file"
+
+if ! output_manifest_pass="$(SLKBUILD_VALIDATION_SLAPT_GETRC="$baseline_slapt_getrc" bash "$validator" --require-baseline "$pkg_dir")"; then
+  printf '%s\n' "$output_manifest_pass"
+  echo "FAIL: validator should pass manifest diff when only allowed usr/src additions differ."
+  exit 1
+fi
+
+if ! printf '%s\n' "$output_manifest_pass" | grep -Fq "Baseline source: download"; then
+  printf '%s\n' "$output_manifest_pass"
+  echo "FAIL: validator did not report downloaded baseline source."
+  exit 1
+fi
+
+if ! printf '%s\n' "$output_manifest_pass" | grep -Fq "Status: PASS"; then
+  printf '%s\n' "$output_manifest_pass"
+  echo "FAIL: manifest diff pass case did not report PASS."
+  exit 1
+fi
+
+if ! printf '%s\n' "$output_manifest_pass" | grep -Fq "Allowed manifest deltas ignored: 3"; then
+  printf '%s\n' "$output_manifest_pass"
+  echo "FAIL: manifest diff pass case did not ignore the expected usr/src additions."
+  exit 1
+fi
+
+manifest_pkg_name="manifest-demo"
+manifest_pkg_ver="1.0"
+manifest_pkg_arch="x86_64"
+manifest_pkg_rel="1slint"
+manifest_pkg_dir="${fixture_root}/n/${manifest_pkg_name}"
+manifest_stage_dir="${manifest_pkg_dir}/stage"
+manifest_pkg_file="${manifest_pkg_dir}/${manifest_pkg_name}-${manifest_pkg_ver}-${manifest_pkg_arch}-${manifest_pkg_rel}.txz"
+manifest_md5_file="${manifest_pkg_file%.txz}.md5"
+manifest_log_file="${manifest_pkg_dir}/build-${manifest_pkg_name}-${manifest_pkg_ver}-${manifest_pkg_arch}-${manifest_pkg_rel}.log"
+manifest_baseline_stage="${tmpdir}/manifest-baseline-stage"
+manifest_baseline_pkg="${baseline_repo_root}/${manifest_pkg_name}-${manifest_pkg_ver}-${manifest_pkg_arch}-${manifest_pkg_rel}.txz"
+
+rm -rf "$manifest_pkg_dir" "$manifest_stage_dir" "$manifest_baseline_stage"
+mkdir -p "${manifest_stage_dir}/install"
+mkdir -p "${manifest_stage_dir}/usr/src/${manifest_pkg_name}-${manifest_pkg_ver}"
+mkdir -p "${manifest_stage_dir}/usr/bin"
+mkdir -p "${manifest_pkg_dir}"
+
+cat > "${manifest_stage_dir}/install/slack-desc" <<'EOF'
+manifest-demo: manifest-demo (manifest diff fixture)
+EOF
+
+cat > "${manifest_stage_dir}/usr/src/${manifest_pkg_name}-${manifest_pkg_ver}/SLKBUILD" <<'EOF'
+pkgname=manifest-demo
+EOF
+
+cat > "${manifest_stage_dir}/usr/bin/manifest-demo" <<'EOF'
+#!/bin/sh
+echo manifest-demo
+EOF
+chmod 755 "${manifest_stage_dir}/usr/bin/manifest-demo"
+
+tar -C "$manifest_stage_dir" -cJf "$manifest_pkg_file" install usr
+(cd "$manifest_pkg_dir" && md5sum "$(basename "$manifest_pkg_file")" > "$(basename "$manifest_md5_file")")
+
+cat > "$manifest_log_file" <<EOF
+Slackware package ${manifest_pkg_file} created.
+EOF
+
+mkdir -p "${manifest_baseline_stage}/install"
+mkdir -p "${manifest_baseline_stage}/usr/bin"
+mkdir -p "${manifest_baseline_stage}/usr/share"
+
+cat > "${manifest_baseline_stage}/install/slack-desc" <<'EOF'
+manifest-demo: manifest-demo (baseline manifest diff fixture)
+EOF
+
+cat > "${manifest_baseline_stage}/usr/bin/manifest-demo" <<'EOF'
+#!/bin/sh
+echo manifest-demo
+EOF
+chmod 755 "${manifest_baseline_stage}/usr/bin/manifest-demo"
+
+cat > "${manifest_baseline_stage}/usr/share/legacy.txt" <<'EOF'
+legacy payload
+EOF
+
+tar -C "$manifest_baseline_stage" -cJf "$manifest_baseline_pkg" install usr
+create_packages_txt "$baseline_repo_root" "$manifest_baseline_pkg"
+
+if output_manifest_fail="$(SLKBUILD_VALIDATION_SLAPT_GETRC="$baseline_slapt_getrc" bash "$validator" --require-baseline "$manifest_pkg_dir")"; then
+  printf '%s\n' "$output_manifest_fail"
+  echo "FAIL: validator should fail manifest diff when baseline files disappear."
+  exit 1
+fi
+
+if ! printf '%s\n' "$output_manifest_fail" | grep -Fq "Unexpected removals:"; then
+  printf '%s\n' "$output_manifest_fail"
+  echo "FAIL: manifest diff failure did not report unexpected removals."
+  exit 1
+fi
+
+if ! printf '%s\n' "$output_manifest_fail" | grep -Fq "usr/share/legacy.txt"; then
+  printf '%s\n' "$output_manifest_fail"
+  echo "FAIL: manifest diff failure did not include the missing baseline path."
+  exit 1
+fi
+
+manifest_shift_pkg_name="manifest-shift"
+manifest_shift_pkg_ver="1.0"
+manifest_shift_pkg_arch="x86_64"
+manifest_shift_pkg_rel="1slint"
+manifest_shift_pkg_dir="${fixture_root}/n/${manifest_shift_pkg_name}"
+manifest_shift_stage_dir="${manifest_shift_pkg_dir}/stage"
+manifest_shift_pkg_file="${manifest_shift_pkg_dir}/${manifest_shift_pkg_name}-${manifest_shift_pkg_ver}-${manifest_shift_pkg_arch}-${manifest_shift_pkg_rel}.txz"
+manifest_shift_md5_file="${manifest_shift_pkg_file%.txz}.md5"
+manifest_shift_log_file="${manifest_shift_pkg_dir}/build-${manifest_shift_pkg_name}-${manifest_shift_pkg_ver}-${manifest_shift_pkg_arch}-${manifest_shift_pkg_rel}.log"
+manifest_shift_baseline_stage="${tmpdir}/manifest-shift-baseline-stage"
+manifest_shift_baseline_pkg="${baseline_repo_root}/${manifest_shift_pkg_name}-${manifest_shift_pkg_ver}-${manifest_shift_pkg_arch}-${manifest_shift_pkg_rel}.txz"
+
+rm -rf "$manifest_shift_pkg_dir" "$manifest_shift_stage_dir" "$manifest_shift_baseline_stage"
+mkdir -p "${manifest_shift_stage_dir}/install"
+mkdir -p "${manifest_shift_stage_dir}/usr/src/${manifest_shift_pkg_name}-${manifest_shift_pkg_ver}"
+mkdir -p "${manifest_shift_stage_dir}/usr/bin"
+mkdir -p "${manifest_shift_stage_dir}/etc/rc.d"
+mkdir -p "${manifest_shift_pkg_dir}"
+
+cat > "${manifest_shift_stage_dir}/install/slack-desc" <<'EOF'
+manifest-shift: manifest-shift (allowlisted rename fixture)
+EOF
+
+cat > "${manifest_shift_stage_dir}/usr/src/${manifest_shift_pkg_name}-${manifest_shift_pkg_ver}/SLKBUILD" <<'EOF'
+pkgname=manifest-shift
+EOF
+
+cat > "${manifest_shift_stage_dir}/usr/bin/manifest-shift" <<'EOF'
+#!/bin/sh
+echo manifest-shift
+EOF
+chmod 755 "${manifest_shift_stage_dir}/usr/bin/manifest-shift"
+
+cat > "${manifest_shift_stage_dir}/etc/rc.d/rc.manifest.new" <<'EOF'
+#!/bin/sh
+echo shifted
+EOF
+chmod 755 "${manifest_shift_stage_dir}/etc/rc.d/rc.manifest.new"
+
+cat > "${manifest_shift_pkg_dir}/manifest-allowlist.txt" <<'EOF'
++^etc/rc\.d/rc\.manifest\.new$
+-^etc/rc\.d/rc\.manifest$
+EOF
+
+tar -C "$manifest_shift_stage_dir" -cJf "$manifest_shift_pkg_file" install usr etc
+(cd "$manifest_shift_pkg_dir" && md5sum "$(basename "$manifest_shift_pkg_file")" > "$(basename "$manifest_shift_md5_file")")
+
+cat > "$manifest_shift_log_file" <<EOF
+Slackware package ${manifest_shift_pkg_file} created.
+EOF
+
+mkdir -p "${manifest_shift_baseline_stage}/install"
+mkdir -p "${manifest_shift_baseline_stage}/usr/bin"
+mkdir -p "${manifest_shift_baseline_stage}/etc/rc.d"
+
+cat > "${manifest_shift_baseline_stage}/install/slack-desc" <<'EOF'
+manifest-shift: manifest-shift (allowlisted rename baseline fixture)
+EOF
+
+cat > "${manifest_shift_baseline_stage}/usr/bin/manifest-shift" <<'EOF'
+#!/bin/sh
+echo manifest-shift
+EOF
+chmod 755 "${manifest_shift_baseline_stage}/usr/bin/manifest-shift"
+
+cat > "${manifest_shift_baseline_stage}/etc/rc.d/rc.manifest" <<'EOF'
+#!/bin/sh
+echo shifted
+EOF
+chmod 755 "${manifest_shift_baseline_stage}/etc/rc.d/rc.manifest"
+
+tar -C "$manifest_shift_baseline_stage" -cJf "$manifest_shift_baseline_pkg" install usr etc
+create_packages_txt "$baseline_repo_root" "$manifest_shift_baseline_pkg"
+
+if ! output_manifest_shift_pass="$(SLKBUILD_VALIDATION_SLAPT_GETRC="$baseline_slapt_getrc" bash "$validator" --require-baseline "$manifest_shift_pkg_dir")"; then
+  printf '%s\n' "$output_manifest_shift_pass"
+  echo "FAIL: validator should pass allowlisted manifest replacements."
+  exit 1
+fi
+
+if ! printf '%s\n' "$output_manifest_shift_pass" | grep -Fq "Allowed manifest deltas ignored: 5"; then
+  printf '%s\n' "$output_manifest_shift_pass"
+  echo "FAIL: allowlisted manifest replacement did not count expected ignored deltas."
+  exit 1
+fi
+
+if ! printf '%s\n' "$output_manifest_shift_pass" | grep -Fq "Status: PASS"; then
+  printf '%s\n' "$output_manifest_shift_pass"
+  echo "FAIL: allowlisted manifest replacement should pass."
+  exit 1
+fi
+
 echo "PASS: firmware-installer and codex regression fixtures validate expected behavior."

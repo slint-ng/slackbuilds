@@ -1,0 +1,7 @@
+# Allowed manifest additions for SlackBuild -> SLKBUILD conversions.
+# Patterns are POSIX ERE regexes evaluated by bash [[ string =~ regex ]].
+# @PKGNAME@ and @PKGVER@ are replaced before matching.
+
+^usr/src/$
+^usr/src/@PKGNAME@-@PKGVER@/?$
+^usr/src/@PKGNAME@-@PKGVER@/.+$

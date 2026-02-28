@@ -13,6 +13,11 @@ Use this skill to standardize Slint package maintenance tasks, especially SlackB
 
 On first use in a session, explicitly mention:
 - `convert_slackbuild.py` is a best-effort scaffold and requires manual review.
+- `convert_slackbuild.py --apply` now keeps legacy SlackBuild files in place if
+  conversion gates fail; cleanup is only safe after review.
+- Current `slkbuild` behavior around `dotnew` is subtler than `man 5 slkbuild`
+  suggests: if `dotnew=()` is unset, regular files under `/etc` are auto-added;
+  if `dotnew=()` is set, you must cover all relevant `/etc` files yourself.
 - `bump_version.py` updates checksums only when sums arrays exist and sources are URL-based.
 - If latest version is uncertain, ask the user to confirm (Arch is usually current).
 
@@ -33,16 +38,42 @@ On first use in a session, explicitly mention:
   Running `slkbuild -X` as a non-root user fails by design.
 - Generate package dependency metadata only from the built package artifact,
   never from a source directory.
+- For conversions that keep the same in-tree version, require validation
+  against the baseline package artifact from the Slint repos after the new
+  package builds.
 
 ### SlackBuild -> SLKBUILD conversion
 
 - Use `scripts/convert_slackbuild.py` for a best-effort scaffold, then review.
+- Run `scripts/check_conversion_gates.py <pkgdir>` before treating the
+  conversion as finished. Add `--shellcheck` when you changed bash logic.
 - If the package already exists in-tree, keep the current in-tree version
   when converting (do not bump to a newer upstream/Arch version unless the
   user explicitly asks for an update).
 - Preserve the build logic exactly (configure/meson flags, install steps, docs).
+- Fold simple source-tree documentation installs into `docs=()` when the old
+  SlackBuild just copies or finds static doc files into `/usr/doc` or
+  `/usr/share/doc`; keep manual build logic for generated docs or subdir
+  layouts that `docs=()` would not preserve.
+- Fold the stock package-tree ELF stripping stanza into `slkbuild`'s default
+  strip pass when the old SlackBuild just does a generic `find ... | file |
+  grep ELF | xargs strip --strip-unneeded` over `$PKG`; keep custom/narrow
+  strip logic in `build()` and add `options=("nostrip")` manually when a
+  package must not be stripped.
+- Drop redundant `CFLAGS/CXXFLAGS="$SLKCFLAGS"` wrappers and `export
+  CFLAGS/CXXFLAGS="$SLKCFLAGS"` lines during conversion, because `slkbuild`
+  already exports those defaults. Keep explicit `--libdir`, `LIB_SUFFIX`, and
+  similar build-system arguments when the upstream build needs them; `slkbuild`
+  provides `LIBDIRSUFFIX`, but it does not infer install-path flags for you.
 - Inline `slack-desc` into `slackdesc=(...)` and keep the handy ruler line.
 - Inline `doinst.sh` into `doinst()`.
+- Prefer `dotnew=()` for config files and keep `doinst()` only for non-dotnew
+  post-install behavior.
+- When converting old `doinst.sh` config handling:
+  - move common `config etc/foo.new` or `dotnew etc/foo` cases into `dotnew=()`.
+  - if you set `dotnew=()`, include every relevant regular file shipped under
+    `/etc`, because current `slkbuild` only auto-discovers `/etc` files when
+    `dotnew=()` is completely unset.
 - Do **not** create placeholder dependency metadata during conversion.
   - Dependency metadata must be generated **after** building the package, from
     the produced package artifact (`*.txz`/`*.t?z`) using `depfinder`.
@@ -60,9 +91,30 @@ On first use in a session, explicitly mention:
 - For restricted/containerized environments, avoid adding `unshare -n` in
   Python wheel bootstrap steps unless explicitly required and verified.
 - Keep necessary helper files (patches, scripts, extra data files) and add to `source=()` when required by the build.
-- Remove redundant files after conversion:
+- After the converted package builds, run validation with baseline manifest
+  comparison:
+  `bash .codex/skills/slkbuild-validation/scripts/validate_pkg.sh --require-baseline <category>/<pkg>`
+- The manifest comparison lives in the validation skill, not here. This skill
+  only treats passing baseline validation as part of conversion completion.
+- Treat the following as blocking conversion gates until manually resolved:
+  - leftover PKGBUILD/APKBUILD markers such as `prepare()`, `package()`,
+    `pkgdesc=`, `subpackages=`, checksum arrays, `validpgpkeys=`, or
+    `git+https://` source syntax.
+  - raw SlackBuild variables and tempdir scaffolding such as `$PKGNAM`,
+    `$VERSION`, `$CWD`, `$TMP`, or `$OUTPUT` left in the generated `build()`.
+  - references to `srcdir`, `pkgdir`, `builddir`, or `startdir`.
+  - network fetches inside `build()` such as `git clone`, `curl`, or `wget`.
+  - local helper files referenced by the build but missing from `source=()`.
+  - partial `dotnew=()` coverage for packages that install regular files under
+    `/etc`; explicit `dotnew=()` disables slkbuild's fallback auto-discovery of
+    `/etc` files.
+- Remove redundant files after conversion only after the gates pass:
   - `*.SlackBuild`, `slack-desc`, `doinst.sh`, and `.info` when it is no longer used.
 - Keep `.url`, `.news`, `.sha256sum`, and similar files unless you are sure they are obsolete.
+- If the `dotnew` behavior is unclear, generate `build-<pkgname>.sh` from a
+  known-good `SLKBUILD` and inspect the emitted `setup_dotnew()`/`setup_doinst()`
+  blocks. When the manpage and generated behavior disagree, prefer the current
+  `/usr/bin/slkbuild` implementation.
 
 ### Updates
 
@@ -107,9 +159,17 @@ On first use in a session, explicitly mention:
 - `slackdesc` lines should be <= 70 chars (URLs can be longer if needed).
 - `slackdesc` should be <= 10 lines.
 - `bash -n SLKBUILD` must pass before attempting build validation.
+- Converted `SLKBUILD`s should start with either `#!/bin/bash` or a
+  `# shellcheck shell=bash ...` directive so shell tooling treats them as bash.
 - For converted/updated packages, ensure dependency metadata comes from
   `depfinder` run on the built package artifact and is saved as the generated
   package-style `.dep` filename (`<pkgfull>.dep`).
+- For same-version conversions, baseline manifest validation against the
+  original Slint package should pass, with only allowlisted additions such as
+  `usr/src/<pkg>-<ver>/...`.
+- Placeholder dependency files named `<pkgname>.dep` are a sign of an
+  incomplete conversion unless that exact filename was generated from the built
+  package artifact for repo-specific reasons.
 - In `SLKBUILD`, use plain URL sources (for example `https://...`).
   Do not use Arch-style `git+https://...` source syntax.
   Tag-based git sources are fine as plain URLs, for example
@@ -123,6 +183,9 @@ On first use in a session, explicitly mention:
 
 ### scripts/
 - `check_slackdesc_len.py`: Validate slackdesc line length and line count.
+- `check_conversion_gates.py`: Check converted package dirs for leftover
+  foreign packaging markers, legacy files, placeholder deps, and `bash -n`
+  failures.
 - `convert_slackbuild.py`: Best-effort SlackBuild -> SLKBUILD scaffold.
 - `bump_version.py`: Update `pkgver` and refresh checksums if present.
 - `sync_dep_files.py`: Legacy helper for `<pkgname>.dep` from `depends=()`;

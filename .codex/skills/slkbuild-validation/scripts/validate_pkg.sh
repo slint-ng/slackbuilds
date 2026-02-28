@@ -1,29 +1,82 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+script_path="${BASH_SOURCE[0]}"
+script_dir="${script_path%/*}"
+if [[ "$script_dir" == "$script_path" ]]; then
+  script_dir="."
+fi
+script_dir="$(cd "$script_dir" && pwd)"
+references_dir="${script_dir}/../references"
+default_slapt_getrc="/etc/slapt-get/slapt-getrc"
+default_manifest_allowlist="${references_dir}/manifest-allowlist.txt"
+
 usage() {
   cat <<'EOF'
 Usage:
-  validate_pkg.sh <pkg-path>
+  validate_pkg.sh [--require-baseline] [--baseline <package>] [--slapt-getrc <path>] <pkg-path>
 
 Examples:
   validate_pkg.sh k/sof-firmware
+  validate_pkg.sh --require-baseline a/dcron
+  validate_pkg.sh --baseline /tmp/dcron-4.5-x86_64-1.txz a/dcron
   validate_pkg.sh /home/sektor/projects/slackbuilds/k/sof-firmware
 EOF
 }
 
-if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
-  usage
-  exit 0
-fi
+require_baseline="no"
+baseline_arg=""
+slapt_getrc="${SLKBUILD_VALIDATION_SLAPT_GETRC:-$default_slapt_getrc}"
 
-if [[ $# -lt 1 ]]; then
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    --require-baseline)
+      require_baseline="yes"
+      shift
+      ;;
+    --baseline)
+      if [[ $# -lt 2 ]]; then
+        usage
+        exit 2
+      fi
+      baseline_arg="$2"
+      shift 2
+      ;;
+    --slapt-getrc)
+      if [[ $# -lt 2 ]]; then
+        usage
+        exit 2
+      fi
+      slapt_getrc="$2"
+      shift 2
+      ;;
+    --)
+      shift
+      break
+      ;;
+    -*)
+      usage
+      exit 2
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+if [[ $# -ne 1 ]]; then
   usage
   exit 2
 fi
 
 input_path="$1"
 validation_root="/home/sektor/projects/slackbuilds"
+tmpdir="$(mktemp -d)"
+trap 'rm -rf "$tmpdir"' EXIT
 
 if [[ "$input_path" = /* ]]; then
   pkgdir="${input_path%/}"
@@ -58,10 +111,28 @@ pkgname_dir="$(basename "$pkgdir")"
 parsed_pkgname="$pkgname_dir"
 pkgver=""
 txz_base=""
+txz_arch=""
 log_file=""
 log_selection_reason="missing"
 md5_file=""
 expected_md5=""
+baseline_pkg=""
+baseline_source="not-run"
+baseline_note="not-run"
+manifest_status="not-run"
+manifest_diff_mode="not-run"
+pkgdiff_excerpt=""
+manifest_allowed_count=0
+manifest_unexpected_additions=""
+manifest_unexpected_removals=""
+manifest_allow_add_patterns=()
+manifest_allow_remove_patterns=()
+workingdir="${SLKBUILD_VALIDATION_WORKINGDIR:-}"
+manifest_allowlist_files=("$default_manifest_allowlist")
+tmp_tar_index="${tmpdir}/package-manifest.txt"
+tmp_tar_listing="${tmpdir}/package-listing.txt"
+tmp_baseline_index="${tmpdir}/baseline-manifest.txt"
+tmp_pkgdiff_output="${tmpdir}/pkgdiff-output.txt"
 
 fail_reasons=()
 hard_hits_actionable=""
@@ -153,6 +224,316 @@ select_log_file() {
   fi
 }
 
+fetch_to_path() {
+  local source="$1"
+  local dest="$2"
+
+  case "$source" in
+    file://*)
+      cp -f "${source#file://}" "$dest"
+      ;;
+    *)
+      if command -v curl >/dev/null 2>&1; then
+        curl -fsSL "$source" -o "$dest"
+      elif command -v wget >/dev/null 2>&1; then
+        wget -q -O "$dest" "$source"
+      else
+        return 1
+      fi
+      ;;
+  esac
+}
+
+parse_slapt_getrc() {
+  local config_path="$1"
+  local line=""
+  local source=""
+
+  slapt_sources=()
+
+  if [[ ! -f "$config_path" ]]; then
+    return
+  fi
+
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    line="${line#"${line%%[![:space:]]*}"}"
+    line="${line%"${line##*[![:space:]]}"}"
+    [[ -z "$line" || "${line:0:1}" == "#" ]] && continue
+
+    case "$line" in
+      WORKINGDIR=*)
+        if [[ -z "${SLKBUILD_VALIDATION_WORKINGDIR:-}" ]]; then
+          workingdir="${line#WORKINGDIR=}"
+        fi
+        ;;
+      SOURCE=*)
+        source="${line#SOURCE=}"
+        source="${source%:*}"
+        slapt_sources+=("$source")
+        ;;
+    esac
+  done <"$config_path"
+}
+
+find_cached_baseline() {
+  local dir="$1"
+  local candidate=""
+
+  [[ -z "$dir" || ! -d "$dir" ]] && return 1
+
+  candidate="$(
+    find "$dir" -type f -printf '%T@ %p\n' 2>/dev/null \
+      | sort -nr \
+      | while read -r _ts path; do
+          case "$(basename "$path")" in
+            "${parsed_pkgname}-${pkgver}-${txz_arch}-"*.txz|\
+            "${parsed_pkgname}-${pkgver}-${txz_arch}-"*.tgz|\
+            "${parsed_pkgname}-${pkgver}-${txz_arch}-"*.tlz|\
+            "${parsed_pkgname}-${pkgver}-${txz_arch}-"*.tbz|\
+            "${parsed_pkgname}-${pkgver}-${txz_arch}-"*.tbr)
+              printf '%s\n' "$path"
+              break
+              ;;
+          esac
+        done
+  )"
+
+  [[ -n "$candidate" ]] || return 1
+  baseline_pkg="$candidate"
+  baseline_source="cache"
+  baseline_note="matched cache under ${dir}"
+  return 0
+}
+
+find_baseline_in_source() {
+  local source="$1"
+  local source_id="$2"
+  local packages_txt="${tmpdir}/packages-${source_id}.txt"
+  local packages_url="${source%/}/PACKAGES.TXT"
+  local -a match=()
+  local location=""
+  local pkgfile=""
+  local baseline_url=""
+
+  fetch_to_path "$packages_url" "$packages_txt" || return 1
+
+  mapfile -t match < <(
+    awk -v pkg="$parsed_pkgname" -v ver="$pkgver" -v arch="$txz_arch" '
+      function maybe_emit() {
+        if (name == "" || location == "") {
+          return
+        }
+        pattern = "^" pkg "-" ver "-" arch "-[^[:space:]]+\\.(txz|tgz|tlz|tbz|tbr)$"
+        if (name ~ pattern) {
+          gsub(/^\.\//, "", location)
+          print location
+          print name
+          exit
+        }
+      }
+      /^PACKAGE NAME:/ { maybe_emit(); name = $3; location = ""; next }
+      /^PACKAGE LOCATION:/ { location = $3; next }
+      /^$/ { maybe_emit(); name = ""; location = ""; next }
+      END { maybe_emit() }
+    ' "$packages_txt"
+  )
+
+  [[ ${#match[@]} -ge 2 ]] || return 1
+
+  location="${match[0]}"
+  pkgfile="${match[1]}"
+
+  if [[ -n "$location" && "$location" != "." ]]; then
+    baseline_url="${source%/}/${location%/}/${pkgfile}"
+  else
+    baseline_url="${source%/}/${pkgfile}"
+  fi
+
+  baseline_pkg="${tmpdir}/${pkgfile}"
+  fetch_to_path "$baseline_url" "$baseline_pkg" || return 1
+  baseline_source="download"
+  baseline_note="fetched from ${source}"
+  return 0
+}
+
+resolve_baseline_package() {
+  local provided="$1"
+  local source_index=0
+
+  if [[ -n "$provided" ]]; then
+    case "$provided" in
+      file://*|http://*|https://*)
+        baseline_pkg="${tmpdir}/$(basename "$provided")"
+        if fetch_to_path "$provided" "$baseline_pkg"; then
+          baseline_source="provided"
+          baseline_note="fetched from explicit baseline source"
+          return 0
+        fi
+        baseline_pkg=""
+        return 1
+        ;;
+      *)
+        if [[ -f "$provided" ]]; then
+          baseline_pkg="$provided"
+          baseline_source="provided"
+          baseline_note="explicit baseline path"
+          return 0
+        fi
+        return 1
+        ;;
+    esac
+  fi
+
+  parse_slapt_getrc "$slapt_getrc"
+
+  if find_cached_baseline "$workingdir"; then
+    return 0
+  fi
+
+  for source in "${slapt_sources[@]:-}"; do
+    source_index=$((source_index + 1))
+    if find_baseline_in_source "$source" "$source_index"; then
+      return 0
+    fi
+  done
+
+  baseline_pkg=""
+  return 1
+}
+
+load_manifest_allowlist() {
+  local allowlist_file=""
+  local package_allowlist="${references_dir}/manifest-allowlist.d/${parsed_pkgname}.txt"
+  local line=""
+  local prefix=""
+
+  manifest_allow_add_patterns=()
+  manifest_allow_remove_patterns=()
+  manifest_allowlist_files=("$default_manifest_allowlist")
+
+  if [[ -f "$package_allowlist" ]]; then
+    manifest_allowlist_files+=("$package_allowlist")
+  fi
+  if [[ -f "${pkgdir}/manifest-allowlist.txt" ]]; then
+    manifest_allowlist_files+=("${pkgdir}/manifest-allowlist.txt")
+  fi
+
+  for allowlist_file in "${manifest_allowlist_files[@]}"; do
+    [[ -f "$allowlist_file" ]] || continue
+    while IFS= read -r line || [[ -n "$line" ]]; do
+      [[ -z "$line" || "${line:0:1}" == "#" ]] && continue
+      line="${line//@PKGNAME@/$parsed_pkgname}"
+      line="${line//@PKGVER@/$pkgver}"
+      prefix="${line:0:1}"
+      case "$prefix" in
+        +)
+          manifest_allow_add_patterns+=("${line:1}")
+          ;;
+        -)
+          manifest_allow_remove_patterns+=("${line:1}")
+          ;;
+        *)
+          manifest_allow_add_patterns+=("$line")
+          ;;
+      esac
+    done <"$allowlist_file"
+  done
+}
+
+manifest_path_allowed() {
+  local mode="$1"
+  local path="$2"
+  local pattern=""
+  local -a patterns=()
+
+  if [[ "$mode" == "add" ]]; then
+    patterns=("${manifest_allow_add_patterns[@]}")
+    path="$2"
+  else
+    patterns=("${manifest_allow_remove_patterns[@]}")
+    path="$2"
+  fi
+
+  for pattern in "${patterns[@]}"; do
+    if [[ "$path" =~ $pattern ]]; then
+      return 0
+    fi
+  done
+  return 1
+}
+
+run_manifest_diff() {
+  local added_file="${tmpdir}/manifest-added.txt"
+  local removed_file="${tmpdir}/manifest-removed.txt"
+  local path=""
+
+  if [[ -z "$txz_file" ]]; then
+    manifest_status="not-run"
+    baseline_note="package artifact missing"
+    return
+  fi
+
+  if [[ "$require_baseline" != "yes" && -z "$baseline_arg" ]]; then
+    manifest_status="not-run"
+    baseline_note="baseline diff not requested"
+    return
+  fi
+
+  if ! resolve_baseline_package "$baseline_arg"; then
+    manifest_status="missing-baseline"
+    baseline_note="no baseline package found for ${parsed_pkgname}-${pkgver}-${txz_arch}"
+    if [[ "$require_baseline" == "yes" ]]; then
+      fail_reasons+=("Baseline package unavailable for manifest diff.")
+    fi
+    return
+  fi
+
+  load_manifest_allowlist
+
+  tar -tf "$baseline_pkg" | sed 's#^\./##' | sort -u >"$tmp_baseline_index"
+  tar -tf "$txz_file" | sed 's#^\./##' | sort -u >"$tmp_tar_index"
+
+  if command -v pkgdiff >/dev/null 2>&1; then
+    pkgdiff -a "$baseline_pkg" "$txz_file" >"$tmp_pkgdiff_output" 2>&1 || true
+    manifest_diff_mode="pkgdiff -a"
+  else
+    diff -u "$tmp_baseline_index" "$tmp_tar_index" >"$tmp_pkgdiff_output" 2>&1 || true
+    manifest_diff_mode="diff -u manifest"
+  fi
+
+  comm -13 "$tmp_baseline_index" "$tmp_tar_index" >"$added_file"
+  comm -23 "$tmp_baseline_index" "$tmp_tar_index" >"$removed_file"
+
+  while IFS= read -r path || [[ -n "$path" ]]; do
+    [[ -z "$path" ]] && continue
+    if manifest_path_allowed add "$path"; then
+      manifest_allowed_count=$((manifest_allowed_count + 1))
+    else
+      manifest_unexpected_additions+="${path}"$'\n'
+    fi
+  done <"$added_file"
+
+  while IFS= read -r path || [[ -n "$path" ]]; do
+    [[ -z "$path" ]] && continue
+    if manifest_path_allowed remove "$path"; then
+      manifest_allowed_count=$((manifest_allowed_count + 1))
+    else
+      manifest_unexpected_removals+="${path}"$'\n'
+    fi
+  done <"$removed_file"
+
+  if [[ -n "$manifest_unexpected_additions" || -n "$manifest_unexpected_removals" ]]; then
+    manifest_status="fail"
+    fail_reasons+=("Manifest diff against baseline package found unexpected changes.")
+  else
+    manifest_status="pass"
+  fi
+
+  if [[ -s "$tmp_pkgdiff_output" ]]; then
+    pkgdiff_excerpt="$(sed -n '1,40p' "$tmp_pkgdiff_output")"
+  fi
+}
+
 if [[ -z "$txz_file" ]]; then
   fail_reasons+=("Missing package artifact (*.txz).")
 else
@@ -220,8 +601,6 @@ if [[ -n "$log_file" ]]; then
   fi
 fi
 
-tmp_tar_index=""
-tmp_tar_listing=""
 payload_checks=()
 
 add_payload_check() {
@@ -271,9 +650,6 @@ add_payload_nonempty_file_check() {
 }
 
 if [[ -n "$txz_file" ]]; then
-  tmp_tar_index="$(mktemp)"
-  tmp_tar_listing="$(mktemp)"
-  trap '[[ -n "$tmp_tar_index" && -f "$tmp_tar_index" ]] && rm -f "$tmp_tar_index"; [[ -n "$tmp_tar_listing" && -f "$tmp_tar_listing" ]] && rm -f "$tmp_tar_listing"' EXIT
   tar -tf "$txz_file" | sed 's#^\./##' >"$tmp_tar_index"
   tar -tvf "$txz_file" >"$tmp_tar_listing"
 
@@ -346,6 +722,8 @@ if [[ -n "$txz_file" ]]; then
   esac
 fi
 
+run_manifest_diff
+
 if [[ ${#fail_reasons[@]} -eq 0 ]]; then
   verdict="PASS"
 else
@@ -385,6 +763,50 @@ else
   for check in "${payload_checks[@]}"; do
     echo "- $check"
   done
+fi
+echo
+
+echo "Manifest Diff"
+echo "- Baseline requirement: $require_baseline"
+echo "- Baseline package: ${baseline_pkg:-NOT FOUND}"
+echo "- Baseline source: $baseline_source"
+echo "- Baseline note: $baseline_note"
+echo "- Diff mode: $manifest_diff_mode"
+case "$manifest_status" in
+  pass)
+    echo "- Status: PASS"
+    echo "- Allowed manifest deltas ignored: $manifest_allowed_count"
+    echo "- Unexpected additions: none"
+    echo "- Unexpected removals: none"
+    ;;
+  fail)
+    echo "- Status: FAIL"
+    echo "- Allowed manifest deltas ignored: $manifest_allowed_count"
+    if [[ -n "$manifest_unexpected_additions" ]]; then
+      echo "- Unexpected additions:"
+      printf '%s' "$manifest_unexpected_additions" | sed 's/^/  /'
+    else
+      echo "- Unexpected additions: none"
+    fi
+    if [[ -n "$manifest_unexpected_removals" ]]; then
+      echo "- Unexpected removals:"
+      printf '%s' "$manifest_unexpected_removals" | sed 's/^/  /'
+    else
+      echo "- Unexpected removals: none"
+    fi
+    ;;
+  missing-baseline)
+    echo "- Status: NOT RUN"
+    echo "- Reason: baseline package unavailable"
+    ;;
+  *)
+    echo "- Status: NOT RUN"
+    echo "- Reason: $baseline_note"
+    ;;
+esac
+if [[ -n "$pkgdiff_excerpt" ]]; then
+  echo "- Diff excerpt:"
+  printf '%s\n' "$pkgdiff_excerpt" | sed 's/^/  /'
 fi
 echo
 
