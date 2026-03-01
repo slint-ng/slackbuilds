@@ -1,0 +1,89 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: sektor
+
+pkgname=xz
+pkgver=5.8.1
+pkgrel=1slint
+source=(
+  "https://github.com/tukaani-project/xz/releases/download/v${pkgver}/${pkgname}-${pkgver}.tar.xz"
+  "xz.default.verbosity.V_ERROR.diff.gz"
+)
+url="https://github.com/tukaani-project/xz"
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"xz (compression utility based on the LZMA algorithm)"
+""
+"LZMA is a general purpose compression algorithm designed by Igor"
+"Pavlov as part of 7-Zip. It provides high compression ratio while"
+"keeping the decompression speed fast. XZ Utils are an attempt to make"
+"LZMA compression easy to use on free (as in freedom) operating"
+"systems."
+""
+"The people most responsible for xz are Igor Pavlov, Ville Koskinen,"
+"and Lasse Collin. Homepage: https://tukaani.org/xz/"
+)
+
+build() {
+  local docdir
+
+  cd "${pkgname}-${pkgver}" || return 1
+
+  # Reduce benign runtime chatter to match the legacy package behavior.
+  zcat ../xz.default.verbosity.V_ERROR.diff.gz | patch -p1 --verbose || return 1
+
+  if [ ! -r configure ]; then
+    if [ -x ./autogen.sh ]; then
+      NOCONFIGURE=1 ./autogen.sh || return 1
+    else
+      autoreconf -vif || return 1
+    fi
+  fi
+
+  ./configure \
+    --prefix=/usr \
+    --libdir=/usr/lib"${LIBDIRSUFFIX}" \
+    --docdir=/usr/doc/${pkgname}-${pkgver} \
+    --sysconfdir=/etc \
+    --mandir=/usr/man \
+    --enable-shared \
+    --disable-static \
+    --disable-rpath \
+    --program-prefix= \
+    --program-suffix= \
+    --build="${ARCH}-slackware-linux" || return 1
+
+  make -j"$numjobs" || make || return 1
+  make DESTDIR="$PKG" install || return 1
+
+  rm -f \
+    "$PKG/lib${LIBDIRSUFFIX}/"*.la \
+    "$PKG/usr/lib${LIBDIRSUFFIX}/"*.la || return 1
+
+  install -d "$PKG/lib${LIBDIRSUFFIX}" || return 1
+  mv "$PKG/usr/lib${LIBDIRSUFFIX}"/liblzma.so.* "$PKG/lib${LIBDIRSUFFIX}" || return 1
+  (
+    cd "$PKG/usr/lib${LIBDIRSUFFIX}" || exit 1
+    rm -f liblzma.so
+    ln -sf ../../lib"${LIBDIRSUFFIX}"/liblzma.so.? liblzma.so
+  ) || return 1
+
+  install -d "$PKG/bin" || return 1
+  mv "$PKG/usr/bin/xz" "$PKG/bin" || return 1
+  (
+    cd "$PKG/usr/bin" || exit 1
+    ln -sf ../../bin/xz xz
+  ) || return 1
+
+  docdir="$PKG/usr/doc/${pkgname}-${pkgver}"
+  install -d "$docdir" || return 1
+  cp -a ABOUT-NLS AUTHORS COPYING* INSTALL* NEWS PACKAGERS README* THANKS \
+    "$docdir" || return 1
+
+  if [ -r ChangeLog ]; then
+    head -n 1000 ChangeLog > "$docdir/ChangeLog" || return 1
+    touch -r ChangeLog "$docdir/ChangeLog" || return 1
+  fi
+}
