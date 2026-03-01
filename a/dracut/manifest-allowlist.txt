@@ -1,0 +1,7 @@
+# Accepted same-version conversion deltas for a/dracut.
++^etc/dracut\.conf\.new$
+-^etc/dracut\.conf$
++^usr/doc/@PKGNAME@-@PKGVER@/README\.md$
+-^usr/doc/@PKGNAME@-@PKGVER@/README\.html$
+-^usr/doc/@PKGNAME@-@PKGVER@/dracut\.SlackBuild$
++^usr/lib64/dracut/dracut-cpio$
