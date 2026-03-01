@@ -1,0 +1,2 @@
+# Approved manifest deltas for the pastebinit SLKBUILD conversion.
+-^usr/doc/@PKGNAME@-@PKGVER@/@PKGNAME@\.SlackBuild$

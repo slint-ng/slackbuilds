@@ -1,0 +1,61 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Maintainer: B. Watson <urchlay@slackware.uk>
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=pastebinit
+pkgver=1.5
+pkgrel=1slint
+arch=noarch
+source=(
+  "https://launchpad.net/pastebinit/trunk/${pkgver}/+download/${pkgname}-${pkgver}.tar.bz2"
+  "manpagefix.diff"
+)
+url="http://www.stgraber.org/category/pastebinit/"
+depends=("configobj")
+docs=("COPYING" "README")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"pastebinit (command-line pastebin client)"
+"pastebinit is a small Python script that sends text to online"
+"pastebin services and prints the resulting URL. It is useful"
+"when sharing logs or command output from machines without a web"
+"browser."
+)
+
+build() {
+  cd "${pkgname}-${pkgver}" || return 1
+
+  patch -p1 < "$SRC/manpagefix.diff" || return 1
+
+  sed -i \
+    -e '1s,python3$,python,' \
+    -e '/^defaultPB/s,=.*,= "sprunge.us",' \
+    "$pkgname" || return 1
+
+  install -dm755 \
+    "$PKG/usr/bin" \
+    "$PKG/usr/share/pastebin.d" \
+    "$PKG/usr/share/locale" \
+    "$PKG/usr/man/man1" || return 1
+
+  install -m0755 "$pkgname" "$PKG/usr/bin/$pkgname" || return 1
+  install -m0755 utils/pbput "$PKG/usr/bin/pbput" || return 1
+  ln -s pbput "$PKG/usr/bin/pbget" || return 1
+  ln -s pbput "$PKG/usr/bin/pbputs" || return 1
+  install -m0644 pastebin.d/* "$PKG/usr/share/pastebin.d/" || return 1
+
+  make -C po || return 1
+  cp -a po/mo/. "$PKG/usr/share/locale/" || return 1
+
+  local docbook_xsl=(/usr/share/xml/docbook/xsl-stylesheets-*/manpages/docbook.xsl)
+  [ -f "${docbook_xsl[0]}" ] || return 1
+  xsltproc "${docbook_xsl[0]}" "$pkgname.xml" || return 1
+
+  install -m0644 "$pkgname.1" "$PKG/usr/man/man1/$pkgname.1" || return 1
+  install -m0644 utils/pbput.1 "$PKG/usr/man/man1/pbput.1" || return 1
+  ln -s pbput.1 "$PKG/usr/man/man1/pbget.1" || return 1
+  ln -s pbput.1 "$PKG/usr/man/man1/pbputs.1" || return 1
+}
