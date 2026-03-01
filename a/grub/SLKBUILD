@@ -1,137 +1,153 @@
-# Maintainer : Christian Hesse <mail@eworm.de>
-# Maintainer : Tobias Powalowski <tpowa@archlinux.org>
-# Contributor: Ronald van Haren <ronald.archlinux.org>
-# Contributor: Keshav Amburay <(the ddoott ridikulus ddoott rat) (aatt) (gemmaeiil) (ddoott) (ccoomm)>
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: sektor
 
 pkgname=grub
-slackdesc="$pkgname (GNU GRand Unified Bootloader)"
-epoch=2
-_pkgver=2.14_rc1
-_unifont_ver=17.0.01pkgver=${_pkgver/-/}
-pkgver=2.14~rc1
-pkgrel=1
-url='https://www.gnu.org/software/grub/'
-arch=('x86_64')
-license=('GPL-3.0-or-later')
-backup=(
-  etc/default/grub
-  etc/grub.d/40_custom
-)
-install="${pkgname}.install"
+pkgver=2.14_rc1
+_srcver=2.14~rc1
+pkgrel=1slint
 source=(
-  git+https://git.savannah.gnu.org/git/grub.git#tag=grub-${_pkgver}?signed
-  https://git.savannah.gnu.org/git/grub.git#tag=grub-${_pkgver}?signed
-  git+https://git.savannah.gnu.org/git/gnulib.git
-  https://ftp.gnu.org/gnu/unifont/unifont-${_unifont_ver}/unifont-${_unifont_ver}.bdf.gz{,.sig}
-  0001-00_header-add-GRUB_COLOR_-variables.patch
-  0002-10_linux-detect-archlinux-initramfs.patch
-  0003-support-dropins-for-default-configuration.patch
-  grub.default
-  sbat.csv
+  "https://alpha.gnu.org/gnu/grub/grub-${_srcver}.tar.xz"
+  "0001-00_header-add-GRUB_COLOR_-variables.patch"
+  "0003-support-dropins-for-default-configuration.patch"
+  "add_initrd_names_and_load_video_module_for_linux.diff"
+  "skip.new.orig.diff"
+  "grub.conf"
+  "post-upgrade-grub"
+  "update-grub"
+  "GRUB_configuration"
+  "unifont-12.1.02.bdf"
+)
+url="https://www.gnu.org/software/grub/"
+options=("nosrcpack" "noautodotnew")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"grub (the GRand Unified Bootloader)"
+""
+"GNU GRUB is a multiboot boot loader."
+""
+"It provides BIOS and EFI boot loaders plus grub-install and"
+"grub-mkconfig support for generating boot menus."
+""
+"Slint includes update-grub and post-upgrade integration helpers."
+""
+""
 )
 
-prepare() {
-  cd "${srcdir}/grub/"
-  echo "Patch to enable GRUB_COLOR_* variables in grub-mkconfig..."
-  ## Based on http://lists.gnu.org/archive/html/grub-devel/2012-02/msg00021.html
-  patch -Np1 -i "${srcdir}/0001-00_header-add-GRUB_COLOR_-variables.patch"
+doinst() {
+  config() {
+    NEW="$1"
+    OLD="$(dirname "$NEW")/$(basename "$NEW" .new)"
+    if [ ! -r "$OLD" ]; then
+      mv "$NEW" "$OLD"
+    elif [ "$(md5sum "$OLD")" = "$(md5sum "$NEW")" ]; then
+      rm "$NEW"
+    fi
+  }
 
-  echo "Patch to detect of Arch Linux initramfs images by grub-mkconfig..."
-  patch -Np1 -i "${srcdir}/0002-10_linux-detect-archlinux-initramfs.patch"
-
-  echo "Patch to support dropins for default configuration..."
-  patch -Np1 -i "${srcdir}/0003-support-dropins-for-default-configuration.patch"
-
-  echo "Fix DejaVuSans.ttf location so that grub-mkfont can create *.pf2 files for starfield theme..."
-  sed 's|/usr/share/fonts/dejavu|/usr/share/fonts/dejavu /usr/share/fonts/TTF|g' -i "configure.ac"
-
-  echo "Fix mkinitcpio 'rw' FS#36275..."
-  sed 's| ro | rw |g' -i "util/grub.d/10_linux.in"
-
-  echo "Fix OS naming FS#33393..."
-  sed 's|GNU/Linux|Linux|' -i "util/grub.d/10_linux.in"
-
-  echo "Pull in latest language files..."
-  ./linguas.sh
-
-  echo "Avoid problem with unifont during compile of grub..."
-  # http://savannah.gnu.org/bugs/?40330 and https://bugs.archlinux.org/task/37847
-  gzip -cd "${srcdir}/unifont-${_unifont_ver}.bdf.gz" > "unifont.bdf"
-
-  echo "Run bootstrap..."
-  ./bootstrap --gnulib-srcdir="${srcdir}/gnulib"
-
-  echo "Make translations reproducible..."
-  sed -i '1i /^PO-Revision-Date:/ d' po/*.sed
+  for file in etc/grub.d/*.new; do
+    [ -e "$file" ] || continue
+    config "$file"
+  done
+  config etc/default/grub.new
+  [ -f /etc/slint-version ] && sh /usr/sbin/post-upgrade-grub
 }
 
-_configure_options=(
-  --prefix="/usr"
-  --bindir="/usr/bin"
-  --sbindir="/usr/bin"
-  --mandir="/usr/share/man"
-  --infodir="/usr/share/info"
-  --datarootdir="/usr/share"
-  --sysconfdir="/etc"
-  --program-prefix=""
-  --with-bootdir="/boot"
-  --with-grubdir="grub"
-  --enable-boot-time
-  --enable-cache-stats
-)
-
-export _configure_options
-_platform="i386-pc i386-efi x86_64-efi x86_emu"
 build() {
-  for i in ${_platform}; do
-    echo "Unset CFLAGS for build..."
-    unset CFLAGS
-    cp -r "${srcdir}/grub" "${srcdir}/grub-${i}"
-    cd "${srcdir}/grub-${i}"
-    echo "Run ./configure for ${i} build..."
+  local build_cflags build_cxxflags font_size platform
 
-    # Handle different platforms and append to _configure_options
-    _configure_options=""
-    if [ "$i" = "i386-pc" ]; then
-      _configure_options="--enable-efiemu --with-platform=pc --target=i386"
-    elif [ "$i" = "i386-efi" ]; then
-      _configure_options="--disable-efiemu --with-platform=efi --target=i386"
-    elif [ "$i" = "x86_64-efi" ]; then
-      _configure_options="--with-platform=efi --target=x86_64"
+  cd "${pkgname}-${_srcver}" || return 1
+
+  # Let grub-mkfont find DejaVuSans.ttf in current Slackware font paths.
+  sed -i \
+    's|/usr/share/fonts/dejavu|/usr/share/fonts/dejavu /usr/share/fonts/TTF|g' \
+    configure.ac || return 1
+
+  patch -p1 --verbose < ../add_initrd_names_and_load_video_module_for_linux.diff || return 1
+  sed -i 's|GNU/Linux|Linux|' util/grub.d/10_linux.in || return 1
+  patch -p1 --verbose < ../skip.new.orig.diff || return 1
+  patch -p1 --verbose < ../0001-00_header-add-GRUB_COLOR_-variables.patch || return 1
+  patch -p1 --verbose < ../0003-support-dropins-for-default-configuration.patch || return 1
+
+  autoreconf -vif || return 1
+
+  case "$ARCH" in
+    i?86|x86_64)
+      build_cflags="-O2 -mtune=generic"
+      build_cxxflags="-O2 -mtune=generic"
+      ;;
+    *)
+      build_cflags=${CFLAGS//-fPIC/}
+      build_cxxflags=${CXXFLAGS//-fPIC/}
+      ;;
+  esac
+
+  for platform in i386-pc x86_64-efi x86_64-emu i386-efi; do
+    mkdir -p "build_${platform}" || return 1
+    cd "build_${platform}" || return 1
+
+    CFLAGS="$build_cflags" \
+    CXXFLAGS="$build_cxxflags" \
+    ../configure \
+      --with-platform="${platform##*-}" \
+      --target="${platform%%-*}" \
+      --prefix=/usr \
+      --libdir="/usr/lib${LIBDIRSUFFIX}" \
+      --sysconfdir=/etc \
+      --localstatedir=/var \
+      --infodir=/usr/info \
+      --mandir=/usr/man \
+      --enable-cache-stats \
+      --enable-boot-time \
+      --enable-grub-mount \
+      --enable-device-mapper \
+      --disable-werror || return 1
+
+    make -j"$numjobs" || make || return 1
+    if [ "$platform" = "i386-pc" ]; then
+      make html || return 1
     fi
-
-    ./configure PACKAGE_VERSION="${epoch}:${pkgver}-${pkgrel}" ${_configure_options}
-
-    if [ "$i" = "x86_64-efi" ]; then
-      echo "Build language and doc files only for most common variant..."
-      # language directory does not like -j option, build it first with -j1
-      make -j1 po/
-    else
-      sed -i -e 's#po docs##' Makefile
-    fi
-
-    echo "Run make for ${i} build..."
-    make
-
-    # Ensure reproducibility of info pages if SOURCE_DATE_EPOCH is set
-    if [ -n "$SOURCE_DATE_EPOCH" ]; then
-      echo "Make info pages reproducible..."
-      find . -name '*.texi' -exec touch -d "@${SOURCE_DATE_EPOCH}" {} \;
-    fi
+    make install DESTDIR="$PKG" || return 1
+    cd .. || return 1
   done
-}
 
-package() {
-  for i in ${_platform[@]}; do
-    cd "${srcdir}/grub-${i}"
-    echo "Run make install for ${i} build..."
-    make DESTDIR="${pkgdir}/" bashcompletiondir="/usr/share/bash-completion/completions" install
-    echo "Remove gdb debugging related files for ${i}..."
-    rm -f "${pkgdir}/usr/lib/grub/${i}"/*.module
-    rm -f "${pkgdir}/usr/lib/grub/${i}"/*.image
-    rm -f "${pkgdir}/usr/lib/grub/${i}"/{kernel.exec,gdb_grub,gmodule.pl}
+  if [ -e "$PKG/etc/bash_completion.d/grub" ]; then
+    mkdir -p "$PKG/usr/share/bash-completion/completions" || return 1
+    mv "$PKG/etc/bash_completion.d/grub" \
+      "$PKG/usr/share/bash-completion/completions/grub" || return 1
+    rmdir --parents "$PKG/etc/bash_completion.d" 2>/dev/null || true
+  fi
+
+  for file in "$PKG"/etc/grub.d/*_*; do
+    [ -e "$file" ] || continue
+    mv "$file" "${file}.new" || return 1
   done
-  echo "Install /etc/default/grub (used by grub-mkconfig)..."
-  install -D -m0644 "${srcdir}/grub.default" "${pkgdir}/etc/default/grub"
-  sed -e "s/%PKGVER%/${epoch}:${pkgver}-${pkgrel}/" < "${srcdir}/sbat.csv" > "${pkgdir}/usr/share/grub/sbat.csv"
+
+  install -Dm0644 ../grub.conf "$PKG/etc/default/grub.new" || return 1
+  install -Dm0755 ../post-upgrade-grub "$PKG/usr/sbin/post-upgrade-grub" || return 1
+  install -Dm0755 ../update-grub "$PKG/usr/sbin/update-grub" || return 1
+  mkdir -p "$PKG/boot/grub" || return 1
+
+  "$PKG/usr/bin/grub-mkfont" -o "$PKG/usr/share/grub/unicode.pf2" \
+    -abv ../unifont-12.1.02.bdf || return 1
+  font_size=${FONT_SIZE:-19}
+  if [ -r /usr/share/fonts/TTF/DejaVuSansMono.ttf ]; then
+    "$PKG/usr/bin/grub-mkfont" \
+      -o "$PKG/usr/share/grub/dejavusansmono.pf2" \
+      -abv \
+      -s "$font_size" \
+      /usr/share/fonts/TTF/DejaVuSansMono.ttf || return 1
+  fi
+
+  install -d "$PKG/usr/doc/${pkgname}-${pkgver}" || return 1
+  cp -a AUTHORS BUGS COPYING* INSTALL NEWS README* THANKS TODO \
+    "$PKG/usr/doc/${pkgname}-${pkgver}" || return 1
+  install -m0644 ../GRUB_configuration "$PKG/usr/doc/${pkgname}-${pkgver}/" || return 1
+  cp -a build_i386-pc/docs/grub.html "$PKG/usr/doc/${pkgname}-${pkgver}/" || return 1
+  if [ -r ChangeLog ]; then
+    head -n 1000 ChangeLog > "$PKG/usr/doc/${pkgname}-${pkgver}/ChangeLog" || return 1
+    touch -r ChangeLog "$PKG/usr/doc/${pkgname}-${pkgver}/ChangeLog" || return 1
+  fi
 }

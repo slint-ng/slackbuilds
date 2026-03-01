@@ -1,0 +1,25 @@
+# Doxygen 1.9.3 emits a slightly different html asset set than the
+# Slackware 2023-11-20 baseline package, but the generated API docs are
+# otherwise equivalent for validation purposes.
++^usr/doc/@PKGNAME@-@PKGVER@/html/bdwn\.png$
++^usr/doc/@PKGNAME@-@PKGVER@/html/doc\.png$
++^usr/doc/@PKGNAME@-@PKGVER@/html/folderclosed\.png$
++^usr/doc/@PKGNAME@-@PKGVER@/html/folderopen\.png$
+-^usr/doc/@PKGNAME@-@PKGVER@/html/bc_sd\.png$
+-^usr/doc/@PKGNAME@-@PKGVER@/html/doc\.svg$
+-^usr/doc/@PKGNAME@-@PKGVER@/html/docd\.svg$
+-^usr/doc/@PKGNAME@-@PKGVER@/html/folderclosed\.svg$
+-^usr/doc/@PKGNAME@-@PKGVER@/html/folderclosedd\.svg$
+-^usr/doc/@PKGNAME@-@PKGVER@/html/folderopen\.svg$
+-^usr/doc/@PKGNAME@-@PKGVER@/html/folderopend\.svg$
+-^usr/doc/@PKGNAME@-@PKGVER@/html/minus\.svg$
+-^usr/doc/@PKGNAME@-@PKGVER@/html/minusd\.svg$
+-^usr/doc/@PKGNAME@-@PKGVER@/html/nav_fd\.png$
+-^usr/doc/@PKGNAME@-@PKGVER@/html/nav_hd\.png$
+-^usr/doc/@PKGNAME@-@PKGVER@/html/plus\.svg$
+-^usr/doc/@PKGNAME@-@PKGVER@/html/plusd\.svg$
+-^usr/doc/@PKGNAME@-@PKGVER@/html/splitbard\.png$
+-^usr/doc/@PKGNAME@-@PKGVER@/html/tab_ad\.png$
+-^usr/doc/@PKGNAME@-@PKGVER@/html/tab_bd\.png$
+-^usr/doc/@PKGNAME@-@PKGVER@/html/tab_hd\.png$
+-^usr/doc/@PKGNAME@-@PKGVER@/html/tab_sd\.png$
