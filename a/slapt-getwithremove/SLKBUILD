@@ -1,14 +1,15 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
 #Packager: George Vlahavas <vlahavas~at~gmail~dot~com>
 
 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 
 pkgname=slapt-get
 pkgver=0.11.11
-pkgrel=3slint
+pkgrel=4slint
 source=(
-	"${pkgname}-${pkgver}.tar.gz"
+	"https://github.com/jaos/slapt-get/archive/refs/tags/${pkgver}.tar.gz"
 	"slapt-get-spkg.diff"
-	"wrapper_for_upgradepkg.diff"
 	"remove_not_allowed.diff"
 	"no_remove_in_man_pages.diff"
 	"wrapupgradepkg"
@@ -35,34 +36,33 @@ slackdesc=\
 )
 
 build() {
-	cd ${pkgname}-${pkgver}
-	patch -p1 --verbose < ../remove_not_allowed.diff || exit  1
-	patch -p1 --verbose < ../no_remove_in_man_pages.diff || exit 1
-	patch -p1 --verbose < ../slapt-get-spkg.diff || exit 1
-	mkdir build
-	cd build
-	meson .. \
+	cd "${pkgname}-${pkgver}" || return 1
+	patch -p1 --verbose < ../remove_not_allowed.diff || return 1
+	patch -p1 --verbose < ../no_remove_in_man_pages.diff || return 1
+	patch -p1 --verbose < ../slapt-get-spkg.diff || return 1
+	# libcurl 8 annotates these CURLOPT toggles as long-valued options.
+	sed -i -E \
+	  '/CURLOPT_(NOPROGRESS|FTP_USE_EPSV|FTP_USE_EPRT|FAILONERROR|FILETIME|FOLLOWLOCATION|SSL_VERIFYPEER|VERBOSE|HEADER|NOBODY)/ s/, ([01])\);/, \1L);/' \
+	  src/slaptcurl.c || return 1
+	meson setup build \
     --mandir=/usr/man \
     --prefix=/usr \
-    --sysconfdir=/etc
-     ninja
-  DESTDIR=$PKG ninja install
-	cd ..
+    --sysconfdir=/etc || return 1
+	ninja -C build || return 1
+	DESTDIR="$PKG" ninja -C build install || return 1
 
-	cp $SRC/slapt-getrc $PKG/etc/slapt-get || exit 1
-	chown root:root $PKG/etc/slapt-get/slapt-getrc
-	mkdir -p $PKG/sbin
-	cp $SRC/wrapupgradepkg $PKG/sbin || exit 1
-	cp $SRC/wrapinstallpkg $PKG/sbin || exit 1
-	chmod 755 $PKG/sbin/wrapupgradepkg
-	chmod 755 $PKG/sbin/wrapinstallpkg
-	mv $PKG/usr/share/doc /$PKG/usr
+	install -Dm644 "$SRC/slapt-getrc" "$PKG/etc/slapt-get/slapt-getrc" || return 1
+	chown root:root "$PKG/etc/slapt-get/slapt-getrc"
+	install -Dm755 "$SRC/wrapupgradepkg" "$PKG/sbin/wrapupgradepkg" || return 1
+	install -Dm755 "$SRC/wrapinstallpkg" "$PKG/sbin/wrapinstallpkg" || return 1
+	mv "$PKG/usr/share/doc" "$PKG/usr" || return 1
 
-	# Don't ship the example- and default- slapt-get, to avoid confusing
-	# Slint users
-	rm $PKG/usr/doc/${pkgname}-$pkgver/{default*,example*}
+	# Don't ship example configs that would confuse Slint users.
+	rm -f "$PKG/usr/doc/${pkgname}-${pkgver}"/default* \
+	  "$PKG/usr/doc/${pkgname}-${pkgver}"/example*
 
-	mkdir -p $PKG/usr/doc/${pkgname}-${pkgver}
-	cp $SRC/README.slaptgetrc.Slint $PKG/usr/doc/${pkgname}-${pkgver} || exit 1
-	chown root:root $PKG/usr/doc/${pkgname}-${pkgver}/README.slaptgetrc.Slint
+	install -Dm644 \
+	  "$SRC/README.slaptgetrc.Slint" \
+	  "$PKG/usr/doc/${pkgname}-${pkgver}/README.slaptgetrc.Slint" || return 1
+	chown root:root "$PKG/usr/doc/${pkgname}-${pkgver}/README.slaptgetrc.Slint"
 }
