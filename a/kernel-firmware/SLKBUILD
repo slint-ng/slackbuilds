@@ -1,4 +1,6 @@
 # shellcheck shell=bash disable=SC2034,SC2154
+# Packager: sektor
+
 # Copyright 2011, 2016, 2018, 2023 Patrick J. Volkerding, Sebeka, MN, USA
 # Included in Slint and adapted by Didier Spaier didieratslintdotfr
 
@@ -8,9 +10,12 @@ _fwcommit=06a743f
 pkgver="${_fwdate}_${_fwcommit}"
 pkgrel=1slint
 arch=noarch
-source=()
-options=('nosrcpack')
-url="https://gitlab.com/kernel-firmware/linux-firmware"
+source=(
+  "https://www.kernel.org/pub/linux/kernel/firmware/linux-firmware-${_fwdate}.tar.xz"
+  "kernel.firmware"
+)
+url="https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git"
+_srcname="linux-firmware-${_fwdate}"
 
 slackdesc=\
 (
@@ -28,30 +33,14 @@ slackdesc=\
 )
 
 build() {
-  local srcroot="$startdir/src"
-  local srcdir="$srcroot/linux-firmware"
   local installtarget=""
-  local fwrepo="https://gitlab.com/kernel-firmware/linux-firmware.git"
-  local head_short=""
+  local docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  local doc=""
+  local docspec=""
+  local srcdoc=""
+  local destdoc=""
 
-  mkdir -p "$srcroot" || return 1
-  if [ ! -d "$srcdir/.git" ]; then
-    rm -rf "$srcdir"
-    git clone "$fwrepo" "$srcdir" || return 1
-  fi
-
-  cd "$srcdir" || return 1
-  git fetch --tags --force origin || return 1
-  if git rev-parse -q --verify "refs/tags/${_fwdate}" >/dev/null; then
-    git checkout -f "tags/${_fwdate}" || return 1
-  else
-    git checkout -f "$_fwcommit" || return 1
-  fi
-  head_short="$(git rev-parse --short=7 HEAD)" || return 1
-  if [ "$head_short" != "$_fwcommit" ]; then
-    echo "Expected linux-firmware commit $_fwcommit, got $head_short"
-    return 1
-  fi
+  cd "$_srcname" || return 1
   chown -R root:root .
   chmod -R a-st,u+rwX,go-w+rX .
 
@@ -62,36 +51,33 @@ build() {
     *) installtarget="install" ;;
   esac
 
-  echo "Running make DESTDIR=$PKG ${installtarget}..."
-  make DESTDIR="$PKG" "$installtarget" 2>/dev/null || return 1
+  echo "Running make -j${numjobs} DESTDIR=$PKG ${installtarget}..."
+  make -j"$numjobs" DESTDIR="$PKG" "$installtarget" 2>/dev/null || return 1
 
-  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  mkdir -p "$docdir" || return 1
   if [ -f README.md ]; then
-    cp -a README.md "$PKG/usr/doc/$pkgname-$pkgver/README.linux-firmware" || return 1
+    cp -a README.md "$docdir/README.linux-firmware" || return 1
   elif [ -f README ]; then
-    cp -a README "$PKG/usr/doc/$pkgname-$pkgver/README.linux-firmware" || return 1
+    cp -a README "$docdir/README.linux-firmware" || return 1
   fi
-  cp -a WHENCE "$PKG/usr/doc/$pkgname-$pkgver/WHENCE.linux-firmware" || return 1
-  cp -a GPL* LICEN* "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
+  cp -a WHENCE "$docdir/WHENCE.linux-firmware" || return 1
+  for doc in GPL* LICEN*; do
+    [ -e "$doc" ] || continue
+    cp -a "$doc" "$docdir/" || return 1
+  done
 
-  if [ -f amd-ucode/README ]; then
-    cp -a amd-ucode/README "$PKG/usr/doc/$pkgname-$pkgver/README.amd-ucode" || return 1
-  fi
-  if [ -f isci/README ]; then
-    cp -a isci/README "$PKG/usr/doc/$pkgname-$pkgver/README.isci" || return 1
-  fi
-  if [ -f carl9170fw/COPYRIGHT ]; then
-    cp -a carl9170fw/COPYRIGHT "$PKG/usr/doc/$pkgname-$pkgver/COPYRIGHT.carl9170fw" || return 1
-  fi
-  if [ -f carl9170fw/README ]; then
-    cp -a carl9170fw/README "$PKG/usr/doc/$pkgname-$pkgver/README.carl9170fw" || return 1
-  fi
-  if [ -f rtw88/README ]; then
-    cp -a rtw88/README "$PKG/usr/doc/$pkgname-$pkgver/README.rtw88" || return 1
-  fi
-  if [ -f wfx/LICENCE.wf200 ]; then
-    cp -a wfx/LICENCE.wf200 "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
-  fi
+  for docspec in \
+    "amd-ucode/README:README.amd-ucode" \
+    "isci/README:README.isci" \
+    "carl9170fw/COPYRIGHT:COPYRIGHT.carl9170fw" \
+    "carl9170fw/README:README.carl9170fw" \
+    "rtw88/README:README.rtw88" \
+    "wfx/LICENCE.wf200:LICENCE.wf200"; do
+    srcdoc=${docspec%%:*}
+    destdoc=${docspec#*:}
+    [ -e "$srcdoc" ] || continue
+    cp -a "$srcdoc" "$docdir/$destdoc" || return 1
+  done
 
-  cp -a "$startdir/kernel.firmware" "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
+  cp -a ../kernel.firmware "$docdir/" || return 1
 }
