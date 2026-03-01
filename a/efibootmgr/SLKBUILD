@@ -1,34 +1,36 @@
-# Maintainer: David Runge <dvzrv@archlinux.org>
-# Contributor: Tobias Powalowski <tpowa@archlinux.org>
-# Contributor: Murtuza Akhtari <inxsible at gmail dot com>
-# Contributor: Keshav Amburay <(the ddoott ridikulus ddoott rat) (aatt) (gemmaeiil) (ddoott) (ccoomm)>
-
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
 # Included in Slint by Didier Spaier didieratslintdotfr
 
 pkgname=efibootmgr
-_commit=712aeb81311de28a3fcfea7465dcb93743f07a53  # refs/tags/18
-export _commit
 pkgver=18
-pkgrel=1
-slackdesc="(tool to modify UEFI boot entries)"
+pkgrel=1slint
 url="https://github.com/rhboot/efibootmgr"
-license=(GPL2)
-depends=(glibc popt)
-makedepends=(efivar git)
-makedepends=(efivar git)
-sha512sums=('SKIP')
-validpgpkeys=(
-  'B00B48BC731AA8840FED9FB0EED266B70F4FEF10'  # Peter Jones <pjones@redhat.com>
-  '039A9CEA19DE9508C36875AA2532F9176A95A442'  # Robbie Harwood (work) <rharwood@redhat.com>
+source=("https://github.com/rhboot/efibootmgr/archive/refs/tags/${pkgver}.tar.gz")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"efibootmgr (tool to modify UEFI boot entries)"
+""
+"efibootmgr is a Linux userspace application to modify the Intel"
+"Extensible Firmware Interface (EFI) Boot Manager. This application"
+"can create and destroy boot entries, change the boot order, change"
+"the next running boot option, and more."
+""
+"Homepage: https://github.com/rhboot/efibootmgr"
 )
-docs=("TODO" "README" "COPYING" "AUTHORS")
+
+license=("GPL2")
+depends=("glibc" "popt")
+makedepends=("efivar")
+docs=("AUTHORS" "COPYING*" "INSTALL" "README*" "TODO*")
+
 build() {
-  git clone https://github.com/rhboot/efibootmgr
-  cd efibootmgr
-  git checkout $_commit
-  export CFLAGS="$SLKCFLAGS -Wno-pointer-sign"
-  EFIDIR=/boot/efi
-  export EFIDIR
-  make
-  make install DESTDIR="$PKG"
+  cd "${pkgname}-${pkgver}" || return 1
+
+  export EFIDIR=/boot/efi
+  export CFLAGS="${CFLAGS:-$SLKCFLAGS} -Wno-pointer-sign"
+
+  make mandir=/usr/man || return 1
+  make install mandir=/usr/man DESTDIR="$PKG" || return 1
 }
