@@ -1,0 +1,64 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Packager: sektor
+
+pkgname=sysvinit-scripts
+pkgver=15.0
+pkgrel=4slint
+arch=noarch
+source=()
+options=("nosrcpack")
+dotnew=(
+  "etc/default/cpufreq"
+  "etc/inittab"
+  "etc/rc.d/rc.4"
+  "etc/rc.d/rc.6"
+  "etc/rc.d/rc.K"
+  "etc/rc.d/rc.M"
+  "etc/rc.d/rc.S"
+  "etc/rc.d/rc.cpufreq"
+  "etc/rc.d/rc.local"
+  "etc/rc.d/rc.loop"
+  "etc/rc.d/rc.modules"
+  "etc/rc.d/rc.modules.local"
+  "etc/rc.d/rc.sysvinit"
+)
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"sysvinit-scripts (the basic scripts used to boot your machine)"
+""
+"These are the Slackware boot scripts needed to start the system."
+"Sysvinit looks for these in /etc/rc.d/."
+""
+""
+""
+""
+""
+""
+)
+
+doinst() {
+  cd etc/rc.d || return 1
+  rm -rf rc.0
+  ln -sf rc.6 rc.0
+}
+
+build() {
+  install -Dm0755 ../scripts/rc.4 "$PKG/etc/rc.d/rc.4" || return 1
+  install -Dm0755 ../scripts/rc.6 "$PKG/etc/rc.d/rc.6" || return 1
+  install -Dm0755 ../scripts/rc.K "$PKG/etc/rc.d/rc.K" || return 1
+  install -Dm0755 ../scripts/rc.M "$PKG/etc/rc.d/rc.M" || return 1
+  install -Dm0755 ../scripts/rc.S "$PKG/etc/rc.d/rc.S" || return 1
+  install -Dm0755 ../scripts/rc.cpufreq "$PKG/etc/rc.d/rc.cpufreq" || return 1
+  install -Dm0755 ../scripts/rc.local "$PKG/etc/rc.d/rc.local" || return 1
+  install -Dm0755 ../scripts/rc.loop "$PKG/etc/rc.d/rc.loop" || return 1
+  install -Dm0755 ../scripts/rc.modules "$PKG/etc/rc.d/rc.modules" || return 1
+  install -Dm0755 ../scripts/rc.modules.local \
+    "$PKG/etc/rc.d/rc.modules.local" || return 1
+  install -Dm0755 ../scripts/rc.sysvinit "$PKG/etc/rc.d/rc.sysvinit" || return 1
+
+  install -Dm0644 ../scripts/inittab "$PKG/etc/inittab" || return 1
+  install -Dm0644 ../default/cpufreq "$PKG/etc/default/cpufreq" || return 1
+}

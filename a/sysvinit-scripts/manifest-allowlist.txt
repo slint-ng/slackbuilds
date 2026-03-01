@@ -1,0 +1,2 @@
+# Approved manifest deltas for the sysvinit-scripts SLKBUILD conversion.
++^usr/$
