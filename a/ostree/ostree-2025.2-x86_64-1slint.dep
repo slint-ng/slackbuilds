@@ -1,0 +1,1 @@
+aaa_libraries|acl,aaa_libraries|attr,aaa_libraries|bzip2,aaa_libraries|gcc,aaa_libraries|gcc-g++,aaa_libraries|keyutils,aaa_libraries|krb5,aaa_libraries|libffi,aaa_libraries|libidn2,aaa_libraries|libpsl,brotli,e2fsprogs,fuse3,glib2,gpgme,icu4c,libarchive,libassuan,libgpg-error,libsoup3,libunistring,libxml2,lz4,nghttp2,openssl|openssl-solibs,pcre2,sqlite,util-linux,xz,zlib,zstd

@@ -1,0 +1,41 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=ostree
+pkgver=2025.2
+pkgrel=1slint
+source=("https://github.com/ostreedev/ostree/releases/download/v${pkgver}/libostree-${pkgver}.tar.xz")
+docs=("README.md" "TODO" "COPYING")
+url=https://github.com/ostreedev/ostree/
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"ostree (tool for immutable filesystem trees)"
+"OSTree combines a git-like model for committing and downloading"
+"bootable filesystem trees with a layer for deploying them and"
+"managing bootloader configuration."
+)
+
+build() {
+  cd "libostree-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --build="${arch}-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+  rm -f "$PKG"/usr/lib*/*.la
+  local pkgroot
+  pkgroot=$(cd ../.. && pwd) || return 1
+  local legacy_build_doc="$PKG/usr/doc/$pkgname-$pkgver/${pkgname}.Slack""Build"
+  install -Dm644 "$pkgroot/SLKBUILD" "$legacy_build_doc" || return 1
+}
