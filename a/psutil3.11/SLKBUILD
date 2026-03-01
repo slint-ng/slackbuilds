@@ -1,9 +1,11 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
 # Packager: sektor
 
 pkgname=psutil3.11
 pkgver=5.8.0
 pkgrel=1slint
-_srcname="${pkgname}-release-${pkgver}"
+_srcname="psutil-release-${pkgver}"
 source=("https://github.com/giampaolo/psutil/archive/release-${pkgver}/${_srcname}.tar.gz")
 url="https://github.com/giampaolo/psutil"
 docs=("*.rst" "license" "credits")
@@ -12,13 +14,12 @@ slackdesc=(
     "psutil3.11: psutil3.11 (python interface for process and system info)")
 
 build() {
-    cd "psutil-release-${pkgver}"
-    # Remove shebangs
-    find psutil -name "*\.py" | while read line; do
-        sed -i.orig '/^#!/d' $line
-        touch -r ${line}.orig $line
-        rm ${line}.orig
+    cd "${_srcname}" || return 1
+    # Remove shebangs from installed Python sources.
+    find psutil -name "*.py" | while read -r line; do
+        sed -i.orig '/^#!/d' "$line"
+        touch -r "${line}.orig" "$line"
+        rm "${line}.orig"
     done
-    python3.11 setup.py install --root=$PKG
-
+    python3.11 setup.py install --root="$PKG"
 }

@@ -1,3 +1,5 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
 # Packager: sektor
 
 pkgname=psutil
@@ -14,13 +16,12 @@ slackdesc=\
 )
 
 build() {
-cd "${_srcname}"
-# Remove shebangs
-  find psutil -name "*\.py" | while read line; do
-    sed -i.orig '/^#!/d' $line
-    touch -r ${line}.orig $line
-    rm ${line}.orig
+  cd "${_srcname}" || return 1
+  # Remove shebangs from installed Python sources.
+  find psutil -name "*.py" | while read -r line; do
+    sed -i.orig '/^#!/d' "$line"
+    touch -r "${line}.orig" "$line"
+    rm "${line}.orig"
   done
-  python3 setup.py install --root=$PKG
-
+  python3 setup.py install --root="$PKG"
 }

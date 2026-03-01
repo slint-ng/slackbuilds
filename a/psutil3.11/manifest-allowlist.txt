@@ -1,0 +1,2 @@
+# Accepted same-version conversion delta for a/psutil3.11.
+-^usr/doc/@PKGNAME@-@PKGVER@/psutil3\.11\.SlackBuild$
