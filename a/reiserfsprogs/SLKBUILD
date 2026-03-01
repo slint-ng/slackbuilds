@@ -1,0 +1,88 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=reiserfsprogs
+pkgver=3.6.27
+pkgrel=1slint
+source=(
+  "https://www.kernel.org/pub/linux/kernel/people/jeffm/reiserfsprogs/v${pkgver}/${pkgname}-${pkgver}.tar.xz"
+  "reiserfsprogs.glibc228.diff.gz"
+)
+docs=("AUTHORS" "COPYING*" "CREDITS" "INSTALL" "NEWS" "README*")
+url="https://www.kernel.org/pub/linux/kernel/people/jeffm/reiserfsprogs/"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"reiserfsprogs (Reiserfs filesystem utilities)"
+""
+"These utilities are used for Reiserfs, a filesystem based on"
+"balanced tree algorithms."
+""
+"Reiserfs is the work of Hans Reiser and many others. See the file"
+"/usr/doc/reiserfs*/README for full credits."
+""
+""
+""
+)
+
+build() {
+  local file
+
+  cd "${pkgname}-${pkgver}" || return 1
+
+  zcat ../reiserfsprogs.glibc228.diff.gz | patch -p1 --backup --suffix=.orig || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir=/usr/lib"${LIBDIRSUFFIX}" \
+    --sbindir=/sbin \
+    --mandir=/usr/man \
+    --build="${ARCH}-slackware-linux" || return 1
+
+  if [ "$ARCH" = "x86_64" ]; then
+    if [ -f config.h ]; then
+      sed -i 's?#define HAVE_ASM_UNALIGNED_H 1?/* & */?' config.h || return 1
+    else
+      sed -i 's?#define HAVE_ASM_UNALIGNED_H 1?/* & */?' include/config.h || return 1
+    fi
+  fi
+
+  make -j"$numjobs" || make || return 1
+  make DESTDIR="$PKG" install || return 1
+
+  rm -f \
+    "$PKG"/lib"${LIBDIRSUFFIX}"/*.la \
+    "$PKG"/usr/lib"${LIBDIRSUFFIX}"/*.la \
+    "$PKG"/usr/lib"${LIBDIRSUFFIX}"/libreiserfscore.a || return 1
+
+  # Keep the shared objects under /lib to match the legacy package layout.
+  install -d "$PKG/lib${LIBDIRSUFFIX}" || return 1
+  (
+    shopt -s nullglob
+    cd "$PKG/usr/lib${LIBDIRSUFFIX}" || exit 1
+    for file in lib*.so.?.*; do
+      mv "$file" "../../lib${LIBDIRSUFFIX}/" || exit 1
+      ln -sf "../../lib${LIBDIRSUFFIX}/$file" . || exit 1
+    done
+    for file in lib*.so.?; do
+      cp -a "$file" "../../lib${LIBDIRSUFFIX}/" || exit 1
+    done
+  ) || return 1
+
+  (
+    cd "$PKG/sbin" || exit 1
+    ln -sf mkreiserfs mkfs.reiserfs
+    ln -sf reiserfsck fsck.reiserfs
+  ) || return 1
+
+  (
+    cd "$PKG/usr/man/man8" || exit 1
+    ln -sf debugreiserfs.8 debugfs.reiserfs.8
+    ln -sf mkreiserfs.8 mkfs.reiserfs.8
+    ln -sf reiserfsck.8 fsck.reiserfs.8
+    ln -sf reiserfstune.8 tunefs.reiserfs.8
+    ln -sf resize_reiserfs.8 resizefs.reiserfs.8
+  ) || return 1
+}

@@ -1,0 +1,52 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=btrfs-progs
+pkgver=6.17.1
+pkgrel=1slint
+source=("https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/${pkgname}-v${pkgver}.tar.xz")
+docs=("CHANGES" "COPYING*" "INSTALL" "README*")
+url="https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"btrfs-progs (Btrfs filesystem utilities)"
+""
+"Btrfs is a copy-on-write filesystem for Linux aimed at advanced"
+"features while focusing on fault tolerance, repair, and easy"
+"administration. Initially developed by Oracle, Btrfs is licensed"
+"under the GPL and open for contribution from anyone."
+""
+"Homepage: https://btrfs.readthedocs.io/"
+""
+""
+)
+
+build() {
+  cd "${pkgname}-v${pkgver}" || return 1
+
+  ./autogen.sh || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --bindir=/sbin \
+    --sysconfdir=/etc \
+    --libdir=/usr/lib"${LIBDIRSUFFIX}" \
+    --mandir=/usr/man \
+    --infodir=/usr/info \
+    --build="${ARCH}-slackware-linux" || return 1
+
+  make -j"$numjobs" || make || return 1
+  make DESTDIR="$PKG" install || return 1
+
+  rm -f "$PKG"/usr/lib"${LIBDIRSUFFIX}"/*.a || return 1
+
+  if [ -d "$PKG/usr/share/man" ]; then
+    mv "$PKG/usr/share/man" "$PKG/usr/man" || return 1
+    rmdir "$PKG/usr/share" 2>/dev/null || true
+  fi
+
+  ln -sf /bin/true "$PKG/sbin/fsck.btrfs" || return 1
+}
