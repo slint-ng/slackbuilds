@@ -1,0 +1,30 @@
+The vendored source archive manpages-l10n.tar.xz is reconstructed from
+the baseline Slint pkgtools package for the same version.
+
+Why this exists:
+The legacy pkgtools.SlackBuild expected manpages-l10n.tar.xz in the
+package directory, but that archive was not present in the repository.
+The baseline pkgtools package does contain the localized manpages, so
+the archive can be regenerated from that package artifact.
+
+What is included:
+- Languages: de el es fa fr id it nb nl pl pt_BR pt_PT ru sv tr uk
+- Pages: explodepkg installpkg makepkg pkgtool removepkg upgradepkg
+
+What is intentionally not included:
+- English manpages from manpages/
+- pkgdiff.8 translations, because the baseline package does not ship
+  localized pkgdiff manpages
+
+How to regenerate:
+1. Obtain the matching baseline package artifact, for example:
+   /tmp/pkgtools-15.1-noarch-1slint.txz
+2. From this directory run:
+   ./make-manpages-l10n.sh /tmp/pkgtools-15.1-noarch-1slint.txz
+3. Rebuild with:
+   fakeroot slkbuild -X
+
+The helper script verifies that every expected localized manpage exists
+in the baseline package before rewriting manpages-l10n.tar.xz. It also
+normalizes file order, timestamps, and ownership in the archive so the
+result is deterministic for the same input package.
