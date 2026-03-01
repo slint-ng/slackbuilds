@@ -17,6 +17,7 @@ source=(
 	"README.slaptgetrc.Slint"
 	"slapt-getrc"
 	)
+docs=("COPYING" "ChangeLog" "FAQ" "README" "README.slaptgetrc.Slint")
 url=http://software.jaos.org/
 dotnew=(etc/slapt-get/slapt-getrc)
 options=("nosrcpack")
@@ -55,14 +56,5 @@ build() {
 	chown root:root "$PKG/etc/slapt-get/slapt-getrc"
 	install -Dm755 "$SRC/wrapupgradepkg" "$PKG/sbin/wrapupgradepkg" || return 1
 	install -Dm755 "$SRC/wrapinstallpkg" "$PKG/sbin/wrapinstallpkg" || return 1
-	mv "$PKG/usr/share/doc" "$PKG/usr" || return 1
-
-	# Don't ship example configs that would confuse Slint users.
-	rm -f "$PKG/usr/doc/${pkgname}-${pkgver}"/default* \
-	  "$PKG/usr/doc/${pkgname}-${pkgver}"/example*
-
-	install -Dm644 \
-	  "$SRC/README.slaptgetrc.Slint" \
-	  "$PKG/usr/doc/${pkgname}-${pkgver}/README.slaptgetrc.Slint" || return 1
-	chown root:root "$PKG/usr/doc/${pkgname}-${pkgver}/README.slaptgetrc.Slint"
+	rm -rf "$PKG/usr/share/doc"
 }
