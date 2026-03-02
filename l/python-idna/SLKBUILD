@@ -1,0 +1,44 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=python-idna
+_srcname=idna
+pkgver=3.3
+pkgrel=1slint
+source=("https://files.pythonhosted.org/packages/source/i/idna/idna-$pkgver.tar.gz")
+url="https://github.com/kjd/idna"
+license=("BSD-3-Clause")
+depends=("python")
+makedepends=("python-setuptools")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Internationalized Domain Names for Python)"
+""
+"Support for the Internationalised Domain Names in Applications"
+"(IDNA) protocol as specified in RFC 5891, also referred to"
+"as IDNA 2008."
+""
+"This library also provides support for Unicode Technical"
+"Standard 46, Unicode IDNA Compatibility Processing."
+""
+"Homepage: https://github.com/kjd/idna"
+)
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || exit 1
+
+  python3.9 setup.py install --root="$PKG" || exit 1
+  python3.11 setup.py install --root="$PKG" || exit 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  mkdir -p "$docdir" || exit 1
+  cp -a ./*.rst "$docdir" || exit 1
+  find "$docdir" -type f -exec chmod 0644 {} \+ || exit 1
+
+  if [ -r HISTORY.rst ]; then
+    head -n 1000 HISTORY.rst > "$docdir/HISTORY.rst" || exit 1
+    touch -r HISTORY.rst "$docdir/HISTORY.rst" || exit 1
+  fi
+}
