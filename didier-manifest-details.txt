@@ -1067,7 +1067,6 @@ ecasound/ecasound.SlackBuild 19 # Included in Slint by Didier Spaier didieratsli
 os-prober/SLKBUILD 5 # Included in Slint by Didier Spaier didieratslintdotfr
 dracut/dracut.SlackBuild 2 # Maintainer for Slint  Didier Spaier
 slapt-getwithremove/wrapinstallpkg 2 # Written by Didier Spaier this script is dedicated to the public domain.
-slapt-getwithremove/SLKBUILD.remove 3 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 slapt-getwithremove/slapt-getrc 19 # Didier Spaier <didieratslintdotfr>
 slapt-getwithremove/wrapupgradepkg 2 # Written by Didier Spaier this script is dedicated to the public domain.
 slapt-getwithremove/SLKBUILD 3 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
