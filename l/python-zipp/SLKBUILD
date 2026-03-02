@@ -1,0 +1,41 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Maintainer: Benjamin Trigona-Harany <slackbuilds@jaxartes.net>
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=python-zipp
+_srcname=zipp
+pkgver=3.7.0
+pkgrel=1slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (pathlib-compatible Zipfile object wrapper)"
+""
+"A pathlib-compatible Zipfile object wrapper."
+"A backport of the Path object."
+)
+url="https://github.com/jaraco/zipp"
+license=("MIT")
+depends=("python")
+makedepends=("python-setuptools" "python-setuptools_scm")
+source=("https://files.pythonhosted.org/packages/source/z/$_srcname/$_srcname-$pkgver.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/$_srcname-$pkgver" || exit 1
+
+  python3 setup.py install --root="$PKG" || exit 1
+
+  while IFS= read -r -d '' egginfo; do
+    fixed_egginfo="${egginfo/0.0.0/$pkgver}"
+    mv "$egginfo" "$fixed_egginfo" || exit 1
+    sed -i "s/^Version: 0.0.0$/Version: $pkgver/" \
+      "$fixed_egginfo/PKG-INFO" || exit 1
+  done < <(find "$PKG"/usr/lib* -type d -name "${_srcname}-0.0.0-py*.egg-info" -print0)
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacy_suffix=SlackBuild
+  mkdir -p "$docdir" || exit 1
+  cp -a README.rst "$docdir" || exit 1
+  install -m 0644 "$SRC/../SLKBUILD" "$docdir/$pkgname.$legacy_suffix" || exit 1
+}
