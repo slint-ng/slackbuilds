@@ -1,0 +1,262 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage:
+  integratepkg [options] [<source-branch>]
+
+Fast-forward a validated package branch onto the current target branch.
+
+Run this from an integration worktree that is already on the target branch
+(default: main). The helper only performs a fast-forward merge. If the source
+branch is behind or has diverged, rebase it first and re-run validation as
+needed before landing it.
+
+Options:
+  -w, --worktree <path>   Source package worktree. If <source-branch> is omitted,
+                          derive the branch from this worktree.
+  -t, --target <branch>   Target branch to advance (default: main).
+      --cleanup           Remove the source worktree and delete its branch after
+                          a successful fast-forward. Requires --worktree.
+      --delete-branch     Delete the source branch after a successful merge.
+                          If the branch is checked out in a worktree, use
+                          --cleanup with --worktree instead.
+      --force-cleanup     Pass -f to rmpkgwt during cleanup.
+      --prune             Pass --prune to rmpkgwt during cleanup.
+  -n, --dry-run           Show the planned actions without changing anything.
+  -h, --help              Show this help text.
+
+Examples:
+  integratepkg conv/123-a-dcron
+  integratepkg --target main --worktree /tmp/slackbuilds-wt/conv-123-a-dcron --cleanup
+  integratepkg --target main --delete-branch conv/123-a-dcron
+EOF
+}
+
+die() {
+  printf 'ERROR: %s\n' "$*" >&2
+  exit 1
+}
+
+require_cmd() {
+  command -v "$1" >/dev/null 2>&1 || die "missing required command: $1"
+}
+
+trim_trailing_slash() {
+  local value=$1
+  while [[ "$value" != "/" && "$value" == */ ]]; do
+    value=${value%/}
+  done
+  printf '%s\n' "$value"
+}
+
+print_cmd() {
+  local first="yes"
+  printf '  '
+  for arg in "$@"; do
+    if [[ "$first" == "yes" ]]; then
+      printf '%q' "$arg"
+      first="no"
+    else
+      printf ' %q' "$arg"
+    fi
+  done
+  printf '\n'
+}
+
+branch_checked_out_elsewhere() {
+  local branch=$1
+  local line=""
+  while IFS= read -r line; do
+    case "$line" in
+      branch\ refs/heads/*)
+        if [[ "${line#branch refs/heads/}" == "$branch" ]]; then
+          return 0
+        fi
+        ;;
+    esac
+  done < <(git worktree list --porcelain)
+  return 1
+}
+
+require_clean_index() {
+  git update-index -q --refresh
+  git diff --quiet --ignore-submodules -- || die "tracked working tree changes present in target worktree"
+  git diff --cached --quiet --ignore-submodules -- || die "staged changes present in target worktree"
+}
+
+require_cmd git
+
+script_dir="$(cd "${0%/*}" && pwd -P)"
+rmpkgwt_script="${script_dir}/rmpkgwt"
+[[ -x "$rmpkgwt_script" ]] || die "helper not executable: $rmpkgwt_script"
+
+source_branch=""
+source_worktree=""
+target_branch="main"
+cleanup_source="no"
+delete_branch="no"
+force_cleanup="no"
+prune_cleanup="no"
+dry_run="no"
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -w|--worktree)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      source_worktree=$2
+      shift 2
+      ;;
+    -t|--target)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      target_branch=$2
+      shift 2
+      ;;
+    --cleanup)
+      cleanup_source="yes"
+      shift
+      ;;
+    --delete-branch)
+      delete_branch="yes"
+      shift
+      ;;
+    --force-cleanup)
+      force_cleanup="yes"
+      shift
+      ;;
+    --prune)
+      prune_cleanup="yes"
+      shift
+      ;;
+    -n|--dry-run)
+      dry_run="yes"
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    --)
+      shift
+      break
+      ;;
+    -*)
+      die "unknown option: $1"
+      ;;
+    *)
+      if [[ -n "$source_branch" ]]; then
+        die "only one source branch may be provided"
+      fi
+      source_branch=$1
+      shift
+      ;;
+  esac
+done
+
+if [[ $# -gt 0 ]]; then
+  die "unexpected trailing arguments: $*"
+fi
+
+if [[ "$cleanup_source" == "yes" && -z "$source_worktree" ]]; then
+  die "--cleanup requires --worktree"
+fi
+
+if [[ -n "$source_worktree" ]]; then
+  source_worktree=$(trim_trailing_slash "$source_worktree")
+  source_worktree=$(cd "$source_worktree" && pwd -P) || die "source worktree not found: $source_worktree"
+  git -C "$source_worktree" rev-parse --show-toplevel >/dev/null 2>&1 \
+    || die "not a git worktree: $source_worktree"
+  detected_source_branch="$(git -C "$source_worktree" symbolic-ref --quiet --short HEAD || true)"
+  [[ -n "$detected_source_branch" ]] || die "source worktree is detached; pass <source-branch> explicitly"
+  if [[ -z "$source_branch" ]]; then
+    source_branch=$detected_source_branch
+  elif [[ "$source_branch" != "$detected_source_branch" ]]; then
+    die "source branch does not match source worktree HEAD: $source_branch != $detected_source_branch"
+  fi
+fi
+
+[[ -n "$source_branch" ]] || {
+  usage
+  exit 2
+}
+
+current_worktree="$(git rev-parse --show-toplevel 2>/dev/null)" \
+  || die "run this command from an integration worktree"
+current_worktree=$(trim_trailing_slash "$current_worktree")
+current_branch="$(git symbolic-ref --quiet --short HEAD || true)"
+[[ -n "$current_branch" ]] || die "integration worktree is detached"
+[[ "$current_branch" == "$target_branch" ]] || die "current branch is $current_branch, expected $target_branch"
+
+require_clean_index
+
+git rev-parse --verify --quiet "$target_branch^{commit}" >/dev/null \
+  || die "target branch not found: $target_branch"
+git rev-parse --verify --quiet "$source_branch^{commit}" >/dev/null \
+  || die "source branch not found: $source_branch"
+[[ "$source_branch" != "$target_branch" ]] || die "source branch and target branch must differ"
+
+target_sha="$(git rev-parse --short "$target_branch")"
+source_sha="$(git rev-parse --short "$source_branch")"
+
+if ! git merge-base --is-ancestor "$target_branch" "$source_branch"; then
+  die "target branch is not an ancestor of $source_branch; rebase $source_branch onto $target_branch before integrating"
+fi
+
+if [[ "$cleanup_source" == "no" && "$delete_branch" == "yes" ]]; then
+  if branch_checked_out_elsewhere "$source_branch"; then
+    die "source branch is checked out in a worktree; pass --cleanup with --worktree to remove it safely"
+  fi
+fi
+
+if [[ "$dry_run" == "yes" ]]; then
+  printf 'Target worktree: %s\n' "$current_worktree"
+  printf 'Target branch: %s (%s)\n' "$target_branch" "$target_sha"
+  printf 'Source branch: %s (%s)\n' "$source_branch" "$source_sha"
+  printf 'Fast-forward merge command:\n'
+  print_cmd git merge --ff-only "$source_branch"
+  if [[ "$cleanup_source" == "yes" ]]; then
+    cleanup_cmd=("$rmpkgwt_script")
+    if [[ "$force_cleanup" == "yes" ]]; then
+      cleanup_cmd+=(-f)
+    fi
+    cleanup_cmd+=(--delete-branch)
+    if [[ "$prune_cleanup" == "yes" ]]; then
+      cleanup_cmd+=(--prune)
+    fi
+    cleanup_cmd+=("$source_worktree")
+    printf 'Cleanup command:\n'
+    print_cmd "${cleanup_cmd[@]}"
+  elif [[ "$delete_branch" == "yes" ]]; then
+    printf 'Branch delete command:\n'
+    print_cmd git branch -d "$source_branch"
+  fi
+  exit 0
+fi
+
+git merge --ff-only "$source_branch"
+new_head="$(git rev-parse --short HEAD)"
+
+if [[ "$cleanup_source" == "yes" ]]; then
+  cleanup_cmd=("$rmpkgwt_script")
+  if [[ "$force_cleanup" == "yes" ]]; then
+    cleanup_cmd+=(-f)
+  fi
+  cleanup_cmd+=(--delete-branch)
+  if [[ "$prune_cleanup" == "yes" ]]; then
+    cleanup_cmd+=(--prune)
+  fi
+  cleanup_cmd+=("$source_worktree")
+  "${cleanup_cmd[@]}"
+elif [[ "$delete_branch" == "yes" ]]; then
+  git branch -d "$source_branch"
+fi
+
+printf 'Integrated branch: %s -> %s\n' "$source_branch" "$target_branch"
+printf 'New %s HEAD: %s\n' "$target_branch" "$new_head"
+printf '\n'
+printf 'Next commands after your landing batch:\n'
+print_cmd git pull --rebase
+print_cmd bd sync
+print_cmd git push
+print_cmd git status

@@ -1,0 +1,234 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage:
+  mkpkgwt [options] <category/package>
+
+Create a sparse git worktree for a single package with minimal shared paths.
+
+Default sparse paths:
+  - AGENTS.md
+  - .codex
+  - <category/package>
+
+Options:
+  -i, --id <id>            Include a work/bead id in generated names.
+  -b, --branch <name>      Use this branch name.
+  -w, --worktree <path>    Use this worktree path.
+  -r, --ref <git-ref>      Base the worktree on this ref (default: HEAD).
+  -a, --add <path>         Add an extra sparse path. Repeatable.
+      --beads              Add .beads to the sparse checkout.
+      --templates          Add templates/SlackBuilds to the sparse checkout.
+      --full-templates     Add the full templates directory.
+  -h, --help               Show this help text.
+
+Examples:
+  mkpkgwt a/dcron
+  mkpkgwt --id 123 a/dcron
+  mkpkgwt --id 123 --beads --add a/anacron a/dcron
+  mkpkgwt --branch conv/123-a-dcron --worktree /tmp/wt-123 a/dcron
+EOF
+}
+
+die() {
+  printf 'ERROR: %s\n' "$*" >&2
+  exit 1
+}
+
+require_cmd() {
+  command -v "$1" >/dev/null 2>&1 || die "missing required command: $1"
+}
+
+trim_trailing_slash() {
+  local value=$1
+  while [[ "$value" != "/" && "$value" == */ ]]; do
+    value=${value%/}
+  done
+  printf '%s\n' "$value"
+}
+
+slugify() {
+  local value=$1
+  value=${value#/}
+  value=${value//\//-}
+  value=${value//[^A-Za-z0-9._-]/-}
+  printf '%s\n' "$value"
+}
+
+repo_root=""
+pkg_path=""
+work_id=""
+branch_name=""
+worktree_path=""
+base_ref="HEAD"
+include_beads="no"
+include_templates="no"
+include_full_templates="no"
+declare -a extra_paths=()
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -i|--id)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      work_id=$2
+      shift 2
+      ;;
+    -b|--branch)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      branch_name=$2
+      shift 2
+      ;;
+    -w|--worktree)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      worktree_path=$2
+      shift 2
+      ;;
+    -r|--ref)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      base_ref=$2
+      shift 2
+      ;;
+    -a|--add)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      extra_paths+=("$2")
+      shift 2
+      ;;
+    --beads)
+      include_beads="yes"
+      shift
+      ;;
+    --templates)
+      include_templates="yes"
+      shift
+      ;;
+    --full-templates)
+      include_full_templates="yes"
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    --)
+      shift
+      break
+      ;;
+    -*)
+      die "unknown option: $1"
+      ;;
+    *)
+      if [[ -n "$pkg_path" ]]; then
+        die "only one package path may be provided"
+      fi
+      pkg_path=$1
+      shift
+      ;;
+  esac
+done
+
+if [[ $# -gt 0 ]]; then
+  die "unexpected trailing arguments: $*"
+fi
+
+[[ -n "$pkg_path" ]] || {
+  usage
+  exit 2
+}
+
+require_cmd git
+
+repo_root=$(git rev-parse --show-toplevel 2>/dev/null) \
+  || die "run this command from inside the repository"
+
+pkg_path=$(trim_trailing_slash "$pkg_path")
+[[ "$pkg_path" != /* ]] || die "package path must be relative to the repo root"
+[[ -d "$repo_root/$pkg_path" ]] || die "package directory not found: $pkg_path"
+
+if ! git -C "$repo_root" rev-parse --verify --quiet "$base_ref^{commit}" >/dev/null; then
+  die "git ref not found: $base_ref"
+fi
+
+if [[ "$include_templates" == "yes" && "$include_full_templates" == "yes" ]]; then
+  die "use either --templates or --full-templates, not both"
+fi
+
+pkg_slug=$(slugify "$pkg_path")
+if [[ -z "$branch_name" ]]; then
+  if [[ -n "$work_id" ]]; then
+    branch_name="conv/${work_id}-${pkg_slug}"
+  else
+    branch_name="conv/${pkg_slug}"
+  fi
+fi
+
+if [[ -z "$worktree_path" ]]; then
+  worktree_root=${TMPDIR:-/tmp}/slackbuilds-wt
+  mkdir -p "$worktree_root"
+  worktree_path="$worktree_root/$(slugify "$branch_name")"
+fi
+
+worktree_path=$(trim_trailing_slash "$worktree_path")
+
+if [[ -e "$worktree_path" ]]; then
+  die "worktree path already exists: $worktree_path"
+fi
+
+declare -a sparse_paths=("AGENTS.md" ".codex" "$pkg_path")
+if [[ "$include_beads" == "yes" ]]; then
+  sparse_paths+=(".beads")
+fi
+if [[ "$include_templates" == "yes" ]]; then
+  sparse_paths+=("templates/SlackBuilds")
+fi
+if [[ "$include_full_templates" == "yes" ]]; then
+  sparse_paths+=("templates")
+fi
+if [[ ${#extra_paths[@]} -gt 0 ]]; then
+  sparse_paths+=("${extra_paths[@]}")
+fi
+
+declare -a normalized_paths=()
+declare -A seen_paths=()
+for path in "${sparse_paths[@]}"; do
+  path=$(trim_trailing_slash "$path")
+  [[ -n "$path" ]] || continue
+  if [[ -n "${seen_paths[$path]+x}" ]]; then
+    continue
+  fi
+  seen_paths[$path]=1
+  [[ -e "$repo_root/$path" ]] || die "sparse path not found in repo: $path"
+  normalized_paths+=("$path")
+done
+
+mkdir -p "$(dirname "$worktree_path")"
+
+if git -C "$repo_root" show-ref --verify --quiet "refs/heads/$branch_name"; then
+  git -C "$repo_root" worktree add --no-checkout "$worktree_path" "$branch_name"
+else
+  git -C "$repo_root" worktree add --no-checkout -b "$branch_name" "$worktree_path" "$base_ref"
+fi
+
+cleanup_worktree() {
+  if [[ -d "$worktree_path/.git" || -f "$worktree_path/.git" ]]; then
+    git -C "$repo_root" worktree remove --force "$worktree_path" >/dev/null 2>&1 || true
+  fi
+}
+
+trap cleanup_worktree ERR
+
+git -C "$worktree_path" sparse-checkout init --no-cone >/dev/null
+git -C "$worktree_path" sparse-checkout set "${normalized_paths[@]}" >/dev/null
+git -C "$worktree_path" read-tree -mu HEAD >/dev/null
+
+trap - ERR
+
+printf 'Created worktree: %s\n' "$worktree_path"
+printf 'Branch: %s\n' "$branch_name"
+printf 'Base ref: %s\n' "$base_ref"
+printf 'Sparse paths:\n'
+printf '  %s\n' "${normalized_paths[@]}"
+printf '\n'
+printf 'Remove when finished:\n'
+printf '  git -C %q worktree remove %q\n' "$repo_root" "$worktree_path"

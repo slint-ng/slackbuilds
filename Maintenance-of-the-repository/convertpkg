@@ -1,0 +1,196 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage:
+  convertpkg [options] <category/package>
+
+Create a sparse package worktree and print the standard conversion workflow.
+
+Pass-through options for mkpkgwt:
+  -i, --id <id>
+  -b, --branch <name>
+  -w, --worktree <path>
+  -r, --ref <git-ref>
+  -a, --add <path>
+      --beads
+      --templates
+      --full-templates
+
+Wrapper-only options:
+      --work-bead <id>          Work bead id for printed handoff commands.
+      --validation-bead <id>    Validation bead id for printed handoff commands.
+      --expected-payload <path> Add an expected payload path to the handoff template.
+                                Repeatable.
+      --caveat <text>           Add a caveat line to the handoff template.
+                                Repeatable.
+  -h, --help                    Show this help text.
+
+Examples:
+  convertpkg --id 123 a/dcron
+  convertpkg --id 123 --work-bead slackbuilds-123 --beads a/dcron
+  convertpkg --work-bead slackbuilds-123 --expected-payload usr/sbin/crond a/dcron
+EOF
+}
+
+die() {
+  printf 'ERROR: %s\n' "$*" >&2
+  exit 1
+}
+
+require_cmd() {
+  command -v "$1" >/dev/null 2>&1 || die "missing required command: $1"
+}
+
+print_cmd() {
+  local first="yes"
+  printf '  '
+  for arg in "$@"; do
+    if [[ "$first" == "yes" ]]; then
+      printf '%q' "$arg"
+      first="no"
+    else
+      printf ' %q' "$arg"
+    fi
+  done
+  printf '\n'
+}
+
+require_cmd git
+
+script_dir="$(cd "${0%/*}" && pwd -P)"
+git rev-parse --show-toplevel >/dev/null 2>&1 \
+  || die "run this command from inside the repository"
+mkpkgwt_script="${script_dir}/mkpkgwt"
+pkghandoff_script="${script_dir}/pkghandoff"
+validatepkgwt_script="${script_dir}/validatepkgwt"
+
+[[ -x "$mkpkgwt_script" ]] || die "helper not executable: $mkpkgwt_script"
+[[ -x "$pkghandoff_script" ]] || die "helper not executable: $pkghandoff_script"
+
+pkg_path=""
+work_bead=""
+validation_bead=""
+include_beads="no"
+declare -a mkpkgwt_args=()
+declare -a handoff_args=()
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -i|--id|-b|--branch|-w|--worktree|-r|--ref|-a|--add)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      mkpkgwt_args+=("$1" "$2")
+      shift 2
+      ;;
+    --beads|--templates|--full-templates)
+      mkpkgwt_args+=("$1")
+      if [[ "$1" == "--beads" ]]; then
+        include_beads="yes"
+      fi
+      shift
+      ;;
+    --work-bead)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      work_bead=$2
+      shift 2
+      ;;
+    --validation-bead)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      validation_bead=$2
+      shift 2
+      ;;
+    --expected-payload|--caveat)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      handoff_args+=("$1" "$2")
+      shift 2
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    --)
+      shift
+      break
+      ;;
+    -*)
+      die "unknown option: $1"
+      ;;
+    *)
+      if [[ -n "$pkg_path" ]]; then
+        die "only one package path may be provided"
+      fi
+      pkg_path=$1
+      shift
+      ;;
+  esac
+done
+
+if [[ $# -gt 0 ]]; then
+  die "unexpected trailing arguments: $*"
+fi
+
+[[ -n "$pkg_path" ]] || {
+  usage
+  exit 2
+}
+
+mk_output="$("$mkpkgwt_script" "${mkpkgwt_args[@]}" "$pkg_path")"
+printf '%s\n' "$mk_output"
+
+worktree_path="$(printf '%s\n' "$mk_output" | sed -n 's/^Created worktree: //p' | head -n 1)"
+branch_name="$(printf '%s\n' "$mk_output" | sed -n 's/^Branch: //p' | head -n 1)"
+
+[[ -n "$worktree_path" ]] || die "could not parse worktree path from mkpkgwt output"
+[[ -n "$branch_name" ]] || die "could not parse branch name from mkpkgwt output"
+
+handoff_cmd=("$pkghandoff_script" "--worktree" "$worktree_path")
+if [[ -n "$work_bead" ]]; then
+  handoff_cmd+=("--work-bead" "$work_bead")
+fi
+if [[ -n "$validation_bead" ]]; then
+  handoff_cmd+=("--validation-bead" "$validation_bead")
+fi
+if [[ ${#handoff_args[@]} -gt 0 ]]; then
+  handoff_cmd+=("${handoff_args[@]}")
+fi
+handoff_cmd+=("$pkg_path")
+
+validate_cmd=("$validatepkgwt_script" "--worktree" "$worktree_path" "--require-baseline" "$pkg_path")
+
+printf '\nConverter Checklist\n'
+printf '  - Review package files in %s\n' "$worktree_path/$pkg_path"
+printf '  - Keep the in-tree version for a same-version conversion unless an update was explicitly requested.\n'
+printf '  - Treat convert_slackbuild.py as a scaffold only and review the result manually.\n'
+printf '  - Keep legacy SlackBuild files until the conversion gates pass.\n'
+printf '  - Build with fakeroot slkbuild -X, then hand off to validation with baseline comparison.\n'
+
+printf '\nNext Commands\n'
+print_cmd cd "$worktree_path"
+print_cmd python3 "$worktree_path/.codex/skills/slint-packaging/scripts/check_conversion_gates.py" "$worktree_path/$pkg_path"
+print_cmd python3 "$worktree_path/.codex/skills/slint-packaging/scripts/check_conversion_gates.py" --shellcheck "$worktree_path/$pkg_path"
+print_cmd bash -lc "cd '$worktree_path/$pkg_path' && fakeroot slkbuild -X"
+
+if [[ -n "$work_bead" ]]; then
+  printf '\nValidation Bead\n'
+  print_cmd bd create "Validate $pkg_path: <change summary>" -t bug -p 1 --deps "discovered-from:$work_bead" --description "Validate bash -n/shellcheck, fakeroot slkbuild -X artifacts, depfinder output, baseline manifest diff, and basic smoketests" --json
+fi
+
+printf '\nHandoff Command\n'
+print_cmd "${handoff_cmd[@]}"
+
+printf '\nValidator Command\n'
+print_cmd bash -lc "$(
+  printf '%q ' "${handoff_cmd[@]}"
+  printf '| '
+  printf '%q ' "${validate_cmd[@]}"
+)"
+
+if [[ "$include_beads" == "yes" ]]; then
+  printf '\nBeads Note\n'
+  printf '  export BEADS_NO_DAEMON=1\n'
+fi
+
+if [[ ! -x "$validatepkgwt_script" ]]; then
+  printf '\nNOTE: %s is not executable yet.\n' "$validatepkgwt_script"
+fi

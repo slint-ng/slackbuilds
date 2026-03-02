@@ -1,0 +1,303 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage:
+  dispatchpkg [options] <category/package>
+
+Print the standard converter, validator, and integrator commands for one
+package.
+
+Options:
+  -i, --id <id>                  Short id used in branch/worktree naming.
+      --work-bead <id>           Work bead id.
+      --validation-bead <id>     Validation bead id.
+  -b, --branch <name>            Package branch name.
+  -w, --worktree <path>          Package worktree path.
+      --worktree-root <path>     Root for derived package worktrees.
+  -t, --target <branch>          Integration target branch (default: main).
+      --integration-worktree <path>
+                                 Worktree that will run integratepkg.
+                                 Defaults to the current repo root.
+  -a, --add <path>               Extra sparse path for convertpkg. Repeatable.
+      --beads                    Include .beads in the package worktree.
+      --templates                Include templates/SlackBuilds.
+      --full-templates           Include the full templates directory.
+      --expected-payload <path>  Expected payload path for pkghandoff.
+                                 Repeatable.
+      --caveat <text>            Caveat line for pkghandoff. Repeatable.
+      --baseline <package>       Explicit baseline package for validation.
+      --no-baseline              Do not pass --require-baseline.
+  -h, --help                     Show this help text.
+
+Examples:
+  dispatchpkg --work-bead slackbuilds-123 a/dcron
+  dispatchpkg --id 123 --work-bead slackbuilds-123 --validation-bead slackbuilds-124 a/dcron
+  dispatchpkg --target main --baseline /tmp/dcron-4.5-x86_64-1.txz a/dcron
+EOF
+}
+
+die() {
+  printf 'ERROR: %s\n' "$*" >&2
+  exit 1
+}
+
+require_cmd() {
+  command -v "$1" >/dev/null 2>&1 || die "missing required command: $1"
+}
+
+trim_trailing_slash() {
+  local value=$1
+  while [[ "$value" != "/" && "$value" == */ ]]; do
+    value=${value%/}
+  done
+  printf '%s\n' "$value"
+}
+
+slugify() {
+  local value=$1
+  value=${value#/}
+  value=${value//\//-}
+  value=${value//[^A-Za-z0-9._-]/-}
+  printf '%s\n' "$value"
+}
+
+print_cmd() {
+  local first="yes"
+  printf '  '
+  for arg in "$@"; do
+    if [[ "$first" == "yes" ]]; then
+      printf '%q' "$arg"
+      first="no"
+    else
+      printf ' %q' "$arg"
+    fi
+  done
+  printf '\n'
+}
+
+require_cmd git
+
+repo_root="$(git rev-parse --show-toplevel 2>/dev/null)" \
+  || die "run this command from inside the repository"
+repo_root=$(trim_trailing_slash "$repo_root")
+helpers_dir="${repo_root}/Maintenance-of-the-repository"
+convertpkg_script="${helpers_dir}/convertpkg"
+pkghandoff_script="${helpers_dir}/pkghandoff"
+validatepkgwt_script="${helpers_dir}/validatepkgwt"
+integratepkg_script="${helpers_dir}/integratepkg"
+
+for helper in "$convertpkg_script" "$pkghandoff_script" "$validatepkgwt_script" "$integratepkg_script"; do
+  [[ -x "$helper" ]] || die "helper not executable: $helper"
+done
+
+pkg_path=""
+work_id=""
+work_bead=""
+validation_bead=""
+branch_name=""
+worktree_path=""
+worktree_root="${TMPDIR:-/tmp}/slackbuilds-wt"
+target_branch="main"
+integration_worktree="$repo_root"
+require_baseline="yes"
+baseline_arg=""
+declare -a convert_args=()
+declare -a handoff_args=()
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -i|--id)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      work_id=$2
+      shift 2
+      ;;
+    --work-bead)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      work_bead=$2
+      shift 2
+      ;;
+    --validation-bead)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      validation_bead=$2
+      shift 2
+      ;;
+    -b|--branch)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      branch_name=$2
+      shift 2
+      ;;
+    -w|--worktree)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      worktree_path=$2
+      shift 2
+      ;;
+    --worktree-root)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      worktree_root=$2
+      shift 2
+      ;;
+    -t|--target)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      target_branch=$2
+      shift 2
+      ;;
+    --integration-worktree)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      integration_worktree=$2
+      shift 2
+      ;;
+    -a|--add)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      convert_args+=("$1" "$2")
+      shift 2
+      ;;
+    --beads|--templates|--full-templates)
+      convert_args+=("$1")
+      shift
+      ;;
+    --expected-payload|--caveat)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      handoff_args+=("$1" "$2")
+      shift 2
+      ;;
+    --baseline)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      baseline_arg=$2
+      shift 2
+      ;;
+    --no-baseline)
+      require_baseline="no"
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    --)
+      shift
+      break
+      ;;
+    -*)
+      die "unknown option: $1"
+      ;;
+    *)
+      if [[ -n "$pkg_path" ]]; then
+        die "only one package path may be provided"
+      fi
+      pkg_path=$1
+      shift
+      ;;
+  esac
+done
+
+if [[ $# -gt 0 ]]; then
+  die "unexpected trailing arguments: $*"
+fi
+
+[[ -n "$pkg_path" ]] || {
+  usage
+  exit 2
+}
+
+[[ -d "$repo_root/$pkg_path" ]] || die "package directory not found: $pkg_path"
+
+if [[ -z "$work_id" && -n "$work_bead" ]]; then
+  work_id=$work_bead
+fi
+
+pkg_slug="$(slugify "$pkg_path")"
+if [[ -z "$branch_name" ]]; then
+  if [[ -n "$work_id" ]]; then
+    branch_name="conv/${work_id}-${pkg_slug}"
+  else
+    branch_name="conv/${pkg_slug}"
+  fi
+fi
+
+if [[ -z "$worktree_path" ]]; then
+  worktree_root=$(trim_trailing_slash "$worktree_root")
+  worktree_path="${worktree_root}/$(slugify "$branch_name")"
+fi
+
+integration_worktree=$(trim_trailing_slash "$integration_worktree")
+
+convert_cmd=("$convertpkg_script" "--branch" "$branch_name" "--worktree" "$worktree_path")
+if [[ -n "$work_id" ]]; then
+  convert_cmd+=("--id" "$work_id")
+fi
+if [[ -n "$work_bead" ]]; then
+  convert_cmd+=("--work-bead" "$work_bead")
+fi
+if [[ -n "$validation_bead" ]]; then
+  convert_cmd+=("--validation-bead" "$validation_bead")
+fi
+if [[ ${#convert_args[@]} -gt 0 ]]; then
+  convert_cmd+=("${convert_args[@]}")
+fi
+if [[ ${#handoff_args[@]} -gt 0 ]]; then
+  convert_cmd+=("${handoff_args[@]}")
+fi
+convert_cmd+=("$pkg_path")
+
+handoff_cmd=("$pkghandoff_script" "--worktree" "$worktree_path")
+if [[ -n "$work_bead" ]]; then
+  handoff_cmd+=("--work-bead" "$work_bead")
+fi
+if [[ -n "$validation_bead" ]]; then
+  handoff_cmd+=("--validation-bead" "$validation_bead")
+fi
+if [[ ${#handoff_args[@]} -gt 0 ]]; then
+  handoff_cmd+=("${handoff_args[@]}")
+fi
+handoff_cmd+=("$pkg_path")
+
+validate_cmd=("$validatepkgwt_script" "--handoff" "-" "--worktree" "$worktree_path")
+if [[ "$require_baseline" == "yes" ]]; then
+  validate_cmd+=("--require-baseline")
+fi
+if [[ -n "$baseline_arg" ]]; then
+  validate_cmd+=("--baseline" "$baseline_arg")
+fi
+
+integrate_cmd=(bash -lc "cd '$integration_worktree' && '$integratepkg_script' --target '$target_branch' --worktree '$worktree_path' --cleanup --force-cleanup")
+
+printf 'Package\n'
+printf '  Package: %s\n' "$pkg_path"
+printf '  Branch: %s\n' "$branch_name"
+printf '  Package worktree: %s\n' "$worktree_path"
+printf '  Integration worktree: %s\n' "$integration_worktree"
+printf '  Target branch: %s\n' "$target_branch"
+printf '\n'
+
+printf 'Prompt Templates\n'
+printf '  Converter: %s\n' "$helpers_dir/agent-prompts/converter-agent.md"
+printf '  Validator: %s\n' "$helpers_dir/agent-prompts/validator-agent.md"
+printf '  Integrator: %s\n' "$helpers_dir/agent-prompts/integrator-agent.md"
+printf '\n'
+
+printf 'Converter Command\n'
+print_cmd "${convert_cmd[@]}"
+printf '\n'
+
+if [[ -n "$work_bead" && -z "$validation_bead" ]]; then
+  printf 'Validation Bead Command\n'
+  print_cmd bd create "Validate $pkg_path: <change summary>" -t bug -p 1 --deps "discovered-from:$work_bead" --description "Validate bash -n/shellcheck, fakeroot slkbuild -X artifacts, depfinder output, baseline manifest diff, and basic smoketests" --json
+  printf '\n'
+fi
+
+printf 'Validator Handoff Command\n'
+print_cmd "${handoff_cmd[@]}"
+printf '\n'
+
+printf 'Validator Command\n'
+print_cmd bash -lc "$(
+  printf '%q ' "${handoff_cmd[@]}"
+  printf '| '
+  printf '%q ' "${validate_cmd[@]}"
+)"
+printf '\n'
+
+printf 'Integrator Command\n'
+print_cmd "${integrate_cmd[@]}"

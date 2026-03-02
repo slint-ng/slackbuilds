@@ -1,0 +1,327 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage:
+  validatepkgwt [options] [<category/package>]
+
+Run syntax checks plus the SLKBUILD validator against a package worktree.
+
+You can pass the package/worktree directly, or supply a pkghandoff block with
+--handoff FILE or --handoff -.
+
+Options:
+      --handoff <file|->
+      --worktree <path>
+      --require-baseline
+      --baseline <package>
+      --slapt-getrc <path>
+      --skip-shellcheck
+  -h, --help
+
+Examples:
+  validatepkgwt --worktree /tmp/slackbuilds-wt/conv-123-a-dcron --require-baseline a/dcron
+  pkghandoff --worktree /tmp/slackbuilds-wt/conv-123-a-dcron a/dcron | \
+    validatepkgwt --handoff - --require-baseline
+EOF
+}
+
+die() {
+  printf 'ERROR: %s\n' "$*" >&2
+  exit 1
+}
+
+require_cmd() {
+  command -v "$1" >/dev/null 2>&1 || die "missing required command: $1"
+}
+
+trim_trailing_slash() {
+  local value=$1
+  while [[ "$value" != "/" && "$value" == */ ]]; do
+    value=${value%/}
+  done
+  printf '%s\n' "$value"
+}
+
+normalize_placeholder() {
+  local value=${1-}
+  case "$value" in
+    ""|"<unset>"|"<missing>"|"<none>" )
+      printf '\n'
+      ;;
+    *)
+      printf '%s\n' "$value"
+      ;;
+  esac
+}
+
+print_block_lines() {
+  local text=${1-}
+  if [[ -z "$text" ]]; then
+    printf '  <none>\n'
+    return
+  fi
+  while IFS= read -r line; do
+    [[ -n "$line" ]] || continue
+    printf '  %s\n' "$line"
+  done <<<"$text"
+}
+
+read_handoff() {
+  local source=$1
+  local line=""
+  local key=""
+  local value=""
+
+  if [[ "$source" == "-" ]]; then
+    handoff_content="$(cat)"
+  else
+    [[ -f "$source" ]] || die "handoff file not found: $source"
+    handoff_content="$(cat "$source")"
+  fi
+
+  while IFS= read -r line; do
+    [[ "$line" == *:* ]] || continue
+    [[ "${line:0:1}" != " " ]] || continue
+    key=${line%%:*}
+    value=${line#*:}
+    value=${value# }
+    case "$key" in
+      bead)
+        validation_bead_from_handoff=$value
+        ;;
+      package)
+        pkg_from_handoff=$value
+        ;;
+      build\ note)
+        build_note_from_handoff=$value
+        ;;
+      work\ bead)
+        work_bead_from_handoff=$value
+        ;;
+      branch)
+        branch_from_handoff=$value
+        ;;
+      worktree)
+        worktree_from_handoff=$value
+        ;;
+      artifact)
+        artifact_from_handoff=$value
+        ;;
+      depfile)
+        depfile_from_handoff=$value
+        ;;
+      log)
+        log_from_handoff=$value
+        ;;
+    esac
+  done <<<"$handoff_content"
+}
+
+require_cmd git
+
+handoff_source=""
+pkg_path=""
+worktree_path=""
+require_baseline="no"
+baseline_arg=""
+slapt_getrc=""
+run_shellcheck="yes"
+
+handoff_content=""
+validation_bead_from_handoff=""
+pkg_from_handoff=""
+build_note_from_handoff=""
+work_bead_from_handoff=""
+branch_from_handoff=""
+worktree_from_handoff=""
+artifact_from_handoff=""
+depfile_from_handoff=""
+log_from_handoff=""
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --handoff)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      handoff_source=$2
+      shift 2
+      ;;
+    --worktree)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      worktree_path=$2
+      shift 2
+      ;;
+    --require-baseline)
+      require_baseline="yes"
+      shift
+      ;;
+    --baseline)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      baseline_arg=$2
+      shift 2
+      ;;
+    --slapt-getrc)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      slapt_getrc=$2
+      shift 2
+      ;;
+    --skip-shellcheck)
+      run_shellcheck="no"
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    --)
+      shift
+      break
+      ;;
+    -*)
+      die "unknown option: $1"
+      ;;
+    *)
+      if [[ -n "$pkg_path" ]]; then
+        die "only one package path may be provided"
+      fi
+      pkg_path=$1
+      shift
+      ;;
+  esac
+done
+
+if [[ $# -gt 0 ]]; then
+  die "unexpected trailing arguments: $*"
+fi
+
+if [[ -n "$handoff_source" ]]; then
+  read_handoff "$handoff_source"
+fi
+
+if [[ -z "$pkg_path" ]]; then
+  pkg_path="$(normalize_placeholder "$pkg_from_handoff")"
+fi
+
+[[ -n "$pkg_path" ]] || {
+  usage
+  exit 2
+}
+
+if [[ -z "$worktree_path" ]]; then
+  worktree_path="$(normalize_placeholder "$worktree_from_handoff")"
+fi
+
+if [[ -z "$worktree_path" ]]; then
+  worktree_path="$(git rev-parse --show-toplevel 2>/dev/null)" \
+    || die "run this command inside a git worktree, pass --worktree, or use --handoff"
+fi
+
+worktree_path=$(trim_trailing_slash "$worktree_path")
+worktree_path=$(cd "$worktree_path" && pwd -P) || die "worktree path not found: $worktree_path"
+
+git -C "$worktree_path" rev-parse --show-toplevel >/dev/null 2>&1 \
+  || die "not a git worktree: $worktree_path"
+
+pkg_path=$(trim_trailing_slash "$pkg_path")
+[[ "$pkg_path" != /* ]] || die "package path must be relative to the worktree root"
+pkgdir="${worktree_path}/${pkg_path}"
+[[ -d "$pkgdir" ]] || die "package directory not found: $pkg_path"
+
+slkbuild_path="${pkgdir}/SLKBUILD"
+[[ -f "$slkbuild_path" ]] || die "missing SLKBUILD: $slkbuild_path"
+
+validation_script="${worktree_path}/.codex/skills/slkbuild-validation/scripts/validate_pkg.sh"
+[[ -x "$validation_script" || -f "$validation_script" ]] \
+  || die "validation script not found: $validation_script"
+
+validation_bead="$(normalize_placeholder "$validation_bead_from_handoff")"
+work_bead="$(normalize_placeholder "$work_bead_from_handoff")"
+branch_name="$(normalize_placeholder "$branch_from_handoff")"
+build_note="$(normalize_placeholder "$build_note_from_handoff")"
+artifact_hint="$(normalize_placeholder "$artifact_from_handoff")"
+depfile_hint="$(normalize_placeholder "$depfile_from_handoff")"
+log_hint="$(normalize_placeholder "$log_from_handoff")"
+
+if [[ -z "$branch_name" ]]; then
+  branch_name="$(git -C "$worktree_path" symbolic-ref --quiet --short HEAD || true)"
+  if [[ -z "$branch_name" ]]; then
+    branch_name="(detached at $(git -C "$worktree_path" rev-parse --short HEAD))"
+  fi
+fi
+
+bash_n_output=""
+if bash_n_output="$(bash -n "$slkbuild_path" 2>&1)"; then
+  bash_n_rc=0
+else
+  bash_n_rc=$?
+fi
+
+shellcheck_status="NOT RUN"
+shellcheck_output=""
+shellcheck_rc=0
+if [[ "$run_shellcheck" == "yes" ]]; then
+  if command -v shellcheck >/dev/null 2>&1; then
+    if shellcheck_output="$(shellcheck "$slkbuild_path" 2>&1)"; then
+      shellcheck_status="PASS"
+      shellcheck_rc=0
+    else
+      shellcheck_status="FAIL"
+      shellcheck_rc=$?
+    fi
+  else
+    shellcheck_status="UNAVAILABLE"
+  fi
+else
+  shellcheck_status="SKIPPED"
+fi
+
+validation_cmd=(bash "$validation_script")
+if [[ "$require_baseline" == "yes" ]]; then
+  validation_cmd+=(--require-baseline)
+fi
+if [[ -n "$baseline_arg" ]]; then
+  validation_cmd+=(--baseline "$baseline_arg")
+fi
+if [[ -n "$slapt_getrc" ]]; then
+  validation_cmd+=(--slapt-getrc "$slapt_getrc")
+fi
+validation_cmd+=("$pkgdir")
+
+validation_output=""
+if validation_output="$("${validation_cmd[@]}" 2>&1)"; then
+  validation_rc=0
+else
+  validation_rc=$?
+fi
+
+printf 'Handoff\n'
+printf -- '- Validation bead: %s\n' "${validation_bead:-<unset>}"
+printf -- '- Work bead: %s\n' "${work_bead:-<unset>}"
+printf -- '- Build note: %s\n' "${build_note:-<unset>}"
+printf -- '- Branch: %s\n' "$branch_name"
+printf -- '- Worktree: %s\n' "$worktree_path"
+printf -- '- Package: %s\n' "$pkg_path"
+printf -- '- Artifact hint: %s\n' "${artifact_hint:-<missing>}"
+printf -- '- Depfile hint: %s\n' "${depfile_hint:-<missing>}"
+printf -- '- Log hint: %s\n' "${log_hint:-<missing>}"
+printf '\n'
+
+printf 'Syntax\n'
+if [[ "$bash_n_rc" -eq 0 ]]; then
+  printf -- '- bash -n: PASS\n'
+else
+  printf -- '- bash -n: FAIL\n'
+  print_block_lines "$bash_n_output"
+fi
+printf -- '- shellcheck: %s\n' "$shellcheck_status"
+if [[ "$shellcheck_status" == "FAIL" ]]; then
+  print_block_lines "$shellcheck_output"
+fi
+printf '\n'
+
+printf '%s\n' "$validation_output"
+
+if [[ "$bash_n_rc" -ne 0 || "$shellcheck_rc" -ne 0 || "$validation_rc" -ne 0 ]]; then
+  exit 1
+fi

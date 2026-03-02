@@ -1,0 +1,239 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage:
+  rmpkgwt [options] [<worktree-path>]
+
+Remove a linked package worktree created for isolated conversion/validation.
+
+If no worktree path is given, the current git top-level is used.
+
+Options:
+  -b, --branch <name>    Delete this branch after removing the worktree.
+      --delete-branch    Delete the checked-out branch after removing the worktree.
+      --branch-context <path>
+                         Use this worktree to evaluate branch deletion.
+                         Defaults to the caller's current git worktree.
+  -f, --force            Pass --force to git worktree remove.
+                         This is usually needed if build logs/artifacts remain.
+      --force-branch     Use git branch -D instead of git branch -d.
+      --prune            Run git worktree prune after removal.
+  -n, --dry-run          Show actions without changing anything.
+  -h, --help             Show this help text.
+
+Examples:
+  rmpkgwt /tmp/slackbuilds-wt/conv-123-a-dcron
+  rmpkgwt -f --delete-branch /tmp/slackbuilds-wt/conv-123-a-dcron
+  rmpkgwt --branch conv/123-a-dcron --prune /tmp/slackbuilds-wt/conv-123-a-dcron
+EOF
+}
+
+die() {
+  printf 'ERROR: %s\n' "$*" >&2
+  exit 1
+}
+
+require_cmd() {
+  command -v "$1" >/dev/null 2>&1 || die "missing required command: $1"
+}
+
+trim_trailing_slash() {
+  local value=$1
+  while [[ "$value" != "/" && "$value" == */ ]]; do
+    value=${value%/}
+  done
+  printf '%s\n' "$value"
+}
+
+require_cmd git
+
+target_path=""
+branch_name=""
+delete_branch="no"
+branch_context=""
+force_remove="no"
+force_branch="no"
+prune_after="no"
+dry_run="no"
+caller_context="$(git rev-parse --show-toplevel 2>/dev/null || true)"
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -b|--branch)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      branch_name=$2
+      delete_branch="yes"
+      shift 2
+      ;;
+    --delete-branch)
+      delete_branch="yes"
+      shift
+      ;;
+    --branch-context)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      branch_context=$2
+      shift 2
+      ;;
+    -f|--force)
+      force_remove="yes"
+      shift
+      ;;
+    --force-branch)
+      force_branch="yes"
+      shift
+      ;;
+    --prune)
+      prune_after="yes"
+      shift
+      ;;
+    -n|--dry-run)
+      dry_run="yes"
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    --)
+      shift
+      break
+      ;;
+    -*)
+      die "unknown option: $1"
+      ;;
+    *)
+      if [[ -n "$target_path" ]]; then
+        die "only one worktree path may be provided"
+      fi
+      target_path=$1
+      shift
+      ;;
+  esac
+done
+
+if [[ $# -gt 0 ]]; then
+  die "unexpected trailing arguments: $*"
+fi
+
+if [[ -z "$target_path" ]]; then
+  target_path=$(git rev-parse --show-toplevel 2>/dev/null) \
+    || die "run this command inside a git worktree or pass a worktree path"
+fi
+
+target_path=$(trim_trailing_slash "$target_path")
+target_path=$(cd "$target_path" && pwd -P) || die "worktree path not found: $target_path"
+
+git -C "$target_path" rev-parse --show-toplevel >/dev/null 2>&1 \
+  || die "not a git worktree: $target_path"
+
+if [[ -d "$target_path/.git" ]]; then
+  die "refusing to remove the main checkout: $target_path"
+fi
+
+if [[ ! -f "$target_path/.git" ]]; then
+  die "expected a linked worktree with a .git file: $target_path"
+fi
+
+common_dir="$(git -C "$target_path" rev-parse --path-format=absolute --git-common-dir 2>/dev/null || true)"
+if [[ -z "$common_dir" ]]; then
+  common_dir="$(cd "$target_path" && git rev-parse --git-common-dir)"
+  if [[ "$common_dir" != /* ]]; then
+    common_dir="$(cd "$target_path/$common_dir" && pwd -P)"
+  fi
+fi
+
+detected_branch="$(git -C "$target_path" symbolic-ref --quiet --short HEAD || true)"
+if [[ "$delete_branch" == "yes" && -z "$branch_name" ]]; then
+  branch_name=$detected_branch
+fi
+
+if [[ "$delete_branch" == "yes" && -z "$branch_name" ]]; then
+  die "could not determine branch name; pass --branch explicitly"
+fi
+
+if [[ "$delete_branch" == "yes" && -z "$branch_context" && -n "$caller_context" ]]; then
+  branch_context=$caller_context
+fi
+
+if [[ -n "$branch_context" ]]; then
+  branch_context=$(trim_trailing_slash "$branch_context")
+  branch_context=$(cd "$branch_context" && pwd -P) || die "branch context not found: $branch_context"
+  git -C "$branch_context" rev-parse --show-toplevel >/dev/null 2>&1 \
+    || die "branch context is not a git worktree: $branch_context"
+fi
+
+if [[ "$delete_branch" == "yes" && -z "$branch_context" ]]; then
+  die "could not determine branch context; run from a git worktree or pass --branch-context"
+fi
+
+case "$branch_name" in
+  "" )
+    ;;
+  main|master)
+    die "refusing to delete protected branch: $branch_name"
+    ;;
+esac
+
+remove_args=(--git-dir="$common_dir" worktree remove)
+if [[ "$force_remove" == "yes" ]]; then
+  remove_args+=(--force)
+fi
+remove_args+=("$target_path")
+
+branch_args=(-C "$branch_context" branch)
+if [[ "$force_branch" == "yes" ]]; then
+  branch_args+=(-D)
+else
+  branch_args+=(-d)
+fi
+branch_args+=("$branch_name")
+
+prune_args=(--git-dir="$common_dir" worktree prune)
+
+if [[ "$dry_run" == "yes" ]]; then
+  printf 'Would remove worktree: %s\n' "$target_path"
+  printf 'Worktree remove command:\n'
+  printf '  git %q' "${remove_args[0]}"
+  for arg in "${remove_args[@]:1}"; do
+    printf ' %q' "$arg"
+  done
+  printf '\n'
+  if [[ "$delete_branch" == "yes" ]]; then
+    printf 'Would delete branch: %s\n' "$branch_name"
+    printf 'Branch delete command:\n'
+    printf '  git %q' "${branch_args[0]}"
+    for arg in "${branch_args[@]:1}"; do
+      printf ' %q' "$arg"
+    done
+    printf '\n'
+  fi
+  if [[ "$prune_after" == "yes" ]]; then
+    printf 'Would prune worktree metadata:\n'
+    printf '  git %q' "${prune_args[0]}"
+    for arg in "${prune_args[@]:1}"; do
+      printf ' %q' "$arg"
+    done
+    printf '\n'
+  fi
+  exit 0
+fi
+
+git "${remove_args[@]}"
+
+if [[ "$delete_branch" == "yes" ]]; then
+  git "${branch_args[@]}"
+fi
+
+if [[ "$prune_after" == "yes" ]]; then
+  git "${prune_args[@]}"
+fi
+
+printf 'Removed worktree: %s\n' "$target_path"
+if [[ "$delete_branch" == "yes" ]]; then
+  printf 'Deleted branch: %s\n' "$branch_name"
+fi
+if [[ "$prune_after" == "yes" ]]; then
+  printf 'Pruned worktree metadata.\n'
+fi

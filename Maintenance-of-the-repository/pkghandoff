@@ -1,0 +1,274 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage:
+  pkghandoff [options] <category/package>
+
+Emit a converter -> validator handoff block for a package worktree.
+
+Options:
+  -w, --worktree <path>         Worktree path to inspect (default: current git top-level).
+      --work-bead <id>          Work bead id to include.
+      --validation-bead <id>    Validation bead id to include.
+      --build-note <text>       Build note text (default: build complete).
+      --artifact <path>         Explicit package artifact path.
+      --depfile <path>          Explicit depfile path.
+      --log <path>              Explicit build log path.
+      --expected-payload <path> Add an expected payload path. Repeatable.
+      --caveat <text>           Add a caveat line. Repeatable.
+      --strict                  Fail if artifact, depfile, or log is missing.
+  -h, --help                    Show this help text.
+
+Examples:
+  pkghandoff a/dcron
+  pkghandoff --work-bead slackbuilds-123 --validation-bead slackbuilds-124 a/dcron
+  pkghandoff --expected-payload usr/sbin/crond --expected-payload etc/rc.d/rc.crond a/dcron
+EOF
+}
+
+die() {
+  printf 'ERROR: %s\n' "$*" >&2
+  exit 1
+}
+
+require_cmd() {
+  command -v "$1" >/dev/null 2>&1 || die "missing required command: $1"
+}
+
+trim_trailing_slash() {
+  local value=$1
+  while [[ "$value" != "/" && "$value" == */ ]]; do
+    value=${value%/}
+  done
+  printf '%s\n' "$value"
+}
+
+latest_file() {
+  local dir=$1
+  local pattern=$2
+  find "$dir" -maxdepth 1 -type f -name "$pattern" -printf '%T@ %p\n' 2>/dev/null \
+    | sort -nr \
+    | head -n 1 \
+    | cut -d' ' -f2-
+}
+
+select_log_file() {
+  local dir=$1
+  local artifact=$2
+  local candidate=""
+  local artifact_base=""
+
+  if [[ -n "$artifact" ]]; then
+    artifact_base=$(basename "$artifact" .txz)
+    candidate="$dir/build-${artifact_base}.log"
+    if [[ -f "$candidate" ]]; then
+      printf '%s\n' "$candidate"
+      return
+    fi
+  fi
+
+  latest_file "$dir" 'build-*.log'
+}
+
+resolve_existing_path() {
+  local base_dir=$1
+  local value=$2
+  local resolved=""
+
+  if [[ "$value" = /* ]]; then
+    resolved=$value
+  else
+    resolved="${base_dir}/${value}"
+  fi
+
+  [[ -e "$resolved" ]] || die "path not found: $value"
+  (cd "$(dirname "$resolved")" && printf '%s/%s\n' "$(pwd -P)" "$(basename "$resolved")")
+}
+
+display_value() {
+  local value=${1-}
+  if [[ -n "$value" ]]; then
+    printf '%s\n' "$value"
+  else
+    printf '<missing>\n'
+  fi
+}
+
+require_cmd git
+
+worktree_path=""
+pkg_path=""
+work_bead=""
+validation_bead=""
+build_note="build complete"
+artifact_path=""
+depfile_path=""
+log_path=""
+strict_mode="no"
+declare -a expected_payload=()
+declare -a caveats=()
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -w|--worktree)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      worktree_path=$2
+      shift 2
+      ;;
+    --work-bead)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      work_bead=$2
+      shift 2
+      ;;
+    --validation-bead)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      validation_bead=$2
+      shift 2
+      ;;
+    --build-note)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      build_note=$2
+      shift 2
+      ;;
+    --artifact)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      artifact_path=$2
+      shift 2
+      ;;
+    --depfile)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      depfile_path=$2
+      shift 2
+      ;;
+    --log)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      log_path=$2
+      shift 2
+      ;;
+    --expected-payload)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      expected_payload+=("$2")
+      shift 2
+      ;;
+    --caveat)
+      [[ $# -ge 2 ]] || die "$1 requires a value"
+      caveats+=("$2")
+      shift 2
+      ;;
+    --strict)
+      strict_mode="yes"
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    --)
+      shift
+      break
+      ;;
+    -*)
+      die "unknown option: $1"
+      ;;
+    *)
+      if [[ -n "$pkg_path" ]]; then
+        die "only one package path may be provided"
+      fi
+      pkg_path=$1
+      shift
+      ;;
+  esac
+done
+
+if [[ $# -gt 0 ]]; then
+  die "unexpected trailing arguments: $*"
+fi
+
+[[ -n "$pkg_path" ]] || {
+  usage
+  exit 2
+}
+
+if [[ -z "$worktree_path" ]]; then
+  worktree_path=$(git rev-parse --show-toplevel 2>/dev/null) \
+    || die "run this command inside a git worktree or pass --worktree"
+fi
+
+worktree_path=$(trim_trailing_slash "$worktree_path")
+worktree_path=$(cd "$worktree_path" && pwd -P) || die "worktree path not found: $worktree_path"
+
+git -C "$worktree_path" rev-parse --show-toplevel >/dev/null 2>&1 \
+  || die "not a git worktree: $worktree_path"
+
+pkg_path=$(trim_trailing_slash "$pkg_path")
+[[ "$pkg_path" != /* ]] || die "package path must be relative to the worktree root"
+pkgdir="${worktree_path}/${pkg_path}"
+[[ -d "$pkgdir" ]] || die "package directory not found: $pkg_path"
+
+branch_name="$(git -C "$worktree_path" symbolic-ref --quiet --short HEAD || true)"
+if [[ -z "$branch_name" ]]; then
+  branch_name="(detached at $(git -C "$worktree_path" rev-parse --short HEAD))"
+fi
+
+if [[ -n "$artifact_path" ]]; then
+  artifact_path=$(resolve_existing_path "$worktree_path" "$artifact_path")
+else
+  artifact_path=$(latest_file "$pkgdir" '*.txz')
+fi
+
+if [[ -n "$depfile_path" ]]; then
+  depfile_path=$(resolve_existing_path "$worktree_path" "$depfile_path")
+elif [[ -n "$artifact_path" && -f "${artifact_path%.txz}.dep" ]]; then
+  depfile_path="${artifact_path%.txz}.dep"
+else
+  depfile_path=$(latest_file "$pkgdir" '*.dep')
+fi
+
+if [[ -n "$log_path" ]]; then
+  log_path=$(resolve_existing_path "$worktree_path" "$log_path")
+else
+  log_path=$(select_log_file "$pkgdir" "$artifact_path")
+fi
+
+if [[ "$strict_mode" == "yes" ]]; then
+  [[ -n "$artifact_path" ]] || die "missing package artifact (*.txz) for $pkg_path"
+  [[ -n "$depfile_path" ]] || die "missing depfile (*.dep) for $pkg_path"
+  [[ -n "$log_path" ]] || die "missing build log (build-*.log) for $pkg_path"
+fi
+
+mapfile -t changed_files < <(
+  git -C "$worktree_path" status --porcelain=v1 --untracked-files=all 2>/dev/null || true
+)
+
+printf 'bead: %s\n' "${validation_bead:-<unset>}"
+printf 'package: %s\n' "$pkg_path"
+printf 'build note: %s\n' "$build_note"
+printf 'work bead: %s\n' "${work_bead:-<unset>}"
+printf 'branch: %s\n' "$branch_name"
+printf 'worktree: %s\n' "$worktree_path"
+printf 'artifact: '
+display_value "$artifact_path"
+printf 'depfile: '
+display_value "$depfile_path"
+printf 'log: '
+display_value "$log_path"
+printf 'changed files:\n'
+if [[ ${#changed_files[@]} -eq 0 ]]; then
+  printf '  <none detected>\n'
+else
+  printf '  %s\n' "${changed_files[@]}"
+fi
+printf 'expected payload:\n'
+if [[ ${#expected_payload[@]} -eq 0 ]]; then
+  printf '  <none supplied>\n'
+else
+  printf '  %s\n' "${expected_payload[@]}"
+fi
+printf 'caveats:\n'
+if [[ ${#caveats[@]} -eq 0 ]]; then
+  printf '  <none>\n'
+else
+  printf '  %s\n' "${caveats[@]}"
+fi
