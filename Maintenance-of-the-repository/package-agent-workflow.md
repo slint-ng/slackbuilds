@@ -32,7 +32,8 @@ The unit of work is always one package directory.
   Removes linked package worktrees and optionally deletes their branches.
 - `dispatchpkg`
   Prints the exact converter, validator, and integrator commands for one
-  package, including ready-to-paste `codex exec` subagent invocations.
+  package, including ready-to-paste `codex exec` prompts that explicitly spawn
+  the matching Codex agent role.
 
 ## Prompt Templates
 
@@ -42,14 +43,25 @@ Templates for agent runs live here:
 - `agent-prompts/validator-agent.md`
 - `agent-prompts/integrator-agent.md`
 
-Repo-local subagents mirror the same roles:
+Repo-local Codex agent roles are configured here:
 
-- `$package-converter`
-- `$package-validator`
-- `$package-integrator`
+- `.codex/config.toml`
+- `.codex/agents/package-converter.toml`
+- `.codex/agents/package-validator.toml`
+- `.codex/agents/package-integrator.toml`
 
-Prefer the subagents for reusable Codex role runs. The markdown templates remain
-the plain-text equivalents.
+The registered role names are:
+
+- `package-converter`
+- `package-validator`
+- `package-integrator`
+
+Prefer the repo-local agent roles for reusable Codex multi-agent runs. The
+markdown templates remain the plain-text equivalents.
+
+The generated `codex exec` commands tell Codex to spawn the named role and wait
+for its result. Simply mentioning a role name is not enough; the role is only
+applied when Codex actually spawns an agent with that `agent_type`.
 
 Use helper scripts by absolute path from the main checkout. Sparse package
 worktrees do not include `Maintenance-of-the-repository/` by default.

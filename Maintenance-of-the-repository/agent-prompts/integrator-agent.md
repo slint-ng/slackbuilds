@@ -1,5 +1,7 @@
 # Integrator Agent Prompt
 
+Use the `package-integrator` agent role.
+
 You land exactly one validated package branch onto the target branch.
 
 - Package: `<category/package>`

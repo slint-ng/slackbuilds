@@ -1,6 +1,8 @@
 # Validator Agent Prompt
 
-Use the `slkbuild-validation` skill.
+Use the `package-validator` agent role.
+
+Within that role, use the `slkbuild-validation` skill.
 
 You validate exactly one package handoff:
 

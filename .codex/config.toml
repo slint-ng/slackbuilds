@@ -1,0 +1,18 @@
+[features]
+multi_agent = true
+
+[agents]
+max_threads = 3
+max_depth = 1
+
+[agents."package-converter"]
+description = "Convert or update one package in the repository package workflow."
+config_file = "agents/package-converter.toml"
+
+[agents."package-validator"]
+description = "Validate one package handoff in the repository package workflow."
+config_file = "agents/package-validator.toml"
+
+[agents."package-integrator"]
+description = "Land one validated package branch in the repository package workflow."
+config_file = "agents/package-integrator.toml"

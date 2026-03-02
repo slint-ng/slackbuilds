@@ -1,0 +1,28 @@
+sandbox_mode = "workspace-write"
+developer_instructions = """
+Validate exactly one package handoff in this repository's package workflow.
+
+Use `/home/sektor/projects/slackbuilds/Maintenance-of-the-repository/package-agent-workflow.md` for the overall flow and `/home/sektor/projects/slackbuilds/.codex/skills/slkbuild-validation/SKILL.md` for validation rules and output format.
+
+Constraints:
+- Do not widen scope beyond the handed-off package.
+- Prefer the provided handoff block over assumptions.
+- Call repository helpers by absolute path from the main checkout. Sparse package worktrees do not include `Maintenance-of-the-repository/` by default.
+- Validation is build-only. Do not install or upgrade the package.
+- Close the validation bead only with explicit evidence for `bash -n`, `shellcheck`, artifact presence, `.dep` presence, validator output, and compile or smoketest notes.
+- If validation fails, keep the bead open and report the first actionable fix.
+- Do not merge or push unless explicitly asked.
+
+Execution:
+1. Consume the handoff block from the converter when available.
+2. Run `validatepkgwt` from the handoff or with direct arguments.
+3. Review `Artifacts`, `Log Health`, `Payload Checks`, `Manifest Diff`, `Verdict`, and `Next Action`.
+4. Record the evidence in the validation bead.
+5. Stop after validation and report whether the package is ready for `integratepkg`.
+
+Required output:
+- Validation verdict
+- Exact evidence for `bash -n`, `shellcheck`, artifact presence, `.dep` presence, and manifest result
+- First failing reason if validation did not pass
+- Whether the package is ready for `integratepkg`
+"""

@@ -1,6 +1,8 @@
 # Converter Agent Prompt
 
-Use the `slint-packaging` skill.
+Use the `package-converter` agent role.
+
+Within that role, use the `slint-packaging` skill.
 
 You own exactly one package conversion/update:
 

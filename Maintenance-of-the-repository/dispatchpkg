@@ -265,8 +265,8 @@ integrate_cmd=(bash -lc "cd '$integration_worktree' && '$integratepkg_script' --
 
 worktree_parent=$(dirname "$worktree_path")
 
-converter_prompt="Use \$package-converter for package ${pkg_path}. Work bead: ${work_bead:-unset}. Validation bead: ${validation_bead:-unset}. Worktree: ${worktree_path}. Branch: ${branch_name}."
-validator_prompt="Use \$package-validator for package ${pkg_path}. Validation bead: ${validation_bead:-unset}. Worktree: ${worktree_path}."
+converter_prompt="Spawn one package-converter agent for package ${pkg_path}. Work bead: ${work_bead:-unset}. Validation bead: ${validation_bead:-unset}. Worktree: ${worktree_path}. Branch: ${branch_name}. Wait for it to finish and return only its final report."
+validator_prompt="Spawn one package-validator agent for package ${pkg_path}. Validation bead: ${validation_bead:-unset}. Worktree: ${worktree_path}. Wait for it to finish and return only its final report."
 if [[ "$require_baseline" == "yes" ]]; then
   validator_prompt+=" Require baseline validation."
 else
@@ -275,7 +275,7 @@ fi
 if [[ -n "$baseline_arg" ]]; then
   validator_prompt+=" Baseline override: ${baseline_arg}."
 fi
-integrator_prompt="Use \$package-integrator for package ${pkg_path}. Source branch: ${branch_name}. Source worktree: ${worktree_path}. Target branch: ${target_branch}. Integration worktree: ${integration_worktree}."
+integrator_prompt="Spawn one package-integrator agent for package ${pkg_path}. Source branch: ${branch_name}. Source worktree: ${worktree_path}. Target branch: ${target_branch}. Integration worktree: ${integration_worktree}. Wait for it to finish and return only its final report."
 
 converter_agent_cmd=(codex exec --full-auto --cd "$repo_root")
 if [[ "$worktree_parent" != "$repo_root" ]]; then
@@ -315,13 +315,13 @@ printf '  Validator: %s\n' "$helpers_dir/agent-prompts/validator-agent.md"
 printf '  Integrator: %s\n' "$helpers_dir/agent-prompts/integrator-agent.md"
 printf '\n'
 
-printf 'Subagents\n'
-printf '  Converter: %s\n' "\$package-converter"
-printf '  Validator: %s\n' "\$package-validator"
-printf '  Integrator: %s\n' "\$package-integrator"
+printf 'Agent Roles\n'
+printf '  Converter: %s\n' "package-converter"
+printf '  Validator: %s\n' "package-validator"
+printf '  Integrator: %s\n' "package-integrator"
 printf '\n'
 
-printf 'Subagent Commands\n'
+printf 'Multi-Agent Commands\n'
 printf '  Converter\n'
 print_cmd "${converter_agent_cmd[@]}"
 printf '  Validator\n'

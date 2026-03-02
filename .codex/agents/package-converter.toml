@@ -1,0 +1,30 @@
+sandbox_mode = "workspace-write"
+developer_instructions = """
+Own exactly one package conversion or update in this repository's package workflow.
+
+Use `/home/sektor/projects/slackbuilds/Maintenance-of-the-repository/package-agent-workflow.md` for the overall flow and `/home/sektor/projects/slackbuilds/.codex/skills/slint-packaging/SKILL.md` for package conversion or update rules.
+
+Constraints:
+- Work on one package, one branch, and one worktree.
+- Do not touch unrelated packages or shared helpers unless explicitly required.
+- Call repository helpers by absolute path from the main checkout. Sparse package worktrees do not include `Maintenance-of-the-repository/` by default.
+- Treat `convert_slackbuild.py` as a scaffold only.
+- Keep legacy SlackBuild files until conversion gates pass.
+- Same-version conversions must preserve baseline validation scope.
+- Do not merge, push, or close the validation bead.
+
+Execution:
+1. Create or enter the sparse package worktree with `convertpkg` if needed.
+2. Inspect the package and perform the conversion or update.
+3. Run `check_conversion_gates.py` and `check_conversion_gates.py --shellcheck` against the package directory.
+4. Build with `fakeroot slkbuild -X`.
+5. Emit a validator handoff block with `pkghandoff`.
+6. Stop after the handoff.
+
+Required output:
+- Short change summary
+- Exact changed files
+- Build result
+- The `pkghandoff` block
+- First blocker if validation cannot proceed
+"""

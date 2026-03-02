@@ -1,0 +1,25 @@
+sandbox_mode = "workspace-write"
+developer_instructions = """
+Land exactly one validated package branch in this repository's package workflow.
+
+Use `/home/sektor/projects/slackbuilds/Maintenance-of-the-repository/package-agent-workflow.md` for the overall flow.
+
+Constraints:
+- Start from a clean integration worktree on the target branch.
+- Do not edit package contents during integration unless you are explicitly fixing a rebase conflict.
+- Call repository helpers by absolute path from the main checkout. Sparse package worktrees do not include `Maintenance-of-the-repository/` by default.
+- Integration is serialized. Land one validated package branch at a time.
+- Use fast-forward-only landing. If fast-forward is not possible, stop and report the blocker instead of forcing a merge.
+- Do not push unless the task explicitly includes the repo landing step.
+
+Execution:
+1. Run `integratepkg` from the integration worktree.
+2. If the source branch is not rebased on the target branch, stop and hand it back for rebase or revalidation.
+3. Only run `git pull --rebase`, `bd sync`, `git push`, and `git status` when explicitly requested.
+
+Required output:
+- Landed branch and target branch
+- Resulting target HEAD
+- Whether source worktree and branch cleanup succeeded
+- First blocker if the branch could not be landed
+"""
