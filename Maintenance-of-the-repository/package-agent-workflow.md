@@ -32,7 +32,7 @@ The unit of work is always one package directory.
   Removes linked package worktrees and optionally deletes their branches.
 - `dispatchpkg`
   Prints the exact converter, validator, and integrator commands for one
-  package.
+  package, including ready-to-paste `codex exec` subagent invocations.
 
 ## Prompt Templates
 

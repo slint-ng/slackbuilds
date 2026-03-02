@@ -263,6 +263,44 @@ fi
 
 integrate_cmd=(bash -lc "cd '$integration_worktree' && '$integratepkg_script' --target '$target_branch' --worktree '$worktree_path' --cleanup --force-cleanup")
 
+worktree_parent=$(dirname "$worktree_path")
+
+converter_prompt="Use \$package-converter for package ${pkg_path}. Work bead: ${work_bead:-unset}. Validation bead: ${validation_bead:-unset}. Worktree: ${worktree_path}. Branch: ${branch_name}."
+validator_prompt="Use \$package-validator for package ${pkg_path}. Validation bead: ${validation_bead:-unset}. Worktree: ${worktree_path}."
+if [[ "$require_baseline" == "yes" ]]; then
+  validator_prompt+=" Require baseline validation."
+else
+  validator_prompt+=" Do not require baseline validation."
+fi
+if [[ -n "$baseline_arg" ]]; then
+  validator_prompt+=" Baseline override: ${baseline_arg}."
+fi
+integrator_prompt="Use \$package-integrator for package ${pkg_path}. Source branch: ${branch_name}. Source worktree: ${worktree_path}. Target branch: ${target_branch}. Integration worktree: ${integration_worktree}."
+
+converter_agent_cmd=(codex exec --full-auto --cd "$repo_root")
+if [[ "$worktree_parent" != "$repo_root" ]]; then
+  converter_agent_cmd+=(--add-dir "$worktree_parent")
+fi
+converter_agent_cmd+=("$converter_prompt")
+
+validator_agent_cmd=(codex exec --full-auto --cd "$repo_root")
+if [[ "$worktree_path" != "$repo_root" ]]; then
+  validator_agent_cmd+=(--add-dir "$worktree_path")
+fi
+if [[ -n "$baseline_arg" && "$baseline_arg" = /* ]]; then
+  validator_agent_cmd+=(--add-dir "$(dirname "$baseline_arg")")
+fi
+validator_agent_cmd+=("$validator_prompt")
+
+integrator_agent_cmd=(codex exec --full-auto --cd "$repo_root")
+if [[ "$worktree_path" != "$repo_root" ]]; then
+  integrator_agent_cmd+=(--add-dir "$worktree_path")
+fi
+if [[ "$integration_worktree" != "$repo_root" ]]; then
+  integrator_agent_cmd+=(--add-dir "$integration_worktree")
+fi
+integrator_agent_cmd+=("$integrator_prompt")
+
 printf 'Package\n'
 printf '  Package: %s\n' "$pkg_path"
 printf '  Branch: %s\n' "$branch_name"
@@ -281,6 +319,15 @@ printf 'Subagents\n'
 printf '  Converter: %s\n' "\$package-converter"
 printf '  Validator: %s\n' "\$package-validator"
 printf '  Integrator: %s\n' "\$package-integrator"
+printf '\n'
+
+printf 'Subagent Commands\n'
+printf '  Converter\n'
+print_cmd "${converter_agent_cmd[@]}"
+printf '  Validator\n'
+print_cmd "${validator_agent_cmd[@]}"
+printf '  Integrator\n'
+print_cmd "${integrator_agent_cmd[@]}"
 printf '\n'
 
 printf 'Converter Command\n'
