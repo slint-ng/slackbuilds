@@ -1,0 +1,38 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Maintainer: Benjamin Trigona-Harany <slackbuilds@jaxartes.net>
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=python-ptyprocess
+pkgver=0.7.0
+pkgrel=1slint
+url="https://pypi.python.org/pypi/ptyprocess"
+license=("ISC")
+depends=("python")
+makedepends=("python-setuptools")
+source=("https://files.pythonhosted.org/packages/source/p/ptyprocess/ptyprocess-$pkgver.tar.gz")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (subprocesses in pseudo terminals for Python 3)"
+""
+"Launch a subprocess in a pseudo terminal and interact with both"
+"the process and its pty."
+"Sometimes, piping stdin and stdout is not enough."
+"There might be a password prompt, terminal-sensitive output,"
+"or curses-style interfaces that rely on a terminal."
+""
+"Project URL: https://pypi.python.org/pypi/ptyprocess"
+)
+
+build() {
+  cd "$SRC/ptyprocess-$pkgver" || exit 1
+  python3 setup.py install --root="$PKG" || exit 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacy_suffix=SlackBuild
+  mkdir -p "$docdir"
+  cp -a README.rst PKG-INFO "$docdir" || exit 1
+  install -m 0644 "$SRC/../SLKBUILD" "$docdir/$pkgname.$legacy_suffix"
+}

@@ -1,0 +1,45 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Maintainer: Dimitris Zlatanidis <d.zlatanidis@gmail.com>
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=python-click
+_srcname=click
+pkgver=8.1.8
+pkgrel=1slint
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Python 3 composable command line utility)"
+""
+"Click is a Python package for creating beautiful command line"
+"interfaces in a composable way with as little code as necessary."
+"It is highly configurable but comes with sensible defaults."
+""
+"Homepage: https://github.com/mitsuhiko/click"
+)
+url="https://pypi.org/project/click/"
+license=("BSD")
+depends=("python")
+makedepends=("python-build" "python-installer" "python-wheel")
+source=("https://files.pythonhosted.org/packages/source/c/click/click-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  # Keep the current Slint behavior: install click for both shipped Python 3 ABIs.
+  for pybin in python3.9 python3.11; do
+    "$pybin" -m build --wheel --no-isolation
+  done
+
+  for pybin in python3.9 python3.11; do
+    "$pybin" -m installer --destdir="$PKG" dist/*.whl
+  done
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacy_suffix=SlackBuild
+  mkdir -p "$docdir"
+  cp -a CHANGES.rst LICENSE.txt README.md docs/*.rst "$docdir"
+  install -m 0644 "$SRC/../SLKBUILD" "$docdir/$pkgname.$legacy_suffix"
+}
