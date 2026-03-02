@@ -1,0 +1,6 @@
+interface:
+  display_name: "Package Converter"
+  short_description: "Convert one package in the repo workflow"
+  default_prompt: "Use $package-converter to convert or update one package in the repository package workflow."
+policy:
+  allow_implicit_invocation: false

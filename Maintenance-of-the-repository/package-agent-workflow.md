@@ -42,6 +42,15 @@ Templates for agent runs live here:
 - `agent-prompts/validator-agent.md`
 - `agent-prompts/integrator-agent.md`
 
+Repo-local subagents mirror the same roles:
+
+- `$package-converter`
+- `$package-validator`
+- `$package-integrator`
+
+Prefer the subagents for reusable Codex role runs. The markdown templates remain
+the plain-text equivalents.
+
 Use helper scripts by absolute path from the main checkout. Sparse package
 worktrees do not include `Maintenance-of-the-repository/` by default.
 

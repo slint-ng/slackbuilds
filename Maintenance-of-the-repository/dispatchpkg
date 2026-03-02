@@ -277,6 +277,12 @@ printf '  Validator: %s\n' "$helpers_dir/agent-prompts/validator-agent.md"
 printf '  Integrator: %s\n' "$helpers_dir/agent-prompts/integrator-agent.md"
 printf '\n'
 
+printf 'Subagents\n'
+printf '  Converter: %s\n' "\$package-converter"
+printf '  Validator: %s\n' "\$package-validator"
+printf '  Integrator: %s\n' "\$package-integrator"
+printf '\n'
+
 printf 'Converter Command\n'
 print_cmd "${convert_cmd[@]}"
 printf '\n'

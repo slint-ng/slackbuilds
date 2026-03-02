@@ -1,0 +1,6 @@
+interface:
+  display_name: "Package Validator"
+  short_description: "Validate one package handoff in the repo workflow"
+  default_prompt: "Use $package-validator to validate one package handoff in the repository package workflow."
+policy:
+  allow_implicit_invocation: false

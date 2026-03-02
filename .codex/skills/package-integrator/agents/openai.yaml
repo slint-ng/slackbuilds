@@ -1,0 +1,6 @@
+interface:
+  display_name: "Package Integrator"
+  short_description: "Land one validated package branch in the repo workflow"
+  default_prompt: "Use $package-integrator to land one validated package branch in the repository package workflow."
+policy:
+  allow_implicit_invocation: false
