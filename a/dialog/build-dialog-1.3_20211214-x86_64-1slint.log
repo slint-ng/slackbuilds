@@ -1,0 +1,1378 @@
+tar -xf dialog-1.3-20211214.tgz
+Hmm...  Looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|--- ./menubox.c.orig	2019-11-10 19:41:15.000000000 -0600
+|+++ ./menubox.c	2019-12-06 13:16:39.400865476 -0600
+--------------------------
+patching file menubox.c
+Hunk #1 succeeded at 431 (offset -2 lines).
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|--- ./buildlist.c.orig	2019-11-10 19:41:43.000000000 -0600
+|+++ ./buildlist.c	2019-12-06 13:16:39.402865476 -0600
+--------------------------
+patching file buildlist.c
+Hunk #1 succeeded at 652 (offset -1 lines).
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|--- ./checklist.c.orig	2019-11-10 19:26:35.000000000 -0600
+|+++ ./checklist.c	2019-12-06 13:16:39.404865476 -0600
+--------------------------
+patching file checklist.c
+Hunk #1 succeeded at 303 (offset -1 lines).
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|--- ./treeview.c.orig	2019-11-10 19:38:22.000000000 -0600
+|+++ ./treeview.c	2019-12-06 13:17:35.604866677 -0600
+--------------------------
+patching file treeview.c
+Hunk #1 succeeded at 290 (offset -1 lines).
+done
+Hmm...  Looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|--- ./checklist.c.orig	2008-06-20 15:58:21.000000000 -0500
+|+++ ./checklist.c	2009-04-22 19:00:18.000000000 -0500
+--------------------------
+patching file checklist.c
+Hunk #1 succeeded at 29 with fuzz 2 (offset -2 lines).
+Hmm...  The next patch looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|--- ./menubox.c.orig	2008-06-19 19:54:16.000000000 -0500
+|+++ ./menubox.c	2009-04-22 19:00:07.000000000 -0500
+--------------------------
+patching file menubox.c
+Hunk #1 succeeded at 48 with fuzz 2 (offset 13 lines).
+done
+Hmm...  Looks like a unified diff to me...
+The text leading up to this was:
+--------------------------
+|--- ./util.c.orig	2019-11-10 17:20:58.000000000 -0600
+|+++ ./util.c	2019-12-07 14:40:23.404722986 -0600
+--------------------------
+patching file util.c
+Hunk #1 succeeded at 1286 (offset 49 lines).
+done
+checking build system type... x86_64-slackware-linux-gnu
+checking host system type... x86_64-slackware-linux-gnu
+checking for gcc... gcc
+checking for C compiler default output... a.out
+checking whether the C compiler works... yes
+checking whether we are cross compiling... no
+checking for executable suffix... 
+checking for object suffix... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking version of gcc... 11.5.0
+checking if this is really Intel C compiler... no
+checking if this is really Clang C compiler... no
+checking for gcc option to accept ANSI C... none needed
+checking $CFLAGS variable... ok
+checking $CC variable... ok
+checking for ggrep... no
+checking for grep... grep
+checking for egrep... grep -E
+checking how to run the C preprocessor... gcc -E
+checking whether make sets ${MAKE}... yes
+checking for ranlib... ranlib
+checking for a BSD compatible install... /usr/bin/ginstall -c
+checking whether ln -s works... yes
+checking if ln -s -f options work... yes
+checking for lint... no
+checking for cppcheck... no
+checking for splint... no
+checking for groff... /usr/bin/groff
+checking for nroff... /usr/bin/nroff
+checking for tbl... /usr/bin/tbl
+checking for ar... ar
+checking for options to update archives... -curvU
+checking for fgrep... grep -F
+checking for makeflags variable... 
+checking if filesystem supports mixed-case filenames... yes
+checking for exctags... no
+checking for ctags... ctags
+checking for exetags... no
+checking for etags... etags
+checking for ctags... yes
+checking for etags... yes
+checking if you want to see long compiling messages... yes
+Configuring for linux-gnu
+checking for PATH separator... :
+checking if the POSIX test-macros are already defined... no
+checking if this is the GNU C library... yes
+checking if _DEFAULT_SOURCE can be used as a basis... yes
+checking if _XOPEN_SOURCE=500 works with _DEFAULT_SOURCE... yes
+checking if _XOPEN_SOURCE really is set... yes
+checking for special C compiler options needed for large files... no
+checking for _FILE_OFFSET_BITS value needed for large files... no
+checking for _LARGE_FILES value needed for large files... no
+checking for _LARGEFILE_SOURCE value needed for large files... no
+checking for fseeko... yes
+checking whether to use struct dirent64... no
+checking for install-prefix... no
+checking if you want to use C11 _Noreturn feature... no
+checking if you want to turn on gcc warnings... no
+configure: checking for gcc __attribute__ directives...
+... scanf
+... printf
+... unused
+... noreturn
+checking if you want to use pkg-config... yes
+checking for pkg-config... /usr/bin/pkg-config
+checking for this package's name... dialog
+checking for package version... 1.3
+checking for package patch date... 20211214
+checking if we should install dlg_XXX headers to subdirectory... no
+checking for man2html... /usr/bin/man2html
+checking for the modified Earl Hood script... no
+checking for program to convert manpage to html... /usr/bin/groff
+checking for ANSI C header files... yes
+checking for inline... inline
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking for off_t... yes
+checking for size_t... yes
+checking for working alloca.h... yes
+checking for alloca... yes
+checking for stdlib.h... (cached) yes
+checking for unistd.h... (cached) yes
+checking for getpagesize... yes
+checking for working mmap... yes
+checking whether we are using the GNU C Library 2.1 or newer... yes
+checking for argz.h... yes
+checking for limits.h... yes
+checking for locale.h... yes
+checking for nl_types.h... yes
+checking for malloc.h... yes
+checking for stddef.h... yes
+checking for stdlib.h... (cached) yes
+checking for string.h... (cached) yes
+checking for unistd.h... (cached) yes
+checking for sys/param.h... yes
+checking for feof_unlocked... yes
+checking for fgets_unlocked... yes
+checking for getcwd... yes
+checking for getegid... yes
+checking for geteuid... yes
+checking for getgid... yes
+checking for getuid... yes
+checking for mempcpy... yes
+checking for munmap... yes
+checking for putenv... yes
+checking for setenv... yes
+checking for setlocale... yes
+checking for stpcpy... yes
+checking for strchr... yes
+checking for strcasecmp... yes
+checking for strdup... yes
+checking for strtoul... yes
+checking for tsearch... yes
+checking for __argz_count... yes
+checking for __argz_stringify... yes
+checking for __argz_next... yes
+checking for iconv... yes
+checking if the declaration of iconv() needs const.... no
+checking for nl_langinfo and CODESET... yes
+checking for LC_MESSAGES... yes
+checking whether NLS is requested... yes
+checking whether included gettext is requested... no
+checking for msgfmt... /usr/bin/msgfmt
+checking for gmsgfmt... /usr/bin/msgfmt
+checking for xgettext... /usr/bin/xgettext
+checking for libintl.h and gettext()... yes
+checking for dcgettext... yes
+checking for catalogs to be installed...  an ar ast be@latin bg ca cs cy da de el eo es et eu fa fi fr fur ga gd gl hi hr hu ia id is it ja ku lt lv mg mk ms nb nl pl pt pt_BR rm ro ru rw sk sl sq sr sv sw th tr uk vi wa zh_CN zh_TW
+checking if we should use included message-library... yes
+checking for libintl.h... yes
+checking if -lm needed for math functions... yes
+checking if you want to use dmalloc for testing... no
+checking if you want to use dbmalloc for testing... no
+checking if you want to use purify for testing... no
+checking if you want to use valgrind for testing... no
+checking if you want to perform memory-leak testing... no
+checking if you want --trace option... yes
+checking if rpath option should be used... no
+checking if libtool -version-number should be used... yes
+checking if you want to build libraries with libtool... no
+checking if you want to build shared libraries... no
+checking for specific curses-directory... no
+checking for specific curses-directory... no
+checking for specified curses library type... ncursesw
+checking for wchar.h... yes
+checking for multibyte character support... yes
+checking pkg-config for ncursesw... yes
+checking if the ncursesw package files work... yes
+checking for terminfo header... term.h
+checking for _nc_init_pthreads in -lncursesw... no
+checking if curses supports wide characters... yes
+checking if we must include wchar.h to declare mbstate_t... no
+checking if you want extra dialogs... yes
+checking if you want config-file support... yes
+checking if you want extra attributes in config-file... yes
+checking if you want Xdialog-style dialogs... yes
+checking if you want extra Xdialog-style dialogs (1.2)... yes
+checking if you want compatibility with whiptail options... yes
+checking if you want the form dialog... yes
+checking if you want the gauge dialog... yes
+checking if you want the tailbox dialog... yes
+checking if you want the mixedform dialog... yes
+checking if you want the mixedgauge dialog... yes
+checking if you want the wide-curses features... yes
+checking for ANSI C header files... (cached) yes
+checking whether time.h and sys/time.h may both be included... yes
+checking for dirent.h that defines DIR... yes
+checking for opendir in -ldir... no
+checking for search.h... yes
+checking for stdint.h... (cached) yes
+checking for sys/param.h... (cached) yes
+checking for unistd.h... (cached) yes
+checking for term.h... (cached) term.h
+checking return type of signal handlers... void
+checking for btowc... yes
+checking for mblen... yes
+checking for mbrlen... yes
+checking for mbrtowc... yes
+checking for mbtowc... yes
+checking for strcasecmp... (cached) yes
+checking for strftime... yes
+checking for tsearch... (cached) yes
+checking for waitpid... yes
+checking for wcsrtombs... yes
+checking for wcstombs... yes
+checking for wctob... yes
+checking for wctomb... yes
+checking for mktime... yes
+checking definition to turn on extended curses functions... _XOPEN_SOURCE_EXTENDED
+checking for unctrl.h... unctrl.h
+checking for flushinp... yes
+checking for getattrs... yes
+checking for getbegx... yes
+checking for getbegy... yes
+checking for getbegyx... yes
+checking for getcurx... yes
+checking for getcury... yes
+checking for getmaxx... yes
+checking for getmaxy... yes
+checking for getmaxyx... yes
+checking for getparx... yes
+checking for getpary... yes
+checking for getparyx... yes
+checking for use_default_colors... yes
+checking for wchgat... yes
+checking for wcursyncup... yes
+checking for wget_wch... yes
+checking for wsyncup... yes
+checking for exit_curses... yes
+checking for _nc_free_and_exit... no
+checking for start_color... yes
+checking for chtype typedef... yes
+checking if chtype is scalar or struct... scalar
+checking for wide alternate character set array... _nc_wacs
+checking for wide alternate character constants... yes
+checking for wgetparent... yes
+checking for sys/wait.h... yes
+checking for union wait... no
+checking if we must include wchar.h to declare mbstate_t... yes
+checking for termio.h... yes
+checking for termios.h... yes
+checking for unistd.h... (cached) yes
+checking for sys/ioctl.h... yes
+checking for sys/termio.h... no
+checking whether termios.h needs _POSIX_SOURCE... no
+checking declaration of size-change... yes
+checking if runtime has nl_langinfo support for first weekday... yes
+checking if rpath-hack should be disabled... no
+checking for updated LDFLAGS... no
+checking for linker search path... /usr/lib64 /usr/local/lib64 /lib64 /usr/local/lib /lib /usr/lib
+configure: creating ./config.status
+config.status: creating dialog-config
+config.status: creating makefile
+config.status: creating headers-sh
+config.status: creating po/makefile.in
+config.status: creating dlg_config.h
+config.status: creating po/POTFILES
+config.status: creating po/makefile
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c trace.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c rc.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c calendar.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c fselect.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c timebox.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c buildlist.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c rangebox.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c treeview.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c formbox.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c guage.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c pause.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c prgbox.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c progressbox.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c tailbox.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c mixedform.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c mixedgauge.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c argv.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c arrows.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c buttons.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c checklist.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c columns.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c dlg_keys.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c editbox.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c help.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c inputbox.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c inputstr.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c menubox.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c mouse.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c mousewget.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c msgbox.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c textbox.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c ttysize.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c ui_getc.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c util.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c version.c
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c yesno.c
+linking libdialog.a
+ar -cr libdialog.a trace.o rc.o calendar.o fselect.o timebox.o buildlist.o rangebox.o treeview.o formbox.o guage.o pause.o prgbox.o progressbox.o tailbox.o mixedform.o mixedgauge.o argv.o arrows.o buttons.o checklist.o columns.o dlg_keys.o editbox.o help.o inputbox.o inputstr.o menubox.o mouse.o mousewget.o msgbox.o textbox.o ttysize.o ui_getc.o util.o version.o yesno.o 
+gcc -O2 -fPIC   -I. -I. -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -D_XOPEN_SOURCE_EXTENDED -DHAVE_CONFIG_H -DLOCALEDIR=\"/usr/share/locale\" -c dialog.c
+gcc -o dialog dialog.o -L. -ldialog -O2 -fPIC   -lncursesw -ltinfo -lm  
+making install
+make[1]: Entering directory '/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/src/dialog-1.3-20211214/po'
+file=./`echo an | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file an.po
+file=./`echo ar | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file ar.po
+file=./`echo ast | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file ast.po
+file=./`echo be@latin | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file be@latin.po
+file=./`echo bg | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file bg.po
+file=./`echo ca | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file ca.po
+file=./`echo cs | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file cs.po
+file=./`echo cy | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file cy.po
+file=./`echo da | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file da.po
+file=./`echo de | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file de.po
+file=./`echo el | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file el.po
+file=./`echo eo | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file eo.po
+file=./`echo es | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file es.po
+file=./`echo et | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file et.po
+file=./`echo eu | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file eu.po
+file=./`echo fa | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file fa.po
+file=./`echo fi | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file fi.po
+file=./`echo fr | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file fr.po
+file=./`echo fur | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file fur.po
+file=./`echo ga | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file ga.po
+file=./`echo gd | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file gd.po
+file=./`echo gl | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file gl.po
+file=./`echo hi | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file hi.po
+file=./`echo hr | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file hr.po
+file=./`echo hu | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file hu.po
+file=./`echo ia | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file ia.po
+file=./`echo id | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file id.po
+file=./`echo is | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file is.po
+file=./`echo it | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file it.po
+file=./`echo ja | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file ja.po
+file=./`echo ku | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file ku.po
+file=./`echo lt | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file lt.po
+file=./`echo lv | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file lv.po
+file=./`echo mg | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file mg.po
+file=./`echo mk | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file mk.po
+file=./`echo ms | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file ms.po
+file=./`echo nb | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file nb.po
+file=./`echo nl | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file nl.po
+file=./`echo pl | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file pl.po
+file=./`echo pt | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file pt.po
+file=./`echo pt_BR | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file pt_BR.po
+file=./`echo rm | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file rm.po
+file=./`echo ro | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file ro.po
+file=./`echo ru | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file ru.po
+file=./`echo rw | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file rw.po
+file=./`echo sk | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file sk.po
+file=./`echo sl | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file sl.po
+file=./`echo sq | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file sq.po
+file=./`echo sr | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file sr.po
+file=./`echo sv | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file sv.po
+file=./`echo sw | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file sw.po
+file=./`echo th | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file th.po
+file=./`echo tr | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file tr.po
+file=./`echo uk | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file uk.po
+file=./`echo vi | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file vi.po
+file=./`echo wa | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file wa.po
+file=./`echo zh_CN | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file zh_CN.po
+file=./`echo zh_TW | sed 's,.*/,,'`.gmo \
+  && rm -f $file && PATH=../src:$PATH /usr/bin/msgfmt -o $file zh_TW.po
+installing an.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/an/LC_MESSAGES/dialog.mo
+installing ar.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ar/LC_MESSAGES/dialog.mo
+installing ast.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ast/LC_MESSAGES/dialog.mo
+installing be@latin.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/be@latin/LC_MESSAGES/dialog.mo
+installing bg.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/bg/LC_MESSAGES/dialog.mo
+installing ca.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ca/LC_MESSAGES/dialog.mo
+installing cs.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/cs/LC_MESSAGES/dialog.mo
+installing cy.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/cy/LC_MESSAGES/dialog.mo
+installing da.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/da/LC_MESSAGES/dialog.mo
+installing de.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/de/LC_MESSAGES/dialog.mo
+installing el.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/el/LC_MESSAGES/dialog.mo
+installing eo.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/eo/LC_MESSAGES/dialog.mo
+installing es.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/es/LC_MESSAGES/dialog.mo
+installing et.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/et/LC_MESSAGES/dialog.mo
+installing eu.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/eu/LC_MESSAGES/dialog.mo
+installing fa.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/fa/LC_MESSAGES/dialog.mo
+installing fi.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/fi/LC_MESSAGES/dialog.mo
+installing fr.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/fr/LC_MESSAGES/dialog.mo
+installing fur.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/fur/LC_MESSAGES/dialog.mo
+installing ga.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ga/LC_MESSAGES/dialog.mo
+installing gd.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/gd/LC_MESSAGES/dialog.mo
+installing gl.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/gl/LC_MESSAGES/dialog.mo
+installing hi.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/hi/LC_MESSAGES/dialog.mo
+installing hr.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/hr/LC_MESSAGES/dialog.mo
+installing hu.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/hu/LC_MESSAGES/dialog.mo
+installing ia.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ia/LC_MESSAGES/dialog.mo
+installing id.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/id/LC_MESSAGES/dialog.mo
+installing is.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/is/LC_MESSAGES/dialog.mo
+installing it.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/it/LC_MESSAGES/dialog.mo
+installing ja.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ja/LC_MESSAGES/dialog.mo
+installing ku.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ku/LC_MESSAGES/dialog.mo
+installing lt.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/lt/LC_MESSAGES/dialog.mo
+installing lv.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/lv/LC_MESSAGES/dialog.mo
+installing mg.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/mg/LC_MESSAGES/dialog.mo
+installing mk.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/mk/LC_MESSAGES/dialog.mo
+installing ms.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ms/LC_MESSAGES/dialog.mo
+installing nb.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/nb/LC_MESSAGES/dialog.mo
+installing nl.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/nl/LC_MESSAGES/dialog.mo
+installing pl.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/pl/LC_MESSAGES/dialog.mo
+installing pt.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/pt/LC_MESSAGES/dialog.mo
+installing pt_BR.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/pt_BR/LC_MESSAGES/dialog.mo
+installing rm.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/rm/LC_MESSAGES/dialog.mo
+installing ro.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ro/LC_MESSAGES/dialog.mo
+installing ru.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ru/LC_MESSAGES/dialog.mo
+installing rw.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/rw/LC_MESSAGES/dialog.mo
+installing sk.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/sk/LC_MESSAGES/dialog.mo
+installing sl.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/sl/LC_MESSAGES/dialog.mo
+installing sq.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/sq/LC_MESSAGES/dialog.mo
+installing sr.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/sr/LC_MESSAGES/dialog.mo
+installing sv.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/sv/LC_MESSAGES/dialog.mo
+installing sw.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/sw/LC_MESSAGES/dialog.mo
+installing th.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/th/LC_MESSAGES/dialog.mo
+installing tr.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/tr/LC_MESSAGES/dialog.mo
+installing uk.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/uk/LC_MESSAGES/dialog.mo
+installing vi.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/vi/LC_MESSAGES/dialog.mo
+installing wa.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/wa/LC_MESSAGES/dialog.mo
+installing zh_CN.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/zh_CN/LC_MESSAGES/dialog.mo
+installing zh_TW.gmo as /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/zh_TW/LC_MESSAGES/dialog.mo
+if test "dialog" = "gettext"; then \
+  mkdir -p /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/gettext/po; \
+  /usr/bin/ginstall -c -m 644 ./makefile.inn \
+		  /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/gettext/po/makefile.inn; \
+else \
+  : ; \
+fi
+make[1]: Leaving directory '/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/src/dialog-1.3-20211214/po'
+mkdir -p /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/bin
+/usr/bin/ginstall -c dialog /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/bin/`echo dialog |sed s,x,x,`
+mkdir -p /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/man/man1
+** installing dialog.1
+made install
+mkdir -p /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/lib
+linking /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/lib/libdialog.a
+ar -cr /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/lib/libdialog.a trace.o rc.o calendar.o fselect.o timebox.o buildlist.o rangebox.o treeview.o formbox.o guage.o pause.o prgbox.o progressbox.o tailbox.o mixedform.o mixedgauge.o argv.o arrows.o buttons.o checklist.o columns.o dlg_keys.o editbox.o help.o inputbox.o inputstr.o menubox.o mouse.o mousewget.o msgbox.o textbox.o ttysize.o ui_getc.o util.o version.o yesno.o 
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg:
+total 0
+drwxr-xr-x 2 root root  60 Mar  2 03:18 bin
+drwxr-xr-x 2 root root  60 Mar  2 03:18 etc
+drwxr-xr-x 2 root root  80 Mar  2 03:18 install
+drwxr-xr-x 8 root root 160 Mar  2 03:18 usr
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/bin:
+total 236
+-rwxr-xr-x 1 root root 241336 Mar  2 03:18 dialog
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/etc:
+total 4
+-rw-r--r-- 1 root root 2919 Mar  2 03:18 dialogrc.new
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/install:
+total 8
+-rw-r--r-- 1 root root 262 Mar  2 03:18 doinst.sh
+-rw-r--r-- 1 root root 561 Mar  2 03:18 slack-desc
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 bin
+drwxr-xr-x 3 root root 60 Mar  2 03:18 doc
+drwxr-xr-x 2 root root 60 Mar  2 03:18 lib
+drwxr-xr-x 3 root root 60 Mar  2 03:18 man
+drwxr-xr-x 3 root root 60 Mar  2 03:18 share
+drwxr-xr-x 3 root root 60 Mar  2 03:18 src
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/bin:
+total 0
+lrwxrwxrwx 1 root root 16 Mar  2 03:18 dialog -> ../../bin/dialog
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/doc:
+total 0
+drwxr-xr-x 2 root root 140 Mar  2 03:18 dialog-1.3_20211214
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/doc/dialog-1.3_20211214:
+total 160
+-rw-r--r-- 1 root root 120980 Dec 13  2021 CHANGES
+-rw-r--r-- 1 root root  26432 Mar  2 03:18 COPYING
+-rw-r--r-- 1 root root    274 Mar  2 03:18 README
+-rw-r--r-- 1 root root     20 Mar  2 03:18 VERSION
+-rw-r--r-- 1 root root   1124 Mar  2 03:18 dialog.lsm
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/lib:
+total 444
+-rw-r--r-- 1 root root 450820 Mar  2 03:18 libdialog.a
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/man:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 man1
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/man/man1:
+total 20
+-rw-r--r-- 1 root root 19899 Mar  2 03:18 dialog.1.gz
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share:
+total 0
+drwxr-xr-x 60 root root 1200 Mar  2 03:18 locale
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale:
+total 0
+drwxr-xr-x 3 root root 60 Mar  2 03:18 an
+drwxr-xr-x 3 root root 60 Mar  2 03:18 ar
+drwxr-xr-x 3 root root 60 Mar  2 03:18 ast
+drwxr-xr-x 3 root root 60 Mar  2 03:18 be@latin
+drwxr-xr-x 3 root root 60 Mar  2 03:18 bg
+drwxr-xr-x 3 root root 60 Mar  2 03:18 ca
+drwxr-xr-x 3 root root 60 Mar  2 03:18 cs
+drwxr-xr-x 3 root root 60 Mar  2 03:18 cy
+drwxr-xr-x 3 root root 60 Mar  2 03:18 da
+drwxr-xr-x 3 root root 60 Mar  2 03:18 de
+drwxr-xr-x 3 root root 60 Mar  2 03:18 el
+drwxr-xr-x 3 root root 60 Mar  2 03:18 eo
+drwxr-xr-x 3 root root 60 Mar  2 03:18 es
+drwxr-xr-x 3 root root 60 Mar  2 03:18 et
+drwxr-xr-x 3 root root 60 Mar  2 03:18 eu
+drwxr-xr-x 3 root root 60 Mar  2 03:18 fa
+drwxr-xr-x 3 root root 60 Mar  2 03:18 fi
+drwxr-xr-x 3 root root 60 Mar  2 03:18 fr
+drwxr-xr-x 3 root root 60 Mar  2 03:18 fur
+drwxr-xr-x 3 root root 60 Mar  2 03:18 ga
+drwxr-xr-x 3 root root 60 Mar  2 03:18 gd
+drwxr-xr-x 3 root root 60 Mar  2 03:18 gl
+drwxr-xr-x 3 root root 60 Mar  2 03:18 hi
+drwxr-xr-x 3 root root 60 Mar  2 03:18 hr
+drwxr-xr-x 3 root root 60 Mar  2 03:18 hu
+drwxr-xr-x 3 root root 60 Mar  2 03:18 ia
+drwxr-xr-x 3 root root 60 Mar  2 03:18 id
+drwxr-xr-x 3 root root 60 Mar  2 03:18 is
+drwxr-xr-x 3 root root 60 Mar  2 03:18 it
+drwxr-xr-x 3 root root 60 Mar  2 03:18 ja
+drwxr-xr-x 3 root root 60 Mar  2 03:18 ku
+drwxr-xr-x 3 root root 60 Mar  2 03:18 lt
+drwxr-xr-x 3 root root 60 Mar  2 03:18 lv
+drwxr-xr-x 3 root root 60 Mar  2 03:18 mg
+drwxr-xr-x 3 root root 60 Mar  2 03:18 mk
+drwxr-xr-x 3 root root 60 Mar  2 03:18 ms
+drwxr-xr-x 3 root root 60 Mar  2 03:18 nb
+drwxr-xr-x 3 root root 60 Mar  2 03:18 nl
+drwxr-xr-x 3 root root 60 Mar  2 03:18 pl
+drwxr-xr-x 3 root root 60 Mar  2 03:18 pt
+drwxr-xr-x 3 root root 60 Mar  2 03:18 pt_BR
+drwxr-xr-x 3 root root 60 Mar  2 03:18 rm
+drwxr-xr-x 3 root root 60 Mar  2 03:18 ro
+drwxr-xr-x 3 root root 60 Mar  2 03:18 ru
+drwxr-xr-x 3 root root 60 Mar  2 03:18 rw
+drwxr-xr-x 3 root root 60 Mar  2 03:18 sk
+drwxr-xr-x 3 root root 60 Mar  2 03:18 sl
+drwxr-xr-x 3 root root 60 Mar  2 03:18 sq
+drwxr-xr-x 3 root root 60 Mar  2 03:18 sr
+drwxr-xr-x 3 root root 60 Mar  2 03:18 sv
+drwxr-xr-x 3 root root 60 Mar  2 03:18 sw
+drwxr-xr-x 3 root root 60 Mar  2 03:18 th
+drwxr-xr-x 3 root root 60 Mar  2 03:18 tr
+drwxr-xr-x 3 root root 60 Mar  2 03:18 uk
+drwxr-xr-x 3 root root 60 Mar  2 03:18 vi
+drwxr-xr-x 3 root root 60 Mar  2 03:18 wa
+drwxr-xr-x 3 root root 60 Mar  2 03:18 zh_CN
+drwxr-xr-x 3 root root 60 Mar  2 03:18 zh_TW
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/an:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/an/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1342 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ar:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ar/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 521 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ast:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ast/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1357 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/be@latin:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/be@latin/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1272 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/bg:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/bg/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 457 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ca:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ca/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1260 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/cs:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/cs/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1395 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/cy:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/cy/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 758 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/da:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/da/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1261 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/de:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/de/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1594 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/el:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/el/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1456 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/eo:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/eo/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1489 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/es:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/es/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1283 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/et:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/et/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 674 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/eu:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/eu/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1333 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/fa:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/fa/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1431 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/fi:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/fi/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1573 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/fr:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/fr/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1487 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/fur:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/fur/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1331 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ga:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ga/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1310 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/gd:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/gd/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1512 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/gl:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/gl/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1372 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/hi:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/hi/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1569 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/hr:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/hr/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1431 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/hu:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/hu/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1380 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ia:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ia/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1294 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/id:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/id/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1520 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/is:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/is/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1297 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/it:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/it/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1253 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ja:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ja/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1589 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ku:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ku/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1356 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/lt:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/lt/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1636 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/lv:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/lv/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1439 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/mg:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/mg/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 481 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/mk:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/mk/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 512 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ms:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ms/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1523 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/nb:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/nb/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1264 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/nl:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/nl/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1487 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/pl:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/pl/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1350 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/pt:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/pt/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1562 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/pt_BR:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/pt_BR/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1289 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/rm:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/rm/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 795 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ro:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ro/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1421 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ru:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/ru/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1846 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/rw:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/rw/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 841 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/sk:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/sk/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1304 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/sl:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/sl/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1362 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/sq:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/sq/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1580 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/sr:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/sr/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1812 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/sv:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/sv/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1521 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/sw:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/sw/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1322 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/th:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/th/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1673 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/tr:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/tr/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1379 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/uk:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/uk/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1911 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/vi:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/vi/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1387 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/wa:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/wa/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1291 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/zh_CN:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/zh_CN/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1513 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/zh_TW:
+total 0
+drwxr-xr-x 2 root root 60 Mar  2 03:18 LC_MESSAGES
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/share/locale/zh_TW/LC_MESSAGES:
+total 4
+-rw-r--r-- 1 root root 1550 Mar  2 03:18 dialog.mo
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/src:
+total 0
+drwxr-xr-x 2 root root 140 Mar  2 03:18 dialog-1.3_20211214
+
+/tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/pkg/usr/src/dialog-1.3_20211214:
+total 20
+-rw-r--r-- 1 root root 2270 Mar  2 03:18 SLKBUILD
+-rw-r--r-- 1 root root  412 Mar  2 03:18 dialog.all.use_height.diff.gz
+-rw-r--r-- 1 root root  494 Mar  2 03:18 dialog.no.aspect.ratio.autoajust.patch.gz
+-rw-r--r-- 1 root root  334 Mar  2 03:18 dialog.smaller.min.height.diff.gz
+-rw-r--r-- 1 root root 2919 Mar  2 03:18 dialogrc
+
+Slackware package maker, version 3.14159265.
+
+Searching for symbolic links:
+usr/bin/dialog	../../bin/dialog
+
+Making symbolic link creation script:
+( cd usr/bin ; rm -rf dialog )
+( cd usr/bin ; ln -sf ../../bin/dialog dialog )
+
+Unless your existing installation script already contains the code
+to create these links, you should append these lines to your existing
+install script. Now's your chance. :^)
+
+Would you like to add this stuff to the existing install script and
+remove the symbolic links ([y]es, [n]o)? y
+
+
+Removing symbolic links:
+removed './usr/bin/dialog'
+
+Updating your ./install/doinst.sh (prepending symlinks)...
+
+This next step is optional - you can set the directories in your package
+to some sane permissions. If any of the directories in your package have
+special permissions, then DO NOT reset them here!
+
+Would you like to reset all directory permissions to 755 (drwxr-xr-x) and
+directory ownerships to root:root ([y]es, [n]o)? n
+
+
+Creating Slackware package:  /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/dialog-1.3_20211214-x86_64-1slint.txz
+
+./
+bin/
+bin/dialog
+etc/
+etc/dialogrc.new
+install/
+install/doinst.sh
+install/slack-desc
+usr/
+usr/bin/
+usr/doc/
+usr/doc/dialog-1.3_20211214/
+usr/doc/dialog-1.3_20211214/CHANGES
+usr/doc/dialog-1.3_20211214/COPYING
+usr/doc/dialog-1.3_20211214/README
+usr/doc/dialog-1.3_20211214/VERSION
+usr/doc/dialog-1.3_20211214/dialog.lsm
+usr/lib/
+usr/lib/libdialog.a
+usr/man/
+usr/man/man1/
+usr/man/man1/dialog.1.gz
+usr/share/
+usr/share/locale/
+usr/share/locale/an/
+usr/share/locale/an/LC_MESSAGES/
+usr/share/locale/an/LC_MESSAGES/dialog.mo
+usr/share/locale/ar/
+usr/share/locale/ar/LC_MESSAGES/
+usr/share/locale/ar/LC_MESSAGES/dialog.mo
+usr/share/locale/ast/
+usr/share/locale/ast/LC_MESSAGES/
+usr/share/locale/ast/LC_MESSAGES/dialog.mo
+usr/share/locale/be@latin/
+usr/share/locale/be@latin/LC_MESSAGES/
+usr/share/locale/be@latin/LC_MESSAGES/dialog.mo
+usr/share/locale/bg/
+usr/share/locale/bg/LC_MESSAGES/
+usr/share/locale/bg/LC_MESSAGES/dialog.mo
+usr/share/locale/ca/
+usr/share/locale/ca/LC_MESSAGES/
+usr/share/locale/ca/LC_MESSAGES/dialog.mo
+usr/share/locale/cs/
+usr/share/locale/cs/LC_MESSAGES/
+usr/share/locale/cs/LC_MESSAGES/dialog.mo
+usr/share/locale/cy/
+usr/share/locale/cy/LC_MESSAGES/
+usr/share/locale/cy/LC_MESSAGES/dialog.mo
+usr/share/locale/da/
+usr/share/locale/da/LC_MESSAGES/
+usr/share/locale/da/LC_MESSAGES/dialog.mo
+usr/share/locale/de/
+usr/share/locale/de/LC_MESSAGES/
+usr/share/locale/de/LC_MESSAGES/dialog.mo
+usr/share/locale/el/
+usr/share/locale/el/LC_MESSAGES/
+usr/share/locale/el/LC_MESSAGES/dialog.mo
+usr/share/locale/eo/
+usr/share/locale/eo/LC_MESSAGES/
+usr/share/locale/eo/LC_MESSAGES/dialog.mo
+usr/share/locale/es/
+usr/share/locale/es/LC_MESSAGES/
+usr/share/locale/es/LC_MESSAGES/dialog.mo
+usr/share/locale/et/
+usr/share/locale/et/LC_MESSAGES/
+usr/share/locale/et/LC_MESSAGES/dialog.mo
+usr/share/locale/eu/
+usr/share/locale/eu/LC_MESSAGES/
+usr/share/locale/eu/LC_MESSAGES/dialog.mo
+usr/share/locale/fa/
+usr/share/locale/fa/LC_MESSAGES/
+usr/share/locale/fa/LC_MESSAGES/dialog.mo
+usr/share/locale/fi/
+usr/share/locale/fi/LC_MESSAGES/
+usr/share/locale/fi/LC_MESSAGES/dialog.mo
+usr/share/locale/fr/
+usr/share/locale/fr/LC_MESSAGES/
+usr/share/locale/fr/LC_MESSAGES/dialog.mo
+usr/share/locale/fur/
+usr/share/locale/fur/LC_MESSAGES/
+usr/share/locale/fur/LC_MESSAGES/dialog.mo
+usr/share/locale/ga/
+usr/share/locale/ga/LC_MESSAGES/
+usr/share/locale/ga/LC_MESSAGES/dialog.mo
+usr/share/locale/gd/
+usr/share/locale/gd/LC_MESSAGES/
+usr/share/locale/gd/LC_MESSAGES/dialog.mo
+usr/share/locale/gl/
+usr/share/locale/gl/LC_MESSAGES/
+usr/share/locale/gl/LC_MESSAGES/dialog.mo
+usr/share/locale/hi/
+usr/share/locale/hi/LC_MESSAGES/
+usr/share/locale/hi/LC_MESSAGES/dialog.mo
+usr/share/locale/hr/
+usr/share/locale/hr/LC_MESSAGES/
+usr/share/locale/hr/LC_MESSAGES/dialog.mo
+usr/share/locale/hu/
+usr/share/locale/hu/LC_MESSAGES/
+usr/share/locale/hu/LC_MESSAGES/dialog.mo
+usr/share/locale/ia/
+usr/share/locale/ia/LC_MESSAGES/
+usr/share/locale/ia/LC_MESSAGES/dialog.mo
+usr/share/locale/id/
+usr/share/locale/id/LC_MESSAGES/
+usr/share/locale/id/LC_MESSAGES/dialog.mo
+usr/share/locale/is/
+usr/share/locale/is/LC_MESSAGES/
+usr/share/locale/is/LC_MESSAGES/dialog.mo
+usr/share/locale/it/
+usr/share/locale/it/LC_MESSAGES/
+usr/share/locale/it/LC_MESSAGES/dialog.mo
+usr/share/locale/ja/
+usr/share/locale/ja/LC_MESSAGES/
+usr/share/locale/ja/LC_MESSAGES/dialog.mo
+usr/share/locale/ku/
+usr/share/locale/ku/LC_MESSAGES/
+usr/share/locale/ku/LC_MESSAGES/dialog.mo
+usr/share/locale/lt/
+usr/share/locale/lt/LC_MESSAGES/
+usr/share/locale/lt/LC_MESSAGES/dialog.mo
+usr/share/locale/lv/
+usr/share/locale/lv/LC_MESSAGES/
+usr/share/locale/lv/LC_MESSAGES/dialog.mo
+usr/share/locale/mg/
+usr/share/locale/mg/LC_MESSAGES/
+usr/share/locale/mg/LC_MESSAGES/dialog.mo
+usr/share/locale/mk/
+usr/share/locale/mk/LC_MESSAGES/
+usr/share/locale/mk/LC_MESSAGES/dialog.mo
+usr/share/locale/ms/
+usr/share/locale/ms/LC_MESSAGES/
+usr/share/locale/ms/LC_MESSAGES/dialog.mo
+usr/share/locale/nb/
+usr/share/locale/nb/LC_MESSAGES/
+usr/share/locale/nb/LC_MESSAGES/dialog.mo
+usr/share/locale/nl/
+usr/share/locale/nl/LC_MESSAGES/
+usr/share/locale/nl/LC_MESSAGES/dialog.mo
+usr/share/locale/pl/
+usr/share/locale/pl/LC_MESSAGES/
+usr/share/locale/pl/LC_MESSAGES/dialog.mo
+usr/share/locale/pt/
+usr/share/locale/pt/LC_MESSAGES/
+usr/share/locale/pt/LC_MESSAGES/dialog.mo
+usr/share/locale/pt_BR/
+usr/share/locale/pt_BR/LC_MESSAGES/
+usr/share/locale/pt_BR/LC_MESSAGES/dialog.mo
+usr/share/locale/rm/
+usr/share/locale/rm/LC_MESSAGES/
+usr/share/locale/rm/LC_MESSAGES/dialog.mo
+usr/share/locale/ro/
+usr/share/locale/ro/LC_MESSAGES/
+usr/share/locale/ro/LC_MESSAGES/dialog.mo
+usr/share/locale/ru/
+usr/share/locale/ru/LC_MESSAGES/
+usr/share/locale/ru/LC_MESSAGES/dialog.mo
+usr/share/locale/rw/
+usr/share/locale/rw/LC_MESSAGES/
+usr/share/locale/rw/LC_MESSAGES/dialog.mo
+usr/share/locale/sk/
+usr/share/locale/sk/LC_MESSAGES/
+usr/share/locale/sk/LC_MESSAGES/dialog.mo
+usr/share/locale/sl/
+usr/share/locale/sl/LC_MESSAGES/
+usr/share/locale/sl/LC_MESSAGES/dialog.mo
+usr/share/locale/sq/
+usr/share/locale/sq/LC_MESSAGES/
+usr/share/locale/sq/LC_MESSAGES/dialog.mo
+usr/share/locale/sr/
+usr/share/locale/sr/LC_MESSAGES/
+usr/share/locale/sr/LC_MESSAGES/dialog.mo
+usr/share/locale/sv/
+usr/share/locale/sv/LC_MESSAGES/
+usr/share/locale/sv/LC_MESSAGES/dialog.mo
+usr/share/locale/sw/
+usr/share/locale/sw/LC_MESSAGES/
+usr/share/locale/sw/LC_MESSAGES/dialog.mo
+usr/share/locale/th/
+usr/share/locale/th/LC_MESSAGES/
+usr/share/locale/th/LC_MESSAGES/dialog.mo
+usr/share/locale/tr/
+usr/share/locale/tr/LC_MESSAGES/
+usr/share/locale/tr/LC_MESSAGES/dialog.mo
+usr/share/locale/uk/
+usr/share/locale/uk/LC_MESSAGES/
+usr/share/locale/uk/LC_MESSAGES/dialog.mo
+usr/share/locale/vi/
+usr/share/locale/vi/LC_MESSAGES/
+usr/share/locale/vi/LC_MESSAGES/dialog.mo
+usr/share/locale/wa/
+usr/share/locale/wa/LC_MESSAGES/
+usr/share/locale/wa/LC_MESSAGES/dialog.mo
+usr/share/locale/zh_CN/
+usr/share/locale/zh_CN/LC_MESSAGES/
+usr/share/locale/zh_CN/LC_MESSAGES/dialog.mo
+usr/share/locale/zh_TW/
+usr/share/locale/zh_TW/LC_MESSAGES/
+usr/share/locale/zh_TW/LC_MESSAGES/dialog.mo
+usr/src/
+usr/src/dialog-1.3_20211214/
+usr/src/dialog-1.3_20211214/SLKBUILD
+usr/src/dialog-1.3_20211214/dialog.all.use_height.diff.gz
+usr/src/dialog-1.3_20211214/dialog.no.aspect.ratio.autoajust.patch.gz
+usr/src/dialog-1.3_20211214/dialog.smaller.min.height.diff.gz
+usr/src/dialog-1.3_20211214/dialogrc
+
+Slackware package /tmp/slackbuilds-wt/conv-dialog-a-dialog/a/dialog/dialog-1.3_20211214-x86_64-1slint.txz created.
+
+Package has been built.
+Cleaning pkg and src directories

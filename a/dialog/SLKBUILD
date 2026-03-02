@@ -1,0 +1,77 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: sektor
+
+pkgname=dialog
+_srcver=1.3-20211214
+pkgver=1.3_20211214
+pkgrel=1slint
+source=(
+  "https://invisible-island.net/archives/dialog/${pkgname}-${_srcver}.tgz"
+  "dialog.all.use_height.diff.gz"
+  "dialog.no.aspect.ratio.autoajust.patch.gz"
+  "dialog.smaller.min.height.diff.gz"
+  "dialogrc"
+)
+docs=(
+  "COPYING*"
+  "README*"
+  "VERSION"
+  "dialog.lsm"
+)
+url="https://invisible-island.net/dialog/"
+dotnew=("etc/dialogrc")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"dialog: dialog (display dialog boxes from shell scripts)"
+"dialog:"
+"dialog: Dialog is a program to present questions or display messages"
+"dialog: using dialog boxes from a shell script. Slackware's package"
+'dialog: management script "pkgtool" uses this, as do various menu-'
+"dialog: driven console scripts."
+"dialog:"
+"dialog: Dialog was originally contributed to Slackware by Savio Lam."
+"dialog: It has since had many contributors and is now maintained by"
+"dialog: Thomas E. Dickey."
+)
+
+build() {
+  local docdir
+
+  cd "${pkgname}-${_srcver}" || return 1
+
+  # Preserve the local formatting fixes carried in the SlackBuild package.
+  zcat ../dialog.all.use_height.diff.gz | patch -p1 --verbose || return 1
+  zcat ../dialog.smaller.min.height.diff.gz | patch -p1 --verbose || return 1
+  zcat ../dialog.no.aspect.ratio.autoajust.patch.gz | patch -p1 --verbose || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --mandir=/usr/man \
+    --disable-static \
+    --enable-nls \
+    --with-ncursesw \
+    --enable-widec \
+    --build="${ARCH}-slackware-linux" || return 1
+
+  make -j"$numjobs" || make || return 1
+  make DESTDIR="$PKG" install || return 1
+
+  # Keep the historical /bin/dialog location with a compatibility symlink.
+  install -Dm0644 ../dialogrc "$PKG/etc/dialogrc" || return 1
+  install -d "$PKG/bin" || return 1
+  mv "$PKG/usr/bin/dialog" "$PKG/bin" || return 1
+  (
+    cd "$PKG/usr/bin" || exit 1
+    ln -sf ../../bin/dialog dialog
+  ) || return 1
+
+  docdir="$PKG/usr/doc/${pkgname}-${pkgver}"
+  install -d "$docdir" || return 1
+  if [ -r CHANGES ]; then
+    head -n 2500 CHANGES > "$docdir/CHANGES" || return 1
+    touch -r CHANGES "$docdir/CHANGES" || return 1
+  fi
+}
