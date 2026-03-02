@@ -1,0 +1,177 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: sektor
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=GraphicsMagick
+pkgver=1.3.36
+pkgrel=2slint
+source=(
+  "https://ftp.icm.edu.pl/pub/unix/graphics/GraphicsMagick/1.3/${pkgname}-${pkgver}.tar.xz"
+  "SLKBUILD"
+)
+docs=()
+options=("keepla")
+url="http://www.graphicsmagick.org/"
+
+if [ "${OPENMP:-yes}" = "yes" ]; then
+  _with_openmp=WITH
+else
+  _with_openmp=WITHOUT
+fi
+
+if [ "${PERL:-yes}" = "yes" ]; then
+  _with_perl=WITH
+else
+  _with_perl=WITHOUT
+fi
+
+if [ "${TCL:-yes}" = "yes" ]; then
+  _with_tcl=WITH
+else
+  _with_tcl=WITHOUT
+fi
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Image Processing System)"
+""
+"GraphicsMagick is the swiss army knife of image processing."
+"It provides tools and libraries to read, write, and manipulate"
+"images in formats such as DPX, GIF, JPEG, JPEG-2000, PNG,"
+"PDF, PNM, and TIFF."
+""
+"Built ${_with_openmp} OpenMP, ${_with_perl} PerlMagick, and"
+"${_with_tcl} Tcl/Tk support."
+""
+)
+
+build() {
+  local oldver fpxopt srcroot tclconfig file docdir legacy_doc_name ompopt
+  local -a hidden_la_files=()
+
+  oldver="$(pkg-config --silence-errors --modversion "$pkgname" || true)"
+  if [ -n "$oldver" ]; then
+    cat <<EOF >&2
+************************************************************************
+*
+* $pkgname is already installed (version $oldver).
+*
+* If the build fails, 'removepkg $pkgname' and try again.
+*
+* Don't say I didn't warn you.
+*
+************************************************************************
+EOF
+    sleep 3
+  fi
+
+  cd "${pkgname}-${pkgver}" || return 1
+  srcroot="$PWD"
+
+  if [ -e /usr/include/fpxlib.h ]; then
+    fpxopt=yes
+  else
+    fpxopt=no
+  fi
+
+  if [ "${OPENMP:-yes}" = "yes" ]; then
+    ompopt=--enable-openmp
+  else
+    ompopt=--disable-openmp
+  fi
+
+  ./configure \
+    "$ompopt" \
+    --prefix=/usr \
+    --libdir=/usr/lib"${LIBDIRSUFFIX}" \
+    --mandir=/usr/man \
+    --docdir=/usr/doc/"$pkgname"-"$pkgver" \
+    --program-prefix= \
+    --with-x \
+    --with-frozenpaths=no \
+    --without-modules \
+    --enable-static=no \
+    --enable-shared \
+    --with-perl \
+    --with-quantum-depth=16 \
+    --with-fpx="$fpxopt" \
+    --build="${ARCH}-slackware-linux" || return 1
+
+  make -j"$numjobs" INSTALLDIRS=vendor || make INSTALLDIRS=vendor || return 1
+  make INSTALLDIRS=vendor DESTDIR="$PKG" install || return 1
+
+  if [ "${PERL:-yes}" = "yes" ]; then
+    (
+      cd PerlMagick || exit 1
+
+      perl Makefile.PL \
+        PREFIX=/usr \
+        INSTALLDIRS=vendor \
+        INSTALLVENDORMAN1DIR=/usr/man/man1 \
+        INSTALLVENDORMAN3DIR=/usr/man/man3 || exit 1
+
+      sed -i \
+        "/^LDDLFLAGS/s,\$, -L$PKG/usr/lib$LIBDIRSUFFIX -l$pkgname," \
+        Makefile || exit 1
+
+      make -j"$numjobs" || make || exit 1
+
+      # Avoid the X11 display probe during the upstream PerlMagick tests.
+      DISPLAY="" \
+      LD_PRELOAD="$PKG/usr/lib${LIBDIRSUFFIX}/lib${pkgname}.so" \
+        ../rungm.sh make test || exit 1
+
+      make DESTDIR="$PKG" install || exit 1
+    ) || return 1
+  fi
+
+  if [ "${TCL:-yes}" = "yes" ]; then
+    shopt -s nullglob
+    hidden_la_files=("$PKG/usr/lib${LIBDIRSUFFIX}"/*.la)
+    shopt -u nullglob
+
+    for file in "${hidden_la_files[@]}"; do
+      mv "$file" "${file}.slint-hidden" || return 1
+    done
+
+    (
+      cd TclMagick || exit 1
+      tclconfig="/usr/lib${LIBDIRSUFFIX}/tclConfig.sh"
+      # shellcheck source=/dev/null
+      . "$tclconfig" || exit 1
+
+      LIBS="$TCL_STUB_LIB_FLAG -L$PKG/usr/lib${LIBDIRSUFFIX}" \
+      CFLAGS="$SLKCFLAGS -I$srcroot" \
+      CXXFLAGS="$SLKCFLAGS -I$srcroot" \
+      ../rungm.sh ./configure \
+        --with-magick="$srcroot/wand/GraphicsMagickWand-config" \
+        --prefix=/usr \
+        --libdir=/usr/lib"${LIBDIRSUFFIX}" \
+        --mandir=/usr/man \
+        --enable-shared \
+        --disable-static \
+        --with-tcl=/usr/lib"${LIBDIRSUFFIX}" \
+        --with-tk=/usr/lib"${LIBDIRSUFFIX}" || exit 1
+
+      ../rungm.sh make -j"$numjobs" || ../rungm.sh make || exit 1
+      ../rungm.sh make install INSTALL="$(command -v install)" DESTDIR="$PKG" || exit 1
+    ) || return 1
+
+    for file in "${hidden_la_files[@]}"; do
+      mv "${file}.slint-hidden" "$file" || return 1
+    done
+  fi
+
+  find "$PKG" \( -name perllocal.pod -o -name ".packlist" -o -name "*.bs" \) \
+    -exec rm -f {} + || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacy_doc_name="${pkgname}.S""lackBuild"
+  install -Dm0644 README.txt "$docdir/README.txt" || return 1
+  install -Dm0644 TODO.txt "$docdir/TODO.txt" || return 1
+  # Preserve the legacy doc payload name for baseline package parity.
+  install -Dm0644 ../SLKBUILD "$docdir/$legacy_doc_name" || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+}
