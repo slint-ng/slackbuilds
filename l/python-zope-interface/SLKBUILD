@@ -1,0 +1,38 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=python-zope-interface
+_srcname=zope.interface
+pkgver=5.4.0
+pkgrel=3slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Zope 3 Interface Infrastructure)"
+""
+"Interfaces are a mechanism for labeling objects as conforming"
+"to a given API or contract."
+""
+"Homepage: https://pypi.org/project/zope.interface/"
+)
+url="https://pypi.org/project/zope.interface/"
+depends=("python")
+makedepends=("python-setuptools")
+source=("https://files.pythonhosted.org/packages/source/z/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  python3 setup.py install --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+
+  shopt -s nullglob
+  for doc in CHANGES.rst COPYRIGHT.txt LICENSE.txt README.rst; do
+    [[ -e $doc ]] || continue
+    cp -a "$doc" "$docdir/" || return 1
+  done
+  shopt -u nullglob
+}

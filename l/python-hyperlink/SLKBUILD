@@ -1,0 +1,42 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=python-hyperlink
+_srcname=hyperlink
+pkgver=21.0.0
+pkgrel=1slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (a featureful, correct URL for Python)"
+""
+"Hyperlink is a featureful, pure-Python implementation of the"
+"URL with an emphasis on correctness."
+""
+"Homepage: https://pypi.org/project/hyperlink/"
+)
+url="https://pypi.org/project/hyperlink/"
+depends=("python")
+makedepends=("python-setuptools")
+source=("https://files.pythonhosted.org/packages/source/h/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  python3 setup.py install --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+
+  shopt -s nullglob
+  for doc in LICENSE *.md docs; do
+    [[ -e $doc ]] || continue
+    cp -a "$doc" "$docdir/" || return 1
+  done
+  shopt -u nullglob
+
+  if [[ -d $docdir/docs ]]; then
+    find "$docdir/docs" -type f -exec chmod 0644 {} + || return 1
+  fi
+}

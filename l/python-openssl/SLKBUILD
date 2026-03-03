@@ -1,0 +1,42 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=python-openssl
+_srcname=pyOpenSSL
+pkgver=20.0.1
+pkgrel=2slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Python wrapper for OpenSSL)"
+""
+"This module is a thin wrapper around a subset of the OpenSSL"
+"library."
+""
+"Homepage: https://pypi.org/project/pyOpenSSL/"
+)
+url="https://pypi.org/project/pyOpenSSL/"
+depends=("python")
+makedepends=("python-setuptools")
+source=("https://files.pythonhosted.org/packages/source/p/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  python3 setup.py install --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+
+  shopt -s nullglob
+  for doc in LICENSE *.rst doc; do
+    [[ -e $doc ]] || continue
+    cp -a "$doc" "$docdir/" || return 1
+  done
+  shopt -u nullglob
+
+  if [[ -d $docdir/doc ]]; then
+    find "$docdir/doc" -type f -exec chmod 0644 {} + || return 1
+  fi
+}

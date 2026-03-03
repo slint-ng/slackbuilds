@@ -1,0 +1,50 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=python-automat
+_srcname=Automat
+pkgver=20.2.0
+pkgrel=2slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (self-service finite-state machines)"
+""
+"Automat is a library for concise, idiomatic Python expression"
+"of finite-state automata, particularly deterministic"
+"finite-state transducers."
+""
+"Homepage: https://pypi.org/project/Automat/"
+)
+url="https://pypi.org/project/Automat/"
+depends=("python")
+makedepends=("python-setuptools")
+source=("https://files.pythonhosted.org/packages/source/A/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  sed -i \
+    -e 's/from m2r import parse_from_file/from pathlib import Path/' \
+    -e "s/long_description = parse_from_file('README.md')/long_description = Path('README.md').read_text(encoding=\"utf-8\")/" \
+    -e "s/use_scm_version=True/version='$pkgver'/" \
+    setup.py || return 1
+  sed -i '/setup_requires=\[/,/\],/d' setup.py || return 1
+
+  python3 setup.py install --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+
+  shopt -s nullglob
+  for doc in LICENSE README.* docs; do
+    [[ -e $doc ]] || continue
+    cp -a "$doc" "$docdir/" || return 1
+  done
+  shopt -u nullglob
+
+  if [[ -d $docdir/docs ]]; then
+    find "$docdir/docs" -type f -exec chmod 0644 {} + || return 1
+  fi
+}

@@ -1,0 +1,36 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=python-service-identity
+_srcname=service-identity
+pkgver=21.1.0
+pkgrel=1slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (service identity verification for pyOpenSSL)"
+""
+"python-service-identity provides tools for verifying whether"
+"a certificate is valid for the intended purpose."
+""
+"Homepage: https://pypi.org/project/service-identity/"
+)
+url="https://pypi.org/project/service-identity/"
+depends=("python")
+makedepends=("python-setuptools")
+source=("https://files.pythonhosted.org/packages/source/s/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  python3 setup.py install --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+
+  if [[ -d docs ]]; then
+    cp -a docs "$docdir/" || return 1
+    find "$docdir/docs" -type f -exec chmod 0644 {} + || return 1
+  fi
+}
