@@ -1,21 +1,40 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
 # Maintainer: Felix Yan <felixonmars@archlinux.org>
+# Included in Slint by Didier Spaier didieratslintdotfr
 
-#_bootstrap_version=3.13.0
 pkgname=python-packaging3.11
-_name=packaging
-export _name
+_srcname=packaging
 pkgver=25.0
 pkgrel=1slint
-slackdesc="$pkgame (Core utilities for Python packages)"
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Core utilities for Python packages)"
+""
+"Core utilities for Python packages."
+""
+"Homepage: https://github.com/pypa/packaging"
+)
 url="https://github.com/pypa/packaging"
-license=('Apache-2.0')
-depends=('python')
-checkdepends=('python-pytest' 'python-pretend')
-source=("https://github.com/pypa/packaging/archive/$pkgver/$pkgname-$pkgver.tar.gz")
+license=("Apache-2.0" "BSD")
+depends=("python")
+makedepends=("python-build" "python-installer" "python3-flit_core3.11")
+source=("https://files.pythonhosted.org/packages/source/p/${_srcname}/${_srcname}-${pkgver}.tar.gz")
 options=("nosrcpack")
-docs=("CHANGELOG.rst" "LICENSE" "LICENSE.APACHE" "LICENSE.BSD" "README.rst")
+
 build() {
-    cd $_name-$pkgver
-    python3.11 -m build -wn --skip-dependency-check
-    python3.11 -m installer --destdir="$PKG" dist/*.whl
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+  python3.11 -m build --wheel --no-isolation || return 1
+  python3.11 -m installer --destdir="$PKG" dist/*.whl || return 1
+
+  install -Dm 0644 LICENSE "$PKG/usr/doc/$pkgname-$pkgver/LICENSE" || return 1
+  install -Dm 0644 LICENSE.APACHE "$PKG/usr/doc/$pkgname-$pkgver/LICENSE.APACHE" || return 1
+  install -Dm 0644 LICENSE.BSD "$PKG/usr/doc/$pkgname-$pkgver/LICENSE.BSD" || return 1
+  install -Dm 0644 README.rst "$PKG/usr/doc/$pkgname-$pkgver/README.rst" || return 1
+  if [[ -f CHANGELOG.rst ]]; then
+    head -n 1000 CHANGELOG.rst > "$PKG/usr/doc/$pkgname-$pkgver/CHANGELOG.rst" || return 1
+    touch -r CHANGELOG.rst "$PKG/usr/doc/$pkgname-$pkgver/CHANGELOG.rst" || return 1
+    cp -a "$PKG/usr/doc/$pkgname-$pkgver/CHANGELOG.rst" \
+      "$PKG/usr/doc/$pkgname-$pkgver/changelog.rst" || return 1
+  fi
 }

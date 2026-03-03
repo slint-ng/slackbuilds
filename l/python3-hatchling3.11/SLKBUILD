@@ -1,43 +1,39 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
 # Maintainer: Santiago Torres-Arias <santiago @ usualplace>
-# Maintainer: Carl Smedstad <carsme@archlinux.org>
-# Contributor: Kaizhao Zhang <zhangkaizhao@gmail.com>
+# Included in Slint by Didier Spaier didieratslintdotfr
 
 pkgname=python3-hatchling3.11
+_srcdir=hatch-hatchling-v1.27.0
 pkgver=1.27.0
 pkgrel=1slint
-slackdesc="$kpgname (Extensible, standards compliant build backend used by Hatch)"
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Hatch build backend for Python 3.11)"
+""
+"This is the extensible, standards-compliant build backend used by"
+"Hatch, built here for Python 3.11."
+""
+"Homepage: https://github.com/pypa/hatch/tree/master/backend"
+)
 url="https://github.com/pypa/hatch/tree/master/backend"
-license=('MIT')
-groups=(python-build-backend)
+license=("MIT")
 depends=(
-  'python'
-  'python-editables'
-  'python-packaging'
-  'python-pathspec'
-  'python-pluggy'
-  'python-trove-classifiers'
+  "python3-editables"
+  "python-packaging3.11"
+  "python3-pathspec"
+  "python3-pluggy"
+  "python3-trove-classifiers"
 )
-makedepends=(
-  'python-build'
-  'python-installer'
-)
-checkdepends=(
-  'libxcrypt-compat'
-  'python-click'
-  'python-filelock'
-  'python-hatch-vcs'
-  'python-pytest'
-  'python-rich'
-  'python-tomli-w'
-  'python-uv'
-)
-source=("https://github.com/pypa/hatch/archive/hatchling-v$pkgver.tar.gz")
-sha256sums=('c5d576a04bbc3940c71dc899da35a9cfe644044a6e4e70549f41d964d6331625')
+makedepends=("python-build" "python-installer")
+source=("https://github.com/pypa/hatch/archive/refs/tags/hatchling-v${pkgver}.tar.gz")
+options=("nosrcpack")
 
 build() {
-  cd hatch-hatchling-v$pkgver
-  python3.11 -m build --wheel --no-isolation backend
-  python3.11 -m installer --destdir="$PKG" backend/dist/*.whl
-  install -vDm644 -t "$PKG/usr/doc/${pkgname}-$pkgver" backend/README.md
-  install -vDm644 -t "$PKG/usr/doc/${pkgname}-$pkgver" backend/LICENSE.txt
+  cd "$SRC/${_srcdir}" || return 1
+  python3.11 -m build --wheel --no-isolation backend || return 1
+  python3.11 -m installer --destdir="$PKG" backend/dist/*.whl || return 1
+
+  install -Dm 0644 LICENSE.txt "$PKG/usr/doc/$pkgname-$pkgver/LICENSE.txt" || return 1
+  install -Dm 0644 README.md "$PKG/usr/doc/$pkgname-$pkgver/README.md" || return 1
 }

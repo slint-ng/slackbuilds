@@ -1,62 +1,43 @@
-# Maintainer: Felix Yan <felixonmars@archlinux.org>
-# Maintainer: Daniel M. Capella <polyzen@archlinux.org>
-# Contributor: Hugo Osvaldo Barrera <hugo@barrera.io>
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Maintainer: Patrick J. Volkerding <volkerdi@slackware.com>
+# Included in Slint by Didier Spaier didieratslintdotfr
 
-_name=setuptools_scm
-pkgname=python-setuptools-scm
-pkgver=9.2.2
-pkgrel=1
-pkgdesc='Handles managing your python package versions in scm metadata'
-arch=(any)
-url=https://github.com/pypa/setuptools_scm
-license=(MIT)
-depends=(
-  python
-  python-packaging
-  python-setuptools
+pkgname=python-setuptools_scm3.11
+_srcname=setuptools_scm
+pkgver=9.2.0
+pkgrel=1slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Manage Python versions from SCM)"
+""
+"setuptools_scm manages Python package versions in SCM metadata."
+""
+"Homepage: https://github.com/pypa/setuptools_scm"
 )
-makedepends=(
-  git
-  python-build
-  python-installer
-  python-wheel
-)
-checkdepends=(
-  mercurial
-  python-pip
-  python-pytest
-  python-pytest-timeout
-  python-rich
-)
-checkdepends_riscv64=(
-  libxml2
-  libxslt
-)
-optdepends=(
-  'python-rich: use rich as console log handler'
-)
-source=("git+$url.git#tag=v$pkgver")
-sha512sums=('5485276e8208a517311c5b5da9f5046037529c93adad667d7369bbdd056ad26eb3ffa2708d6f68c3a92ad6dbb889b949cfb480db9f3ceba090a213a4ab35dad2')
-b2sums=('48d02260721bdd83a86fcfdf03b437126c1539c57aeb7e7ea987b0abb6142d40284df2a577efb6d94807a48c1e39db7ed16784e8b4505c531e0f1a5172ad6cbe')
+url="https://github.com/pypa/setuptools_scm"
+license=("MIT")
+depends=("python-packaging3.11" "python-setuptools")
+makedepends=("python-build" "python-installer" "python-wheel")
+source=("https://files.pythonhosted.org/packages/source/s/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
 
 build() {
-  cd $_name
-  python -m build --wheel --skip-dependency-check --no-isolation
-}
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+  python3.11 -m build --wheel --no-isolation || return 1
+  python3.11 -m installer --destdir="$PKG" dist/*.whl || return 1
 
-check() {
-  cd $_name
-  python -m venv --system-site-packages test-env
-  test-env/bin/python -m installer dist/*.whl
-  test-env/bin/python -m pytest -vk 'not test_not_owner'
-}
-
-package() {
-  local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
-  install -d "$pkgdir"/usr/share/licenses/$pkgname
-  ln -s "$site_packages"/$_name-$pkgver.dist-info/licenses/LICENSE \
-    "$pkgdir"/usr/share/licenses/$pkgname
-
-  cd $_name
-  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm 0644 LICENSE "$PKG/usr/doc/$pkgname-$pkgver/LICENSE" || return 1
+  install -Dm 0644 README.md "$PKG/usr/doc/$pkgname-$pkgver/README.md" || return 1
+  if [[ -f PKG-INFO ]]; then
+    install -Dm 0644 PKG-INFO "$PKG/usr/doc/$pkgname-$pkgver/PKG-INFO" || return 1
+  fi
+  if [[ -f CHANGELOG.md ]]; then
+    head -n 1000 CHANGELOG.md > "$PKG/usr/doc/$pkgname-$pkgver/CHANGELOG.md" || return 1
+    touch -r CHANGELOG.md "$PKG/usr/doc/$pkgname-$pkgver/CHANGELOG.md" || return 1
+  fi
+  if [[ -d docs ]]; then
+    cp -a docs "$PKG/usr/doc/$pkgname-$pkgver/docs" || return 1
+    find "$PKG/usr/doc/$pkgname-$pkgver/docs" -type f -exec chmod 0644 {} +
+  fi
 }
