@@ -28,6 +28,7 @@ options=("nosrcpack")
 
 build() {
   local docsDir
+  local docFile
 
   docsDir="$PKG/usr/doc/$pkgname-$pkgver"
 
@@ -37,7 +38,11 @@ build() {
   python3.11 setup.py build install --root="$PKG" || return 1
 
   mkdir -p "$docsDir" || return 1
-  cp -a CHANGES.rst PKG-INFO README.rst docs/*.txt "$docsDir" || return 1
+  shopt -s nullglob
+  for docFile in CHANGES.rst PKG-INFO README.rst docs/*.txt; do
+    cp -a "$docFile" "$docsDir" || return 1
+  done
+  shopt -u nullglob
   find "$docsDir" -type f -exec chmod 0644 {} + || return 1
 
   if [[ -r CHANGES.rst ]]; then

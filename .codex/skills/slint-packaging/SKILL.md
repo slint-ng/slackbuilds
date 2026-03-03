@@ -51,6 +51,10 @@ On first use in a session, explicitly mention:
   when converting (do not bump to a newer upstream/Arch version unless the
   user explicitly asks for an update).
 - Preserve the build logic exactly (configure/meson flags, install steps, docs).
+- When a package uses a source-tree basename that differs from `pkgname`,
+  prefer `export srcname=...` over a shell-local `srcname=...`. In this repo,
+  `slkbuild` generation can depend on exported metadata, and a non-exported
+  `srcname` may produce broken unpack/build paths such as `src/-<version>`.
 - Fold simple source-tree documentation installs into `docs=()` when the old
   SlackBuild just copies or finds static doc files into `/usr/doc` or
   `/usr/share/doc`; keep manual build logic for generated docs or subdir
@@ -148,8 +152,14 @@ On first use in a session, explicitly mention:
 ## Debugging build failures
 
 - Always preserve generated build scripts before reruns (`build-<pkg>.sh`).
+- If a generated build fails with a missing source directory like
+  `src/-<version>` or another obviously truncated path, check exported package
+  metadata first, especially `srcname`, before debugging the upstream build.
 - When `set -e` is active, verify failing function return status, not only stderr output.
 - Inspect slkbuild-generated helper functions (`gzip_man_and_info_pages`, post-checks, create_package) early when build() seems to pass.
+- After converting or renaming an `SLKBUILD`, compare `pkgname`, `srcname`,
+  doc/install paths, and the generated `build-<pkg>.sh` unpack path so renamed
+  package identity changes do not silently break source-tree resolution.
 - Start diagnostics narrowly in the suspected block; widen only if the first pass is inconclusive.
 - Keep diagnostics reversible and remove them in a dedicated cleanup commit after success.
 - If a generated tail uses test-and-and patterns (for example `[ -a file ] && rm file`) under `set -e`, account for non-zero test returns so successful builds do not abort.
