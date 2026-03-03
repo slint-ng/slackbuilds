@@ -1,0 +1,50 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Maintainer: Patrick J. Volkerding <volkerdi@slackware.com>
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python-tomli3.11
+_srcname=tomli
+pkgver=1.2.2
+pkgrel=2slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (A lil' TOML parser)"
+""
+"Tomli is a Python library for parsing TOML configuration files."
+""
+"Homepage: https://github.com/hukkin/tomli"
+)
+url="https://github.com/hukkin/tomli"
+license=("MIT")
+depends=("python")
+makedepends=("python-setuptools3.11")
+source=("https://files.pythonhosted.org/packages/source/t/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  # Preserve the legacy Slint package layout by using the setuptools shim.
+  sed -i '/flit_core/d' pyproject.toml || return 1
+  cat > setup.py <<EOF || return 1
+from setuptools import setup
+setup(name="${_srcname}", version="${pkgver}", packages=["${_srcname}"], package_data={"": ["*"]})
+EOF
+
+  python3.11 setup.py install --root="$PKG" || return 1
+
+  install -d "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  shopt -s nullglob
+  for doc in *.rst LICENSE* NOTICE PKG-INFO README*; do
+    [[ -e $doc ]] || continue
+    cp -a "$doc" "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
+  done
+  shopt -u nullglob
+  find "$PKG/usr/doc/$pkgname-$pkgver" -type f -exec chmod 0644 {} + || return 1
+
+  if [[ -f HISTORY.rst ]]; then
+    head -n 1000 HISTORY.rst > "$PKG/usr/doc/$pkgname-$pkgver/HISTORY.rst" || return 1
+    touch -r HISTORY.rst "$PKG/usr/doc/$pkgname-$pkgver/HISTORY.rst" || return 1
+  fi
+}

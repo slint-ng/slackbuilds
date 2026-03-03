@@ -1,0 +1,32 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Maintainer: fourtysixandtwo <fourtysixandtwo@sliderr.net>
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python-wheel3.11
+_srcname=wheel
+pkgver=0.41.2
+pkgrel=1slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Python wheel package format)"
+""
+"Wheel is the built-package format for Python."
+""
+"Homepage: https://github.com/pypa/wheel"
+)
+url="https://github.com/pypa/wheel"
+license=("MIT")
+depends=("python")
+makedepends=("python-installer3.11" "python3-flit_core3.11")
+source=("https://files.pythonhosted.org/packages/source/w/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+  python3.11 -m flit_core.wheel || return 1
+  python3.11 -m installer --destdir="$PKG" dist/*.whl || return 1
+
+  install -Dm 0644 LICENSE.txt "$PKG/usr/doc/$pkgname-$pkgver/LICENSE.txt" || return 1
+  install -Dm 0644 README.rst "$PKG/usr/doc/$pkgname-$pkgver/README.rst" || return 1
+}
