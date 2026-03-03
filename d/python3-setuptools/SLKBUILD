@@ -40,6 +40,7 @@ build() {
   mkdir -p "$docsDir" || return 1
   shopt -s nullglob
   for docFile in CHANGES.rst PKG-INFO README.rst docs/*.txt; do
+    [[ -e "$docFile" ]] || continue
     cp -a "$docFile" "$docsDir" || return 1
   done
   shopt -u nullglob
