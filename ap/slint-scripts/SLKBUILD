@@ -59,6 +59,7 @@ build() {
     login-chooser \
     rescuebootstick \
     speak-with \
+    toggle-mirror \
     speakup-restore \
     speakup-save
   do

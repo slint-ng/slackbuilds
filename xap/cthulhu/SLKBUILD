@@ -1,3 +1,4 @@
+# shellcheck shell=bash disable=SC2034,SC2154
 # Packager: Storm Dragon <storm_dragon@stormux.org>
 
 pkgname=cthulhu
@@ -29,11 +30,14 @@ depends=(
   'setproctitle3.11'
   'socat'
   'speech-dispatcher'
-  'xorg-xkbcomp'
-  'xorg-xmodmap'
+  'xkbcomp'
   'python3-pyautogui'
   'python3-msgpack'
   'python3-tornado'
+  'python3-pillow'
+  'python-pytesseract'
+  'tesseract'
+  'tesseract-data'
 )
 makedepends=(
   'git'
@@ -70,10 +74,10 @@ fi
 }
 
 build() {
-  cd "$SRC"
+  cd "$SRC" || exit 1
   rm -rf "$pkgname-$pkgver"
   git clone -b "$pkgver" https://git.stormux.org/storm/cthulhu.git "$pkgname-$pkgver"
-  cd "$pkgname-$pkgver"
+  cd "$pkgname-$pkgver" || exit 1
 
   chown -R root:root .
   find -L . \
@@ -102,12 +106,12 @@ build() {
   CXXFLAGS="$SLKCFLAGS" \
   meson setup build \
     --prefix=/usr \
-    --libdir=/usr/lib${LIBDIRSUFFIX} \
+    --libdir=/usr/lib"${LIBDIRSUFFIX}" \
     --sysconfdir=/etc \
     --localstatedir=/var \
     --buildtype=release
 
-  PATH="$pythonShimDir:$PATH" meson compile -C build -j $numjobs
+  PATH="$pythonShimDir:$PATH" meson compile -C build -j "$numjobs"
   PATH="$pythonShimDir:$PATH" DESTDIR="$PKG" meson install -C build
   rm -rf "$pythonShimDir"
 

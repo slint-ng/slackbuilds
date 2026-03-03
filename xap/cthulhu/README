@@ -24,19 +24,19 @@ SlackBuilds.org:
 - libwnck3
 - pango
 - python-requests
-- python3-atspi
-- python3-cairo
+- python-atspi
+- pycairo3.11
 - python3-dasbus
-- python3-gobject
+- pygobject3.11
 - python3-pluggy
-- python3-setproctitle
+- setproctitle3.11
 - socat
 - speech-dispatcher
-- xorg-xkbcomp
-- xorg-xmodmap
-
-Optional features need Python packages not yet in Slint:
+- xkbcomp
 - python3-pyautogui (AI assistant actions)
 - python3-msgpack (nvda2cthulhu)
-- python-tornado (nvda2cthulhu WebSocket)
-These can be installed with pip if desired.
+- python3-tornado (nvda2cthulhu WebSocket)
+- python3-pillow (OCR plugin)
+- python-pytesseract (OCR plugin)
+- tesseract (OCR engine)
+- tesseract-data (OCR language data)
