@@ -1,0 +1,30 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python-cchardet
+_srcname=cchardet
+pkgver=2.1.7
+pkgrel=1slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (universal character encoding detector)"
+""
+"cChardet provides a high-speed universal character"
+"encoding detector for Python."
+""
+"Homepage: https://github.com/PyYoshi/cChardet"
+)
+url="https://github.com/PyYoshi/cChardet"
+depends=("python")
+makedepends=("python-setuptools")
+source=("https://files.pythonhosted.org/packages/source/c/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  python3 setup.py install --root="$PKG" || return 1
+
+  install -Dm 0644 PKG-INFO "$PKG/usr/doc/$pkgname-$pkgver/PKG-INFO" || return 1
+}

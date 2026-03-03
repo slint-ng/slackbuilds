@@ -1,0 +1,34 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=python-txaio
+_srcname=txaio
+pkgver=22.2.1
+pkgrel=1slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (source code compatibility for Twisted/Trollius)"
+""
+"txaio is a helper library for writing code that runs"
+"unmodified on both Twisted and asyncio / Trollius."
+""
+"Homepage: https://pypi.org/project/txaio/"
+)
+url="https://pypi.org/project/txaio/"
+depends=("python")
+makedepends=("python-setuptools")
+source=("https://files.pythonhosted.org/packages/source/t/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  python3 setup.py install --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+
+  install -m 0644 LICENSE "$docdir/LICENSE" || return 1
+  install -m 0644 README.rst "$docdir/README.rst" || return 1
+}

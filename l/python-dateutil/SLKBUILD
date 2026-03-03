@@ -1,0 +1,38 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=python-dateutil
+pkgver=2.8.1
+pkgrel=2slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (extensions to the datetime module)"
+""
+"python-dateutil provides powerful extensions to the"
+"standard Python datetime module."
+""
+"Homepage: http://labix.org/python-dateutil"
+)
+url="http://labix.org/python-dateutil"
+depends=("python")
+makedepends=("python-setuptools")
+source=("https://files.pythonhosted.org/packages/source/p/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${pkgname}-${pkgver}" || return 1
+
+  sed 's/\r$//' NEWS > NEWS.new || return 1
+  touch -r NEWS NEWS.new || return 1
+  mv NEWS.new NEWS || return 1
+
+  python3 setup.py install --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+
+  install -m 0644 LICENSE "$docdir/LICENSE" || return 1
+  install -m 0644 NEWS "$docdir/NEWS" || return 1
+  install -m 0644 README.rst "$docdir/README.rst" || return 1
+}

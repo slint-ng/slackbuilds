@@ -1,0 +1,40 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python-fasteners
+_srcname=fasteners
+pkgver=0.16.3
+pkgrel=1slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (useful locking primitives for Python)"
+""
+"Fasteners provides locking decorators, reader-writer locks,"
+"inter-process locks, and other generic locking helpers."
+""
+"Homepage: https://github.com/harlowja/fasteners/"
+)
+url="https://github.com/harlowja/fasteners/"
+depends=("python")
+makedepends=("python-build" "python-setuptools" "python-wheel")
+source=("https://github.com/harlowja/fasteners/archive/${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  python setup.py build || return 1
+  python3 -m build --wheel --skip-dependency-check --no-isolation || return 1
+  python3 setup.py install --optimize=1 --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+
+  shopt -s nullglob
+  for doc in ChangeLog LICENSE MANIFEST.in README.md; do
+    [[ -e $doc ]] || continue
+    cp -a "$doc" "$docdir/" || return 1
+  done
+  shopt -u nullglob
+}
