@@ -4,6 +4,7 @@
 
 pkgname=python3-pip
 srcname=pip
+export srcname
 pkgver=25.0.1
 pkgrel=1slint
 slackdesc=\

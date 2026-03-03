@@ -4,6 +4,7 @@
 
 pkgname=python3-setuptools
 srcname=setuptools
+export srcname
 pkgver=80.9.0
 pkgrel=1slint
 slackdesc=\
