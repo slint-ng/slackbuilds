@@ -6,11 +6,14 @@ show_usage() {
 Usage: build-package.sh [options] <category/package>
 
 Build a package and any missing repository dependencies described by .dep files.
+New artifacts are added to the staging directory without removing existing ones.
+Use --reset without a package path to clear staged artifacts and exit.
 
 Options:
       --dependencies       Print the recursive dependency closure and exit.
   -f, --full               Rebuild the full in-repo dependency closure.
       --only               Build only the requested package and skip dependency resolution.
+      --reset              Remove existing staged package artifacts before building.
       --skip PKGNAME       Treat a package as already satisfied. Repeatable.
   -s, --staging-dir DIR    Staging directory relative to repo root (default: staging).
   -n, --no-install         Build and stage packages without installing them.
@@ -662,9 +665,11 @@ install_package() {
     || die "Install failed for ${artifactPath}"
 }
 
-clear_staging_dir() {
+ensure_staging_dir() {
   mkdir -p "$stagingDir"
+}
 
+reset_staging_dir() {
   find "$stagingDir" -mindepth 1 -maxdepth 1 -type f \
     \( -name '*.txz' -o -name '*.tgz' -o -name '*.tbz' -o -name '*.tlz' -o -name '*.dep' \) \
     -delete
@@ -710,6 +715,7 @@ dependenciesOnly=false
 fullBuild=false
 onlyTarget=false
 noInstall=false
+resetStaging=false
 stagingDir="${repoRoot}/staging"
 packagePath=""
 installedDbDir=/var/log/packages
@@ -743,6 +749,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     --only)
       onlyTarget=true
+      shift
+      ;;
+    --reset)
+      resetStaging=true
       shift
       ;;
     --skip)
@@ -785,6 +795,13 @@ if [[ $# -gt 0 ]]; then
 fi
 
 if [[ -z "$packagePath" ]]; then
+  if [[ "$resetStaging" == true && "$dependenciesOnly" == false ]]; then
+    ensure_staging_dir
+    reset_staging_dir
+    printf 'Removed staged artifacts from %s\n' "$stagingDir"
+    exit 0
+  fi
+
   show_usage
   exit 2
 fi
@@ -834,7 +851,10 @@ else
   fi
 fi
 
-clear_staging_dir
+ensure_staging_dir
+if [[ "$resetStaging" == true ]]; then
+  reset_staging_dir
+fi
 if [[ "$onlyTarget" == false ]]; then
   visit_package "$packageDir"
   (( ${#buildQueue[@]} > 0 )) || die "no packages were selected to build for ${packagePath}"
