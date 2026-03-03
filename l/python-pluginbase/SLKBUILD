@@ -1,0 +1,38 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python-pluginbase
+_srcname=pluginbase
+pkgver=1.0.1
+pkgrel=1slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (plugin infrastructure for Python applications)"
+""
+"pluginbase provides a lightweight plugin system for"
+"Python applications that need isolated plugin loading."
+""
+"Homepage: https://github.com/mitsuhiko/pluginbase"
+)
+url="https://github.com/mitsuhiko/pluginbase"
+depends=("python")
+makedepends=("python-setuptools")
+source=("https://files.pythonhosted.org/packages/source/p/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  python3 setup.py install --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+
+  shopt -s nullglob
+  for doc in README* LICENSE; do
+    [[ -e $doc ]] || continue
+    cp -a "$doc" "$docdir/" || return 1
+  done
+  shopt -u nullglob
+}

@@ -1,0 +1,38 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python-wcwidth
+_srcname=wcwidth
+pkgver=0.2.5
+pkgrel=1slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (measure terminal cell widths in Python)"
+""
+"wcwidth provides Python helpers for determining terminal"
+"display widths of Unicode strings and characters."
+""
+"Homepage: https://github.com/jquast/wcwidth"
+)
+url="https://github.com/jquast/wcwidth"
+depends=("python")
+makedepends=("python-setuptools")
+source=("https://github.com/jquast/wcwidth/archive/${pkgver}.tar.gz")
+options=("nosrcpack")
+
+doinst() {
+  ( cd usr/doc/python-wcwidth-0.2.5 || exit 1 ; rm -rf README.rst )
+  ( cd usr/doc/python-wcwidth-0.2.5 || exit 1 ; ln -sf docs/intro.rst README.rst )
+}
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  python3 setup.py install --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+
+  install -m 0644 LICENSE "$docdir/LICENSE" || return 1
+}

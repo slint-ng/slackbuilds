@@ -1,0 +1,48 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python-soupsieve
+_srcname=soupsieve
+pkgver=2.3.1
+pkgrel=1slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (CSS selector library for Python)"
+""
+"soupsieve implements modern CSS selectors for Python and"
+"Beautiful Soup based HTML and XML parsing workflows."
+""
+"Homepage: https://github.com/facelessuser/soupsieve"
+)
+url="https://github.com/facelessuser/soupsieve"
+depends=("python")
+makedepends=("python-setuptools")
+source=("https://github.com/facelessuser/soupsieve/archive/${pkgver}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  python3 setup.py install --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+
+  shopt -s nullglob
+  for doc in *.md docs requirements; do
+    [[ -e $doc ]] || continue
+    cp -a "$doc" "$docdir/" || return 1
+  done
+  shopt -u nullglob
+
+  # slkbuild removes zero-length files, but baseline ships this doc path.
+  if [[ -f $docdir/docs/src/markdown/_snippets/abbr.txt ]]; then
+    printf "\n" > "$docdir/docs/src/markdown/_snippets/abbr.txt" || return 1
+  fi
+
+  for subdir in docs requirements; do
+    [[ -d $docdir/$subdir ]] || continue
+    find "$docdir/$subdir" -type f -exec chmod 0644 {} + || return 1
+  done
+}

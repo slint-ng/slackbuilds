@@ -1,0 +1,36 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=python-pyte
+_srcname=pyte
+pkgver=0.8.0
+pkgrel=1slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (VTXXX-compatible terminal emulator in Python)"
+""
+"pyte is a pure Python terminal emulator used to parse"
+"and emulate VTXXX-compatible terminal output."
+""
+"Homepage: https://github.com/selectel/pyte"
+)
+url="https://github.com/selectel/pyte"
+depends=("python" "python-wcwidth")
+makedepends=("python-setuptools")
+source=("https://github.com/selectel/pyte/archive/${pkgver}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  python3 setup.py install --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+
+  install -m 0644 AUTHORS "$docdir/AUTHORS" || return 1
+  install -m 0644 CHANGES "$docdir/CHANGES" || return 1
+  install -m 0644 LICENSE "$docdir/LICENSE" || return 1
+  install -m 0644 README "$docdir/README" || return 1
+}

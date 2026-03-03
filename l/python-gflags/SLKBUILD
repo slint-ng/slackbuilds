@@ -1,0 +1,35 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=python-gflags
+_srcname=python-gflags
+pkgver=3.1.2
+pkgrel=1slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Google-style command line flags for Python)"
+""
+"python-gflags provides a Google-style command line flag"
+"library for Python applications and reusable modules."
+""
+"Homepage: https://github.com/gflags/python-gflags"
+)
+url="https://github.com/gflags/python-gflags"
+depends=("python")
+makedepends=("python-setuptools")
+source=("https://github.com/google/python-gflags/releases/download/${pkgver}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  python3 setup.py install --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+
+  install -m 0644 AUTHORS "$docdir/AUTHORS" || return 1
+  install -m 0644 PKG-INFO "$docdir/PKG-INFO" || return 1
+  install -m 0644 README.md "$docdir/README.md" || return 1
+}
