@@ -1,0 +1,56 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: Didier Spaier didieratslintdotfr
+
+pkgname=pybind11
+pkgver=2.9.1
+pkgrel=1slint
+source=("https://github.com/pybind/pybind11/archive/v${pkgver}/${pkgname}-${pkgver}.tar.gz")
+url="https://github.com/pybind/pybind11"
+makedepends=('cmake' 'python-setuptools')
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"pybind11 (Python bindings for C++11)"
+""
+"pybind11 is a lightweight header-only library that exposes"
+"C++ types in Python and vice versa, mainly to create Python"
+"bindings of existing C++ code."
+""
+"Homepage: https://github.com/pybind/pybind11"
+""
+""
+""
+)
+
+build() {
+  cd "$SRC/$pkgname-$pkgver" || exit 1
+
+  python3 setup.py build
+
+  mkdir -p build
+  (
+    cd build || exit 1
+    cmake .. \
+      -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_INSTALL_PREFIX=/usr \
+      -DPYTHON_EXECUTABLE=/usr/bin/python3 \
+      -DPYBIND11_TEST=OFF
+    make
+  ) || exit 1
+
+  python3 setup.py install \
+    --prefix=/usr \
+    --root="$PKG" \
+    --install-headers=/usr/include/pybind11 \
+    --skip-build
+
+  (
+    cd build || exit 1
+    make install DESTDIR="$PKG"
+  ) || exit 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || exit 1
+  cp -a LICENSE README* docs/* "$PKG/usr/doc/$pkgname-$pkgver/" || exit 1
+}
