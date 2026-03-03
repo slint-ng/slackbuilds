@@ -1,0 +1,2 @@
+# Accepted same-version conversion delta for l/python3-pythondialog.
+-^usr/doc/@PKGNAME@-@PKGVER@/@PKGNAME@\.SlackBuild$

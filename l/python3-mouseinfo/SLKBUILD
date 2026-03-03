@@ -1,0 +1,41 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Packager: Storm Dragon <storm_dragon@stormux.org>
+
+pkgname=python3-mouseinfo
+_srcname=MouseInfo
+pkgver=0.1.3
+pkgrel=1slint
+source=("https://files.pythonhosted.org/packages/28/fa/b2ba8229b9381e8f6381c1dcae6f4159a7f72349e414ed19cfbbd1817173/MouseInfo-$pkgver.tar.gz")
+url="https://github.com/asweigart/mouseinfo"
+depends=("python")
+makedepends=("python-setuptools")
+options=("nosrcpack")
+docs=(
+  "AUTHORS" "AUTHORS.txt" "CHANGELOG" "ChangeLog" "CHANGES" "CHANGES.txt"
+  "CHANGES.md" "COPYING" "COPYING.txt" "LICENSE" "LICENSE.txt" "README"
+  "README.md" "README.rst" "README.txt" "PKG-INFO"
+)
+
+slackdesc=(
+  #|-----handy-ruler------------------------------------------------------|
+  "python3-mouseinfo: mouse position and color info tool"
+  "python3-mouseinfo:"
+  "python3-mouseinfo: MouseInfo displays mouse position and pixel"
+  "python3-mouseinfo: color information."
+  "python3-mouseinfo:"
+  "python3-mouseinfo:"
+  "python3-mouseinfo:"
+  "python3-mouseinfo:"
+  "python3-mouseinfo:"
+  "python3-mouseinfo:"
+)
+
+build() {
+  cd "$SRC/$_srcname-$pkgver" || return 1
+
+  # Preserve the current dual-interpreter install behavior.
+  for pybin in python3.9 python3.11; do
+    "$pybin" setup.py install --root="$PKG" || return 1
+  done
+}

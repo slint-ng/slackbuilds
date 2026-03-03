@@ -1,0 +1,49 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Maintainer: fourtysixandtwo <fourtysixandtwo@sliderr.net>
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=python3-pathspec
+_srcname=pathspec
+pkgver=0.12.1
+pkgrel=9slint
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Library for gitignore style matching of file paths)"
+""
+"pathspec is a utility library for pattern matching of file"
+"paths. So far this only includes Git's wildmatch pattern"
+"matching which itself is derived from Rsync's wildmatch."
+"Git uses wildmatch for its gitignore files."
+""
+"Homepage: https://github.com/cpburnz/python-pathspec"
+)
+url="https://github.com/cpburnz/python-pathspec"
+license=("MPL-2.0")
+depends=("python")
+makedepends=("python-build" "python-installer" "python-wheel")
+source=("https://files.pythonhosted.org/packages/source/p/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  # Preserve the current Slint package behavior: install for both shipped
+  # Python 3 ABIs via wheel build/install passes.
+  for pybin in python3.9 python3.11; do
+    "$pybin" -m build --no-isolation || return 1
+    "$pybin" -m installer --destdir="$PKG" dist/*.whl || return 1
+  done
+
+  find "$PKG"/usr/lib* -type d -path '*/site-packages/*.dist-info/licenses' 2>/dev/null | while read -r licenses_dir; do
+    dist_info_dir=${licenses_dir%/licenses}
+    find "$licenses_dir" -maxdepth 1 -type f | while read -r license_file; do
+      install -m 0644 "$license_file" "$dist_info_dir/$(basename "$license_file")" || return 1
+    done
+    rm -rf "$licenses_dir" || return 1
+  done
+
+  install -Dm 0644 LICENSE "$PKG/usr/doc/$pkgname-$pkgver/LICENSE" || return 1
+  install -Dm 0644 README.rst "$PKG/usr/doc/$pkgname-$pkgver/README.rst" || return 1
+}

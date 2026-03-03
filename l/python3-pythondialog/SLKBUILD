@@ -1,0 +1,34 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Maintainer: Dimitris Zlatanidis <d.zlatanidis@gmail.com>
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=python3-pythondialog
+_srcname=pythondialog
+pkgver=3.5.3
+pkgrel=1slint
+slackdesc=(
+  #|-----handy-ruler------------------------------------------------------|
+  "$pkgname: $pkgname (dialog utility)"
+  "$pkgname:"
+  "$pkgname: A Python interface to the UNIX dialog utility"
+  "$pkgname: and mostly-compatible programs. This allows"
+  "$pkgname: one to make simple text-mode user interfaces"
+  "$pkgname: on Unix-like systems (including Linux)."
+  "$pkgname:"
+  "$pkgname: Homepage: http://pythondialog.sourceforge.net/"
+  "$pkgname:"
+  "$pkgname:"
+)
+url="http://pythondialog.sourceforge.net/"
+depends=("python")
+makedepends=("python-setuptools")
+source=("https://files.pythonhosted.org/packages/4e/40/5c84d79f7d536ca2c3722af521eff4faafe54a93797f08c72eb72e68fb68/pythondialog-$pkgver.tar.gz")
+options=("nosrcpack")
+docs=("README.rst" "ChangeLog" "COPYING" "AUTHORS")
+
+build() {
+  cd "$SRC/$_srcname-$pkgver" || return 1
+
+  python3 setup.py install --root="$PKG" || return 1
+}

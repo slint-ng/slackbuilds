@@ -1,0 +1,45 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Copyright 2022-2023 fourtysixandtwo <fourtysixandtwo@sliderr.net>
+# Included in Slint by Didier Spaier didier~at~slint~dot~fr
+
+pkgname=python3-editables
+_srcname=editables
+pkgver=0.5
+pkgrel=2slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (A Python library for creating editable wheels)"
+""
+"This library supports the building of wheels which, when installed,"
+"will expose packages in a local directory on sys.path in \"editable"
+"mode\". In other words, changes to the package source will be"
+"reflected in the package visible to Python, without needing a"
+"reinstall."
+""
+"Homepage: https://github.com/pfmoore/editables"
+)
+url="https://github.com/pfmoore/editables"
+depends=("python")
+makedepends=("python-build" "python-installer" "python-wheel")
+source=("https://files.pythonhosted.org/packages/source/e/editables/editables-${pkgver}.tar.gz")
+options=("nosrcpack")
+docs=("LICENSE.txt" "README.md")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  # Keep the legacy Slint behavior: build and install for both shipped Python 3 ABIs.
+  for pybin in python3.9 python3.11; do
+    "$pybin" -m build --no-isolation || return 1
+    "$pybin" -m installer --destdir="$PKG" dist/*.whl || return 1
+  done
+
+  find "$PKG"/usr/lib* -type d -path '*/site-packages/*.dist-info/licenses' 2>/dev/null | while read -r licenses_dir; do
+    dist_info_dir=${licenses_dir%/licenses}
+    find "$licenses_dir" -maxdepth 1 -type f | while read -r license_file; do
+      install -m 0644 "$license_file" "$dist_info_dir/$(basename "$license_file")" || return 1
+    done
+    rm -rf "$licenses_dir" || return 1
+  done
+}

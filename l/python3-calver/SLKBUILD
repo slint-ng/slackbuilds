@@ -1,0 +1,48 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Maintainer: fourtysixandtwo <fourtysixandtwo@sliderr.net>
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=python3-calver
+_srcname=calver
+pkgver=2022.6.26
+pkgrel=2slint
+source=("https://files.pythonhosted.org/packages/source/c/calver/${_srcname}-${pkgver}.tar.gz")
+url="https://github.com/di/calver"
+license=("Apache-2.0")
+depends=("python")
+makedepends=("python-build" "python-installer" "python-wheel")
+options=("nosrcpack")
+docs=("LICENSE" "README.md")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname: setuptools extension for CalVer package versions"
+"$pkgname:"
+"$pkgname: calver is a setuptools extension for automatically"
+"$pkgname: defining Python package versions as calendar versions."
+"$pkgname:"
+"$pkgname: Homepage: https://github.com/di/calver"
+"$pkgname:"
+"$pkgname:"
+"$pkgname:"
+"$pkgname:"
+)
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  # Preserve the current Slint package behavior across both shipped Python ABIs.
+  for pybin in python3.9 python3.11; do
+    "$pybin" -m build --no-isolation || return 1
+    "$pybin" -m installer --destdir="$PKG" dist/*.whl || return 1
+  done
+
+  find "$PKG"/usr/lib* -type d -path '*/site-packages/*.dist-info/licenses' 2>/dev/null | while read -r licenses_dir; do
+    dist_info_dir=${licenses_dir%/licenses}
+    find "$licenses_dir" -maxdepth 1 -type f | while read -r license_file; do
+      install -m 0644 "$license_file" "$dist_info_dir/$(basename "$license_file")" || return 1
+    done
+    rm -rf "$licenses_dir" || return 1
+  done
+}

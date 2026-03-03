@@ -1,0 +1,32 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
+pkgname=python3-webencodings
+_srcname=python-webencodings
+pkgver=0.5.1
+pkgrel=2slint
+slackdesc=(
+  #|-----handy-ruler------------------------------------------------------|
+  "$pkgname: web character encoding support"
+  "$pkgname:"
+  "$pkgname: webencodings is a Python implementation"
+  "$pkgname: of the WHATWG Encoding standard."
+  "$pkgname:"
+  "$pkgname:"
+  "$pkgname:"
+  "$pkgname:"
+  "$pkgname:"
+  "$pkgname:"
+)
+url="https://pythonhosted.org/webencodings/"
+license=("BSD")
+depends=("python")
+makedepends=("python-setuptools")
+source=("https://github.com/gsnedders/python-webencodings/archive/v${pkgver}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+docs=("LICENSE" "README.rst")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+  python3 setup.py install --root="$PKG" || return 1
+}

@@ -1,0 +1,41 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Packager: sektor
+
+pkgname=python3-pytweening
+_srcname=pytweening
+pkgver=1.2.0
+pkgrel=1slint
+source=("https://files.pythonhosted.org/packages/source/p/$_srcname/$_srcname-$pkgver.tar.gz")
+url="https://github.com/asweigart/pytweening"
+depends=("python")
+makedepends=("python-setuptools")
+options=("nosrcpack")
+docs=(
+  "AUTHORS" "AUTHORS.txt" "CHANGELOG" "ChangeLog" "CHANGES" "CHANGES.txt"
+  "CHANGES.md" "COPYING" "COPYING.txt" "LICENSE" "LICENSE.txt" "README"
+  "README.md" "README.rst" "README.txt" "PKG-INFO"
+)
+
+slackdesc=(
+  #|-----handy-ruler------------------------------------------------------|
+  "python3-pytweening: tweening and easing functions"
+  "python3-pytweening:"
+  "python3-pytweening: PyTweening provides tweening (easing)"
+  "python3-pytweening: functions for animations."
+  "python3-pytweening:"
+  "python3-pytweening:"
+  "python3-pytweening:"
+  "python3-pytweening:"
+  "python3-pytweening:"
+  "python3-pytweening:"
+)
+
+build() {
+  cd "$SRC/$_srcname-$pkgver" || return 1
+
+  # Preserve the current dual-interpreter install behavior.
+  for pybin in python3.9 python3.11; do
+    "$pybin" setup.py install --root="$PKG" || return 1
+  done
+}

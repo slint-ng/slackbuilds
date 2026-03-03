@@ -1,0 +1,44 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Packager: sektor
+
+pkgname=python3-trove-classifiers
+_srcname=trove-classifiers
+pkgver=2024.3.3
+pkgrel=2slint
+source=("https://files.pythonhosted.org/packages/source/t/$_srcname/$_srcname-$pkgver.tar.gz")
+url="https://github.com/pypa/trove-classifiers"
+docs=("CONTRIBUTING.md" "LICENSE" "README.md")
+depends=("python")
+makedepends=("python-build" "python-installer" "python-wheel")
+options=("nosrcpack")
+
+slackdesc=(
+  #|-----handy-ruler------------------------------------------------------|
+  "python3-trove-classifiers: Canonical source for classifiers on PyPI"
+  "python3-trove-classifiers:"
+  "python3-trove-classifiers: Classifiers categorize projects."
+  "python3-trove-classifiers: Use this package to validate PyPI"
+  "python3-trove-classifiers: upload or download classifiers."
+  "python3-trove-classifiers:"
+  "python3-trove-classifiers: Homepage:"
+  "python3-trove-classifiers: https://github.com/pypa/trove-classifiers"
+  "python3-trove-classifiers:"
+  "python3-trove-classifiers:"
+)
+
+build() {
+  cd "$SRC/$_srcname-$pkgver" || return 1
+  python3.9 -m build --no-isolation || return 1
+  python3.9 -m installer --destdir="$PKG" dist/*.whl || return 1
+  python3.11 -m build --no-isolation || return 1
+  python3.11 -m installer --destdir="$PKG" dist/*.whl || return 1
+
+  find "$PKG"/usr/lib* -type d -path '*/site-packages/*.dist-info/licenses' 2>/dev/null | while read -r licenses_dir; do
+    dist_info_dir=${licenses_dir%/licenses}
+    find "$licenses_dir" -maxdepth 1 -type f | while read -r license_file; do
+      install -m 0644 "$license_file" "$dist_info_dir/$(basename "$license_file")" || return 1
+    done
+    rm -rf "$licenses_dir" || return 1
+  done
+}
