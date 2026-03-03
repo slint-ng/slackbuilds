@@ -1,0 +1,44 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Maintainer: Barry Grundy <bgrundy at linuxleo dot com>
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=pyparsing3.11
+_srcname=pyparsing
+pkgver=2.4.7
+pkgrel=1slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (parsing module for Python)"
+""
+"The pyparsing module provides classes to construct grammars"
+"directly in Python code as an alternative to regular"
+"expressions or lex/yacc-style parsers."
+""
+"Homepage: https://pypi.org/project/pyparsing/"
+)
+url="https://pypi.org/project/pyparsing/"
+license=("MIT")
+depends=("python")
+makedepends=("python-setuptools3.11")
+source=("https://files.pythonhosted.org/packages/source/p/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+  python3.11 setup.py install --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+  shopt -s nullglob
+  for doc in CHANGES LICENSE* PKG-INFO README* docs/HowToUsePyparsing.*; do
+    [[ -e $doc ]] || continue
+    cp -a "$doc" "$docdir/" || return 1
+  done
+  shopt -u nullglob
+
+  if [[ -r CHANGES ]]; then
+    head -n 1000 CHANGES > "$docdir/CHANGES" || return 1
+    touch -r CHANGES "$docdir/CHANGES" || return 1
+  fi
+}

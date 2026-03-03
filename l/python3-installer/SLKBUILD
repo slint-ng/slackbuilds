@@ -1,0 +1,43 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Maintainer: fourtysixandtwo <fourtysixandtwo@sliderr.net>
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python3-installer
+_srcname=installer
+pkgver=0.7.0
+pkgrel=1slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Low-level wheel installer library)"
+""
+"Low-level Python library for installing packages from wheel"
+"distributions."
+""
+"Homepage: https://github.com/pypa/installer"
+)
+url="https://github.com/pypa/installer"
+license=("MIT")
+depends=("python")
+makedepends=("python3-flit_core")
+source=("https://files.pythonhosted.org/packages/source/i/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  # Preserve the current package naming; the dummy python-installer package
+  # handles the historical rename to python3-installer during upgrades.
+  python3 -m flit_core.wheel || return 1
+  PYTHONPATH=src python3 -m installer --destdir="$PKG" dist/*.whl || return 1
+
+  install -d "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  for doc in CONTRIBUTING.md LICENSE PKG-INFO README.md; do
+    [[ -f $doc ]] || continue
+    install -m 0644 "$doc" "$PKG/usr/doc/$pkgname-$pkgver/$doc" || return 1
+  done
+  if [[ -d docs ]]; then
+    cp -a docs "$PKG/usr/doc/$pkgname-$pkgver/docs" || return 1
+    find "$PKG/usr/doc/$pkgname-$pkgver/docs" -type f -exec chmod 0644 {} + || return 1
+  fi
+}
