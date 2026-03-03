@@ -27,7 +27,7 @@ depends=(
   'python3-dasbus'
   'pygobject3.11'
   'python3-pluggy'
-  'setproctitle3.11'
+  'python3-setproctitle'
   'socat'
   'speech-dispatcher'
   'xkbcomp'

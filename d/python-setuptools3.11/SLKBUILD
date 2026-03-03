@@ -1,0 +1,46 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotr
+
+pkgname=python-setuptools3.11
+srcname=setuptools
+pkgver=80.9.0
+pkgrel=1slint
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (a collection of enhancements to Python distutils)"
+""
+"This is a full featured library designed to facilitate packaging"
+"Python projects. Features include Python package and module"
+"definitions, distribution package metadata, test hooks, project"
+"installation, and platform-specific details."
+""
+"Homepage: https://pypi.python.org/pypi/setuptools"
+)
+url="https://pypi.org/project/setuptools/"
+license=("MIT")
+arch=("x86_64")
+depends=("python3.11")
+source=("https://files.pythonhosted.org/packages/source/s/${srcname}/${srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  local docsDir
+
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+
+  rm -f setuptools/*.exe
+  python3.11 setup.py build install --root="$PKG" || return 1
+
+  mkdir -p "$docsDir" || return 1
+  cp -a CHANGES.rst PKG-INFO README.rst docs/*.txt "$docsDir" || return 1
+  find "$docsDir" -type f -exec chmod 0644 {} + || return 1
+
+  if [[ -r CHANGES.rst ]]; then
+    head -n 1000 CHANGES.rst > "$docsDir/CHANGES.rst" || return 1
+    touch -r CHANGES.rst "$docsDir/CHANGES.rst" || return 1
+  fi
+}

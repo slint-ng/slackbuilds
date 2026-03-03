@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # Maintainer: Storm Dragon <storm_dragon@linux-a11y.org>
 # Contributor: Didier Spaier
 pkgname='fenrir'
@@ -29,7 +30,7 @@ depends=('gstreamer'
   'python-pyte'
   'python-pyudev'
   'python-pyxdg'
-  'python-setproctitle'
+  'python3-setproctitle'
   'speech-dispatcher')
 optdepends=('socat: Control running Fenrir screenreader'
   'sox: sound driver'

@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # Maintainer: Sam Burgos <santiago.burgos1089@gmail.com>
 
 #Included in Slint by Didier Spaier didieratslintdotfr
@@ -14,7 +15,7 @@ depends=(
     'lightdm-slick-greeter'
     'polkit'
     'python-gobject'
-    'python-setproctitle'
+    'python3-setproctitle'
     'python-xapp'
 )
 optdepends=(

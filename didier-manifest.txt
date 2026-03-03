@@ -728,8 +728,7 @@ SDL3
 seahorse
 serd
 setconf
-setproctitle
-setproctitle3.11
+python3-setproctitle
 sharada-braille-writer
 simde
 simple-ccsm

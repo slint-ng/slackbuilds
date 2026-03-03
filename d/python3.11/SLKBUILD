@@ -1,0 +1,116 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2153
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python3.11
+srcname=Python
+pkgver=3.11.9
+pkgrel=3slint
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (object-oriented interpreted programming language, v3)"
+""
+"Python is an interpreted, interactive, object-oriented programming"
+"language that combines remarkable power with very clear syntax."
+"This is a new version of the language that is incompatible with the"
+"2.x line of releases. The language is mostly the same, but many"
+"details, especially how built-in objects like dictionaries and strings"
+"work, have changed considerably, and a lot of deprecated features have"
+"finally been removed. Also, the standard library has been reorganized"
+"in a few prominent places."
+)
+url="https://www.python.org/"
+license=("Python-2.0")
+arch=("x86_64")
+source=("https://www.python.org/ftp/python/${pkgver}/${srcname}-${pkgver}.tar.xz")
+options=("nosrcpack")
+
+doinst() {
+(
+  cd usr/doc/python3.11-3.11.9 || exit 1
+  rm -rf Tools
+  ln -sf /usr/lib64/python3.11/site-packages Tools
+)
+(
+  cd usr/lib64 || exit 1
+  rm -rf libpython3.11.so
+  ln -sf libpython3.11.so.1.0 libpython3.11.so
+)
+(
+  cd usr/bin || exit 1
+  rm -f 2to3 idle3 pydoc3 python3 python3-config
+  ln -sf 2to3-3.11 2to3
+  ln -sf idle3.11 idle3
+  ln -sf pydoc3.11 pydoc3
+  ln -sf python3.11 python3
+  ln -sf python3.11-config python3-config
+)
+}
+
+build() {
+  local branchVersion sitePkg toolsDir docDir
+
+  branchVersion="${pkgver%.*}"
+  sitePkg="$PKG/usr/lib${LIBDIRSUFFIX}/python${branchVersion}/site-packages"
+  toolsDir="/usr/lib${LIBDIRSUFFIX}/python${branchVersion}/site-packages"
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+
+  sed -i '1s|^#.*/usr/local/bin/python|#!/usr/bin/python3|' Lib/cgi.py || return 1
+
+  ./configure \
+    --prefix=/usr \
+    "--libdir=/usr/lib${LIBDIRSUFFIX}" \
+    "--with-platlibdir=lib${LIBDIRSUFFIX}" \
+    --mandir=/usr/man \
+    --docdir=/usr/doc/$pkgname-$pkgver \
+    --enable-ipv6 \
+    --enable-shared \
+    --with-computed-gotos \
+    --enable-optimizations \
+    --with-dbmliborder=gdbm:ndbm \
+    --with-system-expat \
+    --with-system-ffi \
+    --enable-loadable-sqlite-extensions \
+    --without-ensurepip \
+    --with-tzpath=/usr/share/zoneinfo \
+    --build="$ARCH-slackware-linux" || return 1
+
+  # NUMJOBS is intentionally word-split into make arguments.
+  # shellcheck disable=SC2086
+  make $NUMJOBS || make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  find "$PKG" -name 'libpython*.a' -exec rm -v {} + || return 1
+
+  mkdir -p "$PKG/usr/lib/python${branchVersion}/site-packages" || return 1
+  mkdir -p "$sitePkg" || return 1
+  cp -a Tools/* "$sitePkg" || return 1
+
+  find "$PKG" \( -name '*.exe' -o -name '*.bat' \) -delete || return 1
+  find "$PKG" -type f -perm 0555 -exec chmod 0755 {} + || return 1
+
+  mkdir -p "$docDir" || return 1
+  cp -a README.rst LICENSE Misc "$docDir" || return 1
+  rm -f "$docDir"/Misc/HISTORY \
+    "$docDir"/Misc/*.in \
+    "$docDir"/Misc/*.wpr \
+    "$docDir"/Misc/python.man \
+    "$docDir"/Misc/svnmap.txt
+  mv "$sitePkg/README" "$docDir/README.python-tools" || return 1
+  rm -rf "$docDir/Tools"
+  ln -sf "$toolsDir" "$docDir/Tools" || return 1
+
+  find "$PKG" -type d -exec chmod 0755 {} + || return 1
+  find "$PKG" -perm 0640 -exec chmod 0644 {} + || return 1
+  find "$PKG" -perm 0750 -exec chmod 0755 {} + || return 1
+
+  mkdir -p "$PKG/usr/bin" || return 1
+  ln -sf "2to3-${branchVersion}" "$PKG/usr/bin/2to3" || return 1
+  ln -sf "idle${branchVersion}" "$PKG/usr/bin/idle3" || return 1
+  ln -sf "pydoc${branchVersion}" "$PKG/usr/bin/pydoc3" || return 1
+  ln -sf "python${branchVersion}" "$PKG/usr/bin/python3" || return 1
+  ln -sf "python${branchVersion}-config" "$PKG/usr/bin/python3-config" || return 1
+}

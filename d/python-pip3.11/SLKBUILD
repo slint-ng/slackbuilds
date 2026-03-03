@@ -1,0 +1,61 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python-pip3.11
+srcname=pip
+pkgver=25.0.1
+pkgrel=1slint
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (tool for installing Python packages)"
+""
+"The PyPA recommended tool for installing Python packages."
+""
+"Homepage: https://pip.pypa.io/"
+)
+url="https://pip.pypa.io/"
+license=("MIT")
+arch=("x86_64")
+depends=("python3.11" "python-build" "python-installer3.11")
+source=("https://files.pythonhosted.org/packages/source/p/${srcname}/${srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+doinst() {
+(
+  cd usr/bin || exit 1
+  rm -f pip3
+  ln -sf pip3.11 pip3
+)
+}
+
+build() {
+  local docsDir
+
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+
+  python3.11 -m build --wheel --no-isolation || return 1
+  python3.11 -m installer --destdir "$PKG" dist/*.whl || return 1
+
+  find "$PKG" \( -name '*.dll' -o -name '*.exe' \) -delete || return 1
+
+  mkdir -p "$docsDir" || return 1
+  cp -a ./*.txt PKG-INFO README.rst "$docsDir" || return 1
+  find "$docsDir" -type f -exec chmod 0644 {} + || return 1
+
+  if [[ -r CHANGES.txt ]]; then
+    head -n 1000 CHANGES.txt > "$docsDir/CHANGES.txt" || return 1
+    touch -r CHANGES.txt "$docsDir/CHANGES.txt" || return 1
+  fi
+
+  cd "$PKG/usr/bin" || return 1
+  if [[ -f pip ]]; then
+    mv pip pip3.11 || return 1
+  fi
+  rm -f pip3
+  ln -sf pip3.11 pip3 || return 1
+  chmod 0755 pip3.11 || return 1
+}
