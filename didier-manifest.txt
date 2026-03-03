@@ -533,7 +533,7 @@ pygobject3.11
 pyinotify
 pyparsing3.11
 pyperclip
-python3.11
+python3
 python3-calver
 python3-dasbus
 python3-editables
@@ -610,7 +610,7 @@ python-packaging3.11
 python-patch-ng
 python-pdf2image
 python-pexpect
-python-pip3.11
+python3-pip
 python-pluginbase
 python-ptyprocess
 python-pyalsaaudio
@@ -636,7 +636,7 @@ python-scour
 python-semantic-version
 python-semver
 python-service-identity
-python-setuptools3.11
+python3-setuptools
 python-setuptools-rust
 python-setuptools_scm3.11
 python-sh

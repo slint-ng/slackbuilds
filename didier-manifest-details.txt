@@ -38,7 +38,7 @@ gettext/gettext-tools.SlackBuild 23 # Included in Slint by Didier Spaier didiera
 python-build/SLKBUILD 1 # Maintained by Didier Spaier didieratslintdotfr
 daisy-player/SLKBUILD 1 # Packaged by Didier Spaier <didier~at~slint~dot~fr>
 claws-mail/SLKBUILD 2 #Adapted for Slint by Didier Spaier <didier~at~slint~dot~fr>
-python-pip3.11/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-pip/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
 python-hatch-vcs3.11/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
 xvfb-run/README.Slint 19 Didier Spaier, 17 December 2018
 bamf/bamf.SlackBuild 28 # Included in Slint by Didier Spaier didieratslintdotfr
@@ -367,7 +367,7 @@ libffado/libffado.SlackBuild 27 # Included in Slint by Didier Spaier didieratsli
 vorbisgain/vorbisgain.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 Qogir-icon-theme/SLKBUILD 2 # Included in Slint by Didier Spaier didieratslint.fr
 i3withI38/perl-Canary-Stability/perl-Canary-Stability.SlackBuild 28 # Included in Slint by Didier Spaier didieratslintdotfr
-python3.11/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
+python3/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
 dae/SLKBUILD 1 # packager  Didier Spaier <didier~at~slint~dot~fr>
 python-smartypants/SLKBUILD 4 # Included in Slint by Didier Spaier didieratslintdotfr
 i3withI38/acpi/acpi.SlackBuild 25 # Included in Slint by Didier Spaier didieratslintdotfr
@@ -589,7 +589,7 @@ gtk-engine-murrine/SLKBUILD 7 #Included in Slint by Didier Spaier didieratslintd
 pybind11/pybind11.SlackBuild 28 # Included in Slint by Didier Spaier didieratslintdotfr
 p7zip/p7zip.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 perl-File-ShareDir-Install/perl-File-ShareDir-Install.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
-python-setuptools3.11/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotr
+python3-setuptools/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotr
 libdca/libdca.SlackBuild 27 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 gpart/gpart.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 dirac/dirac.SlackBuild 27 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>

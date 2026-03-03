@@ -2,7 +2,7 @@
 # shellcheck shell=bash disable=SC2034
 # Included in Slint by Didier Spaier didieratslintdotr
 
-pkgname=python-setuptools3.11
+pkgname=python3-setuptools
 srcname=setuptools
 pkgver=80.9.0
 pkgrel=1slint
@@ -21,7 +21,7 @@ slackdesc=\
 url="https://pypi.org/project/setuptools/"
 license=("MIT")
 arch=("x86_64")
-depends=("python3.11")
+depends=("python3")
 source=("https://files.pythonhosted.org/packages/source/s/${srcname}/${srcname}-${pkgver}.tar.gz")
 options=("nosrcpack")
 

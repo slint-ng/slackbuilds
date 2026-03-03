@@ -2,7 +2,7 @@
 # shellcheck shell=bash disable=SC2034
 # Included in Slint by Didier Spaier didieratslintdotfr
 
-pkgname=python-pip3.11
+pkgname=python3-pip
 srcname=pip
 pkgver=25.0.1
 pkgrel=1slint
@@ -18,7 +18,7 @@ slackdesc=\
 url="https://pip.pypa.io/"
 license=("MIT")
 arch=("x86_64")
-depends=("python3.11" "python-build" "python-installer3.11")
+depends=("python3" "python-build" "python-installer3.11")
 source=("https://files.pythonhosted.org/packages/source/p/${srcname}/${srcname}-${pkgver}.tar.gz")
 options=("nosrcpack")
 

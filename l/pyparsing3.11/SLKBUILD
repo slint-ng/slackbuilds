@@ -20,7 +20,7 @@ slackdesc=(
 url="https://pypi.org/project/pyparsing/"
 license=("MIT")
 depends=("python")
-makedepends=("python-setuptools3.11")
+makedepends=("python3-setuptools")
 source=("https://files.pythonhosted.org/packages/source/p/${_srcname}/${_srcname}-${pkgver}.tar.gz")
 options=("nosrcpack")
 

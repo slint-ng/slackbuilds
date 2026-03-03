@@ -2,7 +2,7 @@
 # shellcheck shell=bash disable=SC2034,SC2153
 # Included in Slint by Didier Spaier didieratslintdotfr
 
-pkgname=python3.11
+pkgname=python3
 srcname=Python
 pkgver=3.11.9
 pkgrel=3slint
@@ -28,7 +28,7 @@ options=("nosrcpack")
 
 doinst() {
 (
-  cd usr/doc/python3.11-3.11.9 || exit 1
+  cd usr/doc/python3-3.11.9 || exit 1
   rm -rf Tools
   ln -sf /usr/lib64/python3.11/site-packages Tools
 )

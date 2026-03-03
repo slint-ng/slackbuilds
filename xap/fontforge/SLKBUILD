@@ -1,3 +1,4 @@
+# shellcheck shell=bash disable=SC2034
 # Maintainer: Gaetan Bisson <bisson@archlinux.org>
 # Contributor: Eric Belanger <eric@archlinux.org>
 # Contributor: William Rea <sillywilly@gmail.com>
@@ -21,8 +22,8 @@ slackdesc=\
 
 url='https://fontforge.github.io/'
 arch=('x86_64')
-makedepends=('cmake' 'git' 'python-sphinx' 'python3.11')
-depends=('libtool' 'pango' 'giflib' 'libtiff' 'libxml2' 'libspiro' 'python3.11'
+makedepends=('cmake' 'git' 'python-sphinx' 'python3')
+depends=('libtool' 'pango' 'giflib' 'libtiff' 'libxml2' 'libspiro' 'python3'
          'potrace' 'woff2' 'gtk3' 'libuninameslist')
 source=("https://github.com/${pkgname}/${pkgname}/releases/download/${pkgver}/${pkgname}-${pkgver}.tar.xz"
         "fontforge-msgfmt-no-check.patch")

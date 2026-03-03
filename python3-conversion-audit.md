@@ -18,9 +18,9 @@ These packages are version-specific, bootstrap-sensitive, or core ABI packages w
 
 ### Interpreter And Bootstrap Packages
 
-- `d/python3.11`
-- `d/python-pip3.11`
-- `d/python-setuptools3.11`
+- `d/python3`
+- `d/python3-pip`
+- `d/python3-setuptools`
 - `l/python-installer3.11`
 - `l/python-wheel3.11`
 - `l/python-packaging3.11`

@@ -18,7 +18,7 @@ Right now the system is split across:
 
 - `python2`
 - `python3.9`
-- `python3.11`
+- `python3`
 - package names that sometimes mean "generic Python 3"
 - package names that sometimes mean "built for a specific Python 3 minor"
 
@@ -133,7 +133,7 @@ Rebuild core packages first, because almost everything else depends on them.
 
 Suggested early rebuild set:
 
-- `python3.11` itself, with `python3` symlink policy settled
+- `python3` itself, with `python3` symlink policy settled
 - setuptools/build/install tooling
 - wheel/build helpers
 - packaging support libraries
@@ -199,7 +199,8 @@ Slint should pick one naming convention and apply it consistently.
 
 Recommended long-term rule:
 
-- interpreter package may be versioned if needed: `python3.11`
+- default interpreter package should be `python3`
+- default packaging tools should be `python3-pip` and `python3-setuptools`
 - generic Python 3 libraries should use stable names without a minor suffix
 - dependency metadata for Python 3 libraries should refer to those stable names
 

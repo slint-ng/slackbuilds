@@ -19,7 +19,7 @@ slackdesc=(
 url="https://importlib-metadata.readthedocs.io/"
 license=("Apache-2.0")
 depends=("python" "python-zipp")
-makedepends=("python-setuptools3.11")
+makedepends=("python3-setuptools")
 source=("https://files.pythonhosted.org/packages/source/i/${_srcname}/${_srcname}-${pkgver}.tar.gz")
 options=("nosrcpack")
 
