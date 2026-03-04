@@ -667,7 +667,7 @@ python-wheel3.11
 python-wsaccel
 python-xlib
 python-zipp
-python-zope-interface
+python3-zope-interface
 qcontrolcenter
 qemu
 qjackctl

@@ -43,7 +43,7 @@ python3-pip/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
 python-hatch-vcs3.11/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
 xvfb-run/README.Slint 19 Didier Spaier, 17 December 2018
 bamf/bamf.SlackBuild 28 # Included in Slint by Didier Spaier didieratslintdotfr
-python-zope-interface/python-zope-interface.SlackBuild 25 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+python3-zope-interface/SLKBUILD 3 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 xvfb-run/xvfb-run.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 net-snmp-nomariadb/net-snmp-nomariadb.SlackBuild 23 # Included in Slint by DidierSpaier didieratslintdotfr
 perl-ExtUtils-Config/perl-ExtUtils-Config.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr

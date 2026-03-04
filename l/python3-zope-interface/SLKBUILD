@@ -2,7 +2,7 @@
 # shellcheck shell=bash disable=SC2034
 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 
-pkgname=python-zope-interface
+pkgname=python3-zope-interface
 _srcname=zope.interface
 pkgver=5.4.0
 pkgrel=3slint
@@ -16,8 +16,8 @@ slackdesc=(
 "Homepage: https://pypi.org/project/zope.interface/"
 )
 url="https://pypi.org/project/zope.interface/"
-depends=("python")
-makedepends=("python-setuptools")
+depends=("python3")
+makedepends=("python3-setuptools")
 source=("https://files.pythonhosted.org/packages/source/z/${_srcname}/${_srcname}-${pkgver}.tar.gz")
 options=("nosrcpack")
 

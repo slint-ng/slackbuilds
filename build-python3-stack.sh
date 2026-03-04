@@ -17,6 +17,7 @@ packageList=(
   "l/python3-requests"
   "l/python3-attrs"
   "l/python3-six"
+  "l/python3-zope-interface"
   "l/python-automat"
   "l/python3-constantly"
   "l/python3-incremental"
