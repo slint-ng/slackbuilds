@@ -5,7 +5,7 @@
 #Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=yt-dlp-ejs
 pkgver=0.5.0
-pkgrel=3slint
+pkgrel=4slint
 export commit=e91d03f
 export srcname=ejs
 slackdesc="$pkgname (External JavaScript for yt-dlp supporting many runtimes)"
@@ -14,6 +14,8 @@ license=(Unlicense)
 depends=(deno
          python)
 makedepends=(git
+             nodejs
+             pnpm
              python3-build
              python-hatch-vcs
              python3-hatchling
