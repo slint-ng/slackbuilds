@@ -7,7 +7,6 @@ pkgver=0.41.0
 pkgrel=1slint
 source=(
   "https://github.com/mpv-player/mpv/archive/refs/tags/v${pkgver}.tar.gz"
-  "dynamically_generate_desktop_file_protocols.patch"
 )
 url="https://github.com/mpv-player/mpv"
 license=("GPL2")
@@ -60,8 +59,6 @@ doinst() {
 
 build() {
   cd "$SRC/$pkgname-$pkgver" || return 1
-
-  patch -p1 < "$SRC/dynamically_generate_desktop_file_protocols.patch" || return 1
 
   meson setup \
     --prefix=/usr \
