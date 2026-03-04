@@ -23,6 +23,11 @@ build() {
   docDir="$PKG/usr/doc/$pkgname-$pkgver"
 
   cd "$SRC/${srcname}-${pkgver}" || return 1
+
+  # New upstream classifiers can outrun the trove-classifiers package
+  # shipped in the current build root.
+  sed -i '/Programming Language :: Python :: 3.14/d' pyproject.toml || return 1
+
   python3 setup.py install --root="$PKG" || return 1
 
   install -d "$docDir" || return 1
