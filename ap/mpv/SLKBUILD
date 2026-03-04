@@ -4,13 +4,13 @@
 
 pkgname=mpv
 pkgver=0.41.0
-pkgrel=2slint
+pkgrel=3slint
 source=(
   "https://github.com/mpv-player/mpv/archive/refs/tags/v${pkgver}.tar.gz"
 )
 url="https://github.com/mpv-player/mpv"
 license=("GPL2")
-makedepends=("meson" "ninja" "python3")
+makedepends=("meson" "ninja" "python3" "python-docutils")
 docs=("Copyright*" "LICENSE*" "README*" "RELEASE_NOTES*")
 options=("nosrcpack")
 
@@ -58,6 +58,16 @@ doinst() {
 }
 
 build() {
+  local manpageBuild
+
+  manpageBuild=enabled
+
+  if ! command -v rst2man >/dev/null 2>&1; then
+    manpageBuild=disabled
+  elif ! python3 -c 'import docutils' >/dev/null 2>&1; then
+    manpageBuild=disabled
+  fi
+
   cd "$SRC/$pkgname-$pkgver" || return 1
 
   meson setup \
@@ -72,7 +82,7 @@ build() {
     --sysconfdir=/etc \
     --localstatedir=/var \
     --buildtype=release \
-    -Dmanpage-build=enabled \
+    "-Dmanpage-build=$manpageBuild" \
     -Dlibmpv=true \
     -Dcdda=enabled \
     -Ddvdnav=enabled \
