@@ -1,13 +1,15 @@
+# shellcheck shell=bash disable=SC2034,SC2154
 #Packager: Didier Spaier <didier~at~slint~dot~fr>
 
 pkgname=orca
-pkgver=49.5
+pkgver=50.rc
 pkgrel=1slint
 
-source=("$pkgname-$pkgver.tar.xz")
-docs=("AUTHORS" "COPYING" "MAINTAINERS" "NEWS" "README" "orca-$pkgver.alpha.news")
+source=()
+docs=("AUTHORS" "COPYING" "MAINTAINERS" "NEWS" "README.md")
 url=http://live.gnome.org/Orca/
 options=('nosrcpack')
+makedepends=('git' 'meson' 'ninja')
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|
@@ -19,24 +21,25 @@ slackdesc=\
 )
 
 build() {
-	#git clone https://github.com/GNOME/orca.git
-	#cd orca
-	#git checkout 029cf5a
-	cd ${pkgname}-${pkgver} || exit
+	cd "$SRC" || exit 1
+	rm -rf "$pkgname-$pkgver"
+	git clone -b "$pkgver" https://gitlab.gnome.org/GNOME/orca.git \
+		"$pkgname-$pkgver" || exit 1
+	cd "$pkgname-$pkgver" || exit 1
 	CFLAGS="$SLKCFLAGS" \
 	CXXFLAGS="$SLKCFLAGS" \
 	PYTHON=/usr/bin/python3.11 \
 	meson setup --errorlogs \
 		--buildtype=release \
 		--infodir=/usr/info \
-		--libdir=/usr/lib${LIBDIRSUFFIX} \
+		"--libdir=/usr/lib${LIBDIRSUFFIX}" \
 		--localstatedir=/var \
 		--mandir=/usr/man \
 		--prefix=/usr \
 		--sysconfdir=/etc \
 		_build
 	meson compile -C _build
-	meson install -C _build --destdir=$PKG
+	meson install -C _build --destdir="$PKG"
 	# No autostart but orca will be started:
 	# - at system level by gdm or lightdm if wished
 	# - by the user in graphical environments if ~/autostart/startorca.desktop
@@ -44,15 +47,15 @@ build() {
 	# The a11y parameters are copied from orcaprofile in ~/.profile
 	# by usersettings during installation if sound was used, or by the
 	# script orca-on shipped in the slint-misc package.
-	rm -rf $startdir/pkg/etc/xdg
-	mkdir -p $startdir/pkg/usr/share/orca
-	chmod -R 755 $startdir/pkg/usr/share
-	cp $startdir/orcaprofile $startdir/pkg/usr/share/orca/
-	chmod -R 644 $startdir/pkg/usr/share/orca/orcaprofile
+	rm -rf "$startdir"/pkg/etc/xdg
+	mkdir -p "$startdir"/pkg/usr/share/orca
+	chmod -R 755 "$startdir"/pkg/usr/share
+	cp "$startdir"/orcaprofile "$startdir"/pkg/usr/share/orca/
+	chmod -R 644 "$startdir"/pkg/usr/share/orca/orcaprofile
 	(
-	cd $startdir/pkg/usr/bin  || exit
+	cd "$startdir"/pkg/usr/bin  || exit
 	sed "s;#!/usr/bin/python3;#!/usr/bin/python3.11;" orca > bof
 	mv bof orca
-	chmod 755 $startdir/pkg/usr/bin/orca
+	chmod 755 "$startdir"/pkg/usr/bin/orca
 	)
 }
