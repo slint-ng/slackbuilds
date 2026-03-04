@@ -653,7 +653,7 @@ python-toml
 python-tomli3.11
 python-tqdm
 python3-twisted
-python-txaio
+python3-txaio
 python-txtorcon
 python-urllib3
 python-urlscan

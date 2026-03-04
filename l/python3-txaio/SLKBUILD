@@ -2,7 +2,7 @@
 # shellcheck shell=bash disable=SC2034
 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 
-pkgname=python-txaio
+pkgname=python3-txaio
 _srcname=txaio
 pkgver=22.2.1
 pkgrel=1slint
@@ -16,8 +16,8 @@ slackdesc=(
 "Homepage: https://pypi.org/project/txaio/"
 )
 url="https://pypi.org/project/txaio/"
-depends=("python")
-makedepends=("python-setuptools")
+depends=("python3")
+makedepends=("python3-setuptools")
 source=("https://files.pythonhosted.org/packages/source/t/${_srcname}/${_srcname}-${pkgver}.tar.gz")
 options=("nosrcpack")
 

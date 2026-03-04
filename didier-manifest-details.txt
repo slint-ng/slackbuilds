@@ -101,7 +101,7 @@ libdvbpsi/libdvbpsi.SlackBuild 25 # Included in Slint by Didier Spaier <didier~a
 ipw2200-fw/ipw2200-fw.SlackBuild 23 # Included in Slint by Didier Spaier didieratlintdotfr 
 perl-Encode-JISX0213/perl-Encode-JISX0213.SlackBuild 5 # Copyright 2014 Didier Spaier, Paris, France
 alsa-utils/alsa-utils.SlackBuild 23 # Included in Slint by Didier Spaier didieratslintdotfr
-python-txaio/python-txaio.SlackBuild 25 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+python3-txaio/SLKBUILD 3 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 glib2.84/glib2.SlackBuild 23 # Included in Slint by Didier Spaier didieratslintdotfr
 fail2ban/fail2ban.SlackBuild 29 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 spice/spice.SlackBuild 26 # Included in Slint by Didier Spaier didieratslintdotfr

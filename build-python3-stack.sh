@@ -33,7 +33,7 @@ packageList=(
   "l/python3-pycparser"
   "l/python3-cffi"
   "l/python3-pynacl"
-  "l/python-txaio"
+  "l/python3-txaio"
   "l/python-wsaccel"
   "l/python-tqdm"
   "l/python3-spake2"
