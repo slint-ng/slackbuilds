@@ -8,7 +8,7 @@ pkgrel=2slint
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|
-"python3-cryptography (package designed to expose cryptographic recipes)"
+"python3-cryptography package designed to expose cryptographic recipes"
 "and primitives to Python developers"
 )
 arch=('x86_64')
