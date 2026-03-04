@@ -9,7 +9,6 @@ pkgver=4.9.4
 pkgrel=1slint
 source=("https://files.pythonhosted.org/packages/source/l/${srcname}/${srcname}-${pkgver}.tar.gz")
 sourcetemplate=http://people.salixos.org/laprjns/$pkgname/$pkgver/
-docs=("CREDITS.txt" "LICENSE.txt" "LICENSES.txt" "README.rst TOTO.txt" "BSD.txt"  "GPL.txt"  "ZopePublicLicense.txt" "elementtree.txt")
 options=('nosrcpack')
 
 slackdesc=\
@@ -23,8 +22,11 @@ slackdesc=\
 )
 
 build() {
+	local docDir
+	local docFile
 	local sourceDir
 
+	docDir="$PKG/usr/doc/$pkgname-$pkgver"
 	sourceDir="$(find . "$SRC" -maxdepth 2 -type d -name "${srcname}-${pkgver}" 2>/dev/null | head -n 1)"
 	if [[ -z "$sourceDir" ]]; then
 		return 1
@@ -34,4 +36,10 @@ build() {
 	python3 setup.py build --with-unicode-strings --without-cython || return 1
 	make html || return 1
 	python3 setup.py install --prefix=/usr --root="$PKG" --skip-build --optimize=1 || return 1
+
+	install -d "$docDir" || return 1
+	for docFile in CREDITS.txt LICENSE.txt LICENSES.txt README.rst TODO.txt BSD.txt GPL.txt ZopePublicLicense.txt elementtree.txt; do
+		[[ -e "$docFile" ]] || continue
+		cp -a "$docFile" "$docDir/" || return 1
+	done
 }
