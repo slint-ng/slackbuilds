@@ -9,6 +9,7 @@ python-cffi;python3-cffi
 python-diff-match-patch;python3-diff-match-patch
 python-fasteners;python3-fasteners
 python-filetype;python3-filetype
+python-i3ipc;python3-i3ipc
 python-lxml;python3-lxml
 python3-numpy;numpy3
 python-pep517;python3-pep517

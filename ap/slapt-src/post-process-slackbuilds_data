@@ -15,6 +15,7 @@ s/cython/python3-cython/g
 s/python3-babel/python-babel/g
 s/python3-dateutil/python-dateutil/g
 s/python3-fasteners/python-fasteners/g
+s/python3-i3ipc/python-i3ipc/g
 s/python3-diff-match-patch/python-diff-match-patch/g
 s/numpy3/python3-numpy/g
 s/pyOpenSSL/python3-openssl/g

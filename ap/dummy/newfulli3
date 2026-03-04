@@ -12,7 +12,7 @@ perl-JSON-MaybeXS
 perl-Types-Serialiser
 perl-pango
 playerctl
-python-i3ipc
+python3-i3ipc
 python-pytesseract
 remind
 xcb-util-xrm

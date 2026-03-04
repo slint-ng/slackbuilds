@@ -389,7 +389,7 @@ i3withI38/clipster/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslint
 ostree/ostree.SlackBuild 26 # Included in Slint by Didier Spaier didieratslintdotfr
 brltty/brltty-installer.SlackBuild 4 # Copyright 2014 Didier Spaier, Paris, France
 openbox-themes-extra/openbox-themes-extra.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
-i3withI38/python-i3ipc/SLKBUILD 4 # Included in Slint by Didier Spaier didieratslintdotfr 
+python3-i3ipc/SLKBUILD 3 # Included in Slint Python 3.11 migration
 i3withI38/xclip/xclip.SlackBuild 28 # Included in Slint by Didier Spaier didieratslintdotfr
 ebook-speaker/SLKBUILD 1 # Packaged by Didier Spaier <didier~at~slint~dot~fr>
 latest-browsers/latest-thunderbird.sh 31 #Included in Slint by Didier Spaier didieratslintdotfr

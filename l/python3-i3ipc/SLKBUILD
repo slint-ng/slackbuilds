@@ -1,0 +1,30 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint Python 3.11 migration
+
+_srcname=i3ipc-python
+pkgname=python3-i3ipc
+pkgver=2.2.1
+pkgrel=1slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"python3-i3ipc (Python 3 library to control i3wm)"
+""
+"An improved Python 3 library to control i3wm."
+)
+url="https://github.com/altdesktop/${_srcname}"
+license=("BSD")
+conflicts=("i3ipc-python")
+replaces=("i3ipc-python")
+depends=("python3" "python3-xlib")
+makedepends=("python3-setuptools")
+source=("https://github.com/altdesktop/${_srcname}/archive/${pkgver}/${_srcname}-${pkgver}.tar.gz")
+docs=("LICENSE" "CHANGELOG.md")
+options=("nosrcpack")
+
+build() {
+  cd "${_srcname}-${pkgver}" || return 1
+  python3 setup.py build || return 1
+  python3 setup.py install --root="$PKG" --optimize=1 --skip-build || return 1
+  install -Dm755 -t "$PKG/usr/doc/${pkgname}-${pkgver}/examples" examples/*.py || return 1
+}

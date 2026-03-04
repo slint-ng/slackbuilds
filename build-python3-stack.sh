@@ -75,7 +75,7 @@ packageList=(
   "l/python3-setuptools-scm"
   "l/python3-numpy"
   "l/python3-pythran"
-  "l/python-i3ipc"
+  "l/python3-i3ipc"
   "l/python3-setproctitle"
   "l/python3-tomli"
   "l/python3-pyparsing"
