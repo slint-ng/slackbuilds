@@ -7,18 +7,10 @@ pkgname=python3-lxml
 export srcname=lxml
 pkgver=4.9.4
 pkgrel=1slint
-#arch=noarch
 source=("https://files.pythonhosted.org/packages/source/l/${srcname}/${srcname}-${pkgver}.tar.gz")
 sourcetemplate=http://people.salixos.org/laprjns/$pkgname/$pkgver/
 docs=("CREDITS.txt" "LICENSE.txt" "LICENSES.txt" "README.rst TOTO.txt" "BSD.txt"  "GPL.txt"  "ZopePublicLicense.txt" "elementtree.txt")
-#dotnew=()
-#CFLAGS=
-#CXXFLAGS=
 options=('nosrcpack')
-
-#doinst() {
-#
-#}
 
 slackdesc=\
 (
@@ -31,7 +23,14 @@ slackdesc=\
 )
 
 build() {
-	cd "$SRC/${srcname}-$pkgver" || return 1
+	local sourceDir
+
+	sourceDir="$SRC/${srcname}-$pkgver"
+	if [[ ! -d "$sourceDir" ]]; then
+		sourceDir="$(pwd)/${srcname}-$pkgver"
+	fi
+
+	cd "$sourceDir" || return 1
 	python3 setup.py build --with-unicode-strings --without-cython || return 1
 	make html || return 1
 	python3 setup.py install --prefix=/usr --root="$PKG" --skip-build --optimize=1 || return 1
