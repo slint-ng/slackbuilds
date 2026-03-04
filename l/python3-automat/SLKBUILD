@@ -3,9 +3,9 @@
 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 
 pkgname=python3-automat
-_srcname=Automat
-pkgver=20.2.0
-pkgrel=2slint
+export srcname=Automat
+pkgver=25.4.16
+pkgrel=1slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (self-service finite-state machines)"
@@ -14,25 +14,19 @@ slackdesc=(
 "of finite-state automata, particularly deterministic"
 "finite-state transducers."
 ""
-"Homepage: https://pypi.org/project/Automat/"
+"Homepage: https://github.com/glyph/automat"
 )
-url="https://pypi.org/project/Automat/"
+url="https://github.com/glyph/automat"
 depends=("python3")
-makedepends=("python3-setuptools")
-source=("https://files.pythonhosted.org/packages/source/A/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+makedepends=("python-build" "python-installer3.11" "python3-setuptools" "python-wheel3.11")
+source=("https://files.pythonhosted.org/packages/source/A/${srcname}/${srcname}-${pkgver}.tar.gz")
 options=("nosrcpack")
 
 build() {
-  cd "$SRC/${_srcname}-${pkgver}" || return 1
+  cd "$SRC/${srcname}-${pkgver}" || return 1
 
-  sed -i \
-    -e 's/from m2r import parse_from_file/from pathlib import Path/' \
-    -e "s/long_description = parse_from_file('README.md')/long_description = Path('README.md').read_text(encoding=\"utf-8\")/" \
-    -e "s/use_scm_version=True/version='$pkgver'/" \
-    setup.py || return 1
-  sed -i '/setup_requires=\[/,/\],/d' setup.py || return 1
-
-  python3 setup.py install --root="$PKG" || return 1
+  python3 -m build --wheel --no-isolation || return 1
+  python3 -m installer --destdir="$PKG" dist/*.whl || return 1
 
   docdir="$PKG/usr/doc/$pkgname-$pkgver"
   install -d "$docdir" || return 1
