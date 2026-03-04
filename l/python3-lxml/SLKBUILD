@@ -34,7 +34,6 @@ build() {
 
 	cd "$sourceDir" || return 1
 	python3 setup.py build --with-unicode-strings --without-cython || return 1
-	make html || return 1
 	python3 setup.py install --prefix=/usr --root="$PKG" --skip-build --optimize=1 || return 1
 
 	install -d "$docDir" || return 1
