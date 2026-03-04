@@ -6,8 +6,10 @@ python-build;python3-build
 python-dateutil;python3-dateutil
 python-deprecation;python3-deprecation
 python-cffi;python3-cffi
+python-diff-match-patch;python3-diff-match-patch
 python-fasteners;python3-fasteners
 python-filetype;python3-filetype
+python-lxml;python3-lxml
 python3-numpy;numpy3
 python-pep517;python3-pep517
 python-pexpect;python3-pexpect
@@ -15,9 +17,11 @@ python-ptyprocess;python3-ptyprocess
 python-pyasn1;python3-pyasn1
 python-pyasn1-modules;python3-pyasn1-modules
 python-pycryptodomex;python3-pycryptodomex
+python-distutils-extra;python3-distutils-extra
 python3-pyenchant;pyenchant
 python3-pyperclip;pyperclip
 python3-evdev;python-evdev
+pyinotify;python3-pyinotify
 python-pyjwt;python3-pyjwt
 python-pylast;pylast
 python3-pynacl;pynacl
@@ -31,6 +35,7 @@ python-twisted;python3-twisted
 python-txaio;python3-txaio
 python-wcwidth;python3-wcwidth
 python-websockets;python3-websockets
+python-xlib;python3-xlib
 python-click;python3-click
 python-openssl;python3-openssl
 python-txtorcon;python3-txtorcon

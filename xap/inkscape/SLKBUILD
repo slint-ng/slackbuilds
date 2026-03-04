@@ -33,7 +33,7 @@ depends=(
 	'potrace'
 	'python'
 	'python-cssselect'
-	'python-lxml'
+	'python3-lxml'
 	'python3-numpy'
 	'ttf-font'
 )

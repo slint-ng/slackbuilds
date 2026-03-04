@@ -17,7 +17,7 @@ license=('MIT')
 url="https://github.com/PyO3/setuptools-rust"
 depends=('rust' 'python3-setuptools' 'python3-semantic-version')
 makedepends=('python3-build' 'python3-installer' 'python3-setuptools-scm' 'python3-wheel')
-checkdepends=('python-pytest' 'python-pytest-benchmark' 'python-beautifulsoup4' 'python-lxml' 'python-cffi')
+checkdepends=('python-pytest' 'python-pytest-benchmark' 'python-beautifulsoup4' 'python3-lxml' 'python-cffi')
 source=("https://files.pythonhosted.org/packages/source/s/setuptools-rust/setuptools_rust-${pkgver}.tar.gz")
 sha256sums=('d94a93f0c97751c17014565f07bdc324bee45d396cd1bba83d8e7af92b945f0c')
 

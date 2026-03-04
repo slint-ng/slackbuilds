@@ -2,13 +2,13 @@
 # shellcheck shell=bash disable=SC2034
 # Included in Slint by Didier Spaier didieratslintdotfr
 
-pkgname=pyinotify
+pkgname=python3-pyinotify
 pkgver=0.9.6
 pkgrel=2slint
 url="https://github.com/seb-m/pyinotify"
-depends=("python")
-makedepends=("python-setuptools")
-source=("https://files.pythonhosted.org/packages/source/p/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+depends=("python3")
+makedepends=("python3-setuptools")
+source=("https://files.pythonhosted.org/packages/source/p/pyinotify/pyinotify-${pkgver}.tar.gz")
 options=("nosrcpack")
 
 slackdesc=(
@@ -22,7 +22,7 @@ slackdesc=(
 )
 
 build() {
-  cd "$SRC/$pkgname-$pkgver" || return 1
+  cd "$SRC/pyinotify-$pkgver" || return 1
 
   sed -i '/^compile_ext_mod/s|=.*|= True|' setup.py || return 1
   python3 setup.py install --root="$PKG" || return 1

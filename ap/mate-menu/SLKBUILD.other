@@ -11,8 +11,8 @@ docs=("copying" "authors" "README.html")
 options=("nosrcpack")
 url="https://github.com/ubuntu-mate/mate-menu"
 license=('GPL')
-depends=('mate-panel' 'python-configobj' 'python3-gobject' 'python-pyinotify' 'python-xdg' 'python-xlib' 'xdg-utils' 'python3-setproctitle' 'mate-menus' 'python3-cairo')
-makedepends=('python-distutils-extra' 'python3-setuptools')
+depends=('mate-panel' 'python-configobj' 'python3-gobject' 'python3-pyinotify' 'python-xdg' 'python3-xlib' 'xdg-utils' 'python3-setproctitle' 'mate-menus' 'python3-cairo')
+makedepends=('python3-distutils-extra' 'python3-setuptools')
 source=("https://github.com/ubuntu-mate/mate-menu/archive/$pkgver.tar.gz")
 sha256sums=('36aa865b72664b8cc90d9c1c429fd3c44e2c198369aae4eaaa87228a5add075c')
 

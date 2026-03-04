@@ -149,7 +149,7 @@ libslirp/libslirp.SlackBuild 27 # Included in Slint by Didier Spaier didieratsli
 sysbench/sysbench.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 orca-plugin/build-orca-plugin.sh 3 #Packager  Didier Spaier <didier~at~slint~dot~fr>
 xsettingsd/xsettingsd.SlackBuild 29 # Included in Slint by Didier Spaier didieratslintdotfr
-python-xlib/python-xlib.SlackBuild 10 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-xlib/SLKBUILD 10 # Included in Slint by Didier Spaier didieratslintdotfr
 gnustep-make/gnustep-make.SlackBuild 25 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 perl-Unicode-LineBreak/perl-Unicode-LineBreak.SlackBuild 5 # Originally written 2014 Didier Spaier, Paris, France
 perl-Unicode-LineBreak/perl-Unicode-LineBreak.SlackBuild 15 # 20241216 Didier Spaier
@@ -213,7 +213,7 @@ compizconfig-python/SLKBUILD 1 # Packaged by Didier Spaier <didier~at~slint~dot~
 rubygem-hashery/rubygem-hashery.SlackBuild 3 # Maintainer  Didier Spaier didier@slint dot fr
 libass/libass.SlackBuild 28 # Included in Slint by Didier Spaier didieratslintdotfr
 perl-extutils-depends/perl-extutils-depends.SlackBuild 29 # Included in Slint by Didier Spaier didieratslintdotfr
-python-lxml/SLKBUILD 2 #Modified for Slint by Didier Spaier <didier~at~slint~dot~fr>
+python3-lxml/SLKBUILD 2 #Modified for Slint by Didier Spaier <didier~at~slint~dot~fr>
 perl-Test-Warnings/perl-Test-Warnings.SlackBuild 30 # Included in Slint by Didier Spaier didieratslintdotfr
 mousetweaks/SLKBUILD 4 #Included in Slint by Didier Spaier didieratslintdotfr
 python3-pygments/SLKBUILD 3 # Included in  Slint by Didier Spaier diideratsintdotfr
@@ -474,14 +474,14 @@ rubygem-ronn/rubygem-ronn.SlackBuild 25 # Modified for Slint by Didier Spaier <d
 Maintenance-of-the-repository/meta_repo.sh 2 # Author  Didier Spaier, Paris, France
 python3-txtorcon/SLKBUILD 29 # Didier Spaier <didier~at~slint~dot~fr>
 qt5/qt5.SlackBuild 30 #Included in Slint by Didier Spaier didieratslintdotfr
-pyinotify/pyinotify.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-pyinotify/SLKBUILD 27 # Included in Slint by Didier Spaier didieratslintdotfr
 python3-wheel/SLKBUILD 25 # Included in Slint by Didier Spaier didieratslintdotfr
 python-cchardet/python-cchardet.SlackBuild 25 # Included in Slint by Didier Spaier diideratsintdotfr
 portaudio/SLKBUILD 2 # Included in Slint by Didier Spaier didieratslintdotfr
 libgccjit/libgccjit.SlackBuild 5 # script and the following notes - Didier Spaier
 libgccjit/libgccjit.SlackBuild 126 # Temporary build location (this what I use for Slint, edit that as you see fit - Didier)  
 rlwrap/rlwrap.SlackBuild 11 # Included in Slint by Didier Spaier didieratslintdotfr
-python-diff-match-patch/SLKBUILD 4 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-diff-match-patch/SLKBUILD 4 # Included in Slint by Didier Spaier didieratslintdotfr
 emacspeak-ss/SLKBUILD 4 # Included in Slint by Didier Spaier didieratslintdotfr
 telegram-purple/SLKBUILD 1 # Maintainer  Didier Spaier <didier~at~slint~dot~fr>
 lightdm-settings/start_graphically_with_gnsu_not_pkexec.diff 1 lightdm-settings needs a "graphical su" to start from a menu or the mate-control-center - Didier Spaier
@@ -737,7 +737,7 @@ fcron/rc.fcron 8 # Included in Slint by Didier Spaier
 tzupdate/SLKBUILD 1 #Packager  Didier Saier <didier~at~slint~dot~fr>
 unifdef/unifdef.SlackBuild 11 # Included in Slint by Didier Spaier didieratslintdotfr
 perl-Test-RequiresInternet/perl-Test-RequiresInternet.SlackBuild 25 # Included in Slint by Didier Spaier didieratslintdotfr
-python-distutils-extra/python-distutils-extra.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-distutils-extra/SLKBUILD 27 # Included in Slint by Didier Spaier didieratslintdotfr
 flatpak/SLKBUILD 2 # Updated and modified for Slint by Didier Spaier didieratslintdotfr
 gtksourceview4/gtksourceview4.SlackBuild 31 # Included in Slint by Didier Spaier didieratslintdotfr
 rubygem-safe_yaml/rubygem-safe_yaml.SlackBuild 3 # Maintainer  Didier Spaier didier@slint dot fr

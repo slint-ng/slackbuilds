@@ -14,8 +14,8 @@ slackdesc=("$pkgname (A toolkit to convert between translation formats)"
 url="https://toolkit.translatehouse.org/"
 docs=("COPYING" "CREDITS" "LICENSEs" "README.rst")
 license=('GPL')
-depends=('bash' 'python-lxml' 'python3-six' 'python-diff-match-patch')
-makedepends=('python-setuptools')
+depends=('bash' 'python3-lxml' 'python3-six' 'python3-diff-match-patch')
+makedepends=('python3-setuptools')
 optdepends=('gaupol: for po2sub'
             'python3-chardet: encoding detector'
             'python-levenshtein: faster matching'

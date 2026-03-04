@@ -1,11 +1,14 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
 #Packager: Richard Lapointe <richard@laprjns.com>
 #Modified for Slint by Didier Spaier <didier~at~slint~dot~fr>
 
-pkgname=python-lxml
+pkgname=python3-lxml
+export srcname=lxml
 pkgver=4.9.4
 pkgrel=1slint
 #arch=noarch
-source=(https://github.com/lxml/lxml/archive/refs/tags/lxml-${pkgver}.tar.gz)
+source=("https://github.com/lxml/lxml/archive/refs/tags/${srcname}-${pkgver}.tar.gz")
 sourcetemplate=http://people.salixos.org/laprjns/$pkgname/$pkgver/
 docs=("CREDITS.txt" "LICENSE.txt" "LICENSES.txt" "README.rst TOTO.txt" "BSD.txt"  "GPL.txt"  "ZopePublicLicense.txt" "elementtree.txt")
 #dotnew=()
@@ -28,8 +31,8 @@ slackdesc=\
 )
 
 build() {
-	cd $startdir/src/lxml-lxml-$pkgver
-	python3 setup.py build --with-unicode-strings
-	make html
-	python3 setup.py install --prefix=/usr --root=$PKG --skip-build --optimize=1
+	cd "$SRC/${srcname}-${srcname}-$pkgver" || return 1
+	python3 setup.py build --with-unicode-strings || return 1
+	make html || return 1
+	python3 setup.py install --prefix=/usr --root="$PKG" --skip-build --optimize=1 || return 1
 }
