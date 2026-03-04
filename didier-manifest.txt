@@ -651,7 +651,7 @@ python-tesserwrap
 python-textconfig
 python-toml
 python-tomli3.11
-python-tqdm
+python3-tqdm
 python3-twisted
 python3-txaio
 python-txtorcon

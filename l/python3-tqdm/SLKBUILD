@@ -2,8 +2,8 @@
 # shellcheck shell=bash disable=SC2034
 # Included in Slint by Didier Spaier didieratslintdotfr
 
-pkgname=python-tqdm
-_srcname=tqdm
+pkgname=python3-tqdm
+srcname=tqdm
 pkgver=4.63.0
 pkgrel=1slint
 slackdesc=(
@@ -16,13 +16,13 @@ slackdesc=(
 "Homepage: https://github.com/tqdm/tqdm"
 )
 url="https://github.com/tqdm/tqdm"
-depends=("python")
-makedepends=("python-setuptools")
-source=("https://files.pythonhosted.org/packages/source/t/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+depends=("python3")
+makedepends=("python3-setuptools")
+source=("https://files.pythonhosted.org/packages/source/t/${srcname}/${srcname}-${pkgver}.tar.gz")
 options=("nosrcpack")
 
 build() {
-  cd "$SRC/${_srcname}-${pkgver}" || return 1
+  cd "$SRC/${srcname}-${pkgver}" || return 1
 
   python3 setup.py install --root="$PKG" || return 1
 

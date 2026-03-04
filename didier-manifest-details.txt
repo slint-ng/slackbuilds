@@ -678,7 +678,7 @@ compiz-plugins-main/change_the_keybinding_for_switch_filter.diff 2 the screen re
 edbrowse/SLKBUILD 1 #Maintainer  Didier Spaier <didier~at~slint~dot~fr>
 nim/nim.SlackBuild 29 # Included in Slint by Didier Spaier didieratslintdotfr
 rubygem-ruby-rc4/rubygem-ruby-rc4.SlackBuild 3 # Maintainer  Didier Spaier didier@slint dot fr
-python-tqdm/python-tqdm.SlackBuild 25 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-tqdm/SLKBUILD 26 # Included in Slint by Didier Spaier didieratslintdotfr
 python-deprecation/SLKBUILD 3 #included in Slint by Didier Spaier didieratslintdotfr
 libbonobo/libbonobo.SlackBuild 25 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 libpeas/libpeas.SlackBuild 26 # Maintained in Slint by Didier Spaier <didier~at~slint~dot~fr>

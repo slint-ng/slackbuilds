@@ -37,7 +37,7 @@ packageList=(
   "l/python3-pynacl"
   "l/python3-txaio"
   "l/python-wsaccel"
-  "l/python-tqdm"
+  "l/python3-tqdm"
   "l/python3-spake2"
   "l/python3-twisted"
   "l/python3-autobahn"
