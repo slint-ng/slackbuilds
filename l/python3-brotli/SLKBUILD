@@ -18,14 +18,13 @@ url='https://github.com/google/brotli'
 arch=('x86_64')
 license=('MIT')
 makedepends=(
-  git
   cmake
   python3-setuptools
   python3-build
   python3-installer
   python3-wheel
 )
-source=("${pkgbase}-${pkgver}.tar.gz")
+source=("https://github.com/google/brotli/archive/refs/tags/v${pkgver}.tar.gz")
 sha512sums=('SKIP')
 docs=('LICENSE')
 options=("nosrcpack")
