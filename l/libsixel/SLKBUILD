@@ -2,7 +2,7 @@
 # shellcheck shell=bash disable=SC2034
 
 pkgname=libsixel
-export srcname=sixel
+export srcname=libsixel
 pkgver=1.8.6
 pkgrel=2slint
 url="https://github.com/saitoha/libsixel"
