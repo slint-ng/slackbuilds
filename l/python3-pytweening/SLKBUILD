@@ -5,7 +5,7 @@
 pkgname=python3-pytweening
 _srcname=pytweening
 pkgver=1.2.0
-pkgrel=2slint
+pkgrel=3slint
 source=("https://files.pythonhosted.org/packages/source/p/$_srcname/$_srcname-$pkgver.tar.gz")
 url="https://github.com/asweigart/pytweening"
 depends=("python3")

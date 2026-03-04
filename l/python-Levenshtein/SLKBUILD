@@ -5,7 +5,7 @@
 pkgname=python-Levenshtein
 _srcname=python-Levenshtein
 pkgver=0.12.2
-pkgrel=1slint
+pkgrel=2slint
 url="https://pypi.org/project/python-Levenshtein/"
 depends=("python")
 makedepends=("python-setuptools")

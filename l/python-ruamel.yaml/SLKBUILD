@@ -5,7 +5,7 @@
 pkgname=python-ruamel.yaml
 _srcname=ruamel.yaml
 pkgver=0.17.21
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (YAML 1.2 parser and emitter)"

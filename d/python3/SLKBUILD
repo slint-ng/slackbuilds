@@ -6,7 +6,7 @@ pkgname=python3
 srcname=Python
 export srcname
 pkgver=3.11.9
-pkgrel=3slint
+pkgrel=4slint
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|

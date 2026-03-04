@@ -6,7 +6,7 @@
 pkgname=python3-urllib3
 _srcname=urllib3
 pkgver=1.26.8
-pkgrel=1slint
+pkgrel=2slint
 source=("https://files.pythonhosted.org/packages/source/u/urllib3/${_srcname}-${pkgver}.tar.gz")
 url="https://urllib3.readthedocs.io/"
 license=("MIT")

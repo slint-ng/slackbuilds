@@ -7,7 +7,7 @@
 
 pkgname=python3-hkdf
 pkgver=0.0.3
-pkgrel=3slint
+pkgrel=4slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (Implementation of the HMAC Key Derivation function)"

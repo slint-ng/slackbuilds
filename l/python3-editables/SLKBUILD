@@ -6,7 +6,7 @@
 pkgname=python3-editables
 _srcname=editables
 pkgver=0.5
-pkgrel=3slint
+pkgrel=4slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (A Python library for creating editable wheels)"

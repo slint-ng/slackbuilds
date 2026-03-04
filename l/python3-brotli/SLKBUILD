@@ -12,7 +12,7 @@ export pkgbase
 pkgname=python3-brotli
 _gitcommit=ed738e842d2fbdf2d6459e39267a633c4a9b2f5d
 pkgver=1.0.9
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (python bindings for the brotli algorithm)"
 url='https://github.com/google/brotli'
 arch=('x86_64')

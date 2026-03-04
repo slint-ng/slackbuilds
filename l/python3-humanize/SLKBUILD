@@ -6,7 +6,7 @@
 _pkgname=humanize
 pkgname=python3-humanize
 pkgver=4.0.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|

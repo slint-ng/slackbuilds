@@ -6,7 +6,7 @@
 pkgname=python3-chardet
 _srcname=chardet
 pkgver=4.0.0
-pkgrel=1slint
+pkgrel=2slint
 source=("https://files.pythonhosted.org/packages/source/c/chardet/chardet-$pkgver.tar.gz")
 url="https://github.com/chardet/chardet"
 license=("LGPL")

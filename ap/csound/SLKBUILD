@@ -5,7 +5,7 @@
 # build deps: faust,portmidi,libmicrohttpd,fltk,liblo,portaudio,jack-audio-connection-kit,swig,fluidsynth,alsa,pulseaudio,openjdk
 pkgname=csound
 pkgver=6.17.0
-pkgrel=1slint
+pkgrel=2slint
 source=("https://github.com/csound/csound/archive/6.17.0.tar.gz" "README.doc")
 docs=("AUTHORS" "COPYING" "README.doc")
 url="http://csound.com/"

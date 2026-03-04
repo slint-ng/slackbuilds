@@ -4,7 +4,7 @@
 pkgname=libsixel
 export srcname=libsixel
 pkgver=1.8.6
-pkgrel=2slint
+pkgrel=3slint
 url="https://github.com/saitoha/libsixel"
 source=(
   "https://github.com/saitoha/libsixel/archive/refs/tags/v${pkgver}.tar.gz"

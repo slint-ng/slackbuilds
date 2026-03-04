@@ -4,7 +4,7 @@
 
 pkgname=sharada-braille-writer
 pkgver=3.7.4
-pkgrel=1slint
+pkgrel=2slint
 docs=("README.html" "changelog" "copyright" "user-preferences.cfg")
 
 # version as indicated in debian/changelog in the github source repository at time

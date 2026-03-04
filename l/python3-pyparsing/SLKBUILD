@@ -6,7 +6,7 @@
 pkgname=python3-pyparsing
 _srcname=pyparsing
 pkgver=2.4.7
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (parsing module for Python)"

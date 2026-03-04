@@ -5,7 +5,7 @@
 pkgname=python3-constantly
 _srcname=constantly
 pkgver=15.1.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (symbolic constants in Python)"

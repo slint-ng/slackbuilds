@@ -5,7 +5,7 @@
 pkgname=python3-zope-interface
 _srcname=zope.interface
 pkgver=5.4.0
-pkgrel=3slint
+pkgrel=4slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (Zope 3 Interface Infrastructure)"

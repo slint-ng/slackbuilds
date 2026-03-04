@@ -6,7 +6,7 @@ pkgname=python3-gobject
 srcname=pygobject
 export srcname
 pkgver=3.52.3
-pkgrel=1slint
+pkgrel=2slint
 source=("https://download.gnome.org/sources/${srcname}/${pkgver%.*}/${srcname}-${pkgver}.tar.gz")
 url="https://live.gnome.org/PyGObject"
 makedepends=('meson' 'ninja' 'python3')

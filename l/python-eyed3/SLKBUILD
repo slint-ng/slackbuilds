@@ -5,7 +5,7 @@
 pkgname=python-eyed3
 _srcname=eyeD3
 pkgver=0.9.6
-pkgrel=1slint
+pkgrel=2slint
 url="http://eyed3.nicfit.net/"
 depends=("python")
 makedepends=("python-setuptools")

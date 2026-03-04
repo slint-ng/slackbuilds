@@ -9,7 +9,7 @@
 
 pkgname=ulauncher
 pkgver=5.15.15
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (Application launcher for Linux)"
 #arch=('any')
 url="https://ulauncher.io"

@@ -5,7 +5,7 @@
 pkgname=python-scour
 _srcname=scour
 pkgver=0.38.2
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (SVG cleanup utility)"

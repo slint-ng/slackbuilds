@@ -3,7 +3,7 @@
 
 pkgname=orca
 pkgver=50.rc
-pkgrel=1slint
+pkgrel=2slint
 
 source=()
 docs=("AUTHORS" "COPYING" "MAINTAINERS" "NEWS" "README.md")

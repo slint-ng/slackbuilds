@@ -5,7 +5,7 @@
 pkgname=python3-mouseinfo
 _srcname=MouseInfo
 pkgver=0.1.3
-pkgrel=2slint
+pkgrel=3slint
 source=("https://files.pythonhosted.org/packages/28/fa/b2ba8229b9381e8f6381c1dcae6f4159a7f72349e414ed19cfbbd1817173/MouseInfo-$pkgver.tar.gz")
 url="https://github.com/asweigart/mouseinfo"
 depends=("python3")

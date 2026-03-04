@@ -6,7 +6,7 @@ pkgname=python3-pyenchant
 srcname=pyenchant
 export srcname
 pkgver=3.2.2
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (A spellchecking library for Python 3)"
 url="https://github.com/rfk/pyenchant"
 license=("LGPL")

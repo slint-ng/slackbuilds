@@ -6,7 +6,7 @@ pkgname=python3-evdev
 srcname=evdev
 export srcname
 pkgver=1.4.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (Python 3 input event library)"
 url="http://python-evdev.readthedocs.org/en/latest/"
 license=("BSD")

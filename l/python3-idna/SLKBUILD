@@ -6,7 +6,7 @@ pkgname=python3-idna
 srcname=idna
 export srcname
 pkgver=3.3
-pkgrel=1slint
+pkgrel=2slint
 source=("https://files.pythonhosted.org/packages/source/i/idna/idna-$pkgver.tar.gz")
 url="https://github.com/kjd/idna"
 license=("BSD-3-Clause")

@@ -4,7 +4,7 @@
 
 pkgname=liblouis
 pkgver=3.30.0
-pkgrel=2slint
+pkgrel=3slint
 source=("https://github.com/liblouis/liblouis/releases/download/v3.30.0/liblouis-3.30.0.tar.gz")
 docs=("AUTHORS" "ChangeLog" "COPYING" "COPYING.LESSER" "AUTHORS" "NEWS" "README")
 url=http://liblouis.org/

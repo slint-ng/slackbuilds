@@ -7,7 +7,7 @@
 pkgname=python3-espeak
 export srcname=python-espeak
 pkgver=0.5
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|

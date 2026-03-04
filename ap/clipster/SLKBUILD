@@ -5,7 +5,7 @@
 pkgname=clipster
 commit=53899b1
 pkgver=git$commit
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="clipster (Python clipboard manager)"
 url="https://github.com/mrichar1/clipster"
 license=("AGPL")

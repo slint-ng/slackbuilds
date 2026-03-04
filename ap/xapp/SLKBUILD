@@ -8,7 +8,7 @@
 
 pkgname=xapp
 pkgver=2.8.2
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=" $pkgname (Common library for X-Apps project)"
 arch=(x86_64)
 url="https://github.com/linuxmint/${pkgname}"

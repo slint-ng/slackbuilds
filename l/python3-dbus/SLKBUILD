@@ -6,7 +6,7 @@ pkgname=python3-dbus
 srcname=dbus-python
 export srcname
 pkgver=1.4.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|

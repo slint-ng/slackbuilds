@@ -6,7 +6,7 @@ pkgname=python3-pyudev
 srcname=pyudev
 export srcname
 pkgver=0.23.2
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (Pure Python 3 libudev binding)"
 url="http://python-pyudev.readthedocs.org"
 license=("LGPL")

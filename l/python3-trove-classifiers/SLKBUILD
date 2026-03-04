@@ -6,7 +6,7 @@ pkgname=python3-trove-classifiers
 srcname=trove-classifiers
 export srcname
 pkgver=2024.3.3
-pkgrel=2slint
+pkgrel=3slint
 source=("https://files.pythonhosted.org/packages/source/t/$srcname/$srcname-$pkgver.tar.gz")
 url="https://github.com/pypa/trove-classifiers"
 docs=("CONTRIBUTING.md" "LICENSE" "README.md")

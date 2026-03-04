@@ -6,7 +6,7 @@
 
 pkgname=python3-hatch-vcs
 pkgver=0.5.0
-pkgrel=1slint
+pkgrel=2slint
 export srcname=hatch-vcs
 slackdesc="$pkgname (Hatch plugin for versioning with your VCS)"
 url="https://github.com/ofek/hatch-vcs"

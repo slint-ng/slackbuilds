@@ -4,7 +4,7 @@
 #Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=lightdm-settings
 pkgver=2.0.1
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (Configuration tool for the LightDM display manager)"
 docs=("copying" "authors" "README.html")
 options=("nosrcpack")

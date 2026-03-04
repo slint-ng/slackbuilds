@@ -5,7 +5,7 @@
 pkgname=python3-txaio
 _srcname=txaio
 pkgver=22.2.1
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (source code compatibility for Twisted/Trollius)"

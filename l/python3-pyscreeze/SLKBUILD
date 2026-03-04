@@ -4,7 +4,7 @@
 pkgname=python3-pyscreeze
 export srcname=pyscreeze
 pkgver=1.0.1
-pkgrel=1slint
+pkgrel=2slint
 url="https://github.com/asweigart/pyscreeze"
 depends=("python3" "python3-pillow" "python3-xlib")
 makedepends=("python3-setuptools")

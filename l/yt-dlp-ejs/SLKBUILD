@@ -5,7 +5,7 @@
 #Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=yt-dlp-ejs
 pkgver=0.5.0
-pkgrel=1slint
+pkgrel=2slint
 export commit=e91d03f
 export srcname=ejs
 slackdesc="$pkgname (External JavaScript for yt-dlp supporting many runtimes)"

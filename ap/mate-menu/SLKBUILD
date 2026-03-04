@@ -6,7 +6,7 @@
 pkgname=mintmenu
 export commit=a09d499
 pkgver=git$commit
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (Advanced menu for MATE Panel)"
 docs=("copying" "authors" "README.html")
 options=("nosrcpack")

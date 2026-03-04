@@ -6,7 +6,7 @@ pkgname=python3-cffi
 srcname=cffi
 export srcname
 pkgver=2.0.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (Foreign Function Interface for Python 3)"
 url="https://cffi.readthedocs.io/"
 license=("MIT")

@@ -6,7 +6,7 @@ pkgname=python3-twisted
 srcname=Twisted
 export srcname
 pkgver=21.2.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (Python networking engine)"

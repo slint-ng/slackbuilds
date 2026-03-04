@@ -3,7 +3,7 @@
 # Maintained by Didier Spaier didieratslintdotfr
 pkgname=python3-build
 pkgver=0.7.0
-pkgrel=2slint
+pkgrel=3slint
 slackdesc="$pkgname (A simple, correct PEP 517 build frontend.)"
 url="https://github.com/conan-io/python-patch/"
 license=('MIT')

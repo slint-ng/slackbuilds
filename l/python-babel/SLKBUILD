@@ -5,7 +5,7 @@
 pkgname=python-babel
 _srcname=babel
 pkgver=2.9.1
-pkgrel=1slint
+pkgrel=2slint
 _cldrver=37
 url="https://babel.pocoo.org/"
 depends=("python")

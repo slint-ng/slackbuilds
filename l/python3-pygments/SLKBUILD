@@ -5,7 +5,7 @@
 # Included in  Slint by Didier Spaier diideratsintdotfr
 pkgname=python3-pygments
 pkgver=2.11.2
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (Python syntax highlighter)"
 url="https://pygments.org/"
 license=('BSD')

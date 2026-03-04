@@ -6,7 +6,7 @@
 pkgname=python3-calver
 _srcname=calver
 pkgver=2022.6.26
-pkgrel=3slint
+pkgrel=4slint
 source=("https://files.pythonhosted.org/packages/source/c/calver/${_srcname}-${pkgver}.tar.gz")
 url="https://github.com/di/calver"
 license=("Apache-2.0")

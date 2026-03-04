@@ -4,7 +4,7 @@
 
 pkgname=pyinotify
 pkgver=0.9.6
-pkgrel=1slint
+pkgrel=2slint
 url="https://github.com/seb-m/pyinotify"
 depends=("python")
 makedepends=("python-setuptools")

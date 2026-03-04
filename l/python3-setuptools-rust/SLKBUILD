@@ -11,7 +11,7 @@ pkgname=python3-setuptools-rust
 srcname=setuptools_rust
 export srcname
 pkgver=1.12.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (compile Python extensions written in rust.)"
 license=('MIT')
 url="https://github.com/PyO3/setuptools-rust"

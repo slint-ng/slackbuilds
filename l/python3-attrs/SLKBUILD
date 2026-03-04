@@ -6,7 +6,7 @@ pkgname=python3-attrs
 srcname=attrs
 export srcname
 pkgver=21.4.0
-pkgrel=2slint
+pkgrel=3slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (attributes without boilerplate)"

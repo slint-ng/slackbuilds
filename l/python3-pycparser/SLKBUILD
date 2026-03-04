@@ -6,7 +6,7 @@ pkgname=python3-pycparser
 srcname=pycparser
 export srcname
 pkgver=2.23
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (C parser in Python 3)"
 url="https://github.com/eliben/pycparser"
 license=("BSD-3-Clause")

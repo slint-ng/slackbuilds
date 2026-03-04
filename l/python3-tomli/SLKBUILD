@@ -6,7 +6,7 @@
 pkgname=python3-tomli
 _srcname=tomli
 pkgver=1.2.2
-pkgrel=2slint
+pkgrel=3slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (A lil' TOML parser)"

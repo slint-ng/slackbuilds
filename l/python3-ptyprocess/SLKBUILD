@@ -5,7 +5,7 @@
 
 pkgname=python3-ptyprocess
 pkgver=0.7.0
-pkgrel=1slint
+pkgrel=2slint
 url="https://pypi.python.org/pypi/ptyprocess"
 license=("ISC")
 depends=("python3")

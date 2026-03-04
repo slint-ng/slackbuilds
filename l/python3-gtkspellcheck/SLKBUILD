@@ -4,7 +4,7 @@
 pkgname=python3-gtkspellcheck
 _srcname=pygtkspellcheck
 pkgver=5.0.3
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (Spell-check library for GTK)"
 url='https://github.com/koehlma/pygtkspellcheck'
 license=('GPL-3.0-or-later')

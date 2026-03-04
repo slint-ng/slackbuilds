@@ -6,7 +6,7 @@ pkgname=python3-six
 srcname=six
 export srcname
 pkgver=1.17.0
-pkgrel=1slint
+pkgrel=2slint
 source=("https://files.pythonhosted.org/packages/source/s/${srcname}/${srcname}-${pkgver}.tar.gz")
 url="https://pypi.org/project/six/"
 license=("MIT")

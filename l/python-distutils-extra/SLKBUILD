@@ -4,7 +4,7 @@
 
 pkgname=python-distutils-extra
 pkgver=2.39
-pkgrel=1slint
+pkgrel=2slint
 url="https://launchpad.net/python-distutils-extra"
 depends=("python")
 makedepends=("python-setuptools")

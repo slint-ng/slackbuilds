@@ -5,7 +5,7 @@
 pkgname=python3-miniirc
 _srcname=miniirc
 pkgver=1.10.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (A straightforward IRC client library for Python)"
 url="https://github.com/luk3yx/miniirc"
 license=('MIT')

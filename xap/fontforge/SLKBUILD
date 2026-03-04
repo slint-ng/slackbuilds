@@ -7,7 +7,7 @@
 
 pkgname=fontforge
 pkgver=20201107
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=\
 (
 "fontforge: fontforge (an outline font editor)"

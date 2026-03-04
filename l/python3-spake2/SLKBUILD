@@ -5,7 +5,7 @@
 # Didier Spaier <didier~at~slint~dot~fr>
 pkgname='python3-spake2'
 pkgver=0.8
-pkgrel=2slint
+pkgrel=3slint
 _pkgname='spake2'
 slackdesc=\
 (

@@ -6,7 +6,7 @@ pkgname=python3-colorama
 srcname=colorama
 export srcname
 pkgver=0.4.4
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (Cross-platform colored terminal text)"
 url="https://github.com/tartley/colorama"
 license=("BSD-3-Clause")

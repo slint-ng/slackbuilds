@@ -5,7 +5,7 @@
 pkgname=python3-automat
 export srcname=automat
 pkgver=25.4.16
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (self-service finite-state machines)"

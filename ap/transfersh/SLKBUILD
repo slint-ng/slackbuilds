@@ -4,7 +4,7 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=transfersh
 pkgver=1.4.1
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="transfersh (Unofficial command-line client for https://transfer.sh)"
 url="https://github.com/AlpixTM/transfersh"
 license=('AGPL')

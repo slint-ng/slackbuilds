@@ -8,7 +8,7 @@ pkgbase='python3-txtorcon'
 _pkgname='txtorcon'
 pkgname='python3-txtorcon'
 pkgver=21.1.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|

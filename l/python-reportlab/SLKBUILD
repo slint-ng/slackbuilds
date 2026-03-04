@@ -5,7 +5,7 @@
 pkgname=python-reportlab
 _srcname=reportlab
 pkgver=3.6.9
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (PDF generation toolkit)"

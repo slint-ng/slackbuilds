@@ -5,7 +5,7 @@
 pkgname=python-alabaster
 _srcname=alabaster
 pkgver=0.7.12
-pkgrel=1slint
+pkgrel=2slint
 url="https://alabaster.readthedocs.io/"
 depends=("python")
 makedepends=("python-setuptools")

@@ -6,7 +6,7 @@ pkgname=python3-requests
 srcname=requests
 export srcname
 pkgver=2.32.5
-pkgrel=1slint
+pkgrel=2slint
 source=("https://files.pythonhosted.org/packages/source/r/requests/requests-$pkgver.tar.gz")
 url="http://docs.python-requests.org/en/master/"
 docs=("*.rst" "LICENSE*" "NOTICE" "PKG-INFO")

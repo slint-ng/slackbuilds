@@ -6,7 +6,7 @@
 export _name=pytesseract
 pkgname=python-pytesseract
 pkgver=0.3.10
-pkgrel=2slint
+pkgrel=3slint
 slackdesc="$pkgname (Python wrapper for Google Tesseract)"
 url=https://github.com/madmaze/pytesseract
 license=('Apache')

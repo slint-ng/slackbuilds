@@ -6,7 +6,7 @@
 pkgname=python3-pathspec
 _srcname=pathspec
 pkgver=0.12.1
-pkgrel=10slint
+pkgrel=11slint
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|

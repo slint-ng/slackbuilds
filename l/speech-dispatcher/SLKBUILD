@@ -3,7 +3,7 @@
 
 pkgname=speech-dispatcher
 pkgver=0.12.1
-pkgrel=1slint
+pkgrel=2slint
 export arch=x86_64
 srcname=speech-dispatcher
 export srcname

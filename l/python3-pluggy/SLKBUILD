@@ -4,7 +4,7 @@
 
 pkgname=python3-pluggy
 pkgver=1.5.0
-pkgrel=3slint
+pkgrel=4slint
 source=()
 url="https://github.com/pytest-dev/pluggy"
 depends=('python3')

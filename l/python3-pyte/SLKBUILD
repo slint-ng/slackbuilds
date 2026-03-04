@@ -5,7 +5,7 @@
 pkgname=python3-pyte
 _srcname=pyte
 pkgver=0.8.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (VTXXX-compatible terminal emulator in Python)"

@@ -6,7 +6,7 @@
 #Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=python-rdflib
 pkgver=6.2.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (A Python library for working with RDF)"
 docs=("copying*" "authors*" "README* LICENSE" )
 options=("nosrcpack")

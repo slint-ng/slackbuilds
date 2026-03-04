@@ -3,7 +3,7 @@
 # Contributor: Didier Spaier
 pkgname='fenrir'
 pkgver=2026.01.28
-pkgrel=2slint
+pkgrel=3slint
 source=(https://git.stormux.org/storm/fenrir/archive/${pkgver}.tar.gz)
 slackdesc=\
 (

@@ -5,7 +5,7 @@
 pkgname=python-magic
 _srcname=python-magic
 pkgver=0.4.25
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (ctypes bindings for libmagic)"

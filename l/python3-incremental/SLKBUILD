@@ -5,7 +5,7 @@
 pkgname=python3-incremental
 _srcname=incremental
 pkgver=21.3.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (Python projects versioning)"

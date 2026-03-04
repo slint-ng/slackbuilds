@@ -5,7 +5,7 @@
 pkgname=python-node-semver
 _srcname=node-semver
 pkgver=0.8.1
-pkgrel=2slint
+pkgrel=3slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (Semantic Versioning helpers)"

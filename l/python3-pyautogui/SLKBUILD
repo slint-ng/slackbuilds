@@ -5,7 +5,7 @@
 pkgname=python3-pyautogui
 _srcname=PyAutoGUI
 pkgver=0.9.54
-pkgrel=2slint
+pkgrel=3slint
 source=("https://files.pythonhosted.org/packages/65/ff/cdae0a8c2118a0de74b6cf4cbcdcaf8fd25857e6c3f205ce4b1794b27814/PyAutoGUI-0.9.54.tar.gz")
 url="https://github.com/asweigart/pyautogui"
 depends=("python3")

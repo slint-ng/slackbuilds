@@ -4,7 +4,7 @@
 pkgname=python3-pyasn1-modules
 _srcname=pyasn1-modules
 pkgver=0.2.8
-pkgrel=1slint
+pkgrel=2slint
 arch=x86_64
 source=("https://files.pythonhosted.org/packages/source/p/pyasn1-modules/${_srcname}-${pkgver}.tar.gz")
 url="https://pypi.python.org/pypi/pyasn1-modules/"

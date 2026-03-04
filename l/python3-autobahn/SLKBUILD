@@ -5,7 +5,7 @@
 pkgname=python3-autobahn
 _srcname=autobahn
 pkgver=22.2.2
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (WebSocket and WAMP for Python)"

@@ -7,7 +7,7 @@
 pkgname=python3-pythran
 export srcname=pythran
 pkgver=0.11.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (Ahead of Time compiler for numeric kernels)"
 url='https://pythran.readthedocs.io/'
 license=(BSD)

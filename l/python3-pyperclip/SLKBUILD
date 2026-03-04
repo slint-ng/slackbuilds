@@ -8,7 +8,7 @@
 pkgname=python3-pyperclip
 export commit=e16fa9c33
 pkgver=git$commit
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (A cross-platform clipboard module for Python)"
 url="https://github.com/asweigart/pyperclip"
 license=('BSD-3-Clause')

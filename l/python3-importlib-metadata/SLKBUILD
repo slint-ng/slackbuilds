@@ -6,7 +6,7 @@
 pkgname=python3-importlib-metadata
 _srcname=importlib_metadata
 pkgver=4.8.2
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (Python package metadata access library)"

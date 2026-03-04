@@ -5,7 +5,7 @@
 pkgname=python3-pyasn1
 _srcname=pyasn1
 pkgver=0.4.8
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (ASN.1 types and codecs in Python)"

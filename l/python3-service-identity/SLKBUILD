@@ -5,7 +5,7 @@
 pkgname=python3-service-identity
 _srcname=service-identity
 pkgver=21.1.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (service identity verification for pyOpenSSL)"

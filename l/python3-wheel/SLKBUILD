@@ -6,7 +6,7 @@
 pkgname=python3-wheel
 _srcname=wheel
 pkgver=0.41.2
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (Python wheel package format)"

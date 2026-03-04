@@ -5,7 +5,7 @@
 pkgname=python3-wcwidth
 _srcname=wcwidth
 pkgver=0.2.5
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (measure terminal cell widths in Python)"

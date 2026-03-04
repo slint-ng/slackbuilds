@@ -6,7 +6,7 @@
 pkgname=mate-applet-dock
 _pkgname=mate-dock-applet
 pkgver=21.10.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (Application dock for the MATE panel)"
 docs=("copying" "authors" "README.html")
 options=("nosrcpack")
