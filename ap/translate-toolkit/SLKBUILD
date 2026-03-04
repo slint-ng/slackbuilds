@@ -8,7 +8,7 @@
 
 pkgname=translate-toolkit
 pkgver=3.8.4
-pkgrel=2slint
+pkgrel=3slint
 slackdesc=("$pkgname (A toolkit to convert between translation formats)"
 "$pkgname helps process and validate localisations")
 url="https://toolkit.translatehouse.org/"
@@ -24,8 +24,15 @@ source=(https://github.com/translate/translate/archive/$pkgver.tar.gz)
 sha256sums=('dd82e3b2ba865617051ccec130eb8254aa34edeeaffaa47553e791aae9d62227')
 
 build() {
+  local sitePackages
+
   cd $SRC/translate-$pkgver
 #  patch -p1 --verbose < $SRC/python3.5_compat.patch  || exit 1
   python3 -s setup.py install --root=$PKG --optimize=1
-  python3 -m compileall "$PKG/usr/lib64/python3.11/site-packages/translate"
+  sitePackages="$(python3 - <<'PY'
+import sysconfig
+print(sysconfig.get_paths()["purelib"])
+PY
+)" || return 1
+  python3 -m compileall "$PKG$sitePackages/translate"
 }

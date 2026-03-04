@@ -6,7 +6,7 @@ pkgname=python3-dbus
 srcname=dbus-python
 export srcname
 pkgver=1.4.0
-pkgrel=2slint
+pkgrel=3slint
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|
@@ -45,7 +45,7 @@ build() {
     --localstatedir=/var \
     --buildtype=release \
     -Dinstalled_tests=false \
-    -Dpython=python3.11 || return 1
+    -Dpython=python3 || return 1
 
   # numjobs is intentionally expanded as a make-style argument list.
   # shellcheck disable=SC2086

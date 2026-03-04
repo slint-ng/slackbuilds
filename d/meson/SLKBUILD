@@ -3,7 +3,7 @@
 
 pkgname=meson
 pkgver=1.7.0
-pkgrel=1slint
+pkgrel=2slint
 source=("https://github.com/mesonbuild/meson/releases/download/${pkgver}/${pkgname}-${pkgver}.tar.gz")
 url="https://github.com/mesonbuild/meson"
 
@@ -27,7 +27,7 @@ slackdesc=\
 build() {
   cd "$SRC/$pkgname-$pkgver" || exit 1
 
-  python3.11 setup.py install --root="$PKG" || exit 1
+  python3 setup.py install --root="$PKG" || exit 1
 
   if [[ -d "$PKG/usr/share/man" ]]; then
     mkdir -p "$PKG/usr"

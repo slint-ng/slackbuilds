@@ -6,7 +6,7 @@
 pkgname=python3-setproctitle
 _srcname=setproctitle
 pkgver=1.3.3
-pkgrel=2slint
+pkgrel=3slint
 export srcnam="py-setproctitle-version"
 slackdesc="$pkgname (lets a Python process change its title)"
 license=("BSD")
@@ -22,6 +22,6 @@ docs=("COPYRIGHT" "HISTORY.rst" "README.html")
 build() {
     cd "$_srcname-$pkgver" || exit 1
     pandoc -f rst -t html5 -o README.html README.rst || exit 1
-    python3.11 -m build --wheel --no-isolation || exit 1
-    python3.11 -m installer --destdir="$PKG" dist/*.whl || exit 1
+    python3 -m build --wheel --no-isolation || exit 1
+    python3 -m installer --destdir="$PKG" dist/*.whl || exit 1
 }
