@@ -827,7 +827,7 @@ dragonfm/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
 slint-scripts/slint-scripts.SlackBuild 11 # git clone https //github.com/DidierSpaier/slint-translations
 slint-scripts/slint-scripts.SlackBuild 13 # git clone https //github.com/DidierSpaier/build_ISO
 python-chardet/python-chardet.SlackBuild 24 #Included in Slint by Didier Spaier didieratslintdotfr
-python-semantic-version/SLKBUILD 5 # including in Slint  by Didier Spaier didieratslintdotfr
+python3-semantic-version/SLKBUILD 7 # including in Slint  by Didier Spaier didieratslintdotfr
 python-soupsieve/python-soupsieve.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 perl-http-daemon/perl-http-daemon.SlackBuild 25 # Included in Slint by Didier Spaier didieratslintdotfr
 moc/moc.SlackBuild 23 # Included in Slint by Didier Spaier didieratslintdotfr

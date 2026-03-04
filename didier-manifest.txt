@@ -635,7 +635,7 @@ python3-requests
 python-ruamel.yaml
 python-scipy
 python-scour
-python-semantic-version
+python3-semantic-version
 python-semver
 python-service-identity
 python3-setuptools

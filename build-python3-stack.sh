@@ -51,7 +51,7 @@ packageList=(
   "l/python-pyte"
   "l/python-wcwidth"
   "l/python3-pyudev"
-  "l/python-semantic-version"
+  "l/python3-semantic-version"
   "l/python-setuptools_scm3.11"
   "l/python3-numpy"
   "l/python3-setproctitle"
