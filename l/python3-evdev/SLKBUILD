@@ -13,7 +13,7 @@ license=("BSD")
 arch=("x86_64")
 depends=("python3")
 makedepends=("python3-setuptools")
-source=("https://pypi.python.org/packages/source/e/evdev/evdev-${pkgver}.tar.gz")
+source=("https://files.pythonhosted.org/packages/source/e/evdev/evdev-${pkgver}.tar.gz")
 docs=("LICENSE" "README.rst")
 options=("nosrcpack")
 

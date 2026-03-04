@@ -1,0 +1,41 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python-babel
+_srcname=babel
+pkgver=2.9.1
+pkgrel=1slint
+_cldrver=37
+url="https://babel.pocoo.org/"
+depends=("python")
+makedepends=("python-setuptools")
+source=(
+  "https://github.com/python-babel/babel/archive/v${pkgver}/${_srcname}-${pkgver}.tar.gz"
+  "https://unicode.org/Public/cldr/${_cldrver}/cldr-common-${_cldrver}.0.zip"
+)
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Python internationalization tools)"
+""
+"Babel provides locale data, gettext catalog helpers, and"
+"other internationalization tools for Python applications."
+""
+"Homepage: https://babel.pocoo.org/"
+)
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  sed -i 's/getiterator/iter/' scripts/import_cldr.py || return 1
+  sed -i 's/elem.getchildren()/list(elem)/' scripts/import_cldr.py || return 1
+  ln -sf "$SRC/../cldr-common-${_cldrver}.0.zip" "cldr/cldr-core-${_cldrver}.zip" || return 1
+  python3 setup.py import_cldr || return 1
+  python3 setup.py install --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+  cp -a AUTHORS CHANGES CONTRIBUTING.md LICENSE README.rst "$docdir/" || return 1
+}

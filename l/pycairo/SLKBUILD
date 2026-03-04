@@ -1,0 +1,45 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=pycairo
+_srcname=pycairo
+pkgver=1.27.0
+pkgrel=1slint
+url="https://pycairo.readthedocs.io/en/latest/"
+makedepends=("meson" "ninja" "python")
+source=("https://github.com/pygobject/pycairo/releases/download/v${pkgver}/${_srcname}-${pkgver}.tar.gz")
+docs=("AUTHORS" "COPYING*" "INSTALL" "NEWS" "PKG-INFO" "README*")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Python bindings for cairo)"
+""
+"Pycairo provides Python bindings for the cairo graphics"
+"library."
+""
+"Homepage: https://pycairo.readthedocs.io/en/latest/"
+)
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  meson setup \
+    --prefix=/usr \
+    --libdir="lib${LIBDIRSUFFIX}" \
+    --libexecdir=/usr/libexec \
+    --bindir=/usr/bin \
+    --sbindir=/usr/sbin \
+    --includedir=/usr/include \
+    --datadir=/usr/share \
+    --mandir=/usr/man \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release \
+    -Dpython=python3.9 \
+    meson-build || return 1
+
+  meson compile -C meson-build -j "$numjobs" || return 1
+  DESTDIR="$PKG" meson install -C meson-build || return 1
+}
