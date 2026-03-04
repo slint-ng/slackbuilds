@@ -1,0 +1,35 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python-pyudev
+_srcname=pyudev
+pkgver=0.23.2
+pkgrel=1slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (pure Python libudev binding)"
+""
+"pyudev is a Python binding for libudev, the Linux device"
+"management and information library."
+""
+"Homepage: https://pyudev.readthedocs.io/"
+)
+url="https://pyudev.readthedocs.io/"
+depends=("python")
+makedepends=("python-setuptools")
+source=("https://files.pythonhosted.org/packages/source/p/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  # Preserve the current conditional Python 3 install behavior.
+  if python3 -c 'import six' >/dev/null 2>&1; then
+    python3 setup.py install --root="$PKG" || return 1
+  fi
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+  install -m 0644 CHANGES.rst COPYING README.rst "$docdir/" || return 1
+}

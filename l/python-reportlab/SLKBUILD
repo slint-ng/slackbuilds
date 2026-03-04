@@ -1,0 +1,44 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python-reportlab
+_srcname=reportlab
+pkgver=3.6.9
+pkgrel=1slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (PDF generation toolkit)"
+""
+"ReportLab is a Python toolkit for generating PDF files"
+"and related document assets."
+""
+"Homepage: https://pypi.org/project/reportlab/"
+)
+url="https://pypi.org/project/reportlab/"
+depends=("python")
+makedepends=("python-setuptools")
+source=("https://files.pythonhosted.org/packages/source/r/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  pythondir="/usr/lib${LIBDIRSUFFIX}/python$(python3 -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')/site-packages"
+
+  install -d "$PKG$pythondir/$pkgname" || return 1
+  mv demos tools tests "$PKG$pythondir/$pkgname/" || return 1
+  rm -f "$PKG$pythondir/$pkgname/tools/docco/"*.pdf
+
+  sed -i \
+    -e 's|usr/share/fonts/truetype|usr/share/fonts/TTF|' \
+    -e 's|usr/local/Acrobat9|opt/Adobe/Reader9|' \
+    -e 's|%(HOME)s/fonts|%(HOME)s/.fonts|' \
+    src/reportlab/rl_config.py || return 1
+
+  python3 setup.py install --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+  install -m 0644 CHANGES.md INSTALL.txt LICENSE.txt README.txt "$docdir/" || return 1
+}

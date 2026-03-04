@@ -1,0 +1,50 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python-sphinx
+_srcname=Sphinx
+pkgver=4.5.0
+pkgrel=1slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (documentation generator)"
+""
+"Sphinx generates HTML, text, LaTeX, and other output"
+"formats from reStructuredText sources."
+""
+"Homepage: https://www.sphinx-doc.org/"
+)
+url="https://www.sphinx-doc.org/"
+depends=(
+  "python"
+  "python-alabaster"
+  "python-babel"
+  "python-imagesize"
+  "python-snowballstemmer"
+  "sphinxcontrib-applehelp"
+  "sphinxcontrib-devhelp"
+  "sphinxcontrib-htmlhelp"
+  "sphinxcontrib-jsmath"
+  "sphinxcontrib-qthelp"
+  "sphinxcontrib-serializinghtml"
+)
+makedepends=("python-setuptools")
+source=("https://files.pythonhosted.org/packages/source/S/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  python3 setup.py install --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+
+  shopt -s nullglob
+  for doc in AUTHORS CHANGES EXAMPLES LICENSE README.rst; do
+    [[ -e $doc ]] || continue
+    cp -a "$doc" "$docdir/" || return 1
+  done
+  shopt -u nullglob
+}

@@ -1,0 +1,32 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python-node-semver
+_srcname=node-semver
+pkgver=0.8.1
+pkgrel=2slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Semantic Versioning helpers)"
+""
+"node-semver is a Python implementation of Semantic"
+"Versioning."
+""
+"Homepage: https://pypi.org/project/node-semver/"
+)
+url="https://pypi.org/project/node-semver/"
+depends=("python")
+makedepends=("python-setuptools")
+source=("https://files.pythonhosted.org/packages/source/n/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  python3 setup.py install --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+  install -m 0644 README.rst "$docdir/README.rst" || return 1
+}

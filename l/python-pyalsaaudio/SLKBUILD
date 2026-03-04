@@ -1,0 +1,42 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python-pyalsaaudio
+_srcname=pyalsaaudio
+pkgver=0.9.0
+pkgrel=1slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Python bindings for ALSA)"
+""
+"pyalsaaudio provides Python bindings for the Advanced"
+"Linux Sound Architecture."
+""
+"Homepage: https://larsimmisch.github.io/pyalsaaudio/"
+)
+url="https://larsimmisch.github.io/pyalsaaudio/"
+depends=("python")
+makedepends=("pandoc" "python-setuptools")
+source=("https://files.pythonhosted.org/packages/source/p/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  python3 setup.py build || return 1
+  python3 setup.py install --prefix=/usr --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+
+  shopt -s nullglob
+  for doc in CHANGES LICENSE TODO *.py; do
+    cp -a "$doc" "$docdir/" || return 1
+  done
+  shopt -u nullglob
+
+  pandoc -s -t html5 -o "$docdir/README.html" \
+    --metadata pagetitle="README" README.md || return 1
+  find "$docdir" -type f -exec chmod 0644 {} + || return 1
+}
