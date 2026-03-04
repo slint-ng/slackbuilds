@@ -569,7 +569,7 @@ python-click
 python3-colorama
 python-configparser
 python3-constantly
-python-cryptography
+python3-cryptography
 python3-daemonize
 python-dateutil
 python-deprecation

@@ -1,19 +1,20 @@
+# shellcheck shell=bash disable=SC2034
 # Maintainer: Felix Yan <felixonmars@archlinux.org>
 
 # Included in Slint by Didier Spaier didieratslintdotfr
-pkgname=python-cryptography
+pkgname=python3-cryptography
 pkgver=36.0.1
 pkgrel=2slint
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|
-"python-cryptography (package designed to expose cryptographic recipes)"
+"python3-cryptography (package designed to expose cryptographic recipes)"
 "and primitives to Python developers"
 )
 arch=('x86_64')
 license=('Apache')
 url="https://pypi.python.org/pypi/cryptography"
-depends=('python-cffi')
+depends=('python3-cffi' 'python3')
 makedepends=('python-setuptools-rust')
 checkdepends=('python-pytest-runner' 'python-pytest-subtests' "python-cryptography-vectors=$pkgver"
               'python-iso8601' 'python-pretend' 'python-hypothesis' 'python-pytz')
@@ -22,7 +23,7 @@ sha512sums=('01e667f0a5c926179d26c6eef2a58b71f9bbdbdbdd99cacb30d57ed26439e60e25f
 docs=("licence.*" "README.rst")
 
 build() {
-  cd cryptography-$pkgver
-  python3 setup.py build
-  python3 setup.py install --root="$PKG" --optimize=1 --skip-build
+  cd "cryptography-$pkgver" || return 1
+  python3 setup.py build || return 1
+  python3 setup.py install --root="$PKG" --optimize=1 --skip-build || return 1
 }

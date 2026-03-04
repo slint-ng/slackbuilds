@@ -238,7 +238,7 @@ python-cryptography/cryptography.SlackBuild 27 # Included in Slint by Didier Spa
 python-installer3.11/python-installer3.11.SlackBuild 28 # Included in Slint by Didier Spaier didieratslintdotfr
 edk2-ovmf/edk2-ovmf.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 dav1d/dav1d.SlackBuild 26 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
-python-cryptography/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-cryptography/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
 python3-pyudev/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
 python-snowballstemmer/python-snowballstemmer.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 libreoffice/libreoffice.SlackBuild 419 # Packaged for and included in Slint by Didier Spaier didieratslintdotfr
