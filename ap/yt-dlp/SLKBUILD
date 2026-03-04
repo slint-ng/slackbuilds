@@ -5,8 +5,8 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 
 pkgname=yt-dlp
-pkgver=2026.02.21
-pkgrel=3slint
+pkgver=2026.03.03
+pkgrel=1slint
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|
