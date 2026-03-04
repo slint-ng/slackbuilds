@@ -3,7 +3,7 @@
 # Contributor: Didier Spaier
 pkgname='fenrir'
 pkgver=2026.01.28
-pkgrel=3slint
+pkgrel=4slint
 source=(https://git.stormux.org/storm/fenrir/archive/${pkgver}.tar.gz)
 slackdesc=\
 (
@@ -47,6 +47,12 @@ build() {
     -e 's/from setuptools import find_namespace_packages/from setuptools import find_packages/' \
     -e "s/packages=find_namespace_packages(/packages=find_packages(/" \
     setup.py || return 1
+  perl -0pi -e 's/self\.UInputinject = UInput\(\)/self.UInputinject = UInput() if _evdevAvailable and "UInput" in globals() else None/' \
+    src/fenrirscreenreader/inputDriver/evdevDriver.py || return 1
+  perl -0pi -e 's/if self\.uDevices\[fd\] is not None:\n            return/if self.uDevices[fd] is not None:\n            return\n        if "UInput" not in globals():\n            return/' \
+    src/fenrirscreenreader/inputDriver/evdevDriver.py || return 1
+  perl -0pi -e 's/        try:\n            self\.UInputinject\.write/        if self.UInputinject is None:\n            return\n        try:\n            self.UInputinject.write/' \
+    src/fenrirscreenreader/inputDriver/evdevDriver.py || return 1
   python3 setup.py install --force-settings --root="$PKG" --optimize=1
   mkdir -p $PKG/etc/rc.d $PKG/usr/doc/${pkgname}-${pkgver}
   mkdir -p $PKG/usr/share/fenrirscreenreader/scripts
