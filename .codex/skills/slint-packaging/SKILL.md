@@ -126,6 +126,16 @@ On first use in a session, explicitly mention:
 - Update `pkgver`, `source`, and any checksums.
 - Use `scripts/bump_version.py` when possible to update `pkgver` and sums.
 - Sync `docs=()` with what the build installs.
+- For Python packages sourced from PyPI, verify the sdist's top-level directory
+  name before assuming it matches the project or repo name. Common mismatches
+  include package/repo names like `i3ipc-python` extracting to `i3ipc-<ver>`.
+- For Python sdists that already ship generated C sources, prefer patching
+  unnecessary `pyproject.toml` build requirements (for example hard Cython
+  minimums) over adding heavyweight build deps blindly, if the shipped sdist is
+  sufficient for the release build.
+- For Python packages that self-compile during wheel creation, check upstream
+  build notes for environment toggles that disable native/self compilation when
+  that path is not needed for distro packaging.
 - If runtime dependencies change, rebuild and regenerate the package `.dep`
   from the produced package artifact with `depfinder` in the same commit.
 - Preserve existing build flags unless the update requires changes.
@@ -155,6 +165,15 @@ On first use in a session, explicitly mention:
 - If a generated build fails with a missing source directory like
   `src/-<version>` or another obviously truncated path, check exported package
   metadata first, especially `srcname`, before debugging the upstream build.
+- If a generated build reaches `tar -xf ...` and then fails with a generic
+  `build() failed.` and little or no stderr, inspect command substitutions used
+  under `set -e` in `build()`. A failing `find` or similar command inside
+  `$(...)` can abort the build silently.
+- If a package keeps failing with a hardcoded `cd "$SRC/..."` path even after
+  `build()` changes, check whether `docs=()` or other `slkbuild` metadata is
+  causing generated wrapper code to touch the source tree before `build()`
+  runs. In that case, move doc installation into `build()` temporarily to
+  isolate the real failure.
 - When `set -e` is active, verify failing function return status, not only stderr output.
 - Inspect slkbuild-generated helper functions (`gzip_man_and_info_pages`, post-checks, create_package) early when build() seems to pass.
 - After converting or renaming an `SLKBUILD`, compare `pkgname`, `srcname`,
