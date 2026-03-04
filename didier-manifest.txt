@@ -629,7 +629,7 @@ python-pytz
 python3-pyudev
 python-rdflib
 python-reportlab
-python-requests
+python3-requests
 python-ruamel.yaml
 python-scipy
 python-scour

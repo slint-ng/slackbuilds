@@ -1,3 +1,4 @@
+# shellcheck shell=bash disable=SC2034
 #Maintainer: AlpixTM aka Lukas N. <contact@alpix.eu>
 
 # Included in Slint by Didier Spaier didieratslintdotfr
@@ -7,7 +8,7 @@ pkgrel=1slint
 slackdesc="transfersh (Unofficial command-line client for https://transfer.sh)"
 url="https://github.com/AlpixTM/transfersh"
 license=('AGPL')
-depends=('python' 'python-requests')
+depends=('python3' 'python3-requests')
 source=('https://github.com/AlpixTM/transfersh/archive/v1.4.1.tar.gz')
 md5sums=('0a33aec2fda2f2fe791928f722a5dfcd')
 docs=("README.html" "LICENSE.md")

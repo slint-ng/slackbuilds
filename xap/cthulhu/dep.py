@@ -43,7 +43,7 @@ packageHints = {
     "psutil": ["psutil3.11", "psutil"],
     "pyautogui": ["python3-pyautogui"],
     "pytesseract": ["python-pytesseract"],
-    "requests": ["python-requests"],
+    "requests": ["python3-requests"],
     "scipy": ["python-scipy"],
     "setproctitle": ["python3-setproctitle"],
     "speechd": ["speech-dispatcher3.11", "speech-dispatcher"],

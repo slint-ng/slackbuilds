@@ -21,7 +21,7 @@ depends=(
   'liblouis'
   'libwnck3'
   'pango'
-  'python-requests'
+  'python3-requests'
   'python-atspi'
   'python3-cairo'
   'python3-dasbus'

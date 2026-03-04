@@ -255,7 +255,7 @@ conan/conan.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotf
 kColorPicker/kColorPicker.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 imlib2/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
 rubygem-rexml/rubygem-rexml.SlackBuild 3 # Maintainer  Didier Spaier didier@slint dot fr
-python-requests/python-requests.SlackBuild 24 #Included in Slint by Didier Spaier didieratslintdotfr
+python3-requests/SLKBUILD 3 #Included in Slint by Didier Spaier didieratslintdotfr
 pyparsing3.11/pyparsing3.11.SlackBuild 28 # Included in Slint by Didier Spaier didieratslintdotfr
 arabolical-font/arabolical-font.SlackBuild 2 # Packager  Didier Spaier didieratslintdotfr
 ebook-speaker/change_TTS_initial_setup_and_remove_add_TTS_dialog.diff 14 Didier Spaier, 04 December 2018 comments edited on 27 December 2018

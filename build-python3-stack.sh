@@ -14,7 +14,7 @@ packageList=(
   "l/python-click"
   "l/python-toml"
   "l/python3-idna"
-  "l/python-requests"
+  "l/python3-requests"
   "l/python-attrs"
   "l/python-automat"
   "l/python-constantly"
