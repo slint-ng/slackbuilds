@@ -12,7 +12,7 @@ url="https://cffi.readthedocs.io/"
 license=("MIT")
 arch=("x86_64")
 depends=("libffi" "python3" "python3-pycparser")
-makedepends=("python3-setuptools")
+makedepends=("python3-setuptools" "python3-trove-classifiers")
 source=("https://files.pythonhosted.org/packages/source/c/cffi/cffi-${pkgver}.tar.gz")
 options=("nosrcpack")
 

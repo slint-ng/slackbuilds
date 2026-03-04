@@ -27,6 +27,7 @@ packageList=(
   "l/python-humanize"
   "l/python-hyperlink"
   "l/python-openssl"
+  "l/python3-trove-classifiers"
   "l/python3-pycparser"
   "l/python3-cffi"
   "l/python3-pynacl"
