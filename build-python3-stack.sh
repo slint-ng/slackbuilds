@@ -9,6 +9,7 @@ packageList=(
   "d/python3-setuptools"
   "d/python3-pip"
   "l/python3-build"
+  "l/python3-cython"
   "l/python3-installer"
   "l/python3-wheel"
   "l/python3-click"

@@ -86,7 +86,7 @@ cpprestsdk
 cppunit
 csound
 curlew
-Cython3.11
+python3-cython
 dae
 daisy-player
 dav1d

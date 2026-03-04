@@ -37,6 +37,7 @@ python-wcwidth;python3-wcwidth
 python-websockets;python3-websockets
 python-xlib;python3-xlib
 python-click;python3-click
+cython;python3-cython
 python-openssl;python3-openssl
 python-txtorcon;python3-txtorcon
 python-wsaccel;python3-wsaccel

@@ -11,6 +11,7 @@ s/Net-SSLeay/perl-Net-SSLeay/g
 s/python3-attrs/python-attrs/g
 s/python3-autobahn/python-autobahn/g
 s/python3-automat/python-automat/g
+s/cython/python3-cython/g
 s/python3-babel/python-babel/g
 s/python3-dateutil/python-dateutil/g
 s/python3-fasteners/python-fasteners/g

@@ -5,7 +5,7 @@
 
 pkgname=python3-wsaccel
 pkgver=0.6.3
-pkgrel=2slint
+pkgrel=3slint
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|
@@ -15,7 +15,7 @@ arch=('x86_64')
 url='https://github.com/methane/wsaccel'
 license=('Apache')
 depends=('python3')
-makedepends=('python3-setuptools' 'cython')
+makedepends=('python3-cython' 'python3-setuptools')
 checkdepends=('python-pytest-runner')
 source=("https://github.com/methane/wsaccel/archive/refs/tags/v0.6.3.tar.gz")
 md5sums=('f06b48bcdccc4713ad75234d87679eba')
