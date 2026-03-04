@@ -586,7 +586,7 @@ python-glad2
 python-hatch-vcs3.11
 python3-hkdf
 python-humanize
-python-hyperlink
+python3-hyperlink
 python3-idna
 python-imagesize
 python-importlib_metadata

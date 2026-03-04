@@ -50,7 +50,7 @@ perl-ExtUtils-Config/perl-ExtUtils-Config.SlackBuild 27 # Included in Slint by D
 gdal/gdal.SlackBuild 29 # Included in Slint by Didier Spaier didieratslintdotfr
 python-patch-ng/SLKBUILD 2 # Included in Slint by Didier Spaier didieratslintdotfr
 libbraille-input/SLKBUILD 1 #Packager Didier Spaier didieratslintdotfr
-python-hyperlink/python-hyperlink.SlackBuild 25 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+python3-hyperlink/SLKBUILD 3 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 wpebackend-fdo/wpebackend-fdo.SlackBuild 25 # Included in Slint by Didier Spaier diideratslintdotfr
 libmspub/libmspub.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 btrbk/btrbk.SlackBuild 31 # Included in Slint by Didier Spaier didieratslintdotfr

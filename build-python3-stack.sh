@@ -27,7 +27,7 @@ packageList=(
   "t/python3-colorama"
   "l/python3-hkdf"
   "l/python-humanize"
-  "l/python-hyperlink"
+  "l/python3-hyperlink"
   "l/python-openssl"
   "l/python3-trove-classifiers"
   "l/python3-pycparser"
