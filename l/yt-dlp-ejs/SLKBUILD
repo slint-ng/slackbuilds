@@ -5,29 +5,25 @@
 #Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=yt-dlp-ejs
 pkgver=0.5.0
-pkgrel=4slint
-export commit=e91d03f
-export srcname=ejs
+pkgrel=5slint
+export srcname=yt_dlp_ejs
 slackdesc="$pkgname (External JavaScript for yt-dlp supporting many runtimes)"
 url='https://github.com/yt-dlp/ejs'
 license=(Unlicense)
 depends=(deno
          python)
-makedepends=(git
-             nodejs
+makedepends=(nodejs
              pnpm
              python3-build
              python-hatch-vcs
              python3-hatchling
              python3-installer)
 checkdepends=(python-pytest)
-#source=(https://github.com/yt-dlp/ejs/archive/refs/tags/${pkgver}.tar.gz)
-sha256sums=('3c67e0e971812df363bb837d2f333091d6735092314fa01c4d6e5127b1ae00ef')
+source=("https://files.pythonhosted.org/packages/source/y/yt-dlp-ejs/${srcname}-${pkgver}.tar.gz")
+sha256sums=('8dfae59e418232f485253dcf8e197fefa232423c3af7824fe19e4517b173293b')
 docs=("LICENSE" "README.md")
 build() {
-  git clone https://github.com/yt-dlp/ejs.git	
-  cd $srcname
-  git checkout $commit
+  cd "$SRC/${srcname}-${pkgver}" || return 1
   sed -i '/3\.14/d' pyproject.toml
   sed -i '/3\.13/d' pyproject.toml
   python3 -m build --wheel --no-isolation
