@@ -1,0 +1,65 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2153,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python3-dbus
+srcname=dbus-python
+export srcname
+pkgver=1.4.0
+pkgrel=1slint
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Python bindings for D-Bus)"
+""
+"This package provides Python 3 bindings for the D-Bus message bus."
+)
+url="https://dbus.freedesktop.org/releases/dbus-python/"
+license=("MIT")
+arch=("x86_64")
+depends=("python3")
+makedepends=("meson" "ninja" "python3")
+source=("https://dbus.freedesktop.org/releases/dbus-python/${srcname}-${pkgver}.tar.xz")
+options=("nosrcpack")
+
+build() {
+  local docDir
+
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+
+  export CFLAGS="$SLKCFLAGS"
+  export CXXFLAGS="$SLKCFLAGS"
+
+  meson setup meson-build \
+    --prefix=/usr \
+    "--libdir=lib${LIBDIRSUFFIX}" \
+    --libexecdir=/usr/libexec \
+    --bindir=/usr/bin \
+    --sbindir=/usr/sbin \
+    --includedir=/usr/include \
+    --datadir=/usr/share \
+    --mandir=/usr/man \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release \
+    -Dinstalled_tests=false \
+    -Dpython=python3.11 || return 1
+
+  # numjobs is intentionally expanded as a make-style argument list.
+  # shellcheck disable=SC2086
+  meson compile -C meson-build -j $numjobs || return 1
+  DESTDIR="$PKG" meson install -C meson-build || return 1
+
+  install -d "$docDir" || return 1
+  for docFile in AUTHORS COPYING INSTALL NEWS README; do
+    compgen -G "${docFile}*" >/dev/null || continue
+    cp -a ${docFile}* "$docDir/" || return 1
+  done
+
+  if [[ -r ChangeLog ]]; then
+    head -n 1000 ChangeLog > "$docDir/ChangeLog" || return 1
+    touch -r ChangeLog "$docDir/ChangeLog" || return 1
+  fi
+}

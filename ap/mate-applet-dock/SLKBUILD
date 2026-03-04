@@ -1,3 +1,4 @@
+# shellcheck shell=bash disable=SC2034
 # Maintainer: Brad Fanella <cesura@archlinux.org>
 # Contriburor: Balló György <ballogyor+arch at gmail dot com>
 
@@ -11,7 +12,7 @@ docs=("copying" "authors" "README.html")
 options=("nosrcpack")
 url="https://github.com/robint99/dock-applet"
 license=('GPL3')
-depends=('bamf' 'libnotify' 'mate-panel' 'python-cairo' 'python-dbus' 'python-gobject'
+depends=('bamf' 'libnotify' 'mate-panel' 'python3-cairo' 'python3-dbus' 'python3-gobject'
          'python-pillow' 'python-xdg' 'python-xlib')
 source=("https://github.com/robint99/$_pkgname/archive/$pkgver.tar.gz")
 sha256sums=('42f06dcac13aae19a9bbd16272854c896044aa0301a69319cab86ef4ffd8b09c')

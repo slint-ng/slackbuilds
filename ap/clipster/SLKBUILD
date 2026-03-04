@@ -1,3 +1,4 @@
+# shellcheck shell=bash disable=SC2034
 # Maintainer: Alexander Kempen <alexander dot kempen at posteo dot de>
 # Contributor: Samuel Walladge <samuel at swalladge dot id dot au>
 # Included in Slint by Didier Spaier didieratslintdotfr
@@ -8,8 +9,8 @@ pkgrel=1slint
 slackdesc="clipster (Python clipboard manager)"
 url="https://github.com/mrichar1/clipster"
 license=("AGPL")
-depends=("python" "python-gobject" "python-pip" "libwnck3")
-makedepends=("git" "python-setuptools")
+depends=("python3" "python3-gobject" "python3-pip" "libwnck3")
+makedepends=("git" "python3-setuptools")
 sha256sums=("SKIP")
 provides=("clipster")
 conflicts=("clipster-git")

@@ -1,0 +1,29 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python3-pyenchant
+srcname=pyenchant
+export srcname
+pkgver=3.2.2
+pkgrel=1slint
+slackdesc="$pkgname (A spellchecking library for Python 3)"
+url="https://github.com/rfk/pyenchant"
+license=("LGPL")
+arch=("x86_64")
+depends=("enchant2" "python3")
+makedepends=("python3-setuptools")
+source=("https://files.pythonhosted.org/packages/source/p/pyenchant/pyenchant-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+
+  # Slint ships libenchant-2.so, while upstream still probes for libenchant.so.
+  sed -i '/find_library/s,\"enchant\",\"enchant-2\",' enchant/_enchant.py || return 1
+
+  python3 setup.py install --root="$PKG" || return 1
+
+  install -d "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a LICENSE.* README.* "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+}

@@ -14,7 +14,7 @@ depends=(
     'hicolor-icon-theme'
     'lightdm-slick-greeter'
     'polkit'
-    'python-gobject'
+    'python3-gobject'
     'python3-setproctitle'
     'python-xapp'
 )

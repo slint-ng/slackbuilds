@@ -55,7 +55,7 @@ giVersions = {
 
 
 packageHints = {
-    "gi": "pygobject3.11 or pygobject3",
+    "gi": "python3-gobject or pygobject3",
     "gi.repository.Atk": "atk",
     "gi.repository.Atspi": "python-atspi and at-spi2-core",
     "gi.repository.GLib": "glib2",
@@ -75,7 +75,7 @@ packageHints = {
     "louis": "liblouis",
     "dasbus": "python3-dasbus",
     "psutil": "psutil3.11 or psutil",
-    "cairo": "pycairo3.11 or pycairo",
+    "cairo": "python3-cairo or pycairo",
     "requests": "python-requests",
     "pyautogui": "python3-pyautogui",
     "msgpack": "python3-msgpack",

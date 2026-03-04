@@ -25,9 +25,9 @@ SlackBuilds.org:
 - pango
 - python-requests
 - python-atspi
-- pycairo3.11
+- python3-cairo
 - python3-dasbus
-- pygobject3.11
+- python3-gobject
 - python3-pluggy
 - python3-setproctitle
 - socat

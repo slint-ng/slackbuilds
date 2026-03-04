@@ -1,0 +1,27 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=python3-evdev
+srcname=evdev
+export srcname
+pkgver=1.4.0
+pkgrel=1slint
+slackdesc="$pkgname (Python 3 input event library)"
+url="http://python-evdev.readthedocs.org/en/latest/"
+license=("BSD")
+arch=("x86_64")
+depends=("python3")
+makedepends=("python3-setuptools")
+source=("https://pypi.python.org/packages/source/e/evdev/evdev-${pkgver}.tar.gz")
+docs=("LICENSE" "README.rst")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+
+  # Upstream shipped some releases with mode 660 files in the tarball.
+  find -L . -perm 660 -exec chmod 644 {} + || return 1
+
+  python3 setup.py install --root="$PKG" || return 1
+}

@@ -14,7 +14,9 @@ python-ptyprocess;python3-ptyprocess
 python-pyasn1;pyasn1
 python-pyasn1-modules;pyasn1-modules
 python-pycryptodomex;pycryptodomex
-python-pyenchant;pyenchant
+python3-pyenchant;pyenchant
+python3-pyperclip;pyperclip
+python3-evdev;python-evdev
 python-pyjwt;python3-pyjwt
 python-pylast;pylast
 python-pynacl;pynacl
@@ -32,7 +34,7 @@ python-beautifulsoup4;BeautifulSoup4
 soundfont-generaluser;gusersoundfont
 telegram-purple;purple-telegram
 python-snowballstemmer;snowballstemmer
-python-pyudev;pyudev
+python3-pyudev;pyudev
 python-alabaster;alabaster
 python-imagesize;imagesize
 python-sphinx;Sphinx

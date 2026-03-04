@@ -91,7 +91,7 @@ dae
 daisy-player
 dav1d
 dbus-python
-dbus-python3.11
+python3-dbus
 dcron
 dee
 deno
@@ -527,12 +527,12 @@ pulseaudio
 pv
 pybind11
 pycairo
-pycairo3.11
+python3-cairo
 pygobject3
-pygobject3.11
+python3-gobject
 pyinotify
 pyparsing3.11
-pyperclip
+python3-pyperclip
 python3
 python3-calver
 python3-dasbus
@@ -566,7 +566,7 @@ python-cchardet
 python-certifi
 python-chardet
 python-click
-python-colorama
+python3-colorama
 python-configparser
 python-constantly
 python-cryptography
@@ -577,7 +577,7 @@ python-dictobject
 python-diff-match-patch
 python-distutils-extra
 python-espeak
-python-evdev
+python3-evdev
 python-eyed3
 python-fasteners
 python-filetype
@@ -617,7 +617,7 @@ python-pyalsaaudio
 python-pyasn1
 python-pyasn1-modules
 python-pycryptodomex
-python-pyenchant
+python3-pyenchant
 python-pygments3.11
 python-pyinsane
 python-pylast
@@ -626,7 +626,7 @@ python-pyte
 python-pytg
 python-pythran
 python-pytz
-python-pyudev
+python3-pyudev
 python-rdflib
 python-reportlab
 python-requests

@@ -1,0 +1,43 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python3-colorama
+srcname=colorama
+export srcname
+pkgver=0.4.4
+pkgrel=1slint
+slackdesc="$pkgname (Cross-platform colored terminal text)"
+url="https://github.com/tartley/colorama"
+license=("BSD-3-Clause")
+arch=("x86_64")
+depends=("python3")
+makedepends=("python3-setuptools")
+source=("https://files.pythonhosted.org/packages/1f/bb/5d3246097ab77fa083a61bd8d3d527b7ae063c7d8e8671b1cf8c4ec10cbe/colorama-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  local docDir
+  local demoFile
+  local -a demoFiles=()
+
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+  python3 setup.py install --root="$PKG" || return 1
+
+  install -d "$docDir" || return 1
+  for demoFile in README.rst CHANGELOG.rst LICENSE.txt; do
+    [[ -f "$demoFile" ]] || continue
+    install -m 0644 "$demoFile" "$docDir/$demoFile" || return 1
+  done
+
+  shopt -s nullglob
+  demoFiles=(demos/*.py demos/*.sh)
+  if (( ${#demoFiles[@]} > 0 )); then
+    install -d "$docDir/demos" || return 1
+    cp -a "${demoFiles[@]}" "$docDir/demos/" || return 1
+    find "$docDir/demos" -type f -exec chmod 0644 {} + || return 1
+  fi
+  shopt -u nullglob
+}

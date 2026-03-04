@@ -1,3 +1,4 @@
+# shellcheck shell=bash disable=SC2034
 # Maintainer: Jah Way <jahway603 at protonmail dot com>
 # Previous Maintainer: Alad Wenter <alad@archlinux.org>
 # Contributor: Lukas Jirkovsky <l.jirkovsky@gmail.com>
@@ -10,8 +11,8 @@ slackdesc="$pkgname (utility to read/change user's ALSA library configuration)"
 url="https://bitbucket.org/stativ/asoundconf"
 license=('GPL')
 depends=('python')
-makedepends=('git' 'python-build' 'python-installer' 'python-wheel')
-optdepends=('python-gobject: asoundconf-gtk GUI'
+makedepends=('git' 'python-build' 'python3-installer' 'python-wheel')
+optdepends=('python3-gobject: asoundconf-gtk GUI'
             'gtk3: for GUI')
 source=("https://bitbucket.org/stativ/asoundconf/get/55cdf2e78b7f28ee1808346e5d4e32f7e95618dc.tar.gz"
         '0001-python3-syntax.patch'

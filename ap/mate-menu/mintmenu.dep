@@ -1,1 +1,1 @@
-mate-panel,python-configobj,python-gobject,python-pyinotify,python-xdg,python-xlib,xdg-utils,python3-setproctitle,mate-menus,python-cairo
+mate-panel,python-configobj,python3-gobject,python-pyinotify,python-xdg,python-xlib,xdg-utils,python3-setproctitle,mate-menus,python3-cairo

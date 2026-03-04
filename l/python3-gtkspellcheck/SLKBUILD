@@ -1,3 +1,4 @@
+# shellcheck shell=bash disable=SC2034
 # Maintainer: Storm Dragon <storm_dragon@stormux.org>
 
 pkgname=python3-gtkspellcheck
@@ -7,8 +8,8 @@ pkgrel=1slint
 slackdesc="$pkgname (Spell-check library for GTK)"
 url='https://github.com/koehlma/pygtkspellcheck'
 license=('GPL-3.0-or-later')
-depends=('glib2' 'python' 'python-gobject' 'python-pyenchant')
-makedepends=('python-build' 'python-installer' 'python-wheel' 'python-myst-parser'
+depends=('glib2' 'python3' 'python3-gobject' 'python3-pyenchant')
+makedepends=('python-build' 'python3-installer' 'python-wheel' 'python-myst-parser'
              'python-poetry-core' 'python-sphinx_rtd_theme')
 optdepends=('gtk3: GTK 3 support'
             'gtk4: GTK 4 support')

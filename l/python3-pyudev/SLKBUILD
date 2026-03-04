@@ -1,0 +1,33 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python3-pyudev
+srcname=pyudev
+export srcname
+pkgver=0.23.2
+pkgrel=1slint
+slackdesc="$pkgname (Pure Python 3 libudev binding)"
+url="http://python-pyudev.readthedocs.org"
+license=("LGPL")
+arch=("x86_64")
+depends=("python3")
+makedepends=("python3-setuptools")
+source=("https://files.pythonhosted.org/packages/source/p/pyudev/pyudev-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  local docDir
+  local docFile
+
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+  python3 setup.py install --root="$PKG" || return 1
+
+  install -d "$docDir" || return 1
+  for docFile in CHANGES.rst COPYING README.rst; do
+    [[ -f "$docFile" ]] || continue
+    install -m 0644 "$docFile" "$docDir/$docFile" || return 1
+  done
+}

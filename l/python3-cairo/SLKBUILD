@@ -1,0 +1,54 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: Didier Spaier didieratslintdotfr
+
+pkgname=python3-cairo
+srcname=pycairo
+export srcname
+pkgver=1.27.0
+pkgrel=1slint
+source=("$srcname-$pkgver.tar.xz")
+url="https://pycairo.readthedocs.io/en/latest/"
+makedepends=('meson' 'ninja' 'python3')
+docs=("AUTHORS" "COPYING*" "INSTALL" "NEWS" "PKG-INFO" "README*")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"python3-cairo: python3-cairo (Python 3 bindings for cairo)"
+"python3-cairo:"
+"python3-cairo: Pycairo provides Python 3 bindings for the cairo library."
+"python3-cairo:"
+"python3-cairo: Website: https://pycairo.readthedocs.io/en/latest/"
+"python3-cairo:"
+"python3-cairo:"
+"python3-cairo:"
+"python3-cairo:"
+"python3-cairo:"
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || return 1
+  export CFLAGS="$SLKCFLAGS"
+  export CXXFLAGS="$SLKCFLAGS"
+
+  meson setup \
+    --prefix=/usr \
+    --libdir=lib${LIBDIRSUFFIX} \
+    --libexecdir=/usr/libexec \
+    --bindir=/usr/bin \
+    --sbindir=/usr/sbin \
+    --includedir=/usr/include \
+    --datadir=/usr/share \
+    --mandir=/usr/man \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release \
+    -Dpython=python3 \
+    meson-build || return 1
+
+  # numjobs is intentionally expanded as a make-style argument list.
+  # shellcheck disable=SC2086
+  meson compile -C meson-build -j $numjobs || return 1
+  DESTDIR="$PKG" meson install -C meson-build || return 1
+}

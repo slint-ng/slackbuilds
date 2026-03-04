@@ -1,3 +1,4 @@
+# shellcheck shell=bash disable=SC2034,SC2153
 # Maintainer: Alexander Epaneshnikov <alex19ep@archlinux.org>
 # Contributor: Brad Fanella <cesura@archlinux.org>
 # Contributor: Martin Wimpress <code@flexion.org>
@@ -12,7 +13,7 @@ slackdesc=("$pkgname (python bindings for Caja)"
 url="https://mate-desktop.org"
 arch=('x86_64')
 license=('GPL')
-depends=('caja' 'python-gobject')
+depends=('caja' 'python3-gobject')
 makedepends=('intltool')
 source=("https://pub.mate-desktop.org/releases/${pkgver%.*}/python-caja-${pkgver}.tar.xz")
 sha256sums=('b71852df292479229fd3ca013f23c0ee9a57997ffa108edd36e122e454f2d636')

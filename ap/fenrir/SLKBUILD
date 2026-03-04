@@ -19,23 +19,22 @@ license=('LGPL')
 depends=('gstreamer'
   'gst-plugins-base'
   'gst-plugins-good'
-  'python'
   'python-daemonize'
-  'python-dbus'
-  'python-evdev'
-  'python-gobject'
+  'python3-dbus'
+  'python3-evdev'
+  'python3-gobject'
   'python-pexpect'
-  'python-pyenchant'
-  'python-pyperclip'
+  'python3-pyenchant'
+  'python3-pyperclip'
   'python-pyte'
-  'python-pyudev'
+  'python3-pyudev'
   'python-pyxdg'
   'python3-setproctitle'
   'speech-dispatcher')
 optdepends=('socat: Control running Fenrir screenreader'
   'sox: sound driver'
   'xclip: for copy to X session clipboard')
-makedepends=('python-setuptools')
+makedepends=('python3-setuptools')
 doinst (){
 	(cd /usr/sbin
 	ln -sf /usr/share/fenrirscreenreader/tools/configure_fenrir.py ./configure-fenrir

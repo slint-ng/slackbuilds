@@ -119,8 +119,7 @@ lightdm/user_xsession.py 22 # Didier Spaier didieratslintdotfr
 lightdm/user_xsession.py 27 # And slightly modified for Python3 by Didier
 memtest86+/memtest86+.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 matchbox-panel-manager/SLKBUILD 1 #Packager Didier Spaier didieratslintdotfr
-python-evdev/python-evdev.info 1 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
-python-evdev/python-evdev.SlackBuild 25 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+python3-evdev/SLKBUILD 3 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 qjackctl/qjackctl.SlackBuild 45 # Included in Slint by Didier Spaier didieratslintdotfr
 guake/guake.SlackBuild 28 # Included in Slint by Didier Spaier didieratslintdotfr
 vde2/vde2.SlackBuild 29 # Included in Slint by Didier Spaier didieratslintdotfr
@@ -169,7 +168,7 @@ liblouis/SLKBUILD 1 #Packager  Didier Spaier <didier~at~slint~dot~fr>
 mlt/mlt.SlackBuild 23 # Included in Slint by Didier Spaier didieratslintdotfr
 tesseract/SLKBUILD 4 # Modified and included in Slint by Didier Spaier didieratslintdotfr
 abook/abook.SlackBuild 30 # Included in Slint by Didier Spaier didieratslintdotfr
-pyperclip/SLKBUILD 4 # Adapted to Slint by Didier Spaier diideratslintdotfr
+python3-pyperclip/SLKBUILD 6 # Adapted to Slint by Didier Spaier diideratslintdotfr
 yajl/yajl.SlackBuild 30 # Included in Slint by Didier Spaier didieratslintdotfr
 orca-plugin/SLKBUILD 1 #Packager  Didier Spaier <didier~at~slint~dot~fr>
 python-dictobject/SLKBUILD 1 # Packaged by Didier Spaier <didier~at~slint~dot~fr>
@@ -239,7 +238,7 @@ python-installer3.11/python-installer3.11.SlackBuild 28 # Included in Slint by D
 edk2-ovmf/edk2-ovmf.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 dav1d/dav1d.SlackBuild 26 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 python-cryptography/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
-python-pyudev/python-pyudev.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-pyudev/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
 python-snowballstemmer/python-snowballstemmer.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 libreoffice/libreoffice.SlackBuild 419 # Packaged for and included in Slint by Didier Spaier didieratslintdotfr
 gslapt/SLKBUILD 2 # Included in Slint by Didier Spaier didieratslintdotfr
@@ -411,7 +410,7 @@ i3withI38/perl-pango/perl-pango.SlackBuild 30 # Included in Slint by Didier Spai
 perl-Text-CharWidth/perl-Text-CharWidth.SlackBuild 5 # Copyright 2014 Didier Spaier Paris, France
 i3withI38/perl-Types-Serialiser/perl-Types-Serialiser.SlackBuild 25 # Included in Slint by Didier Spaier didieratslintdotfr
 lilv/lilv.SlackBuild 25 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
-dbus-python3.11/dbus-python3.11.SlackBuild 26 #Included inSlint by Didier Spaier didieratslintdotfr
+python3-dbus/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
 barnard/Barnard_how_to 22 barnard -insecure -username "Didier Spaier" -server slint.fr 64738
 python-setuptools_scm3.11/python-setuptools_scm3.11.SlackBuild 23 # Included in Slint by Didier Spaier didieratslintdotfr
 perl-PAR-Dist/perl-PAR-Dist.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
@@ -704,7 +703,7 @@ python-mistune/python-mistune.SlackBuild 27 # Included in Slint by Didier Spaier
 libwww-perl/libwww-perl.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 rubberband/rubberband.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 compiz-plugins-main/LOG 35 |the screen reader on or off in several distributions shipping the Mate desktop- Didier Spaier
-pycairo3.11/pycairo3.11.SlackBuild 26 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-cairo/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
 compiz-plugins-main/SLKBUILD 1 # Packaged by Didier Spaier <didier~at~slint~dot~fr>
 perl-Sub-Uplevel/perl-Sub-Uplevel.SlackBuild 30 # Included in Slint by Didier Spaier didieratslintdotfr
 perl-Try-Tiny/perl-Try-Tiny.SlackBuild 30 # Included in Slint by Didier Spaier didieratslintdotfr
@@ -744,7 +743,7 @@ gtksourceview4/gtksourceview4.SlackBuild 31 # Included in Slint by Didier Spaier
 rubygem-safe_yaml/rubygem-safe_yaml.SlackBuild 3 # Maintainer  Didier Spaier didier@slint dot fr
 gtksourceview4/SLKBUILD 3 # Included in Sint by Didier Spaier <didier~at~slint>
 xdg-dbus-proxy/xdg-dbus-proxy.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
-python-colorama/python-colorama.SlackBuild 28 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-colorama/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
 xsettingsd.prev/SLKBUILD 2 # Included in Slint by Didier Spaier didieratslintdotfr
 murrine/build-murrine-0.98.2-x86_64-1slint.log 122 make[1]   on entre dans le répertoire « /old/home/didier/Slint/repo/x86_64/slint-testing/source/murrine/src/murrine-0.98.2/schema »
 murrine/build-murrine-0.98.2-x86_64-1slint.log 127 make[1]   on quitte le répertoire « /old/home/didier/Slint/repo/x86_64/slint-testing/source/murrine/src/murrine-0.98.2/schema »
@@ -839,7 +838,7 @@ libiscsi/libiscsi.SlackBuild 35 # Included in Slint by Didier Spaier didieratsli
 libespeak/SLKBUILD 5 #Included in Slint by Didier Spaier dideratslintdotfr
 libmatroska/libmatroska.SlackBuild 28 # Included in Slint by Didier Spaier didieratslintdotfr
 libkate/libkate.SlackBuild 30 # Included in Slint by Didier Spaier didieratslintdotfr
-pygobject3.11/pygobject3.SlackBuild 24 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-gobject/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
 efibootmgr/SLKBUILD 6 # Included in Slint by Didier Spaier didieratslintdotfr
 kernel-firmware/kernel-firmware.SlackBuild 23 # Included in Slint and adapted by Didier Spaier didieratslintdotfr
 kernel-firmware/kernel-firmware.SlackBuild 56 # Added to build the package amd-microcode by Didier
@@ -880,7 +879,7 @@ speech-dispatcher/SLKBUILD 66 # espeak-mbrola-generic.conf we do not need them a
 templates/SlackBuilds/rubygem-templateslint.SlackBuild 3 # Maintainer  Didier Spaier didier@slint dot fr
 kImageAnnotator/kImageAnnotator.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 templates/SLKBUILDs/SLKBUILD 1 #Packager Didier Spaier didieratslintdotfr
-python-pyenchant/python-pyenchant.SlackBuild 28 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-pyenchant/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
 btdu/SLKBUILD 3 #Packager  Didier Spaier didieratslintdotfr
 cerebro/SLKBUILD 2 # included in Slint by Didier Spaier didieratslintdotfr
 rubygem-pdf-reader/rubygem-pdf-reader.SlackBuild 3 # Maintainer  Didier Spaier didier@slint dot fr

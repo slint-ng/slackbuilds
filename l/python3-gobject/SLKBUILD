@@ -1,0 +1,61 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: Didier Spaier didieratslintdotfr
+
+pkgname=python3-gobject
+srcname=pygobject
+export srcname
+pkgver=3.52.3
+pkgrel=1slint
+source=("$srcname-$pkgver.tar.xz")
+url="https://live.gnome.org/PyGObject"
+makedepends=('meson' 'ninja' 'python3')
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"python3-gobject: python3-gobject (GObject bindings for Python 3)"
+"python3-gobject:"
+"python3-gobject: Bindings for GObject, for use in Python 3."
+"python3-gobject: A fairly complete set of bindings, already useful,"
+"python3-gobject: and usable to write moderately complex programs."
+"python3-gobject:"
+"python3-gobject: Homepage: https://live.gnome.org/PyGObject"
+"python3-gobject:"
+"python3-gobject:"
+"python3-gobject:"
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || return 1
+  export CFLAGS="$SLKCFLAGS"
+  export CXXFLAGS="$SLKCFLAGS"
+
+  meson setup \
+    --prefix=/usr \
+    --libdir=lib${LIBDIRSUFFIX} \
+    --libexecdir=/usr/libexec \
+    --bindir=/usr/bin \
+    --sbindir=/usr/sbin \
+    --includedir=/usr/include \
+    --datadir=/usr/share \
+    --mandir=/usr/man \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release \
+    -Dpython=python3 \
+    meson-build || return 1
+
+  # numjobs is intentionally expanded as a make-style argument list.
+  # shellcheck disable=SC2086
+  meson compile -C meson-build -j $numjobs || return 1
+  DESTDIR="$PKG" meson install -C meson-build || return 1
+
+  install -d "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a COPYING* NEWS README* \
+    "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  (
+    cd "$PKG/usr/doc/$pkgname-$pkgver" || exit 1
+    ln -s ../../share/gtk-doc/html/pygobject html || exit 1
+  )
+}
