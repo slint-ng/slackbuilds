@@ -63,6 +63,8 @@ PYTHON=/usr/bin/python3.11 ./configure --prefix=/usr \
 --with-oss=no \
 --with-nas=no \
 --with-default-audio-method=libao
+sed -i 's/help2man -N /help2man --no-discard-stderr -N /' \
+  src/api/python/speechd_config/Makefile || return 1
 make install DESTDIR=$PKG || return 1
 rm -f $PKG/etc/speech-dispatcher/espeak-ng.conf*
 # Although I contributed espeak-mbrola-generic.conf and 
