@@ -7,7 +7,7 @@ srcname=pycairo
 export srcname
 pkgver=1.27.0
 pkgrel=1slint
-source=("$srcname-$pkgver.tar.xz")
+source=("https://github.com/pygobject/pycairo/releases/download/v${pkgver}/${srcname}-${pkgver}.tar.gz")
 url="https://pycairo.readthedocs.io/en/latest/"
 makedepends=('meson' 'ninja' 'python3')
 docs=("AUTHORS" "COPYING*" "INSTALL" "NEWS" "PKG-INFO" "README*")
