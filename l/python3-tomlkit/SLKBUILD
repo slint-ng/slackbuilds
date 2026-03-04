@@ -3,7 +3,7 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 
 pkgname=python3-tomlkit
-srcname=tomlkit
+export srcname=tomlkit
 pkgver=0.11.4
 pkgrel=1slint
 source=("https://files.pythonhosted.org/packages/source/t/${srcname}/${srcname}-${pkgver}.tar.gz")
