@@ -1,3 +1,4 @@
+# shellcheck shell=bash disable=SC2034,SC2154
 #Maintainer: Didier Spaier <didier~at~slint~dot~fr>
 
 pkgname=speech-dispatcher
@@ -6,7 +7,7 @@ pkgrel=1slint
 export arch=x86_64
 srcname=speech-dispatcher
 export srcname
-source=("${srcname}-${pkgver}.tar.gz"
+source=("https://github.com/brailcom/speechd/releases/download/${pkgver}/${srcname}-${pkgver}.tar.gz"
 "rhvoice.conf"
 "http://www.freebsoft.org/pub/projects/sound-icons/sound-icons-0.1.tar.gz"
 "add_flite_generic.conf.diff"
@@ -114,4 +115,3 @@ cp -a * $PKG/usr/share/sounds/sound-icons
 #/sbin/makepkg -l y -c n $startdir/openjtalk-spd-module-$pkgver-$arch-$pkgrel.txz || exit
 #)
 }
-
