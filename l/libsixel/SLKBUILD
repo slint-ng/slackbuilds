@@ -1,0 +1,56 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
+pkgname=libsixel
+export srcname=sixel
+pkgver=1.8.6
+pkgrel=2slint
+url="https://github.com/saitoha/libsixel"
+source=(
+  "https://github.com/saitoha/libsixel/archive/refs/tags/v${pkgver}.tar.gz"
+  "LICENSE"
+  "README.md"
+)
+docs=("LICENSE" "README.md")
+makedepends=("autoconf" "automake" "libtool" "python3")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (SIXEL encoder/decoder implementation)"
+""
+"A SIXEL encoder/decoder implementation derived from kmiya's sixel."
+)
+
+build() {
+  local docDir
+
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  cd "$SRC/${srcname}-$pkgver" || return 1
+
+  export PYTHON=python3
+  autoreconf -fi || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir=/usr/lib${LIBDIRSUFFIX} \
+    --mandir=/usr/man \
+    --includedir=/usr/include/sixel \
+    --disable-static \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+
+  install -d "$docDir" || return 1
+  for docFile in NEWS ChangeLog; do
+    [[ -e "$docFile" ]] || continue
+    cp -a "$docFile" "$docDir/" || return 1
+  done
+  for localDoc in "$SRC"/LICENSE "$SRC"/README.md; do
+    [[ -e "$localDoc" ]] || continue
+    cp -a "$localDoc" "$docDir/" || return 1
+  done
+}
