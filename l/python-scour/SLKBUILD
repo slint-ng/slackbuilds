@@ -1,0 +1,37 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python-scour
+_srcname=scour
+pkgver=0.38.2
+pkgrel=1slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (SVG cleanup utility)"
+""
+"Scour rewrites SVG files into cleaner and more concise"
+"output."
+""
+"Homepage: https://github.com/scour-project/scour/"
+)
+url="https://github.com/scour-project/scour/"
+depends=("python")
+makedepends=("python-setuptools")
+source=("https://github.com/scour-project/scour/archive/v${pkgver}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  python3 setup.py install --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+
+  shopt -s nullglob
+  for doc in README.md HISTORY.md LICENSE; do
+    install -m 0644 "$doc" "$docdir/" || return 1
+  done
+  shopt -u nullglob
+}

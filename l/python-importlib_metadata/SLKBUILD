@@ -1,0 +1,39 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python-importlib_metadata
+_srcname=importlib_metadata
+pkgver=4.8.2
+pkgrel=2slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (access installed package metadata)"
+""
+"importlib_metadata provides an API for reading installed"
+"package metadata, entry points, and top-level names."
+""
+"Homepage: https://importlib-metadata.readthedocs.io/"
+)
+url="https://importlib-metadata.readthedocs.io/"
+depends=("python" "python-zipp")
+makedepends=("python-setuptools")
+source=("https://files.pythonhosted.org/packages/source/i/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  python3 setup.py install --root="$PKG" || return 1
+
+  while IFS= read -r -d '' egginfo; do
+    fixed_egginfo="${egginfo/0.0.0/$pkgver}"
+    mv "$egginfo" "$fixed_egginfo" || return 1
+    sed -i "s/^Version: 0.0.0$/Version: $pkgver/" \
+      "$fixed_egginfo/PKG-INFO" || return 1
+  done < <(find "$PKG"/usr/lib* -type d -name "${_srcname}-0.0.0-py*.egg-info" -print0)
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+  install -m 0644 README.rst "$docdir/README.rst" || return 1
+}

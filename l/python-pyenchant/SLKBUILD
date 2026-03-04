@@ -1,0 +1,41 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python-pyenchant
+_srcname=pyenchant
+pkgver=3.2.2
+pkgrel=2slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (spellchecking library bindings)"
+""
+"PyEnchant is a spellchecking library for Python based on"
+"the Enchant library."
+""
+"Homepage: https://github.com/rfk/pyenchant"
+)
+url="https://github.com/rfk/pyenchant"
+depends=("python")
+makedepends=("python-setuptools")
+source=("https://files.pythonhosted.org/packages/source/p/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  sed -i '/find_library/s,"enchant","enchant-2",' enchant/_enchant.py || return 1
+
+  for pybin in python3.9 python3.11; do
+    "$pybin" setup.py install --root="$PKG" || return 1
+  done
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+
+  shopt -s nullglob
+  for doc in LICENSE.* README.*; do
+    cp -a "$doc" "$docdir/" || return 1
+  done
+  shopt -u nullglob
+}

@@ -1,0 +1,32 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python-ruamel.yaml
+_srcname=ruamel.yaml
+pkgver=0.17.21
+pkgrel=1slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (YAML 1.2 parser and emitter)"
+""
+"ruamel.yaml is a YAML 1.2 parser and emitter with"
+"comment-preserving round-trip support."
+""
+"Homepage: https://pypi.org/project/ruamel.yaml/"
+)
+url="https://pypi.org/project/ruamel.yaml/"
+depends=("python")
+makedepends=("python-setuptools")
+source=("https://files.pythonhosted.org/packages/source/r/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  RUAMEL_NO_PIP_INSTALL_CHECK=1 python3 setup.py install --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+  install -m 0644 CHANGES README.rst "$docdir/" || return 1
+}
