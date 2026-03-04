@@ -16,7 +16,7 @@ makemkv/makemkv.SlackBuild 28 # Included in Slint by Didier Spaier didieratslint
 python-pyasn1-modules/python-pyasn1-modules.SlackBuild 27 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 daisy-player/README.TXT 5 Didier
 b43-firmware/b43-firmware.SlackBuild 29 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
-python-setuptools-rust/SLKBUILD 6 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-setuptools-rust/SLKBUILD 8 # Included in Slint by Didier Spaier didieratslintdotfr
 swapinzram/swapinzram.conf 1 # Didier Spaier 2020
 suil/suil.SlackBuild 26 # Included in Slint by Didier Spaier didieratslintdotfr
 swapinzram/rc.swapinzram 3 # Didier Spaier 2020

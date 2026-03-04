@@ -15,7 +15,7 @@ arch=('x86_64')
 license=('Apache')
 url="https://pypi.python.org/pypi/cryptography"
 depends=('python3-cffi' 'python3')
-makedepends=('python-setuptools-rust')
+makedepends=('python3-setuptools-rust')
 checkdepends=('python-pytest-runner' 'python-pytest-subtests' "python-cryptography-vectors=$pkgver"
               'python-iso8601' 'python-pretend' 'python-hypothesis' 'python-pytz')
 source=("https://files.pythonhosted.org/packages/source/c/cryptography/cryptography-$pkgver.tar.gz")

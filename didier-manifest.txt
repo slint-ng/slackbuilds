@@ -639,7 +639,7 @@ python-semantic-version
 python-semver
 python-service-identity
 python3-setuptools
-python-setuptools-rust
+python3-setuptools-rust
 python-setuptools_scm3.11
 python-sh
 python-smartypants

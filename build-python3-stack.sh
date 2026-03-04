@@ -32,7 +32,7 @@ packageList=(
   "l/python3-trove-classifiers"
   "l/python3-pycparser"
   "l/python3-cffi"
-  "l/python-setuptools-rust"
+  "l/python3-setuptools-rust"
   "l/python3-cryptography"
   "l/python3-pynacl"
   "l/python3-txaio"
