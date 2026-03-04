@@ -6,7 +6,7 @@
 pkgname=python3-editables
 _srcname=editables
 pkgver=0.5
-pkgrel=2slint
+pkgrel=3slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (A Python library for creating editable wheels)"
@@ -20,7 +20,7 @@ slackdesc=(
 "Homepage: https://github.com/pfmoore/editables"
 )
 url="https://github.com/pfmoore/editables"
-depends=("python")
+depends=("python3")
 makedepends=("python-build" "python-installer" "python-wheel")
 source=("https://files.pythonhosted.org/packages/source/e/editables/editables-${pkgver}.tar.gz")
 options=("nosrcpack")
@@ -29,11 +29,8 @@ docs=("LICENSE.txt" "README.md")
 build() {
   cd "$SRC/${_srcname}-${pkgver}" || return 1
 
-  # Keep the legacy Slint behavior: build and install for both shipped Python 3 ABIs.
-  for pybin in python3.9 python3.11; do
-    "$pybin" -m build --no-isolation || return 1
-    "$pybin" -m installer --destdir="$PKG" dist/*.whl || return 1
-  done
+  python3 -m build --no-isolation || return 1
+  python3 -m installer --destdir="$PKG" dist/*.whl || return 1
 
   find "$PKG"/usr/lib* -type d -path '*/site-packages/*.dist-info/licenses' 2>/dev/null | while read -r licenses_dir; do
     dist_info_dir=${licenses_dir%/licenses}

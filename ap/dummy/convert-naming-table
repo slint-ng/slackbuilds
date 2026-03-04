@@ -12,8 +12,8 @@ python3-numpy;numpy3
 python-pep517;python3-pep517
 python-pexpect;python3-pexpect
 python-ptyprocess;python3-ptyprocess
-python-pyasn1;pyasn1
-python-pyasn1-modules;pyasn1-modules
+python-pyasn1;python3-pyasn1
+python-pyasn1-modules;python3-pyasn1-modules
 python-pycryptodomex;pycryptodomex
 python3-pyenchant;pyenchant
 python3-pyperclip;pyperclip
@@ -31,6 +31,10 @@ python-twisted;python3-twisted
 python-txaio;python3-txaio
 python-wcwidth;python3-wcwidth
 python-websockets;python3-websockets
+python-click;python3-click
+python-openssl;python3-openssl
+python-txtorcon;python3-txtorcon
+python-wsaccel;python3-wsaccel
 python-beautifulsoup4;BeautifulSoup4
 soundfont-generaluser;gusersoundfont
 telegram-purple;purple-telegram

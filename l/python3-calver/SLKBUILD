@@ -6,11 +6,11 @@
 pkgname=python3-calver
 _srcname=calver
 pkgver=2022.6.26
-pkgrel=2slint
+pkgrel=3slint
 source=("https://files.pythonhosted.org/packages/source/c/calver/${_srcname}-${pkgver}.tar.gz")
 url="https://github.com/di/calver"
 license=("Apache-2.0")
-depends=("python")
+depends=("python3")
 makedepends=("python-build" "python-installer" "python-wheel")
 options=("nosrcpack")
 docs=("LICENSE" "README.md")
@@ -32,11 +32,8 @@ slackdesc=(
 build() {
   cd "$SRC/${_srcname}-${pkgver}" || return 1
 
-  # Preserve the current Slint package behavior across both shipped Python ABIs.
-  for pybin in python3.9 python3.11; do
-    "$pybin" -m build --no-isolation || return 1
-    "$pybin" -m installer --destdir="$PKG" dist/*.whl || return 1
-  done
+  python3 -m build --no-isolation || return 1
+  python3 -m installer --destdir="$PKG" dist/*.whl || return 1
 
   find "$PKG"/usr/lib* -type d -path '*/site-packages/*.dist-info/licenses' 2>/dev/null | while read -r licenses_dir; do
     dist_info_dir=${licenses_dir%/licenses}

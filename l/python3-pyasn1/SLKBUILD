@@ -1,0 +1,42 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=python3-pyasn1
+_srcname=pyasn1
+pkgver=0.4.8
+pkgrel=1slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (ASN.1 types and codecs in Python)"
+""
+"python3-pyasn1 implements ASN.1 types and codecs (BER, CER,"
+"DER) in Python."
+""
+"Homepage: https://github.com/etingof/pyasn1"
+)
+url="https://github.com/etingof/pyasn1"
+depends=("python3")
+makedepends=("python3-setuptools")
+source=("https://github.com/etingof/pyasn1/archive/refs/tags/v${pkgver}.tar.gz")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  python3 setup.py install --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+
+  shopt -s nullglob
+  for doc in *.md *.rst docs; do
+    [[ -e $doc ]] || continue
+    cp -a "$doc" "$docdir/" || return 1
+  done
+  shopt -u nullglob
+
+  if [[ -d $docdir/docs ]]; then
+    find "$docdir/docs" -type f -exec chmod 0644 {} + || return 1
+  fi
+}

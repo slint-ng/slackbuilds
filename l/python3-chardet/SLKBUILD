@@ -1,0 +1,35 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Maintainer: Slackware Python Team
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=python3-chardet
+_srcname=chardet
+pkgver=4.0.0
+pkgrel=1slint
+source=("https://files.pythonhosted.org/packages/source/c/chardet/chardet-$pkgver.tar.gz")
+url="https://github.com/chardet/chardet"
+license=("LGPL")
+depends=("python3")
+makedepends=("python3-setuptools")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Universal encoding detector for Python 2 and 3)"
+""
+"Character encoding auto-detection in Python. As smart as your"
+"browser. Open source."
+""
+"Homepage: https://github.com/chardet/chardet"
+)
+
+build() {
+  cd "$SRC/$_srcname-$pkgver" || exit 1
+
+  python3 setup.py install --root="$PKG" || exit 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  mkdir -p "$docdir" || exit 1
+  cp -a ./*.rst LICENSE* "$docdir" || exit 1
+  find "$docdir" -type f -exec chmod 0644 {} \+ || exit 1
+}

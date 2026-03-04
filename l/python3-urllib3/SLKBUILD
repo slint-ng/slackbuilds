@@ -1,0 +1,49 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Copyright 2017, 2018, 2024 Patrick J. Volkerding, Heinz Wiesinger
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=python3-urllib3
+_srcname=urllib3
+pkgver=1.26.8
+pkgrel=1slint
+source=("https://files.pythonhosted.org/packages/source/u/urllib3/${_srcname}-${pkgver}.tar.gz")
+url="https://urllib3.readthedocs.io/"
+license=("MIT")
+depends=("python3")
+makedepends=("python-build" "python-installer" "python-wheel")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Powerful, sanity-friendly HTTP client for Python)"
+""
+"urllib3 is a powerful, sanity-friendly HTTP client for Python. Much"
+"of the Python ecosystem already uses urllib3 and you should too."
+""
+"Homepage: https://urllib3.readthedocs.io/"
+)
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  python3 -m build --wheel --no-isolation || return 1
+  python3 -m installer --destdir="$PKG" dist/*.whl || return 1
+
+  while IFS= read -r -d '' distinfo; do
+    # Match the legacy package layout expected by baseline validation.
+    if [ -f "$distinfo/licenses/LICENSE.txt" ]; then
+      mv "$distinfo/licenses/LICENSE.txt" "$distinfo/LICENSE.txt" || return 1
+      rmdir "$distinfo/licenses" || return 1
+    fi
+  done < <(find "$PKG"/usr/lib* -type d -name "${_srcname}-${pkgver}.dist-info" -print0)
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  mkdir -p "$docdir" || return 1
+  cp -a ./*.rst ./*.txt "$docdir" || return 1
+  find "$docdir" -type f -exec chmod 0644 {} \+ || return 1
+
+  if [ -r CHANGES.rst ]; then
+    head -n 1000 CHANGES.rst > "$docdir/CHANGES.rst" || return 1
+    touch -r CHANGES.rst "$docdir/CHANGES.rst" || return 1
+  fi
+}

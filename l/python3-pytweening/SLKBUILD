@@ -5,11 +5,11 @@
 pkgname=python3-pytweening
 _srcname=pytweening
 pkgver=1.2.0
-pkgrel=1slint
+pkgrel=2slint
 source=("https://files.pythonhosted.org/packages/source/p/$_srcname/$_srcname-$pkgver.tar.gz")
 url="https://github.com/asweigart/pytweening"
-depends=("python")
-makedepends=("python-setuptools")
+depends=("python3")
+makedepends=("python3-setuptools")
 options=("nosrcpack")
 docs=(
   "AUTHORS" "AUTHORS.txt" "CHANGELOG" "ChangeLog" "CHANGES" "CHANGES.txt"
@@ -34,8 +34,5 @@ slackdesc=(
 build() {
   cd "$SRC/$_srcname-$pkgver" || return 1
 
-  # Preserve the current dual-interpreter install behavior.
-  for pybin in python3.9 python3.11; do
-    "$pybin" setup.py install --root="$PKG" || return 1
-  done
+  python3 setup.py install --root="$PKG" || return 1
 }

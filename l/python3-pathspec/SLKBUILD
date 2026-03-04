@@ -6,7 +6,7 @@
 pkgname=python3-pathspec
 _srcname=pathspec
 pkgver=0.12.1
-pkgrel=9slint
+pkgrel=10slint
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|
@@ -21,7 +21,7 @@ slackdesc=\
 )
 url="https://github.com/cpburnz/python-pathspec"
 license=("MPL-2.0")
-depends=("python")
+depends=("python3")
 makedepends=("python-build" "python-installer" "python-wheel")
 source=("https://files.pythonhosted.org/packages/source/p/${_srcname}/${_srcname}-${pkgver}.tar.gz")
 options=("nosrcpack")
@@ -29,12 +29,8 @@ options=("nosrcpack")
 build() {
   cd "$SRC/${_srcname}-${pkgver}" || return 1
 
-  # Preserve the current Slint package behavior: install for both shipped
-  # Python 3 ABIs via wheel build/install passes.
-  for pybin in python3.9 python3.11; do
-    "$pybin" -m build --no-isolation || return 1
-    "$pybin" -m installer --destdir="$PKG" dist/*.whl || return 1
-  done
+  python3 -m build --no-isolation || return 1
+  python3 -m installer --destdir="$PKG" dist/*.whl || return 1
 
   find "$PKG"/usr/lib* -type d -path '*/site-packages/*.dist-info/licenses' 2>/dev/null | while read -r licenses_dir; do
     dist_info_dir=${licenses_dir%/licenses}

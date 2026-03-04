@@ -4,11 +4,12 @@
 pkgname=python3-pillow
 _srcname=pillow
 pkgver=12.1.0
-pkgrel=1slint
+pkgrel=2slint
 source=("https://files.pythonhosted.org/packages/d0/02/d52c733a2452ef1ffcc123b68e6606d07276b0e358db70eabad7e40042b7/pillow-12.1.0.tar.gz")
 md5sums=("7be15203f5fe63d857814da49a51b616")
 url="https://github.com/python-pillow/Pillow"
-makedepends=('pybind11')
+depends=('python3')
+makedepends=('pybind11' 'python3-setuptools')
 docs=("AUTHORS" "AUTHORS.txt" "CHANGELOG" "ChangeLog" "CHANGES" \
   "CHANGES.txt" "CHANGES.md" "COPYING" "COPYING.txt" "LICENSE" \
   "LICENSE.txt" "README" "README.md" "README.rst" "README.txt" "PKG-INFO")
@@ -31,6 +32,5 @@ slackdesc=\
 build() {
   cd "$SRC/${_srcname}-$pkgver" || exit 1
 
-  python3.9 setup.py install --root="$PKG"
-  python3.11 setup.py install --root="$PKG"
+  python3 setup.py install --root="$PKG"
 }

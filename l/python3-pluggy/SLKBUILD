@@ -1,11 +1,14 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
 # Packager: Didier Spaier didieratslintdotfr
 
 pkgname=python3-pluggy
 pkgver=1.5.0
-pkgrel=2slint
+pkgrel=3slint
 source=()
 url="https://github.com/pytest-dev/pluggy"
-makedepends=('git' 'python')
+depends=('python3')
+makedepends=('git' 'python3')
 options=('nosrcpack')
 
 slackdesc=\
@@ -29,8 +32,7 @@ build() {
   git clone -b $pkgver https://github.com/pytest-dev/pluggy
   cd pluggy || exit 1
 
-  python3.9 setup.py install --root="$PKG"
-  python3.11 setup.py install --root="$PKG"
+  python3 setup.py install --root="$PKG"
 
   mkdir -p "$PKG/usr/doc/$pkgname-$pkgver"
   cp -a CHANGELOG.rst LICENSE README.rst \
