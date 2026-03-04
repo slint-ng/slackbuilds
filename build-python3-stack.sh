@@ -26,7 +26,7 @@ packageList=(
   "l/python-service-identity"
   "t/python3-colorama"
   "l/python3-hkdf"
-  "l/python-humanize"
+  "l/python3-humanize"
   "l/python3-hyperlink"
   "l/python-openssl"
   "l/python3-trove-classifiers"

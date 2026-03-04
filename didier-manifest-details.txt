@@ -1337,7 +1337,7 @@ python-build3.11/SLKBUILD 1 # Maintained by Didier Spaier didieratslintdotfr
 spice-gtk/spice-gtk.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 python-bottle/SLKBUILD 5 # Included in Slint by Didier Spaier didieratslinytdotfr
 salixtools/SLKBUILD 3 #source directory - Didier Spaier <didier~at~slint~dot~fr
-python-humanize/SLKBUILD 3 # Didier Spaier <didier~at~slint~dot~fr>
+python3-humanize/SLKBUILD 5 # Didier Spaier <didier~at~slint~dot~fr>
 rubygem-prawn-icon/rubygem-prawn-icon.SlackBuild 3 # Maintainer  Didier Spaier didier@slint dot fr
 perl-parallel-forkmanager/perl-parallel-forkmanager.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 psutil/psutil.SlackBuild 25 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
