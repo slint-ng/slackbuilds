@@ -1,0 +1,38 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=perl-WebService-MusicBrainz
+pkgver=1.0.5
+pkgrel=1slint
+export srcname=WebService-MusicBrainz
+source=("https://cpan.metacpan.org/authors/id/B/BF/BFAIST/$srcname-$pkgver.tar.gz")
+docs=("Changes" "README.md")
+url="https://metacpan.org/pod/WebService::MusicBrainz"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"perl-WebService-MusicBrainz (query MusicBrainz metadata via web API)"
+"Fetches music metadata objects from the MusicBrainz service."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || exit 1
+
+  perl Makefile.PL \
+    INSTALLDIRS=vendor \
+    INSTALLVENDORMAN1DIR=/usr/man/man1 \
+    INSTALLVENDORMAN3DIR=/usr/man/man3
+  make || exit 1
+  # Keep existing package behavior: skip network-dependent upstream tests.
+  make install DESTDIR="$PKG" || exit 1
+
+  slkbuild_path="${SRC%/src}/SLKBUILD"
+  legacy_suffix=SlackBuild
+  install -Dm644 "$slkbuild_path" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$pkgname.$legacy_suffix" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+  find "$PKG" -depth -type d -empty -delete || exit 1
+}

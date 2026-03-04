@@ -1,0 +1,33 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=perl-www-robotrules
+pkgver=6.02
+pkgrel=2slint
+export srcname=WWW-RobotRules
+source=("https://cpan.metacpan.org/authors/id/G/GA/GAAS/WWW-RobotRules-$pkgver.tar.gz")
+docs=("Changes" "README")
+url="https://metacpan.org/pod/WWW::RobotRules"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"perl-www-robotrules (database of robots.txt permissions)"
+"WWW::RobotRules parses robots.txt files and checks whether"
+"a given URL should be fetched."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || exit 1
+
+  printf 'y\n' | perl Makefile.PL \
+    PREFIX=/usr \
+    INSTALLDIRS=vendor \
+    INSTALLVENDORMAN3DIR=/usr/man/man3
+  make || exit 1
+  make test || exit 1
+  make install DESTDIR="$PKG" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+}

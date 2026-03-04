@@ -1,0 +1,40 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=perl-File-ShareDir-Install
+pkgver=0.13
+pkgrel=1slint
+export srcname=File-ShareDir-Install
+source=("https://cpan.metacpan.org/authors/id/E/ET/ETHER/$srcname-$pkgver.tar.gz")
+docs=("Changes" "MANIFEST" "README*")
+url="https://metacpan.org/pod/File::ShareDir::Install"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"perl-File-ShareDir-Install (install shared files)"
+"File::ShareDir::Install installs read-only"
+"shared data files from a Perl distribution."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || exit 1
+
+  perl Makefile.PL \
+    PREFIX=/usr \
+    INSTALLDIRS=vendor \
+    INSTALLVENDORMAN1DIR=/usr/man/man1 \
+    INSTALLVENDORMAN3DIR=/usr/man/man3
+  make || exit 1
+  make test || exit 1
+  make install DESTDIR="$PKG" || exit 1
+
+  slkbuild_path="${SRC%/src}/SLKBUILD"
+  legacy_suffix=SlackBuild
+  install -Dm644 "$slkbuild_path" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$pkgname.$legacy_suffix" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+  find "$PKG" -depth -type d -empty -delete || exit 1
+}

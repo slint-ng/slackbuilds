@@ -1,0 +1,33 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=perl-http-negotiate
+pkgver=6.01
+pkgrel=2slint
+export srcname=HTTP-Negotiate
+source=("https://cpan.metacpan.org/authors/id/G/GA/GAAS/HTTP-Negotiate-$pkgver.tar.gz")
+docs=("Changes" "README")
+url="https://metacpan.org/pod/HTTP::Negotiate"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"perl-http-negotiate (choose a variant to serve)"
+"HTTP::Negotiate implements HTTP content negotiation based"
+"on the request's Accept* headers."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || exit 1
+
+  printf 'y\n' | perl Makefile.PL \
+    PREFIX=/usr \
+    INSTALLDIRS=vendor \
+    INSTALLVENDORMAN3DIR=/usr/man/man3
+  make || exit 1
+  make test || exit 1
+  make install DESTDIR="$PKG" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+}

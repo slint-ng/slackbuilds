@@ -1,0 +1,51 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=libwww-perl
+pkgver=6.61
+pkgrel=1slint
+depends=(
+  perl-file-listing
+  perl-http-cookies
+  perl-http-daemon
+  perl-http-negotiate
+  perl-net-http
+  perl-www-robotrules
+)
+source=("https://cpan.metacpan.org/authors/id/O/OA/OALDERS/libwww-perl-$pkgver.tar.gz")
+docs=("Changes" "README.SSL")
+url="https://metacpan.org/pod/LWP"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libwww-perl (WWW client/server library for perl)"
+"It is a set of Perl modules which provides a simple and"
+"consistent application programming interface to the"
+"World-Wide Web. The main focus of the library is to"
+"provide classes and functions that allow you to write"
+"WWW clients."
+)
+
+build() {
+  cd "$SRC/$pkgname-$pkgver" || exit 1
+
+  printf 'y\n' | perl Makefile.PL \
+    PREFIX=/usr \
+    INSTALLDIRS=vendor \
+    INSTALLVENDORMAN1DIR=/usr/man/man1 \
+    INSTALLVENDORMAN3DIR=/usr/man/man3
+  make || exit 1
+  NO_NETWORK_TESTING=1 make test || exit 1
+  make install DESTDIR="$PKG" || exit 1
+
+  slkbuild_path="${SRC%/src}/SLKBUILD"
+  legacy_suffix=SlackBuild
+  install -Dm644 "$slkbuild_path" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$pkgname.$legacy_suffix" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+
+  find "$PKG" -depth -type d -empty -delete || exit 1
+}

@@ -1,0 +1,40 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=perl-lwp-mediatypes
+pkgver=6.04
+pkgrel=1slint
+export srcname=LWP-MediaTypes
+source=("https://cpan.metacpan.org/authors/id/O/OA/OALDERS/LWP-MediaTypes-$pkgver.tar.gz")
+docs=("Changes" "README")
+url="https://metacpan.org/pod/LWP::MediaTypes"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"perl-lwp-mediatypes (guess media types for files and URLs)"
+"LWP::MediaTypes maps filename extensions to MIME types"
+"and content encodings."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || exit 1
+
+  printf 'y\n' | perl Makefile.PL \
+    PREFIX=/usr \
+    INSTALLDIRS=vendor \
+    INSTALLVENDORMAN3DIR=/usr/man/man3
+  make || exit 1
+  make test || exit 1
+  make install DESTDIR="$PKG" || exit 1
+
+  slkbuild_path="${SRC%/src}/SLKBUILD"
+  legacy_suffix=SlackBuild
+  install -Dm644 "$slkbuild_path" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$pkgname.$legacy_suffix" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+
+  find "$PKG" -depth -type d -empty -delete || exit 1
+}

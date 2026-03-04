@@ -1,0 +1,48 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=perl-ExtUtils-CChecker
+pkgver=0.11
+pkgrel=1slint
+arch=noarch
+depends=("perl-Test-Fatal" "perl-Module-Build")
+export srcname=ExtUtils-CChecker
+source=("https://cpan.metacpan.org/authors/id/P/PE/PEVANS/$srcname-$pkgver.tar.gz")
+docs=("Changes" "LICENSE" "README*")
+url="https://metacpan.org/pod/ExtUtils::CChecker"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"perl-ExtUtils-CChecker (configure-time C feature checks)"
+"ExtUtils::CChecker helps Perl builds probe C headers,"
+"libraries, and OS features."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || exit 1
+
+  # noarch metadata should not leak impossible -march/-mtune values into
+  # the probe compiler tests this package runs.
+  export CFLAGS="${CFLAGS//-march=noarch/}"
+  export CFLAGS="${CFLAGS//-mtune=noarch/}"
+  export CXXFLAGS="${CXXFLAGS//-march=noarch/}"
+  export CXXFLAGS="${CXXFLAGS//-mtune=noarch/}"
+
+  perl Build.PL \
+    --prefix=/usr \
+    --installdirs=vendor \
+    --install_path libdoc=/usr/man/man3
+  perl Build || exit 1
+  perl Build test || exit 1
+  perl Build install --destdir="$PKG" || exit 1
+
+  slkbuild_path="${SRC%/src}/SLKBUILD"
+  legacy_suffix=SlackBuild
+  install -Dm644 "$slkbuild_path" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$pkgname.$legacy_suffix" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+  find "$PKG" -depth -type d -empty -delete || exit 1
+}

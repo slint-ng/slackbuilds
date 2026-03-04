@@ -1,0 +1,33 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=perl-http-date
+pkgver=6.05
+pkgrel=1slint
+export srcname=HTTP-Date
+source=("https://cpan.metacpan.org/authors/id/O/OA/OALDERS/HTTP-Date-$pkgver.tar.gz")
+docs=("Changes" "README.md")
+url="https://metacpan.org/pod/HTTP::Date"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"perl-http-date (date conversion routines)"
+"HTTP::Date provides functions for the date formats used"
+"by HTTP and related protocols."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || exit 1
+
+  printf 'y\n' | perl Makefile.PL \
+    PREFIX=/usr \
+    INSTALLDIRS=vendor \
+    INSTALLVENDORMAN3DIR=/usr/man/man3
+  make || exit 1
+  make test || exit 1
+  make install DESTDIR="$PKG" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+}

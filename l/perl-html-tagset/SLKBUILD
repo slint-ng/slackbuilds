@@ -1,0 +1,37 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=perl-html-tagset
+pkgver=3.20
+pkgrel=2slint
+export srcname=HTML-Tagset
+source=("https://cpan.metacpan.org/authors/id/P/PE/PETDANCE/$srcname-$pkgver.tar.gz")
+docs=("Changes" "README")
+url="https://metacpan.org/pod/HTML::Tagset"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"perl-html-tagset (perl HTML data tables module)"
+"This module contains data tables useful in dealing with"
+"HTML."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || exit 1
+
+  printf 'y\n' | perl Makefile.PL \
+    INSTALLDIRS=vendor \
+    INSTALLVENDORMAN3DIR=/usr/man/man3
+  make || exit 1
+  make install DESTDIR="$PKG" || exit 1
+
+  slkbuild_path="${SRC%/src}/SLKBUILD"
+  legacy_suffix=SlackBuild
+  install -Dm644 "$slkbuild_path" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$pkgname.$legacy_suffix" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+  find "$PKG" -depth -type d -empty -delete || exit 1
+}

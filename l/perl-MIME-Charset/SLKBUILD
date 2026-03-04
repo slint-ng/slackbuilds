@@ -1,0 +1,41 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=perl-MIME-Charset
+pkgver=1.012.2
+pkgrel=1slint
+depends=("perl-Encode-EUCJPASCII" "perl-Encode-HanExtra")
+export srcname=MIME-Charset
+source=("https://cpan.metacpan.org/authors/id/N/NE/NEZUMI/$srcname-$pkgver.tar.gz")
+docs=("ARTISTIC" "Changes" "COPYING" "README*")
+url="https://metacpan.org/pod/MIME::Charset"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"perl-MIME-Charset (charset info for MIME)"
+"MIME::Charset provides character set information"
+"for MIME messages on the Internet."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || exit 1
+
+  export PERL_MM_USE_DEFAULT=1
+  perl Makefile.PL \
+    PREFIX=/usr \
+    INSTALLDIRS=vendor \
+    INSTALLVENDORMAN3DIR=/usr/man/man3
+  make || exit 1
+  make test || exit 1
+  make install DESTDIR="$PKG" || exit 1
+
+  slkbuild_path="${SRC%/src}/SLKBUILD"
+  legacy_suffix=SlackBuild
+  install -Dm644 "$slkbuild_path" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$pkgname.$legacy_suffix" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+  find "$PKG" -depth -type d -empty -delete || exit 1
+}

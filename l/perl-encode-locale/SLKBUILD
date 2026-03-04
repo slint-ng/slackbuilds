@@ -1,0 +1,33 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=perl-encode-locale
+pkgver=1.05
+pkgrel=2slint
+export srcname=Encode-Locale
+source=("https://cpan.metacpan.org/authors/id/G/GA/GAAS/Encode-Locale-$pkgver.tar.gz")
+docs=("Changes" "README")
+url="https://metacpan.org/pod/Encode::Locale"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"perl-encode-locale (determine the locale encoding)"
+"Encode::Locale helps Perl discover locale encodings for"
+"text and filesystem names."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || exit 1
+
+  printf 'y\n' | perl Makefile.PL \
+    PREFIX=/usr \
+    INSTALLDIRS=vendor \
+    INSTALLVENDORMAN3DIR=/usr/man/man3
+  make || exit 1
+  make test || exit 1
+  make install DESTDIR="$PKG" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+}
