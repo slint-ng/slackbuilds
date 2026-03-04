@@ -1,0 +1,36 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
+pkgname=python3-pymsgbox
+export srcname=pymsgbox
+pkgver=2.0.1
+pkgrel=1slint
+url="https://github.com/asweigart/PyMsgBox"
+depends=("python3")
+makedepends=("python3-setuptools")
+source=("https://files.pythonhosted.org/packages/ae/6a/e80da7594ee598a776972d09e2813df2b06b3bc29218f440631dfa7c78a8/${srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (simple message boxes)"
+""
+"PyMsgBox provides JavaScript-like message boxes in Python."
+)
+
+build() {
+  local docDir
+
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+  python3 setup.py install --root="$PKG" || return 1
+
+  install -d "$docDir" || return 1
+  shopt -s nullglob
+  for docFile in AUTHORS AUTHORS.txt CHANGELOG ChangeLog CHANGES CHANGES.txt CHANGES.md COPYING COPYING.txt LICENSE LICENSE.txt README README.md README.rst README.txt PKG-INFO; do
+    [[ -e "$docFile" ]] || continue
+    cp -a "$docFile" "$docDir/" || return 1
+  done
+  shopt -u nullglob
+}

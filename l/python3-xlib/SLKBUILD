@@ -1,0 +1,36 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
+pkgname=python3-xlib
+export srcname=python-xlib
+pkgver=0.33
+pkgrel=1slint
+url="https://github.com/python-xlib/python-xlib"
+depends=("python3")
+makedepends=("python3-setuptools")
+source=("https://files.pythonhosted.org/packages/86/f5/8c0653e5bb54e0cbdfe27bf32d41f27bc4e12faa8742778c17f2a71be2c0/${srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (X11 client library for Python)"
+""
+"Python Xlib is a pure-Python X11 client library."
+)
+
+build() {
+  local docDir
+
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+  python3 setup.py install --root="$PKG" || return 1
+
+  install -d "$docDir" || return 1
+  shopt -s nullglob
+  for docFile in AUTHORS AUTHORS.txt CHANGELOG ChangeLog CHANGES CHANGES.txt CHANGES.md COPYING COPYING.txt LICENSE LICENSE.txt README README.md README.rst README.txt PKG-INFO; do
+    [[ -e "$docFile" ]] || continue
+    cp -a "$docFile" "$docDir/" || return 1
+  done
+  shopt -u nullglob
+}

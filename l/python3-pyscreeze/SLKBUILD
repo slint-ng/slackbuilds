@@ -1,0 +1,36 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
+pkgname=python3-pyscreeze
+export srcname=pyscreeze
+pkgver=1.0.1
+pkgrel=1slint
+url="https://github.com/asweigart/pyscreeze"
+depends=("python3" "python3-pillow" "python3-xlib")
+makedepends=("python3-setuptools")
+source=("https://files.pythonhosted.org/packages/ee/f0/cb456ac4f1a73723d5b866933b7986f02bacea27516629c00f8e7da94c2d/${srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (screenshot and image locate helpers)"
+""
+"PyScreeze can take screenshots and locate images on the screen."
+)
+
+build() {
+  local docDir
+
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+  python3 setup.py install --root="$PKG" || return 1
+
+  install -d "$docDir" || return 1
+  shopt -s nullglob
+  for docFile in AUTHORS AUTHORS.txt CHANGELOG ChangeLog CHANGES CHANGES.txt CHANGES.md COPYING COPYING.txt LICENSE LICENSE.txt README README.md README.rst README.txt PKG-INFO; do
+    [[ -e "$docFile" ]] || continue
+    cp -a "$docFile" "$docDir/" || return 1
+  done
+  shopt -u nullglob
+}

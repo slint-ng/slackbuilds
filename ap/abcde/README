@@ -11,7 +11,7 @@ or more of these dependencies:
 * id3             for tagging MP3 files (with ID3TAGV=id3v1)
 
 * twolame         for creating MP2 files
-* mutagen         for tagging MP2 and MP3 files (with ID3TAGV=id3v2.3
+* python3-mutagen for tagging MP2 and MP3 files (with ID3TAGV=id3v2.3
                   and ID3V2=mid3v2)
 
 * musepack-tools  for creating Musepack files

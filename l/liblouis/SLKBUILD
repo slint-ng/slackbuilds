@@ -1,3 +1,5 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
 #Packager: Didier Spaier <didier~at~slint~dot~fr>
 
 pkgname=liblouis
@@ -34,8 +36,7 @@ build() {
 	make -j $numjobs || return 1
 	(
 		cd python
-		python3.11 setup.py install --root=$startdir/pkg
-		python3.9 setup.py install --root=$startdir/pkg
+		python3 setup.py install --root=$startdir/pkg
 	)
 	make install DESTDIR=$startdir/pkg
 }

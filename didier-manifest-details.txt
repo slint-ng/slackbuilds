@@ -154,7 +154,7 @@ gnustep-make/gnustep-make.SlackBuild 25 # Included in Slint by Didier Spaier <di
 perl-Unicode-LineBreak/perl-Unicode-LineBreak.SlackBuild 5 # Originally written 2014 Didier Spaier, Paris, France
 perl-Unicode-LineBreak/perl-Unicode-LineBreak.SlackBuild 15 # 20241216 Didier Spaier
 libmpdclient/libmpdclient.SlackBuild 8 # Included in Slint by Didier Spaier didieratslintdotfr
-mutagen/SLKBUILD 4 #Included in Slint by Didier Spaier didieratslintdotfr
+python3-mutagen/SLKBUILD 4 #Included in Slint by Didier Spaier didieratslintdotfr
 perl-WebService-MusicBrainz/perl-WebService-MusicBrainz.SlackBuild 19 # Included in Slint by Didier Spaier <didiert~at~slint~dot~fr>
 xbindkeys/xbindkeys.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 aqemu/aqemu.SlackBuild 25 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
@@ -230,7 +230,7 @@ xtrlock/xtrlock.SlackBuild 27 # Included in Slint by Didier Spaier didieratslint
 xinit.prev/xinit.SlackBuild 3 # Maintainer  Didier Spaier <didier~at~slint~dot~fr>
 xinit.prev/xinit.SlackBuild 7 # but it was refused upsteram so I won't apply it - Didier
 xinit.prev/xinit.SlackBuild 39 # I don't think we need this patch from Slacware - Didier
-python-pythran/SLKBUILD 4 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-pythran/SLKBUILD 4 # Included in Slint by Didier Spaier didieratslintdotfr
 hplip-nogui/hplip.SlackBuild 26 # Didier Spaier didieratslintdotfr
 nnn/nnn.SlackBuild 25 # Adapted to Slint by Didier Spaier <didier~at~slint~dot~fr>
 perl-http-date/perl-http-date.SlackBuild 25 # Included in Slint by Didier Spaier didieratslintdotfr
@@ -524,7 +524,7 @@ grub-extras/grubconfig 4 # Copyright 2019 Didier Spaier didieratslintdotfr
 hardinfo2/SLKBUILD 2 # Included in Slint by Didier Spaier didieratslintdotfr
 gtkglext/gtkglext.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 gupnp/gupnp.SlackBuild 25 # Included in Slint by Didier Spaier didieratslintdotfr
-pygobject3/pygobject3.SlackBuild 24 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-gobject/SLKBUILD 24 # Included in Slint by Didier Spaier didieratslintdotfr
 usbredir/usbredir.SlackBuild 26 # Included in Slint by Didier Spaier didieratslintdotfr
 perl-file-slurper/perl-file-slurper.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 perl-test-warn/perl-test-warn.SlackBuild 28 # Included in Slint by Didier Spaier didieratslintdotfr
@@ -534,7 +534,7 @@ perl-www-robotrules/perl-www-robotrules.SlackBuild 25 # Included in Slint by Did
 perl-common-sense/perl-common-sense.SlackBuild 26 # Included in Slint by Didier Spaier didieratslintdotfr
 telegram/telegram.SlackBuild 30 # Included in Slint by Didier Spaier didieratslintdotfr
 libcuefile/libcuefile.SlackBuild 7 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
-python-espeak/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-espeak/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
 binutils/binutils.SlackBuild 24 # Included in Slint by Didier Spaier didier@slintdotfr
 libconfig/libconfig.SlackBuild 26 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 mumble/mumble.SlackBuild 29 # Included in Slint by Didier Spaier didieratslintdotfr
@@ -650,7 +650,7 @@ zimg/zimg.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 libdc1394/libdc1394.SlackBuild 25 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 ninja/ninja.SlackBuild 23 # Included in Slint by Didier Spaier diideratslintdotfr
 cage/cage.SlackBuild 25 # Adapted to Slint by Didier Spaier didieratslintdotfr
-pycairo/pycairo.SlackBuild 26 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-cairo/SLKBUILD 26 # Included in Slint by Didier Spaier didieratslintdotfr
 ssr/ssr.SlackBuild 23 # Included in Slint by Didier Spaier didieratslintdotfr
 xapp/SLKBUILD 6 # Included in Slint by Didier Spaier didieratslintdotfr
 samurai/samurai.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
@@ -904,7 +904,7 @@ btrfs-progs/btrfs-progs.SlackBuild 22 # Included in Slint by Didier Spaier didie
 python3-wcwidth/SLKBUILD 38 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 python3-flit_core3.11/python3-flit_core3.11.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 dkms/dkms.SlackBuild 30 # Included in Slint by Didier Spaier didieratslintdotfr
-dbus-python/dbus-python.SlackBuild 24 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-dbus/SLKBUILD 24 # Included in Slint by Didier Spaier didieratslintdotfr
 gst-plugins-base/gst-plugins-base.SlackBuild 26 # Included in Slint by Didier Spaier didieratslintdotfr
 compiz-plugins-experimental/SLKBUILD 1 # Packaged by Didier Spaier <didier~at~slint~dot~fr>
 gst-plugins-libav/gst-plugins-libav.SlackBuild 25 # Included in Slint by Didier Spaier didieratslintdotfr
@@ -944,7 +944,7 @@ aerc/aerc.txt 16 (16 37 22) Didier_Spaier  I will try to do my best. Could you p
 aerc/aerc.txt 19 (16 38 33) Didier_Spaier  Will do, thanks.
 poco/poco.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 mate/mate-utils/SLKBUILD 2 # Modified for Slint by Didier Spaier <didier~at~slint~dot~fr> 
-python-pycryptodomex/SLKBUILD 5 #Included in Slint by Didier Spaier didieratslintdotfr
+python3-pycryptodomex/SLKBUILD 5 #Included in Slint by Didier Spaier didieratslintdotfr
 firmware-installer/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
 aerc/SLKBUILD 1 # Maintainer  Didier Spaier <didier~at~slint~dot~fr>
 perl-Text-WrapI18N/perl-Text-WrapI18N.SlackBuild 5 # Copyright  2014 Didier Spaier Paris, France

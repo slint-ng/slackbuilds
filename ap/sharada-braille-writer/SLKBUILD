@@ -1,3 +1,5 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
 #Packager:Didier Spaier didieratslintdotfr
 
 pkgname=sharada-braille-writer
@@ -40,25 +42,23 @@ slackdesc=\
 "By pressing \"f\" and \"s\" together will produce letter k and like."
 )
 options="nosrcpack"
-# build against python-3.11
+# build against python3
 source=("user-preferences.cfg" "sbw.sh")
 build() {
 	git clone https://github.com/zendalona/sbw.git
 	cd sbw
 	pandoc -f markdown -t html5 README.md -o README.html
-	python3.11 setup.py install --install-data=/usr --root=$PKG --optimize=1
+	python3 setup.py install --install-data=/usr --root=$PKG --optimize=1
 	(cd $PKG/usr
 	mv lib lib64
 	)
 	(cd $PKG/usr/bin
-	sed "s;/usr/bin/python3;/usr/bin/python3.11;" sharada-braille-writer || exit
+	sed "s;/usr/bin/python3;/usr/bin/python3;" sharada-braille-writer || exit
 	)
 	rm -r $PKG/usr/share/doc
 	# Ugly but that's wow sharada-braille-writer (sbw finds its own sbw python module
 	# Maybe fid another way later or just wait until all a11 software can use the stock python
-	# Currently python3.9 is too old for the orca version we ship
-	
-	sed "s#/usr/bin/python3#/usr/bin/python3.11#" $PKG/usr/bin/sharada-braille-writer > bof
+	sed "s#/usr/bin/python3#/usr/bin/python3#" $PKG/usr/bin/sharada-braille-writer > bof
 	mv bof $PKG/usr/bin/sharada-braille-writer
 	chmod 755 $PKG/usr/bin/sharada-braille-writer
 	mkdir -p $PKG/usr/doc/${pkgname}-$pkgver

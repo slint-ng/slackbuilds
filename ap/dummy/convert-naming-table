@@ -14,7 +14,7 @@ python-pexpect;python3-pexpect
 python-ptyprocess;python3-ptyprocess
 python-pyasn1;python3-pyasn1
 python-pyasn1-modules;python3-pyasn1-modules
-python-pycryptodomex;pycryptodomex
+python-pycryptodomex;python3-pycryptodomex
 python3-pyenchant;pyenchant
 python3-pyperclip;pyperclip
 python3-evdev;python-evdev

@@ -1,3 +1,5 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
 #Maintainer: Didier Spaier <didier~at~slint~dot~fr>
 # Beware! openjdk-8 is needed to build this package.EDIT. No (6 mai 2021)
 # build deps: faust,portmidi,libmicrohttpd,fltk,liblo,portaudio,jack-audio-connection-kit,swig,fluidsynth,alsa,pulseaudio,openjdk
@@ -18,14 +20,15 @@ slackdesc=\
 
 build() {
 LIBDIRSUFFIX=64
-cd $SRC/$pkgname-$pkgver || return 1
+pythonSitePackages="$(python3 -c 'from sysconfig import get_path; print(get_path("platlib"))')" || return 1
+cd "$SRC/$pkgname-$pkgver" || return 1
 mkdir build
 cd build
 cmake \
 -DCMAKE_INSTALL_PREFIX=/usr \
 -DUSE_LIB64=ON \
--DPYTHON_MODULE_INSTALL_DIR=/usr/lib64/python3.9/site-packages \
+-DPYTHON_MODULE_INSTALL_DIR="$pythonSitePackages" \
 ..
-make install DESTDIR=$PKG
+make install DESTDIR="$PKG"
 cd ..
 }

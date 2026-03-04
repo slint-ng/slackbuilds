@@ -1,0 +1,30 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Author: archtux <antonio dot arias99999 at gmail dot com>
+# Maintainer: Vinícius dos Santos Oliveira <vini.ipsmaker@gmail.com>
+# Included in Slint by Didier Spaier didieratslintdotfr
+#Built against python3
+pkgname=python3-espeak
+export srcname=python-espeak
+pkgver=0.5
+pkgrel=1slint
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Python bindings for espeak)"
+"Initially written by Siegfried-Angel Gevatter Pujals,"
+"with contributions by Joe Burmeister."
+)
+url="https://launchpad.net/python-espeak"
+license=('GPL3')
+depends=('espeak' 'python3')
+makedepends=('python3-setuptools')
+source=("http://launchpad.net/python-espeak/trunk/$pkgver/+download/${srcname}-${pkgver}.tar.gz")
+md5sums=('28dd6d2eff6aca10e259e02a81834245')
+
+build() {
+    cd "$SRC/${srcname}-$pkgver" || return 1
+    python3 setup.py install --install-data=/usr --root "$PKG" || return 1
+    mkdir -p "$PKG/usr/doc/${pkgname}-${pkgver}" || return 1
+    cp COPYING NEWS "$PKG/usr/doc/${pkgname}-${pkgver}" || return 1
+}
