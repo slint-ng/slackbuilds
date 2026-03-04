@@ -3,7 +3,7 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 
 pkgname=python3-tqdm
-srcname=tqdm
+export srcname=tqdm
 pkgver=4.63.0
 pkgrel=1slint
 slackdesc=(
