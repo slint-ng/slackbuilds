@@ -20,7 +20,7 @@ options=("nosrcpack")
 slackdesc=\
 (
  #|-----handy-ruler------------------------------------------------------|
- "speech-dispatcher (text speech program built against Python3.9)"
+ "speech-dispatcher (text speech program built against Python3.11)"
  "Speech Dispatcher project provides a high-level device"
  "independent layer for access to speech synthesis through a simple,"
  "stable and well documented interface."
@@ -41,7 +41,7 @@ cd ${srcname}-$pkgver || exit 1
 patch -p1 --verbose < $SRC/add_flite_generic.conf.diff || exit 1
 patch -p1 --verbose < $SRC/speechd.conf.diff || exit 1
 ./build.sh
-PYTHON=/usr/bin/python3.9 ./configure --prefix=/usr \
+PYTHON=/usr/bin/python3.11 ./configure --prefix=/usr \
 --libdir=/usr/lib${LIBDIRSUFFIX} \
 --localstatedir=/var \
 --sysconfdir=/etc \
