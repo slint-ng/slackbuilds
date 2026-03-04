@@ -18,7 +18,7 @@ slackdesc=(
 )
 url="https://twistedmatrix.com/"
 depends=("python3")
-makedepends=("python-build" "python3-installer" "python-wheel")
+makedepends=("python3-setuptools")
 source=("https://files.pythonhosted.org/packages/source/T/${srcname}/${srcname}-${pkgver}.tar.gz")
 options=("nosrcpack")
 
@@ -31,8 +31,7 @@ build() {
   # setuptools no longer resolves reliably from setup.cfg.
   sed -i "s/^version = attr: twisted\\.__version__$/version = ${pkgver}/" setup.cfg || return 1
 
-  python3 -m build --wheel --no-isolation || return 1
-  python3 -m installer --destdir="$PKG" dist/*.whl || return 1
+  python3 setup.py install --root="$PKG" || return 1
 
   docDir="$PKG/usr/doc/$pkgname-$pkgver"
   install -d "$docDir" || return 1
