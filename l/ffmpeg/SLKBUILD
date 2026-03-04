@@ -104,7 +104,6 @@ build() {
     --enable-opencl
     --enable-opengl
     --enable-openssl
-    --enable-vapoursynth
     --enable-version3
   )
 
@@ -112,6 +111,12 @@ build() {
     configureArgs+=(--enable-libpulse)
   else
     configureArgs+=(--disable-libpulse)
+  fi
+
+  if pkg-config --exists 'vapoursynth-script >= 42'; then
+    configureArgs+=(--enable-vapoursynth)
+  else
+    configureArgs+=(--disable-vapoursynth)
   fi
 
   CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" ./configure "${configureArgs[@]}" || return 1
