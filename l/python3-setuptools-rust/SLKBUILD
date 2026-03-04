@@ -8,7 +8,7 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 
 pkgname=python3-setuptools-rust
-srcname=setuptools-rust
+srcname=setuptools_rust
 export srcname
 pkgver=1.12.0
 pkgrel=1slint
@@ -16,7 +16,7 @@ slackdesc="$pkgname (compile Python extensions written in rust.)"
 license=('MIT')
 url="https://github.com/PyO3/setuptools-rust"
 depends=('rust' 'python3-setuptools' 'python-semantic-version')
-makedepends=('python-setuptools_scm3.11' 'python-wheel3.11')
+makedepends=('python-build' 'python-installer3.11' 'python-setuptools_scm3.11' 'python-wheel3.11')
 checkdepends=('python-pytest' 'python-pytest-benchmark' 'python-beautifulsoup4' 'python-lxml' 'python-cffi')
 source=("https://files.pythonhosted.org/packages/source/s/setuptools-rust/setuptools_rust-${pkgver}.tar.gz")
 sha256sums=('d94a93f0c97751c17014565f07bdc324bee45d396cd1bba83d8e7af92b945f0c')
@@ -25,7 +25,7 @@ export SETUPTOOLS_SCM_PRETEND_VERSION=$pkgver
 
 build() {
   cd "$srcname-$pkgver" || return 1
-  python3 setup.py build || return 1
-  python3 setup.py install --root="$PKG" --optimize=1 || return 1
+  python3 -m build --wheel --no-isolation || return 1
+  python3 -m installer --destdir="$PKG" dist/*.whl || return 1
   install -Dm644 LICENSE -t "$PKG"/usr/doc/$pkgname_$pkgver/
 }
