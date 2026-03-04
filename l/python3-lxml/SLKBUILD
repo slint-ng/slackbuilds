@@ -6,9 +6,11 @@
 pkgname=python3-lxml
 export srcname=lxml
 pkgver=4.9.4
-pkgrel=1slint
+pkgrel=2slint
 source=("https://files.pythonhosted.org/packages/source/l/${srcname}/${srcname}-${pkgver}.tar.gz")
 sourcetemplate=http://people.salixos.org/laprjns/$pkgname/$pkgver/
+depends=("libxml2" "libxslt" "python3")
+makedepends=("python3-build" "python3-installer" "python3-setuptools" "python3-wheel")
 options=('nosrcpack')
 
 slackdesc=\
@@ -33,8 +35,8 @@ build() {
 	fi
 
 	cd "$sourceDir" || return 1
-	python3 setup.py build --with-unicode-strings --without-cython || return 1
-	python3 setup.py install --prefix=/usr --root="$PKG" --skip-build --optimize=1 || return 1
+	python3 -m build --wheel --no-isolation || return 1
+	python3 -m installer --destdir="$PKG" dist/*.whl || return 1
 
 	install -d "$docDir" || return 1
 	for docFile in CREDITS.txt LICENSE.txt LICENSES.txt README.rst TODO.txt BSD.txt GPL.txt ZopePublicLicense.txt elementtree.txt; do
