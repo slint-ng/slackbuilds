@@ -11,7 +11,7 @@ pkgrel=2slint
 slackdesc=\
 (
 #|-----handy-ruler-----------------------------------------------------
-"python3-daemonize (Library to enable your code run as a daemon process)"
+"python3-daemonize Library to enable your code run as a daemon process"
 )
 url='https://pypi.python.org/pypi/daemonize/'
 license=('MIT')
