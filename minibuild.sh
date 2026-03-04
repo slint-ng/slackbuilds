@@ -8,6 +8,7 @@ packageList=(
   "d/meson"
   "l/python3-pythran"
   "l/python3-setproctitle"
+  "l/python3-tomlkit"
   "l/python3-dbus"
   "d/nodejs"
   "d/pnpm"

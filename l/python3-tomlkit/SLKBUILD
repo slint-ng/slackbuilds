@@ -1,0 +1,50 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python3-tomlkit
+srcname=tomlkit
+pkgver=0.11.4
+pkgrel=1slint
+source=("https://files.pythonhosted.org/packages/source/t/${srcname}/${srcname}-${pkgver}.tar.gz")
+url="https://github.com/python-poetry/tomlkit"
+license=("MIT")
+depends=("python3")
+makedepends=("python3-setuptools")
+docs=("LICENSE" "README*" "CHANGELOG*")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"python3-tomlkit (style-preserving TOML library)"
+""
+"TOML Kit is a 1.0.0-compliant Python library for reading and writing"
+"TOML files while preserving formatting and comments."
+""
+"Homepage: https://github.com/python-poetry/tomlkit"
+)
+
+build() {
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+
+  cat > setup.py <<'EOF' || return 1
+from setuptools import find_packages, setup
+
+setup(
+    name="tomlkit",
+    version="0.11.4",
+    packages=find_packages(exclude=("tests", "tests.*")),
+)
+EOF
+
+  python3 setup.py install --root="$PKG" || return 1
+
+  install -d "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  shopt -s nullglob
+  for doc in LICENSE README* CHANGELOG*; do
+    [ -e "$doc" ] || continue
+    cp -a "$doc" "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
+  done
+  shopt -u nullglob
+}

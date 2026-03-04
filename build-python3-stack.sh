@@ -78,6 +78,7 @@ packageList=(
   "l/python3-pythran"
   "l/python3-i3ipc"
   "l/python3-setproctitle"
+  "l/python3-tomlkit"
   "l/python3-tomli"
   "l/python3-pyparsing"
   "l/python3-importlib-metadata"

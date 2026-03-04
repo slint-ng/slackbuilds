@@ -28,6 +28,7 @@ depends=(
   'python3-gobject'
   'python3-pluggy'
   'python3-setproctitle'
+  'python3-tomlkit'
   'socat'
   'speech-dispatcher'
   'xkbcomp'
