@@ -3,7 +3,7 @@
 # Maintainer: Patrick J. Volkerding <volkerdi@slackware.com>
 # Included in Slint by Didier Spaier didieratslintdotfr
 
-pkgname=python-tomli3.11
+pkgname=python3-tomli
 _srcname=tomli
 pkgver=1.2.2
 pkgrel=2slint
@@ -17,7 +17,7 @@ slackdesc=(
 )
 url="https://github.com/hukkin/tomli"
 license=("MIT")
-depends=("python")
+depends=("python3")
 makedepends=("python3-setuptools")
 source=("https://files.pythonhosted.org/packages/source/t/${_srcname}/${_srcname}-${pkgver}.tar.gz")
 options=("nosrcpack")
@@ -32,7 +32,7 @@ from setuptools import setup
 setup(name="${_srcname}", version="${pkgver}", packages=["${_srcname}"], package_data={"": ["*"]})
 EOF
 
-  python3.11 setup.py install --root="$PKG" || return 1
+  python3 setup.py install --root="$PKG" || return 1
 
   install -d "$PKG/usr/doc/$pkgname-$pkgver" || return 1
   shopt -s nullglob

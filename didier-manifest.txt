@@ -531,7 +531,7 @@ python3-cairo
 python3-gobject
 python3-gobject
 pyinotify
-pyparsing3.11
+python3-pyparsing
 python3-pyperclip
 python3
 python3-calver
@@ -559,8 +559,7 @@ python-babel
 python-beautifulsoup4
 python-bottle
 python-brotli3.11
-python-build
-python-build3.11
+python3-build
 python-caja
 python-cchardet
 python3-certifi
@@ -590,12 +589,11 @@ python3-hyperlink
 python3-idna
 python-imagesize
 python-importlib_metadata
-python-importlib_metadata3.11
+python3-importlib-metadata
 python3-incremental
 python-inotify
 python-inotify-simple
 python-install
-python-installer3.11
 python-Levenshtein
 python-luckydonaldutils
 python-lxml
@@ -606,7 +604,7 @@ python-node-semver
 python-nose
 python3-numpy
 python3-openssl
-python-packaging3.11
+python3-packaging
 python-patch-ng
 python-pdf2image
 python3-pexpect
@@ -640,7 +638,7 @@ python-semver
 python3-service-identity
 python3-setuptools
 python3-setuptools-rust
-python-setuptools_scm3.11
+python3-setuptools-scm
 python-sh
 python-smartypants
 python-snowballstemmer
@@ -650,7 +648,7 @@ python-sphinx
 python-tesserwrap
 python-textconfig
 python-toml
-python-tomli3.11
+python3-tomli
 python3-tqdm
 python3-twisted
 python3-txaio
@@ -663,7 +661,7 @@ python3-wcwidth
 python-websocket-client
 python3-websockets
 python-wheel
-python-wheel3.11
+python3-wheel
 python3-wsaccel
 python-xlib
 python-zipp

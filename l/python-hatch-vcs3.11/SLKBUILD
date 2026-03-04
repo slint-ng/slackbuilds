@@ -1,3 +1,5 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
 # Maintainer: Felix Yan <felixonmars@archlinux.org>
 
 # Included in Slint by Didier Spaier didieratslintdotfr
@@ -10,7 +12,7 @@ slackdesc="$pkgname (Hatch plugin for versioning with your VCS)"
 url="https://github.com/ofek/hatch-vcs"
 license=('MIT')
 depends=('python-hatchling' 'python-setuptools-scm')
-makedepends=('git' 'python-build' 'python-installer')
+makedepends=('git' 'python3-build' 'python3-installer')
 checkdepends=('python-pytest')
 source=("https://github.com/ofek/hatch-vcs/archive/refs/tags/v${pkgver}.tar.gz")
 sha512sums=('c987b4e50bd3c53503fb09add9b06d0464b1b75f195906146f5253737f44a7967a83730bc6132c5335ec6ce71554bca47fa3956b08196963fa953395730e689d')

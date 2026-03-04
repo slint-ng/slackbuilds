@@ -18,7 +18,7 @@ slackdesc=(
 )
 url="https://github.com/glyph/automat"
 depends=("python3")
-makedepends=("python-build" "python-installer3.11" "python3-setuptools" "python-wheel3.11")
+makedepends=("python3-build" "python3-installer" "python3-setuptools" "python3-wheel")
 source=("https://files.pythonhosted.org/packages/e3/0f/d40bbe294bbf004d436a8bcbcfaadca8b5140d39ad0ad3d73d1a8ba15f14/automat-${pkgver}.tar.gz")
 options=("nosrcpack")
 

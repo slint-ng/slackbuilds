@@ -12,7 +12,7 @@ pkgrel=1slint
 slackdesc="$pkgname (A cross-platform clipboard module for Python)"
 url="https://github.com/asweigart/pyperclip"
 license=('BSD-3-Clause')
-makedepends=('python-build' 'python3-installer' 'python3-setuptools' 'python-wheel')
+makedepends=('python3-build' 'python3-installer' 'python3-setuptools' 'python3-wheel')
 # GTK/Qt tests crash xvfb, and Klipper tests require a running klipper
 #checkdepends=('xorg-server-xvfb' 'python-pytest' 'xsel' 'xclip')
 depends=('python3')

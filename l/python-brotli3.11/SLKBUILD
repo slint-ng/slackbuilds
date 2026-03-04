@@ -1,3 +1,5 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
 # Maintainer: Felix Yan <felixonmars@archlinux.org>
 # Maintainer: Levente Polyak <anthraxx[at]archlinux[dot]org>
 # Contributor: Lex Black <autumn-wind at web dot de>
@@ -19,9 +21,9 @@ makedepends=(
   git
   cmake
   python-setuptools
-  python-build
+  python3-build
   python-installer
-  python-wheel
+  python3-wheel
 )
 source=("${pkgbase}-${pkgver}.tar.gz")
 sha512sums=('SKIP')

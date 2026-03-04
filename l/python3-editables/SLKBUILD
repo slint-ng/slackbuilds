@@ -21,7 +21,7 @@ slackdesc=(
 )
 url="https://github.com/pfmoore/editables"
 depends=("python3")
-makedepends=("python-build" "python-installer" "python-wheel")
+makedepends=("python3-build" "python3-installer" "python3-wheel")
 source=("https://files.pythonhosted.org/packages/source/e/editables/editables-${pkgver}.tar.gz")
 options=("nosrcpack")
 docs=("LICENSE.txt" "README.md")

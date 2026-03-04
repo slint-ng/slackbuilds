@@ -1,3 +1,5 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
 # Maintainer: B. Watson (urchlay@slackware.uk)
 
 # Included in Slint by Didier Spaier didieratslintdotfr
@@ -16,7 +18,7 @@ slackdesc=\
 url="https://github.com/yt-dlp/yt-dlp"
 license=("Unlicense")
 depends=("python")
-makedepends=("python-build" "python-hatchling" "python-installer" "python-wheel")
+makedepends=("python3-build" "python-hatchling" "python3-installer" "python3-wheel")
 source=("https://github.com/yt-dlp/yt-dlp/archive/${pkgver}/yt-dlp-${pkgver}.tar.gz")
 
 build() {

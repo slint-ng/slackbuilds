@@ -19,7 +19,7 @@ slackdesc=\
 url="https://pip.pypa.io/"
 license=("MIT")
 arch=("x86_64")
-depends=("python3" "python-build" "python-installer3.11")
+depends=("python3" "python3-build" "python3-installer")
 source=("https://files.pythonhosted.org/packages/source/p/${srcname}/${srcname}-${pkgver}.tar.gz")
 options=("nosrcpack")
 

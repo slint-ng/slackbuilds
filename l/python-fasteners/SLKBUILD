@@ -17,7 +17,7 @@ slackdesc=(
 )
 url="https://github.com/harlowja/fasteners/"
 depends=("python")
-makedepends=("python-build" "python-setuptools" "python-wheel")
+makedepends=("python3-build" "python3-setuptools" "python3-wheel")
 source=("https://github.com/harlowja/fasteners/archive/${pkgver}.tar.gz")
 options=("nosrcpack")
 

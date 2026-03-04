@@ -1,2 +1,0 @@
-# Accept removal of the legacy doc-installed build script copy on conversion.
--usr/doc/@PKGNAME@-@PKGVER@/@PKGNAME@\.SlackBuild

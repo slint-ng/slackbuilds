@@ -11,7 +11,7 @@ source=("https://files.pythonhosted.org/packages/source/t/$srcname/$srcname-$pkg
 url="https://github.com/pypa/trove-classifiers"
 docs=("CONTRIBUTING.md" "LICENSE" "README.md")
 depends=("python3")
-makedepends=("python-build" "python3-installer" "python-wheel")
+makedepends=("python3-build" "python3-installer" "python3-wheel")
 options=("nosrcpack")
 
 slackdesc=(

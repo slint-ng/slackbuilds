@@ -36,7 +36,7 @@ bitlbee/bitlbee.SlackBuild 28 # Included in Slint by Didier Spaier <didier~at~sl
 gettext/gettext.SlackBuild 23 # Included in Slint by Didier Spaier didieratslintdotfr
 python-brotli3.11/SLKBUILD 6 # Included in Slint by Didier Spaier didieratslintdotfr
 gettext/gettext-tools.SlackBuild 23 # Included in Slint by Didier Spaier didieratslintdotfr
-python-build/SLKBUILD 1 # Maintained by Didier Spaier didieratslintdotfr
+python3-build/SLKBUILD 1 # Maintained by Didier Spaier didieratslintdotfr
 daisy-player/SLKBUILD 1 # Packaged by Didier Spaier <didier~at~slint~dot~fr>
 claws-mail/SLKBUILD 2 #Adapted for Slint by Didier Spaier <didier~at~slint~dot~fr>
 python3-pip/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
@@ -60,7 +60,7 @@ python-node-semver/python-node-semver.SlackBuild 27 # Included in Slint by Didie
 open-jtalk/SLKBUILD 3 # Included in in Slint by Didier Spaier didieratslintdotfr
 open-jtalk/SLKBUILD 7 # open-jtalk-mecab-naist-jdic - Didier
 iucode_tool/iucode_tool.SlackBuild 28 # Included in Slint by Didier Spaier didieratslintdotfr
-python-tomli3.11/python-tomli3.11.SlackBuild 24 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-tomli/SLKBUILD 24 # Included in Slint by Didier Spaier didieratslintdotfr
 zenity/zenity.SlackBuild 7 #Included in Slint by Didier Spaier didieratslintdotfr
 RHVoice/SLKBUILD 4 # Included in Slint by Didier Spaier didier@slitdotfr
 faac/faac.SlackBuild 31 # Included in Slint by Didier Spaier didieratslintdotfr
@@ -235,7 +235,6 @@ hplip-nogui/hplip.SlackBuild 26 # Didier Spaier didieratslintdotfr
 nnn/nnn.SlackBuild 25 # Adapted to Slint by Didier Spaier <didier~at~slint~dot~fr>
 perl-http-date/perl-http-date.SlackBuild 25 # Included in Slint by Didier Spaier didieratslintdotfr
 python-cryptography/cryptography.SlackBuild 27 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
-python-installer3.11/python-installer3.11.SlackBuild 28 # Included in Slint by Didier Spaier didieratslintdotfr
 edk2-ovmf/edk2-ovmf.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 dav1d/dav1d.SlackBuild 26 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 python3-cryptography/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
@@ -257,7 +256,7 @@ kColorPicker/kColorPicker.SlackBuild 27 # Included in Slint by Didier Spaier did
 imlib2/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
 rubygem-rexml/rubygem-rexml.SlackBuild 3 # Maintainer  Didier Spaier didier@slint dot fr
 python3-requests/SLKBUILD 3 #Included in Slint by Didier Spaier didieratslintdotfr
-pyparsing3.11/pyparsing3.11.SlackBuild 28 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-pyparsing/SLKBUILD 28 # Included in Slint by Didier Spaier didieratslintdotfr
 arabolical-font/arabolical-font.SlackBuild 2 # Packager  Didier Spaier didieratslintdotfr
 ebook-speaker/change_TTS_initial_setup_and_remove_add_TTS_dialog.diff 14 Didier Spaier, 04 December 2018 comments edited on 27 December 2018
 i3withI38/yad/yad.SlackBuild 28 # Included in Slint by Didier Spaier didieratslintdotfr
@@ -413,7 +412,7 @@ i3withI38/perl-Types-Serialiser/perl-Types-Serialiser.SlackBuild 25 # Included i
 lilv/lilv.SlackBuild 25 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 python3-dbus/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
 barnard/Barnard_how_to 22 barnard -insecure -username "Didier Spaier" -server slint.fr 64738
-python-setuptools_scm3.11/python-setuptools_scm3.11.SlackBuild 23 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-setuptools-scm/SLKBUILD 23 # Included in Slint by Didier Spaier didieratslintdotfr
 perl-PAR-Dist/perl-PAR-Dist.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 i3withI38/python-pytesseract/SLKBUILD 3 # Modified and included in Slint by Didier Spaier didieratsintdotfr
 GraphicsMagick/GraphicsMagick.SlackBuild 47 # Included in Slint by Didier Spaier didieratslintdotfr
@@ -476,7 +475,7 @@ Maintenance-of-the-repository/meta_repo.sh 2 # Author  Didier Spaier, Paris, Fra
 python3-txtorcon/SLKBUILD 29 # Didier Spaier <didier~at~slint~dot~fr>
 qt5/qt5.SlackBuild 30 #Included in Slint by Didier Spaier didieratslintdotfr
 pyinotify/pyinotify.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
-python-wheel3.11/python-wheel3.11.SlackBuild 25 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-wheel/SLKBUILD 25 # Included in Slint by Didier Spaier didieratslintdotfr
 python-cchardet/python-cchardet.SlackBuild 25 # Included in Slint by Didier Spaier diideratsintdotfr
 portaudio/SLKBUILD 2 # Included in Slint by Didier Spaier didieratslintdotfr
 libgccjit/libgccjit.SlackBuild 5 # script and the following notes - Didier Spaier
@@ -579,7 +578,7 @@ python-pytg/SLKBUILD 1 # Packaged by Didier Spaier <didier~at~slint~dot~fr>
 x11-skel/x11-skel.SlackBuild 23 # Included in Slint by Didier Spaier didieratslintdotfr
 mlterm/mlterm.SlackBuild 25 # Heavily modified by Didier Spaier didieratslintdotfr
 sphinxcontrib-jsmath/sphinxcontrib-jsmath.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
-python-packaging3.11/python-packaging3.11.SlackBuild 24 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-packaging/SLKBUILD 24 # Included in Slint by Didier Spaier didieratslintdotfr
 x11-skel/scripts/xwmconfig 22 # Included in Slint by Didier Spaier didieratslintdotfr
 perl-XS-Parse-Keyword/perl-XS-Parse-Keyword.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 slapt-src/SLKBUILD 2 # Included in Slint by Didier Spaier didieratslintdotfr
@@ -1313,7 +1312,7 @@ sphinxcontrib-serializinghtml/sphinxcontrib-serializinghtml.SlackBuild 27 # Incl
 surfraw/surfraw.SlackBuild 25 # Included in Slint by Didier Spaier didieratslintdotfr
 libzmf/libzmf.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 spice-protocol/spice-protocol.SlackBuild 26 # Included in Slint by Didier Spaier didieratslintdotfr
-python-importlib_metadata3.11/python-importlib_metadata3.11.SlackBuild 25 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-importlib-metadata/SLKBUILD 25 # Included in Slint by Didier Spaier didieratslintdotfr
 gcc/gcc.SlackBuild 55 # Included in Slint by Didier Spaier didieratslintdotfr
 python-configparser/python-configparser.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 libdv/libdv.SlackBuild 26 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
@@ -1333,7 +1332,6 @@ perl-encode-locale/perl-encode-locale.SlackBuild 25 # Included in Slint by Didie
 blocaled/blocaled.SlackBuild 25 # Included in Slint by Didier Spaier dideratslintdotfr
 vapoursynth-mvtools/vapoursynth-mvtools.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 gcc5/gcc5.SlackBuild 58 # Included in Slint by Didier Spaier didieratslintdotfr
-python-build3.11/SLKBUILD 1 # Maintained by Didier Spaier didieratslintdotfr
 spice-gtk/spice-gtk.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 python-bottle/SLKBUILD 5 # Included in Slint by Didier Spaier didieratslinytdotfr
 salixtools/SLKBUILD 3 #source directory - Didier Spaier <didier~at~slint~dot~fr

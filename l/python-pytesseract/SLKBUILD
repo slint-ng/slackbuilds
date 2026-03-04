@@ -1,3 +1,5 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
 # Maintainer: Daniel M. Capella <polyzen@archlinux.org>
 # Contributor: Christoph Brill <egore911@gmail.com>
 # Modified and included in Slint by Didier Spaier didieratsintdotfr
@@ -9,7 +11,7 @@ slackdesc="$pkgname (Python wrapper for Google Tesseract)"
 url=https://github.com/madmaze/pytesseract
 license=('Apache')
 depends=('python-packaging' 'python3-pillow' 'tesseract')
-makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+makedepends=('python3-build' 'python3-installer' 'python3-setuptools' 'python3-wheel')
 checkdepends=('python-pytest' 'tesseract-data-eng' 'tesseract-data-fra')
 source=("$url/archive/v$pkgver/$_name-v$pkgver.tar.gz")
 b2sums=('d89f9082d8c7236b97bb96441809a19f494aacd23d4c02d5b7fb1b742616e7b26c249d49fceecc4f652792cdc3d7f2a79cd580a3360157f81205ff04d65afb10')

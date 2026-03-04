@@ -3,7 +3,7 @@
 # Maintainer: Benjamin Trigona-Harany <slackbuilds@jaxartes.net>
 # Included in Slint by Didier Spaier didieratslintdotfr
 
-pkgname=python-importlib_metadata3.11
+pkgname=python3-importlib-metadata
 _srcname=importlib_metadata
 pkgver=4.8.2
 pkgrel=1slint
@@ -18,14 +18,14 @@ slackdesc=(
 )
 url="https://importlib-metadata.readthedocs.io/"
 license=("Apache-2.0")
-depends=("python" "python-zipp")
+depends=("python3" "python-zipp")
 makedepends=("python3-setuptools")
 source=("https://files.pythonhosted.org/packages/source/i/${_srcname}/${_srcname}-${pkgver}.tar.gz")
 options=("nosrcpack")
 
 build() {
   cd "$SRC/${_srcname}-${pkgver}" || return 1
-  python3.11 setup.py install --root="$PKG" || return 1
+  python3 setup.py install --root="$PKG" || return 1
 
   while IFS= read -r -d '' egginfo; do
     fixed_egginfo="${egginfo/${pkgver}/0.0.0}"

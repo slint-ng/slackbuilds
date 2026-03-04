@@ -3,7 +3,7 @@
 # Maintainer: Barry Grundy <bgrundy at linuxleo dot com>
 # Included in Slint by Didier Spaier didieratslintdotfr
 
-pkgname=pyparsing3.11
+pkgname=python3-pyparsing
 _srcname=pyparsing
 pkgver=2.4.7
 pkgrel=1slint
@@ -19,14 +19,14 @@ slackdesc=(
 )
 url="https://pypi.org/project/pyparsing/"
 license=("MIT")
-depends=("python")
+depends=("python3")
 makedepends=("python3-setuptools")
 source=("https://files.pythonhosted.org/packages/source/p/${_srcname}/${_srcname}-${pkgver}.tar.gz")
 options=("nosrcpack")
 
 build() {
   cd "$SRC/${_srcname}-${pkgver}" || return 1
-  python3.11 setup.py install --root="$PKG" || return 1
+  python3 setup.py install --root="$PKG" || return 1
 
   docdir="$PKG/usr/doc/$pkgname-$pkgver"
   install -d "$docdir" || return 1

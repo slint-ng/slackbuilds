@@ -14,7 +14,7 @@ optdepends=(
 	'python-flask: http server'
 	'python-pytorch: train'
 )
-makedepends=(git python-setuptools python-build python-installer python-wheel python-scikit-build cmake ninja)
+makedepends=(git python3-setuptools python3-build python3-installer python3-wheel python-scikit-build cmake ninja)
 source=("https://github.com/OHF-Voice/piper1-gpl.git#tag=v$pkgver")
 sha256sums=('4283f56d438c74cc5c790917264e557af6fd2acfa1ff4942f9628c7b78733314')
 

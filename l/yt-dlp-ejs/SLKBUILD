@@ -1,3 +1,5 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
 # Maintainer: Antonio Rojas <arojas@archlinux.org>
 
 #Included in Slint by Didier Spaier didieratslintdotfr
@@ -12,7 +14,7 @@ license=(Unlicense)
 depends=(deno
          python)
 makedepends=(git
-             python-build
+             python3-build
              python-hatch-vcs
              python-hatchling
              python-installer)
