@@ -5,7 +5,7 @@
 pkgname=gobject-introspection
 pkgver=1.84.0
 pkgrel=3slint
-source=("$pkgname-$pkgver.tar.xz")
+source=("https://download.gnome.org/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
 url="https://gi.readthedocs.io/en/latest/"
 makedepends=('meson' 'ninja' 'python')
 docs=("COPYING*" "NEWS" "README*")
