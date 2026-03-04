@@ -584,7 +584,7 @@ python-filetype
 python-gflags
 python-glad2
 python-hatch-vcs3.11
-python-hkdf
+python3-hkdf
 python-humanize
 python-hyperlink
 python3-idna

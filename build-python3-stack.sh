@@ -25,7 +25,7 @@ packageList=(
   "k/python-pyasn1-modules"
   "l/python-service-identity"
   "t/python3-colorama"
-  "ap/python-hkdf"
+  "l/python3-hkdf"
   "l/python-humanize"
   "l/python-hyperlink"
   "l/python-openssl"

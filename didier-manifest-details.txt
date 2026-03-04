@@ -1113,7 +1113,7 @@ fenrir/SLKBUILD 3 # Adapted to Slint by Didier Spaier didieratslintdotfr
 pcaudiolib/SLKBUILD 1 		#Packager  Didier Spaier <didier~at~slint~dot~fr>
 schroedinger/schroedinger.SlackBuild 30 # Included in Slint by Didier Spaier didieratslintdotfr
 MPlayer/MPlayer.SlackBuild 25 # Included in Slint by Didier Spaier didieratslintdotfr
-python-hkdf/SLKBUILD 4 # Didier Spaier <didier~at~slint~dot~fr>
+python3-hkdf/SLKBUILD 5 # Didier Spaier <didier~at~slint~dot~fr>
 testdisk/testdisk.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 gst-plugins-bad-free/gst-plugins-bad-free.SlackBuild 26 # Included in Slint by Didier Spaier didieratslintdotfr
 mpd-sacd/SLKBUILD 2 # Adapted to and included in Slint by Didier Spaier didieratslintdotfr
