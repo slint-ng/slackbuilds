@@ -4,7 +4,7 @@
 
 pkgname=mpv
 pkgver=0.41.0
-pkgrel=1slint
+pkgrel=2slint
 source=(
   "https://github.com/mpv-player/mpv/archive/refs/tags/v${pkgver}.tar.gz"
 )

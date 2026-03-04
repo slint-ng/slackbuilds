@@ -1,0 +1,145 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=ffmpeg
+pkgver=6.1.2
+pkgrel=1slint
+source=("https://ffmpeg.org/releases/${pkgname}-${pkgver}.tar.xz")
+url="https://ffmpeg.org/"
+license=("GPL")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"ffmpeg (software to record, convert and stream audio and video)"
+""
+"FFmpeg is the leading multimedia framework, able to decode, encode,"
+"transcode, mux, demux, stream, filter and play pretty much anything"
+"that humans and machines have created. It supports the most obscure"
+"ancient formats up to the cutting edge. It includes libavcodec, the"
+"leading audio/video codec library."
+""
+"Homepage: https://ffmpeg.org/"
+)
+
+build() {
+  local -a configureArgs=()
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  # Fix linking with flite.
+  sed -i 's| -lflite"| -lflite -lm -lasound"|' configure || return 1
+
+  configureArgs=(
+    --prefix=/usr
+    "--libdir=/usr/lib${LIBDIRSUFFIX}"
+    "--shlibdir=/usr/lib${LIBDIRSUFFIX}"
+    "--docdir=/usr/doc/$pkgname-$pkgver/html"
+    --mandir=/usr/man
+    --disable-debug
+    --disable-static
+    --enable-shared
+    --enable-encoder=aac
+    --enable-fontconfig
+    --enable-frei0r
+    --enable-gcrypt
+    --enable-gpl
+    --enable-ladspa
+    --enable-libaom
+    --enable-libass
+    --enable-libbluray
+    --enable-libbs2b
+    --enable-libcaca
+    --enable-libcdio
+    --enable-libcelt
+    --enable-libcodec2
+    --enable-libdav1d
+    --enable-libdc1394
+    --enable-libdrm
+    --enable-libfdk-aac
+    --enable-libflite
+    --enable-libfreetype
+    --enable-libfribidi
+    --enable-libgme
+    --enable-libgsm
+    --enable-libiec61883
+    --enable-libilbc
+    --enable-libglslang
+    --enable-libjack
+    --enable-libmodplug
+    --enable-libmp3lame
+    --enable-libopencore-amrnb
+    --enable-libopencore-amrwb
+    --enable-libopenjpeg
+    --enable-libopus
+    --enable-librsvg
+    --enable-librtmp
+    --enable-librubberband
+    --enable-libsmbclient
+    --enable-libsnappy
+    --enable-libsoxr
+    --enable-libspeex
+    --enable-libsrt
+    --enable-libssh
+    --enable-libtesseract
+    --enable-libtheora
+    --enable-libtwolame
+    --enable-libv4l2
+    --enable-libvidstab
+    --enable-libvorbis
+    --enable-libvpx
+    --enable-libwebp
+    --enable-libx264
+    --enable-libx265
+    --enable-libxml2
+    --enable-libxvid
+    --enable-libzimg
+    --enable-libzmq
+    --enable-libzvbi
+    --enable-lv2
+    --enable-nonfree
+    --enable-openal
+    --enable-opencl
+    --enable-opengl
+    --enable-openssl
+    --enable-vapoursynth
+    --enable-version3
+  )
+
+  if [[ -r "/usr/lib${LIBDIRSUFFIX}/pkgconfig/libpulse.pc" ]]; then
+    configureArgs+=(--enable-libpulse)
+  else
+    configureArgs+=(--disable-libpulse)
+  fi
+
+  CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" ./configure "${configureArgs[@]}" || return 1
+
+  # numjobs is intentionally expanded as a make-style argument list.
+  # shellcheck disable=SC2086
+  make -j $numjobs || make || return 1
+  make install DESTDIR="$PKG" || return 1
+  make install-man DESTDIR="$PKG" || return 1
+
+  find "$PKG" -print0 | xargs -0 file | grep -e "executable" -e "shared object" | \
+    grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2>/dev/null || true
+
+  if [[ -d "$PKG/usr/man" ]]; then
+    find "$PKG/usr/man" -type f -exec gzip -9 {} \+ || return 1
+  fi
+
+  install -d "$PKG/usr/doc/$pkgname-$pkgver/txt" || return 1
+  cp -a \
+    Changelog COPYING* CREDITS INSTALL* LICENSE* MAINTAINERS README* \
+    RELEASE VERSION \
+    "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
+  cp -a doc/*.txt "$PKG/usr/doc/$pkgname-$pkgver/txt/" || return 1
+
+  find . -name RELEASE_NOTES -exec cp -a {} "$PKG/usr/doc/$pkgname-$pkgver/" \; || return 1
+
+  if [[ -r ChangeLog ]]; then
+    head -n 1000 ChangeLog > "$PKG/usr/doc/$pkgname-$pkgver/ChangeLog" || return 1
+    touch -r ChangeLog "$PKG/usr/doc/$pkgname-$pkgver/ChangeLog" || return 1
+  fi
+}
