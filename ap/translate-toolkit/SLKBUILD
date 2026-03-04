@@ -1,3 +1,4 @@
+# shellcheck shell=bash disable=SC2034
 # Maintainer: Lukas Fleischer <lfleischer@archlinux.org>
 # Maintainer: Jaroslav Lichtblau <svetlemodry@archlinux.org>
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
@@ -13,7 +14,7 @@ slackdesc=("$pkgname (A toolkit to convert between translation formats)"
 url="https://toolkit.translatehouse.org/"
 docs=("COPYING" "CREDITS" "LICENSEs" "README.rst")
 license=('GPL')
-depends=('bash' 'python-lxml' 'python-six' 'python-diff-match-patch')
+depends=('bash' 'python-lxml' 'python3-six' 'python-diff-match-patch')
 makedepends=('python-setuptools')
 optdepends=('gaupol: for po2sub'
             'python-chardet: encoding detector'

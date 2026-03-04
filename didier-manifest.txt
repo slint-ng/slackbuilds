@@ -731,6 +731,7 @@ seahorse
 serd
 setconf
 python3-setproctitle
+python3-six
 sharada-braille-writer
 simde
 simple-ccsm

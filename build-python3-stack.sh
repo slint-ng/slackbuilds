@@ -16,6 +16,7 @@ packageList=(
   "l/python3-idna"
   "l/python3-requests"
   "l/python3-attrs"
+  "l/python3-six"
   "l/python-automat"
   "l/python-constantly"
   "l/python-incremental"

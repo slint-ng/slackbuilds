@@ -21,6 +21,7 @@ swapinzram/swapinzram.conf 1 # Didier Spaier 2020
 suil/suil.SlackBuild 26 # Included in Slint by Didier Spaier didieratslintdotfr
 swapinzram/rc.swapinzram 3 # Didier Spaier 2020
 python3-setproctitle/SLKBUILD 5 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-six/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
 swapinzram/empaqette-swapinzram.sh 25 ${PRGNAM}  Author  Didier Spaier." >$PKG/install/slack-desc
 perl-Net-SSLeay/perl-Net-SSLeay.SlackBuild 26 # Included in Slint by Didier Spaier didieratslintdotfr
 swapinzram/README 32 Didier Spaier, 25 November 2020
