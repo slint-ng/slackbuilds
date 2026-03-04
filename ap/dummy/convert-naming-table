@@ -8,7 +8,7 @@ python-deprecation;python3-deprecation
 python-cffi;python3-cffi
 python-fasteners;python3-fasteners
 python-filetype;python3-filetype
-python-numpy;numpy3
+python3-numpy;numpy3
 python-pep517;python3-pep517
 python-pexpect;python3-pexpect
 python-ptyprocess;python3-ptyprocess

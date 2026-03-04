@@ -1,0 +1,3 @@
+Updated to 1.24.4 for Python 3.11 compatibility.
+Replaces numpy3 and python-numpy.
+Built with the SLKBUILD copied from Arch's PKGBUILD.

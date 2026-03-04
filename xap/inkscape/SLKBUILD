@@ -1,3 +1,4 @@
+# shellcheck shell=bash disable=SC2034
 # Maintainer: Gaetan Bisson <bisson@archlinux.org>
 # Contributor: Tobias Kieslich <tobias@justdreams.de>
 # Contributor: tobias <tobias@archlinux.org>
@@ -33,7 +34,7 @@ depends=(
 	'python'
 	'python-cssselect'
 	'python-lxml'
-	'python-numpy'
+	'python3-numpy'
 	'ttf-font'
 )
 

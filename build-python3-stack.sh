@@ -50,7 +50,7 @@ packageList=(
   "l/python-semantic-version"
   "l/python-setuptools-rust"
   "l/python-setuptools_scm3.11"
-  "l/python-numpy"
+  "l/python3-numpy"
   "l/python3-setproctitle"
   "l/python-tomli3.11"
   "l/pyparsing3.11"

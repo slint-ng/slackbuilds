@@ -1,0 +1,29 @@
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+# Contributor: Douglas Soares de Andrade <dsa@aur.archlinux.org>
+# Contributor: Angel 'angvp' Velasquez <angvp[at]archlinux.com.ve>
+# shellcheck shell=bash disable=SC2034
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python3-numpy
+pkgver=1.24.4
+pkgrel=1slint
+slackdesc="$pkgname (scientific tools for Python)"
+arch=('x86_64')
+license=('custom')
+url="https://numpy.org/"
+depends=('cblas' 'lapack' 'python3')
+optdepends=('openblas: faster linear algebra')
+makedepends=('python3-setuptools' 'gcc-fortran')
+checkdepends=('python-pytest' 'python-hypothesis')
+#options=('staticlibs')
+source=("https://files.pythonhosted.org/packages/source/n/numpy/numpy-$pkgver.tar.gz")
+sha256sums=('7215847cefb96b7d0d99aa1c3e25d0bbd36a814a1314380d5f38ec0d746f8555')
+docs=(LICENSE.txt)
+build() {
+  cd "numpy-$pkgver" || return 1
+  export SETUPTOOLS_USE_DISTUTILS=stdlib
+  python3 setup.py build || return 1
+  python3 setup.py install --prefix=/usr --root="$PKG" --optimize=1 || return 1
+}

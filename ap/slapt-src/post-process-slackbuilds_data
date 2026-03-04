@@ -14,7 +14,7 @@ s/python3-automat/python-automat/g
 s/python3-babel/python-babel/g
 s/python3-dateutil/python-dateutil/g
 s/python3-fasteners/python-fasteners/g
-s/numpy3/python-numpy/g
+s/numpy3/python3-numpy/g
 s/pyOpenSSL/python-openssl/g
 s/python3-pexpect/python-expect/g
 s/python3-ptyprocess/python-ptyprocess/g

@@ -1,3 +1,4 @@
+# shellcheck shell=bash disable=SC2034
 # Maintainer: Storm Dragon <storm_dragon@stormux.org>
 
 pkgname=access-irc
@@ -7,7 +8,7 @@ slackdesc="$pkgname (Accessible IRC client with GTK3 support)"
 url="https://github.com/destructatron/access-irc"
 license=('MIT')
 depends=('python3-miniirc' 'python3-pluggy' 'at-spi2-core'
-         'gst-plugins-base' 'gst-plugins-good' 'python3-gtkspellcheck' 'python-numpy')
+         'gst-plugins-base' 'gst-plugins-good' 'python3-gtkspellcheck' 'python3-numpy')
 makedepends=('python-build' 'python-installer' 'python-wheel' 'python-setuptools')
 optdepends=('python-scipy: for sound generation')
 options=('nosrcpack')

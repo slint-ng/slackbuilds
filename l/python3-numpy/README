@@ -35,5 +35,4 @@ IMPORTANT: The version installed by this SlackBuild does NOT include the
            THUS: This SlackBuild conflicts with the numpy-legacy
                  SlackBuild which installs versions < 1.9.0!
 
-This numpy3 SlackBuild creates bindings for python3 and can be installed
-without conflict alongside the standard numpy SlackBuild.
+This package provides NumPy bindings for Python 3.

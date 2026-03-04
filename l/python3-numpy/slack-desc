@@ -6,14 +6,14 @@
 # customary to leave one space after the ':' except on otherwise blank lines.
 
       |-----handy-ruler------------------------------------------------------|
-pyhon-numpy: pyhon-numpy (Python3 extension for scientific computing)
-pyhon-numpy:
-pyhon-numpy: NumPy is an extension to the Python programming language, adding
-pyhon-numpy: support for large, multi-dimensional arrays and matrices along
-pyhon-numpy: with a large library of high-level mathematical functions to
-pyhon-numpy: operate on these arrays.
-pyhon-numpy:
-pyhon-numpy: This packages contains NumPy for python3
-pyhon-numpy:
-pyhon-numpy: Homepage: http://www.numpy.org/
-pyhon-numpy:
+python3-numpy: python3-numpy (scientific tools for Python)
+python3-numpy:
+python3-numpy: NumPy adds support for large, multi-dimensional arrays
+python3-numpy: and matrices, along with a large library of
+python3-numpy: mathematical functions to operate on them.
+python3-numpy:
+python3-numpy: This package provides NumPy for Python 3.
+python3-numpy:
+python3-numpy: Homepage: https://numpy.org/
+python3-numpy:
+python3-numpy:

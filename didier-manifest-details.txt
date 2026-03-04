@@ -1130,9 +1130,9 @@ tree-sitter/tree-sitter.SlackBuild 23 # Included in Slaint by Didier Spaier didi
 srt/srt.SlackBuild 31 # Included in Slint by Didier Spaier didieratslintdotfr
 catdoc/catdoc.SlackBuild 10 # Included in Slint by Didier Spaier didieratslintdotfr
 rtmpdump/rtmpdump.SlackBuild 29 # Included in Slint by Didier Spaier didieratslintdotfr
-python-numpy/SLKBUILD 6 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-numpy/SLKBUILD 6 # Included in Slint by Didier Spaier didieratslintdotfr
 at-spi2-core/at-spi2-core.SlackBuild 23 # Included in Slint by Didier Spaier didieratslintdotfr
-python-numpy/python-numpy.SlackBuild 30 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-numpy/python3-numpy.info 1 # Included in Slint by Didier Spaier didieratslintdotfr
 matchbox-documentation/SLKBUILD 1 #Packager Didier Spaier didieratslintdotfr
 doclifter/doclifter.SlackBuild 5 # Copyright 2015 Didier Spaier Paris, France
 python-click/python-click.SlackBuild 25 # Included in Slint by Didier Spaier didieratslintdot r
