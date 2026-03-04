@@ -83,6 +83,8 @@ packageList=(
   "l/python3-importlib-metadata"
   "l/python3-dbus"
   "l/python3-lxml"
+  "d/nodejs"
+  "d/pnpm"
   "l/yt-dlp-ejs"
   "l/gobject-introspection"
   "l/python3-cairo"

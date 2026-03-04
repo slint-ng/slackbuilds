@@ -9,6 +9,8 @@ packageList=(
   "l/python3-pythran"
   "l/python3-setproctitle"
   "l/python3-dbus"
+  "d/nodejs"
+  "d/pnpm"
   "l/yt-dlp-ejs"
   "ap/translate-toolkit"
   "t/python3-gTTS"
