@@ -652,7 +652,7 @@ python-textconfig
 python-toml
 python-tomli3.11
 python-tqdm
-python-twisted
+python3-twisted
 python-txaio
 python-txtorcon
 python-urllib3

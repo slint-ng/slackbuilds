@@ -35,7 +35,7 @@ packageList=(
   "l/python-wsaccel"
   "l/python-tqdm"
   "l/python-spake2"
-  "l/python-twisted"
+  "l/python3-twisted"
   "l/python-autobahn"
   "l/python-txtorcon"
   "l/python-daemonize"

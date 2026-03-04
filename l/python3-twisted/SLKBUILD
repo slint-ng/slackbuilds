@@ -2,8 +2,9 @@
 # shellcheck shell=bash disable=SC2034
 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 
-pkgname=python-twisted
-_srcname=Twisted
+pkgname=python3-twisted
+srcname=Twisted
+export srcname
 pkgver=21.2.0
 pkgrel=1slint
 slackdesc=(
@@ -16,23 +17,26 @@ slackdesc=(
 "Homepage: https://twistedmatrix.com/"
 )
 url="https://twistedmatrix.com/"
-depends=("python")
-makedepends=("python-setuptools")
-source=("https://files.pythonhosted.org/packages/source/T/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+depends=("python3")
+makedepends=("python-build" "python3-installer" "python-wheel")
+source=("https://files.pythonhosted.org/packages/source/T/${srcname}/${srcname}-${pkgver}.tar.gz")
 options=("nosrcpack")
 
 build() {
-  cd "$SRC/${_srcname}-${pkgver}" || return 1
+  local docDir
 
-  python3 setup.py install --root="$PKG" || return 1
+  cd "$SRC/${srcname}-${pkgver}" || return 1
 
-  docdir="$PKG/usr/doc/$pkgname-$pkgver"
-  install -d "$docdir" || return 1
+  python3 -m build --wheel --no-isolation || return 1
+  python3 -m installer --destdir="$PKG" dist/*.whl || return 1
+
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docDir" || return 1
 
   shopt -s nullglob
   for doc in LICENSE* NEWS* README*; do
     [[ -e $doc ]] || continue
-    cp -a "$doc" "$docdir/" || return 1
+    cp -a "$doc" "$docDir/" || return 1
   done
   shopt -u nullglob
 }

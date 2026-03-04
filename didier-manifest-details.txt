@@ -26,7 +26,7 @@ perl-Net-SSLeay/perl-Net-SSLeay.SlackBuild 26 # Included in Slint by Didier Spai
 swapinzram/README 32 Didier Spaier, 25 November 2020
 links/links.SlackBuild 23 # Included in Slint by Didier Spaier didieratslintdotfr
 geoclue2/geoclue2.SlackBuild 24 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
-python-twisted/python-twisted.SlackBuild 29 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+python3-twisted/SLKBUILD 3 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 gnsu/SLKBUILD 2 # Inlcuded in Sint by Didier Spaier didieratslintdotfr
 links/links-installer.SlackBuild 23 # Included in Slint by Didier Spaier didieratslintdotfr
 brotli/brotli.SlackBuild 24 # Included in Slint by Didier Spaier didier@slintdotfr
