@@ -1,0 +1,33 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=pyinotify
+pkgver=0.9.6
+pkgrel=1slint
+url="https://github.com/seb-m/pyinotify"
+depends=("python")
+makedepends=("python-setuptools")
+source=("https://files.pythonhosted.org/packages/source/p/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Python inotify module)"
+""
+"pyinotify monitors filesystem changes through Linux inotify"
+"and exposes those notifications to Python code."
+""
+"Homepage: https://github.com/seb-m/pyinotify"
+)
+
+build() {
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  sed -i '/^compile_ext_mod/s|=.*|= True|' setup.py || return 1
+  python3 setup.py install --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+  cp -a ACKS COPYING README.md "$docdir/" || return 1
+}

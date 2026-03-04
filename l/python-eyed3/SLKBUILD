@@ -1,0 +1,35 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python-eyed3
+_srcname=eyeD3
+pkgver=0.9.6
+pkgrel=1slint
+url="http://eyed3.nicfit.net/"
+depends=("python")
+makedepends=("python-setuptools")
+source=("http://eyed3.nicfit.net/releases/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (ID3 tag processor for Python)"
+""
+"python-eyed3 reads and writes ID3 tags and reports audio"
+"metadata for MP3 files from Python and the eyed3 CLI."
+""
+"Homepage: http://eyed3.nicfit.net/"
+)
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  python3 setup.py install --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+  shopt -s nullglob
+  cp -a ./*.rst "$docdir/" || return 1
+  shopt -u nullglob
+}

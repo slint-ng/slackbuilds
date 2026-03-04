@@ -1,0 +1,34 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python-evdev
+_srcname=evdev
+pkgver=1.4.0
+pkgrel=1slint
+url="http://python-evdev.readthedocs.org/en/latest/"
+depends=("python")
+makedepends=("python-setuptools")
+source=("https://files.pythonhosted.org/packages/source/e/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Python input event library)"
+""
+"python-evdev provides Python bindings for Linux evdev and"
+"uinput so applications can read and emit input events."
+""
+"Homepage: http://python-evdev.readthedocs.org/en/latest/"
+)
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  find -L . -perm 660 -exec chmod 0644 {} + || return 1
+  python3 setup.py install --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+  cp -a LICENSE README.rst "$docdir/" || return 1
+}

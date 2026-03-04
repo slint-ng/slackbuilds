@@ -1,0 +1,59 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=pygobject3
+_srcname=pygobject
+pkgver=3.52.3
+pkgrel=1slint
+_mainver=${pkgver%.*}
+url="https://live.gnome.org/PyGObject"
+makedepends=("meson" "ninja" "python")
+source=("https://download.gnome.org/sources/${_srcname}/${_mainver}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (GObject bindings for Python)"
+""
+"pygobject provides Python bindings for GObject and the"
+"broader GNOME platform libraries."
+""
+"Homepage: https://live.gnome.org/PyGObject"
+)
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  meson setup \
+    --prefix=/usr \
+    --libdir="lib${LIBDIRSUFFIX}" \
+    --libexecdir=/usr/libexec \
+    --bindir=/usr/bin \
+    --sbindir=/usr/sbin \
+    --includedir=/usr/include \
+    --datadir=/usr/share \
+    --mandir=/usr/man \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release \
+    -Dpython=python3.9 \
+    meson-build || return 1
+
+  meson compile -C meson-build -j "$numjobs" || return 1
+  DESTDIR="$PKG" meson install -C meson-build || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+  cp -a COPYING* NEWS README* "$docdir/" || return 1
+
+  (
+    cd "$docdir" || exit 1
+    ln -sf ../../share/gtk-doc/html/pygobject html
+  ) || return 1
+
+  if [[ -r ChangeLog ]]; then
+    head -n 1000 ChangeLog > "$docdir/ChangeLog" || return 1
+    touch -r ChangeLog "$docdir/ChangeLog" || return 1
+  fi
+}

@@ -1,0 +1,33 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python-Levenshtein
+_srcname=python-Levenshtein
+pkgver=0.12.2
+pkgrel=1slint
+url="https://pypi.org/project/python-Levenshtein/"
+depends=("python")
+makedepends=("python-setuptools")
+source=("https://files.pythonhosted.org/packages/source/p/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (fast string distance calculations)"
+""
+"python-Levenshtein provides fast C extensions for edit"
+"distance and related string similarity calculations."
+""
+"Homepage: https://pypi.org/project/python-Levenshtein/"
+)
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  python3 setup.py install --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+  cp -a PKG-INFO README.rst COPYING NEWS HISTORY.txt "$docdir/" || return 1
+}

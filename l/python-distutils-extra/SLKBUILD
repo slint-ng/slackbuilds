@@ -1,0 +1,32 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python-distutils-extra
+pkgver=2.39
+pkgrel=1slint
+url="https://launchpad.net/python-distutils-extra"
+depends=("python")
+makedepends=("python-setuptools")
+source=("https://launchpad.net/python-distutils-extra/trunk/${pkgver}/+download/${pkgname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (distutils helpers for Python packaging)"
+""
+"python-distutils-extra helps package Python software with"
+"icons, translations, and documentation integration."
+""
+"Homepage: https://launchpad.net/python-distutils-extra"
+)
+
+build() {
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  python3 setup.py install --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+  cp -a LICENSE doc/FAQ doc/README "$docdir/" || return 1
+}
