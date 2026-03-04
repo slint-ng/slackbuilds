@@ -1,18 +1,22 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
 # Maintainer: Johannes Löthberg <johannes@kyriasis.com>
 # Contributor: Ivan Shapovalov <intelfx@intelfx.name>
 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 
-pkgname=python-daemonize
+pkgname=python3-daemonize
 pkgver=2.5.0
 pkgrel=2slint
 
 slackdesc=\
 (
 #|-----handy-ruler-----------------------------------------------------
-"python-daemonize (Library to enable your code run as a daemon process)"
+"python3-daemonize (Library to enable your code run as a daemon process)"
 )
 url='https://pypi.python.org/pypi/daemonize/'
 license=('MIT')
+depends=('python3')
+makedepends=('python3-setuptools')
 
 options=("nosrcpack")
 
@@ -21,11 +25,11 @@ source=("https://pypi.org/packages/source/d/daemonize/daemonize-$pkgver.tar.gz")
 md5sums=('3d64e7a0219ad22e3fca62460f893b6a')
 
 build() {
-	cd $SRC/daemonize-$pkgver
-	python3 setup.py build
-	python3 setup.py install --root=$PKG --optimize=1 --skip-build
-	mkdir -p $PKG/usr/doc/${pkgname}-$pkgver
-	install -Dm644 LICENSE $PKG/usr/doc/${pkgname}-$pkgver/LICENSE
+	cd "$SRC/daemonize-$pkgver" || return 1
+	python3 setup.py build || return 1
+	python3 setup.py install --root="$PKG" --optimize=1 --skip-build || return 1
+	mkdir -p "$PKG/usr/doc/${pkgname}-$pkgver" || return 1
+	install -Dm644 LICENSE "$PKG/usr/doc/${pkgname}-$pkgver/LICENSE" || return 1
 }
 
 # vim: set ts=4 sw=4 tw=0 ft=PKGBUILD :

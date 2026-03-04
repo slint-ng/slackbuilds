@@ -19,7 +19,7 @@ license=('LGPL')
 depends=('gstreamer'
   'gst-plugins-base'
   'gst-plugins-good'
-  'python-daemonize'
+  'python3-daemonize'
   'python3-dbus'
   'python3-evdev'
   'python3-gobject'

@@ -570,7 +570,7 @@ python3-colorama
 python-configparser
 python3-constantly
 python-cryptography
-python-daemonize
+python3-daemonize
 python-dateutil
 python-deprecation
 python-dictobject
@@ -645,7 +645,7 @@ python-sh
 python-smartypants
 python-snowballstemmer
 python-soupsieve
-python-spake2
+python3-spake2
 python-sphinx
 python-tesserwrap
 python-textconfig

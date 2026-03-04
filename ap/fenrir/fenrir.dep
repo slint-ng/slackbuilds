@@ -1,1 +1,1 @@
-gstreamer,gst-plugins-base,gst-plugins-good,python-daemonize,python3-dbus,python3-evdev,python3-gobject,python-pexpect,python3-pyenchant,python3-pyperclip,python-pyte,python3-pyudev,python-pyxdg,python3-setproctitle,speech-dispatcher
+gstreamer,gst-plugins-base,gst-plugins-good,python3-daemonize,python3-dbus,python3-evdev,python3-gobject,python-pexpect,python3-pyenchant,python3-pyperclip,python-pyte,python3-pyudev,python-pyxdg,python3-setproctitle,speech-dispatcher
