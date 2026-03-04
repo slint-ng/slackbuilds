@@ -2,7 +2,7 @@
 # shellcheck shell=bash disable=SC2034
 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 
-pkgname=python-constantly
+pkgname=python3-constantly
 _srcname=constantly
 pkgver=15.1.0
 pkgrel=1slint
@@ -17,8 +17,8 @@ slackdesc=(
 "Homepage: https://pypi.org/project/constantly/"
 )
 url="https://pypi.org/project/constantly/"
-depends=("python")
-makedepends=("python-setuptools")
+depends=("python3")
+makedepends=("python3-setuptools")
 source=("https://files.pythonhosted.org/packages/source/c/${_srcname}/${_srcname}-${pkgver}.tar.gz")
 options=("nosrcpack")
 

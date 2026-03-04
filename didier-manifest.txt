@@ -568,7 +568,7 @@ python-chardet
 python-click
 python3-colorama
 python-configparser
-python-constantly
+python3-constantly
 python-cryptography
 python-daemonize
 python-dateutil

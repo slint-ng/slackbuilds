@@ -18,7 +18,7 @@ packageList=(
   "l/python3-attrs"
   "l/python3-six"
   "l/python-automat"
-  "l/python-constantly"
+  "l/python3-constantly"
   "l/python3-incremental"
   "l/python-pyasn1"
   "k/python-pyasn1-modules"

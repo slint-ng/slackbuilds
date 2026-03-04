@@ -1012,7 +1012,7 @@ perl-IO-Socket-SSL/perl-IO-Socket-SSL.SlackBuild 41 # Included in Slint by Didie
 mate/caja-dropbox/caja-dropbox.SlackBuild 25 # Included in Slint by Didier Spaier didieratslintdotfr
 sysvinit-scripts/scripts/rc.S 127 # Note from Didier  in this version (for Slint version 15.0)  we only handle the
 mate/mate-sensors-applet/mate-sensors-applet.SlackBuild 26 # Included in Slint by Didier Spaier didieratslintdotfr
-python-constantly/python-constantly.SlackBuild 25 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+python3-constantly/SLKBUILD 3 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 mate/marco/marco.SlackBuild 26 # Included in Slint by Didier Spaier didieratslintdotfr
 python-dateutil/python-dateutil.SlackBuild 25 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 qcontrolcenter/qcontrolcenter/qcontrolcenter/data/INSTRUCTIONS.txt 9 In this document ~ represents a user's home directory e.g. /home/didier.
