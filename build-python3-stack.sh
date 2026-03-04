@@ -19,5 +19,5 @@ packageList=(
 
 for packagePath in "${packageList[@]}"; do
   printf 'Building %s\n' "$packagePath"
-  "$scriptDir/build-package.sh" --only "$packagePath"
+  "$scriptDir/build-package.sh" --skip-staged --only "$packagePath"
 done

@@ -15,6 +15,7 @@ Options:
       --only               Build only the requested package and skip dependency resolution.
       --reset              Remove existing staged package artifacts before building.
       --skip PKGNAME       Treat a package as already satisfied. Repeatable.
+  -k, --skip-staged        Skip packages that already have artifacts in staging.
   -s, --staging-dir DIR    Staging directory relative to repo root (default: staging).
   -n, --no-install         Build and stage packages without installing them.
   -h, --help               Show this help text.
@@ -129,6 +130,18 @@ pkg_base_from_file() {
   fileName=${fileName%.tlz}
 
   printf '%s\n' "$fileName"
+}
+
+latest_matching_file() {
+  local searchDir=$1
+  local filePattern=$2
+
+  find "$searchDir" -maxdepth 1 -type f \
+    \( -name "$filePattern.txz" -o -name "$filePattern.tgz" -o -name "$filePattern.tbz" -o -name "$filePattern.tlz" \) \
+    -printf '%T@ %p\n' 2>/dev/null \
+    | sort -nr \
+    | head -n 1 \
+    | cut -d' ' -f2-
 }
 
 parse_pkgname() {
@@ -686,6 +699,28 @@ stage_artifacts() {
   fi
 }
 
+filter_staged_packages() {
+  local packageDir=""
+  local packageName=""
+  local stagedArtifactPath=""
+  local -a filteredQueue=()
+
+  [[ "$skipStaged" == true ]] || return 0
+
+  for packageDir in "${buildQueue[@]}"; do
+    packageName=${packageNameByDir[${packageDir}]}
+    stagedArtifactPath=$(latest_matching_file "$stagingDir" "${packageName}-*")
+    if [[ -n "$stagedArtifactPath" ]]; then
+      printf 'Skipping %s; staged artifact already exists: %s\n' \
+        "${packageDirByRelative[${packageDir}]}" "$(basename "$stagedArtifactPath")"
+      continue
+    fi
+    filteredQueue+=("$packageDir")
+  done
+
+  buildQueue=("${filteredQueue[@]}")
+}
+
 stop_sudo_keepalive() {
   if [[ -n "$sudoKeepalivePid" ]]; then
     kill "$sudoKeepalivePid" >/dev/null 2>&1 || true
@@ -716,6 +751,7 @@ fullBuild=false
 onlyTarget=false
 noInstall=false
 resetStaging=false
+skipStaged=false
 stagingDir="${repoRoot}/staging"
 packagePath=""
 installedDbDir=/var/log/packages
@@ -759,6 +795,10 @@ while [[ $# -gt 0 ]]; do
       [[ $# -ge 2 ]] || die "$1 requires a value"
       skippedPackages+=("$2")
       shift 2
+      ;;
+    -k|--skip-staged)
+      skipStaged=true
+      shift
       ;;
     -s|--staging-dir)
       [[ $# -ge 2 ]] || die "$1 requires a value"
@@ -858,6 +898,12 @@ fi
 if [[ "$onlyTarget" == false ]]; then
   visit_package "$packageDir"
   (( ${#buildQueue[@]} > 0 )) || die "no packages were selected to build for ${packagePath}"
+fi
+filter_staged_packages
+
+if (( ${#buildQueue[@]} == 0 )); then
+  printf 'Nothing to build. Staged artifacts already cover the requested packages.\n'
+  exit 0
 fi
 
 printf 'Build queue:\n'
