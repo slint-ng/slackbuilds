@@ -15,9 +15,9 @@ docs=("AUTHORS" "COPYING*" "INSTALL" "NEWS" "PKG-INFO" "README*")
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|
-"python3-cairo: python3-cairo (Python 3 bindings for cairo)"
+"python3-cairo: Python 3 bindings for cairo"
 "python3-cairo:"
-"python3-cairo: Pycairo provides Python 3 bindings for the cairo library."
+"python3-cairo: Provides Python 3 bindings for the cairo library."
 "python3-cairo:"
 "python3-cairo: Website: https://pycairo.readthedocs.io/en/latest/"
 "python3-cairo:"
