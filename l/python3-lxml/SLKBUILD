@@ -6,11 +6,11 @@
 pkgname=python3-lxml
 export srcname=lxml
 pkgver=6.0.2
-pkgrel=2slint
+pkgrel=3slint
 source=("https://files.pythonhosted.org/packages/source/l/${srcname}/${srcname}-${pkgver}.tar.gz")
 sourcetemplate=http://people.salixos.org/laprjns/$pkgname/$pkgver/
 depends=("libxml2" "libxslt" "python3")
-makedepends=("python3-build" "python3-cython" "python3-installer" "python3-setuptools" "python3-wheel")
+makedepends=("python3-build" "python3-installer" "python3-setuptools" "python3-wheel")
 options=('nosrcpack')
 
 slackdesc=\
@@ -29,6 +29,7 @@ build() {
 
 	docDir="$PKG/usr/doc/$pkgname-$pkgver"
 	cd "${srcname}-${pkgver}" || return 1
+	sed -i 's/"Cython>=3\.1\.4", "setuptools"/"setuptools"/' pyproject.toml || return 1
 	python3 -m build --wheel --no-isolation || return 1
 	python3 -m installer --destdir="$PKG" dist/*.whl || return 1
 
