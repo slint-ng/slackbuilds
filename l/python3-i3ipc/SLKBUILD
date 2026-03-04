@@ -4,8 +4,9 @@
 
 _srcname=i3ipc-python
 pkgname=python3-i3ipc
+srcname=i3ipc
 pkgver=2.2.1
-pkgrel=2slint
+pkgrel=3slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "python3-i3ipc (Python 3 library to control i3wm)"
@@ -23,7 +24,7 @@ docs=("LICENSE" "CHANGELOG.md")
 options=("nosrcpack")
 
 build() {
-  cd "${_srcname}-${pkgver}" || return 1
+  cd "${srcname}-${pkgver}" || return 1
   python3 -m build --wheel --no-isolation || return 1
   python3 -m installer --destdir="$PKG" dist/*.whl || return 1
   install -Dm755 -t "$PKG/usr/doc/${pkgname}-${pkgver}/examples" examples/*.py || return 1
