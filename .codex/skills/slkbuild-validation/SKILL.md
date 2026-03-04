@@ -52,6 +52,10 @@ It accepts either:
   - local slapt cache from `WORKINGDIR` in `/etc/slapt-get/slapt-getrc`
   - matching package download from a `SOURCE=` repo in
     `/etc/slapt-get/slapt-getrc`, staged under `/tmp`
+- If the configured Slint mirror is unavailable, fetch the exact matching
+  baseline package from a working mirror and rerun with explicit `--baseline`.
+  For current Slint installs, `https://packages.azlux.fr/slint/x86_64/slint-15.0/packages/`
+  is the documented backup mirror when `slackware.uk` is down.
 
 4. Return the script result as a fixed checklist.
 - `Artifacts`
@@ -104,6 +108,9 @@ It accepts either:
 - Allowed manifest additions come from
   `references/manifest-allowlist.txt`, plus optional package-specific files in
   `references/manifest-allowlist.d/<pkg>.txt` or `<pkgdir>/manifest-allowlist.txt`.
+- For same-version Perl conversions, unexpected doc additions such as a copied
+  legacy `*.SlackBuild` under `/usr/doc/<pkg>-<ver>/` are real regressions, not
+  allowlisted noise.
 - See `references/known-benign-patterns.md`.
 
 ## Resources

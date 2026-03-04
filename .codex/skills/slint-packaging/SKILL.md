@@ -28,6 +28,9 @@ On first use in a session, explicitly mention:
 - Note upstream URLs, versioning, and any custom steps (git clone, meson, cmake, etc.).
 - If a similar package already uses SLKBUILD, use it as a pattern.
 - Confirm naming and headers are consistent across the directory name, `pkgname`, `slackdesc`, README, and packager header.
+- For `perl-*` packages and `libwww-perl`, also read
+  `references/perl-packaging.md` before deciding runtime deps, source URLs, or
+  test policy.
 
 2. Decide the task
 - **Conversion**: SlackBuild -> SLKBUILD
@@ -92,6 +95,9 @@ On first use in a session, explicitly mention:
     Some packages still legitimately depend on Python 2, so do not auto-rewrite
     `python2` deps to `python3` without package-specific verification.
   - `.dep` content is comma-separated with no spaces.
+  - For existing Perl packages, compare the generated `.dep` with
+    `slapt-get --show <pkg>` and follow the Perl policy in
+    `references/perl-packaging.md` before keeping extra runtime deps.
 - For restricted/containerized environments, avoid adding `unshare -n` in
   Python wheel bootstrap steps unless explicitly required and verified.
 - Keep necessary helper files (patches, scripts, extra data files) and add to `source=()` when required by the build.
@@ -219,6 +225,10 @@ On first use in a session, explicitly mention:
 - `bump_version.py`: Update `pkgver` and refresh checksums if present.
 - `sync_dep_files.py`: Legacy helper for `<pkgname>.dep` from `depends=()`;
   do not use for package dependency metadata in this repo workflow.
+
+### references/
+- `references/perl-packaging.md`: Perl/CPAN-specific dependency, testing, and
+  source URL policy for Slint conversions.
 
 ### manpages
 - `man 5 slkbuild`: documentation of the slkbuild format.

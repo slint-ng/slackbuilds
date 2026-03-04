@@ -1,0 +1,40 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=perl-Syntax-Keyword-Try
+pkgver=0.27
+pkgrel=1slint
+depends=("perl-XS-Parse-Keyword" "perl-Module-Build")
+export srcname=Syntax-Keyword-Try
+source=("https://cpan.metacpan.org/authors/id/P/PE/PEVANS/$srcname-$pkgver.tar.gz")
+docs=("Changes" "LICENSE" "README*")
+url="https://metacpan.org/pod/Syntax::Keyword::Try"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"perl-Syntax-Keyword-Try (try/catch/finally syntax)"
+"Syntax::Keyword::Try adds try, catch, and"
+"finally syntax support to Perl."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || exit 1
+
+  perl Build.PL \
+    --prefix=/usr \
+    --installdirs=vendor \
+    --install_path libdoc=/usr/man/man3
+  perl Build || exit 1
+  perl Build test || exit 1
+  perl Build install --destdir="$PKG" || exit 1
+
+  slkbuild_path="${SRC%/src}/SLKBUILD"
+  legacy_suffix=SlackBuild
+  install -Dm644 "$slkbuild_path" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$pkgname.$legacy_suffix" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+  find "$PKG" -depth -type d -empty -delete || exit 1
+}

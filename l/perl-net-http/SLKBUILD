@@ -1,0 +1,48 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=perl-net-http
+pkgver=6.22
+pkgrel=1slint
+export srcname=Net-HTTP
+source=(
+  "https://cpan.metacpan.org/authors/id/O/OA/OALDERS/Net-HTTP-$pkgver.tar.gz"
+  "net-http-backport-live-test-fixes.patch"
+)
+docs=("Changes")
+url="https://metacpan.org/pod/Net::HTTP"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"perl-net-http (low-level HTTP client connection class)"
+"Net::HTTP provides low-level HTTP/1.0 and HTTP/1.1 client"
+"connections to HTTP servers."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || exit 1
+
+  # Backport upstream live-test fixes without changing the packaged version.
+  patch -p1 --verbose -i "$SRC/net-http-backport-live-test-fixes.patch" || exit 1
+
+  printf 'y\n' | perl Makefile.PL \
+    PREFIX=/usr \
+    INSTALLDIRS=vendor \
+    INSTALLVENDORMAN3DIR=/usr/man/man3
+  make || exit 1
+  make test || exit 1
+  make install DESTDIR="$PKG" || exit 1
+
+  slkbuild_path="${SRC%/src}/SLKBUILD"
+  legacy_suffix=SlackBuild
+  install -Dm644 "$slkbuild_path" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$pkgname.$legacy_suffix" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+
+  if [ -d "$PKG/usr/lib64" ]; then
+    find "$PKG/usr/lib64" -depth -type d -empty -delete || exit 1
+  fi
+}

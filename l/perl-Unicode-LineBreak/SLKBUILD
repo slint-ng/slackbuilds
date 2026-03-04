@@ -1,0 +1,40 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=perl-Unicode-LineBreak
+pkgver=2019.001
+pkgrel=1slint
+depends=("perl-MIME-Charset" "perl-Encode-EUCJPASCII" "perl-Encode-HanExtra")
+export srcname=Unicode-LineBreak
+source=("https://cpan.metacpan.org/authors/id/N/NE/NEZUMI/$srcname-$pkgver.tar.gz")
+docs=("ARTISTIC" "Changes" "Changes.REL1" "GPL" "README" "Todo.REL1")
+url="https://metacpan.org/pod/Unicode::LineBreak"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"perl-Unicode-LineBreak (UAX #14 line breaking for Perl modules)"
+"Provides Text::LineFold, Unicode::GCString, and Unicode::LineBreak."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || exit 1
+
+  perl Makefile.PL \
+    --with-bundled-sombok \
+    PREFIX=/usr \
+    INSTALLDIRS=vendor \
+    INSTALLVENDORMAN3DIR=/usr/man/man3
+  make LD="cc -Wl,-s" || exit 1
+  make test || exit 1
+  make install DESTDIR="$PKG" || exit 1
+
+  slkbuild_path="${SRC%/src}/SLKBUILD"
+  legacy_suffix=SlackBuild
+  install -Dm644 "$slkbuild_path" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$pkgname.$legacy_suffix" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+  find "$PKG" -depth -type d -empty -delete || exit 1
+}

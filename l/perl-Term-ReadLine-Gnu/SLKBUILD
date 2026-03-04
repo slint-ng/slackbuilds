@@ -1,0 +1,40 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=perl-Term-ReadLine-Gnu
+pkgver=1.42
+pkgrel=1slint
+depends=("aaa_libraries|ncurses" "aaa_libraries|readline")
+export srcname=Term-ReadLine-Gnu
+source=("https://cpan.metacpan.org/authors/id/H/HA/HAYASHI/$srcname-$pkgver.tar.gz")
+docs=("Changes" "README")
+url="https://metacpan.org/pod/Term::ReadLine::Gnu"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"perl-Term-ReadLine-Gnu (GNU readline support for Perl prompts)"
+"Adds command-line editing and history for interactive Perl apps."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || exit 1
+
+  perl Makefile.PL \
+    INSTALLDIRS=vendor \
+    INSTALLVENDORMAN1DIR=/usr/man/man1 \
+    INSTALLVENDORMAN3DIR=/usr/man/man3
+  make || exit 1
+  # Term::ReadLine::Gnu falls back to Stub on TERM=dumb in non-tty builders.
+  env TERM=xterm INPUTRC=/dev/null make test || exit 1
+  make install DESTDIR="$PKG" || exit 1
+
+  slkbuild_path="${SRC%/src}/SLKBUILD"
+  legacy_suffix=SlackBuild
+  install -Dm644 "$slkbuild_path" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$pkgname.$legacy_suffix" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+  find "$PKG" -depth -type d -empty -delete || exit 1
+}

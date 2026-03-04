@@ -1,0 +1,33 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=perl-http-cookies
+pkgver=6.10
+pkgrel=1slint
+export srcname=HTTP-Cookies
+source=("https://cpan.metacpan.org/authors/id/O/OA/OALDERS/HTTP-Cookies-$pkgver.tar.gz")
+docs=("Changes" "README.md")
+url="https://metacpan.org/pod/HTTP::Cookies"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"perl-http-cookies (HTTP cookie jars)"
+"HTTP::Cookies stores and manages the cookies known to an"
+"LWP::UserAgent object."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || exit 1
+
+  printf 'y\n' | perl Makefile.PL \
+    PREFIX=/usr \
+    INSTALLDIRS=vendor \
+    INSTALLVENDORMAN3DIR=/usr/man/man3
+  make || exit 1
+  make test || exit 1
+  make install DESTDIR="$PKG" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+}

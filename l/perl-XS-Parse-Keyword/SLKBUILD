@@ -1,0 +1,39 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=perl-XS-Parse-Keyword
+pkgver=0.25
+pkgrel=1slint
+depends=("perl-ExtUtils-CChecker" "perl-Module-Build")
+export srcname=XS-Parse-Keyword
+source=("https://cpan.metacpan.org/authors/id/P/PE/PEVANS/$srcname-$pkgver.tar.gz")
+docs=("Changes" "LICENSE" "README*")
+url="https://metacpan.org/pod/XS::Parse::Keyword"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"perl-XS-Parse-Keyword (helpers for parsing Perl keyword syntax in XS)"
+"Supplies utility code for implementing keyword parsers in XS modules."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || exit 1
+
+  perl Build.PL \
+    --prefix=/usr \
+    --installdirs=vendor \
+    --install_path libdoc=/usr/man/man3
+  perl Build || exit 1
+  perl Build test || exit 1
+  perl Build install --destdir="$PKG" || exit 1
+
+  slkbuild_path="${SRC%/src}/SLKBUILD"
+  legacy_suffix=SlackBuild
+  install -Dm644 "$slkbuild_path" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$pkgname.$legacy_suffix" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+  find "$PKG" -depth -type d -empty -delete || exit 1
+}

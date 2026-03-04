@@ -1,0 +1,41 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=perl-Net-LibIDN
+pkgver=0.12
+pkgrel=2slint
+depends=("aaa_libraries|libidn")
+export srcname=Net-LibIDN
+source=("https://cpan.metacpan.org/authors/id/T/TH/THOR/$srcname-$pkgver.tar.gz")
+docs=("Artistic" "Changes" "README*")
+url="https://metacpan.org/pod/Net::LibIDN"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"perl-Net-LibIDN (Perl bindings for GNU Libidn)"
+"Net::LibIDN provides Perl bindings for GNU"
+"Libidn and internationalized domain names."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || exit 1
+
+  perl Makefile.PL INSTALLDIRS=perl
+  make || exit 1
+  make test || exit 1
+  make install DESTDIR="$PKG" || exit 1
+
+  if [ -d "$PKG/usr/share/man" ]; then
+    mv "$PKG/usr/share/man" "$PKG/usr/" || exit 1
+  fi
+
+  slkbuild_path="${SRC%/src}/SLKBUILD"
+  legacy_suffix=SlackBuild
+  install -Dm644 "$slkbuild_path" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$pkgname.$legacy_suffix" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+  find "$PKG" -depth -type d -empty -delete || exit 1
+}

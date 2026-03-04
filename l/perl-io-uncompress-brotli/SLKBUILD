@@ -1,0 +1,44 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=perl-io-uncompress-brotli
+pkgver=0.019
+pkgrel=1slint
+export srcname=IO-Compress-Brotli
+source=(
+  "https://cpan.metacpan.org/authors/id/T/TI/TIMLEGGE/$srcname-$pkgver.tar.gz"
+  "no_alien_cmake3.diff"
+)
+docs=("README" "Changes")
+url="https://metacpan.org/pod/IO::Uncompress::Brotli"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"perl-io-uncompress-brotli (Brotli compression support for Perl)"
+"Adds IO::Compress/IO::Uncompress interfaces for Brotli streams."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || exit 1
+
+  patch -p1 --verbose -i "$SRC/no_alien_cmake3.diff" || exit 1
+
+  perl Makefile.PL \
+    PREFIX=/usr \
+    INSTALLDIRS=vendor \
+    INSTALLVENDORMAN3DIR=/usr/man/man3
+  make -j1 VERBOSE=1 || exit 1
+  make test || exit 1
+  strip blib/arch/auto/*/*/*/*.so 2>/dev/null || true
+  make install DESTDIR="$PKG" || exit 1
+
+  slkbuild_path="${SRC%/src}/SLKBUILD"
+  legacy_suffix=SlackBuild
+  install -Dm644 "$slkbuild_path" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$pkgname.$legacy_suffix" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+  find "$PKG" -depth -type d -empty -delete || exit 1
+}

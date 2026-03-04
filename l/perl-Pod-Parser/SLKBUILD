@@ -1,0 +1,44 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=perl-Pod-Parser
+pkgver=1.63
+pkgrel=2slint
+export srcname=Pod-Parser
+source=("https://cpan.metacpan.org/authors/id/M/MA/MAREKR/$srcname-$pkgver.tar.gz")
+docs=("CHANGES")
+url="https://metacpan.org/pod/Pod::Parser"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"perl-Pod-Parser (parse and translate POD)"
+"Pod::Parser provides base classes for parsing"
+"and translating POD documentation."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || exit 1
+
+  perl Makefile.PL \
+    PREFIX=/usr \
+    INSTALLDIRS=vendor \
+    INSTALLVENDORMAN3DIR=/usr/man/man3
+  make || exit 1
+  make test || exit 1
+  make install DESTDIR="$PKG" || exit 1
+
+  if [ -d "$PKG/usr/share/man/man1" ]; then
+    mv "$PKG/usr/share/man/man1" "$PKG/usr/man" || exit 1
+  fi
+  rm -rf "$PKG/usr/share/man"
+
+  slkbuild_path="${SRC%/src}/SLKBUILD"
+  legacy_suffix=SlackBuild
+  install -Dm644 "$slkbuild_path" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$pkgname.$legacy_suffix" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+  find "$PKG" -depth -type d -empty -delete || exit 1
+}

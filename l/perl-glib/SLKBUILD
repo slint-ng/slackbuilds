@@ -1,0 +1,45 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=perl-glib
+pkgver=1.3293
+pkgrel=2slint
+depends=("aaa_libraries|glib2" "aaa_libraries|libffi" "aaa_libraries|pcre")
+export srcname=Glib
+source=(
+  "https://cpan.metacpan.org/authors/id/X/XA/XAOC/$srcname-$pkgver.tar.gz"
+  "glib-keyfile-comment-format.patch"
+)
+docs=("AUTHORS" "ChangeLog*" "LICENSE" "NEWS" "README" "TODO")
+url="https://metacpan.org/pod/Glib"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"perl-glib (Perl bindings for GLib and GObject)"
+"Exposes GLib facilities and object model APIs to Perl code."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || exit 1
+
+  patch -p1 --verbose -i "$SRC/glib-keyfile-comment-format.patch" || exit 1
+
+  perl Makefile.PL \
+    OPTIMIZE="$CFLAGS" \
+    PREFIX=/usr \
+    INSTALLDIRS=vendor \
+    INSTALLVENDORMAN3DIR=/usr/man/man3
+  make || exit 1
+  make test || exit 1
+  make install DESTDIR="$PKG" || exit 1
+
+  slkbuild_path="${SRC%/src}/SLKBUILD"
+  legacy_suffix=SlackBuild
+  install -Dm644 "$slkbuild_path" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$pkgname.$legacy_suffix" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+  find "$PKG" -depth -type d -empty -delete || exit 1
+}

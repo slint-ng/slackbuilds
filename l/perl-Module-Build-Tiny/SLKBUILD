@@ -1,0 +1,46 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=perl-Module-Build-Tiny
+pkgver=0.039
+pkgrel=1slint
+export srcname=Module-Build-Tiny
+source=("https://cpan.metacpan.org/authors/id/L/LE/LEONT/$srcname-$pkgver.tar.gz")
+docs=("Changes" "INSTALL" "LICENSE" "README*")
+url="https://metacpan.org/pod/Module::Build::Tiny"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"perl-Module-Build-Tiny (tiny Module::Build clone)"
+"Module::Build::Tiny is a lightweight drop-in"
+"replacement for Module::Build."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || exit 1
+
+  export PERL_MM_USE_DEFAULT=1
+  export PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR=$PKG"
+  export PERL_MB_OPT="--installdirs vendor --destdir $PKG"
+  export MODULEBUILDRC=/dev/null
+
+  perl Build.PL \
+    prefix=/usr \
+    installdirs=vendor \
+    destdir="$PKG"
+  perl Build || exit 1
+  perl Build test || exit 1
+  perl Build install \
+    --install_path bindoc=/usr/man/man1 \
+    --install_path libdoc=/usr/man/man3 || exit 1
+
+  slkbuild_path="${SRC%/src}/SLKBUILD"
+  legacy_suffix=SlackBuild
+  install -Dm644 "$slkbuild_path" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$pkgname.$legacy_suffix" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+  find "$PKG" -depth -type d -empty -delete || exit 1
+}

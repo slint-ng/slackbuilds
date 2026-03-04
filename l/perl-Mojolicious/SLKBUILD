@@ -1,0 +1,44 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=perl-Mojolicious
+pkgver=9.22
+pkgrel=1slint
+export srcname=Mojolicious
+source=("https://cpan.metacpan.org/authors/id/S/SR/SRI/$srcname-$pkgver.tar.gz")
+docs=("Changes" "LICENSE" "README.md" "examples")
+url="https://mojolicious.org"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"perl-Mojolicious (real-time web framework)"
+"Mojolicious is a next-generation web framework"
+"for Perl applications and services."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || exit 1
+
+  # Upstream color-format tests enable MOJO_LOG_COLOR explicitly and expect
+  # ANSI output; a global NO_COLOR setting suppresses that behavior.
+  unset NO_COLOR
+
+  perl Makefile.PL \
+    PREFIX=/usr \
+    INSTALLDIRS=vendor \
+    INSTALLVENDORMAN1DIR=/usr/man/man1 \
+    INSTALLVENDORMAN3DIR=/usr/man/man3
+  make || exit 1
+  make test || exit 1
+  make install DESTDIR="$PKG" || exit 1
+
+  slkbuild_path="${SRC%/src}/SLKBUILD"
+  legacy_suffix=SlackBuild
+  install -Dm644 "$slkbuild_path" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$pkgname.$legacy_suffix" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+  find "$PKG" -depth -type d -empty -delete || exit 1
+}

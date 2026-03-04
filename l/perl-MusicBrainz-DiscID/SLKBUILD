@@ -1,0 +1,40 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=perl-MusicBrainz-DiscID
+pkgver=0.06
+pkgrel=1slint
+depends=("libdiscid")
+export srcname=MusicBrainz-DiscID
+source=("https://cpan.metacpan.org/authors/id/N/NJ/NJH/$srcname-$pkgver.tar.gz")
+docs=("Changes" "README.md")
+url="https://metacpan.org/pod/MusicBrainz::DiscID"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"perl-MusicBrainz-DiscID (audio CD disc IDs)"
+"MusicBrainz::DiscID calculates MusicBrainz disc"
+"IDs from audio CDs using libdiscid."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || exit 1
+
+  perl Makefile.PL \
+    INSTALLDIRS=vendor \
+    INSTALLVENDORMAN1DIR=/usr/man/man1 \
+    INSTALLVENDORMAN3DIR=/usr/man/man3
+  make || exit 1
+  make test || exit 1
+  make install DESTDIR="$PKG" || exit 1
+
+  slkbuild_path="${SRC%/src}/SLKBUILD"
+  legacy_suffix=SlackBuild
+  install -Dm644 "$slkbuild_path" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$pkgname.$legacy_suffix" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+  find "$PKG" -depth -type d -empty -delete || exit 1
+}

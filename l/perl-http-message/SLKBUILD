@@ -1,0 +1,33 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=perl-http-message
+pkgver=6.36
+pkgrel=1slint
+export srcname=HTTP-Message
+source=("https://cpan.metacpan.org/authors/id/O/OA/OALDERS/HTTP-Message-$pkgver.tar.gz")
+docs=("Changes" "README.md")
+url="https://metacpan.org/pod/HTTP::Message"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"perl-http-message (HTTP request/response base classes)"
+"HTTP::Message provides the request, response, and header"
+"classes used for HTTP-style communication."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || exit 1
+
+  printf 'y\n' | perl Makefile.PL \
+    PREFIX=/usr \
+    INSTALLDIRS=vendor \
+    INSTALLVENDORMAN3DIR=/usr/man/man3
+  make || exit 1
+  make test || exit 1
+  make install DESTDIR="$PKG" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+}

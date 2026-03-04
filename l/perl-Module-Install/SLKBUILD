@@ -1,0 +1,38 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=perl-Module-Install
+pkgver=1.19
+pkgrel=1slint
+export srcname=Module-Install
+source=("https://cpan.metacpan.org/authors/id/E/ET/ETHER/$srcname-$pkgver.tar.gz")
+docs=("Changes" "README*")
+url="https://metacpan.org/pod/Module::Install"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"perl-Module-Install (standalone module installer)"
+"Module::Install helps CPAN-style distributions"
+"ship simple, extensible Perl installers."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || exit 1
+
+  perl Makefile.PL \
+    PREFIX=/usr \
+    INSTALLDIRS=vendor \
+    INSTALLVENDORMAN3DIR=/usr/man/man3
+  make || exit 1
+  make install DESTDIR="$PKG" || exit 1
+
+  slkbuild_path="${SRC%/src}/SLKBUILD"
+  legacy_suffix=SlackBuild
+  install -Dm644 "$slkbuild_path" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$pkgname.$legacy_suffix" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+  find "$PKG" -depth -type d -empty -delete || exit 1
+}

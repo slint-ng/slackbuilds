@@ -1,0 +1,40 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=perl-extutils-depends
+pkgver=0.8001
+pkgrel=1slint
+export srcname=ExtUtils-Depends
+source=("https://cpan.metacpan.org/authors/id/X/XA/XAOC/$srcname-$pkgver.tar.gz")
+docs=("Changes" "README")
+url="https://metacpan.org/release/ExtUtils-Depends"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"perl-extutils-depends (share C/XS interfaces between Perl extensions)"
+"Helps Perl extensions consume C headers and typemaps from others."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || exit 1
+
+  perl Makefile.PL
+  make || exit 1
+  make install INSTALLDIRS=vendor DESTDIR="$PKG" || exit 1
+
+  if [ -d "$PKG/usr/share/man" ]; then
+    mkdir -p "$PKG/usr/man"
+    mv "$PKG/usr/share/man/"* "$PKG/usr/man/" || exit 1
+    rmdir "$PKG/usr/share/man" "$PKG/usr/share" 2>/dev/null || true
+  fi
+
+  slkbuild_path="${SRC%/src}/SLKBUILD"
+  legacy_suffix=SlackBuild
+  install -Dm644 "$slkbuild_path" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$pkgname.$legacy_suffix" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+  find "$PKG" -depth -type d -empty -delete || exit 1
+}

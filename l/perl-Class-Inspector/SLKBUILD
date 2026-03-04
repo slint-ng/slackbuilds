@@ -1,0 +1,40 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=perl-Class-Inspector
+pkgver=1.36
+pkgrel=1slint
+export srcname=Class-Inspector
+source=("https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/$srcname-$pkgver.tar.gz")
+docs=("LICENSE" "README")
+url="https://metacpan.org/pod/Class::Inspector"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"perl-Class-Inspector (inspect loaded Perl classes)"
+"Class::Inspector reports information about loaded"
+"classes."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || exit 1
+
+  perl Makefile.PL \
+    PREFIX=/usr \
+    INSTALLDIRS=vendor \
+    INSTALLVENDORMAN1DIR=/usr/man/man1 \
+    INSTALLVENDORMAN3DIR=/usr/man/man3
+  make || exit 1
+  make test || exit 1
+  make install DESTDIR="$PKG" || exit 1
+
+  slkbuild_path="${SRC%/src}/SLKBUILD"
+  legacy_suffix=SlackBuild
+  install -Dm644 "$slkbuild_path" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$pkgname.$legacy_suffix" || exit 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) -delete
+  find "$PKG" -depth -type d -empty -delete || exit 1
+}
