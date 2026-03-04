@@ -15,7 +15,7 @@ packageList=(
   "l/python-toml"
   "l/python3-idna"
   "l/python3-requests"
-  "l/python-attrs"
+  "l/python3-attrs"
   "l/python-automat"
   "l/python-constantly"
   "l/python-incremental"

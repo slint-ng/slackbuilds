@@ -552,7 +552,7 @@ python-absl-py
 python-alabaster
 python-asn1crypto
 python-atspi
-python-attrs
+python3-attrs
 python-autobahn
 python-automat
 python-babel

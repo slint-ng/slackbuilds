@@ -898,7 +898,7 @@ armcord/armcord.SlackBuild 27 # Included in Slint by Didier Spaier didieratslint
 rst2pdf/SLKBUILD 1 # Packager  Didier Spaier <didier~at~slint~dot~fr>
 bubblewrap/SLKBUILD 3 # included in Slint by Didier Spaier didieratslint.fr
 python-urwid/python-urwid.SlackBuild 24 # Adapted for Slint by Didier Spaier <didier~at~slint~dot~fr>
-python-attrs/python-attrs.SlackBuild 28 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-attrs/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
 btrfs-progs/btrfs-progs.SlackBuild 22 # Included in Slint by Didier Spaier didieratslintdotfr
 python-wcwidth/python-wcwidth.SlackBuild 27 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 python3-flit_core3.11/python3-flit_core3.11.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr

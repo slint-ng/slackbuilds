@@ -2,8 +2,9 @@
 # shellcheck shell=bash disable=SC2034
 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 
-pkgname=python-attrs
-_srcname=attrs
+pkgname=python3-attrs
+srcname=attrs
+export srcname
 pkgver=21.4.0
 pkgrel=2slint
 slackdesc=(
@@ -18,28 +19,29 @@ slackdesc=(
 )
 url="https://pypi.org/project/attrs/"
 depends=("python")
-makedepends=("python-setuptools")
-source=("https://files.pythonhosted.org/packages/source/a/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+depends=("python3")
+makedepends=("python3-setuptools")
+source=("https://files.pythonhosted.org/packages/source/a/${srcname}/${srcname}-${pkgver}.tar.gz")
 options=("nosrcpack")
 
 build() {
-  cd "$SRC/${_srcname}-${pkgver}" || return 1
+  local docDir
 
-  for pybin in python3.9 python3.11; do
-    "$pybin" setup.py install --root="$PKG" || return 1
-  done
+  cd "$SRC/${srcname}-${pkgver}" || return 1
 
-  docdir="$PKG/usr/doc/$pkgname-$pkgver"
-  install -d "$docdir" || return 1
+  python3 setup.py install --root="$PKG" || return 1
+
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docDir" || return 1
 
   shopt -s nullglob
   for doc in LICENSE *.rst docs; do
     [[ -e $doc ]] || continue
-    cp -a "$doc" "$docdir/" || return 1
+    cp -a "$doc" "$docDir/" || return 1
   done
   shopt -u nullglob
 
-  if [[ -d $docdir/docs ]]; then
-    find "$docdir/docs" -type f -exec chmod 0644 {} + || return 1
+  if [[ -d $docDir/docs ]]; then
+    find "$docDir/docs" -type f -exec chmod 0644 {} + || return 1
   fi
 }
