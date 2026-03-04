@@ -81,7 +81,6 @@ build() {
     -Diconv=enabled \
     -Dlibarchive=enabled \
     -Dlibbluray=enabled \
-    -Dsdl2=enabled \
     -Dgl-x11=enabled \
     -Dsdl2-gamepad=enabled \
     -Dpulse=enabled \
