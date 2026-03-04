@@ -14,6 +14,7 @@ packageList=(
   "l/yt-dlp-ejs"
   "ap/translate-toolkit"
   "t/python3-gTTS"
+  "ap/mpv"
   "ap/yt-dlp"
 )
 

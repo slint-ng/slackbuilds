@@ -93,6 +93,7 @@ packageList=(
   "l/python3-pyinotify"
   "ap/translate-toolkit"
   "t/python3-gTTS"
+  "ap/mpv"
   "ap/yt-dlp"
   "l/libsixel"
   "l/liblouis"
