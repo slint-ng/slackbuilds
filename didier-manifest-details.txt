@@ -606,7 +606,7 @@ alsa-utils.prev/alsa-utils.SlackBuild 24 # Included in Slint by Didier Spaier <d
 matchbox-themes-extra/SLKBUILD 1 #Packager Didier Spaier didieratslintdotfr
 libcurl-gnutls/libcurl-gnutls.SlackBuild 31 # Included in Slint by Didier Spaier didieratslintdotfr
 bashrun/bashrun.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
-python-automat/python-automat.SlackBuild 28 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-automat/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
 python3-calver/python3-calver.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 txt2man/SLKBUILD 1 # Pacakaged by Didier Spaier <didier~at~slint~dot~fr>
 tk/tk.SlackBuild 23 # included in Slint by Didier Spaier didieratsintdotfr
