@@ -9,6 +9,8 @@ packageList=(
   "l/python3-pythran"
   "l/python3-setproctitle"
   "l/python3-dbus"
+  "d/nodejs"
+  "d/pnpm"
   "l/yt-dlp-ejs"
   "ap/translate-toolkit"
   "t/python3-gTTS"
@@ -19,7 +21,3 @@ for packagePath in "${packageList[@]}"; do
   printf 'Building %s\n' "$packagePath"
   "$scriptDir/build-package.sh" --skip-staged --only "$packagePath"
 done
-
-# Prerequisite for l/yt-dlp-ejs: install legacy packages d/nodejs and d/pnpm
-# in the VM before running this script. build-package.sh only builds SLKBUILD
-# package targets.

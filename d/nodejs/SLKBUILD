@@ -1,0 +1,62 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Frank Honolka
+
+pkgname=nodejs
+export srcname=node
+pkgver=20.11.1
+pkgrel=1slint
+source=("https://nodejs.org/dist/v${pkgver}/${srcname}-v${pkgver}.tar.gz" "npm.sh")
+url="https://nodejs.org/"
+license=('MIT')
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"nodejs (JavaScript runtime)"
+""
+"Node.js is a JavaScript runtime built on Chrome's V8 JavaScript"
+"engine."
+)
+
+build() {
+  local docDir
+
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  cd "$SRC/${srcname}-v${pkgver}" || return 1
+
+  # Fix install paths for manpages and 64-bit library layout.
+  sed -i 's|share/||' tools/install.py || return 1
+  sed -i "s|lib/|lib${LIBDIRSUFFIX}/|g" tools/install.py || return 1
+  sed -i "s/'lib'/'lib${LIBDIRSUFFIX}'/" \
+    lib/module.js \
+    lib/internal/modules/cjs/loader.js \
+    deps/npm/lib/npm.js || return 1
+
+  sed -i 's|math.h|cmath|' src/node_crypto.cc || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --shared-zlib \
+    --shared-openssl \
+    --ninja || return 1
+
+  make CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  if [[ -d "$PKG/usr/man" ]]; then
+    find "$PKG/usr/man" -type f -exec gzip -9 {} \+ || return 1
+    while IFS= read -r manLink; do
+      ln -sf "$(readlink "$manLink").gz" "${manLink}.gz" || return 1
+      rm -f "$manLink" || return 1
+    done < <(find "$PKG/usr/man" -type l)
+  fi
+
+  install -Dm644 "$SRC/npm.sh" \
+    "$PKG/usr/share/bash-completion/completions/npm" || return 1
+
+  install -d "$docDir" || return 1
+  cp -a LICENSE ./*.md "$docDir/" || return 1
+}
