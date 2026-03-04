@@ -5,7 +5,7 @@
 pkgname=python3-cython
 export srcname=cython
 pkgver=3.2.4
-pkgrel=1slint
+pkgrel=2slint
 source=("https://files.pythonhosted.org/packages/91/85/7574c9cd44b69a27210444b6650f6477f56c75fee1b70d7672d3e4166167/${srcname}-${pkgver}.tar.gz")
 url="https://cython.org/"
 license=("Apache-2.0")
@@ -27,6 +27,7 @@ build() {
   docDir="$PKG/usr/doc/$pkgname-$pkgver"
 
   cd "${srcname}-${pkgver}" || return 1
+  export NO_CYTHON_COMPILE=true
   python3 -m build --wheel --no-isolation || return 1
   python3 -m installer --destdir="$PKG" dist/*.whl || return 1
 
