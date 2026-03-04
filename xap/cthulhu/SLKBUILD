@@ -2,8 +2,8 @@
 # Packager: Storm Dragon <storm_dragon@stormux.org>
 
 pkgname=cthulhu
-pkgver=2026.01.26
-pkgrel=3slint
+pkgver=2026.03.02
+pkgrel=1slint
 source=()
 url="https://git.stormux.org/storm/cthulhu"
 options=('nosrcpack')
