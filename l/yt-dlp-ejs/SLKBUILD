@@ -16,8 +16,8 @@ depends=(deno
 makedepends=(git
              python3-build
              python-hatch-vcs
-             python-hatchling
-             python-installer)
+             python3-hatchling
+             python3-installer)
 checkdepends=(python-pytest)
 #source=(https://github.com/yt-dlp/ejs/archive/refs/tags/${pkgver}.tar.gz)
 sha256sums=('3c67e0e971812df363bb837d2f333091d6735092314fa01c4d6e5127b1ae00ef')

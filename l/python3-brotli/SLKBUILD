@@ -9,7 +9,7 @@
 
 pkgbase=brotli
 export pkgbase
-pkgname=python-brotli3.11
+pkgname=python3-brotli
 _gitcommit=ed738e842d2fbdf2d6459e39267a633c4a9b2f5d
 pkgver=1.0.9
 pkgrel=1slint
@@ -20,9 +20,9 @@ license=('MIT')
 makedepends=(
   git
   cmake
-  python-setuptools
+  python3-setuptools
   python3-build
-  python-installer
+  python3-installer
   python3-wheel
 )
 source=("${pkgbase}-${pkgver}.tar.gz")
@@ -30,13 +30,13 @@ sha512sums=('SKIP')
 docs=('LICENSE')
 options=("nosrcpack")
 build() {
-  cd ${pkgbase}-${pkgver}
-  python3.11 -m build --wheel --no-isolation
+  cd "${pkgbase}-${pkgver}" || return 1
+  python3 -m build --wheel --no-isolation || return 1
   cmake -S . -B build \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DBUILD_SHARED_LIBS=True \
     -DCMAKE_C_FLAGS="$CFLAGS -ffat-lto-objects"
   cmake --build build -v
-  python3.11 -m installer --destdir="$PKG" dist/*.whl
+  python3 -m installer --destdir="$PKG" dist/*.whl || return 1
 }

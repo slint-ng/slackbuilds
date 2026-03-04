@@ -541,7 +541,7 @@ python3-flit_core
 python3-flit_core3.11
 python3-gTTS
 python3-hatchling
-python3-hatchling3.11
+python3-hatchling
 python3-installer
 python3-pathspec
 python3-pluggy
@@ -558,7 +558,7 @@ python3-automat
 python-babel
 python-beautifulsoup4
 python-bottle
-python-brotli3.11
+python3-brotli
 python3-build
 python-caja
 python-cchardet
@@ -582,7 +582,7 @@ python-fasteners
 python-filetype
 python-gflags
 python-glad2
-python-hatch-vcs3.11
+python3-hatch-vcs
 python3-hkdf
 python3-humanize
 python3-hyperlink
@@ -616,7 +616,7 @@ python3-pyasn1
 python3-pyasn1-modules
 python3-pycryptodomex
 python3-pyenchant
-python-pygments3.11
+python3-pygments
 python-pyinsane
 python-pylast
 python3-cffi
