@@ -25,9 +25,9 @@ slackdesc=\
 build() {
 	local sourceDir
 
-	sourceDir="${srcname}-$pkgver"
-	if [[ ! -d "$sourceDir" ]]; then
-		sourceDir="$SRC/${srcname}-$pkgver"
+	sourceDir="$(find . "$SRC" -maxdepth 2 -type d -name "${srcname}-${pkgver}" 2>/dev/null | head -n 1)"
+	if [[ -z "$sourceDir" ]]; then
+		return 1
 	fi
 
 	cd "$sourceDir" || return 1
