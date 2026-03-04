@@ -27,6 +27,10 @@ build() {
 
   cd "$SRC/${srcname}-${pkgver}" || return 1
 
+  # Old Twisted releases expose version metadata in a way that newer
+  # setuptools no longer resolves reliably from setup.cfg.
+  sed -i "s/^version = attr: twisted\\.__version__$/version = ${pkgver}/" setup.cfg || return 1
+
   python3 -m build --wheel --no-isolation || return 1
   python3 -m installer --destdir="$PKG" dist/*.whl || return 1
 
