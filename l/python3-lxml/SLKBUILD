@@ -5,8 +5,8 @@
 
 pkgname=python3-lxml
 export srcname=lxml
-pkgver=4.9.4
-pkgrel=2slint
+pkgver=6.0.2
+pkgrel=1slint
 source=("https://files.pythonhosted.org/packages/source/l/${srcname}/${srcname}-${pkgver}.tar.gz")
 sourcetemplate=http://people.salixos.org/laprjns/$pkgname/$pkgver/
 depends=("libxml2" "libxslt" "python3")
@@ -26,20 +26,14 @@ slackdesc=\
 build() {
 	local docDir
 	local docFile
-	local sourceDir
 
 	docDir="$PKG/usr/doc/$pkgname-$pkgver"
-	sourceDir="$(find . "$SRC" -maxdepth 2 -type d -name "${srcname}-${pkgver}" 2>/dev/null | head -n 1)"
-	if [[ -z "$sourceDir" ]]; then
-		return 1
-	fi
-
-	cd "$sourceDir" || return 1
+	cd "${srcname}-${pkgver}" || return 1
 	python3 -m build --wheel --no-isolation || return 1
 	python3 -m installer --destdir="$PKG" dist/*.whl || return 1
 
 	install -d "$docDir" || return 1
-	for docFile in CREDITS.txt LICENSE.txt LICENSES.txt README.rst TODO.txt BSD.txt GPL.txt ZopePublicLicense.txt elementtree.txt; do
+	for docFile in CHANGES.txt CREDITS.txt LICENSE.txt LICENSES.txt README.rst TODO.txt doc/licenses/BSD.txt doc/licenses/GPL.txt doc/licenses/elementtree.txt; do
 		[[ -e "$docFile" ]] || continue
 		cp -a "$docFile" "$docDir/" || return 1
 	done
