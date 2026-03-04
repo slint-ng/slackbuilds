@@ -2,15 +2,16 @@
 # shellcheck shell=bash disable=SC2034
 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 
-pkgname=python-idna
-_srcname=idna
+pkgname=python3-idna
+srcname=idna
+export srcname
 pkgver=3.3
 pkgrel=1slint
 source=("https://files.pythonhosted.org/packages/source/i/idna/idna-$pkgver.tar.gz")
 url="https://github.com/kjd/idna"
 license=("BSD-3-Clause")
-depends=("python")
-makedepends=("python-setuptools")
+depends=("python3")
+makedepends=("python3-setuptools")
 
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
@@ -27,18 +28,19 @@ slackdesc=(
 )
 
 build() {
-  cd "$SRC/${_srcname}-${pkgver}" || exit 1
+  local docDir
 
-  python3.9 setup.py install --root="$PKG" || exit 1
-  python3.11 setup.py install --root="$PKG" || exit 1
+  cd "$SRC/${srcname}-${pkgver}" || return 1
 
-  docdir="$PKG/usr/doc/$pkgname-$pkgver"
-  mkdir -p "$docdir" || exit 1
-  cp -a ./*.rst "$docdir" || exit 1
-  find "$docdir" -type f -exec chmod 0644 {} \+ || exit 1
+  python3 setup.py install --root="$PKG" || return 1
+
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+  mkdir -p "$docDir" || return 1
+  cp -a ./*.rst "$docDir" || return 1
+  find "$docDir" -type f -exec chmod 0644 {} + || return 1
 
   if [ -r HISTORY.rst ]; then
-    head -n 1000 HISTORY.rst > "$docdir/HISTORY.rst" || exit 1
-    touch -r HISTORY.rst "$docdir/HISTORY.rst" || exit 1
+    head -n 1000 HISTORY.rst > "$docDir/HISTORY.rst" || return 1
+    touch -r HISTORY.rst "$docDir/HISTORY.rst" || return 1
   fi
 }

@@ -1056,7 +1056,7 @@ matchbox-common/SLKBUILD 1 #Packager Didier Spaier didieratslintdotfr
 libgta/libgta.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 jack-tools/jack-tools.SlackBuild 44 # Included in Slint by Didier Spaier didieratslintdotfr
 liblouisxml/SLKBUILD 1 #Maintainer  Didier Spaier <didier~at~slint~dot~fr>
-python-idna/python-idna.SlackBuild 24 #Included in Slint by Didier Spaier didieratslintdotfr
+python3-idna/SLKBUILD 3 #Included in Slint by Didier Spaier didieratslintdotfr
 soma/soma.SlackBuild 25 # Included in Slint by Didier Spaier diideratslintdotfr
 pstoedit/pstoedit.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 python3-editables/python3-editables.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr

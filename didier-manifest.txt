@@ -587,7 +587,7 @@ python-hatch-vcs3.11
 python-hkdf
 python-humanize
 python-hyperlink
-python-idna
+python3-idna
 python-imagesize
 python-importlib_metadata
 python-importlib_metadata3.11

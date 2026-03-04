@@ -13,7 +13,7 @@ packageList=(
   "l/python-installer3.11"
   "l/python-click"
   "l/python-toml"
-  "l/python-idna"
+  "l/python3-idna"
   "l/python-requests"
   "l/python-attrs"
   "l/python-automat"
