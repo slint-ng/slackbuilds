@@ -553,7 +553,7 @@ python-alabaster
 python-asn1crypto
 python-atspi
 python3-attrs
-python-autobahn
+python3-autobahn
 python3-automat
 python-babel
 python-beautifulsoup4

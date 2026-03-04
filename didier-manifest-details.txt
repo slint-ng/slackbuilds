@@ -795,7 +795,7 @@ luna-wallpapers/luna-wallpapers.SlackBuild 28 # Adapted to Slint by Didier Spaie
 sam/SLKBUILD 1 # Maintainer by Didier Spaier didieratslintdotfr
 dummy/SLKBUILD 1 #Packager  Didier Spaier didierspaieratslintdotfr
 dummy/SLKBUILD.matchbox 1 #Packager  Didier Spaier didierspaieratslintdotfr
-python-autobahn/python-autobahn.SlackBuild 25 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+python3-autobahn/SLKBUILD 3 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 dummy/SLKBUILD.lxqt 1 #Packager  Didier Spaier didierspaieratslintdotfr
 curlew/SLKBUILD 7 #Included in Slint by Didier Spaier didieratslintdotfr
 vo-amrwbenc/vo-amrwbenc.SlackBuild 4 # adapted to vo-amrwbenc by Didier Spaier

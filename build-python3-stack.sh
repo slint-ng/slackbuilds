@@ -38,7 +38,7 @@ packageList=(
   "l/python-tqdm"
   "l/python3-spake2"
   "l/python3-twisted"
-  "l/python-autobahn"
+  "l/python3-autobahn"
   "l/python-txtorcon"
   "l/python3-daemonize"
   "l/python3-evdev"
