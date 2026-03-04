@@ -928,7 +928,9 @@ mate/mate-session-manager/mate-session-manager.SlackBuild 26 # Included in Slint
 libfreehand/libfreehand.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 mate/mate-utils/mate-utils.SlackBuild 26 # Included in Slint by Didier Spaier didieratslintdotfr
 webkit2gtk/SLKBUILD 3 # Adapted to Slint by Didier Spaier didieratslintdotfr
-python-pynacl/python-pynacl.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
+python3-cffi/SLKBUILD 3 # Added in Slint Python 3.11 migration
+python3-pycparser/SLKBUILD 3 # Added in Slint Python 3.11 migration
+python3-pynacl/SLKBUILD 3 # Included in Slint by Didier Spaier didieratslintdotfr
 thorium-reader/SLKBUILD 1 # Packager  Didier Spaier didieratslintdotfr
 perl-Syntax-Keyword-Try/perl-Syntax-Keyword-Try.SlackBuild 27 # Included in Slint by Didier Spaier didieratslintdotfr
 aMule/aMule.SlackBuild 9 # Included in Slint by Didier Spaier didieratslintdotfr

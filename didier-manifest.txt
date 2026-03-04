@@ -621,7 +621,9 @@ python3-pyenchant
 python-pygments3.11
 python-pyinsane
 python-pylast
-python-pynacl
+python3-cffi
+python3-pycparser
+python3-pynacl
 python-pyte
 python-pytg
 python-pythran

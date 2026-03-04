@@ -5,6 +5,7 @@ python-babel;python3-babel
 python-build;python3-build
 python-dateutil;python3-dateutil
 python-deprecation;python3-deprecation
+python-cffi;python3-cffi
 python-fasteners;python3-fasteners
 python-filetype;python3-filetype
 python-numpy;numpy3
@@ -19,7 +20,7 @@ python3-pyperclip;pyperclip
 python3-evdev;python-evdev
 python-pyjwt;python3-pyjwt
 python-pylast;pylast
-python-pynacl;pynacl
+python3-pynacl;pynacl
 python-pythran;python3-pythran
 python-pytz;pytz
 python-scipy;scipy3

@@ -2,13 +2,14 @@
 # shellcheck shell=bash disable=SC2034
 # Included in Slint by Didier Spaier didieratslintdotfr
 
-pkgname=python-pynacl
-_srcname=PyNaCl
+pkgname=python3-pynacl
+srcname=PyNaCl
+export srcname
 pkgver=1.5.0
 pkgrel=1slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
-"$pkgname (Python binding for libsodium)"
+"$pkgname (Python 3 binding for libsodium)"
 ""
 "PyNaCl is a Python binding to libsodium, a fork of the"
 "Networking and Cryptography library focused on usability,"
@@ -17,13 +18,13 @@ slackdesc=(
 "Homepage: https://pypi.org/project/PyNaCl/"
 )
 url="https://pypi.org/project/PyNaCl/"
-depends=("python")
-makedepends=("python-setuptools")
-source=("https://files.pythonhosted.org/packages/source/P/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+depends=("python3" "python3-cffi")
+makedepends=("python3-setuptools")
+source=("https://files.pythonhosted.org/packages/source/P/${srcname}/${srcname}-${pkgver}.tar.gz")
 options=("nosrcpack")
 
 build() {
-  cd "$SRC/${_srcname}-${pkgver}" || return 1
+  cd "$SRC/${srcname}-${pkgver}" || return 1
 
   python3 setup.py install --root="$PKG" || return 1
 
