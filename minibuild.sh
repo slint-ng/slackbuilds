@@ -3,21 +3,15 @@ set -euo pipefail
 
 scriptDir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)
 
-# Keep this list limited to packages changed in the current cleanup pass.
+# Keep this list focused on the piper-tts packaging chain.
 packageList=(
-  "d/meson"
-  "l/python3-pythran"
-  "l/python3-setproctitle"
-  "l/python3-tomlkit"
-  "l/python3-dbus"
-  "d/nodejs"
-  "d/pnpm"
-  "l/yt-dlp-ejs"
-  "ap/translate-toolkit"
-  "t/python3-gTTS"
-  "l/ffmpeg"
-  "ap/mpv"
-  "ap/yt-dlp"
+  "l/python3-pathvalidate"
+  "l/python3-scikit-build"
+  "l/python3-onnxruntime"
+  "ap/piper-tts"
+  "ap/piper-voices-common"
+  "ap/piper-voices-en-us"
+  "ap/piper-voices-en-gb"
 )
 
 for packagePath in "${packageList[@]}"; do
