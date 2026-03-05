@@ -13,13 +13,13 @@ url="https://github.com/OHF-Voice/piper1-gpl"
 license=('GPL-3.0-or-later')
 provides=('piper-tts')
 conflicts=('piper-tts' 'piper')
-depends=('glibc' 'python3-numpy' 'python-onnxruntime' 'python-pathvalidate')
+depends=('glibc' 'python3-numpy' 'python3-onnxruntime' 'python3-pathvalidate')
 optdepends=(
   'python-flask: http server'
-  'python-onnx: patch voice with alignment'
-  'python-pytorch: train'
+  'python3-onnx: patch voice with alignment'
+  'python3-pytorch: train'
 )
-makedepends=('git' 'python3-setuptools' 'python3-build' 'python3-installer' 'python3-wheel' 'python-scikit-build' 'cmake' 'ninja')
+makedepends=('git' 'python3-setuptools' 'python3-build' 'python3-installer' 'python3-wheel' 'python3-scikit-build' 'cmake' 'ninja')
 source=("https://github.com/OHF-Voice/piper1-gpl.git#tag=v${pkgver}")
 sha256sums=('df1aa63504633df54e625c2a83997bba83d4c3d36504e431fb47964bc2aa4d0e')
 
