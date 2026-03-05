@@ -27,7 +27,8 @@ build() {
 
   # Slint build roots may not ship hatch-fancy-pypi-readme.
   # It is only needed to render PyPI metadata and not for runtime.
-  sed -i '/hatch-fancy-pypi-readme/d' pyproject.toml || return 1
+  sed -i 's/,[[:space:]]*"hatch-fancy-pypi-readme[^"]*"//' pyproject.toml || return 1
+  sed -i 's/"hatch-fancy-pypi-readme[^"]*",[[:space:]]*//' pyproject.toml || return 1
   awk '
     BEGIN {skip = 0}
     /^\[tool\.hatch\.metadata\.hooks\.fancy-pypi-readme\]/ {skip = 1; next}
@@ -35,6 +36,8 @@ build() {
     skip == 0 {print}
   ' pyproject.toml > pyproject.toml.new || return 1
   mv pyproject.toml.new pyproject.toml || return 1
+  grep -Eq '^\[build-system\]' pyproject.toml || return 1
+  grep -Eq '^requires[[:space:]]*=' pyproject.toml || return 1
 
   python3 -m build --wheel --no-isolation || return 1
   python3 -m installer --destdir="$PKG" dist/*.whl || return 1
