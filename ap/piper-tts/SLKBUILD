@@ -15,39 +15,18 @@ provides=('piper-tts')
 conflicts=('piper-tts' 'piper')
 depends=('glibc' 'python3-numpy' 'python3-onnxruntime' 'python3-pathvalidate')
 optdepends=(
-  'python-flask: http server'
+  'python3-flask: http server'
   'python3-onnx: patch voice with alignment'
   'python3-pytorch: train'
 )
-makedepends=('python3-setuptools' 'python3-build' 'python3-installer' 'python3-wheel' 'python3-scikit-build' 'python3-distro' 'cmake' 'ninja')
-source=("https://github.com/OHF-Voice/piper1-gpl/archive/refs/tags/v${pkgver}.tar.gz")
-sha256sums=('SKIP')
+makedepends=('python3-installer')
+source=("https://files.pythonhosted.org/packages/39/42/b44ae16ef80d86173518aafe2a493a826b46f9fe4fba1b82cd575117d5ac/piper_tts-${pkgver}-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_28_x86_64.whl")
+sha256sums=('5aa533364c15248d2932bcc362eb0740de7cd28dc34233de8df2ee3c6f2adf00')
 
 build() {
-  cd "$SRC/piper1-gpl-${pkgver}" || return 1
-
-  # Upstream tracks espeak-ng via a moving git ref in CMake.
-  # Pin to a stable release tag to avoid breakage when espeak-ng master changes.
-  espeakNgTag='1.52.0'
-  while IFS= read -r cmakeFile; do
-    grep -qE 'espeak-ng/espeak-ng|espeak_ng_external' "$cmakeFile" || continue
-    # Force the tag inside the espeak_ng_external block, even if upstream
-    # currently pins a specific commit hash.
-    sed -i -E \
-      "/espeak_ng_external/,/^[[:space:]]*\\)/ s/(GIT_TAG[[:space:]]+).*/\\1${espeakNgTag}/" \
-      "$cmakeFile" || return 1
-    if grep -q 'espeak-ng/espeak-ng' "$cmakeFile" && ! grep -q 'GIT_TAG' "$cmakeFile"; then
-      sed -i "/espeak-ng\\/espeak-ng/a\\  GIT_TAG ${espeakNgTag}" "$cmakeFile" || return 1
-    fi
-  done < <(find . -type f \( -name 'CMakeLists.txt' -o -name '*.cmake' \))
-
-  # Use Slint-packaged build tooling instead of Python-only wrappers.
-  sed -i 's/"cmake", "ninja", "scikit-build", "distro"//' pyproject.toml || return 1
-  sed -i 's/"scikit-build", "distro", "cmake", "ninja"//' pyproject.toml || return 1
-  python3 -m build --wheel --no-isolation --skip-dependency-check || return 1
-  python3 -m installer --destdir="$PKG" dist/*.whl || return 1
+  wheelFile=$(basename "${source[0]}")
+  python3 -m installer --destdir="$PKG" "$SRC/$wheelFile" || return 1
 
   # Avoid conflict with the unrelated GTK application named piper.
   mv "$PKG/usr/bin/piper" "$PKG/usr/bin/piper-tts" || return 1
-  rm -f "$PKG/usr/COPYING"
 }
