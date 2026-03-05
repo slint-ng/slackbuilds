@@ -31,11 +31,19 @@ build() {
   sed -i 's/"hatch-fancy-pypi-readme[^"]*",[[:space:]]*//' pyproject.toml || return 1
   awk '
     BEGIN {skip = 0}
-    /^\[tool\.hatch\.metadata\.hooks\.fancy-pypi-readme\]/ {skip = 1; next}
-    /^\[/ {if (skip == 1) skip = 0}
+    /^\[[^]]+\]$/ {
+      if ($0 ~ /^\[tool\.hatch\.metadata\.hooks\./ && $0 ~ /fancy-pypi-readme/) {
+        skip = 1
+        next
+      }
+      if (skip == 1) {
+        skip = 0
+      }
+    }
     skip == 0 {print}
   ' pyproject.toml > pyproject.toml.new || return 1
   mv pyproject.toml.new pyproject.toml || return 1
+  sed -i '/fancy-pypi-readme/d' pyproject.toml || return 1
   grep -Eq '^\[build-system\]' pyproject.toml || return 1
   grep -Eq '^requires[[:space:]]*=' pyproject.toml || return 1
 
