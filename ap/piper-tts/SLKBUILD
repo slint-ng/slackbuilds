@@ -31,7 +31,11 @@ build() {
   espeakNgTag='1.52.0'
   while IFS= read -r cmakeFile; do
     grep -qE 'espeak-ng/espeak-ng|espeak_ng_external' "$cmakeFile" || continue
-    sed -i -E "s/(GIT_TAG[[:space:]]+)(master|main|HEAD)/\\1${espeakNgTag}/g" "$cmakeFile" || return 1
+    # Force the tag inside the espeak_ng_external block, even if upstream
+    # currently pins a specific commit hash.
+    sed -i -E \
+      "/espeak_ng_external/,/^[[:space:]]*\\)/ s/(GIT_TAG[[:space:]]+).*/\\1${espeakNgTag}/" \
+      "$cmakeFile" || return 1
     if grep -q 'espeak-ng/espeak-ng' "$cmakeFile" && ! grep -q 'GIT_TAG' "$cmakeFile"; then
       sed -i "/espeak-ng\\/espeak-ng/a\\  GIT_TAG ${espeakNgTag}" "$cmakeFile" || return 1
     fi
