@@ -1,0 +1,51 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
+pkgname=scons
+srcname=scons
+export srcname
+pkgver=4.10.1
+pkgrel=1slint
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (software construction tool)"
+"SCons is an Open Source software construction tool. It is an"
+"improved substitute for Make and other build tools."
+)
+arch=('x86_64')
+url="https://scons.org/"
+license=('MIT')
+depends=('python3')
+source=("https://github.com/SCons/scons/archive/refs/tags/${pkgver}/${srcname}-${pkgver}.tar.gz")
+sha256sums=('SKIP')
+options=('nosrcpack')
+
+build() {
+  local docsDir
+  local docFile
+
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+
+  python3.11 setup.py install --prefix=/usr --root="$PKG" || return 1
+
+  if compgen -G "$PKG/usr/bin/*" >/dev/null; then
+    sed -i 's|env python$|env python3|' "$PKG"/usr/bin/* || return 1
+  fi
+  rm -f "$PKG"/usr/bin/*.bat
+
+  if [ -f "$PKG/usr/scons.1" ]; then
+    install -d "$PKG/usr/man/man1" || return 1
+    mv "$PKG"/usr/*.1 "$PKG/usr/man/man1/" || return 1
+  fi
+
+  mkdir -p "$docsDir" || return 1
+  shopt -s nullglob
+  for docFile in LICENSE* PKG-INFO* README* CHANGES*; do
+    cp -a "$docFile" "$docsDir/" || return 1
+  done
+  shopt -u nullglob
+  find "$docsDir" -type f -exec chmod 0644 {} +
+}
