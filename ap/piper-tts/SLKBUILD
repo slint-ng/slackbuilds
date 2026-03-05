@@ -29,7 +29,7 @@ build() {
   # Use Slint-packaged build tooling instead of Python-only wrappers.
   sed -i 's/"cmake", "ninja", "scikit-build", "distro"//' pyproject.toml || return 1
   sed -i 's/"scikit-build", "distro", "cmake", "ninja"//' pyproject.toml || return 1
-  python3 -m build --wheel --no-isolation || return 1
+  python3 -m build --wheel --no-isolation --skip-dependency-check || return 1
   python3 -m installer --destdir="$PKG" dist/*.whl || return 1
 
   # Avoid conflict with the unrelated GTK application named piper.
