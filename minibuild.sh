@@ -3,17 +3,8 @@ set -euo pipefail
 
 scriptDir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)
 
-# Keep this list focused on the piper-tts packaging chain.
+# Add only packages that need rebuilding for the current test cycle.
 packageList=(
-  "d/git-lfs"
-  "l/python3-pathvalidate"
-  "l/python3-distro"
-  "l/python3-scikit-build"
-  "l/python3-onnxruntime"
-  "ap/piper-tts"
-  "ap/piper-voices-common"
-  "ap/piper-voices-en-us"
-  "ap/piper-voices-en-gb"
 )
 
 for packagePath in "${packageList[@]}"; do

@@ -656,7 +656,7 @@ build_package() {
 
   depFilePath="${artifactPath%.*}.dep"
   if [[ ! -f "$depFilePath" ]]; then
-    depFilePath=${packageDepfileByDir[${packageDir}]:-}
+    depFilePath=$(find_depfile "$packageDir" "$packageName")
   fi
 
   if [[ -n "$depFilePath" && ! -f "$depFilePath" ]]; then
