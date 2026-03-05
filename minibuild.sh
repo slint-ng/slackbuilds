@@ -6,6 +6,7 @@ scriptDir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)
 # Keep this list focused on the piper-tts packaging chain.
 packageList=(
   "l/python3-pathvalidate"
+  "l/python3-distro"
   "l/python3-scikit-build"
   "l/python3-onnxruntime"
   "ap/piper-tts"

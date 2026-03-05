@@ -1,0 +1,32 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
+pkgname=python3-distro
+_srcname=distro
+pkgver=1.9.0
+pkgrel=1slint
+arch=('noarch')
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Linux distribution information)"
+"distro provides accurate information about Linux distribution"
+"name, version, and codename for Python applications."
+)
+url='https://github.com/python-distro/distro'
+license=('Apache-2.0')
+depends=('python3')
+makedepends=('python3-build' 'python3-installer' 'python3-wheel')
+source=("https://files.pythonhosted.org/packages/source/d/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+sha256sums=('SKIP')
+options=('nosrcpack')
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  python3 -m build --wheel --no-isolation || return 1
+  python3 -m installer --destdir="$PKG" dist/*.whl || return 1
+
+  install -Dm644 LICENSE "$PKG/usr/doc/$pkgname-$pkgver/LICENSE" || return 1
+  install -Dm644 README.md "$PKG/usr/doc/$pkgname-$pkgver/README.md" || return 1
+}
