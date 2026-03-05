@@ -1,25 +1,31 @@
 # shellcheck shell=bash disable=SC2034
 pkgname=piper-tts
-_pkgname=piper1-gpl
-pkgver=1.3.0
-pkgrel=1
-pkgdesc="$pkgname (Fast and local neural text-to-speech engine)"
+pkgver=1.4.1
+pkgrel=1slint
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (fast and local neural text-to-speech engine)"
+"Piper is a fast, local neural text-to-speech engine."
+)
 arch=('x86_64')
 url="https://github.com/OHF-Voice/piper1-gpl"
 license=('GPL-3.0-or-later')
 provides=('piper-tts')
-conflicts=('piper-tts')
-depends=(glibc python3-numpy python-onnxruntime)
+conflicts=('piper-tts' 'piper')
+depends=('glibc' 'python3-numpy' 'python-onnxruntime' 'python-pathvalidate')
 optdepends=(
-	'python-flask: http server'
-	'python-pytorch: train'
+  'python-flask: http server'
+  'python-onnx: patch voice with alignment'
+  'python-pytorch: train'
 )
-makedepends=(git python3-setuptools python3-build python3-installer python3-wheel python-scikit-build cmake ninja)
-source=("https://github.com/OHF-Voice/piper1-gpl.git#tag=v$pkgver")
-sha256sums=('4283f56d438c74cc5c790917264e557af6fd2acfa1ff4942f9628c7b78733314')
+makedepends=('git' 'python3-setuptools' 'python3-build' 'python3-installer' 'python3-wheel' 'python-scikit-build' 'cmake' 'ninja')
+source=("https://github.com/OHF-Voice/piper1-gpl.git#tag=v${pkgver}")
+sha256sums=('df1aa63504633df54e625c2a83997bba83d4c3d36504e431fb47964bc2aa4d0e')
 
 build() {
-  cd "$_pkgname" || return 1
+  cd "$SRC/piper1-gpl" || return 1
+
   sed -i 's/"cmake", "ninja"//' pyproject.toml || return 1
   python3 -m build --wheel --no-isolation || return 1
   python3 -m installer --destdir="$PKG" dist/*.whl || return 1

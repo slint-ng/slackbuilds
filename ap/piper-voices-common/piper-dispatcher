@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# shellcheck shell=bash disable=SC2154
+
+voicesPath='/usr/share/piper-voices'
+
+if [[ ${VOICE: -3} == 'low' ]]; then
+  sampleRate=16000
+else
+  sampleRate=22050
+fi
+
+if command -v pw-play >/dev/null 2>&1; then
+  playCmd=(pw-play --rate "$sampleRate" --channel-map LE -)
+else
+  playCmd=(aplay -r "$sampleRate" -f S16_LE -t raw -)
+fi
+
+printf '%s' "$DATA" | piper-tts --model "$voicesPath/$VOICE.onnx" -f - | "${playCmd[@]}"

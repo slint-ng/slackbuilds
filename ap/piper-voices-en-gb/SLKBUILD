@@ -1,0 +1,38 @@
+# shellcheck shell=bash disable=SC2034
+pkgname=piper-voices-en-gb
+pkgver=1.0.0
+pkgrel=1slint
+arch=('noarch')
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Piper voice models for en_GB)"
+"English (UK) voice models for Piper text-to-speech."
+)
+url='https://huggingface.co/rhasspy/piper-voices'
+license=('MIT')
+depends=('piper-voices-common')
+makedepends=('git' 'git-lfs')
+options=('nosrcpack')
+
+build() {
+  rm -rf "$SRC/piper-voices" || return 1
+  GIT_LFS_SKIP_SMUDGE=1 git clone 'https://huggingface.co/rhasspy/piper-voices' "$SRC/piper-voices" || return 1
+
+  cd "$SRC/piper-voices" || return 1
+
+  mapfile -t modelList < <(find . -type f -name '*en_GB*.onnx' -printf '/%P\n') || return 1
+  if [ "${#modelList[@]}" -eq 0 ]; then
+    echo 'No en_GB models were found in piper-voices.'
+    return 1
+  fi
+
+  git lfs install --local || return 1
+  modelCsv="$(IFS=,; echo "${modelList[*]}")"
+  git lfs pull --include "$modelCsv" || return 1
+
+  install -d "$PKG/usr/share/piper-voices/en" || return 1
+  cp -a en/en_GB "$PKG/usr/share/piper-voices/en/" || return 1
+
+  find "$PKG/usr/share/piper-voices" -type d -name 'samples' -exec rm -rf {} + || return 1
+}

@@ -1,0 +1,29 @@
+# shellcheck shell=bash disable=SC2034
+pkgname=piper-voices-common
+pkgver=1.0.1
+pkgrel=1slint
+arch=('noarch')
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (common files for Piper voices)"
+"Common files for Piper voices, including voice index and a"
+"speech-dispatcher generic module configuration."
+)
+url="https://huggingface.co/rhasspy/piper-voices"
+license=('MIT')
+depends=('piper-tts' 'alsa-utils')
+source=(
+  'https://huggingface.co/rhasspy/piper-voices/resolve/main/voices.json'
+  'piper-dispatcher'
+  'piper-tts-generic.conf'
+)
+dotnew=('etc/speech-dispatcher/modules/piper-tts-generic.conf')
+options=('noautodotnew')
+
+build() {
+  install -Dm644 "$SRC/voices.json" "$PKG/usr/share/piper-voices/voices.json" || return 1
+  install -Dm755 "$SRC/piper-dispatcher" "$PKG/usr/bin/piper-dispatcher" || return 1
+  install -Dm644 "$SRC/piper-tts-generic.conf" \
+    "$PKG/etc/speech-dispatcher/modules/piper-tts-generic.conf" || return 1
+}
