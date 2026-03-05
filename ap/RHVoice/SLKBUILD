@@ -63,30 +63,36 @@ build() {
 	legacyLyubovRoot="$SRC/rhvoice-$legacyLyubovVersion"
 	legacyLyubovDir=''
 	englishDictSourceDir="$CWD/English"
-	sconsMainPy=''
-	sconsCmd=()
+	usePythonScons='no'
 
-	if sconsMainPy=$(python3 -c 'import inspect, SCons.Script.Main; print(inspect.getsourcefile(SCons.Script.Main))' 2>/dev/null); then
-		sconsCmd=(python3 "$sconsMainPy")
+	if python3 -c 'import SCons.Script' >/dev/null 2>&1; then
+		usePythonScons='yes'
 	elif command -v scons >/dev/null 2>&1; then
-		sconsCmd=(scons)
+		usePythonScons='no'
 	else
 		echo 'SCons is required but no usable command/module was found.'
 		return 1
 	fi
+	runScons() {
+		if [ "$usePythonScons" = 'yes' ]; then
+			python3 -c 'import SCons.Script,sys; sys.argv=["scons"]+sys.argv[1:]; sys.exit(SCons.Script.main())' "$@" || return 1
+		else
+			scons "$@" || return 1
+		fi
+	}
 
 	rm -rf RHVoice || return 1
 	git clone https://github.com/RHVoice/RHVoice.git || return 1
 	cd RHVoice || return 1
 	git checkout "$commit" || return 1
 	git submodule update --init --recursive || return 1
-	"${sconsCmd[@]}" \
+	runScons \
 	prefix=/usr \
 	libdir=/usr/lib${LIBDIRSUFFIX} \
 	sysconfdir=/etc \
 	servicedir='/usr/share/dbus-1/services/' || return 1
 	export SCONSFLAGS="$MAKEFLAGS"
-	"${sconsCmd[@]}" install DESTDIR="$PKG" prefix="/usr" sysconfdir="/etc" \
+	runScons install DESTDIR="$PKG" prefix="/usr" sysconfdir="/etc" \
 	      CPPFLAGS="$CPPFLAGS" CCFLAGS="$CFLAGS" LINKFLAGS="$LDFLAGS" || return 1
 	DOCDIR=$PKG/usr/doc/${pkgname}-$pkgver
 	mkdir -p $PKG/etc/RHVoice
