@@ -21,10 +21,9 @@ docs=("README.md" "LICENSE.md" "NEWS")
 url="https://github.com/RHVoice/RHVoice"
 source=(
 	"https://github.com/RHVoice/RHVoice/releases/download/1.8.0/rhvoice-1.8.0.tar.gz"
-	"English/namefix.txt"
-	"English/wordfix.txt"
+	"https://git.stormux.org/storm/rhvoice-english/archive/main.tar.gz"
 )
-sha256sums=('SKIP' 'SKIP' 'SKIP')
+sha256sums=('SKIP' 'SKIP')
 license=('GPL3' 'custom' 'custom:by-nc-nd-4.0' 'custom:by-sa-4.0')
 depends=('libpulse')
 makedepends=('git' 'scons' 'speech-dispatcher' 'portaudio' 'libao')
@@ -66,8 +65,9 @@ build() {
 	legacyLyubovVersion='1.8.0'
 	legacyLyubovRoot="$SRC/rhvoice-$legacyLyubovVersion"
 	legacyLyubovDir=''
-	englishNamefix="$SRC/namefix.txt"
-	englishWordfix="$SRC/wordfix.txt"
+	englishDictArchive=$(basename "${source[1]}")
+	englishNamefix=''
+	englishWordfix=''
 	usePythonScons='no'
 
 	if python3 -c 'import SCons.Script' >/dev/null 2>&1; then
@@ -113,6 +113,15 @@ build() {
 	 mv $DOCDIR/en/RHVoice.conf $PKG/etc/RHVoice/RHVoice.conf-en
 	 mv $DOCDIR/ru/RHVoice.conf $PKG/etc/RHVoice/RHVoice.conf-ru
 	 mv $DOCDIR/ua/RHVoice.conf $PKG/etc/RHVoice/RHVoice.conf-uk
+
+	 if [ ! -r "$SRC/$(basename "$englishDictArchive")" ]; then
+		echo "Missing english dictionary archive: $englishDictArchive"
+		return 1
+	 fi
+	 tar -xf "$SRC/$englishDictArchive" -C "$SRC" || return 1
+
+	 englishNamefix=$(find "$SRC" -type f -path '*/English/namefix.txt' -print -quit)
+	 englishWordfix=$(find "$SRC" -type f -path '*/English/wordfix.txt' -print -quit)
 
 	 if [ ! -r "$englishNamefix" ] && [ -r "$CWD/English/namefix.txt" ]; then
 		englishNamefix="$CWD/English/namefix.txt"
