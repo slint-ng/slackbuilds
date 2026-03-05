@@ -19,12 +19,12 @@ optdepends=(
   'python3-onnx: patch voice with alignment'
   'python3-pytorch: train'
 )
-makedepends=('git' 'python3-setuptools' 'python3-build' 'python3-installer' 'python3-wheel' 'python3-scikit-build' 'cmake' 'ninja')
-source=("https://github.com/OHF-Voice/piper1-gpl.git#tag=v${pkgver}")
-sha256sums=('df1aa63504633df54e625c2a83997bba83d4c3d36504e431fb47964bc2aa4d0e')
+makedepends=('python3-setuptools' 'python3-build' 'python3-installer' 'python3-wheel' 'python3-scikit-build' 'cmake' 'ninja')
+source=("https://github.com/OHF-Voice/piper1-gpl/archive/refs/tags/v${pkgver}.tar.gz")
+sha256sums=('SKIP')
 
 build() {
-  cd "$SRC/piper1-gpl" || return 1
+  cd "$SRC/piper1-gpl-${pkgver}" || return 1
 
   sed -i 's/"cmake", "ninja"//' pyproject.toml || return 1
   python3 -m build --wheel --no-isolation || return 1
