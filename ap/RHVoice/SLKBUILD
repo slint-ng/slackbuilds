@@ -1,9 +1,11 @@
+# shellcheck shell=bash disable=SC2034
 # Maintainer: Alexander Epaneshnikov <alex19ep@archlinux.org>
 # Maintainer: vantu5z <vantu5z@mail.ru>
 # Contributor: der_fenix <derfenix@gmail.com>
 # Included in Slint by Didier Spaier didier@slitdotfr
 # comit dated 27/12/2024
 export commit=846293f
+legacyLyubovVersion=1.8.0
 pkgname=RHVoice
 pkgver=1.16.5
 pkgrel=1slint
@@ -18,7 +20,8 @@ slackdesc=\
 arch=('x86_64')
 docs=("README.md" "LICENSE.md" "NEWS")
 url="https://github.com/RHVoice/RHVoice"
-#source=("https://github.com/RHVoice/RHVoice/releases/download/1.8.0/rhvoice-1.8.0.tar.gz")
+source=("https://github.com/RHVoice/RHVoice/releases/download/${legacyLyubovVersion}/rhvoice-${legacyLyubovVersion}.tar.gz")
+sha256sums=('SKIP')
 license=('GPL3' 'custom' 'custom:by-nc-nd-4.0' 'custom:by-sa-4.0')
 depends=('libpulse')
 makedepends=('git' 'scons' 'speech-dispatcher' 'portaudio' 'libao')
@@ -57,6 +60,9 @@ doinst() {
 }
 
 build() {
+	legacyLyubovRoot="$SRC/rhvoice-$legacyLyubovVersion"
+	legacyLyubovDir=''
+
 	git clone --recursive https://github.com/RHVoice/RHVoice.git
 	cd RHVoice
 	git checkout $commit
@@ -82,6 +88,19 @@ build() {
 	 mv $DOCDIR/en/RHVoice.conf $PKG/etc/RHVoice/RHVoice.conf-en
 	 mv $DOCDIR/ru/RHVoice.conf $PKG/etc/RHVoice/RHVoice.conf-ru
 	 mv $DOCDIR/ua/RHVoice.conf $PKG/etc/RHVoice/RHVoice.conf-uk
+
+	 # Keep Lyubov on the older 1.8.0 voice data requested by Slint users.
+	 if [ ! -d "$legacyLyubovRoot" ]; then
+		tar -xf "$SRC/rhvoice-$legacyLyubovVersion.tar.gz" -C "$SRC" || return 1
+	 fi
+	 legacyLyubovDir=$(find "$legacyLyubovRoot" -type d -path '*/voices/lyubov' -print -quit)
+	 if [ -z "$legacyLyubovDir" ]; then
+		echo "Could not find lyubov voice data in rhvoice-$legacyLyubovVersion."
+		return 1
+	 fi
+	 rm -rf "$PKG/usr/share/RHVoice/voices/lyubov"
+	 cp -a "$legacyLyubovDir" "$PKG/usr/share/RHVoice/voices/" || return 1
+
 	 for voice in $(ls $PKG/usr/share/RHVoice/voices|grep -v -e bdl -e clb); do
 		language=$(sed -n "/language/s/language=//p" $PKG/usr/share/RHVoice/voices/$voice/voice.info)
 		# This case not used. But just in case...
@@ -112,8 +131,12 @@ build() {
 		if [ "$voice" = "talgat" ]; then
 			echo "$VOICENAME: This voice is proprietary, only personal usage is allowed.">>$CWD/voicepkg/install/slack-desc
 		fi
+		voicePkgVer=$pkgver
+		if [ "$voice" = "lyubov" ]; then
+			voicePkgVer=$legacyLyubovVersion
+		fi
 		cd $CWD/voicepkg
-		/sbin/makepkg -l y -c n $CWD/$VOICENAME-$pkgver-noarch-1slint.txz
+		/sbin/makepkg -l y -c n $CWD/$VOICENAME-$voicePkgVer-noarch-1slint.txz
 		cd -
 	done
 }
