@@ -19,8 +19,12 @@ slackdesc=\
 arch=('x86_64')
 docs=("README.md" "LICENSE.md" "NEWS")
 url="https://github.com/RHVoice/RHVoice"
-source=("https://github.com/RHVoice/RHVoice/releases/download/1.8.0/rhvoice-1.8.0.tar.gz")
-sha256sums=('SKIP')
+source=(
+	"https://github.com/RHVoice/RHVoice/releases/download/1.8.0/rhvoice-1.8.0.tar.gz"
+	"English/namefix.txt"
+	"English/wordfix.txt"
+)
+sha256sums=('SKIP' 'SKIP' 'SKIP')
 license=('GPL3' 'custom' 'custom:by-nc-nd-4.0' 'custom:by-sa-4.0')
 depends=('libpulse')
 makedepends=('git' 'scons' 'speech-dispatcher' 'portaudio' 'libao')
@@ -62,7 +66,8 @@ build() {
 	legacyLyubovVersion='1.8.0'
 	legacyLyubovRoot="$SRC/rhvoice-$legacyLyubovVersion"
 	legacyLyubovDir=''
-	englishDictSourceDir="$CWD/English"
+	englishNamefix="$SRC/namefix.txt"
+	englishWordfix="$SRC/wordfix.txt"
 	usePythonScons='no'
 
 	if python3 -c 'import SCons.Script' >/dev/null 2>&1; then
@@ -109,12 +114,19 @@ build() {
 	 mv $DOCDIR/ru/RHVoice.conf $PKG/etc/RHVoice/RHVoice.conf-ru
 	 mv $DOCDIR/ua/RHVoice.conf $PKG/etc/RHVoice/RHVoice.conf-uk
 
-	 if [ -d "$englishDictSourceDir" ]; then
+	 if [ ! -r "$englishNamefix" ] && [ -r "$CWD/English/namefix.txt" ]; then
+		englishNamefix="$CWD/English/namefix.txt"
+	 fi
+	 if [ ! -r "$englishWordfix" ] && [ -r "$CWD/English/wordfix.txt" ]; then
+		englishWordfix="$CWD/English/wordfix.txt"
+	 fi
+	 if [ -r "$englishNamefix" ] && [ -r "$englishWordfix" ]; then
 		install -d "$PKG/etc/RHVoice/dicts/English" || return 1
-		install -m644 "$englishDictSourceDir/namefix.txt" \
-			"$PKG/etc/RHVoice/dicts/English/namefix.txt" || return 1
-		install -m644 "$englishDictSourceDir/wordfix.txt" \
-			"$PKG/etc/RHVoice/dicts/English/wordfix.txt" || return 1
+		install -m644 "$englishNamefix" "$PKG/etc/RHVoice/dicts/English/namefix.txt" || return 1
+		install -m644 "$englishWordfix" "$PKG/etc/RHVoice/dicts/English/wordfix.txt" || return 1
+	 else
+		echo 'English RHVoice dictionary fix files were not found.'
+		return 1
 	 fi
 
 	 # Keep Lyubov on the older 1.8.0 voice data requested by Slint users.
