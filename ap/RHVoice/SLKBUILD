@@ -7,7 +7,7 @@
 export commit=846293f
 pkgname=RHVoice
 pkgver=1.16.5
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|
@@ -146,7 +146,7 @@ build() {
 	 rm -rf "$PKG/usr/share/RHVoice/voices/lyubov"
 	 cp -a "$legacyLyubovDir" "$PKG/usr/share/RHVoice/voices/" || return 1
 
-	 for voice in $(ls $PKG/usr/share/RHVoice/voices|grep -v -e bdl -e clb); do
+	 for voice in $(ls $PKG/usr/share/RHVoice/voices|grep -v -e bdl -e clb -e lyubov); do
 		language=$(sed -n "/language/s/language=//p" $PKG/usr/share/RHVoice/voices/$voice/voice.info)
 		# This case not used. But just in case...
 		case $language in
@@ -176,12 +176,8 @@ build() {
 		if [ "$voice" = "talgat" ]; then
 			echo "$VOICENAME: This voice is proprietary, only personal usage is allowed.">>$CWD/voicepkg/install/slack-desc
 		fi
-		voicePkgVer=$pkgver
-		if [ "$voice" = "lyubov" ]; then
-			voicePkgVer=$legacyLyubovVersion
-		fi
 		cd $CWD/voicepkg
-		/sbin/makepkg -l y -c n $CWD/$VOICENAME-$voicePkgVer-noarch-1slint.txz
+		/sbin/makepkg -l y -c n $CWD/$VOICENAME-$pkgver-noarch-1slint.txz
 		cd -
 	done
 }
