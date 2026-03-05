@@ -67,6 +67,8 @@ build() {
 	englishDictRepoDir="$SRC/rhvoice-english"
 	englishNamefix=''
 	englishWordfix=''
+	voiceOutputDir="${startdir:-$CWD}"
+	voicePkgDir="$SRC/voicepkg"
 	usePythonScons='no'
 
 	if python3 -c 'import SCons.Script' >/dev/null 2>&1; then
@@ -146,8 +148,14 @@ build() {
 	 rm -rf "$PKG/usr/share/RHVoice/voices/lyubov"
 	 cp -a "$legacyLyubovDir" "$PKG/usr/share/RHVoice/voices/" || return 1
 
-	 for voice in $(ls $PKG/usr/share/RHVoice/voices|grep -v -e bdl -e clb -e lyubov); do
-		language=$(sed -n "/language/s/language=//p" $PKG/usr/share/RHVoice/voices/$voice/voice.info)
+	 mkdir -p "$voiceOutputDir" || return 1
+	 for voiceDir in "$PKG"/usr/share/RHVoice/voices/*; do
+		[ -d "$voiceDir" ] || continue
+		voice=$(basename "$voiceDir")
+		case "$voice" in
+			bdl|clb|lyubov) continue ;;
+		esac
+		language=$(sed -n "/language/s/language=//p" "$voiceDir/voice.info")
 		# This case not used. But just in case...
 		case $language in
 			Albanian) code=sq_AL;;
@@ -161,23 +169,24 @@ build() {
 			Tatar) code=tt_RU;;
 			Ukrainian) code=uk_UA
 		esac
-		gender=$(sed -n "/gender/s/gender=//p" $PKG/usr/share/RHVoice/voices/$voice/voice.info)
-		rm -rf $CWD/voicepkg
-		mkdir -p $CWD/voicepkg/usr/share/RHVoice/voices
-		mv $PKG/usr/share/RHVoice/voices/$voice $CWD/voicepkg/usr/share/RHVoice/voices/
-		mkdir -p $CWD/voicepkg/install
+		gender=$(sed -n "/gender/s/gender=//p" "$voiceDir/voice.info")
+		rm -rf "$voicePkgDir"
+		mkdir -p "$voicePkgDir/usr/share/RHVoice/voices"
+		mv "$voiceDir" "$voicePkgDir/usr/share/RHVoice/voices/"
+		mkdir -p "$voicePkgDir/install"
 		VOICENAME=RHVoice-${voice}-${language}
-		echo "$VOICENAME: $VOICENAME ($gender $language voice for RHVoice)" >$CWD/voicepkg/install/slack-desc
-		echo "$VOICENAME:" >>$CWD/voicepkg/install/slack-desc
+		echo "$VOICENAME: $VOICENAME ($gender $language voice for RHVoice)" >"$voicePkgDir/install/slack-desc"
+		echo "$VOICENAME:" >>"$voicePkgDir/install/slack-desc"
 		# However natia is not built by default: "Georgian language is skipped because of non-free license"
 		if [ "$voice" = "natia" ]; then
-			echo "$VOICENAME: This voice is proprietary, only non-commercial usage is allowed.">>$CWD/voicepkg/install/slack-desc
+			echo "$VOICENAME: This voice is proprietary, only non-commercial usage is allowed.">>"$voicePkgDir/install/slack-desc"
 		fi
 		if [ "$voice" = "talgat" ]; then
-			echo "$VOICENAME: This voice is proprietary, only personal usage is allowed.">>$CWD/voicepkg/install/slack-desc
+			echo "$VOICENAME: This voice is proprietary, only personal usage is allowed.">>"$voicePkgDir/install/slack-desc"
 		fi
-		cd $CWD/voicepkg
-		/sbin/makepkg -l y -c n $CWD/$VOICENAME-$pkgver-noarch-1slint.txz
-		cd -
+		(
+			cd "$voicePkgDir" || return 1
+			/sbin/makepkg -l y -c n "$voiceOutputDir/$VOICENAME-$pkgver-noarch-$pkgrel.txz" || return 1
+		)
 	done
 }
