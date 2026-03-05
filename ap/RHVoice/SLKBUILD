@@ -62,6 +62,7 @@ doinst() {
 build() {
 	legacyLyubovRoot="$SRC/rhvoice-$legacyLyubovVersion"
 	legacyLyubovDir=''
+	englishDictSourceDir="$CWD/English"
 
 	git clone --recursive https://github.com/RHVoice/RHVoice.git
 	cd RHVoice
@@ -88,6 +89,14 @@ build() {
 	 mv $DOCDIR/en/RHVoice.conf $PKG/etc/RHVoice/RHVoice.conf-en
 	 mv $DOCDIR/ru/RHVoice.conf $PKG/etc/RHVoice/RHVoice.conf-ru
 	 mv $DOCDIR/ua/RHVoice.conf $PKG/etc/RHVoice/RHVoice.conf-uk
+
+	 if [ -d "$englishDictSourceDir" ]; then
+		install -d "$PKG/etc/RHVoice/dicts/English" || return 1
+		install -m644 "$englishDictSourceDir/namefix.txt" \
+			"$PKG/etc/RHVoice/dicts/English/namefix.txt" || return 1
+		install -m644 "$englishDictSourceDir/wordfix.txt" \
+			"$PKG/etc/RHVoice/dicts/English/wordfix.txt" || return 1
+	 fi
 
 	 # Keep Lyubov on the older 1.8.0 voice data requested by Slint users.
 	 if [ ! -d "$legacyLyubovRoot" ]; then
