@@ -5,7 +5,6 @@
 # Included in Slint by Didier Spaier didier@slitdotfr
 # comit dated 27/12/2024
 export commit=846293f
-legacyLyubovVersion=1.8.0
 pkgname=RHVoice
 pkgver=1.16.5
 pkgrel=1slint
@@ -20,7 +19,7 @@ slackdesc=\
 arch=('x86_64')
 docs=("README.md" "LICENSE.md" "NEWS")
 url="https://github.com/RHVoice/RHVoice"
-source=("https://github.com/RHVoice/RHVoice/releases/download/${legacyLyubovVersion}/rhvoice-${legacyLyubovVersion}.tar.gz")
+source=("https://github.com/RHVoice/RHVoice/releases/download/1.8.0/rhvoice-1.8.0.tar.gz")
 sha256sums=('SKIP')
 license=('GPL3' 'custom' 'custom:by-nc-nd-4.0' 'custom:by-sa-4.0')
 depends=('libpulse')
@@ -60,21 +59,29 @@ doinst() {
 }
 
 build() {
+	legacyLyubovVersion='1.8.0'
 	legacyLyubovRoot="$SRC/rhvoice-$legacyLyubovVersion"
 	legacyLyubovDir=''
 	englishDictSourceDir="$CWD/English"
+	sconsCmd='scons'
 
-	git clone --recursive https://github.com/RHVoice/RHVoice.git
-	cd RHVoice
-	git checkout $commit
-	scons \
+	if python3 -m SCons --version >/dev/null 2>&1; then
+		sconsCmd='python3 -m SCons'
+	fi
+
+	rm -rf RHVoice || return 1
+	git clone https://github.com/RHVoice/RHVoice.git || return 1
+	cd RHVoice || return 1
+	git checkout "$commit" || return 1
+	git submodule update --init --recursive || return 1
+	$sconsCmd \
 	prefix=/usr \
 	libdir=/usr/lib${LIBDIRSUFFIX} \
 	sysconfdir=/etc \
-	servicedir='/usr/share/dbus-1/services/'
+	servicedir='/usr/share/dbus-1/services/' || return 1
 	export SCONSFLAGS="$MAKEFLAGS"
-	scons install DESTDIR="$PKG" prefix="/usr" sysconfdir="/etc" \
-	      CPPFLAGS="$CPPFLAGS" CCFLAGS="$CFLAGS" LINKFLAGS="$LDFLAGS"
+	$sconsCmd install DESTDIR="$PKG" prefix="/usr" sysconfdir="/etc" \
+	      CPPFLAGS="$CPPFLAGS" CCFLAGS="$CFLAGS" LINKFLAGS="$LDFLAGS" || return 1
 	DOCDIR=$PKG/usr/doc/${pkgname}-$pkgver
 	mkdir -p $PKG/etc/RHVoice
 	mkdir -p $DOCDIR
@@ -100,7 +107,7 @@ build() {
 
 	 # Keep Lyubov on the older 1.8.0 voice data requested by Slint users.
 	 if [ ! -d "$legacyLyubovRoot" ]; then
-		tar -xf "$SRC/rhvoice-$legacyLyubovVersion.tar.gz" -C "$SRC" || return 1
+		tar -xf "$SRC/rhvoice-1.8.0.tar.gz" -C "$SRC" || return 1
 	 fi
 	 legacyLyubovDir=$(find "$legacyLyubovRoot" -type d -path '*/voices/lyubov' -print -quit)
 	 if [ -z "$legacyLyubovDir" ]; then
