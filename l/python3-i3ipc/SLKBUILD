@@ -7,7 +7,7 @@ pkgname=python3-i3ipc
 srcname=i3ipc
 export srcname
 pkgver=2.2.1
-pkgrel=4slint
+pkgrel=5slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "python3-i3ipc (Python 3 library to control i3wm)"
