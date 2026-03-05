@@ -30,11 +30,12 @@ build() {
   # Pin to a stable release tag to avoid breakage when espeak-ng master changes.
   espeakNgTag='1.52.0'
   while IFS= read -r cmakeFile; do
+    grep -qE 'espeak-ng/espeak-ng|espeak_ng_external' "$cmakeFile" || continue
     sed -i -E "s/(GIT_TAG[[:space:]]+)(master|main|HEAD)/\\1${espeakNgTag}/g" "$cmakeFile" || return 1
-    if rg -q 'espeak-ng/espeak-ng' "$cmakeFile" && ! rg -q 'GIT_TAG' "$cmakeFile"; then
+    if grep -q 'espeak-ng/espeak-ng' "$cmakeFile" && ! grep -q 'GIT_TAG' "$cmakeFile"; then
       sed -i "/espeak-ng\\/espeak-ng/a\\  GIT_TAG ${espeakNgTag}" "$cmakeFile" || return 1
     fi
-  done < <(rg -l 'espeak-ng/espeak-ng|espeak_ng_external' --glob 'CMakeLists.txt' --glob '*.cmake')
+  done < <(find . -type f \( -name 'CMakeLists.txt' -o -name '*.cmake' \))
 
   # Use Slint-packaged build tooling instead of Python-only wrappers.
   sed -i 's/"cmake", "ninja", "scikit-build", "distro"//' pyproject.toml || return 1
