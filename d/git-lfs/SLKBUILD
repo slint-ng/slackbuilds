@@ -1,0 +1,29 @@
+# shellcheck shell=bash disable=SC2034
+pkgname=git-lfs
+pkgver=3.2.0
+pkgrel=1slint
+arch=('x86_64')
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Git Large File Storage extension)"
+"git-lfs replaces large files with text pointers inside Git while"
+"storing file contents on a remote server."
+)
+url="https://git-lfs.com/"
+license=('MIT')
+depends=('git' 'glibc')
+source=("https://github.com/git-lfs/git-lfs/releases/download/v${pkgver}/git-lfs-linux-amd64-v${pkgver}.tar.gz")
+sha256sums=('SKIP')
+docs=('README.md' 'CHANGELOG.md')
+
+build() {
+  cd "$SRC/${pkgname}-${pkgver}" || return 1
+
+  install -Dm755 git-lfs "$PKG/usr/bin/git-lfs" || return 1
+
+  if [ -d man/man1 ]; then
+    install -d "$PKG/usr/man/man1" || return 1
+    cp -a man/man1/. "$PKG/usr/man/man1/" || return 1
+  fi
+}
