@@ -5,8 +5,8 @@ pkgname=zd1211-firmware
 pkgver=1.5
 pkgrel=1slint
 arch=fw
-source=("https://sourceforge.net/projects/zd1211/files/$pkgname/$pkgver/$pkgname-$pkgver.tar.bz2/download")
-url="http://zd1211.wiki.sourceforge.net/VendorDriver"
+source=("https://sourceforge.net/projects/zd1211/files/$pkgname/$pkgver/$pkgname-$pkgver.tar.bz2")
+url="https://zd1211.wiki.sourceforge.net/VendorDriver"
 
 slackdesc=\
 (
@@ -20,11 +20,11 @@ slackdesc=\
 "included in this distribution."
 ""
 "Vendor driver source was available from:"
-"http://zd1211.wiki.sourceforge.net/VendorDriver"
+"https://zd1211.wiki.sourceforge.net/VendorDriver"
 )
 
 build() {
-  cd "$startdir/src/$pkgname" || return 1
+  cd "$SRC/$pkgname" || return 1
 
   chown -R root:root .
   chmod 644 ./*
