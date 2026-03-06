@@ -1,0 +1,71 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=gsm
+pkgver=1.0.13
+pkgrel=3slint
+source=(
+  "https://download.imagemagick.org/archive/delegates/ffmpeg/gsm-${pkgver}.tar.bz2"
+)
+url="https://www.quut.com/gsm/"
+license=("custom")
+docs=("ChangeLog" "COPYRIGHT" "MACHINES" "README")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"gsm (Lossy speech compression library and tool)"
+""
+"gsm contains command line utilities for libgsm, an implementation"
+"of the European GSM 06.10 provisional standard for full-rate speech"
+"transcoding, prI-ETS 300 036, which uses RPE/LTP (residual pulse"
+"excitation/long term prediction) coding at 13 kbit/s."
+""
+"Homepage: https://www.quut.com/gsm/"
+)
+
+build() {
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  patch -p1 < "$startdir/patches/gsm-1.0.13-shared.patch" || return 1
+  patch -p1 < "$startdir/patches/gsm-1.0.12-memcpy.patch" || return 1
+  patch -p1 < "$startdir/patches/gsm-1.0.12-64bit.patch" || return 1
+
+  mkdir -p "$PKG/usr/bin" || return 1
+  mkdir -p "$PKG/usr/lib${LIBDIRSUFFIX}" || return 1
+  mkdir -p "$PKG/usr/include/gsm" "$PKG/usr/include/libgsm" || return 1
+  mkdir -p "$PKG/usr/man/man1" "$PKG/usr/man/man3" || return 1
+
+  make CCINC="$SLKCFLAGS" -j1 || return 1
+  make install \
+    INSTALL_ROOT="$PKG/usr" \
+    GSM_INSTALL_LIB="$PKG/usr/lib${LIBDIRSUFFIX}" \
+    GSM_INSTALL_INC="$PKG/usr/include/gsm" \
+    GSM_INSTALL_MAN="$PKG/usr/man/man3" \
+    TOAST_INSTALL_MAN="$PKG/usr/man/man1" || return 1
+
+  cp -p "lib/libgsm.so.$pkgver" "$PKG/usr/lib${LIBDIRSUFFIX}" || return 1
+  (
+    cd "$PKG/usr/lib${LIBDIRSUFFIX}" || return 1
+    ln -sf "libgsm.so.$pkgver" libgsm.so.1
+    ln -sf "libgsm.so.$pkgver" libgsm.so
+  ) || return 1
+
+  (
+    cd "$PKG/usr/include/libgsm" || return 1
+    ln -sf ../gsm/gsm.h gsm.h
+  ) || return 1
+
+  (
+    cd "$PKG/usr/bin" || return 1
+    rm -f toast untoast
+    ln -sf tcat toast
+    ln -sf tcat untoast
+  ) || return 1
+
+  # Preserve baseline manifest doc entry name while using SLKBUILD workflow.
+  install -Dm0644 "$startdir/SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/${pkgname}.SlackBuild" || return 1
+}

@@ -1,0 +1,3 @@
+# slkbuild currently gzips regular files under /usr/info.
+-^usr/info/libmicrohttpd_performance_data\.png$
++^usr/info/libmicrohttpd_performance_data\.png\.gz$

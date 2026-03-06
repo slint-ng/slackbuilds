@@ -1,0 +1,52 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libmicrohttpd
+pkgver=0.9.70
+pkgrel=2slint
+source=("https://ftpmirror.gnu.org/libmicrohttpd/${pkgname}-${pkgver}.tar.gz")
+url="https://www.gnu.org/software/libmicrohttpd/"
+license=("LGPL")
+docs=("AUTHORS" "COPYING" "ChangeLog" "INSTALL" "README")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"libmicrohttpd (C library embedding HTTP server functionality)"
+""
+"GNU libmicrohttpd is a small C library that makes it easy to run an"
+"HTTP server as part of another application."
+""
+"Homepage: https://www.gnu.org/software/libmicrohttpd/"
+)
+
+build() {
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --mandir=/usr/man \
+    --infodir=/usr/info \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --enable-static=no \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+
+  # Keep historical doc filename for same-version conversion parity.
+  install -Dm0644 "$startdir/SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/${pkgname}.SlackBuild" || return 1
+
+  # Keep this image uncompressed: slkbuild gzips regular files under /usr/info.
+  if [[ -f "$PKG/usr/info/libmicrohttpd_performance_data.png" ]]; then
+    rm -f "$PKG/usr/info/dir" || return 1
+    ln "$PKG/usr/info/libmicrohttpd_performance_data.png" "$PKG/usr/info/dir" || return 1
+  fi
+}
