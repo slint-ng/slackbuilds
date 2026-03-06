@@ -12,7 +12,6 @@ source=(
   "README.md"
 )
 docs=("LICENSE" "README.md")
-makedepends=("autoconf" "automake" "libtool" "python3")
 
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
