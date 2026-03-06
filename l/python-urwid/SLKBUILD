@@ -1,0 +1,31 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
+pkgname=python-urwid
+export srcname=urwid
+pkgver=2.1.2
+pkgrel=1slint
+source=("https://files.pythonhosted.org/packages/source/u/${srcname}/${srcname}-${pkgver}.tar.gz")
+url="https://urwid.org"
+docs=("COPYING")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (console UI library for Python)"
+""
+"Urwid is a Python library for rich terminal user interfaces."
+)
+
+build() {
+  local docdir
+
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+  python3 setup.py install --root="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  mkdir -p "$docdir" || return 1
+  cat > "$docdir/README.documentation" <<'EOT'
+This package does not include the developer documentation.
+See the source tarball or https://github.com/urwid/urwid.
+EOT
+}

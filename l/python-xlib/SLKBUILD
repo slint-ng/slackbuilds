@@ -1,0 +1,22 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
+pkgname=python-xlib
+export srcname=python-xlib
+pkgver=0.33
+pkgrel=1slint
+source=("https://files.pythonhosted.org/packages/source/p/python-xlib/${srcname}-${pkgver}.tar.gz")
+url="https://github.com/python-xlib/python-xlib"
+docs=("CHANGELOG.md" "LICENSE" "PKG-INFO" "README.rst" "TODO")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Python X11 client library)"
+""
+"Python Xlib is a pure-Python X11 client library."
+)
+
+build() {
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+  python3 setup.py install --root="$PKG" || return 1
+}

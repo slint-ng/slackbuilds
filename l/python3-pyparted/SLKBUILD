@@ -1,0 +1,24 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
+pkgname=python3-pyparted
+export srcname=pyparted
+pkgver=3.13.0
+pkgrel=1slint
+source=("https://github.com/rhinstaller/pyparted/archive/v${pkgver}/${srcname}-${pkgver}.tar.gz")
+url="https://github.com/rhinstaller/pyparted"
+docs=("AUTHORS" "LICENSE" "NEWS" "README.md" "TODO")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Python bindings for libparted)"
+""
+"pyparted provides Python 3 bindings for GNU libparted."
+)
+
+build() {
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+
+  CFLAGS="$SLKCFLAGS -fcommon" \
+  python3 setup.py install --root="$PKG" || return 1
+}

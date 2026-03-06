@@ -1,0 +1,22 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
+pkgname=python-virtualenv
+export srcname=virtualenv
+pkgver=20.13.3
+pkgrel=1slint
+source=("https://files.pythonhosted.org/packages/source/v/virtualenv/${srcname}-${pkgver}.tar.gz")
+url="https://virtualenv.pypa.io/"
+docs=("README.md" "LICENSE")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (python environment isolation tool)"
+""
+"virtualenv creates isolated Python environments."
+)
+
+build() {
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+  python3 setup.py install --root="$PKG" || return 1
+}
