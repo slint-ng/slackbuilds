@@ -6,7 +6,7 @@
 pkgname=python-zipp
 _srcname=zipp
 pkgver=3.7.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (pathlib-compatible Zipfile object wrapper)"
@@ -17,7 +17,7 @@ slackdesc=(
 url="https://github.com/jaraco/zipp"
 license=("MIT")
 depends=("python")
-makedepends=("python-setuptools" "python-setuptools_scm")
+makedepends=("python3-setuptools" "python3-setuptools-scm")
 source=("https://files.pythonhosted.org/packages/source/z/$_srcname/$_srcname-$pkgver.tar.gz")
 options=("nosrcpack")
 

@@ -173,6 +173,12 @@ find_depfile() {
   local -a allCandidates=()
   local depFile=""
 
+  depFile="${packageDir}/${packageName}.dep"
+  if [[ -f "$depFile" ]]; then
+    printf '%s\n' "$depFile"
+    return
+  fi
+
   while IFS= read -r depFile; do
     artifactCandidates+=("$depFile")
   done < <(
@@ -186,12 +192,6 @@ find_depfile() {
 
   if (( ${#artifactCandidates[@]} > 1 )); then
     die "multiple artifact-style depfiles found for ${packageName}: ${artifactCandidates[*]}"
-  fi
-
-  depFile="${packageDir}/${packageName}.dep"
-  if [[ -f "$depFile" ]]; then
-    printf '%s\n' "$depFile"
-    return
   fi
 
   while IFS= read -r depFile; do

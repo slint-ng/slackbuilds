@@ -3,10 +3,10 @@
 
 pkgname=pybind11
 pkgver=2.9.1
-pkgrel=1slint
+pkgrel=2slint
 source=("https://github.com/pybind/pybind11/archive/v${pkgver}/${pkgname}-${pkgver}.tar.gz")
 url="https://github.com/pybind/pybind11"
-makedepends=('cmake' 'python-setuptools')
+makedepends=('cmake' 'python3-setuptools')
 
 slackdesc=\
 (

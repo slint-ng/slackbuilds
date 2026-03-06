@@ -3,7 +3,7 @@
 # Contributor: Didier Spaier
 pkgname='fenrir'
 pkgver=2026.01.28
-pkgrel=4slint
+pkgrel=5slint
 source=(https://git.stormux.org/storm/fenrir/archive/${pkgver}.tar.gz)
 slackdesc=\
 (
@@ -28,7 +28,7 @@ depends=('gstreamer'
   'python3-pyperclip'
   'python3-pyte'
   'python3-pyudev'
-  'python-pyxdg'
+  'pyxdg'
   'python3-setproctitle'
   'speech-dispatcher')
 optdepends=('socat: Control running Fenrir screenreader'
