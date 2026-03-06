@@ -18,7 +18,10 @@ def extract_slackdesc_lines(text: str):
             first = line.find('"')
             last = line.rfind('"')
             if first != -1 and last > first:
-                yield line[first + 1:last]
+                entry = line[first + 1:last]
+                if 'handy-ruler' in entry:
+                    continue
+                yield entry
 
 
 def iter_slkbuilds(paths):

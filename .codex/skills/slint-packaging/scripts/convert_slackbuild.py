@@ -5,16 +5,36 @@ import shlex
 from pathlib import Path
 from typing import Optional
 
+TARBALL_SUFFIXES = (
+    '.tar',
+    '.tar.gz',
+    '.tar.bz2',
+    '.tar.xz',
+    '.tar.zst',
+    '.tgz',
+    '.tbz',
+    '.tbz2',
+    '.txz',
+)
+
 BLOCKING_PATTERNS = (
     ("prepare()", re.compile(r'^\s*prepare\s*\(\)', re.M)),
     ("package()", re.compile(r'^\s*package\s*\(\)', re.M)),
     ("pkgdesc=", re.compile(r'^\s*pkgdesc=', re.M)),
     ("subpackages=", re.compile(r'^\s*subpackages=', re.M)),
+    ("depends=", re.compile(r'^\s*depends\s*=', re.M)),
+    ("makedepends=", re.compile(r'^\s*makedepends\s*=', re.M)),
+    ("checkdepends=", re.compile(r'^\s*checkdepends\s*=', re.M)),
+    ("optdepends=", re.compile(r'^\s*optdepends\s*=', re.M)),
     ("validpgpkeys=", re.compile(r'^\s*validpgpkeys=', re.M)),
     ("md5sums=", re.compile(r'^\s*md5sums=', re.M)),
     ("sha256sums=", re.compile(r'^\s*sha256sums=', re.M)),
     ("sha512sums=", re.compile(r'^\s*sha512sums=', re.M)),
     ("git+https source syntax", re.compile(r'git\+https://')),
+    (
+        "foreign maintainer/contributor header",
+        re.compile(r'^\s*#\s*(?:Maintainer|Contributor)\b.*<[^>]+>', re.M | re.I),
+    ),
     ("srcdir", re.compile(r'\bsrcdir\b')),
     ("pkgdir", re.compile(r'\bpkgdir\b')),
     ("builddir", re.compile(r'\bbuilddir\b')),
@@ -128,6 +148,33 @@ def strip_shebang(text: str) -> str:
 
 def is_remote_source(value: str) -> bool:
     return value.startswith('git+') or bool(re.match(r'^[A-Za-z][A-Za-z0-9+.-]*://', value))
+
+
+def strip_source_fragment_and_query(value: str) -> str:
+    return value.split('#', 1)[0].split('?', 1)[0]
+
+
+def is_https_source(value: str) -> bool:
+    return strip_source_fragment_and_query(value).lower().startswith('https://')
+
+
+def is_vcs_source(value: str) -> bool:
+    normalized = value.strip().lower()
+    base = strip_source_fragment_and_query(normalized)
+    if base.startswith(('git://', 'svn://', 'hg://', 'bzr://', 'git+')):
+        return True
+    if base.endswith('.git'):
+        return True
+    if '.git/' in base:
+        return True
+    if '#tag=' in normalized or '#branch=' in normalized or '#commit=' in normalized:
+        return True
+    return False
+
+
+def is_tarball_source(value: str) -> bool:
+    base = strip_source_fragment_and_query(value).lower()
+    return base.endswith(TARBALL_SUFFIXES)
 
 
 def dedupe_preserve_order(items: list[str]) -> list[str]:
@@ -712,6 +759,25 @@ def audit_generated_slkbuild(pkg_dir: Path, rendered_text: str, source_entries: 
             break
     for entry in source_entries:
         if is_remote_source(entry):
+            if is_vcs_source(entry):
+                issues.append(
+                    "uses VCS source `"
+                    + entry
+                    + "`; require release tarballs unless an approved exception is documented"
+                )
+                continue
+            if not is_https_source(entry):
+                issues.append(
+                    "uses non-HTTPS remote source `"
+                    + entry
+                    + "`; require HTTPS tarball provenance"
+                )
+            if not is_tarball_source(entry):
+                issues.append(
+                    "uses non-tarball remote source `"
+                    + entry
+                    + "`; require versioned release tarballs"
+                )
             continue
         if not (pkg_dir / entry).exists():
             issues.append(f"declares missing local source `{entry}`")
@@ -754,6 +820,14 @@ def extract_source_entries(text: str) -> list[str]:
     return extract_array_entries(text, 'source')
 
 
+def looks_like_pkg_style_dep_filename(dep_name: str) -> bool:
+    if not dep_name.endswith('.dep'):
+        return False
+    stem = dep_name[:-4]
+    # Expected form: <pkgname>-<pkgver>-<arch>-<pkgrel>.dep
+    return stem.count('-') >= 3
+
+
 def audit_existing_package_dir(pkg_dir: Path) -> list[str]:
     slkbuild_path = pkg_dir / 'SLKBUILD'
     if not slkbuild_path.exists():
@@ -773,6 +847,13 @@ def audit_existing_package_dir(pkg_dir: Path) -> list[str]:
         placeholder_dep = pkg_dir / f"{pkgname_match.group(1)}.dep"
         if placeholder_dep.exists():
             issues.append(f"placeholder dependency metadata still present: `{placeholder_dep.name}`")
+
+    placeholder_dep_name = f"{pkgname_match.group(1)}.dep" if pkgname_match else None
+    for dep_path in sorted(pkg_dir.glob('*.dep')):
+        if dep_path.name == placeholder_dep_name:
+            continue
+        if not looks_like_pkg_style_dep_filename(dep_path.name):
+            issues.append(f"dependency metadata filename is not package-style: `{dep_path.name}`")
 
     first_nonblank = next((line for line in rendered_text.splitlines() if line.strip()), '')
     if not (

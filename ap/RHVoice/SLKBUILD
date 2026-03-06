@@ -1,192 +1,202 @@
+#!/bin/bash
 # shellcheck shell=bash disable=SC2034
-# Maintainer: Alexander Epaneshnikov <alex19ep@archlinux.org>
-# Maintainer: vantu5z <vantu5z@mail.ru>
-# Contributor: der_fenix <derfenix@gmail.com>
-# Included in Slint by Didier Spaier didier@slitdotfr
-# comit dated 27/12/2024
-export commit=846293f
+
 pkgname=RHVoice
 pkgver=1.16.5
-pkgrel=2slint
-slackdesc=\
-(
+pkgrel=7slint
+
+slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (Free and open source synthesizer)"
 "RHVoice is a free and open source speech synthesizer."
-"It consists of the following components: command line tools, speech"
-"modules for NVDA and Speech Dispatcher, Windows (SAPI5), Android App"
+"It consists of command line tools, speech modules for NVDA and"
+"Speech Dispatcher, Windows (SAPI5), and an Android app."
 )
-arch=('x86_64')
+
 docs=("README.md" "LICENSE.md" "NEWS")
 url="https://github.com/RHVoice/RHVoice"
 source=(
-	"https://github.com/RHVoice/RHVoice/releases/download/1.8.0/rhvoice-1.8.0.tar.gz"
+  "https://github.com/RHVoice/RHVoice/archive/refs/tags/$pkgver.tar.gz"
+  "https://github.com/RHVoice/RHVoice/releases/download/1.8.0/rhvoice-1.8.0.tar.gz"
+  "rhvoice-system-boost-fallback.patch"
+  "README.LICENSES"
+  "namefix.txt"
+  "wordfix.txt"
 )
-sha256sums=('SKIP')
-license=('GPL3' 'custom' 'custom:by-nc-nd-4.0' 'custom:by-sa-4.0')
-depends=('libpulse')
-makedepends=('git' 'scons' 'speech-dispatcher' 'portaudio' 'libao')
-optdepends=('rhvoice-dictionary-git: extended russian dictionary'
-            'speech-dispatcher: for speech-dispatcher module support'
-            'portaudio: for portaudio backend'
-            'libao: for ao backend')
-
-CWD="$(pwd)"
-export CWD
+license=("GPL3" "custom" "custom:by-nc-nd-4.0" "custom:by-sa-4.0")
 
 doinst() {
-    rm -f /etc/RHVoice/RHVoice-ru.conf;
-    rm -f /etc/RHVoice/RHVoice-ua.conf;
-    case $LANG in 
-        en*)
-            cp etc/RHVoice/RHVoice.conf-en etc/RHVoice/RHVoice.conf.new
-        ;;
-        ru*)
-            cp etc/RHVoice/RHVoice.conf-ru etc/RHVoice/RHVoice.conf.new
-        ;;
-        uk*)
-            cp etc/RHVoice/RHVoice.conf-uk etc/RHVoice/RHVoice.conf.new
-        ;;
-        *)
-            cp etc/RHVoice/RHVoice.conf-en etc/RHVoice/RHVoice.conf.new
-        ;;
-    esac;
-    if [ ! -r etc/RHVoice/RHVoice.conf ]; then
-        mv etc/RHVoice/RHVoice.conf.new etc/RHVoice/RHVoice.conf;
-    else
-        if [ "$(md5sum etc/RHVoice/RHVoice.conf.new)" = "$(md5sum etc/RHVoice/RHVoice.conf)" ]; then
-            rm etc/RHVoice.conf.new;
-        fi;
-    fi
+  rm -f /etc/RHVoice/RHVoice-ru.conf
+  rm -f /etc/RHVoice/RHVoice-ua.conf
+
+  case "$LANG" in
+    en*) cp etc/RHVoice/RHVoice.conf-en etc/RHVoice/RHVoice.conf.new ;;
+    ru*) cp etc/RHVoice/RHVoice.conf-ru etc/RHVoice/RHVoice.conf.new ;;
+    uk*) cp etc/RHVoice/RHVoice.conf-uk etc/RHVoice/RHVoice.conf.new ;;
+    *) cp etc/RHVoice/RHVoice.conf-en etc/RHVoice/RHVoice.conf.new ;;
+  esac
+
+  if [ ! -r etc/RHVoice/RHVoice.conf ]; then
+    mv etc/RHVoice/RHVoice.conf.new etc/RHVoice/RHVoice.conf
+    return
+  fi
+
+  if [ "$(md5sum etc/RHVoice/RHVoice.conf.new | cut -d' ' -f1)" = \
+       "$(md5sum etc/RHVoice/RHVoice.conf | cut -d' ' -f1)" ]; then
+    rm -f etc/RHVoice/RHVoice.conf.new
+  fi
 }
 
 build() {
-	legacyLyubovVersion='1.8.0'
-	legacyLyubovRoot="$SRC/rhvoice-$legacyLyubovVersion"
-	legacyLyubovDir=''
-	englishDictRepoDir="$SRC/rhvoice-english"
-	englishNamefix=''
-	englishWordfix=''
-	voiceOutputDir="${startdir:-$CWD}"
-	voicePkgDir="$SRC/voicepkg"
-	usePythonScons='no'
+  local legacy_lyubov_version="1.8.0"
+  local src_dir="$SRC/${pkgname}-${pkgver}"
+  local legacy_lyubov_root="$SRC/rhvoice-$legacy_lyubov_version"
+  local legacy_lyubov_dir=""
+  local legacy_data_root=""
+  local legacy_language_root=""
+  local legacy_voice_root=""
+  local legacy_lang_dir=""
+  local legacy_voice_dir=""
+  local legacy_voice_name=""
+  local doc_dir="$PKG/usr/doc/${pkgname}-${pkgver}"
+  local use_python_scons="no"
+  local voice_output_dir=""
+  local voice_pkg_dir="$SRC/voicepkg"
+  local voice_dir=""
+  local voice=""
+  local voice_meta_file=""
+  local language=""
+  local gender=""
+  local voice_name=""
+  local desc_file=""
 
-	if python3 -c 'import SCons.Script' >/dev/null 2>&1; then
-		usePythonScons='yes'
-	elif command -v scons >/dev/null 2>&1; then
-		usePythonScons='no'
-	else
-		echo 'SCons is required but no usable command/module was found.'
-		return 1
-	fi
-	runScons() {
-		if [ "$usePythonScons" = 'yes' ]; then
-			python3 -c 'import SCons.Script,sys; sys.argv=["scons"]+sys.argv[1:]; sys.exit(SCons.Script.main())' "$@" || return 1
-		else
-			scons "$@" || return 1
-		fi
-	}
+  if [ ! -d "$src_dir" ]; then
+    echo "Missing source tree: $src_dir"
+    return 1
+  fi
+  cd "$src_dir" || return 1
+  patch -p1 < "$SRC/rhvoice-system-boost-fallback.patch" || return 1
 
-	rm -rf RHVoice || return 1
-	git clone https://github.com/RHVoice/RHVoice.git || return 1
-	cd RHVoice || return 1
-	git checkout "$commit" || return 1
-	git submodule update --init --recursive || return 1
-	runScons \
-	prefix=/usr \
-	libdir=/usr/lib${LIBDIRSUFFIX} \
-	sysconfdir=/etc \
-	servicedir='/usr/share/dbus-1/services/' || return 1
-	export SCONSFLAGS="$MAKEFLAGS"
-	runScons install DESTDIR="$PKG" prefix="/usr" sysconfdir="/etc" \
-	      CPPFLAGS="$CPPFLAGS" CCFLAGS="$CFLAGS" LINKFLAGS="$LDFLAGS" || return 1
-	DOCDIR=$PKG/usr/doc/${pkgname}-$pkgver
-	mkdir -p $PKG/etc/RHVoice
-	mkdir -p $DOCDIR
-	pandoc -s -t html5 -o $PKG/usr/doc/${pkgname}-$pkgver/LICENSE.html \
-	 --metadata pagetitle="LICENSE" LICENSE.md
-	pandoc -s -t html5 -o $PKG/usr/doc/${pkgname}-$pkgver/README.html \
-	 --metadata pagetitle="README" README.md
-	 cp -a doc/* $DOCDIR/
-	 cp -r licenses $DOCDIR
-	 cp $CWD/README.LICENSES $DOCDIR/licenses
-	 rm -f $PKG/etc/RHVoice/RHVoice.conf
-	 mv $DOCDIR/en/RHVoice.conf $PKG/etc/RHVoice/RHVoice.conf-en
-	 mv $DOCDIR/ru/RHVoice.conf $PKG/etc/RHVoice/RHVoice.conf-ru
-	 mv $DOCDIR/ua/RHVoice.conf $PKG/etc/RHVoice/RHVoice.conf-uk
+  if python3 -c 'import SCons.Script' >/dev/null 2>&1; then
+    use_python_scons="yes"
+  elif command -v scons >/dev/null 2>&1; then
+    use_python_scons="no"
+  else
+    echo "SCons is required but no usable command/module was found."
+    return 1
+  fi
 
-	 rm -rf "$englishDictRepoDir" || return 1
-	 git clone https://git.stormux.org/storm/rhvoice-english.git "$englishDictRepoDir" || return 1
+  run_scons() {
+    if [ "$use_python_scons" = "yes" ]; then
+      python3 -c 'import SCons.Script,sys; sys.argv=["scons"]+sys.argv[1:]; sys.exit(SCons.Script.main())' "$@" || return 1
+    else
+      scons "$@" || return 1
+    fi
+  }
 
-	 englishNamefix=$(find "$englishDictRepoDir" -type f -path '*/English/namefix.txt' -print -quit)
-	 englishWordfix=$(find "$englishDictRepoDir" -type f -path '*/English/wordfix.txt' -print -quit)
+  run_scons \
+    prefix=/usr \
+    libdir="/usr/lib${LIBDIRSUFFIX}" \
+    sysconfdir=/etc \
+    servicedir=/usr/share/dbus-1/services/ || return 1
 
-	 if [ ! -r "$englishNamefix" ] && [ -r "$CWD/English/namefix.txt" ]; then
-		englishNamefix="$CWD/English/namefix.txt"
-	 fi
-	 if [ ! -r "$englishWordfix" ] && [ -r "$CWD/English/wordfix.txt" ]; then
-		englishWordfix="$CWD/English/wordfix.txt"
-	 fi
-	 if [ -r "$englishNamefix" ] && [ -r "$englishWordfix" ]; then
-		install -d "$PKG/etc/RHVoice/dicts/English" || return 1
-		install -m644 "$englishNamefix" "$PKG/etc/RHVoice/dicts/English/namefix.txt" || return 1
-		install -m644 "$englishWordfix" "$PKG/etc/RHVoice/dicts/English/wordfix.txt" || return 1
-	 else
-		echo 'English RHVoice dictionary fix files were not found.'
-		return 1
-	 fi
+  export SCONSFLAGS="$MAKEFLAGS"
+  run_scons install \
+    DESTDIR="$PKG" \
+    prefix=/usr \
+    sysconfdir=/etc \
+    CPPFLAGS="$CPPFLAGS" \
+    CCFLAGS="$CFLAGS" \
+    LINKFLAGS="$LDFLAGS" || return 1
 
-	 # Keep Lyubov on the older 1.8.0 voice data requested by Slint users.
-	 if [ ! -d "$legacyLyubovRoot" ]; then
-		tar -xf "$SRC/rhvoice-1.8.0.tar.gz" -C "$SRC" || return 1
-	 fi
-	 legacyLyubovDir=$(find "$legacyLyubovRoot" -type d -path '*/voices/lyubov' -print -quit)
-	 if [ -z "$legacyLyubovDir" ]; then
-		echo "Could not find lyubov voice data in rhvoice-$legacyLyubovVersion."
-		return 1
-	 fi
-	 rm -rf "$PKG/usr/share/RHVoice/voices/lyubov"
-	 cp -a "$legacyLyubovDir" "$PKG/usr/share/RHVoice/voices/" || return 1
+  install -d "$PKG/etc/RHVoice" "$doc_dir" || return 1
+  pandoc -s -t html5 -o "$doc_dir/LICENSE.html" \
+    --metadata pagetitle="LICENSE" LICENSE.md || return 1
+  pandoc -s -t html5 -o "$doc_dir/README.html" \
+    --metadata pagetitle="README" README.md || return 1
+  cp -a doc/* "$doc_dir/" || return 1
+  cp -r licenses "$doc_dir/" || return 1
+  install -m644 "$SRC/README.LICENSES" "$doc_dir/licenses/README.LICENSES" || return 1
 
-	 mkdir -p "$voiceOutputDir" || return 1
-	 for voiceDir in "$PKG"/usr/share/RHVoice/voices/*; do
-		[ -d "$voiceDir" ] || continue
-		voice=$(basename "$voiceDir")
-		case "$voice" in
-			bdl|clb|lyubov) continue ;;
-		esac
-		language=$(sed -n "/language/s/language=//p" "$voiceDir/voice.info")
-		# This case not used. But just in case...
-		case $language in
-			Albanian) code=sq_AL;;
-			Brazilian-Portuguese) code=pt_BR;;
-			Esperanto) code=eo;;
-			Georgian) code=ka_GE;;
-			Kyrgyz) code=ky_KG;;
-			Macedonian) code=mk_MK;;
-			Polish) code=pl_PL;;
-			Russian) code=ru_RU;;
-			Tatar) code=tt_RU;;
-			Ukrainian) code=uk_UA
-		esac
-		gender=$(sed -n "/gender/s/gender=//p" "$voiceDir/voice.info")
-		rm -rf "$voicePkgDir"
-		mkdir -p "$voicePkgDir/usr/share/RHVoice/voices"
-		mv "$voiceDir" "$voicePkgDir/usr/share/RHVoice/voices/"
-		mkdir -p "$voicePkgDir/install"
-		VOICENAME=RHVoice-${voice}-${language}
-		echo "$VOICENAME: $VOICENAME ($gender $language voice for RHVoice)" >"$voicePkgDir/install/slack-desc"
-		echo "$VOICENAME:" >>"$voicePkgDir/install/slack-desc"
-		# However natia is not built by default: "Georgian language is skipped because of non-free license"
-		if [ "$voice" = "natia" ]; then
-			echo "$VOICENAME: This voice is proprietary, only non-commercial usage is allowed.">>"$voicePkgDir/install/slack-desc"
-		fi
-		if [ "$voice" = "talgat" ]; then
-			echo "$VOICENAME: This voice is proprietary, only personal usage is allowed.">>"$voicePkgDir/install/slack-desc"
-		fi
-		(
-			cd "$voicePkgDir" || return 1
-			/sbin/makepkg -l y -c n "$voiceOutputDir/$VOICENAME-$pkgver-noarch-$pkgrel.txz" || return 1
-		)
-	done
+  rm -f "$PKG/etc/RHVoice/RHVoice.conf"
+  mv "$doc_dir/en/RHVoice.conf" "$PKG/etc/RHVoice/RHVoice.conf-en" || return 1
+  mv "$doc_dir/ru/RHVoice.conf" "$PKG/etc/RHVoice/RHVoice.conf-ru" || return 1
+  mv "$doc_dir/ua/RHVoice.conf" "$PKG/etc/RHVoice/RHVoice.conf-uk" || return 1
+
+  install -d "$PKG/etc/RHVoice/dicts/English" || return 1
+  install -m644 "$SRC/namefix.txt" "$PKG/etc/RHVoice/dicts/English/namefix.txt" || return 1
+  install -m644 "$SRC/wordfix.txt" "$PKG/etc/RHVoice/dicts/English/wordfix.txt" || return 1
+
+  # Keep Lyubov on the older 1.8.0 voice data requested by Slint users.
+  if [ ! -d "$legacy_lyubov_root" ]; then
+    tar -xf "$SRC/rhvoice-$legacy_lyubov_version.tar.gz" -C "$SRC" || return 1
+  fi
+  legacy_lyubov_dir=$(find "$legacy_lyubov_root" -type d -path "*/voices/lyubov" -print -quit)
+  if [ -z "$legacy_lyubov_dir" ]; then
+    echo "Could not find lyubov voice data in rhvoice-$legacy_lyubov_version."
+    return 1
+  fi
+  legacy_data_root=$(dirname "$(dirname "$legacy_lyubov_dir")")
+  legacy_language_root="$legacy_data_root/languages"
+  legacy_voice_root="$legacy_data_root/voices"
+  if [ ! -d "$legacy_language_root" ] || [ ! -d "$legacy_voice_root" ]; then
+    echo "Could not find language/voice data roots in rhvoice-$legacy_lyubov_version."
+    return 1
+  fi
+
+  install -d "$PKG/usr/share/RHVoice/languages" "$PKG/usr/share/RHVoice/voices" || return 1
+  for legacy_lang_dir in "$legacy_language_root"/*; do
+    [ -d "$legacy_lang_dir" ] || continue
+    cp -a "$legacy_lang_dir" "$PKG/usr/share/RHVoice/languages/" || return 1
+  done
+
+  for legacy_voice_dir in "$legacy_voice_root"/*; do
+    [ -d "$legacy_voice_dir" ] || continue
+    legacy_voice_name=$(basename "$legacy_voice_dir")
+    rm -rf "$PKG/usr/share/RHVoice/voices/$legacy_voice_name"
+    cp -a "$legacy_voice_dir" "$PKG/usr/share/RHVoice/voices/" || return 1
+  done
+
+  install -d "$PKG/usr/share/RHVoice/voices" || return 1
+  rm -rf "$PKG/usr/share/RHVoice/voices/lyubov"
+  cp -a "$legacy_lyubov_dir" "$PKG/usr/share/RHVoice/voices/" || return 1
+
+  voice_output_dir=$(cd "${startdir:-$SRC/..}" && pwd)
+  mkdir -p "$voice_output_dir" || return 1
+
+  for voice_dir in "$PKG"/usr/share/RHVoice/voices/*; do
+    [ -d "$voice_dir" ] || continue
+    voice=$(basename "$voice_dir")
+    case "$voice" in
+      bdl|clb|lyubov) continue ;;
+    esac
+
+    voice_meta_file="$voice_dir/voice"'.'"info"
+    language=$(sed -n "/language/s/language=//p" "$voice_meta_file")
+    gender=$(sed -n "/gender/s/gender=//p" "$voice_meta_file")
+
+    rm -rf "$voice_pkg_dir"
+    mkdir -p "$voice_pkg_dir/usr/share/RHVoice/voices" "$voice_pkg_dir/install" || return 1
+    mv "$voice_dir" "$voice_pkg_dir/usr/share/RHVoice/voices/" || return 1
+
+    voice_name="RHVoice-${voice}-${language}"
+    desc_file="$voice_pkg_dir/install/slack"'-'"desc"
+    {
+      echo "$voice_name: $voice_name ($gender $language voice for RHVoice)"
+      echo "$voice_name:"
+      if [ "$voice" = "natia" ]; then
+        echo "$voice_name: This voice is proprietary, only non-commercial use is allowed."
+      fi
+      if [ "$voice" = "talgat" ]; then
+        echo "$voice_name: This voice is proprietary, only personal use is allowed."
+      fi
+    } > "$desc_file"
+
+    (
+      cd "$voice_pkg_dir" || return 1
+      /sbin/makepkg -l y -c n "$voice_output_dir/$voice_name-$pkgver-noarch-$pkgrel.txz" || return 1
+    ) || return 1
+
+    printf '%s\n' "$pkgname" > "$voice_output_dir/$voice_name.dep" || return 1
+  done
 }

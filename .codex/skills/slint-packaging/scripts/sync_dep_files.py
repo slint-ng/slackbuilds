@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create or update <pkgname>.dep files from depends= in tracked SLKBUILD files."""
+"""Legacy helper to sync placeholder <pkgname>.dep files from depends=."""
 
 from __future__ import annotations
 
@@ -122,7 +122,10 @@ def parse_depends(raw_text: str) -> list[str]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Sync <pkgname>.dep files from depends= entries in tracked SLKBUILD files."
+        description=(
+            "Legacy helper for placeholder <pkgname>.dep files from depends=. "
+            "Do not use for package metadata in normal workflow."
+        )
     )
     parser.add_argument(
         "--repo-root",
@@ -135,6 +138,14 @@ def main() -> int:
         help="Write/update dep files. Without this flag, run in check mode.",
     )
     parser.add_argument(
+        "--legacy-ok",
+        action="store_true",
+        help=(
+            "Required with --write. Acknowledge this produces placeholder "
+            "<pkgname>.dep files, not depfinder package metadata."
+        ),
+    )
+    parser.add_argument(
         "--check",
         action="store_true",
         help="Explicit check mode (default behavior).",
@@ -143,6 +154,8 @@ def main() -> int:
 
     if args.write and args.check:
         parser.error("--check and --write are mutually exclusive")
+    if args.write and not args.legacy_ok:
+        parser.error("--write requires --legacy-ok acknowledgement")
 
     repo_root = find_repo_root(Path(args.repo_root))
     slkbuild_paths = list_tracked_slkbuilds(repo_root)
@@ -175,6 +188,7 @@ def main() -> int:
             generated_count += 1
 
     mode_text = "WRITE" if args.write else "CHECK"
+    print("WARNING: legacy helper; prefer depfinder on built package artifacts.")
     print(f"Mode: {mode_text}")
     print(f"Repository: {repo_root}")
     print(f"Tracked SLKBUILD files scanned: {len(slkbuild_paths)}")
