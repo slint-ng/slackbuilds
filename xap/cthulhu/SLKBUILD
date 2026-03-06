@@ -4,48 +4,15 @@
 pkgname=cthulhu
 pkgver=2026.03.02
 pkgrel=1slint
-source=()
+source=(
+  "https://git.stormux.org/storm/cthulhu/archive/${pkgver}.tar.gz"
+  "Cthulhu_and_Orca.md"
+  "toggle.screenreader.gschema.xml"
+  "toggle_screenreader.sh"
+)
 url="https://git.stormux.org/storm/cthulhu"
 options=('nosrcpack')
 
-depends=(
-  'at-spi2-core'
-  'brltty'
-  'gobject-introspection'
-  'gsettings-desktop-schemas'
-  'gstreamer'
-  'gst-plugins-base'
-  'gst-plugins-good'
-  'gtk+3'
-  'hicolor-icon-theme'
-  'liblouis'
-  'libwnck3'
-  'pango'
-  'python3-requests'
-  'python-atspi'
-  'python3-cairo'
-  'python3-dasbus'
-  'python3-gobject'
-  'python3-pluggy'
-  'python3-setproctitle'
-  'python3-tomlkit'
-  'socat'
-  'speech-dispatcher'
-  'xkbcomp'
-  'python3-pyautogui'
-  'python3-msgpack'
-  'python3-tornado'
-  'python3-pillow'
-  'python-pytesseract'
-  'tesseract'
-  'tesseract-data'
-)
-makedepends=(
-  'git'
-  'meson'
-  'ninja'
-  'pandoc'
-)
 
 slackdesc=\
 (
@@ -75,10 +42,12 @@ fi
 }
 
 build() {
-  cd "$SRC" || exit 1
-  rm -rf "$pkgname-$pkgver"
-  git clone -b "$pkgver" https://git.stormux.org/storm/cthulhu.git "$pkgname-$pkgver"
-  cd "$pkgname-$pkgver" || exit 1
+  pkgroot="$(dirname "$SRC")" || return 1
+  if [ -d "$SRC/$pkgname-$pkgver" ]; then
+    cd "$SRC/$pkgname-$pkgver" || return 1
+  else
+    cd "$SRC/$pkgname" || return 1
+  fi
 
   chown -R root:root .
   find -L . \
@@ -88,10 +57,10 @@ build() {
     -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
 
   mkdir -p "$PKG/usr/share/glib-2.0/schemas"
-  cp "$startdir/toggle.screenreader.gschema.xml" "$PKG/usr/share/glib-2.0/schemas"
+  cp "$pkgroot/toggle.screenreader.gschema.xml" "$PKG/usr/share/glib-2.0/schemas" || return 1
   mkdir -p "$PKG/usr/libexec"
-  cp "$startdir/toggle_screenreader.sh" "$PKG/usr/libexec"
-  chmod 755 "$PKG/usr/libexec/toggle_screenreader.sh"
+  cp "$pkgroot/toggle_screenreader.sh" "$PKG/usr/libexec" || return 1
+  chmod 755 "$PKG/usr/libexec/toggle_screenreader.sh" || return 1
 
   rm -rf build
   export PYTHON=/usr/bin/python3.11
@@ -110,25 +79,25 @@ build() {
     --libdir=/usr/lib"${LIBDIRSUFFIX}" \
     --sysconfdir=/etc \
     --localstatedir=/var \
-    --buildtype=release
+    --buildtype=release || return 1
 
-  PATH="$pythonShimDir:$PATH" meson compile -C build -j "$numjobs"
-  PATH="$pythonShimDir:$PATH" DESTDIR="$PKG" meson install -C build
+  PATH="$pythonShimDir:$PATH" meson compile -C build -j "$numjobs" || return 1
+  PATH="$pythonShimDir:$PATH" DESTDIR="$PKG" meson install -C build || return 1
   rm -rf "$pythonShimDir"
 
   mkdir -p "$PKG/usr/doc/$pkgname-$pkgver"
-  pandoc README.md -o "$PKG/usr/doc/$pkgname-$pkgver/README.html"
-  pandoc README.md -o "$PKG/usr/doc/$pkgname-$pkgver/README.pdf"
-  pandoc "$startdir/Cthulhu_and_Orca.md" -o \
-    "$PKG/usr/doc/$pkgname-$pkgver/Cthulhu_and_Orca.html"
-  pandoc "$startdir/Cthulhu_and_Orca.md" -o \
-    "$PKG/usr/doc/$pkgname-$pkgver/Cthulhu_and_Orca.pdf"
-  cp -a COPYING ChangeLog NEWS README.md \
-    "$PKG/usr/doc/$pkgname-$pkgver"
-  sed 's#Cthulhu Authors#Orca authors#' AUTHORS > \
-    "$PKG/usr/doc/$pkgname-$pkgver/AUTHORS"
-  cp "$startdir/SLKBUILD" \
-    "$PKG/usr/doc/$pkgname-$pkgver/SLKBUILD"
+  for doc in COPYING NEWS README.md; do
+    if [ -e "$doc" ]; then
+      cp -a "$doc" "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+    fi
+  done
+  cp -a "$pkgroot/Cthulhu_and_Orca.md" "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  if [ -e AUTHORS ]; then
+    sed 's#Cthulhu Authors#Orca authors#' AUTHORS > \
+      "$PKG/usr/doc/$pkgname-$pkgver/AUTHORS" || return 1
+  fi
+  cp "$pkgroot/SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/SLKBUILD" || return 1
 
   sed -i \
     -e "1s|^#!/usr/bin/python3$|#!/usr/bin/python3.11|" \
