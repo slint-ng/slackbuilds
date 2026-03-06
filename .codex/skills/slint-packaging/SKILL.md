@@ -18,7 +18,6 @@ On first use in a session, explicitly mention:
 - Current `slkbuild` behavior around `dotnew` is subtler than `man 5 slkbuild`
   suggests: if `dotnew=()` is unset, regular files under `/etc` are auto-added;
   if `dotnew=()` is set, you must cover all relevant `/etc` files yourself.
-- `bump_version.py` updates checksums only when sums arrays exist and sources are URL-based.
 - If latest version is uncertain, ask the user to confirm (Arch is usually current).
 
 ## Workflow
@@ -31,7 +30,11 @@ On first use in a session, explicitly mention:
 - For `perl-*` packages and `libwww-perl`, also read
   `references/perl-packaging.md` before deciding runtime deps, source URLs, or
   test policy.
-
+- *Never* use Arch Linux isms, to include the following:
+  - depends, optdepends, makedepends, and checkdepends: slkbuild does not respect those so there wasted.
+  - sha256sums/b2sums: no validation is done on the downloaded tarballs.
+  - *Never* include the name or likeness of an Arch Linux contributor unless you can prove damn well it came from them and there is a historical link to them and the Slackbuild in question.
+  - *Always* audit your contributed work in *all* directories and clean up such isms.
 2. Decide the task
 - **Conversion**: SlackBuild -> SLKBUILD
 - **Update**: version bump, source checksums, deps, build flags
@@ -54,10 +57,7 @@ On first use in a session, explicitly mention:
   when converting (do not bump to a newer upstream/Arch version unless the
   user explicitly asks for an update).
 - Preserve the build logic exactly (configure/meson flags, install steps, docs).
-- When a package uses a source-tree basename that differs from `pkgname`,
-  prefer `export srcname=...` over a shell-local `srcname=...`. In this repo,
-  `slkbuild` generation can depend on exported metadata, and a non-exported
-  `srcname` may produce broken unpack/build paths such as `src/-<version>`.
+- If the location of the source tarball is different from that of the package name, you shall use a local _srcname="foo" so as to not polute the global environment.
 - Fold simple source-tree documentation installs into `docs=()` when the old
   SlackBuild just copies or finds static doc files into `/usr/doc` or
   `/usr/share/doc`; keep manual build logic for generated docs or subdir
@@ -109,7 +109,7 @@ On first use in a session, explicitly mention:
 - Treat the following as blocking conversion gates until manually resolved:
   - leftover PKGBUILD/APKBUILD markers such as `prepare()`, `package()`,
     `pkgdesc=`, `subpackages=`, checksum arrays, `validpgpkeys=`, or
-    `git+https://` source syntax.
+    `git+https://` source syntax, `depends=` `checkdepends=` `optdepends=` varialbes, and the names and emails of Arch Linux maintainers..
   - raw SlackBuild variables and tempdir scaffolding such as `$PKGNAM`,
     `$VERSION`, `$CWD`, `$TMP`, or `$OUTPUT` left in the generated `build()`.
   - references to `srcdir`, `pkgdir`, `builddir`, or `startdir`.
