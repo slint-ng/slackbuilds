@@ -5,11 +5,13 @@ pkgname=orca
 pkgver=50.rc
 pkgrel=2slint
 
-source=()
+source=(
+	"https://download.gnome.org/sources/orca/50/orca-${pkgver}.tar.xz"
+	"orcaprofile"
+)
 docs=("AUTHORS" "COPYING" "MAINTAINERS" "NEWS" "README.md")
-url=http://live.gnome.org/Orca/
+url=https://live.gnome.org/Orca/
 options=('nosrcpack')
-makedepends=('git' 'meson' 'ninja')
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|
@@ -17,18 +19,22 @@ slackdesc=\
 "Orca is a free, open source, flexible, and extensible screen reader."
 "The xdesktop version is to be used in enviromments other than Gnome3."
 ""
-"Homepage: http://live.gnome.org/Orca/"
+"Homepage: https://live.gnome.org/Orca/"
 )
 
 build() {
-	cd "$SRC" || exit 1
-	rm -rf "$pkgname-$pkgver"
-	git clone -b "$pkgver" https://gitlab.gnome.org/GNOME/orca.git \
-		"$pkgname-$pkgver" || exit 1
-	cd "$pkgname-$pkgver" || exit 1
+	pkgroot="$(dirname "$SRC")" || exit 1
+	if [ ! -x /usr/bin/python3.11 ]; then
+		echo "$pkgname build requires /usr/bin/python3.11" >&2
+		exit 1
+	fi
+	pythonShimDir="$(mktemp -d)" || exit 1
+	ln -s /usr/bin/python3.11 "$pythonShimDir/python3" || exit 1
+
+	cd "$SRC/$pkgname-$pkgver" || exit 1
+	PATH="$pythonShimDir:$PATH" \
 	CFLAGS="$SLKCFLAGS" \
 	CXXFLAGS="$SLKCFLAGS" \
-	PYTHON=/usr/bin/python3.11 \
 	meson setup --errorlogs \
 		--buildtype=release \
 		--infodir=/usr/info \
@@ -37,9 +43,10 @@ build() {
 		--mandir=/usr/man \
 		--prefix=/usr \
 		--sysconfdir=/etc \
-		_build
-	meson compile -C _build
-	meson install -C _build --destdir="$PKG"
+		_build || exit 1
+	PATH="$pythonShimDir:$PATH" meson compile -C _build || exit 1
+	PATH="$pythonShimDir:$PATH" meson install -C _build --destdir="$PKG" || exit 1
+	rm -rf "$pythonShimDir"
 	# No autostart but orca will be started:
 	# - at system level by gdm or lightdm if wished
 	# - by the user in graphical environments if ~/autostart/startorca.desktop
@@ -47,15 +54,13 @@ build() {
 	# The a11y parameters are copied from orcaprofile in ~/.profile
 	# by usersettings during installation if sound was used, or by the
 	# script orca-on shipped in the slint-misc package.
-	rm -rf "$startdir"/pkg/etc/xdg
-	mkdir -p "$startdir"/pkg/usr/share/orca
-	chmod -R 755 "$startdir"/pkg/usr/share
-	cp "$startdir"/orcaprofile "$startdir"/pkg/usr/share/orca/
-	chmod -R 644 "$startdir"/pkg/usr/share/orca/orcaprofile
+	rm -rf "$PKG/etc/xdg"
+	mkdir -p "$PKG/usr/share/orca" || exit 1
+	install -m 644 "$pkgroot/orcaprofile" "$PKG/usr/share/orca/orcaprofile" || exit 1
 	(
-	cd "$startdir"/pkg/usr/bin  || exit
+	cd "$PKG/usr/bin"  || exit
 	sed "s;#!/usr/bin/python3;#!/usr/bin/python3.11;" orca > bof
 	mv bof orca
-	chmod 755 "$startdir"/pkg/usr/bin/orca
+	chmod 755 "$PKG/usr/bin/orca"
 	)
 }

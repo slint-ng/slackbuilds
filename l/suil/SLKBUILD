@@ -1,0 +1,41 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=suil
+pkgver=0.10.8
+pkgrel=1slint
+source=("https://download.drobilla.net/${pkgname}-${pkgver}.tar.bz2")
+url="https://drobilla.net/software/suil/"
+license=("ISC")
+docs=("AUTHORS" "COPYING" "INSTALL" "NEWS" "PACKAGING" "README" "README.md")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"suil (library for LV2 plugin UIs)"
+""
+"suil is a C library for loading and wrapping LV2 plugin user"
+"interfaces."
+""
+"Homepage: https://drobilla.net/software/suil/"
+)
+
+build() {
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  CXXFLAGS="$SLKCFLAGS -std=c++11" \
+  ./waf configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --configdir=/etc \
+    --mandir=/usr/man \
+    --docdir="/usr/doc/$pkgname-$pkgver" || return 1
+
+  ./waf || return 1
+  ./waf install --destdir="$PKG" || return 1
+
+  install -Dm0644 "$startdir/SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/${pkgname}.SlackBuild" || return 1
+}

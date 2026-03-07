@@ -1,0 +1,34 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
+pkgname=python-scipy
+export srcname=scipy
+pkgver=1.8.0
+pkgrel=1slint
+source=("https://files.pythonhosted.org/packages/source/s/${srcname}/${srcname}-${pkgver}.tar.gz")
+url="https://www.scipy.org/"
+docs=("LICENSE.txt" "INSTALL.rst.txt" "HACKING.rst.txt" "README.rst")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (scientific computing library for Python)"
+""
+"SciPy extends NumPy with numerical routines and algorithms."
+)
+
+build() {
+  local debug
+
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+  export FFLAGS="-fallow-argument-mismatch -fPIC"
+
+  debug="${DEBUG:-no}"
+  debug="$(printf '%s' "$debug" | cut -b 1 | tr '[:lower:]' '[:upper:]')"
+
+  if [ "$debug" = "N" ]; then
+    python3 setup.py install --root="$PKG" || return 1
+  else
+    python3 setup.py build --debug || return 1
+    python3 setup.py install --root="$PKG" || return 1
+  fi
+}

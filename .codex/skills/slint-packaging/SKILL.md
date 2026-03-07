@@ -18,20 +18,26 @@ On first use in a session, explicitly mention:
 - Current `slkbuild` behavior around `dotnew` is subtler than `man 5 slkbuild`
   suggests: if `dotnew=()` is unset, regular files under `/etc` are auto-added;
   if `dotnew=()` is set, you must cover all relevant `/etc` files yourself.
-- `bump_version.py` updates checksums only when sums arrays exist and sources are URL-based.
-- If latest version is uncertain, ask the user to confirm (Arch is usually current).
+- If latest version is uncertain, confirm with the user before bumping
+  (Arch can be a hint, not authoritative by itself).
 
 ## Workflow
 
 1. Inspect the package directory
 - List files and read `README`, `*.info`, `slack-desc`, `doinst.sh`, patches, and the build script.
-- Note upstream URLs, versioning, and any custom steps (git clone, meson, cmake, etc.).
+- Note upstream URLs, versioning, and any custom steps (meson, cmake, etc.).
 - If a similar package already uses SLKBUILD, use it as a pattern.
 - Confirm naming and headers are consistent across the directory name, `pkgname`, `slackdesc`, README, and packager header.
 - For `perl-*` packages and `libwww-perl`, also read
   `references/perl-packaging.md` before deciding runtime deps, source URLs, or
   test policy.
-
+- Avoid Arch Linux-specific carryover:
+  - Do not keep `depends=`, `makedepends=`, `checkdepends=`, or `optdepends=`
+    in `SLKBUILD`; `slkbuild` ignores them in this repo workflow.
+  - Remove foreign PKGBUILD checksum arrays and other distro-only metadata.
+  - Drop imported Arch maintainer/contributor headers unless the user
+    explicitly asks to preserve a documented historical attribution.
+  - Audit all changed directories and clean up these isms before finishing.
 2. Decide the task
 - **Conversion**: SlackBuild -> SLKBUILD
 - **Update**: version bump, source checksums, deps, build flags
@@ -49,15 +55,17 @@ On first use in a session, explicitly mention:
 
 - Use `scripts/convert_slackbuild.py` for a best-effort scaffold, then review.
 - Run `scripts/check_conversion_gates.py <pkgdir>` before treating the
-  conversion as finished. Add `--shellcheck` when you changed bash logic.
+  conversion as finished. It enforces `bash -n`, `slackdesc` limits, and
+  conversion gate checks; add `--shellcheck` when you changed bash logic.
 - If the package already exists in-tree, keep the current in-tree version
   when converting (do not bump to a newer upstream/Arch version unless the
   user explicitly asks for an update).
 - Preserve the build logic exactly (configure/meson flags, install steps, docs).
-- When a package uses a source-tree basename that differs from `pkgname`,
-  prefer `export srcname=...` over a shell-local `srcname=...`. In this repo,
-  `slkbuild` generation can depend on exported metadata, and a non-exported
-  `srcname` may produce broken unpack/build paths such as `src/-<version>`.
+- If the source tarball path differs from the package name, prefer a local
+  `_srcname="foo"` helper variable instead of changing global assumptions.
+- Require strict upstream tarballs in `source=()` from known, verifiable
+  provenance. Do not use git/VCS sources unless absolutely necessary and
+  explicitly approved with a documented reason.
 - Fold simple source-tree documentation installs into `docs=()` when the old
   SlackBuild just copies or finds static doc files into `/usr/doc` or
   `/usr/share/doc`; keep manual build logic for generated docs or subdir
@@ -109,11 +117,14 @@ On first use in a session, explicitly mention:
 - Treat the following as blocking conversion gates until manually resolved:
   - leftover PKGBUILD/APKBUILD markers such as `prepare()`, `package()`,
     `pkgdesc=`, `subpackages=`, checksum arrays, `validpgpkeys=`, or
-    `git+https://` source syntax.
+    `git+https://` source syntax, `depends=`/`makedepends=`/`checkdepends=`/
+    `optdepends=` variables, and imported Arch maintainer identity headers.
   - raw SlackBuild variables and tempdir scaffolding such as `$PKGNAM`,
     `$VERSION`, `$CWD`, `$TMP`, or `$OUTPUT` left in the generated `build()`.
   - references to `srcdir`, `pkgdir`, `builddir`, or `startdir`.
   - network fetches inside `build()` such as `git clone`, `curl`, or `wget`.
+  - remote `source=()` entries that are non-HTTPS, non-tarball, or VCS-style
+    (`git://`, `.git`, `#tag=`, `#commit=`, etc.) unless explicitly approved.
   - local helper files referenced by the build but missing from `source=()`.
   - partial `dotnew=()` coverage for packages that install regular files under
     `/etc`; explicit `dotnew=()` disables slkbuild's fallback auto-discovery of
@@ -128,7 +139,8 @@ On first use in a session, explicitly mention:
 
 ### Updates
 
-- If unsure of the latest version, ask the user to confirm (Arch usually tracks latest).
+- If unsure of the latest version, confirm with the user before bumping
+  (Arch usually tracks latest, but do not assume blindly).
 - Update `pkgver`, `source`, and any checksums.
 - Use `scripts/bump_version.py` when possible to update `pkgver` and sums.
 - Sync `docs=()` with what the build installs.
@@ -206,25 +218,46 @@ On first use in a session, explicitly mention:
   incomplete conversion unless that exact filename was generated from the built
   package artifact for repo-specific reasons.
 - In `SLKBUILD`, use plain URL sources (for example `https://...`).
-  Do not use Arch-style `git+https://...` source syntax.
-  Tag-based git sources are fine as plain URLs, for example
-  `https://example.org/repo.git#tag=v1.2.3`.
+  Require HTTPS release tarballs with clear versioned filenames and verifiable
+  provenance. Do not use VCS-style sources (`git+https://`, `.git`, tag/commit
+  fragments) unless explicitly approved as an exception.
 - Prefer simple, explicit `source=()` URLs over bash substring expansion
   expressions such as `${name::1}` inside `source`; some `slkbuild -X`
   generations can mis-handle those and produce bad `cd` paths.
 - If you edit a bash script, run `shellcheck` and fix reported issues.
+
+## Landing the plane (session completion)
+
+- When ending a work session, follow the repo `AGENTS.md` completion flow:
+  1. File follow-up work in `bd` (not markdown TODOs).
+  2. Run quality gates for changed code (`bash -n`, `shellcheck`, build/tests).
+  3. For package conversion/update work, create a validation bead:
+     `bd create "Validate <pkg>: <change summary>" -t bug -p 1 --deps discovered-from:<work-id> --description="Validation scope and expected outcome" --json`
+  4. Record explicit validation evidence before closing validation beads.
+  5. Update and close work beads with a clear reason.
+  6. Push with the required sync order:
+     `git pull --rebase && bd sync && git push && git status`.
+- Critical `bd` rules:
+  - Use `bd sync` for synchronization in `bd 0.55.4`.
+  - Do not use `bd dolt pull` / `bd dolt push`.
+  - Conversion/update work requires a linked validation bead (`bug`, `p1`,
+    `--deps discovered-from:<work-id>`).
+  - Do not close validation beads without evidence that:
+    `bash -n`/`shellcheck` are clean, package build completed, and basic smoke
+    tests passed.
 
 ## Resources
 
 ### scripts/
 - `check_slackdesc_len.py`: Validate slackdesc line length and line count.
 - `check_conversion_gates.py`: Check converted package dirs for leftover
-  foreign packaging markers, legacy files, placeholder deps, and `bash -n`
-  failures.
+  foreign packaging markers, legacy files, placeholder deps, `slackdesc`
+  limits, and `bash -n` failures.
 - `convert_slackbuild.py`: Best-effort SlackBuild -> SLKBUILD scaffold.
 - `bump_version.py`: Update `pkgver` and refresh checksums if present.
 - `sync_dep_files.py`: Legacy helper for `<pkgname>.dep` from `depends=()`;
-  do not use for package dependency metadata in this repo workflow.
+  do not use for package dependency metadata in this repo workflow
+  (`depfinder` on built package artifacts is required).
 
 ### references/
 - `references/perl-packaging.md`: Perl/CPAN-specific dependency, testing, and

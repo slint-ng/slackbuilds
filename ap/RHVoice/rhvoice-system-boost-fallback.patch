@@ -1,0 +1,11 @@
+--- a/external/libs/boost/include/SConscript
++++ b/external/libs/boost/include/SConscript
+@@ -28,6 +28,7 @@
+ 
+ for libdir in Glob("../libs/*"):
+     libincdir=libdir.Dir("include").Dir("boost")
+-    copy_files(libincdir, incdir)
++    if path.isdir(str(libincdir)):
++        copy_files(libincdir, incdir)
+ 
+ Export("boost_headers")

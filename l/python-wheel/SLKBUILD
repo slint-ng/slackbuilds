@@ -1,0 +1,31 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
+pkgname=python-wheel
+export srcname=wheel
+pkgver=0.41.2
+pkgrel=1slint
+source=("https://files.pythonhosted.org/packages/source/w/${srcname}/${srcname}-${pkgver}.tar.gz")
+url="https://wheel.readthedocs.io/"
+docs=("README.rst" "LICENSE.txt")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Python wheel format tools)"
+""
+"wheel builds and installs Python wheel archives."
+)
+
+build() {
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+
+  python3 -m flit_core.wheel || return 1
+  python3 -m installer --destdir="$PKG" dist/*.whl || return 1
+
+  while IFS= read -r -d '' distinfo; do
+    if [ -f "$distinfo/licenses/LICENSE.txt" ]; then
+      mv "$distinfo/licenses/LICENSE.txt" "$distinfo/LICENSE.txt" || return 1
+      rmdir "$distinfo/licenses" || return 1
+    fi
+  done < <(find "$PKG"/usr/lib* -type d -name "${srcname}-${pkgver}.dist-info" -print0)
+}

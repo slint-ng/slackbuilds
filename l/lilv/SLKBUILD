@@ -1,0 +1,43 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=lilv
+pkgver=0.24.8
+pkgrel=1slint
+source=("https://download.drobilla.net/${pkgname}-${pkgver}.tar.bz2")
+url="https://drobilla.net/software/lilv/"
+license=("ISC")
+docs=("AUTHORS" "COPYING" "INSTALL" "NEWS" "README.md")
+options=("nosrcpack" "noautodotnew")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"lilv (library for LV2 plugin hosts)"
+""
+"lilv is a C library for simple use of LV2 plugins in applications."
+""
+"Homepage: https://drobilla.net/software/lilv/"
+)
+
+build() {
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  python3 ./waf configure \
+    --python=/usr/bin/python3 \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --configdir=/etc \
+    --mandir=/usr/man \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --dyn-manifest || return 1
+
+  python3 ./waf || return 1
+  python3 ./waf install --destdir="$PKG" || return 1
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -Dm0644 "$startdir/SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/${pkgname}.SlackBuild" || return 1
+}

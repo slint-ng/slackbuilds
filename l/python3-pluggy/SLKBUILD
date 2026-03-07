@@ -5,10 +5,10 @@
 pkgname=python3-pluggy
 pkgver=1.5.0
 pkgrel=4slint
-source=()
+source=(
+  "https://files.pythonhosted.org/packages/source/p/pluggy/pluggy-${pkgver}.tar.gz"
+)
 url="https://github.com/pytest-dev/pluggy"
-depends=('python3')
-makedepends=('git' 'python3')
 options=('nosrcpack')
 
 slackdesc=\
@@ -27,10 +27,7 @@ slackdesc=\
 )
 
 build() {
-  cd "$SRC" || exit 1
-  rm -rf pluggy
-  git clone -b $pkgver https://github.com/pytest-dev/pluggy
-  cd pluggy || exit 1
+  cd "$SRC/pluggy-$pkgver" || exit 1
 
   python3 setup.py install --root="$PKG"
 

@@ -1,0 +1,38 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
+pkgname=python-urlscan
+export srcname=urlscan
+pkgver=0.9.9
+pkgrel=1slint
+source=("https://github.com/firecat53/urlscan/archive/${pkgver}/${srcname}-${pkgver}.tar.gz")
+url="https://github.com/firecat53/urlscan"
+docs=("README.md" "COPYING" "requirements.txt")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (URL launcher for mutt)"
+""
+"urlscan is a browser URL launcher intended for mutt."
+)
+
+build() {
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+
+  python3 setup.py install --root="$PKG" --optimize=1 || return 1
+
+  if [ -d "$PKG/usr/share/man" ]; then
+    mkdir -p "$PKG/usr" || return 1
+    mv "$PKG/usr/share/man" "$PKG/usr/man" || return 1
+  fi
+
+  if [ -d "$PKG/usr/man" ]; then
+    find "$PKG/usr/man" -type f -exec gzip -9 {} \; || return 1
+    while IFS= read -r -d '' manlink; do
+      ln -s "$(readlink "$manlink").gz" "${manlink}.gz" || return 1
+      rm -f "$manlink" || return 1
+    done < <(find "$PKG/usr/man" -type l -print0)
+  fi
+
+  rm -rf "${PKG:?}/usr/share"
+}

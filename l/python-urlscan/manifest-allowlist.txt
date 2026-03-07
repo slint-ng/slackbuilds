@@ -1,0 +1,1 @@
+-usr/doc/python-urlscan-0.9.9/python-urlscan.SlackBuild

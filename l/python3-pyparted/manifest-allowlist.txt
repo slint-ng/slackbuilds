@@ -1,0 +1,1 @@
+-usr/doc/python3-pyparted-3.13.0/python3-pyparted.SlackBuild

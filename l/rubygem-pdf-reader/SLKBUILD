@@ -1,0 +1,41 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+_gemname=pdf-reader
+pkgname=rubygem-$_gemname
+pkgver=2.9.2
+pkgrel=1slint
+source=("${_gemname}-${pkgver}.gem")
+url="https://rubygems.org/gems/${_gemname}"
+license=("MIT")
+noextract=("${_gemname}-${pkgver}.gem")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (a PDF parser)"
+""
+"$pkgname parses PDF files against the PDF specification."
+""
+"Homepage: https://rubygems.org/gems/pdf-reader"
+)
+
+build() {
+  local _gemdir
+
+  _gemdir="$(ruby -e 'puts Gem.default_dir')" || return 1
+  gem install --ignore-dependencies --no-user-install \
+    -i "$PKG/$_gemdir" \
+    -n "$PKG/usr/bin" \
+    "${_gemname}-${pkgver}.gem" || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  tar -x -O --file="$SRC/${_gemname}-${pkgver}.gem" data.tar.gz | \
+    tar -xz -C "$PKG/usr/doc/$pkgname-$pkgver" --file=- \
+      CHANGELOG MIT-LICENSE README.md TODO || return 1
+
+  install -Dm0644 "$startdir/SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/${pkgname}.SlackBuild" || return 1
+}

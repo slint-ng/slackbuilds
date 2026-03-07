@@ -1,10 +1,10 @@
-# Maintainer: Didier Spaier <didier~at~slint~dot~fr>
-
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
 pkgname=aerc
 pkgver=0.14.0
 pkgrel=2slint
 options=("nosrcpack")
-docs=("LICENSE")
+docs=("LICENSE" "README.md")
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|
@@ -12,15 +12,11 @@ slackdesc=\
 "URL: https://git.sr.ht/~rjarry/aerc"
 )
 
-source=("${pkgname}-${pkgver}.tar.gz")
+source=("https://git.sr.ht/~rjarry/$pkgname/archive/$pkgver.tar.gz")
 
 build() {
-	cd $SRC/${pkgname}-${pkgver}
+	cd "$SRC/${pkgname}-${pkgver}" || return 1
     export GOFLAGS="-tags=notmuch"
     make PREFIX=/usr
-    make PREFIX=/usr DESTDIR=$PKG install
-	mkdir -p $PKG/usr/doc/${pkgname}-${pkgver}
-	pandoc -s -f gfm -t html5 README.md --metadata pagetitle=scdoc \
-	-o $PKG/usr/doc/${pkgname}-${pkgver}/README.html
+    make PREFIX=/usr DESTDIR="$PKG" install
 }
-
