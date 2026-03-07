@@ -11,11 +11,11 @@ Use --reset without a package path to clear staged artifacts and exit.
 
 Options:
       --dependencies       Print the recursive dependency closure and exit.
-  -f, --full               Rebuild the full in-repo dependency closure.
+  -f, --full               Rebuild the full in-repo dependency closure and reuse matching staged artifacts.
       --only               Build only the requested package and skip dependency resolution.
       --reset              Remove existing staged package artifacts before building.
       --skip PKGNAME       Treat a package as already satisfied. Repeatable.
-  -k, --skip-staged        Skip packages that already have artifacts in staging.
+  -k, --skip-staged        Skip packages whose current pkgver/pkgrel already exists in staging.
   -s, --staging-dir DIR    Staging directory relative to repo root (default: staging).
   -n, --no-install         Build and stage packages without installing them.
   -h, --help               Show this help text.
@@ -164,6 +164,27 @@ parse_pkgname() {
 
   [[ -n "$packageName" ]] || die "could not parse pkgname from $slkbuildPath"
   printf '%s\n' "$packageName"
+}
+
+parse_slkbuild_scalar() {
+  local slkbuildPath=$1
+  local variableName=$2
+  local packageDir=""
+  local scalarValue=""
+
+  packageDir=$(dirname "$slkbuildPath")
+  scalarValue=$(
+    cd "$packageDir" && \
+      bash -c '
+        set +eu
+        source ./SLKBUILD >/dev/null 2>&1
+        variableName=$1
+        eval "printf \"%s\n\" \"\${${variableName}:-}\""
+      ' _ "$variableName"
+  ) || die "could not parse ${variableName} from $slkbuildPath"
+
+  [[ -n "$scalarValue" ]] || die "could not parse ${variableName} from $slkbuildPath"
+  printf '%s\n' "$scalarValue"
 }
 
 find_depfile() {
@@ -699,19 +720,40 @@ stage_artifacts() {
   fi
 }
 
+staged_artifact_for_package() {
+  local packageDir=$1
+  local packageName=${packageNameByDir[${packageDir}]}
+  local packageVersion=${packageVersionByDir[${packageDir}]:-}
+  local packageRelease=${packageReleaseByDir[${packageDir}]:-}
+  local stagedArtifactPattern=""
+
+  if [[ -z "$packageVersion" ]]; then
+    packageVersion=$(parse_slkbuild_scalar "${packageDir}/SLKBUILD" pkgver)
+    packageVersionByDir["$packageDir"]=$packageVersion
+  fi
+
+  if [[ -z "$packageRelease" ]]; then
+    packageRelease=$(parse_slkbuild_scalar "${packageDir}/SLKBUILD" pkgrel)
+    packageReleaseByDir["$packageDir"]=$packageRelease
+  fi
+
+  stagedArtifactPattern="${packageName}-${packageVersion}-*-${packageRelease}"
+  latest_matching_file "$stagingDir" "$stagedArtifactPattern"
+}
+
 filter_staged_packages() {
   local packageDir=""
   local packageName=""
   local stagedArtifactPath=""
   local -a filteredQueue=()
 
-  [[ "$skipStaged" == true ]] || return 0
+  [[ "$skipStaged" == true || "$fullBuild" == true ]] || return 0
 
   for packageDir in "${buildQueue[@]}"; do
     packageName=${packageNameByDir[${packageDir}]}
-    stagedArtifactPath=$(latest_matching_file "$stagingDir" "${packageName}-*")
+    stagedArtifactPath=$(staged_artifact_for_package "$packageDir")
     if [[ -n "$stagedArtifactPath" ]]; then
-      printf 'Skipping %s; staged artifact already exists: %s\n' \
+      printf 'Skipping %s; matching staged artifact already exists: %s\n' \
         "${packageDirByRelative[${packageDir}]}" "$(basename "$stagedArtifactPath")"
       continue
     fi
@@ -770,6 +812,8 @@ declare -A duplicatePackageDirsByName=()
 declare -A dependencyVisitState=()
 declare -A packageVisitState=()
 declare -A packageDepfileByDir=()
+declare -A packageVersionByDir=()
+declare -A packageReleaseByDir=()
 declare -A builtArtifactByDir=()
 declare -A builtDepfileByDir=()
 
