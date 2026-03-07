@@ -1,19 +1,19 @@
-# Maintainer: Antonio Rojas <arojas@archlinux.org>
-# Contributor: Ashwin Vishnu <ashwinvis+arch at pr0t0nm4il dot com>
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
 
 pkgname=python-beniget
-pkgver=0.4.1
+pkgver=0.4.2.post1
 pkgrel=1slint
 slackdesc="$pkgname (A static analyzer for Python code)"
 url='https://github.com/serge-sans-paille/beniget'
 license=(BSD)
 depends=(python-gast)
-makedepends=(python-setuptools)
-source=(https://files.pythonhosted.org/packages/source/b/beniget/beniget-$pkgver.tar.gz)
-sha256sums=('75554b3b8ad0553ce2f607627dad3d95c60c441189875b98e097528f8e23ac0c')
-docs=(LICENSE,README.rst)
+makedepends=(python3-setuptools)
+source=("https://files.pythonhosted.org/packages/source/b/beniget/beniget-${pkgver}.tar.gz")
+sha256sums=('a0258537e65e7e14ec33a86802f865a667f949bb6c73646d55e42f7c45a052ae')
+docs=(LICENSE README.rst)
 build() {
-  cd beniget-$pkgver
-  python setup.py build
-  python setup.py install --root=$PKG --optimize=1 --skip-build
+  cd "beniget-${pkgver}" || return 1
+  python3 setup.py build || return 1
+  python3 setup.py install --root="$PKG" --optimize=1 --skip-build || return 1
 }

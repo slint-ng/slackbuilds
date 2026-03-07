@@ -1,33 +1,21 @@
 #!/bin/bash
 # shellcheck shell=bash disable=SC2034
-# Maintainer: Antonio Rojas <arojas@archlinux.org>
-# Contributor: Ashwin Vishnu <ashwinvis+arch at pr0t0nm4il dot com>
-# Contributor: xantares
-# Included in Slint by Didier Spaier didieratslintdotfr
+
 pkgname=python3-pythran
 export srcname=pythran
-pkgver=0.11.0
-pkgrel=3slint
+pkgver=0.18.1
+pkgrel=1slint
 slackdesc="$pkgname (Ahead of Time compiler for numeric kernels)"
 url='https://pythran.readthedocs.io/'
 license=(BSD)
-depends=(python-networkx python-ply python3-numpy python-beniget python3-six xsimd boost)
-makedepends=(python3-setuptools python-pytest-runner)
-source=(https://files.pythonhosted.org/packages/source/p/pythran/pythran-$pkgver.tar.gz)
-sha256sums=('0b2cba712e09f7630879dff69f268460bfe34a6d6000451b47d598558a92a875')
+depends=(python3-ply python3-numpy python-beniget python-gast python3-six xsimd boost)
+makedepends=(python3-setuptools)
+source=("https://files.pythonhosted.org/packages/source/p/${srcname}/${srcname}-${pkgver}.tar.gz")
+sha256sums=('8803ed948bf841a11bbbb10472a8ff6ea24ebd70e67c3f77b77be3db900eccfe')
 docs=(AUTHORS LICENSE README.rst)
 build() {
-  local pythonSitePackages
-
-  pythonSitePackages="$(python3 - <<'PY'
-import sysconfig
-print(sysconfig.get_paths()["purelib"])
-PY
-)" || return 1
-  export PYTHONPATH="$pythonSitePackages"
   cd "$SRC/${srcname}-$pkgver" || return 1
   python3 setup.py build || return 1
   python3 setup.py install --root="$PKG" --optimize=1 --skip-build || return 1
-  rm -rf "$PKG"/usr/lib64/python*/site-packages/pythran/boost
-  rm -rf "$PKG"/usr/lib64/python*/site-packages/pythran/xsimd
+  rm -rf "$PKG"/usr/lib*/python*/site-packages/pythran/{boost,xsimd}
 }

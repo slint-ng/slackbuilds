@@ -1,0 +1,23 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
+pkgname=python3-ply
+export srcname=ply
+pkgver=3.11
+pkgrel=1slint
+source=("https://files.pythonhosted.org/packages/source/p/${srcname}/${srcname}-${pkgver}.tar.gz")
+url="https://github.com/dabeaz/ply"
+docs=("ANNOUNCE" "CHANGES" "README.md")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Python Lex-Yacc parser tools)"
+""
+"PLY is a pure-Python implementation of lex and yacc."
+)
+
+build() {
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+
+  python3 setup.py install --root="$PKG" --optimize=1 || return 1
+}

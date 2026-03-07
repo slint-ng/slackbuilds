@@ -1,0 +1,4 @@
+PLY is a pure-Python implementation of lex and yacc.
+
+It provides the ply.lex and ply.yacc modules and is used by
+other Python tooling, including pythran.

@@ -1,36 +1,22 @@
 #!/bin/bash
 # shellcheck shell=bash disable=SC2034
-# maintainer Storm Dragon <stormdragon2976@gmail.com>
-# Included in Slint and modified by:
-# Didier Spaier <didier~at~slint~dot~fr>
-pkgname='python3-spake2'
+
+pkgname=python3-spake2
+export srcname=spake2
 pkgver=0.8
 pkgrel=3slint
-_pkgname='spake2'
-slackdesc=\
-(
+
+source=("https://files.pythonhosted.org/packages/source/s/${srcname}/${srcname}-${pkgver}.tar.gz")
+url="https://pypi.org/project/spake2/"
+docs=("NEWS" "LICENSE" "README.md")
+
+slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (SPAKE2 password-authenticated key exchange)"
 "This library implements the SPAKE2 password-authenticated key exchange"
 )
-pkgdesc="This library implements the SPAKE2 password-authenticated key exchange"
-arch=('any')
-url="https://pypi.python.org/packages/10/7d/${_pkgname}-${pkgver}"
-license=('MIT')
-depends=('python3')
-makedepends=('python3-setuptools')
-source=("https://files.pythonhosted.org/packages/source/${_pkgname::1}/${_pkgname}/${_pkgname}-${pkgver}.tar.gz")
-md5sums=('0155bad518bb49c39994fe0b7d9fb32c')
-arch=x86_64
-docs=("NEWS" "LICENSE")
-
-
-
 build() {
-	cd "$SRC/${_pkgname}-${pkgver}" || return 1
-	rm -rf build
-	python3 setup.py install --root="$PKG" || return 1
-	mkdir -p "$PKG/usr/doc/${pkgname}-${pkgver}" || return 1
-	pandoc -s -f gfm -t html5 \
-	-o "$PKG/usr/doc/${pkgname}-${pkgver}/README.html" README.md || return 1
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+  rm -rf build
+  python3 setup.py install --root="$PKG" || return 1
 }

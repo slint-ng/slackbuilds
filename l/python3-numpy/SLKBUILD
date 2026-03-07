@@ -7,19 +7,19 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 
 pkgname=python3-numpy
-pkgver=1.24.4
-pkgrel=2slint
+pkgver=1.26.4
+pkgrel=1slint
 slackdesc="$pkgname (scientific tools for Python)"
 arch=('x86_64')
 license=('custom')
 url="https://numpy.org/"
 depends=('cblas' 'lapack' 'python3')
 optdepends=('openblas: faster linear algebra')
-makedepends=('python3-setuptools' 'gcc-fortran')
+makedepends=('python3-setuptools' 'gcc-gfortran')
 checkdepends=('python-pytest' 'python-hypothesis')
 #options=('staticlibs')
 source=("https://files.pythonhosted.org/packages/source/n/numpy/numpy-$pkgver.tar.gz")
-sha256sums=('7215847cefb96b7d0d99aa1c3e25d0bbd36a814a1314380d5f38ec0d746f8555')
+sha256sums=('2a02aba9ed12e4ac4eb3ea9421c420301a0c6460d9830d74a9df87efa4912010')
 docs=(LICENSE.txt)
 build() {
   cd "numpy-$pkgver" || return 1

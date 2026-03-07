@@ -3,10 +3,10 @@
 # Included in Slint Python 3.11 migration
 
 pkgname=python3-cython
-export srcname=cython
-pkgver=3.2.4
-pkgrel=2slint
-source=("https://files.pythonhosted.org/packages/91/85/7574c9cd44b69a27210444b6650f6477f56c75fee1b70d7672d3e4166167/${srcname}-${pkgver}.tar.gz")
+_srcname=cython
+pkgver=3.0.12
+pkgrel=1slint
+source=("https://files.pythonhosted.org/packages/source/c/${_srcname}/${_srcname}-${pkgver}.tar.gz")
 url="https://cython.org/"
 license=("Apache-2.0")
 depends=("python3")
@@ -20,16 +20,63 @@ slackdesc=(
 "Cython compiles Python-like code into C extension modules."
 )
 
+doinst() {
+  local staleExt=
+  local sitePackages=
+
+  for sitePackages in \
+    usr/lib/python3.11/site-packages \
+    usr/lib64/python3.11/site-packages
+  do
+    for staleExt in \
+      "$sitePackages/Cython/Compiler/Code.cpython-311-x86_64-linux-gnu.so" \
+      "$sitePackages/Cython/Compiler/FlowControl.cpython-311-x86_64-linux-gnu.so" \
+      "$sitePackages/Cython/Compiler/FusedNode.cpython-311-x86_64-linux-gnu.so" \
+      "$sitePackages/Cython/Compiler/LineTable.cpython-311-x86_64-linux-gnu.so" \
+      "$sitePackages/Cython/Compiler/Parsing.cpython-311-x86_64-linux-gnu.so" \
+      "$sitePackages/Cython/Compiler/Scanning.cpython-311-x86_64-linux-gnu.so" \
+      "$sitePackages/Cython/Compiler/Visitor.cpython-311-x86_64-linux-gnu.so" \
+      "$sitePackages/Cython/Plex/Actions.cpython-311-x86_64-linux-gnu.so" \
+      "$sitePackages/Cython/Plex/DFA.cpython-311-x86_64-linux-gnu.so" \
+      "$sitePackages/Cython/Plex/Machines.cpython-311-x86_64-linux-gnu.so" \
+      "$sitePackages/Cython/Plex/Scanners.cpython-311-x86_64-linux-gnu.so" \
+      "$sitePackages/Cython/Plex/Transitions.cpython-311-x86_64-linux-gnu.so" \
+      "$sitePackages/Cython/Runtime/refnanny.cpython-311-x86_64-linux-gnu.so" \
+      "$sitePackages/Cython/StringIOTree.cpython-311-x86_64-linux-gnu.so" \
+      "$sitePackages/Cython/Tempita/_tempita.cpython-311-x86_64-linux-gnu.so" \
+      "$sitePackages/Cython/Utils.cpython-311-x86_64-linux-gnu.so"
+    do
+      rm -f "$staleExt"
+    done
+  done
+}
+
 build() {
   local docDir
   local docFile
+  local platlibDir
+  local purelibDir
 
   docDir="$PKG/usr/doc/$pkgname-$pkgver"
 
-  cd "${srcname}-${pkgver}" || return 1
+  cd "${_srcname}-${pkgver}" || return 1
   export NO_CYTHON_COMPILE=true
   python3 -m build --wheel --no-isolation || return 1
   python3 -m installer --destdir="$PKG" dist/*.whl || return 1
+
+  purelibDir="$(python3 -c 'import sysconfig; print(sysconfig.get_path("purelib").lstrip("/"))')" || return 1
+  platlibDir="$(python3 -c 'import sysconfig; print(sysconfig.get_path("platlib").lstrip("/"))')" || return 1
+  if [[ "$purelibDir" != "$platlibDir" && -d "$PKG/$purelibDir" ]]; then
+    # Keep the active module path on multilib installs so upgrades replace the old copy.
+    install -d "$PKG/${platlibDir%/*}" || return 1
+    if [[ -e "$PKG/$platlibDir" ]]; then
+      cp -a "$PKG/$purelibDir/." "$PKG/$platlibDir/" || return 1
+      rm -rf "$PKG/${purelibDir:?}" || return 1
+    else
+      mv "$PKG/$purelibDir" "$PKG/$platlibDir" || return 1
+    fi
+    rmdir -p --ignore-fail-on-non-empty "$PKG/${purelibDir%/*}" 2>/dev/null || true
+  fi
 
   if [[ ! -e "$PKG/usr/bin/cython3" && -e "$PKG/usr/bin/cython" ]]; then
     ln -sf cython "$PKG/usr/bin/cython3" || return 1
