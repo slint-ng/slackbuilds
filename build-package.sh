@@ -340,6 +340,27 @@ load_package_dependencies() {
   append_unique_values dependencyRef "${depFileDependencies[@]}"
   append_unique_values dependencyRef "${slkbuildDepends[@]}"
   append_unique_values dependencyRef "${slkbuildMakeDepends[@]}"
+
+  # Self-hosting/bootstrap packages sometimes declare themselves in depends or
+  # makedepends to mean "use an installed copy if present". That should not
+  # create a repository dependency cycle.
+  remove_value dependencyRef "$packageName"
+}
+
+remove_value() {
+  local targetArrayName=$1
+  local removedValue=$2
+  local candidateValue=""
+  local -a filteredValues=()
+  # shellcheck disable=SC2178
+  local -n targetRef=$targetArrayName
+
+  for candidateValue in "${targetRef[@]}"; do
+    [[ "$candidateValue" == "$removedValue" ]] && continue
+    filteredValues+=("$candidateValue")
+  done
+
+  targetRef=("${filteredValues[@]}")
 }
 
 skip_requested() {
