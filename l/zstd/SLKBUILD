@@ -31,7 +31,7 @@ build() {
 
   cd "$SRC/$pkgname-$pkgver" || return 1
 
-  zcat "$start_dir/zstd.dont.link.pzstd.to.static.libzstd.a.diff.gz" | patch -p1 --verbose || return 1
+  zcat "$startdir/zstd.dont.link.pzstd.to.static.libzstd.a.diff.gz" | patch -p1 --verbose || return 1
 
   make -j "$jobs" CFLAGS="$SLKCFLAGS" || return 1
   make -j "$jobs" CFLAGS="$SLKCFLAGS" -C contrib/pzstd || return 1
