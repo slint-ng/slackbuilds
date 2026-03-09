@@ -422,14 +422,32 @@ build_legacy_index() {
 
 is_installed() {
   local packageName=$1
+  local -a patterns=()
   local pattern=""
 
   if [[ "$packageName" == "slapt-get" ]]; then
     return 0
   fi
 
-  pattern="${installedDbDir}/${packageName}-*"
-  compgen -G "$pattern" >/dev/null 2>&1
+  case "$packageName" in
+    gcc-libs)
+      patterns=(
+        "${installedDbDir}/aaa_libraries-*"
+        "${installedDbDir}/gcc-*"
+      )
+      ;;
+    *)
+      patterns=("${installedDbDir}/${packageName}-*")
+      ;;
+  esac
+
+  for pattern in "${patterns[@]}"; do
+    if compgen -G "$pattern" >/dev/null 2>&1; then
+      return 0
+    fi
+  done
+
+  return 1
 }
 
 provider_for_package() {
