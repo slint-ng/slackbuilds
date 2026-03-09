@@ -446,17 +446,33 @@ is_installed() {
   local packageName=$1
   local -a patterns=()
   local pattern=""
+  local -a commands=()
+  local commandName=""
 
   if [[ "$packageName" == "slapt-get" ]]; then
     return 0
   fi
 
   case "$packageName" in
+    cargo)
+      patterns=(
+        "${installedDbDir}/cargo-*"
+        "${installedDbDir}/rust-*"
+      )
+      commands=("cargo")
+      ;;
     gcc-libs)
       patterns=(
         "${installedDbDir}/aaa_libraries-*"
         "${installedDbDir}/gcc-*"
       )
+      ;;
+    python)
+      patterns=(
+        "${installedDbDir}/python-*"
+        "${installedDbDir}/python3-*"
+      )
+      commands=("python" "python3")
       ;;
     *)
       patterns=("${installedDbDir}/${packageName}-*")
@@ -465,6 +481,12 @@ is_installed() {
 
   for pattern in "${patterns[@]}"; do
     if compgen -G "$pattern" >/dev/null 2>&1; then
+      return 0
+    fi
+  done
+
+  for commandName in "${commands[@]}"; do
+    if command -v "$commandName" >/dev/null 2>&1; then
       return 0
     fi
   done
