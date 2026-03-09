@@ -5,7 +5,8 @@ show_usage() {
   cat <<'EOF'
 Usage: build-package.sh [options] <category/package>
 
-Build a package and any missing repository dependencies described by .dep files.
+Build a package and any missing repository dependencies described by SLKBUILD
+metadata. Built package artifacts get a fresh .dep file from depfinder.
 New artifacts are added to the staging directory without removing existing ones.
 Use --reset without a package path to clear staged artifacts and exit.
 
@@ -121,6 +122,12 @@ latest_file() {
     | cut -d' ' -f2-
 }
 
+depfile_path_for_artifact() {
+  local artifactPath=$1
+
+  printf '%s.dep\n' "${artifactPath%.*}"
+}
+
 pkg_base_from_file() {
   local fileName=$1
 
@@ -194,12 +201,6 @@ find_depfile() {
   local -a allCandidates=()
   local depFile=""
 
-  depFile="${packageDir}/${packageName}.dep"
-  if [[ -f "$depFile" ]]; then
-    printf '%s\n' "$depFile"
-    return
-  fi
-
   while IFS= read -r depFile; do
     artifactCandidates+=("$depFile")
   done < <(
@@ -213,6 +214,12 @@ find_depfile() {
 
   if (( ${#artifactCandidates[@]} > 1 )); then
     die "multiple artifact-style depfiles found for ${packageName}: ${artifactCandidates[*]}"
+  fi
+
+  depFile="${packageDir}/${packageName}.dep"
+  if [[ -f "$depFile" ]]; then
+    printf '%s\n' "$depFile"
+    return
   fi
 
   while IFS= read -r depFile; do
@@ -319,9 +326,13 @@ load_package_dependencies() {
 
   depFilePath=$(find_depfile "$packageDir" "$packageName")
   if [[ -n "${packageNameByDir[${packageDir}]:-}" ]]; then
-    packageDepfileByDir["$packageDir"]=$depFilePath
     read_slkbuild_array "${packageDir}/SLKBUILD" depends slkbuildDepends
     read_slkbuild_array "${packageDir}/SLKBUILD" makedepends slkbuildMakeDepends
+    if (( ${#slkbuildDepends[@]} > 0 || ${#slkbuildMakeDepends[@]} > 0 )); then
+      append_unique_values dependencyRef "${slkbuildDepends[@]}"
+      append_unique_values dependencyRef "${slkbuildMakeDepends[@]}"
+      return
+    fi
   fi
 
   read_dependencies "$depFilePath" depFileDependencies
@@ -675,17 +686,59 @@ build_package() {
   artifactPath=$(latest_file "$packageDir")
   [[ -n "$artifactPath" ]] || die "No package artifact produced for ${packageDirByRelative[${packageDir}]}"
 
-  depFilePath="${artifactPath%.*}.dep"
-  if [[ ! -f "$depFilePath" ]]; then
-    depFilePath=$(find_depfile "$packageDir" "$packageName")
-  fi
-
-  if [[ -n "$depFilePath" && ! -f "$depFilePath" ]]; then
-    die "No depfile found for built artifact ${artifactPath}"
-  fi
+  depFilePath=$(generate_depfile_for_artifact "$packageDir" "$packageName" "$artifactPath")
 
   builtArtifactByDir["$packageDir"]=$artifactPath
   builtDepfileByDir["$packageDir"]=$depFilePath
+}
+
+artifact_looks_like_python_package() {
+  local artifactPath=$1
+
+  tar -tf "$artifactPath" 2>/dev/null | grep -Eq \
+    '(^|/)usr/lib(64)?/python[0-9.]+/|(^|/)(site-packages|dist-packages)/|\.dist-info/|\.egg-info/'
+}
+
+remove_stale_depfiles() {
+  local packageDir=$1
+  local packageName=$2
+  local keepDepFile=$3
+  local depFilePath=""
+
+  while IFS= read -r depFilePath; do
+    [[ "$depFilePath" == "$keepDepFile" ]] && continue
+    rm -f -- "$depFilePath"
+  done < <(
+    find "$packageDir" -maxdepth 1 -type f \
+      \( -name "${packageName}.dep" -o -name "${packageName}-*.dep" \) \
+      -print | sort
+  )
+}
+
+generate_depfile_for_artifact() {
+  local packageDir=$1
+  local packageName=$2
+  local artifactPath=$3
+  local depFilePath=""
+  local tempDepFile=""
+
+  depFilePath=$(depfile_path_for_artifact "$artifactPath")
+  tempDepFile="${depFilePath}.tmp"
+
+  rm -f -- "$tempDepFile"
+  if artifact_looks_like_python_package "$artifactPath"; then
+    depfinder -p -f -3 "$artifactPath" > "$tempDepFile" \
+      || die "depfinder failed for $(basename "$artifactPath")"
+  else
+    depfinder -f "$artifactPath" > "$tempDepFile" \
+      || die "depfinder failed for $(basename "$artifactPath")"
+  fi
+
+  remove_stale_depfiles "$packageDir" "$packageName" "$depFilePath"
+  mv -f -- "$tempDepFile" "$depFilePath" || die "failed to write $(basename "$depFilePath")"
+
+  printf 'Generated %s\n' "$(basename "$depFilePath")" >&2
+  printf '%s\n' "$depFilePath"
 }
 
 install_package() {
@@ -811,7 +864,6 @@ declare -A duplicateLegacyPackageDirsByName=()
 declare -A duplicatePackageDirsByName=()
 declare -A dependencyVisitState=()
 declare -A packageVisitState=()
-declare -A packageDepfileByDir=()
 declare -A packageVersionByDir=()
 declare -A packageReleaseByDir=()
 declare -A builtArtifactByDir=()
@@ -895,6 +947,7 @@ trap cleanup EXIT INT TERM HUP
 if [[ "$dependenciesOnly" == false ]]; then
   require_cmd fakeroot
   require_cmd slkbuild
+  require_cmd depfinder
 
   if [[ "$noInstall" == false ]]; then
     require_cmd sudo

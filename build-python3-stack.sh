@@ -3,12 +3,15 @@ set -euo pipefail
 
 scriptDir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)
 
-# Keep this list in build order. Add more category/package entries as needed.
+# Keep this list in top-level rebuild order. build-package.sh resolves repo
+# dependencies for each target, so this list only needs the packages we want
+# rebuilt explicitly.
 packageList=(
   "d/python3"
   "d/python3-setuptools"
   "d/python3-pip"
   "d/meson"
+  "d/ninja"
   "l/python3-build"
   "l/python3-cython"
   "l/python3-installer"
@@ -74,13 +77,18 @@ packageList=(
   "l/python3-diff-match-patch"
   "l/python3-packaging"
   "l/python3-setuptools-scm"
+  "ap/blas"
+  "ap/cblas"
+  "ap/lapack"
   "l/python3-numpy"
   "l/python3-importlib-metadata"
   "l/python-gast"
   "l/python-beniget"
   "l/python3-ply"
   "l/pybind11"
+  "ap/xsimd"
   "l/python3-pythran"
+  "l/python-scipy"
   "l/python3-i3ipc"
   "l/python3-setproctitle"
   "l/python3-tomlkit"
@@ -116,5 +124,5 @@ packageList=(
 
 for packagePath in "${packageList[@]}"; do
   printf 'Building %s\n' "$packagePath"
-  "$scriptDir/build-package.sh" --skip-staged --only "$packagePath"
+  "$scriptDir/build-package.sh" --skip-staged "$packagePath"
 done
