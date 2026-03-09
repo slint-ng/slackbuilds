@@ -1,0 +1,48 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=zimg
+srcname=zimg-release
+export srcname
+pkgver=3.0.3
+pkgrel=2slint
+source=("https://github.com/sekrit-twc/zimg/archive/release-${pkgver}/zimg-release-${pkgver}.tar.gz")
+url="https://github.com/sekrit-twc/zimg"
+license=("WTFPL")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"zimg (Scaling, colorspace conversion, and dithering library)"
+""
+"The \"z\" library implements the commonly required image processing"
+"basics of scaling, colorspace conversion, and depth conversion."
+""
+"Homepage: https://github.com/sekrit-twc/zimg"
+)
+
+build() {
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+
+  autoreconf -fi || return 1
+
+  CFLAGS="$SLKCFLAGS" \
+  CXXFLAGS="$SLKCFLAGS" \
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --disable-static \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -d "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  install -Dm0644 "$startdir/SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$pkgname.SlackBuild" || return 1
+}

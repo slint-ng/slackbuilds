@@ -1,0 +1,69 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=zstd
+pkgver=1.5.5
+pkgrel=1slint
+source=(
+  "https://github.com/facebook/zstd/releases/download/v${pkgver}/${pkgname}-${pkgver}.tar.gz"
+  "zstd.dont.link.pzstd.to.static.libzstd.a.diff.gz"
+)
+url="https://github.com/facebook/zstd"
+license=("BSD")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"zstd (real-time compression algorithm)"
+""
+"Zstandard, or zstd for short, is a real-time compression algorithm"
+"providing high compression ratios across a wide speed range."
+""
+"Homepage: http://zstd.net/"
+)
+
+build() {
+  local jobs
+
+  jobs="${numjobs:-$(nproc)}"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  zcat "$start_dir/zstd.dont.link.pzstd.to.static.libzstd.a.diff.gz" | patch -p1 --verbose || return 1
+
+  make -j "$jobs" CFLAGS="$SLKCFLAGS" || return 1
+  make -j "$jobs" CFLAGS="$SLKCFLAGS" -C contrib/pzstd || return 1
+
+  make \
+    -j "$jobs" \
+    prefix=/usr \
+    libdir="/usr/lib${LIBDIRSUFFIX}" \
+    mandir=/usr/man \
+    DESTDIR="$PKG" \
+    install || return 1
+
+  install -Dm0755 contrib/pzstd/pzstd "$PKG/usr/bin/pzstd" || return 1
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.a || return 1
+
+  install -d "$PKG/lib${LIBDIRSUFFIX}" || return 1
+  mv "$PKG/usr/lib${LIBDIRSUFFIX}/libzstd.so."* "$PKG/lib${LIBDIRSUFFIX}/" || return 1
+  (
+    cd "$PKG/usr/lib${LIBDIRSUFFIX}" || return 1
+    rm -f libzstd.so
+    ln -sf "../../lib${LIBDIRSUFFIX}/libzstd.so."? libzstd.so
+  ) || return 1
+
+  (
+    cd "$PKG/usr/bin" || return 1
+    ln -sf zstd zstdmt
+  ) || return 1
+
+  install -d "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  # Some historical releases ship docs without NEWS, so copy conditionally.
+  for doc in CONTRIBUTING* COPYING* LICENSE NEWS README* TESTING*; do
+    [ -e "$doc" ] && cp -a "$doc" "$PKG/usr/doc/$pkgname-$pkgver/" || true
+  done
+}

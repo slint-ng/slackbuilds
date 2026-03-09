@@ -1,0 +1,42 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=virglrenderer
+pkgver=0.10.4
+pkgrel=1slint
+source=("https://gitlab.freedesktop.org/virgl/virglrenderer/-/archive/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+url="https://virgil3d.github.io"
+license=("MIT")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"virglrenderer (virtio GL library)"
+""
+"virglrenderer is GL renderer library based on virtio."
+""
+"Homepage: https://virgil3d.github.io"
+)
+
+build() {
+  cd "$SRC/${pkgname}-${pkgver}" || return 1
+
+  meson setup build \
+    --buildtype=release \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --infodir=/usr/info || return 1
+
+  meson compile -C build || return 1
+  DESTDIR="$PKG" meson install -C build || return 1
+
+  install -d "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a COPYING "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
+  install -Dm0644 "$startdir/SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$pkgname.SlackBuild" || return 1
+}

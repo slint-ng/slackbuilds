@@ -1,0 +1,60 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=v4l-utils-nogui
+srcname=v4l-utils
+export srcname
+pkgver=1.22.1
+pkgrel=1slint
+source=("https://linuxtv.org/downloads/v4l-utils/${srcname}-${pkgver}.tar.bz2")
+url="https://linuxtv.org/downloads/v4l-utils/"
+license=("GPL")
+options=("nosrcpack" "keepla" "noautodotnew")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"v4l-utils-nogui (libraries and utilities for video4linux)"
+""
+"libv4l is a collection of libraries adding a thin abstraction layer"
+"on top of video4linux2 devices, plus Linux V4L2 and DVB utilities."
+""
+"This package excludes the qv4l2 and qvidcap binaries."
+""
+"Homepage: http://linuxtv.org"
+)
+
+build() {
+  local jobs
+
+  jobs="${numjobs:-$(nproc)}"
+
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+
+  CFLAGS="$SLKCFLAGS" \
+  CXXFLAGS="$SLKCFLAGS" \
+  ./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --mandir=/usr/man \
+    --infodir=/usr/info \
+    --disable-static \
+    --disable-qv4l2 \
+    --disable-qvidcap \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make -j "$jobs" || make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -d "$PKG/usr/doc/${srcname}-${pkgver}" || return 1
+  cp -a COPYING* README* TODO "$PKG/usr/doc/${srcname}-${pkgver}/" || return 1
+
+  if [[ -r ChangeLog ]]; then
+    head -n 1000 ChangeLog > "$PKG/usr/doc/${srcname}-${pkgver}/ChangeLog" || return 1
+    touch -r ChangeLog "$PKG/usr/doc/${srcname}-${pkgver}/ChangeLog" || return 1
+  fi
+}

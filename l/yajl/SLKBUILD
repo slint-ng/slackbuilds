@@ -1,0 +1,44 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=yajl
+srcname=lloyd-yajl-66cb08c
+export srcname
+pkgver=2.1.0
+pkgrel=2slint
+source=("https://slackware.uk/sbosrcarch/by-md5/8/d/8df8a92a2799bc949577e8e7a9f43670/lloyd-yajl-${pkgver}-0-ga0ecdde.tar.gz")
+url="http://lloyd.github.com/yajl/"
+license=("ISC")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"yajl (Yet Another JSON Library)"
+""
+"YAJL is a small event-driven (SAX-style) JSON parser written in"
+"ANSI C, and a small validating JSON generator. YAJL is released"
+"under the ISC license."
+""
+"Homepage: http://lloyd.github.com/yajl/"
+)
+
+build() {
+  cd "$SRC/$srcname" || return 1
+
+  cmake -S . -B build \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DLIB_SUFFIX:STRING="$LIBDIRSUFFIX" \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON || return 1
+
+  cmake --build build || return 1
+  DESTDIR="$PKG" cmake --install build || return 1
+
+  install -d "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a BUILDING COPYING ChangeLog README TODO "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
+  install -Dm0644 "$startdir/SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$pkgname.SlackBuild" || return 1
+}
