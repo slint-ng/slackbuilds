@@ -15,7 +15,7 @@ slackdesc=\
 url="https://www.rust-lang.org"
 license=('Apache-2.0' 'MIT')
 depends=('glibc' 'gcc-libs' 'zlib')
-makedepends=('rust' 'cargo' 'python3' 'cmake' 'ninja' 'ccache' 'curl' 'git')
+makedepends=('rust' 'python3' 'cmake' 'ninja' 'ccache' 'curl' 'git')
 source=("https://static.rust-lang.org/dist/rustc-${pkgver}-src.tar.xz"
         "0004-compiler-Use-wasm-ld-for-wasm-targets.patch"
         "link_libffi.diff.gz")
