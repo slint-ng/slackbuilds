@@ -331,6 +331,7 @@ load_package_dependencies() {
     if (( ${#slkbuildDepends[@]} > 0 || ${#slkbuildMakeDepends[@]} > 0 )); then
       append_unique_values dependencyRef "${slkbuildDepends[@]}"
       append_unique_values dependencyRef "${slkbuildMakeDepends[@]}"
+      remove_value dependencyRef "$packageName"
       return
     fi
   fi
