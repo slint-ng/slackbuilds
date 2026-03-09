@@ -1,17 +1,19 @@
-# Maintainer: Sven-Hendrik Haase <svenstaro@archlinux.org>
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
 pkgname=python-gast
-pkgver=0.5.3
+pkgver=0.6.0
 pkgrel=1slint
 slackdesc="$pkgname (AST that abstracts the underlying Python version)"
 url="https://github.com/serge-sans-paille/gast"
 license=('BSD')
-depends=('python')
-makedepends=('python-setuptools')
-source=("https://pypi.io/packages/source/g/gast/gast-${pkgver}.tar.gz")
-sha512sums=('a836be76303591ca7c40596d98a29dbd53f281e277c8c23e3821b2003d4e8aaf4d806e7f532f27c0eadd4bdca5a28dc0a3902245505ab97497b9afbfee0c2e52')
+depends=('python3')
+makedepends=('python3-setuptools')
+source=("https://files.pythonhosted.org/packages/source/g/gast/gast-${pkgver}.tar.gz")
+sha256sums=('88fc5300d32c7ac6ca7b515310862f71e6fdf2c029bbec7c66c0f5dd47b6b1fb')
 docs=(LICENSE README.rst)
 build() {
-  cd gast-$pkgver
-  python3 setup.py build
-  python3 setup.py install --root=$PKG --optimize=1
+  cd "gast-${pkgver}" || return 1
+  python3 setup.py build || return 1
+  python3 setup.py install --root="$PKG" --optimize=1 --skip-build || return 1
 }

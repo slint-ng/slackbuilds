@@ -1,0 +1,95 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: sektor
+
+pkgname=blas
+pkgver=3.10.0
+pkgrel=1slint
+_srcname=lapack
+source=(
+  "https://github.com/Reference-LAPACK/lapack/archive/v${pkgver}/${_srcname}-${pkgver}.tar.gz"
+  "cmake-piecewise.diff"
+)
+url="https://www.netlib.org/blas/"
+docs=("LICENSE")
+
+slackdesc=(
+  #|-----handy-ruler------------------------------------------------------|
+  "blas (Basic Linear Algebra Subprograms)"
+  "The BLAS (Basic Linear Algebra Subprograms) are routines that provide"
+  "standard building blocks for performing basic vector and matrix"
+  "operations. The Level 1 BLAS perform scalar, vector, and vector-vector"
+  "operations, the Level 2 BLAS perform matrix-vector operations, and the"
+  "Level 3 BLAS perform matrix-matrix operations. Because the BLAS are"
+  "efficient, portable, and widely available, they are commonly used in"
+  "the development of high quality linear algebra software."
+  ""
+  "Note: This package contains the Netlib reference BLAS library."
+)
+
+build() {
+  local manDir
+
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  # Allow building only the BLAS component.
+  patch -p1 < "$SRC/../cmake-piecewise.diff" || return 1
+
+  # Build and install the shared BLAS library without embedding RPATH.
+  mkdir -p shared || return 1
+  cd shared || return 1
+  cmake \
+    -DCMAKE_Fortran_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=None \
+    -DCMAKE_RULE_MESSAGES=OFF \
+    -DCMAKE_VERBOSE_MAKEFILE=TRUE \
+    -DBUILD_BLAS=ON \
+    -DBUILD_SHARED_LIBS=ON \
+    -DCMAKE_SKIP_RPATH=YES \
+    .. || return 1
+  make -j"$numjobs" || make || return 1
+  make install/strip DESTDIR="$PKG" || return 1
+  cd .. || return 1
+
+  # Optional second pass for static archive builds.
+  if [ "${STATIC:-no}" != "no" ]; then
+    mkdir -p static || return 1
+    cd static || return 1
+    cmake \
+      -DCMAKE_Fortran_FLAGS:STRING="$SLKCFLAGS" \
+      -DCMAKE_INSTALL_PREFIX=/usr \
+      -DCMAKE_BUILD_TYPE=None \
+      -DCMAKE_RULE_MESSAGES=OFF \
+      -DCMAKE_VERBOSE_MAKEFILE=TRUE \
+      -DBUILD_BLAS=ON \
+      .. || return 1
+    make -j"$numjobs" || make || return 1
+    make install/strip DESTDIR="$PKG" || return 1
+    cd .. || return 1
+  fi
+
+  # Generate one man page per BLAS routine.
+  sed -i \
+    -e ':a;/\\$/N;s/\\\n//;ta' \
+    -e 's/^\(PROJECT_NAME *=\).*/\1 BLAS/' \
+    -e 's/^\(INPUT *=\).*/\1 BLAS\/SRC/' \
+    -e 's/^\(RECURSIVE *=\).*/\1 NO/' \
+    -e 's/^\(EXCLUDE *=\).*/\1/' \
+    -e 's/^\(REPEAT_BRIEF *=\).*/\1 NO/' \
+    -e 's/^\(MAN_LINKS *=\).*/\1 NO/' \
+    -e 's/^\(FILE_PATTERNS *=.*\)/\1 *.f90/' \
+    DOCS/Doxyfile_man || return 1
+  doxygen DOCS/Doxyfile_man || return 1
+
+  manDir="$PKG/usr/man/man3"
+  install -d "$manDir" || return 1
+  for i in DOCS/man/man3/*.f.3; do
+    [ -e "$i" ] || continue
+    install -m 644 "$i" "$manDir/$(basename "$i" .f.3).3" || return 1
+  done
+  for i in DOCS/man/man3/*.f90.3; do
+    [ -e "$i" ] || continue
+    install -m 644 "$i" "$manDir/$(basename "$i" .f90.3).3" || return 1
+  done
+}

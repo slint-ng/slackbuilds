@@ -1,0 +1,145 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Packager: sektor
+
+pkgname=lapack
+pkgver=3.10.0
+pkgrel=1slint
+_srcname=lapack
+source=(
+  "https://github.com/Reference-LAPACK/lapack/archive/v${pkgver}/${_srcname}-${pkgver}.tar.gz"
+  "cmake-piecewise.diff"
+)
+url="https://www.netlib.org/lapack/"
+docs=("LICENSE")
+
+slackdesc=(
+  #|-----handy-ruler------------------------------------------------------|
+  "lapack (linear algebra routines)"
+  "LAPACK provides routines for solving systems of simultaneous linear"
+  "equations, least-squares solutions of linear systems of equations,"
+  "eigenvalue problems, and singular value problems. The associated"
+  "matrix factorizations (LU, Cholesky, QR, SVD, Schur, generalized"
+  "Schur) are also provided, as are related computations such as"
+  "reordering of the Schur factorizations and estimating condition"
+  "numbers. Dense and banded matrices are handled, but not general"
+  "sparse matrices. In all areas, similar functionality is provided"
+  "for real and complex matrices, in both single and double precision."
+)
+
+build() {
+  local use_xblas=""
+  local man_dir
+  local time_func
+  local job_count="${numjobs:-1}"
+
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  # Allow building only the LAPACK component.
+  patch -p1 < "$SRC/../cmake-piecewise.diff" || return 1
+
+  if pkg-config --exists xblas; then
+    use_xblas='-DUSE_XBLAS=ON'
+  fi
+
+  # Build and install the shared LAPACK library without embedding RPATH.
+  mkdir -p shared || return 1
+  cd shared || return 1
+  cmake \
+    -DCMAKE_Fortran_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=None \
+    -DCMAKE_RULE_MESSAGES=OFF \
+    -DCMAKE_VERBOSE_MAKEFILE=TRUE \
+    -DUSE_OPTIMIZED_BLAS=ON \
+    -DBUILD_LAPACK=ON \
+    -DBUILD_DEPRECATED=ON \
+    $use_xblas \
+    -DBUILD_SHARED_LIBS=ON \
+    -DCMAKE_SKIP_RPATH=YES \
+    .. || return 1
+  make -j"$job_count" || make || return 1
+  make install/strip DESTDIR="$PKG" || return 1
+  cd .. || return 1
+
+  # Optional second pass for static archive builds.
+  if [ "${STATIC:-no}" != "no" ]; then
+    mkdir -p static || return 1
+    cd static || return 1
+    cmake \
+      -DCMAKE_Fortran_FLAGS:STRING="$SLKCFLAGS" \
+      -DCMAKE_INSTALL_PREFIX=/usr \
+      -DCMAKE_BUILD_TYPE=None \
+      -DCMAKE_RULE_MESSAGES=OFF \
+      -DCMAKE_VERBOSE_MAKEFILE=TRUE \
+      -DUSE_OPTIMIZED_BLAS=ON \
+      -DBUILD_LAPACK=ON \
+      -DBUILD_DEPRECATED=ON \
+      $use_xblas \
+      .. || return 1
+    make -j"$job_count" || make || return 1
+    make install/strip DESTDIR="$PKG" || return 1
+    cd .. || return 1
+  fi
+
+  # Generate one man page per LAPACK routine.
+  sed -i \
+    -e ':a;/\\$/N;s/\\\n//;ta' \
+    -e 's/^\(INPUT *=\).*/\1 SRC SRC\/DEPRECATED/' \
+    -e 's/^\(RECURSIVE *=\).*/\1 NO/' \
+    -e 's/^\(EXCLUDE *=\).*/\1/' \
+    -e 's/^\(REPEAT_BRIEF *=\).*/\1 NO/' \
+    -e 's/^\(MAN_LINKS *=\).*/\1 NO/' \
+    -e 's/^\(FILE_PATTERNS *=.*\)/\1 *.F *.f90/' \
+    DOCS/Doxyfile_man || return 1
+  doxygen DOCS/Doxyfile_man || return 1
+
+  man_dir="$PKG/usr/man/man3"
+  install -d "$man_dir" || return 1
+  for i in DOCS/man/man3/*.f.3; do
+    [ -e "$i" ] || continue
+    install -m 644 "$i" "$man_dir/$(basename "$i" .f.3).3" || return 1
+  done
+  for i in DOCS/man/man3/*.F.3; do
+    [ -e "$i" ] || continue
+    install -m 644 "$i" "$man_dir/$(basename "$i" .F.3).3" || return 1
+  done
+  for i in DOCS/man/man3/*.f90.3; do
+    [ -e "$i" ] || continue
+    install -m 644 "$i" "$man_dir/$(basename "$i" .f90.3).3" || return 1
+  done
+
+  # Fix up the small set of non-1:1 routine aliases.
+  ln -sf sladiv.3 "$man_dir/sladiv1.3" || return 1
+  ln -sf sladiv.3 "$man_dir/sladiv2.3" || return 1
+  ln -sf dladiv.3 "$man_dir/dladiv1.3" || return 1
+  ln -sf dladiv.3 "$man_dir/dladiv2.3" || return 1
+  rm -f "$man_dir/la_constants.3"
+  rm -f "$man_dir/xerbla.3"
+  rm -f "$man_dir/xerbla_array.3"
+
+  # Generate the few INSTALL manpages that LAPACK also ships.
+  rm -rf DOCS/man || return 1
+  sed -i 's/^\(INPUT *=\).*/\1 INSTALL/' DOCS/Doxyfile_man || return 1
+  doxygen DOCS/Doxyfile_man || return 1
+  install -m 644 DOCS/man/man3/ilaver.f.3 "$man_dir/ilaver.3" || return 1
+  install -m 644 DOCS/man/man3/slamch.f.3 "$man_dir/slamch.3" || return 1
+  install -m 644 DOCS/man/man3/dlamch.f.3 "$man_dir/dlamch.3" || return 1
+  ln -sf slamch.3 "$man_dir/slamc3.3" || return 1
+  ln -sf dlamch.3 "$man_dir/dlamc3.3" || return 1
+
+  for i in DOCS/man/man3/second_*.f.3 DOCS/man/man3/dsecnd_*.f.3; do
+    [ -e "$i" ] || continue
+    install -m 644 "$i" "$man_dir/$(basename "$i" .f.3).3" || return 1
+  done
+
+  time_func=$(grep '^TIME_FUNC' shared/CMakeCache.txt | cut -f2 -d=)
+  if [ -n "$time_func" ]; then
+    ln -sf "second_${time_func}.3" "$man_dir/second.3" || return 1
+    ln -sf "dsecnd_${time_func}.3" "$man_dir/dsecnd.3" || return 1
+  fi
+
+  install -d "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a README.md DOCS/lapack.png DOCS/lawn81.tex DOCS/org2.ps \
+    "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
+}

@@ -1,0 +1,66 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=tree-sitter
+srcname=tree-sitter
+export srcname
+pkgver=0.25.3
+pkgrel=1slint
+source=("https://github.com/tree-sitter/tree-sitter/archive/refs/tags/v${pkgver}.tar.gz")
+url="https://tree-sitter.github.io/"
+license=("MIT")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"tree-sitter (parser generator and library)"
+""
+"Tree-sitter is a parser generator tool and an incremental parsing"
+"library. It can build a concrete syntax tree for a source file and"
+"efficiently update the syntax tree as the source file is edited."
+""
+"Homepage: https://tree-sitter.github.io"
+)
+
+build() {
+  local jobs
+  local cargo_target
+
+  jobs="${numjobs:-$(nproc)}"
+
+  case "$ARCH" in
+    i?86) cargo_target="i686-unknown-linux-gnu" ;;
+    x86_64) cargo_target="x86_64-unknown-linux-gnu" ;;
+    arm*) cargo_target="arm-unknown-linux-gnueabihf" ;;
+    *) cargo_target="${ARCH}-unknown-linux-gnu" ;;
+  esac
+
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+
+  (
+    cd lib || return 1
+    cargo fetch --locked --target "$cargo_target" || return 1
+  ) || return 1
+
+  make -j "$jobs" PREFIX=/usr LIBDIR="/usr/lib${LIBDIRSUFFIX}" || return 1
+  make DESTDIR="$PKG" PREFIX=/usr LIBDIR="/usr/lib${LIBDIRSUFFIX}" install || return 1
+
+  (
+    cd cli || return 1
+    cargo fetch --locked --target "$cargo_target" || return 1
+    cargo build --release --locked --offline --all-features || return 1
+  ) || return 1
+
+  install -Dm0755 target/release/tree-sitter "$PKG/usr/bin/tree-sitter" || return 1
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}/libtree-sitter.a" || return 1
+
+  install -d "$PKG/usr/doc/${pkgname}-${pkgver}" || return 1
+  cp -a LICENSE* README* "$PKG/usr/doc/${pkgname}-${pkgver}/" || return 1
+  cp -a cli/README.md "$PKG/usr/doc/${pkgname}-${pkgver}/README-cli.md" || return 1
+  cp -a lib/README.md "$PKG/usr/doc/${pkgname}-${pkgver}/README-lib.md" || return 1
+  if [[ -f docs/section-6-contributing.md ]]; then
+    cp -a docs/section-6-contributing.md "$PKG/usr/doc/${pkgname}-${pkgver}/CONTRIBUTING.md" || return 1
+  fi
+}

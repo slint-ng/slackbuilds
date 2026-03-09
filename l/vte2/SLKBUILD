@@ -1,0 +1,61 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=vte2
+srcname=vte
+export srcname
+pkgver=0.28.2
+pkgrel=1slint
+source=(
+  "https://download.gnome.org/sources/vte/0.28/${srcname}-${pkgver}.tar.xz"
+  "fix_meta_alt_keybinding.patch"
+  "vte.escape.cpu.usage.diff"
+)
+url="https://github.com/GNOME/vte"
+license=("LGPL")
+options=("nosrcpack" "keepla")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"vte2 (gtk+2 terminal emulator widget)"
+""
+"VTE2 is a terminal emulator widget for use with GTK+2."
+"This package contains the VTE library and development files and"
+"a sample implementation (vte)."
+""
+"Homepage: https://github.com/GNOME/vte"
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || return 1
+
+  patch -p1 < "$start_dir/fix_meta_alt_keybinding.patch" || return 1
+  patch -p1 < "$start_dir/vte.escape.cpu.usage.diff" || return 1
+
+  CFLAGS="$SLKCFLAGS" \
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --mandir=/usr/man \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --disable-static \
+    --disable-introspection \
+    --enable-python \
+    --enable-gnome-pty-helper \
+    --with-gtk=2.0 \
+    --with-default-emulation=xterm \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -d "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a AUTHORS COPYING HACKING MAINTAINERS NEWS README* "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
+  install -Dm0644 "$startdir/SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$pkgname.SlackBuild" || return 1
+}

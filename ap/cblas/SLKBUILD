@@ -1,0 +1,78 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+pkgname=cblas
+export srcname=lapack
+pkgver=3.10.0
+pkgrel=1slint
+source=(
+  "https://github.com/Reference-LAPACK/lapack/archive/v${pkgver}/${srcname}-${pkgver}.tar.gz"
+  "cmake-piecewise.diff"
+)
+url="https://www.netlib.org/blas/"
+docs=("LICENSE")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"cblas: cblas (C interface to BLAS)"
+"cblas:"
+"cblas: CBLAS is a collection of wrappers that provide a C interface"
+"cblas: to the FORTRAN BLAS library."
+"cblas:"
+"cblas: The interface can be consulted by opening /usr/include/cblas.h"
+"cblas:"
+"cblas:"
+"cblas:"
+"cblas:"
+)
+
+build() {
+  local docDir
+
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+
+  # Allow building only the CBLAS component.
+  patch -p1 < "$SRC/../cmake-piecewise.diff" || return 1
+
+  # Build and install the shared CBLAS library without embedding RPATH.
+  mkdir -p shared || return 1
+  cd shared || return 1
+  cmake \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_Fortran_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=None \
+    -DCMAKE_RULE_MESSAGES=OFF \
+    -DCMAKE_VERBOSE_MAKEFILE=TRUE \
+    -DUSE_OPTIMIZED_BLAS=ON \
+    -DBUILD_CBLAS=ON \
+    -DBUILD_SHARED_LIBS=ON \
+    -DCMAKE_SKIP_RPATH=YES \
+    .. || return 1
+  make || return 1
+  make install/strip DESTDIR="$PKG" || return 1
+  cd .. || return 1
+
+  # Optional second pass for static archive builds.
+  if [ "${STATIC:-no}" != "no" ]; then
+    mkdir -p static || return 1
+    cd static || return 1
+    cmake \
+      -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+      -DCMAKE_Fortran_FLAGS:STRING="$SLKCFLAGS" \
+      -DCMAKE_INSTALL_PREFIX=/usr \
+      -DCMAKE_BUILD_TYPE=None \
+      -DCMAKE_RULE_MESSAGES=OFF \
+      -DCMAKE_VERBOSE_MAKEFILE=TRUE \
+      -DUSE_OPTIMIZED_BLAS=ON \
+      -DBUILD_CBLAS=ON \
+      .. || return 1
+    make || return 1
+    make install/strip DESTDIR="$PKG" || return 1
+    cd .. || return 1
+  fi
+
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docDir" || return 1
+  cp -a CBLAS/README "$docDir/" || return 1
+}

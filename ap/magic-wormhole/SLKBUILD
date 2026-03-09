@@ -25,13 +25,8 @@ conflicts=("wormhole" "wormhole-server" "python-wormhole")
 provides=("wormhole" "wormhole-server" "python-wormhole")
 replaces=("wormhole" "wormhole-server" "python-wormhole")
 sha512sums=('890c0f1f946dfd9a9bde2ec0079c55dc23b328e04780e6baf8c580dfd068bf37a5b2e00e12119be6529a6e0893d4f711145e04c349ccfdf7ef91e87cef785d36')
-docs=("LICENSE")
+docs=("LICENSE" "README.md" "NEWS.md")
 build() {
   cd "magic-wormhole-$pkgver" || return 1
-  python3 setup.py install --root="$PKG" --optimize=1
-  mkdir -p "$PKG/usr/doc/${pkgname}-${pkgver}" || return 1
-  pandoc -s -f gfm -t html5 \
-  -o "$PKG/usr/doc/${pkgname}-${pkgver}/README.html" README.md || return 1
-  pandoc -s -f gfm -t html5 \
-  -o "$PKG/usr/doc/${pkgname}-${pkgver}/NEWS.html" NEWS.md || return 1
+  python3 setup.py install --root="$PKG" --optimize=1 || return 1
 }

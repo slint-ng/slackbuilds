@@ -4,4 +4,4 @@ Its goals and syntax are similar to the excellent Boost.Python library by
 David Abrahams: to minimize boilerplate code in traditional extension modules
 by inferring type information using compile-time introspection.
 
-This SlackBuild supports both python2 and python3.
+This package targets Python 3.

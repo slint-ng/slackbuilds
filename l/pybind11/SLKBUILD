@@ -1,15 +1,17 @@
+#!/bin/bash
 # shellcheck shell=bash disable=SC2034,SC2154
-# Packager: Didier Spaier didieratslintdotfr
 
 pkgname=pybind11
-pkgver=2.9.1
-pkgrel=2slint
-source=("https://github.com/pybind/pybind11/archive/v${pkgver}/${pkgname}-${pkgver}.tar.gz")
+export srcname=pybind11
+pkgver=3.0.2
+pkgrel=1slint
+source=("https://files.pythonhosted.org/packages/source/p/${srcname}/${srcname}-${pkgver}.tar.gz")
+sha256sums=('432f01aeb68e361a3a7fc7575c2c7f497595bf640f747acd909ff238dd766e06')
 url="https://github.com/pybind/pybind11"
-makedepends=('cmake' 'python3-setuptools')
+makedepends=("cmake" "python3")
+docs=("LICENSE" "README.rst")
 
-slackdesc=\
-(
+slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "pybind11 (Python bindings for C++11)"
 ""
@@ -24,33 +26,44 @@ slackdesc=\
 )
 
 build() {
-  cd "$SRC/$pkgname-$pkgver" || exit 1
+  local pySite
 
-  python3 setup.py build
+  cd "$SRC/${srcname}-${pkgver}" || return 1
 
-  mkdir -p build
-  (
-    cd build || exit 1
-    cmake .. \
-      -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
-      -DCMAKE_BUILD_TYPE=Release \
-      -DCMAKE_INSTALL_PREFIX=/usr \
-      -DPYTHON_EXECUTABLE=/usr/bin/python3 \
-      -DPYBIND11_TEST=OFF
-    make
-  ) || exit 1
+  pySite="$(python3 - <<'PY'
+import sysconfig
+print(sysconfig.get_paths()["purelib"])
+PY
+)" || return 1
 
-  python3 setup.py install \
-    --prefix=/usr \
-    --root="$PKG" \
-    --install-headers=/usr/include/pybind11 \
-    --skip-build
+  cmake -S . -B build \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DPYBIND11_TEST=OFF || return 1
+  cmake --build build || return 1
+  DESTDIR="$PKG" cmake --install build || return 1
 
-  (
-    cd build || exit 1
-    make install DESTDIR="$PKG"
-  ) || exit 1
+  install -d "$PKG/${pySite}/pybind11" || return 1
+  cp -a pybind11/*.py pybind11/py.typed "$PKG/${pySite}/pybind11/" || return 1
+  cp -a include "$PKG/${pySite}/" || return 1
 
-  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || exit 1
-  cp -a LICENSE README* docs/* "$PKG/usr/doc/$pkgname-$pkgver/" || exit 1
+  if [ -d "$PKG/usr/share/cmake/pybind11" ]; then
+    install -d "$PKG/${pySite}/pybind11/share/cmake" || return 1
+    cp -a "$PKG/usr/share/cmake/pybind11" "$PKG/${pySite}/pybind11/share/cmake/" || return 1
+  fi
+
+  if [ -f "$PKG/usr/share/pkgconfig/pybind11.pc" ]; then
+    install -d "$PKG/${pySite}/pybind11/share/pkgconfig" || return 1
+    cp -a "$PKG/usr/share/pkgconfig/pybind11.pc" "$PKG/${pySite}/pybind11/share/pkgconfig/" || return 1
+  fi
+
+  if [ -f "$PKG/${pySite}/pybind11/_version.py" ]; then
+    install -d "$PKG/usr/bin" || return 1
+    cat > "$PKG/usr/bin/pybind11-config" <<'EOF' || return 1
+#!/bin/bash
+exec /usr/bin/python3 -m pybind11 "$@"
+EOF
+    chmod 0755 "$PKG/usr/bin/pybind11-config" || return 1
+  fi
 }

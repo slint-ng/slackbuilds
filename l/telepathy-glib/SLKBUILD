@@ -1,0 +1,56 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=telepathy-glib
+pkgver=0.24.2
+pkgrel=1slint
+source=("https://telepathy.freedesktop.org/releases/telepathy-glib/${pkgname}-${pkgver}.tar.gz")
+url="https://telepathy.freedesktop.org/wiki/"
+license=("LGPL")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"telepathy-glib (C library using GLib for use in Telepathy clients)"
+""
+"telepathy-glib is a C library using GLib, for use in Telepathy"
+"clients, connection managers (protocol backends) and other"
+"components. It can also be used from C++ via extern \"C\""
+"linkage, and from higher-level languages including Python and"
+"JavaScript via GObject-Introspection."
+""
+"Home: https://telepathy.freedesktop.org/wiki/"
+)
+
+doinst() {
+if [ -e usr/share/glib-2.0/schemas ]; then
+  if [ -x /usr/bin/glib-compile-schemas ]; then
+    /usr/bin/glib-compile-schemas usr/share/glib-2.0/schemas >/dev/null 2>&1
+  fi
+fi
+}
+
+build() {
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --disable-static \
+    --enable-introspection=yes \
+    --enable-vala-bindings=yes \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -d "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a AUTHORS ChangeLog* COPYING NEWS README* "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
+  install -Dm0644 "$startdir/SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$pkgname.SlackBuild" || return 1
+}

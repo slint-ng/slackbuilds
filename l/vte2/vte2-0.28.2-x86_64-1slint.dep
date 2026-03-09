@@ -1,0 +1,1 @@
+aaa_libraries|bzip2,aaa_libraries|libffi,aaa_libraries|libjpeg-turbo,aaa_libraries|ncurses,at-spi2-core,brotli,cairo,expat,fontconfig,freetype,fribidi,gdk-pixbuf2,glib2,graphite2,gtk+2,harfbuzz,libX11,libXau,libXcomposite,libXcursor,libXdamage,libXdmcp,libXext,libXfixes,libXi,libXinerama,libXrandr,libXrender,libglvnd,libpng,libxcb,pango,pcre2,pixman,util-linux,zlib

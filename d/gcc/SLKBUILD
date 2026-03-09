@@ -1,0 +1,655 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2010,SC2016,SC2034,SC2086
+# Packager: sektor
+
+pkgname=gcc
+pkgver=11.5.0
+pkgrel=1slint
+_srcname="${pkgname}-${pkgver}"
+url="https://gcc.gnu.org/"
+source=(
+  "https://ftp.gnu.org/gnu/gcc/${_srcname}/${_srcname}.tar.xz"
+  "c89.sh"
+  "c99.sh"
+  "7185690.diff.gz"
+  "PR100102-2.a1b3484a8e6c53c8084723e3f1738d402374198e.patch.gz"
+  "gcc-no_fixincludes.diff.gz"
+  "gfortran.deferred-shape-vs-assumed-shape.patch.gz"
+)
+options=("noextract" "nosrcpack" "nostrip")
+
+slackdesc=(
+  #|-----handy-ruler------------------------------------------------------|
+  "gcc (Base GCC package with C support)"
+  ""
+  "GCC is the GNU Compiler Collection."
+  ""
+  "This package contains those parts of the compiler collection needed to"
+  "compile C code. Other packages add Ada, C++, D, Fortran, Go,"
+  "Objective-C, and BRIG support to the compiler core."
+  ""
+  ""
+  ""
+)
+
+build() {
+  local desc_name="slack""-desc"
+  local outdir source_tree build_tree build_target lib_arch gcc_archopts
+  local package_arch job_count
+  local pkg_cpp pkg_fortran pkg_ada pkg_objc pkg_go pkg_brig pkg_d
+  local pkgbase split_pkg
+
+  trim_doc_file() {
+    local src_file=$1 dest_file=$2 max_lines=$3
+
+    if [ -r "$src_file" ]; then
+      head -n "$max_lines" "$src_file" > "$dest_file"
+      touch -r "$src_file" "$dest_file"
+    fi
+  }
+
+  write_split_desc() {
+    local pkg_root=$1 split_name=$2
+    shift 2
+    local lines=("$@")
+
+    cat > "$pkg_root/install/$desc_name" <<EODESC
+$split_name: ${lines[0]}
+$split_name: ${lines[1]}
+$split_name: ${lines[2]}
+$split_name: ${lines[3]}
+$split_name: ${lines[4]}
+$split_name: ${lines[5]}
+$split_name: ${lines[6]}
+$split_name: ${lines[7]}
+$split_name: ${lines[8]}
+$split_name: ${lines[9]}
+$split_name:
+EODESC
+  }
+
+  make_split_package() {
+    local pkg_root=$1 pkgbase=$2
+    local pkgfile="${pkgbase}-${pkgver}-${package_arch}-${pkgrel}.txz"
+
+    (
+      cd "$pkg_root" || exit 1
+      makepkg -l y -c n "$outdir/$pkgfile"
+    ) || return 1
+
+    (
+      cd "$outdir" || exit 1
+      md5sum "$pkgfile" > "$pkgfile.md5"
+    ) || return 1
+  }
+
+  package_arch="${arch:-$ARCH}"
+  job_count="${numjobs:-1}"
+  outdir="$(cd "$SRC/.." && pwd)"
+  source_tree="$SRC/${_srcname}"
+  build_tree="$source_tree/gcc.build.lnx"
+  pkg_cpp="$SRC/package-gcc-g++"
+  pkg_fortran="$SRC/package-gcc-gfortran"
+  pkg_ada="$SRC/package-gcc-gnat"
+  pkg_objc="$SRC/package-gcc-objc"
+  pkg_go="$SRC/package-gcc-go"
+  pkg_brig="$SRC/package-gcc-brig"
+  pkg_d="$SRC/package-gcc-gdc"
+
+  case "$ARCH" in
+    i?86)
+      lib_arch=i386
+      ;;
+    s390)
+      lib_arch=s390
+      ;;
+    x86_64)
+      lib_arch=amd64
+      ;;
+    armv7hl)
+      lib_arch=armv7hl
+      ;;
+    *)
+      lib_arch=$ARCH
+      ;;
+  esac
+
+  case "$ARCH" in
+    arm*)
+      build_target="$ARCH-slackware-linux-gnueabi"
+      ;;
+    *)
+      build_target="$ARCH-slackware-linux"
+      ;;
+  esac
+
+  if [ "$ARCH" != "x86_64" ]; then
+    gcc_archopts="--with-arch=$ARCH"
+  else
+    gcc_archopts="--disable-multilib"
+  fi
+
+  rm -rf \
+    "$source_tree" \
+    "$build_tree" \
+    "$pkg_cpp" \
+    "$pkg_fortran" \
+    "$pkg_ada" \
+    "$pkg_objc" \
+    "$pkg_go" \
+    "$pkg_brig" \
+    "$pkg_d"
+
+  for pkgbase in gcc-g++ gcc-gfortran gcc-gnat gcc-objc gcc-go gcc-brig gcc-gdc; do
+    rm -f "$outdir/${pkgbase}-${pkgver}-${package_arch}-${pkgrel}.txz"
+    rm -f "$outdir/${pkgbase}-${pkgver}-${package_arch}-${pkgrel}.md5"
+  done
+
+  tar xf "$SRC/${_srcname}.tar.xz" -C "$SRC" || return 1
+  cd "$source_tree" || return 1
+
+  for split_pkg in \
+    "$PKG" \
+    "$pkg_cpp" \
+    "$pkg_fortran" \
+    "$pkg_ada" \
+    "$pkg_objc" \
+    "$pkg_go" \
+    "$pkg_brig" \
+    "$pkg_d"; do
+    mkdir -p "$split_pkg/usr/doc/$pkgname-$pkgver"
+    mkdir -p "$split_pkg/install"
+  done
+
+  write_split_desc "$pkg_cpp" gcc-g++ \
+    "gcc-g++ (C++ for GCC)" \
+    "" \
+    "C++ support for the GNU Compiler Collection." \
+    "" \
+    "This package contains those parts of the compiler collection needed to" \
+    "compile C++ code." \
+    "" \
+    "" \
+    "" \
+    ""
+
+  write_split_desc "$pkg_fortran" gcc-gfortran \
+    "gcc-gfortran (Fortran support for GCC)" \
+    "" \
+    "The GNU Fortran compiler is fully compliant with the Fortran 95" \
+    "Standard and includes legacy F77 support. In addition, a significant" \
+    "number of Fortran 2003 and Fortran 2008 features are implemented." \
+    "GNU Fortran also contains many standard and extensions and can be" \
+    "used to run real-world programs." \
+    "" \
+    "This package contains those parts of the compiler collection" \
+    "needed to compile Fortran code."
+
+  write_split_desc "$pkg_ada" gcc-gnat \
+    "gcc-gnat (Ada support for GCC)" \
+    "" \
+    "Ada support for the GNU Compiler Collection." \
+    "" \
+    "This package contains those parts of the compiler collection needed to" \
+    "compile Ada code. GNAT implements Ada 95, Ada 2005 and Ada 2012, and" \
+    "it may also be invoked in Ada 83 compatibility mode. By default, GNAT" \
+    "assumes Ada 2012." \
+    "" \
+    ""
+
+  write_split_desc "$pkg_objc" gcc-objc \
+    "gcc-objc (Objective-C/C++ support for GCC)" \
+    "" \
+    "Objective-C/C++ support for the GNU Compiler Collection." \
+    "" \
+    "This package contains those parts of the compiler collection needed to" \
+    "compile code written in Objective-C and Objective-C++. Objective-C was" \
+    "originally developed to add object-oriented extensions to the C" \
+    "language, and is best known as the native language of the NeXT" \
+    "computer." \
+    ""
+
+  write_split_desc "$pkg_go" gcc-go \
+    "gcc-go (Go support for GCC)" \
+    "" \
+    "Go is a compiled, garbage-collected, concurrent programming language" \
+    "developed by Google Inc. The initial design of Go was started in" \
+    "September 2007 by Robert Griesemer, Rob Pike, and Ken Thompson." \
+    "Rob Pike has stated that Go is being used \"for real stuff\" at Google." \
+    "Go's \"gc\" compiler targets the Linux, Mac OS X, FreeBSD, OpenBSD and" \
+    "Microsoft Windows operating systems, and the i386, amd64, and ARM" \
+    "processor architectures." \
+    "Homepage: http://golang.org"
+
+  write_split_desc "$pkg_brig" gcc-brig \
+    "gcc-brig (BRIG support for GCC)" \
+    "" \
+    "BRIG support for the GNU Compiler Collection." \
+    "" \
+    "BRIG is the binary form of the Heterogeneous System Architecture" \
+    "Intermediate Language (HSA IL), which is a virtual instruction set for" \
+    "parallel programs. While similar in some ways to OpenCL or CUDA, HSA" \
+    "is designed to ease the burden on the programmer by automatically" \
+    "handling the offloading of tasks and moving of data." \
+    ""
+
+  write_split_desc "$pkg_d" gcc-gdc \
+    "gcc-gdc (D support for GCC)" \
+    "" \
+    "D support for the GNU Compiler Collection." \
+    "" \
+    "D is a general-purpose programming language with static typing," \
+    "systems-level access, and C-like syntax." \
+    "" \
+    "" \
+    "" \
+    ""
+
+  zcat "$SRC/gcc-no_fixincludes.diff.gz" \
+    | patch -p1 --verbose --backup --suffix=.orig || return 1
+
+  zcat "$SRC/gfortran.deferred-shape-vs-assumed-shape.patch.gz" \
+    | patch -p0 --verbose --backup --suffix=.orig || return 1
+
+  zcat "$SRC/PR100102-2.a1b3484a8e6c53c8084723e3f1738d402374198e.patch.gz" \
+    | patch -p1 --verbose --backup --suffix=.orig || return 1
+
+  # Kept for reference, but not applied:
+  # zcat "$SRC/7185690.diff.gz" | patch -p1 --verbose --backup --suffix=.orig
+
+  chown -R root:root .
+  find . \
+    \( -perm 777 -o -perm 775 -o -perm 754 \) \
+    -exec chmod 755 {} + -o \
+    \( -perm 664 \) \
+    -exec chmod 644 {} +
+
+  cp -a \
+    COPYING* ChangeLog* FAQ INSTALL \
+    LAST_UPDATED MAINTAINERS NEWS \
+    ./README* ./*.html \
+    "$PKG/usr/doc/$pkgname-$pkgver"
+
+  trim_doc_file "ChangeLog" "$PKG/usr/doc/$pkgname-$pkgver/ChangeLog" 1000
+  trim_doc_file "NEWS" "$PKG/usr/doc/$pkgname-$pkgver/NEWS" 1500
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver/gcc"
+  (
+    cd gcc || exit 0
+    cp -a \
+      ABOUT* COPYING* DATESTAMP DEV-PHASE LANG* ONEWS README* SERVICE \
+      "$PKG/usr/doc/$pkgname-$pkgver/gcc"
+  )
+
+  mkdir -p "$pkg_fortran/usr/doc/$pkgname-$pkgver/gcc/fortran"
+  (
+    cd gcc/fortran || exit 0
+    trim_doc_file "ChangeLog" \
+      "$pkg_fortran/usr/doc/$pkgname-$pkgver/gcc/fortran/ChangeLog" \
+      1000
+  )
+
+  mkdir -p "$pkg_ada/usr/doc/$pkgname-$pkgver/gcc/ada"
+  (
+    cd gcc/ada || exit 0
+    cp -a ChangeLog.tree-ssa "$pkg_ada/usr/doc/$pkgname-$pkgver/gcc/ada"
+    trim_doc_file "ChangeLog" \
+      "$pkg_ada/usr/doc/$pkgname-$pkgver/gcc/ada/ChangeLog" \
+      1000
+  )
+
+  mkdir -p "$pkg_objc/usr/doc/$pkgname-$pkgver/gcc/objc"
+  (
+    cd gcc/objc || exit 0
+    cp -a README* "$pkg_objc/usr/doc/$pkgname-$pkgver/gcc/objc"
+    trim_doc_file "ChangeLog" \
+      "$pkg_objc/usr/doc/$pkgname-$pkgver/gcc/objc/ChangeLog" \
+      1000
+  )
+
+  mkdir -p "$pkg_objc/usr/doc/$pkgname-$pkgver/gcc/objcp"
+  (
+    cd gcc/objcp || exit 0
+    cp -a README* "$pkg_objc/usr/doc/$pkgname-$pkgver/gcc/objcp"
+    trim_doc_file "ChangeLog" \
+      "$pkg_objc/usr/doc/$pkgname-$pkgver/gcc/objcp/ChangeLog" \
+      1000
+  )
+
+  mkdir -p "$pkg_go/usr/doc/$pkgname-$pkgver/gcc/go"
+  (
+    cd gcc/go || exit 0
+    trim_doc_file "ChangeLog" \
+      "$pkg_go/usr/doc/$pkgname-$pkgver/gcc/go/ChangeLog" \
+      1000
+    cp -a README* THREADS* gofrontend/{LICENSE,PATENTS,README} \
+      "$pkg_go/usr/doc/$pkgname-$pkgver/gcc/go"
+  )
+
+  mkdir -p "$pkg_brig/usr/doc/$pkgname-$pkgver/gcc/brig"
+  (
+    cd gcc/brig || exit 0
+    trim_doc_file "ChangeLog" \
+      "$pkg_brig/usr/doc/$pkgname-$pkgver/gcc/brig/ChangeLog" \
+      1000
+  )
+
+  mkdir -p "$pkg_d/usr/doc/$pkgname-$pkgver/gcc/d"
+  (
+    cd gcc/d || exit 0
+    trim_doc_file "ChangeLog" \
+      "$pkg_d/usr/doc/$pkgname-$pkgver/gcc/d/ChangeLog" \
+      1000
+  )
+
+  mkdir -p "$pkg_fortran/usr/doc/$pkgname-$pkgver/libgfortran"
+  (
+    cd libgfortran || exit 0
+    trim_doc_file "ChangeLog" \
+      "$pkg_fortran/usr/doc/$pkgname-$pkgver/libgfortran/ChangeLog" \
+      1000
+  )
+
+  mkdir -p "$pkg_ada/usr/doc/$pkgname-$pkgver/libada"
+  (
+    cd libada || exit 0
+    trim_doc_file "ChangeLog" \
+      "$pkg_ada/usr/doc/$pkgname-$pkgver/libada/ChangeLog" \
+      1000
+  )
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver/libgomp"
+  (
+    cd libgomp || exit 0
+    trim_doc_file "ChangeLog" \
+      "$PKG/usr/doc/$pkgname-$pkgver/libgomp/ChangeLog" \
+      1000
+  )
+
+  mkdir -p "$pkg_objc/usr/doc/$pkgname-$pkgver/libobjc"
+  (
+    cd libobjc || exit 0
+    trim_doc_file "ChangeLog" \
+      "$pkg_objc/usr/doc/$pkgname-$pkgver/libobjc/ChangeLog" \
+      1000
+    cp -a README* THREADS* "$pkg_objc/usr/doc/$pkgname-$pkgver/libobjc"
+  )
+
+  mkdir -p "$pkg_cpp/usr/doc/$pkgname-$pkgver/libstdc++-v3"
+  (
+    cd libstdc++-v3 || exit 0
+    cp -a README* doc/html/faq.html "$pkg_cpp/usr/doc/$pkgname-$pkgver/libstdc++-v3"
+    trim_doc_file "ChangeLog" \
+      "$pkg_cpp/usr/doc/$pkgname-$pkgver/libstdc++-v3/ChangeLog" \
+      1000
+  )
+
+  mkdir "$build_tree"
+  cd "$build_tree" || return 1
+
+  CFLAGS="$SLKCFLAGS" \
+  CXXFLAGS="$SLKCFLAGS" \
+  ../configure --prefix=/usr \
+    --libdir=/usr/lib$LIBDIRSUFFIX \
+    --mandir=/usr/man \
+    --infodir=/usr/info \
+    --enable-shared \
+    --enable-bootstrap \
+    --enable-languages=ada,brig,c,c++,d,fortran,go,lto,objc,obj-c++ \
+    --enable-threads=posix \
+    --enable-checking=release \
+    --enable-objc-gc \
+    --with-system-zlib \
+    --enable-libstdcxx-dual-abi \
+    --with-default-libstdcxx-abi=new \
+    --disable-libstdcxx-pch \
+    --disable-libunwind-exceptions \
+    --enable-__cxa_atexit \
+    --disable-libssp \
+    --enable-gnu-unique-object \
+    --enable-plugin \
+    --enable-lto \
+    --disable-install-libiberty \
+    --disable-werror \
+    --with-gnu-ld \
+    --with-isl \
+    --verbose \
+    --with-arch-directory=$lib_arch \
+    --disable-gtktest \
+    --enable-clocale=gnu \
+    $gcc_archopts \
+    --target=$build_target \
+    --build=$build_target \
+    --host=$build_target || return 1
+
+  make -j "$job_count" bootstrap || return 1
+
+  (
+    cd gcc || exit 1
+    make -j "$job_count" gnatlib GNATLIBCFLAGS="$SLKCFLAGS" || exit 1
+    CFLAGS="$SLKCFLAGS" \
+    CXXFLAGS="$SLKCFLAGS" \
+    make -j "$job_count" gnattools || exit 1
+  ) || return 1
+
+  make info || return 1
+
+  if [ -n "$GCCCHECK" ]; then
+    make -j "$job_count" check || return 1
+  fi
+
+  make install DESTDIR="$PKG" || return 1
+
+  mkdir -p "$PKG/usr/share/gdb/auto-load/usr/lib$LIBDIRSUFFIX"
+  mv "$PKG"/usr/lib${LIBDIRSUFFIX}/*-gdb.py \
+    "$PKG/usr/share/gdb/auto-load/usr/lib$LIBDIRSUFFIX/"
+
+  if [ ! -r "$PKG/usr/lib${LIBDIRSUFFIX}/gcc/${build_target}/${pkgver}/specs" ]; then
+    cat stage1-gcc/specs > "$PKG/usr/lib${LIBDIRSUFFIX}/gcc/${build_target}/${pkgver}/specs"
+  fi
+
+  if [ "$ARCH" = "x86_64" ]; then
+    sed -i 's#;.\(:../lib !m64 m32;\)$#;32\1#' \
+      "$PKG/usr/lib${LIBDIRSUFFIX}/gcc/${build_target}/${pkgver}/specs"
+  fi
+
+  make -i install-info DESTDIR="$PKG" || return 1
+
+  chmod 755 "$PKG/usr/lib${LIBDIRSUFFIX}/libgcc_s.so.1"
+
+  if [ -d "$PKG/usr/info" ]; then
+    rm -f "$PKG/usr/info/dir"
+    find "$PKG/usr/info" -maxdepth 1 -type f ! -name '*.gz' -exec gzip -9 {} +
+  fi
+
+  mkdir -p "$PKG/lib"
+  ln -sf /usr/bin/cpp "$PKG/lib/cpp"
+
+  (
+    cd "$PKG/usr/bin" || exit 1
+    mv g++ g++-gcc-$pkgver
+    mv gcc gcc-$pkgver
+    mv ${build_target}-gfortran gfortran-gcc-$pkgver
+    ln -sf g++-gcc-$pkgver g++
+    ln -sf gcc-$pkgver gcc
+    ln -sf g++ c++
+    ln -sf gcc cc
+    ln -sf gcc-$pkgver ${build_target}-cc
+    ln -sf gcc-$pkgver ${build_target}-gcc
+    ln -sf gcc-$pkgver ${build_target}-gcc-$pkgver
+    ln -sf gcc-ar ${build_target}-gcc-ar
+    ln -sf gcc-nm ${build_target}-gcc-nm
+    ln -sf gcc-ranlib ${build_target}-gcc-ranlib
+    ln -sf g++-gcc-$pkgver ${build_target}-c++
+    ln -sf g++-gcc-$pkgver ${build_target}-g++
+    ln -sf gfortran-gcc-$pkgver gfortran
+    ln -sf gfortran-gcc-$pkgver ${build_target}-gfortran
+    ln -sf gfortran-gcc-$pkgver ${build_target}-gfortran-$pkgver
+    ln -sf gfortran-gcc-$pkgver ${build_target}-g95
+    ln -sf gfortran g95
+    ln -sf gfortran f95
+    ln -sf gfortran-gcc-$pkgver ${build_target}-g77
+    ln -sf gfortran g77
+    ln -sf gfortran f77
+    install -m 755 "$SRC/c89.sh" c89
+    install -m 755 "$SRC/c99.sh" c99
+  ) || return 1
+
+  if [ -d "$PKG/usr/man" ]; then
+    find "$PKG/usr/man" -type f ! -name '*.gz' -exec gzip -9 {} +
+    if [ -d "$PKG/usr/man/man1" ]; then
+      (
+        cd "$PKG/usr/man/man1" || exit 1
+        ln -sf g++.1.gz c++.1.gz
+        ln -sf gcc.1.gz cc.1.gz
+      ) || return 1
+    fi
+  fi
+
+  while IFS= read -r -d '' la_file; do
+    sed -i -e 's%-L/gcc-[[:graph:]]* % %g' "$la_file"
+  done < <(find "$PKG" -type f -name '*.la' -print0)
+
+  for la_dir in "$PKG/lib${LIBDIRSUFFIX}" "$PKG/usr/lib${LIBDIRSUFFIX}"; do
+    if [ -d "$la_dir" ]; then
+      find "$la_dir" -maxdepth 1 -type f -name '*.la' -delete
+    fi
+  done
+
+  (
+    cd "$PKG" || exit 1
+    find . -type f -name 'lib*so*' -exec strip --strip-unneeded '{}' \;
+    find . -type f -name 'lib*so*' -exec patchelf --remove-rpath '{}' \;
+    find . -type f -name 'lib*a' -exec strip -g '{}' \;
+    strip --strip-unneeded usr/bin/* 2> /dev/null || true
+    while IFS= read -r elf_file; do
+      strip --strip-unneeded "$elf_file" 2> /dev/null || true
+    done < <(find . -type f -exec file {} + \
+      | awk -F: '/ELF/ && /executable|shared object/ {print $1}')
+  ) || return 1
+
+  mkdir -p "$pkg_cpp/usr/bin"
+  mv "$PKG"/usr/bin/*++* "$pkg_cpp/usr/bin"
+  mkdir -p "$pkg_cpp/usr/include"
+  mv "$PKG/usr/include/c++" "$pkg_cpp/usr/include"
+  mkdir -p "$pkg_cpp/usr/lib${LIBDIRSUFFIX}"
+  mv "$PKG"/usr/lib${LIBDIRSUFFIX}/*++* "$pkg_cpp/usr/lib${LIBDIRSUFFIX}"
+  mkdir -p "$pkg_cpp/usr/libexec/gcc/$build_target/$pkgver"
+  mv "$PKG/usr/libexec/gcc/$build_target/$pkgver/cc1plus" \
+    "$pkg_cpp/usr/libexec/gcc/$build_target/$pkgver/cc1plus"
+  mkdir -p "$pkg_cpp/usr/man/man1"
+  mv "$PKG"/usr/man/man1/*++* "$pkg_cpp/usr/man/man1"
+  mkdir -p "$pkg_cpp/usr/share"
+  mv "$PKG/usr/share/gdb" "$pkg_cpp/usr/share"
+  mkdir -p "$pkg_cpp/usr/share/gcc-$pkgver/python"
+  mv "$PKG/usr/share/gcc-$pkgver/python/libstdcxx" \
+    "$pkg_cpp/usr/share/gcc-$pkgver/python"
+
+  mkdir -p "$pkg_fortran/usr/bin"
+  mv "$PKG"/usr/bin/*gfortran* "$pkg_fortran/usr/bin"
+  mv "$PKG"/usr/bin/*95* "$pkg_fortran/usr/bin"
+  mv "$PKG"/usr/bin/*77* "$pkg_fortran/usr/bin"
+  ln -sf gfortran-gcc-${pkgver} "$pkg_fortran/usr/bin/fortran"
+  mkdir -p "$pkg_fortran/usr/info"
+  mv "$PKG"/usr/info/gfortran* "$pkg_fortran/usr/info"
+  mkdir -p "$pkg_fortran/usr/lib${LIBDIRSUFFIX}"
+  mv "$PKG"/usr/lib${LIBDIRSUFFIX}/libgfortran* "$pkg_fortran/usr/lib${LIBDIRSUFFIX}"
+  mkdir -p "$pkg_fortran/usr/lib${LIBDIRSUFFIX}/gcc/$build_target/$pkgver"
+  mv "$PKG/usr/lib${LIBDIRSUFFIX}/gcc/$build_target/$pkgver/finclude" \
+    "$pkg_fortran/usr/lib${LIBDIRSUFFIX}/gcc/$build_target/$pkgver"
+  mv "$PKG"/usr/lib${LIBDIRSUFFIX}/gcc/$build_target/$pkgver/libgfortran* \
+    "$pkg_fortran/usr/lib${LIBDIRSUFFIX}/gcc/$build_target/$pkgver"
+  mkdir -p "$pkg_fortran/usr/libexec/gcc/$build_target/$pkgver"
+  mv "$PKG/usr/libexec/gcc/$build_target/$pkgver/f951" \
+    "$pkg_fortran/usr/libexec/gcc/$build_target/$pkgver/f951"
+  mv "$PKG"/usr/libexec/gcc/$build_target/$pkgver/libgfortran* \
+    "$pkg_fortran/usr/libexec/gcc/$build_target/$pkgver"
+  mkdir -p "$pkg_fortran/usr/man/man1"
+  mv "$PKG"/usr/man/man1/gfortran* "$pkg_fortran/usr/man/man1"
+
+  mkdir -p "$pkg_ada/usr/bin"
+  mv "$PKG"/usr/bin/gnat* "$pkg_ada/usr/bin"
+  mv "$PKG"/usr/bin/gpr* "$pkg_ada/usr/bin"
+  mkdir -p "$pkg_ada/usr/info"
+  mv "$PKG"/usr/info/gnat* "$pkg_ada/usr/info"
+  mkdir -p "$pkg_ada/usr/libexec/gcc/$build_target/$pkgver"
+  mv "$PKG/usr/libexec/gcc/$build_target/$pkgver/gnat1" \
+    "$pkg_ada/usr/libexec/gcc/$build_target/$pkgver"
+  mkdir -p "$pkg_ada/usr/lib${LIBDIRSUFFIX}/gcc/$build_target/$pkgver"
+  mv "$PKG/usr/lib${LIBDIRSUFFIX}/gcc/$build_target/$pkgver/adainclude" \
+    "$pkg_ada/usr/lib${LIBDIRSUFFIX}/gcc/$build_target/$pkgver"
+  mv "$PKG/usr/lib${LIBDIRSUFFIX}/gcc/$build_target/$pkgver/adalib" \
+    "$pkg_ada/usr/lib${LIBDIRSUFFIX}/gcc/$build_target/$pkgver"
+
+  mkdir -p "$pkg_objc/usr/lib${LIBDIRSUFFIX}"
+  mv "$PKG"/usr/lib${LIBDIRSUFFIX}/libobjc* "$pkg_objc/usr/lib${LIBDIRSUFFIX}"
+  mkdir -p "$pkg_objc/usr/libexec/gcc/$build_target/$pkgver"
+  mv "$PKG/usr/libexec/gcc/$build_target/$pkgver/cc1obj" \
+    "$pkg_objc/usr/libexec/gcc/$build_target/$pkgver"
+  mv "$PKG/usr/libexec/gcc/$build_target/$pkgver/cc1objplus" \
+    "$pkg_objc/usr/libexec/gcc/$build_target/$pkgver"
+  mkdir -p "$pkg_objc/usr/lib${LIBDIRSUFFIX}/gcc/$build_target/$pkgver/include"
+  mv "$PKG/usr/lib${LIBDIRSUFFIX}/gcc/$build_target/$pkgver/include/objc" \
+    "$pkg_objc/usr/lib${LIBDIRSUFFIX}/gcc/$build_target/$pkgver/include"
+  mv "$PKG/usr/lib${LIBDIRSUFFIX}/gcc/$build_target/$pkgver/include/cc1objplus" \
+    "$pkg_objc/usr/lib${LIBDIRSUFFIX}/gcc/$build_target/$pkgver/include"
+
+  mkdir -p "$pkg_go/usr/bin"
+  mv "$PKG"/usr/bin/*gccgo* "$pkg_go/usr/bin"
+  mv "$PKG/usr/bin/go" "$pkg_go/usr/bin"
+  mv "$PKG/usr/bin/gofmt" "$pkg_go/usr/bin"
+  mkdir -p "$pkg_go/usr/libexec/gcc/$build_target/$pkgver"
+  mv "$PKG/usr/libexec/gcc/$build_target/$pkgver/cgo" \
+    "$pkg_go/usr/libexec/gcc/$build_target/$pkgver"
+  mv "$PKG/usr/libexec/gcc/$build_target/$pkgver/go1" \
+    "$pkg_go/usr/libexec/gcc/$build_target/$pkgver"
+  mkdir -p "$pkg_go/usr/info"
+  mv "$PKG/usr/info/gccgo"".in""fo.gz" "$pkg_go/usr/info"
+  mkdir -p "$pkg_go/usr/lib${LIBDIRSUFFIX}"
+  mv "$PKG/usr/lib${LIBDIRSUFFIX}/go" "$pkg_go/usr/lib${LIBDIRSUFFIX}"
+  if [ -r "$PKG/usr/lib${LIBDIRSUFFIX}/libgo.la" ]; then
+    mv "$PKG/usr/lib${LIBDIRSUFFIX}/libgo.la" "$pkg_go/usr/lib${LIBDIRSUFFIX}"
+  fi
+  mv "$PKG"/usr/lib${LIBDIRSUFFIX}/libgo.so* "$pkg_go/usr/lib${LIBDIRSUFFIX}" || return 1
+  mv "$PKG/usr/lib${LIBDIRSUFFIX}/libgobegin.a" "$pkg_go/usr/lib${LIBDIRSUFFIX}" || return 1
+  mv "$PKG/usr/lib${LIBDIRSUFFIX}/libgolibbegin.a" "$pkg_go/usr/lib${LIBDIRSUFFIX}" || return 1
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}/libgo.a"
+  mkdir -p "$pkg_go/usr/man/man1"
+  mv "$PKG/usr/man/man1/gccgo.1.gz" "$pkg_go/usr/man/man1"
+  mv "$PKG/usr/man/man1/go.1.gz" "$pkg_go/usr/man/man1"
+  mv "$PKG/usr/man/man1/gofmt.1.gz" "$pkg_go/usr/man/man1"
+
+  mkdir -p "$pkg_brig/usr/bin"
+  mv "$PKG"/usr/bin/*brig* "$pkg_brig/usr/bin"
+  mkdir -p "$pkg_brig/usr/lib${LIBDIRSUFFIX}"
+  mv "$PKG"/usr/lib${LIBDIRSUFFIX}/libhsail* "$pkg_brig/usr/lib${LIBDIRSUFFIX}"
+  mkdir -p "$pkg_brig/usr/libexec/gcc/$build_target/$pkgver"
+  mv "$PKG/usr/libexec/gcc/$build_target/$pkgver/brig1" \
+    "$pkg_brig/usr/libexec/gcc/$build_target/$pkgver"
+  mkdir -p "$pkg_brig/usr/man/man1"
+  mv "$PKG/usr/man/man1/gccbrig.1.gz" "$pkg_brig/usr/man/man1"
+
+  mkdir -p "$pkg_d/usr/bin"
+  mv "$PKG/usr/bin/gdc" "$PKG"/usr/bin/*-gdc "$pkg_d/usr/bin"
+  mkdir -p "$pkg_d/usr/lib${LIBDIRSUFFIX}"
+  mv "$PKG"/usr/lib${LIBDIRSUFFIX}/libgdruntime* "$pkg_d/usr/lib${LIBDIRSUFFIX}"
+  mv "$PKG"/usr/lib${LIBDIRSUFFIX}/libgphobos* "$pkg_d/usr/lib${LIBDIRSUFFIX}"
+  mkdir -p "$pkg_d/usr/libexec/gcc/$build_target/$pkgver"
+  mv "$PKG/usr/libexec/gcc/$build_target/$pkgver/d21" \
+    "$pkg_d/usr/libexec/gcc/$build_target/$pkgver"
+  mkdir -p "$pkg_d/usr/lib${LIBDIRSUFFIX}/gcc/$build_target/$pkgver/include"
+  mv "$PKG/usr/lib${LIBDIRSUFFIX}/gcc/$build_target/$pkgver/include/d" \
+    "$pkg_d/usr/lib${LIBDIRSUFFIX}/gcc/$build_target/$pkgver/include"
+  mkdir -p "$pkg_d/usr/info"
+  mv "$PKG/usr/info/gdc"".in""fo.gz" "$pkg_d/usr/info"
+  mkdir -p "$pkg_d/usr/man/man1"
+  mv "$PKG/usr/man/man1/gdc.1.gz" "$pkg_d/usr/man/man1"
+
+  make_split_package "$pkg_cpp" gcc-g++ || return 1
+  make_split_package "$pkg_fortran" gcc-gfortran || return 1
+  make_split_package "$pkg_ada" gcc-gnat || return 1
+  make_split_package "$pkg_objc" gcc-objc || return 1
+  make_split_package "$pkg_go" gcc-go || return 1
+  make_split_package "$pkg_brig" gcc-brig || return 1
+  make_split_package "$pkg_d" gcc-gdc || return 1
+}

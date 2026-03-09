@@ -1,0 +1,1 @@
+-usr/doc/blas-3.10.0/blas.SlackBuild
