@@ -2,6 +2,31 @@
 set -euo pipefail
 
 scriptDir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)
+sudoKeepalivePid=""
+
+stop_sudo_keepalive() {
+  if [[ -n "$sudoKeepalivePid" ]]; then
+    kill "$sudoKeepalivePid" >/dev/null 2>&1 || true
+    wait "$sudoKeepalivePid" >/dev/null 2>&1 || true
+    sudoKeepalivePid=""
+  fi
+}
+
+cleanup() {
+  stop_sudo_keepalive
+}
+
+start_sudo_keepalive() {
+  sudo -v
+
+  while true; do
+    sudo -n -v >/dev/null 2>&1 || exit 0
+    sleep 60
+  done &
+  sudoKeepalivePid=$!
+}
+
+trap cleanup EXIT INT TERM HUP
 
 # Keep this list in top-level rebuild order. build-package.sh resolves repo
 # dependencies for each target, so this list only needs the packages we want
@@ -122,7 +147,9 @@ packageList=(
   "ap/fenrir"
 )
 
+start_sudo_keepalive
+
 for packagePath in "${packageList[@]}"; do
   printf 'Building %s\n' "$packagePath"
-  "$scriptDir/build-package.sh" --skip-staged "$packagePath"
+  BUILD_PACKAGE_SUDO_READY=1 "$scriptDir/build-package.sh" --skip-staged "$packagePath"
 done
