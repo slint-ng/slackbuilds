@@ -31,8 +31,8 @@ slackdesc=\
 build() {
   cd "$SRC/$srcname-$pkgver" || return 1
 
-  patch -p1 < "$start_dir/fix_meta_alt_keybinding.patch" || return 1
-  patch -p1 < "$start_dir/vte.escape.cpu.usage.diff" || return 1
+  patch -p1 < "$startdir/fix_meta_alt_keybinding.patch" || return 1
+  patch -p1 < "$startdir/vte.escape.cpu.usage.diff" || return 1
 
   CFLAGS="$SLKCFLAGS" \
   ./configure \
