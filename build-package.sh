@@ -34,6 +34,36 @@ require_cmd() {
   command -v "$commandName" >/dev/null 2>&1 || die "missing required command: $commandName"
 }
 
+discover_available_cores() {
+  local coreCount=""
+
+  if command -v nproc >/dev/null 2>&1; then
+    coreCount=$(nproc 2>/dev/null || true)
+  elif command -v getconf >/dev/null 2>&1; then
+    coreCount=$(getconf _NPROCESSORS_ONLN 2>/dev/null || true)
+  fi
+
+  if [[ ! "$coreCount" =~ ^[0-9]+$ ]] || (( coreCount < 1 )); then
+    coreCount=1
+  fi
+
+  printf '%s\n' "$coreCount"
+}
+
+calculate_parallel_jobs() {
+  local coreCount=""
+  local jobCount=""
+
+  coreCount=$(discover_available_cores)
+  jobCount=$(( (coreCount * 3) / 4 ))
+
+  if (( jobCount < 1 )); then
+    jobCount=1
+  fi
+
+  printf '%s\n' "$jobCount"
+}
+
 trim_whitespace() {
   local value=$1
 
@@ -736,10 +766,18 @@ build_package() {
   local logPath="${packageDir}/build-${packageName}.log"
   local artifactPath=""
   local depFilePath=""
+  local defaultNumjobs=""
+  local effectiveNumjobs=""
 
-  printf 'Building %s\n' "${packageDirByRelative[${packageDir}]}"
+  defaultNumjobs=$(calculate_parallel_jobs)
+  effectiveNumjobs=${numjobs:-$defaultNumjobs}
+  if [[ ! "$effectiveNumjobs" =~ ^[0-9]+$ ]] || (( effectiveNumjobs < 1 )); then
+    effectiveNumjobs=$defaultNumjobs
+  fi
+
+  printf 'Building %s (numjobs=%s)\n' "${packageDirByRelative[${packageDir}]}" "$effectiveNumjobs"
   pushd "$packageDir" >/dev/null || die "failed to enter package directory: ${packageDirByRelative[${packageDir}]}"
-  if ! fakeroot slkbuild -X 2>&1 | tee "$logPath"; then
+  if ! env numjobs="$effectiveNumjobs" fakeroot slkbuild -X 2>&1 | tee "$logPath"; then
     popd >/dev/null || true
     die "Build failed for ${packageDirByRelative[${packageDir}]}; see ${logPath}"
   fi
