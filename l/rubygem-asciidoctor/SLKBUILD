@@ -1,0 +1,46 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: sektor
+
+_gemname=asciidoctor
+pkgname=rubygem-$_gemname
+pkgver=2.0.23
+pkgrel=1slint
+source=("${_gemname}-${pkgver}.gem")
+url="https://asciidoctor.org"
+license=("MIT")
+noextract=("${_gemname}-${pkgver}.gem")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"rubygem-asciidoctor (text processor and publishing toolchain)"
+""
+"Asciidoctor is a fast text processor and publishing toolchain for"
+"converting AsciiDoc content to HTML5, DocBook 5 (or 4.5) and other"
+"formats."
+""
+"Homepage: https://asciidoctor.org"
+""
+""
+""
+)
+
+build() {
+  local _gemdir
+
+  _gemdir="$(ruby -e 'puts Gem.default_dir')" || return 1
+
+  gem install --local --no-update-sources --ignore-dependencies --backtrace \
+    --install-dir "$PKG/$_gemdir" \
+    --bindir "$PKG/usr/bin" \
+    "$SRC/${_gemname}-${pkgver}.gem" || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a "$PKG/$_gemdir/gems/${_gemname}-${pkgver}"/CHANGELOG* \
+    "$PKG/usr/doc/$pkgname-$pkgver"/ || return 1
+  cp -a "$PKG/$_gemdir/gems/${_gemname}-${pkgver}"/LICENSE* \
+    "$PKG/usr/doc/$pkgname-$pkgver"/ || return 1
+  cp -a "$PKG/$_gemdir/gems/${_gemname}-${pkgver}"/README* \
+    "$PKG/usr/doc/$pkgname-$pkgver"/ || return 1
+}

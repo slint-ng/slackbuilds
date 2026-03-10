@@ -1,0 +1,48 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: sektor
+
+_gemname=concurrent-ruby
+pkgname=rubygem-$_gemname
+pkgver=1.1.9
+pkgrel=1slint
+source=(
+  "${_gemname}-${pkgver}.gem"
+  "SLKBUILD"
+)
+url="https://github.com/ruby-concurrency/concurrent-ruby"
+license=("MIT")
+noextract=("${_gemname}-${pkgver}.gem")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"rubygem-concurrent-ruby (Modern concurrency tools for Ruby)"
+""
+"Modern concurrency tools including agents, futures, promises, thread"
+"pools, actors, supervisors, and more. Inspired by Erlang, Clojure,"
+"Go, JavaScript, actors, and classic concurrency patterns."
+""
+"Homepage: https://github.com/ruby-concurrency/concurrent-ruby"
+""
+""
+""
+)
+
+build() {
+  local _gemdir
+
+  _gemdir="$(ruby -e 'puts Gem.default_dir')" || return 1
+
+  gem install --local --no-update-sources --ignore-dependencies --backtrace \
+    --install-dir "$PKG/$_gemdir" \
+    --bindir "$PKG/usr/bin" \
+    "$SRC/${_gemname}-${pkgver}.gem" || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  tar -x -O --file="$SRC/${_gemname}-${pkgver}.gem" data.tar.gz | \
+    tar -xz -C "$PKG/usr/doc/$pkgname-$pkgver" --file=- \
+      CHANGELOG.md LICENSE.txt README.md || return 1
+  install -Dm0644 "$SRC/SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/${pkgname}.SlackBuild" || return 1
+}

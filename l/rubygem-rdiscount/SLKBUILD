@@ -1,0 +1,57 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: sektor
+
+_gemname=rdiscount
+pkgname=rubygem-$_gemname
+pkgver=2.2.0.2
+pkgrel=1slint
+source=(
+  "${_gemname}-${pkgver}.gem"
+  "SLKBUILD"
+)
+url="http://dafoster.net/projects/rdiscount/"
+license=("BSD-2-Clause")
+noextract=("${_gemname}-${pkgver}.gem")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"rubygem-rdiscount (Markdown for Ruby)"
+""
+"RDiscount converts documents in Markdown syntax to HTML."
+""
+""
+""
+""
+""
+""
+""
+)
+
+build() {
+  local _gemdir
+
+  _gemdir="$(ruby -e 'puts Gem.default_dir')" || return 1
+
+  gem install --local --no-update-sources --ignore-dependencies --backtrace \
+    --install-dir "$PKG/$_gemdir" \
+    --bindir "$PKG/usr/bin" \
+    "$SRC/${_gemname}-${pkgver}.gem" || return 1
+  rm -f "$PKG/$_gemdir/cache/${_gemname}-${pkgver}.gem" || return 1
+  rmdir "$PKG/$_gemdir/cache" 2>/dev/null || true
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  tar -x -O --file="$SRC/${_gemname}-${pkgver}.gem" data.tar.gz | \
+    tar -xz -C "$PKG/usr/doc/$pkgname-$pkgver" --file=- \
+      BUILDING COPYING README.markdown || return 1
+  mkdir -p "$PKG/usr/man/man1" "$PKG/usr/man/man7" || return 1
+  tar -x -O --file="$SRC/${_gemname}-${pkgver}.gem" data.tar.gz | \
+    tar -xz -C "$PKG/usr/man/man1" --strip-components=1 --file=- \
+      man/rdiscount.1 || return 1
+  tar -x -O --file="$SRC/${_gemname}-${pkgver}.gem" data.tar.gz | \
+    tar -xz -C "$PKG/usr/man/man7" --strip-components=1 --file=- \
+      man/markdown.7 || return 1
+  install -Dm0644 "$SRC/SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/${pkgname}.SlackBuild" || return 1
+}

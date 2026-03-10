@@ -1,0 +1,2 @@
+# Ignore a legacy RubyGems temp directory that was captured in the baseline.
+-^usr/lib64/ruby/gems/3\.0\.0/gems/rdiscount-2\.2\.0\.2/ext/\.gem\..*$
