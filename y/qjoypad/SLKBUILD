@@ -5,7 +5,7 @@
 
 pkgname=qjoypad
 pkgver=4.3.1
-pkgrel=2slint
+pkgrel=3slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (convert gamepad buttons to keystrokes)"

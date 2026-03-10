@@ -3,7 +3,7 @@
 
 pkgname=dolt
 pkgver=1.82.4
-pkgrel=1slint
+pkgrel=2slint
 arch=('x86_64' 'aarch64')
 slackdesc=\
 (

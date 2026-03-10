@@ -2,7 +2,7 @@
 # Adapted to and included in Slint by Didier Spaier didieratslintdotfr
 pkgname=mpd-sacd
 pkgver=0.23.11
-pkgrel=1slint
+pkgrel=2slint
 # I install Sphinx as user to buid the doc - Didier
 export PATH=$PATH:~/.local/bin
 slackdesc=\

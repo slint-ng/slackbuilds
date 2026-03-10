@@ -2,7 +2,7 @@
 
 pkgname=matchbox-config
 pkgver=0.2
-pkgrel=1slint
+pkgrel=2slint
 export srcname=matchbox-config-gtk
 docs=("AUTHORS" "COPYING")
 source=("https://git.yoctoproject.org/matchbox-config-gtk/snapshot/matchbox-config-gtk-0.2.tar.gz")

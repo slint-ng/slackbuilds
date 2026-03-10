@@ -3,7 +3,7 @@
 #Adapted for Slint by Didier Spaier <didier~at~slint~dot~fr>
 pkgname=claws-mail
 pkgver=4.0.0
-pkgrel=2slint
+pkgrel=3slint
 source=("https://www.claws-mail.org/releases/${pkgname}-${pkgver}.tar.xz"
 "https://deb.debian.org/debian/pool/main/c/claws-mail-themes/claws-mail-themes_20140629+dfsg2.orig.tar.xz")
 url="http://www.claws-mail.org/"

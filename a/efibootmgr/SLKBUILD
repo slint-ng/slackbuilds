@@ -4,7 +4,7 @@
 
 pkgname=efibootmgr
 pkgver=18
-pkgrel=1slint
+pkgrel=2slint
 url="https://github.com/rhboot/efibootmgr"
 source=("https://github.com/rhboot/efibootmgr/archive/refs/tags/${pkgver}.tar.gz")
 

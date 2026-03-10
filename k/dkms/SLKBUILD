@@ -3,7 +3,7 @@
 
 pkgname=dkms
 pkgver=3.3.0
-pkgrel=1slint
+pkgrel=2slint
 arch=x86_64
 source=("https://github.com/dkms-project/dkms/archive/refs/tags/v$pkgver.tar.gz")
 sha256sums=('ef4ca9da2062f49bac224e6de9886266038378c0938b2cfa7c6c179d366a148c')

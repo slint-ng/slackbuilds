@@ -2,7 +2,7 @@
 # Included in Slint by Didier Spaier dideratslintdotfr
 pkgname=python-semver
 pkgver=2.13.0
-pkgrel=7slint
+pkgrel=8slint
 slackdesc="$pkgname (Python helper for Semantic Versioning)"
 url="https://github.com/k-bx/python-semver"
 license=('BSD')

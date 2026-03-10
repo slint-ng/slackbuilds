@@ -3,7 +3,7 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=feathernotes
 pkgver=0.10.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (Lightweight Qt hierarchical notes-manager)"
 arch=('x86_64')
 url='https://github.com/tsujan/FeatherNotes'

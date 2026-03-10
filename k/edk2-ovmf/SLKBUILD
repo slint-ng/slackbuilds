@@ -3,7 +3,7 @@
 
 pkgname=edk2-ovmf
 pkgver=20230524
-pkgrel=1slint
+pkgrel=2slint
 arch=noarch
 _fedver=3.fc38
 source=(

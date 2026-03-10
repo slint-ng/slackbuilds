@@ -7,7 +7,7 @@
 #Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=gtk-engine-murrine
 pkgver=0.98.2
-pkgrel=1slint
+pkgrel=2slint
 arch=("x86_64")
 slackdesc="$pkgname (GTK2 engine, your desktop look like a 'murrina'.)"
 docs=("copying" "authors" "README.html")

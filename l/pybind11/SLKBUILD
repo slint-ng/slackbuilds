@@ -4,7 +4,7 @@
 pkgname=pybind11
 export srcname=pybind11
 pkgver=3.0.2
-pkgrel=1slint
+pkgrel=2slint
 source=("https://files.pythonhosted.org/packages/source/p/${srcname}/${srcname}-${pkgver}.tar.gz")
 sha256sums=('432f01aeb68e361a3a7fc7575c2c7f497595bf640f747acd909ff238dd766e06')
 url="https://github.com/pybind/pybind11"

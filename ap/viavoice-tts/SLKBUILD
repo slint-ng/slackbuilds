@@ -4,7 +4,7 @@
 pkgname=viavoice-tts
 upstreamTag=2026.02.01-hotfix2
 pkgver=2026.02.01_hotfix2
-pkgrel=1slint
+pkgrel=2slint
 options=('noautodotnew')
 slackdesc=\
 (

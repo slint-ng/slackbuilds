@@ -2,7 +2,7 @@
 
 pkgname=$(pwd|sed "s,.*/,,")
 pkgver=gitbe89fb4
-pkgrel=1slint
+pkgrel=2slint
 source=("https://github.com/mvertes/txt2man/archive/txt2man-1.6.0.tar.gz" \
 README.Slint
 )

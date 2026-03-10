@@ -1,7 +1,7 @@
 # Maintainer: Einhard Leichtfuß <archer@respiranto.de>
 pkgname=freesweep
 pkgver=1.0.2
-pkgrel=2slint
+pkgrel=3slint
 slackdesc="$pkgname (console minesweeper-style game written in C for "*nix")"
 arch='x86_64'
 url="https://github.com/rwestlund/freesweep"

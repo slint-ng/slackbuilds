@@ -4,7 +4,7 @@
 pkgname=slapt-src
 # export commit=6dd64bb
 pkgver=0.3.8
-pkgrel=1slint
+pkgrel=2slint
 source=("remove-unwanted-slackbuilds_data.patch"
 "remove-unwanted-slackbuilds_data" "post-process-slackbuilds_data"
 "slapt-srcrc.diff" "${pkgname}-${pkgver}.tar.gz")

@@ -3,7 +3,7 @@
 
 pkgname=shellcheck
 pkgver=0.11.0
-pkgrel=1slint
+pkgrel=2slint
 arch=('x86_64')
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|

@@ -2,7 +2,7 @@
 
 pkgname=perl-inc-latest
 pkgver=0.500
-pkgrel=2slint
+pkgrel=3slint
 source=("https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/inc-latest-$pkgver.tar.gz")
 docs=("readme" "install" "copying" "changelog" "authors" "news" "todo")
 url=https://metacpan.org/pod/inc::latest

@@ -5,7 +5,7 @@
 pkgname=psutil
 pkgver=5.8.0
 _srcname="${pkgname}-release-${pkgver}"
-pkgrel=1slint
+pkgrel=2slint
 source=("https://github.com/giampaolo/psutil/archive/release-${pkgver}/${_srcname}.tar.gz")
 url="https://github.com/giampaolo/psutil"
 docs=("*.rst" "LICENSE" "CREDITS")

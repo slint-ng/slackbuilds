@@ -2,7 +2,7 @@
 # Inlcuded in Sint by Didier Spaier didieratslintdotfr
 pkgname=gnsu
 pkgver=0.3.1
-pkgrel=1slint
+pkgrel=2slint
 arch=noarch
 source=("gnsu-$pkgver.tar.xz" "ask_root_password.diff")
 docs=("readme.md" "install" "copying" "changelog" "authors" "news" "todo")

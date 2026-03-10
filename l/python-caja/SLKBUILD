@@ -6,7 +6,7 @@
 
 pkgname=python-caja
 pkgver=1.28.0
-pkgrel=1
+pkgrel=2
 slackdesc=("$pkgname (python bindings for Caja)"
 "$pkgname allow Caja property page and menu item extensions"
 "to be written in Python")

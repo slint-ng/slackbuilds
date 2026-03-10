@@ -10,7 +10,7 @@
 
 pkgname=apulse
 pkgver=gitc4ce36
-pkgrel=2slint
+pkgrel=3slint
 options=("nosrcpack")
 docs=("README.md" "LICENSE.MIT")
 slackdesc="apulse (PulseAudio emulation for ALSA)"

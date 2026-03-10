@@ -6,7 +6,7 @@
 
 pkgname=btrfsmaintenance
 pkgver=0.5.2
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (btrfs maintenance scripts)"
 url='https://github.com/kdave/btrfsmaintenance'
 license=('GPL2')

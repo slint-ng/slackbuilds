@@ -2,7 +2,7 @@
 # Updated and modified for Slint by Didier Spaier didieratslintdotfr
 pkgname=flatpak
 export pkgver=1.16.1
-pkgrel=3slint
+pkgrel=4slint
 source=(
 	"https://github.com/flatpak/flatpak/releases/download/${pkgver}/flatpak-${pkgver}.tar.xz"
 	"35-org.freedesktop.Flatpak.appstream.rules"

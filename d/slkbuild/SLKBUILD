@@ -2,7 +2,7 @@
 
 pkgname=slkbuild
 pkgver=1.5
-pkgrel=1slint
+pkgrel=2slint
 arch=noarch
 source=("https://github.com/gapan/slkbuild/archive/refs/tags/1.5.tar.gz")
 options=('nosrcpack')

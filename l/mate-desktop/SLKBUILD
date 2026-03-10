@@ -5,7 +5,7 @@
 pkgname=mate-desktop
 pkgver=1.28.2
 _majorver=`echo $pkgver | sed "s/\(.*\)\.\(.*\)/\1/"`
-pkgrel=1slint
+pkgrel=2slint
 source=("https://pub.mate-desktop.org/releases/${_majorver}/mate-desktop-${pkgver}.tar.xz" "mate-common.xml")
 docs=("readme" "install" "copying" "changelog" "authors" "news" "todo")
 options=('noautodotnew' 'nosrcpack')

@@ -4,7 +4,7 @@
 
 pkgname=psutil3.11
 pkgver=5.8.0
-pkgrel=1slint
+pkgrel=2slint
 _srcname="psutil-release-${pkgver}"
 source=("https://github.com/giampaolo/psutil/archive/release-${pkgver}/${_srcname}.tar.gz")
 url="https://github.com/giampaolo/psutil"

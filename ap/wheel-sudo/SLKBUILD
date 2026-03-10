@@ -2,7 +2,7 @@
 
 pkgname=wheel-sudo
 pkgver=1
-pkgrel=3slint
+pkgrel=4slint
 arch=noarch
 source=("10-wheel" "wheel-path.sh" "wheel-path.csh")
 options=('noautodotnew' 'nosrcpack')

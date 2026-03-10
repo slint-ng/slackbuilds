@@ -2,7 +2,7 @@
 
 pkgname=epsonscan2-non-free-plugin
 pkgver=1.0.0.6
-pkgrel=2
+pkgrel=3
 slackdesc="Plugins for Epson Scan 2"
 url="http://support.epson.net/linux/en/epsonscan2.php"
 license=('LicenseRef-EULA')

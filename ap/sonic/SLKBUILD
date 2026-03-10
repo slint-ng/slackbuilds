@@ -2,7 +2,7 @@
 
 pkgname=sonic
 pkgver=gite06dbb9
-pkgrel=1slint
+pkgrel=2slint
 source=("README.Slint")
 docs=("readme" "copying" "README.Slint")
 options=("nosrcpack")

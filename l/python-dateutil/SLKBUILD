@@ -4,7 +4,7 @@
 
 pkgname=python-dateutil
 pkgver=2.8.1
-pkgrel=2slint
+pkgrel=3slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (extensions to the datetime module)"

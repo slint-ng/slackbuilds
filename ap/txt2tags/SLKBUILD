@@ -2,7 +2,7 @@
 
 pkgname=txt2tags
 pkgver=3.7
-pkgrel=1slint
+pkgrel=2slint
 source=("$pkgver.tar.gz")
 url=http://txt2tags.sourceforge.net
 options=('nosrcpack')

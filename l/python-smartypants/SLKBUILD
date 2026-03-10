@@ -6,7 +6,7 @@
 pkgname=python-smartypants
 _pkgname=smartypants
 pkgver=2.0.1
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(\
 "$pkgname (Python with the SmartyPants publishing plug-in)"
 "SmartyPants is a free web publishing plug-in for Movable Type,"

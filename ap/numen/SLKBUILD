@@ -1,7 +1,7 @@
 # Maintainer: Robert Hamblin <hamblingreen@hotmail.com>
 pkgname=numen
 pkgver=0.7
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=("Voice control for handsfree computing"
 "website: https://numenvoice.org/"
 )

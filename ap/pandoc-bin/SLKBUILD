@@ -3,7 +3,7 @@
 
 pkgname=pandoc-bin
 pkgver=3.1.9
-pkgrel=1slint
+pkgrel=2slint
 arch=('x86_64')
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|

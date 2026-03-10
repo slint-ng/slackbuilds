@@ -2,7 +2,7 @@
 
 pkgname=python-luckydonaldutils
 pkgver=0.83
-pkgrel=1slint
+pkgrel=2slint
 source=("luckydonald-utils-${pkgver}.tar.gz")
 docs=("LICENSE" "dependencies-full.txt" "requirements-dev.txt")
 options=("nosrcpack")

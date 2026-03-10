@@ -2,7 +2,7 @@
 
 pkgname=$(pwd|sed "s,.*/,,")
 pkgver=$(echo ${pkgname}-*.tar.?z* | rev | cut -f 3- -d . | cut -f 1 -d - | rev)
-pkgrel=3slint
+pkgrel=4slint
 source=("$(echo ${pkgname}-*.tar.?z*)"
 "Start_marco_if_compiz_crashes.diff")
 docs=("copying" "authors" "news" "license" "changes")

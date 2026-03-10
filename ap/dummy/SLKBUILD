@@ -2,7 +2,7 @@
 
 pkgname="slint"
 pkgver=1
-pkgrel=1slint
+pkgrel=2slint
 arch=noarch
 
 slackdesc=\

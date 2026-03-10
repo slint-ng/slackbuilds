@@ -2,7 +2,7 @@
 
 pkgname=matchbox-desktop
 pkgver=2.2
-pkgrel=1slint
+pkgrel=2slint
 docs=("AUTHORS" "COPYING" "COPYING.LIB" "README" "TODO")
 # Source from Debian
 source=("http://deb.debian.org/debian/pool/main/m/matchbox-desktop/matchbox-desktop_2.2+git20200512.orig.tar.xz")

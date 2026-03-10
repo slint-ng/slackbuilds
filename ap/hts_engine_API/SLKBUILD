@@ -3,7 +3,7 @@
 # included in Slint by Didier Spaier didieratslintdotfr
 pkgname=hts_engine_API
 pkgver=1.10
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (The HMM-Based Speech Synthesis Engine "
 #arch=('i686' 'x86_64')
 url="https://sourceforge.net/projects/open-jtalk/"

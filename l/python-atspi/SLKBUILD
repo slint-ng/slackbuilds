@@ -3,7 +3,7 @@
 pkgname=python-atspi
 _srcname=pyatspi
 pkgver=2.58.0
-pkgrel=1slint
+pkgrel=2slint
 source=("$_srcname-$pkgver.tar.xz")
 docs=("AUTHORS" "COPYING" "INSTALL" "NEWS" "README*")
 

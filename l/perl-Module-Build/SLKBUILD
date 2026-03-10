@@ -2,7 +2,7 @@
 
 pkgname=perl-Module-Build
 pkgver=0.4231
-pkgrel=1slint
+pkgrel=2slint
 source=("https://cpan.metacpan.org/authors/id/L/LE/LEONT/Module-Build-$pkgver.tar.gz")
 docs=("readme" "install" "copying" "changelog" "authors" "news" "todo")
 url=https://metacpan.org/pod/Module::Build::Compat

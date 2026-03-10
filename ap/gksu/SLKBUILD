@@ -1,7 +1,7 @@
 #Packager: Didier Spaier didieratslintdotfr
 pkgname=gksu
 pkgver=15.0
-pkgrel=1slint
+pkgrel=2slint
 arch=noarch
 docs=("readme.md" "install" "copying" "changelog" "authors" "news" "todo")
 options=('nosrcpack')

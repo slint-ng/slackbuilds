@@ -3,7 +3,7 @@
 
 pkgname=lxqt-openssh-askpass
 pkgver=2.3.0
-pkgrel=1slint
+pkgrel=2slint
 source=("https://github.com/lxqt/lxqt-openssh-askpass/releases/download/${pkgver}/${pkgname}-${pkgver}.tar.xz")
 url="https://github.com/lxqt/lxqt-openssh-askpass"
 

@@ -4,7 +4,7 @@
 _gitname='dragonfm'
 pkgname="dragonfm"
 pkgver=gitd0505a625
-pkgrel=1slint
+pkgrel=2slint
 epoch=1
 slackdesc=(\
 "$pkgname (A screenreader optimized, flexible command line filemanager)"

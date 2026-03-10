@@ -2,7 +2,7 @@
 
 pkgname=gst-plugins-good
 pkgver=1.20.4
-pkgrel=2slint
+pkgrel=3slint
 source=("$pkgname-$pkgver.tar.xz")
 url="https://gstreamer.freedesktop.org/"
 makedepends=('meson' 'ninja')

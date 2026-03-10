@@ -2,7 +2,7 @@
 
 pkgname=pcaudiolib
 pkgver=git478bb69
-pkgrel=1slint
+pkgrel=2slint
 docs=("readme.html" "copying" "changelog.html" "authors" )
 options=('noautodotnew' "nosrcpack")
 

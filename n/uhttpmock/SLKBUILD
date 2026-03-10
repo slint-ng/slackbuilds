@@ -3,7 +3,7 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=uhttpmock
 pkgver=0.5.3
-pkgrel=1slint
+pkgrel=2slint
 source=("http://tecnocode.co.uk/downloads/uhttpmock/$pkgname-$pkgver.tar.xz")
 docs=("readme" "install" "copying" "changelog" "authors" "news" "todo")
 

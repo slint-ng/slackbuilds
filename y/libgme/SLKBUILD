@@ -6,7 +6,7 @@
 pkgname=libgme
 _srcname=game-music-emu
 pkgver=0.6.3
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (a video game music library)"

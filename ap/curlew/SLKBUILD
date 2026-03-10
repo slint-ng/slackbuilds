@@ -9,7 +9,7 @@
 
 pkgname="curlew"
 pkgver=0.2.1
-pkgrel=1
+pkgrel=2
 slackdesc="Easy to use Multimedia converter for Linux in Python"
 url="https://curlew.sourceforge.io"
 license=('Waqf GPL')

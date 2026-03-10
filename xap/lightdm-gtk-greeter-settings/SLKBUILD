@@ -2,7 +2,7 @@
 
 pkgname=lightdm-gtk-greeter-settings
 pkgver=1.2.2
-pkgrel=1slint
+pkgrel=2slint
 source=("https://github.com/Xubuntu/lightdm-gtk-greeter-settings/releases/download/lightdm-gtk-greeter-settings-$pkgver/lightdm-gtk-greeter-settings-$pkgver.tar.gz"
 	"username.patch")
 docs=("readme" "install" "copying" "changelog" "authors" "news" "todo")

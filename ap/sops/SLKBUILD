@@ -1,7 +1,7 @@
 #Maintainer: Didier Spaier <didier~at~slint~dot~fr>
 pkgname=sops
 pkgver=20200725
-pkgrel=1slint
+pkgrel=2slint
 docs=("licence" "todo" "development.txt" "todo")
 url=https://github.com/chrys87/simple-orca-plugin-system
 options=('nosrcpack')

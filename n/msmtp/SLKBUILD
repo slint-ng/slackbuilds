@@ -3,7 +3,7 @@
 
 pkgname=msmtp
 pkgver=1.8.20
-pkgrel=1slint
+pkgrel=2slint
 source=("https://marlam.de/msmtp/releases/${pkgname}-${pkgver}.tar.xz")
 url="https://marlam.de/msmtp/"
 

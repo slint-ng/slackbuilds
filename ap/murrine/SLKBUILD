@@ -3,7 +3,7 @@
 pkgname=murrine
 pkgver=0.98.2
 _majorver=`echo $pkgver | sed "s/\(.*\)\.\(.*\)\.\(.*\)/\1.\2/"`
-pkgrel=1slint
+pkgrel=2slint
 #arch=noarch
 source=("http://ftp.acc.umu.se/pub/GNOME/sources/murrine/${_majorver}/murrine-${pkgver}.tar.xz")
 docs=("readme" "install" "copying" "changelog" "authors" "news" "todo")

@@ -2,7 +2,7 @@
 
 pkgname=pysimpleconfig
 pkgver=0.2
-pkgrel=4slint
+pkgrel=5slint
 source=("simpleconfig-$pkgver.tar.gz")
 #docs=("authors" "install" "readme" "copying")
 options=('nosrcpack')

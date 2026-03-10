@@ -3,7 +3,7 @@
 
 pkgname=mtg
 pkgver=0.1.1
-pkgrel=1slint
+pkgrel=2slint
 export commit=7bdb60d
 #arch=noarch
 source=()

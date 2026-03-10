@@ -2,7 +2,7 @@
 
 pkgname=depfinder
 pkgver=1.4.4
-pkgrel=2slint
+pkgrel=3slint
 source=("$pkgname-$pkgver.tar.xz" "new_packages_database_path.diff")
 docs=("readme" "install" "copying" "changelog" "authors" "news" "todo" "maintainers" "translators")
 options=('nosrcpack')

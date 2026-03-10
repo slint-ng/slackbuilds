@@ -1,6 +1,6 @@
 pkgname=misc-backgrounds
 pkgver=15.0
-pkgrel=1slint
+pkgrel=2slint
 arch=noarch
 options=('noautodotnew')
 slackdesc=\

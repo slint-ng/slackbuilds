@@ -2,7 +2,7 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=pv
 pkgver=1.9.31
-pkgrel=1slint
+pkgrel=2slint
 source=("http://www.ivarch.com/programs/sources/pv-$pkgver.tar.gz")
 docs=("readme.md" "news.md" "copying")
 url=http://www.ivarch.com/programs/pv.shtml

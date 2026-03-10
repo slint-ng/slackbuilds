@@ -2,7 +2,7 @@
 
 pkgname=brltty
 pkgver=6.9
-pkgrel=1slint
+pkgrel=2slint
 source=()
 url="https://github.com/brltty/brltty"
 options=('nosrcpack')

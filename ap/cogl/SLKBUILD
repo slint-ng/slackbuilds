@@ -3,7 +3,7 @@
 pkgname=cogl
 pkgver=1.22.8
 _majorver=`echo $pkgver | cut -d'.' -f1,2`
-pkgrel=1slint
+pkgrel=2slint
 source=("https://ftp.gnome.org/pub/gnome/sources/cogl/${_majorver}/cogl-${pkgver}.tar.xz")
 docs=("readme" "install" "copying" "changelog" "authors" "news" "todo" "about-nls" "coding_style")
 

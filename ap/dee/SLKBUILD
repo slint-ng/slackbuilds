@@ -7,7 +7,7 @@
 #Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=dee
 pkgver=1.2.7
-pkgrel=1slint
+pkgrel=2slint
 arch=("x86_64")
 slackdesc="$pkgname (Model to synchronize multiple instances over DBus)"
 docs=("copying*" "authors" "README*")

@@ -2,7 +2,7 @@
 
 pkgname=sourcery
 pkgver=0.9.6
-pkgrel=3slint
+pkgrel=4slint
 arch=noarch
 source=(sourcery-$pkgver.tar.xz customize_for_Slint.diff)
 docs=("readme" "install" "copying" "changelog" "authors" "news" "todo" "translations")

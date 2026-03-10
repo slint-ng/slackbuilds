@@ -2,7 +2,7 @@
 
 pkgname=libetpan
 pkgver=1.9.4
-pkgrel=1slint
+pkgrel=2slint
 source=("https://github.com/dinhviethoa/libetpan/archive/$pkgver.tar.gz")
 url="http://www.etpan.org/libetpan"
 docs=('ChangeLog' 'COPYRIGHT' 'NEWS')

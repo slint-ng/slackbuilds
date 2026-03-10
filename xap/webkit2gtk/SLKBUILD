@@ -9,7 +9,7 @@
 
 pkgname=webkit2gtk
 pkgver=2.48.1
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (Web content engine for GTK)"
 export url="https://webkitgtk.org"
 arch=(x86_64)

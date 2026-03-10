@@ -5,7 +5,7 @@
 pkgname=python-gflags
 _srcname=python-gflags
 pkgver=3.1.2
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (Google-style command line flags for Python)"

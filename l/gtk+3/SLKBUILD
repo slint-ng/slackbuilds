@@ -3,7 +3,7 @@
 pkgname=gtk+3
 _srcname=gtk
 pkgver=3.24.49
-pkgrel=1slint
+pkgrel=2slint
 source=("$_srcname-$pkgver.tar.xz" "update-gtk-immodules-3.0")
 docs=()
 

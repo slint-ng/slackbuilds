@@ -4,7 +4,7 @@
 pkgname=python3-pillow
 _srcname=pillow
 pkgver=12.1.1
-pkgrel=1slint
+pkgrel=2slint
 source=("https://files.pythonhosted.org/packages/1f/42/5c74462b4fd957fcd7b13b04fb3205ff8349236ea74c7c375766d6c82288/pillow-12.1.1.tar.gz")
 md5sums=("819a76e17b885a9fbb126ddcedfeb57e")
 url="https://github.com/python-pillow/Pillow"

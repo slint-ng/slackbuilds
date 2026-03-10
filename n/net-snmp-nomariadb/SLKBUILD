@@ -3,7 +3,7 @@
 
 pkgname=net-snmp-nomariadb
 pkgver=5.9.3
-pkgrel=1slint
+pkgrel=2slint
 _srcname="net-snmp"
 source=("https://downloads.sourceforge.net/project/net-snmp/net-snmp/${pkgver}/${_srcname}-${pkgver}.tar.gz"
 "net-snmp-5.8-multilib.patch.gz"

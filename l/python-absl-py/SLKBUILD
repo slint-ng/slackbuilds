@@ -4,7 +4,7 @@
 
 pkgname=python-absl-py
 pkgver=1.0.0
-pkgrel=2slint
+pkgrel=3slint
 #arch=noarch
 source=(https://files.pythonhosted.org/packages/bc/44/3ab719b4fea06882351cd9f9582c15ba5b4d376992ac40c3ed377761a172/absl-py-1.0.0.tar.gz)
 #sourcetemplate=http://people.salixos.org/yournick/$pkgname/$pkgver/

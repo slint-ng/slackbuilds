@@ -4,7 +4,7 @@
 
 pkgname=tdlib
 pkgver=git461b740
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="tdlib (Cross-platform library for building Telegram clients)"
 arch=('x86_64')
 url='https://core.telegram.org/tdlib'

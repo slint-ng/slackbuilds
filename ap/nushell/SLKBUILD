@@ -9,7 +9,7 @@
 pkgname=nushell
 pkgver=0.77.1
 _commit='0120e4040d09f3bdffb945fa5fe450b72df7837a'
-pkgrel=1slint
+pkgrel=2slint
 slackdesc='nushell (A new type of shell)'
 arch=('x86_64')
 url='https://www.nushell.sh'

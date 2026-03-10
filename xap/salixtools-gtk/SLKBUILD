@@ -3,7 +3,7 @@
 
 pkgname=salixtools-gtk
 pkgver=2.5.7
-pkgrel=1slint
+pkgrel=2slint
 arch=noarch
 source=("https://github.com/gapan/salixtools-gtk/archive/refs/tags/${pkgver}.tar.gz"
 "set_mate_as_default_session_for_new_users.diff"

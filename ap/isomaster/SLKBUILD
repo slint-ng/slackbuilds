@@ -3,7 +3,7 @@
 
 pkgname=isomaster
 pkgver=1.3.16
-pkgrel=1slint
+pkgrel=2slint
 source=("http://littlesvr.ca/isomaster/releases/isomaster-$pkgver.tar.bz2")
 docs=("*readme*" "*install*" "*copying*" "*changelog*" "*authors*" "*news*" "*todo*" "*txt*")
 url=http://www.littlesvr.ca/isomaster/

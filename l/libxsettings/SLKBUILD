@@ -2,7 +2,7 @@
 
 pkgname=libxsettings
 pkgver=1.2.1
-pkgrel=1
+pkgrel=2
 arch="x86_64"
 pkgdesc="X11 XSettings client library"
 url="https://gitlab.freedesktop.org/xorg/lib/libxsettings"

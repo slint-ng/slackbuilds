@@ -4,7 +4,7 @@
 
 pkgname=kbd
 pkgver=2.6.3
-pkgrel=1slint
+pkgrel=2slint
 source=(
   "https://mirrors.edge.kernel.org/pub/linux/utils/kbd/kbd-${pkgver}.tar.xz"
   "fix-euro2.patch"

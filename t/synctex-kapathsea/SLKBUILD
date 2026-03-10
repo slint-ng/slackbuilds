@@ -1,7 +1,7 @@
 slackdesc='(synctex-kapathsea) shared libraries from texlive needed by atril'
 pkgname=synctex-kapathsea
 pkgver=2023.230322
-pkgrel=1slint
+pkgrel=2slint
 # This SLKBUILD extracts the synctex shared libraries and header files
 # needed by atril from a Slackware texlive package.
 source=("texlive-2023.230322-x86_64-1_slack15.0.txz")

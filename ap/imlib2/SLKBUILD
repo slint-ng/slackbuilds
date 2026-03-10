@@ -3,7 +3,7 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=imlib2
 pkgver=1.8.0
-pkgrel=1slint
+pkgrel=2slint
 source=("http://downloads.sourceforge.net/project/enlightenment/imlib2-src/$pkgver/imlib2-$pkgver.tar.xz")
 docs=("readme" "install" "copying" "changelog" "authors" "news" "todo" "maintainers" "readme.id3")
 url=http://www.enlightenment.org

@@ -7,7 +7,7 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=os-prober
 pkgver=1.81
-pkgrel=1slint
+pkgrel=2slint
 url="http://joey.kitenet.net/code/os-prober/"
 arch=('x86_64')
 slackdesc=(\

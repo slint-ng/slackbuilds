@@ -2,7 +2,7 @@
 
 pkgname=ibus-braille
 pkgver=0.3
-pkgrel=2slint
+pkgrel=3slint
 #arch=noarch
 # source extracted from ibus-braille_0.3.orig.tar.gz from Debian,
 # renamed and re-compressed for easier hnadlintof the version number

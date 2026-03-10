@@ -2,7 +2,7 @@
 
 pkgname=neovim
 pkgver=0.7.2
-pkgrel=1gv
+pkgrel=2gv
 source=("https://github.com/neovim/neovim/archive/refs/tags/v$pkgver.tar.gz")
 docs=("readme" "install" "copying" "changelog" "authors" "news" "todo")
 url=https://github.com/neovim/neovim

@@ -2,7 +2,7 @@
 
 pkgname=foliate
 pkgver=2.6.4
-pkgrel=2slint
+pkgrel=3slint
 slackdesc="$pkgname (A simple and modern GTK eBook reader)"
 arch=("x86_64")
 url="https://johnfactotum.github.io/foliate/"

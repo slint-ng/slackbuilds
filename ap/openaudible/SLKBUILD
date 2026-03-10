@@ -2,7 +2,7 @@
 # Adapted to Slint by Didier Spaier diideratslintdotfr
 pkgname=openaudible-bin
 pkgver=4.5.3
-pkgrel=1
+pkgrel=2
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|

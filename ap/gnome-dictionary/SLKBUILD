@@ -4,7 +4,7 @@
 #Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=gnome-dictionary
 pkgver=40.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (Look up words in dictionary sources)"
 docs=("copying" "authors" "README*" "LICENSE*")
 options=("nosrcpack")

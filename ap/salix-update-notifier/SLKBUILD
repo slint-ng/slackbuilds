@@ -3,7 +3,7 @@
 
 pkgname=salix-update-notifier
 pkgver=1.0.0
-pkgrel=1slint
+pkgrel=2slint
 source=(salix-update-notifier.patch \
 	"https://download.salixos.org/x86_64/15.0/source/xap/salix-update-notifier/${pkgname}-${pkgver}.tar.xz")
 docs=("readme" "install" "copying" "changelog" "authors" "news" "todo" "translators")

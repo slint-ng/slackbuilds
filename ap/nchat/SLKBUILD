@@ -2,7 +2,7 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=nchat
 pkgver=5.9.15
-pkgrel=1slint
+pkgrel=2slint
 source=(
 	"https://github.com/d99kris/$pkgname/archive/refs/tags/v$pkgver.tar.gz"
 )

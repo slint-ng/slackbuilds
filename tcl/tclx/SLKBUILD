@@ -3,7 +3,7 @@
 
 pkgname=tclx
 pkgver=8.6.3
-pkgrel=1slint
+pkgrel=2slint
 source=("https://github.com/flightaware/tclx/archive/refs/tags/v${pkgver}.tar.gz")
 url="https://github.com/flightaware/tclx"
 depends=('libtirpc' 'tcl' 'tk')

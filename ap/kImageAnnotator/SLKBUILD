@@ -3,7 +3,7 @@
 
 pkgname=kImageAnnotator
 pkgver=0.6.1
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (Tool for annotating images)"
 arch=(x86_64)
 url='https://github.com/ksnip/kImageAnnotator'

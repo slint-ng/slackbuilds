@@ -4,7 +4,7 @@
 
 pkgname=cdtool
 pkgver=2.1.8
-pkgrel=2slint
+pkgrel=3slint
 source=("https://hinterhof.net/cdtool/dist/cdtool-2.1.8.tar.gz" \
 )
 https://hinterhof.net/cdtool/

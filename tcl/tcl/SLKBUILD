@@ -3,7 +3,7 @@
 
 pkgname=tcl
 pkgver=8.6.15
-pkgrel=1slint
+pkgrel=2slint
 source=("https://downloads.sourceforge.net/tcl/tcl${pkgver}-src.tar.gz")
 url="https://www.tcl.tk"
 depends=()

@@ -5,7 +5,7 @@
 pkgname=python-pluginbase
 _srcname=pluginbase
 pkgver=1.0.1
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (plugin infrastructure for Python applications)"

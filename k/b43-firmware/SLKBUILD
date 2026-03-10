@@ -3,7 +3,7 @@
 
 pkgname=b43-firmware
 pkgver=6.30.163.46
-pkgrel=2slint
+pkgrel=3slint
 arch=fw
 source=("https://github.com/minios-linux/b43-firmware/releases/download/b43-firmware/broadcom-wl-$pkgver.tar.bz2")
 url="https://web.archive.org/web/20180201170335/https://wireless.wiki.kernel.org/en/users/drivers/b43"

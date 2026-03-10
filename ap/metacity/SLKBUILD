@@ -4,7 +4,7 @@
 #Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=metacity
 pkgver=3.52.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (Window manager of GNOME Flashback)"
 url='https://wiki.gnome.org/Projects/Metacity'
 license=('GPL-2.0-or-later')

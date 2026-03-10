@@ -3,7 +3,7 @@
 
 pkgname=plank-reloaded
 pkgver=0.11.156
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=("plank (simple dock for X11 desktop environments)"
 "Fork of the original plank project @ https://launchpad.net/plank "
 "Home page: https://github.com/zquestz/plank-reloaded"

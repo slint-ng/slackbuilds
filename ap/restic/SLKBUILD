@@ -3,7 +3,7 @@
 
 pkgname=restic
 pkgver=0.18.1
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=("$pkgname (Fast, secure, efficient backup program)")
 url="https://restic.net"
 license=('BSD')

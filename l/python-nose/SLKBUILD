@@ -3,7 +3,7 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=python-nose
 pkgver=1.3.7
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (a discovery-based unittest extension)"
 url='https://readthedocs.org/docs/nose/'
 license=('LGPL2.1')

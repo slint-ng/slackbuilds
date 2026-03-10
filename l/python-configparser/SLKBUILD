@@ -5,7 +5,7 @@
 pkgname=python-configparser
 _srcname=configparser
 pkgver=5.2.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (backport of the Python 3 configparser module)"

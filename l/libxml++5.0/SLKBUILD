@@ -4,7 +4,7 @@
 
 pkgname=libxml++5.0
 pkgver=5.0.3
-pkgrel=1slint
+pkgrel=2slint
 
 slackdesc="$pkgname (C++ bindings to libxml2)"
 url="https://libxmlplusplus.github.io/libxmlplusplus/"

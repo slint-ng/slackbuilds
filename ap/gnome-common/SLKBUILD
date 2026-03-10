@@ -2,7 +2,7 @@
 #Included in Slint Didier Spaier <didier~at~slint~dot~fr>
 pkgname=gnome-common
 pkgver=3.18.0
-pkgrel=2slint
+pkgrel=3slint
 arch=noarch
 source=("http://ftp.acc.umu.se/pub/GNOME/sources/gnome-common/3.18/gnome-common-3.18.0.tar.xz")
 docs=("readme" "install" "copying" "changelog" "authors" "news" "todo")

@@ -4,7 +4,7 @@
 
 pkgname=pkgtools
 pkgver=15.1
-pkgrel=1slint
+pkgrel=2slint
 arch=noarch
 # Rebuild this archive with ./make-manpages-l10n.sh <baseline-pkgtools.txz>.
 source=("manpages-l10n.tar.xz")

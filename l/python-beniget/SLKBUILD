@@ -3,7 +3,7 @@
 
 pkgname=python-beniget
 pkgver=0.4.2.post1
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (A static analyzer for Python code)"
 url='https://github.com/serge-sans-paille/beniget'
 license=(BSD)

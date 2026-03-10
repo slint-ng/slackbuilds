@@ -3,7 +3,7 @@
 
 pkgname=ninja
 pkgver=1.12.1
-pkgrel=1slint
+pkgrel=2slint
 source=("https://github.com/ninja-build/ninja/archive/refs/tags/v${pkgver}.tar.gz")
 url="https://ninja-build.org/"
 

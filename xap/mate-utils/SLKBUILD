@@ -4,7 +4,7 @@
 pkgname=mate-utils
 pkgver=1.24.0
 _majorver=`echo $pkgver | sed "s/\(.*\)\.\(.*\)\.\(.*\)/\1.\2/"`
-pkgrel=1slint
+pkgrel=2slint
 source=("http://pub.mate-desktop.org/releases/${_majorver}/mate-utils-${pkgver}.tar.xz")
 docs=("readme" "install" "copying" "changelog" "authors" "news" "todo")
 options=('noautodotnew' 'nosrcpack')

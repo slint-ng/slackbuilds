@@ -2,7 +2,7 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=ru-tts
 pkgver=6.0.3
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|

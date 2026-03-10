@@ -3,7 +3,7 @@
 pkgname=python-pdf2image
 export _name=pdf2image
 pkgver=1.16.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(\
 "python-pdf2image (convert PDF to a PIL Image object)"
 "Python wrapper around the pdftoppm and pdftocairo command line tools"

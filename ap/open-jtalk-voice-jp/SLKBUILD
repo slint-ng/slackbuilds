@@ -3,7 +3,7 @@
 pkgname=open-jtalk-voice-jp
 export srcname=hts_voice_nitech_jp_atr503_m001
 pkgver=1.05
-pkgrel=1slint
+pkgrel=2slint
 #arch=noarch
 source=(
 "https://sourceforge.net/projects/open-jtalk/files/HTS%20voice/hts_voice_nitech_jp_atr503_m001-1.05/hts_voice_nitech_jp_atr503_m001-1.05.tar.gz"

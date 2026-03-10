@@ -5,7 +5,7 @@
 pkgname=aaa_base
 pkgver=15.0
 _srcname="_aaa_base"
-pkgrel=1slint
+pkgrel=2slint
 source=("${_srcname}.tar.xz")
 options=("noextract" "nosrcpack" "noautodotnew")
 

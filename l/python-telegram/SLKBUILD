@@ -1,7 +1,7 @@
 # Maintainer: j.r <j.r@jugendhacker.de>
 pkgname=python-telegram
 pkgver=0.15.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="python-telegram (Python API for the tdlib lib for Telegram clients.)"
 url="https://github.com/alexander-akhmetov/python-telegram"
 license=('MIT')

@@ -2,7 +2,7 @@
 
 pkgname=liblouisxml
 pkgver=git5ebf06c
-pkgrel=1slint
+pkgrel=2slint
 arch=x86_64
 source=("${pkgname}-${pkgver}.tar.xz" "liblouisxml_2.4.0-12.debian.tar.xz")
 options=("nosrcpack"

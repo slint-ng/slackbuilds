@@ -4,7 +4,7 @@
 
 pkgname=imake
 pkgver=1.0.10
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname X.Org imake program and related utilities"
 arch=('x86_64')
 #url="https://xorg.freedesktop.org/"

@@ -7,7 +7,7 @@
 
 pkgname=yabasic
 pkgver=2.90.2
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=( \
 "$pkgname (Yet Another Basic)"
 "yabasic is a traditional basic interpreter. It understands most of"

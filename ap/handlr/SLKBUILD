@@ -4,7 +4,7 @@
 
 pkgname=handlr
 pkgver=0.6.4
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (powerful alternative to xdg-utils written in Rust)"
 arch=('x86_64')
 url="https://github.com/chmln/handlr"

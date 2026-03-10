@@ -2,7 +2,7 @@
 #Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=lightdm-gtk-greeter
 pkgver=2.0.8
-pkgrel=3slint
+pkgrel=4slint
 source=("https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-$pkgver/lightdm-gtk-greeter-$pkgver.tar.gz"
 	"lightdm-gtk-greeter.conf"
 	"lightdm-gg-icon_size.patch")

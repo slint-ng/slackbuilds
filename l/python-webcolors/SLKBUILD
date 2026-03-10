@@ -2,7 +2,7 @@
 
 pkgname=python-webcolors
 pkgver=1.11.1
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(\
 "$pkgname (library for work with color names and value formats)"
 "Library for working with color names and color value formats defined"

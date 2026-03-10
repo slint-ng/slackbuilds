@@ -6,7 +6,7 @@
 
 pkgname=fim
 pkgver=0.7.1
-pkgrel=2
+pkgrel=3
 slackdesc=("$pkgname (highly customizable and scriptable image viewer."
 "It is based on the Fbi image viewer (by Gerd Hoffmann), and works"
 "primarily in the Linux frame buffer console."

@@ -2,7 +2,7 @@
 
 pkgname=slint-user-settings
 pkgver=15.0
-pkgrel=8slint
+pkgrel=9slint
 arch=noarch
 source=($pkgname.tar.xz)
 options=('noautodotnew' 'nosrcpack')

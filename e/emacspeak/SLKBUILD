@@ -5,7 +5,7 @@
 
 pkgname=emacspeak
 pkgver=60.0
-pkgrel=4slint
+pkgrel=5slint
 source=("https://github.com/tvraman/emacspeak/releases/download/${pkgver}/emacspeak-${pkgver}.tar.bz2")
 url="https://github.com/tvraman/emacspeak"
 

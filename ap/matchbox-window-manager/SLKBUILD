@@ -5,7 +5,7 @@
 pkgname=matchbox-window-manager
 pkgver=1.2.2
 export _commit=844f61069896fe3f549ab425d731c061028f697c
-pkgrel=2slint
+pkgrel=3slint
 slackdesc="$pkgname (The Matchbox window manager)"
 arch=('x86_64')
 license=('GPL')

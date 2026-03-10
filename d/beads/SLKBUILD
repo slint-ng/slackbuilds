@@ -4,7 +4,7 @@
 pkgname=beads
 pkgver=0.55.4
 _tag="v${pkgver}"
-pkgrel=2slint
+pkgrel=3slint
 arch=('x86_64' 'aarch64')
 slackdesc=\
 (

@@ -6,7 +6,7 @@
 
 pkgname=$(pwd|sed "s,.*/,,")
 pkgver=13.0
-pkgrel=2slint
+pkgrel=3slint
 source=("${pkgname}-${pkgver}.tar.gz")
 #url: https://github.com/book-readers/daisy-player
 docs=("copying" "license" "readme" "compile")

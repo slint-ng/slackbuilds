@@ -2,7 +2,7 @@
 
 pkgname=latest-browsers
 pkgver=2
-pkgrel=4slint
+pkgrel=5slint
 arch=noarch
 options=('noautodotnew' 'nosrcpack')
 slackdesc=\

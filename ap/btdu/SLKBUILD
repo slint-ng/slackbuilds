@@ -4,7 +4,7 @@
 
 pkgname=btdu
 pkgver=0.5.1
-pkgrel=1slint
+pkgrel=2slint
 source=("${pkgname}-${pkgver}.tar.gz" "${pkgname}"-static-x86_64)
 docs=("ARCHITECTURE.html" "CONCEPTS.html" "README.html" "COPYING")
 url=https://github.com/CyberShadow/btdu

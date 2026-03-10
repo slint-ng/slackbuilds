@@ -5,7 +5,7 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=gnote
 pkgver=44.2
-pkgrel=2slint
+pkgrel=3slint
 slackdesc=("$pkgname (Gnote is a simple note-taking application.)"
 "Gnote is a simple note-taking application."
 "It allows you to capture your ideas, link them together using"

@@ -4,7 +4,7 @@
 pkgname=python-typogrify
 _pyname=typogrify
 pkgver=2.0.7
-pkgrel=2slint
+pkgrel=3slint
 slackdesc="$pkgname (filters easing caring typography on the web)"
 url='https://github.com/mintchaos/typogrify'
 license=('BSD')

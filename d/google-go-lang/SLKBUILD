@@ -15,7 +15,7 @@
 #Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=google-go-lang
 pkgver=1.26.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (Core compiler tools for the Go programming language)"
 url='https://golang.org/'
 license=(BSD-3-Clause)

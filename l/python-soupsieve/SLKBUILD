@@ -5,7 +5,7 @@
 pkgname=python-soupsieve
 _srcname=soupsieve
 pkgver=2.3.1
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (CSS selector library for Python)"

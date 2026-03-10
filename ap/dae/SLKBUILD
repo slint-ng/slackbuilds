@@ -2,7 +2,7 @@
 export PKG=$startdir/pkg
 pkgname=dae
 pkgver=20221024
-pkgrel=1slint
+pkgrel=2slint
 source=("https://www.sanote.co.za/downloads/dae-latest.tar.bz2" "README.Slint")
 docs=("audioeditor.txt" "copying" "install" "readme" "dae_tutorial.ogg" \
 "user_guide.txt" "dae_tutorial.wav" "duty.wav" "README.Slint")

@@ -4,7 +4,7 @@
 #Adapted for Slint by Didier Spaier <didier~at~slint~dot~fr>
 pkgname=libytnef
 pkgver=2.0
-pkgrel=1slint
+pkgrel=2slint
 epoch=1
 slackdesc="$pkgname (Yerase's TNEF Stream Reader library, decodes winmail.dat)"
 url="https://github.com/Yeraze/ytnef"

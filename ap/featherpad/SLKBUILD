@@ -3,7 +3,7 @@
 _pkgname=featherpad
 pkgname=featherpad
 pkgver=git836029e
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (lightweight Qt5 plain text editor for Linux)"
 url='https://github.com/tsujan/FeatherPad'
 license=('GPL3')

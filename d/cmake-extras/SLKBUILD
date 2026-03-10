@@ -2,7 +2,7 @@
 
 pkgname="cmake-extras"
 pkgver="1.6"
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (A collection of add-ons for the CMake build tool)"
 url="https://gitlab.com/ubports/core/${pkgname}"
 license=("LGPL3")

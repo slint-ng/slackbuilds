@@ -3,7 +3,7 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=wxGTK3
 pkgver=3.2.8
-pkgrel=1slint
+pkgrel=2slint
 arch=(x86_64)
 url='https://wxwidgets.org'
 license=(custom:wxWindows)

@@ -5,7 +5,7 @@
 #  - Didier
 pkgname=open-jtalk-mecab-naist-jdic
 pkgver=1.11
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=("$pkgname (Japanese Dictionary converted for Mecab)"
 "This dictionary from NAIST is used by Open Jtalk."
 "It is this needed by voices like open-jtalk-voice-jp"

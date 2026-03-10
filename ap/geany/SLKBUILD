@@ -2,7 +2,7 @@
 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 pkgname=geany
 pkgver=2.0
-pkgrel=1slint
+pkgrel=2slint
 source=(http://download.geany.org/geany-$pkgver.tar.bz2)
 docs=("readme*" "install" "copying" "changelog" "authors" "news" "thanks" "todo" "hacking.html" \
 "geany.html" "geany-${pkgver}.pdf" "reference")

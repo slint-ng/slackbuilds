@@ -2,7 +2,7 @@
 
 pkgname=matchbox-panel-2
 pkgver=2.12
-pkgrel=1slint
+pkgrel=2slint
 docs=("AUTHORS" "COPYING" "README")
 source=("https://git.yoctoproject.org/matchbox-panel-2/snapshot/matchbox-panel-2-2.12.tar.gz")
 doinst() {

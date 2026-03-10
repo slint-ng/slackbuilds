@@ -2,7 +2,7 @@
 
 pkgname=python-pytg
 pkgver=git6a936ab
-pkgrel=1slint
+pkgrel=2slint
 source=("pytg-${pkgver}.tar.xz")
 docs=("LICENSE")
 options=("nosrcpack")

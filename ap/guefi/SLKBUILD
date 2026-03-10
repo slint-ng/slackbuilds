@@ -2,7 +2,7 @@
 
 pkgname=guefi
 pkgver=0.2.0
-pkgrel=1slint
+pkgrel=2slint
 arch=x86_64
 source=("guefi-$pkgver.tar.xz")
 docs=("readme.md" "install" "copying" "changelog" "authors" "news" "todo")

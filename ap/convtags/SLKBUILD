@@ -2,7 +2,7 @@
 
 pkgname=convtags
 pkgver=0.1+git9C86091
-pkgrel=1slint
+pkgrel=2slint
 arch=noarch
 source=(${pkgname}-${pkgver}.tar.xz)
 docs=("BUGS" "README")

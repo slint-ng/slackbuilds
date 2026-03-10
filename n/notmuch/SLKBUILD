@@ -3,7 +3,7 @@
 
 pkgname=notmuch
 pkgver=0.37
-pkgrel=1slint
+pkgrel=2slint
 source=("https://github.com/notmuch/notmuch/archive/${pkgver}/notmuch-${pkgver}.tar.gz")
 url="https://notmuchmail.org"
 

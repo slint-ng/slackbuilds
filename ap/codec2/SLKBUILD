@@ -3,7 +3,7 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=codec2
 pkgver=1.0.5
-pkgrel=1slint
+pkgrel=2slint
 epoch=1
 slackdesc=(\
 "$pkgname (Open source speech codec)"

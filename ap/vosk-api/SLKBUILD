@@ -2,7 +2,7 @@
 # Included in Slint by Didier Spaier diider at slint dot fr
 pkgname='vosk-api'
 pkgver=0.3.45
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=("$pkgname (Offline speech recognition toolkit)"
 "This is binary repackaging"
 "Website: https://alphacephei.com/vosk/"

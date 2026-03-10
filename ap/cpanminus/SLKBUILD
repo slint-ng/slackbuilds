@@ -2,7 +2,7 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=cpanminus
 pkgver=1.7047
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (get, unpack, build and install modules from CPAN)"
 license=(PerlArtistic GPL)
 options=(nosrcpack)

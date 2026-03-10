@@ -2,7 +2,7 @@
 
 pkgname=matchbox-panel-manager
 pkgver=0.9.3
-pkgrel=1slint
+pkgrel=2slint
 docs=("COPYING")
 # source tarball from Debian
 source=("http://deb.debian.org/debian/pool/main/m/matchbox-panel-manager/matchbox-panel-manager_0.1+git20041202.orig.tar.xz")

@@ -4,7 +4,7 @@ Packager: Didier Spaier didieratslintdotfr
 
 pkgname=midish
 pkgver=1.3.3
-pkgrel=1slint
+pkgrel=2slint
 #arch=noarch
 source=("http://www.midish.org/$pkgname-$pkgver.tar.gz")
 #sourcetemplate=http://people.salixos.org/yournick/$pkgname/$pkgver/

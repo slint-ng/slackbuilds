@@ -3,7 +3,7 @@
 _pkgname=tesserwrap
 pkgname=python-$_pkgname
 pkgver=0.1.6
-pkgrel=3slint
+pkgrel=4slint
 slackdesc="$pkgname (Basic python bindings to the Tesseract C++ API)"
 license=("APACHE")
 url="https://pypi.python.org/pypi/tesserwrap"

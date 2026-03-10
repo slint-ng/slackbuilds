@@ -2,7 +2,7 @@
 
 pkgname=edbrowse
 pkgver=3.8.2.1
-pkgrel=1slint
+pkgrel=2slint
 source=("${pkgname}-${pkgver}.tar.gz")
 options=("nosrcpack"
 )

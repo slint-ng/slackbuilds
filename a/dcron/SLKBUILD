@@ -3,7 +3,7 @@
 
 pkgname=dcron
 pkgver=4.5
-pkgrel=1slint
+pkgrel=2slint
 source=("https://www.jimpryor.net/linux/releases/${pkgname}-${pkgver}.tar.gz"
 0002-README-var-spool-cron-crontabs-root.patch.gz
 "0003-CHANGELOG-tweak.patch.gz"

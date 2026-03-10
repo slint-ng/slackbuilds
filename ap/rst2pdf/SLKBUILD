@@ -2,7 +2,7 @@
 
 pkgname=rst2pdf
 pkgver=0.99
-pkgrel=1slint
+pkgrel=2slint
 source=(https://files.pythonhosted.org/packages/39/92/45e06d31e69d4b3a6ec75826555ea0d03b8cb3a68f879d642af90db29f88/rst2pdf-0.99.tar.gz)
 url=http://rst2pdf.ralsina.me/stories/index.html
 

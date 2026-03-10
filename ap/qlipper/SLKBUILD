@@ -2,7 +2,7 @@
 # Contributor: sxe <sxxe@gmx.de>
 pkgname='qlipper'
 pkgver=5.1.2
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="pkgname (clipboard history applet based on qt)"
 url="https://github.com/pvanek/${pkgname}"
 license=('GPL2')

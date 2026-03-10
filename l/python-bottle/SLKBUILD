@@ -5,7 +5,7 @@
 # Included in Slint by Didier Spaier didieratslinytdotfr
 pkgname=python-bottle
 pkgver=0.12.19
-pkgrel=2slint
+pkgrel=3slint
 slackdesc="$pkgname (simple micro-framework for small web-applications)"
 url="https://bottlepy.org"
 license=('MIT')

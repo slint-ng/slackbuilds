@@ -2,7 +2,7 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=wm-logout
 pkgver=0.4
-pkgrel=1slint
+pkgrel=2slint
 arch=noarch
 source=("http://people.salixos.org/djemos/salix/openbox/wm-logout/$pkgname-$pkgver.tar.gz" "xlogout" "xlogout.patch")
 url="git://github.com/thenktor/wm-logout.git"

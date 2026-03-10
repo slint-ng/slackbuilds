@@ -2,7 +2,7 @@
 #Installed in Slint Didier Spaier <didier~at~slint~dot~fr>
 pkgname=python-beautifulsoup4
 pkgver=4.10.0
-pkgrel=1slint
+pkgrel=2slint
 source=('https://www.crummy.com/software/BeautifulSoup/bs4/download/4.10/beautifulsoup4-4.10.0.tar.gz')
 sourcetemplate=http://people.salixos.org/laprjns/$pkgname/$pkgver/
 docs=("readme.txt" "copying.txt" "authors.txt" "news.txt" "todo.txt")

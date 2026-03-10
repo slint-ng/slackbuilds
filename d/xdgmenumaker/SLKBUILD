@@ -2,7 +2,7 @@
 
 pkgname=xdgmenumaker
 pkgver=git7dd8a63
-pkgrel=1slint
+pkgrel=2slint
 arch=noarch
 #source=("xdgmenumaker-$pkgver.tar.xz")
 docs=("readme.md" "install.md" "copying" "changelog" "authors" "news" "todo")

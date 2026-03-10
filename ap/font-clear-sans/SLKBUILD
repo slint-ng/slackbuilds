@@ -1,7 +1,7 @@
 pkgname=font-clear-sans
 export commit=1993725
 pkgver=git$commit
-pkgrel=1slint
+pkgrel=2slint
 arch=noarch
 options=('nosrcpack')
 docs=("LICENSE.txt" "README.md")

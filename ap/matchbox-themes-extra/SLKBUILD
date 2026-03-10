@@ -2,7 +2,7 @@
 
 pkgname=matchbox-themes-extra
 pkgver=0.4
-pkgrel=1slint
+pkgrel=2slint
 docs=("AUTHORS" "copyright")
 # source tarball from Debian
 source=("http://deb.debian.org/debian/pool/main/m/matchbox-themes-extra/matchbox-themes-extra_0.4+git20051003.orig.tar.xz")

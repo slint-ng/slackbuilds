@@ -2,7 +2,7 @@
 
 pkgname=dotnew
 pkgver=2.0.0
-	pkgrel=2slint
+	pkgrel=3slint
 arch=noarch
 source=($pkgver.tar.?z)
 docs=("readme" "install" "copying" "changelog" "authors" "news" "todo" "translations")

@@ -5,7 +5,7 @@
 
 pkgname=emacspeak-ss
 pkgver=1.12.1
-pkgrel=2slint
+pkgrel=3slint
 source=("https://deb.debian.org/debian/pool/main/e/emacspeak-ss/emacspeak-ss_${pkgver}.orig.tar.gz")
 url="https://packages.debian.org/source/sid/emacspeak-ss"
 

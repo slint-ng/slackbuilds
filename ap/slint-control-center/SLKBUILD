@@ -2,7 +2,7 @@
 
 pkgname=slint-control-center
 pkgver=15.0
-pkgrel=2slint
+pkgrel=3slint
 arch=noarch
 options=('noautodotnew' 'nosrcpack')
 

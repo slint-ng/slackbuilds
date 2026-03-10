@@ -4,7 +4,7 @@
 
 pkgname=gtksourceview
 pkgver=4.8.2
-pkgrel=1slint
+pkgrel=2slint
 source=(gtksourceview-4.8.1.tar.xz")
 docs=("readme" "install" "copying" "changelog" "authors" "news" "todo" "maintainers" "hacking")
 url=http://projects.gnome.org/gtksourceview

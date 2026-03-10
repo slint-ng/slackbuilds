@@ -4,7 +4,7 @@
 # included in Slint by Didier Spaier didieratslintdotfr
 pkgname=gspell
 pkgver=1.9.1
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="a flexible API to implement the spell checking in a GTK+ application"
 url="https://wiki.gnome.org/Projects/gspell"
 arch=(x86_64)

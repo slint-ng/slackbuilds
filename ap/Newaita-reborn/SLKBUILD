@@ -5,7 +5,7 @@
 pkgname=Newaita-reborn
 export commit=5b19f46
 pkgver=git$commit
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (Remaster Newaita icon theme)"
 docs=("copying" "authors" "README*" license)
 options=("nosrcpack")

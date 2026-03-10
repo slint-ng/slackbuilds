@@ -4,7 +4,7 @@
 pkgname=cargo-nextest
 pkgver=0.9.129
 _tag="$pkgname-$pkgver"
-pkgrel=1slint
+pkgrel=2slint
 arch=('x86_64' 'aarch64')
 slackdesc=\
 (

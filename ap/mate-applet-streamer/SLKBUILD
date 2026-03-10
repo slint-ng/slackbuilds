@@ -2,7 +2,7 @@
 # Included in Slint by Didier Spaier fifirtatslintdotfr
 pkgname=mate-applet-streamer
 pkgver=0.4.1
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (Play your radio station with a single click)"
 url="http://www.zavedil.com/online-radio-applet/"
 arch=('x86_64')

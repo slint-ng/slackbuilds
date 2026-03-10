@@ -5,7 +5,7 @@
 
 pkgname=pastebinit
 pkgver=1.5
-pkgrel=1slint
+pkgrel=2slint
 arch=noarch
 source=(
   "https://launchpad.net/pastebinit/trunk/${pkgver}/+download/${pkgname}-${pkgver}.tar.bz2"

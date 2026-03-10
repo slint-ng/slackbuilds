@@ -3,7 +3,7 @@
 pkgname=onboard
 pkgver=1.4.1
 _majorver=$( echo $pkgver | cut -d'.' -f 1,2 )
-pkgrel=4slint
+pkgrel=5slint
 source=("https://launchpad.net/onboard/${_majorver}/${pkgver}/+download/onboard-${pkgver}.tar.gz"
 "0001-data-Default-to-the-Nightshade-theme.patch"
 "startonboard.desktop"

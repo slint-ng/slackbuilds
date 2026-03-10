@@ -2,7 +2,7 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=salix-xfwm4-theme
 pkgver=0.2
-pkgrel=1slint
+pkgrel=2slint
 arch=noarch
 source=("$pkgname-$pkgver.tar.xz")
 docs=("readme.md" "copying")

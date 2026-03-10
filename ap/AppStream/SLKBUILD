@@ -2,7 +2,7 @@
 # included in Slint by Didier Spaier didieratslint.fr
 pkgname=AppStream
 pkgver=1.0.4
-pkgrel=1slint
+pkgrel=2slint
 #arch=noarch
 source=("https://www.freedesktop.org/software/appstream/releases/AppStream-${pkgver}.tar.xz")
 #sourcetemplate=http://people.salixos.org/yournick/$pkgname/$pkgver/

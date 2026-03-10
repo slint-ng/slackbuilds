@@ -9,7 +9,7 @@
 
 pkgname=python-websocket-client
 pkgver=1.7.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (WebSocket client library for Python)"
 #arch=('any')
 url="https://github.com/websocket-client/websocket-client"

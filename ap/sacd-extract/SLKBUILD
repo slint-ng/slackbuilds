@@ -2,7 +2,7 @@
 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 pkgname=sacd-extract
 pkgver=0.3.8
-pkgrel=4slint
+pkgrel=5slint
 slackdesc="$pkgname (Extract DSD files from an SACD image)"
 source=(missing-typedefs.patch)
 url="https://sourceforge.net/p/sacd-ripper/"

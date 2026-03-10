@@ -3,7 +3,7 @@
 
 pkgname=ripgrep
 pkgver=15.1.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|

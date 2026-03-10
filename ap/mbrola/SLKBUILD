@@ -3,7 +3,7 @@
 
 pkgname=mbrola
 pkgver=git6b15b8f
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|

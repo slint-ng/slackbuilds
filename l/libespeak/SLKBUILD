@@ -7,7 +7,7 @@
 pkgname=libespeak
 export srcnam=espeak
 pkgver=1.48.04
-pkgrel=1slint
+pkgrel=2slint
 slackdesc='libespeak (shared library of the espeak speech synthesizer)'
 url='http://espeak.sourceforge.net/'
 license=('GPL')

@@ -4,7 +4,7 @@
 pkgname=hardinfo
 commit=0f5dea0
 pkgver=git$commit
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (A system information and benchmark tool.)"
 arch=('x86_64')
 url="https://github.com/lpereira/hardinfo"

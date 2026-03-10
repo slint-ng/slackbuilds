@@ -4,7 +4,7 @@
 
 pkgname=salixtools
 pkgver=1.13.8
-pkgrel=1slint
+pkgrel=2slint
 arch=noarch
 source=("https://github.com/gapan/salixtools/archive/refs/tags/${pkgver}.tar.gz" 
 "set_session_as_mate_for_new_users.diff"

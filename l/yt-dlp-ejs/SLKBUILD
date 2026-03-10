@@ -15,7 +15,7 @@ depends=(nodejs
 makedepends=(nodejs
              pnpm
              python3-build
-             python-hatch-vcs
+             python3-hatch-vcs
              python3-hatchling
              python3-installer)
 checkdepends=(python-pytest)

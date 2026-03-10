@@ -5,7 +5,7 @@
 
 pkgname=ostree
 pkgver=2025.2
-pkgrel=1slint
+pkgrel=2slint
 source=("https://github.com/ostreedev/ostree/releases/download/v${pkgver}/libostree-${pkgver}.tar.xz")
 docs=("README.md" "TODO" "COPYING")
 url=https://github.com/ostreedev/ostree/

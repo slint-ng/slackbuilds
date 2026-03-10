@@ -3,7 +3,7 @@
 
 pkgname=xsettings-client
 pkgver=0.10
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (Cross toolkit settings like theme parameters"
 arch=('x86_64')
 license=('GPL')

@@ -3,7 +3,7 @@
 pkgname=qogir-theme
 _pkgverfull=2023-05-24
 pkgver=`echo ${_pkgverfull} | tr -d '-'`
-pkgrel=2slint
+pkgrel=3slint
 arch=noarch
 source=("https://github.com/vinceliuice/Qogir-theme/archive/${_pkgverfull}.tar.gz")
 url=https://github.com/vinceliuice/Qogir-theme

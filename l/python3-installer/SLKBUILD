@@ -6,7 +6,7 @@
 pkgname=python3-installer
 _srcname=installer
 pkgver=0.7.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (Low-level wheel installer library)"

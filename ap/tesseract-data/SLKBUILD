@@ -2,7 +2,7 @@
 
 pkgname=tesseract-data
 pkgver=4.0.0
-pkgrel=7slint
+pkgrel=8slint
 options=(nosrcpack)
 slackdesc=\
 (

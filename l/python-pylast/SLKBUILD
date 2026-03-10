@@ -5,7 +5,7 @@
 pkgname=python-pylast
 _srcname=pylast
 pkgver=5.0.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (Python interface to the Last.fm API)"

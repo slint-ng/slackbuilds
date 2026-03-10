@@ -5,7 +5,7 @@
 pkgname=dialog
 _srcver=1.3-20211214
 pkgver=1.3_20211214
-pkgrel=1slint
+pkgrel=2slint
 source=(
   "https://invisible-island.net/archives/dialog/${pkgname}-${_srcver}.tgz"
   "dialog.all.use_height.diff.gz"

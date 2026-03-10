@@ -3,7 +3,7 @@
 
 export commit=6de8aaa
 pkgver=git$commit
-pkgrel=1slint
+pkgrel=2slint
 pkgname=hardinfo2
 slackdesc=("hardinfo2 (System Information and Benchmark for Linux Systems)"
 "Hardinfo can gather information about your system's hardware and"

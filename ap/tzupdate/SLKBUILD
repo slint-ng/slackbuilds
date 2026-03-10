@@ -2,7 +2,7 @@
 pkgname=tzupdate
 pkgver=2.1.0
 
-pkgrel=1slint
+pkgrel=2slint
 source=("https://github.com/cdown/tzupdate/archive/2.1.0.tar.gz")
 docs=("LICENSE" "install" "copying" "changelog" "authors" "news" "todo" "license" "changes")
 url=http://pygments.org

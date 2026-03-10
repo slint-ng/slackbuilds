@@ -3,7 +3,7 @@
 
 pkgname=geany-plugins
 pkgver=2.0
-pkgrel=1slint
+pkgrel=2slint
 source=("http://plugins.geany.org/geany-plugins/geany-plugins-$pkgver.tar.bz2")
 docs=("readme*" "install" "copying" "changelog" "authors" "news" "todo")
 url=http://plugins.geany.org

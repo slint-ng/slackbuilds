@@ -5,7 +5,7 @@
 #Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=zeitgeist
 pkgver=1.0.4
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (Service logging user activities and events)"
 docs=("copying" "authors" "README*" "LICENSE*")
 options=("nosrcpack")

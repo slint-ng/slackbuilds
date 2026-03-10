@@ -2,7 +2,7 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=python-textconfig
 pkgver=0.2
-pkgrel=1slint
+pkgrel=2slint
 source=("textconfig-$pkgver.tar.gz")
 docs=("authors" "install" "readme.md" "copying")
 options=('nosrcpack')

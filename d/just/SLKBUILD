@@ -3,7 +3,7 @@
 
 pkgname=just
 pkgver=1.46.0
-pkgrel=1slint
+pkgrel=2slint
 arch=('x86_64' 'aarch64')
 slackdesc=\
 (

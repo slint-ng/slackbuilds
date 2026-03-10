@@ -3,7 +3,7 @@
 
 pkgname=portaudio
 pkgver=19.7.0
-pkgrel=1slint
+pkgrel=2slint
 source=(https://github.com/PortAudio/portaudio/archive/refs/tags/v19.7.0.tar.gz)
 docs=("README.md" "LICENSE.txt" "README.configure.txt")
 options=("nosrcpack")

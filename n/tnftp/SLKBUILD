@@ -3,7 +3,7 @@
 
 pkgname=tnftp
 pkgver=20210827
-pkgrel=1slint
+pkgrel=2slint
 source=("https://ftp.netbsd.org/pub/NetBSD/misc/lukemftp/${pkgname}-${pkgver}.tar.gz")
 url="https://ftp.netbsd.org/pub/NetBSD/misc/lukemftp"
 

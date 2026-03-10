@@ -2,7 +2,7 @@
 
 pkgname=$(pwd|sed "s,.*/,,")
 pkgver=0.5
-pkgrel=6slint
+pkgrel=7slint
 source=("speechd-up-0.5.tar.xz" "speechd-up.conf" "rc.speechd-up" "README.speechd-up" "SpeakupDesktopKeys" "SpeakupLaptopKeys")
 docs=("gpl.texi" "fdl.texi" "speechd-up.texi" "README.speechd-up" "SpeakupDesktopKeys" "SpeakupLaptopKeys")
 options=("nosrcpack" "noautodotnew")

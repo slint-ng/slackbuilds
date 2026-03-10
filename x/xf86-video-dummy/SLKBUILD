@@ -5,7 +5,7 @@
 _pkgname=xf86-video-dummy
 pkgname=xf86-video-dummy
 pkgver=0.3.8
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (X.org dummy video driver with an allocated vt)"
 url="https://xorg.freedesktop.org/"
 license=('custom')

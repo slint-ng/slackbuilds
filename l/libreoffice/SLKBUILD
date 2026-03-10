@@ -4,7 +4,7 @@
 
 pkgname=libreoffice
 pkgver=25.8.4
-pkgrel=1slint
+pkgrel=2slint
 url="https://www.libreoffice.org/"
 options=('nosrcpack')
 source=()

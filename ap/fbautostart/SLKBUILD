@@ -2,7 +2,7 @@
 
 pkgname=fbautostart
 pkgver=2.718281828
-pkgrel=2slint
+pkgrel=3slint
 source=("https://github.com/paultag/fbautostart/archive/$pkgver.tar.gz")
 docs=("readme*" "install" "copying" "changelog" "authors" "news" "todo" "hacking" "copyright" "thanks")
 url=https://github.com/paultag/fbautostart

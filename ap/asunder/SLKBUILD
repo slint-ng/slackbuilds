@@ -3,7 +3,7 @@
 
 pkgname=asunder
 pkgver=3.0
-pkgrel=1slint
+pkgrel=2slint
 source=(http://littlesvr.ca/asunder/releases/asunder-$pkgver.tar.bz2)
 docs=("readme" "install" "copying" "changelog" "authors" "news" "todo")
 url=http://littlesvr.ca/asunder/

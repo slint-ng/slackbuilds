@@ -6,7 +6,7 @@
 
 pkgname=slapt-get
 pkgver=0.11.11
-pkgrel=4slint
+pkgrel=5slint
 source=(
 	"https://github.com/jaos/slapt-get/archive/refs/tags/${pkgver}.tar.gz"
 	"slapt-get-spkg.diff"

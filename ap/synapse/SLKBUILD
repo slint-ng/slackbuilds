@@ -4,7 +4,7 @@
 #Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=synapse
 pkgver=0.2.99.4
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (A semantic file launcher)"
 docs=("copying" "authors" "README*" "LICENSE*")
 options=("nosrcpack")

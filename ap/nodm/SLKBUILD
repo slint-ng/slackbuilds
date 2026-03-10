@@ -3,7 +3,7 @@
 
 pkgname=nodm
 pkgver=0.13
-pkgrel=1slint
+pkgrel=2slint
 forkBranch=10-rebase
 source=(
   "https://github.com/dgw/nodm/archive/${forkBranch}.tar.gz"

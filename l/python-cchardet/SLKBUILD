@@ -5,7 +5,7 @@
 pkgname=python-cchardet
 _srcname=cchardet
 pkgver=2.1.7
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (universal character encoding detector)"

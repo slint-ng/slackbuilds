@@ -6,7 +6,7 @@
 pkgname=python3-pythondialog
 _srcname=pythondialog
 pkgver=3.5.3
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
   #|-----handy-ruler------------------------------------------------------|
   "$pkgname: $pkgname (dialog utility)"

@@ -2,7 +2,7 @@
 
 pkgname=matchbox-common
 pkgver=0.9.1
-pkgrel=1slint
+pkgrel=2slint
 docs=("copyright")
 # source tarball from Debian
 source=("http://deb.debian.org/debian/pool/main/m/matchbox-common/matchbox-common_0.9.1+git20070606.orig.tar.xz")

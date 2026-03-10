@@ -13,7 +13,7 @@
 # py3gobject
 pkgname=ocrdesktop
 pkgver=4.0
-pkgrel=1slint
+pkgrel=2slint
 options=(nosrcpack)
 slackdesc=\
 (

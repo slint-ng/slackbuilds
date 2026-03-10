@@ -4,7 +4,7 @@
 pkgbase=libadwaita
 pkgname=libadwaita
 pkgver=1.1.0
-pkgrel=1
+pkgrel=2
 epoch=1
 slackdesc="$pkgname (Building blocks for modern adaptive GNOME applications)"
 url="https://gnome.pages.gitlab.gnome.org/libadwaita/"

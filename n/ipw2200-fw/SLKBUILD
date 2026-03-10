@@ -3,7 +3,7 @@
 
 pkgname=ipw2200-fw
 pkgver=3.1
-pkgrel=1slint
+pkgrel=2slint
 arch=fw
 source=("https://mirrors.slackware.com/slackware/slackware64-current/source/n/ipw2200-fw/${pkgname}-${pkgver}.tar.xz")
 

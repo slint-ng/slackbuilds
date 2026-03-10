@@ -3,7 +3,7 @@
 
 pkgname=iucode_tool
 pkgver=2.3.1
-pkgrel=1slint
+pkgrel=2slint
 arch=x86_64
 source=("https://gitlab.com/iucode-tool/releases/raw/master/iucode-tool_$pkgver.tar.xz")
 url="https://gitlab.com/iucode-tool"

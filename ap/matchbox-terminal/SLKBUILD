@@ -2,7 +2,7 @@
 
 pkgname=matchbox-terminal
 pkgver=0.2
-pkgrel=1slint
+pkgrel=2slint
 #arch=noarch
 docs=("AUTHORS" "COPYING")
 #docs=("readme" "install" "copying" "changelog" "authors" "news" "todo")

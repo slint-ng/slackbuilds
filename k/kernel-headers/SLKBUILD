@@ -3,7 +3,7 @@
 
 pkgname=kernel-headers
 pkgver=6.19.3
-pkgrel=1slint
+pkgrel=2slint
 arch=x86_64
 source=("https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${pkgver}.tar.xz")
 url="https://www.kernel.org/"

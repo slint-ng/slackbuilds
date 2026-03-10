@@ -4,7 +4,7 @@
 
 pkgname=pdfrw
 pkgver=0.4
-pkgrel=3slint
+pkgrel=4slint
 source=(https://github.com/pmaupin/pdfrw/archive/v${pkgver}.tar.gz)
 url=https://github.com/pmaupin/pdfrw
 options=("noautodotnew" "nosrcpack")

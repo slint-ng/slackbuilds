@@ -2,7 +2,7 @@
 
 pkgname=gnome-disk-utility
 pkgver=46.1
-pkgrel=1slint
+pkgrel=2slint
 source=("${pkgname}-${pkgver}.tar.xz")
 docs=("readme.md" "copying" "authors")
 url="https://gitlab.gnome.org/GNOME/gnome-disk-utility"

@@ -4,7 +4,7 @@ pkgname=orca-plugin
 commit=f53bb14d
 commit=21c8113f
 pkgver=git$commit
-pkgrel=1slint
+pkgrel=2slint
 
 #source=("$pkgname-$pkgver.tar.xz")
 docs=("AUTHORS" "COPYING" "ChangeLog" "INSTALL" "MAINTAINERS" "NEWS" "README" "TODO" )

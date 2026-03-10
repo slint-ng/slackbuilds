@@ -2,7 +2,7 @@
 # Included in Slintby Didier Spaier didieratslintdotfr
 pkgname=soundfont-generaluser
 pkgver=1.471
-pkgrel=4slint
+pkgrel=5slint
 #Build 4slint isnsert this line to GUFS.cfg:
 #57 %font "GeneralUser GS v1.471.sf2" 128 56 57
 slackdesc="$pkgname (GM/GS soundbank for many styles of music.)"

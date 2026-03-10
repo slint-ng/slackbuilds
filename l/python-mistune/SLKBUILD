@@ -5,7 +5,7 @@
 pkgname=python-mistune
 _srcname=mistune
 pkgver=2.0.5
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (Python Markdown parser)"

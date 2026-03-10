@@ -2,7 +2,7 @@
 
 pkgname=matchbox-documentation
 pkgver=0.2
-pkgrel=1slint
+pkgrel=2slint
 export srcname=matchbox-config-gtk
 #arch=noarch
 docs=("AUTHORS" "COPYING")

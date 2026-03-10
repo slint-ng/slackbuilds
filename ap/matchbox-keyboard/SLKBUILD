@@ -4,7 +4,7 @@
 
 pkgname=matchbox-keyboard
 pkgver=0.1.1
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (An on screen virtual keyboard)"
 arch=('x86_64')
 depends=('cairo' 'libfakekey' 'libxft')

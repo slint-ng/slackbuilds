@@ -3,7 +3,7 @@
 
 pkgname=tcllib
 pkgver=1.21
-pkgrel=1slint
+pkgrel=2slint
 source=("https://core.tcl-lang.org/tcllib/uv/$pkgname-$pkgver.tar.gz")
 url="http://core.tcl.tk/tcllib/"
 depends=()

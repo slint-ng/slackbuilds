@@ -3,7 +3,7 @@
 pkgname=libmanette
 pkgver=0.2.6
 _mainver=`echo $pkgver | cut -d'.' -f1,2`
-pkgrel=1slint
+pkgrel=2slint
 source=("https://download-fallback.gnome.org/sources/libmanette/${_mainver}/libmanette-${pkgver}.tar.xz")
 docs=("readme" "install" "copying" "changelog" "authors" "news" "todo")
 

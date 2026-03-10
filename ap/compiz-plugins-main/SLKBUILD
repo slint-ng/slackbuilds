@@ -2,7 +2,7 @@
 
 pkgname=$(pwd|sed "s,.*/,,")
 pkgver=git2553a672
-pkgrel=1slint
+pkgrel=2slint
 source=("$(echo ${pkgname}-*.tar.?z*)")
 docs=("copying" "authors" "news" "license" "changes")
 options=("nosrcpack")

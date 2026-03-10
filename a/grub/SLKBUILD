@@ -5,7 +5,7 @@
 pkgname=grub
 pkgver=2.14_rc1
 _srcver=2.14~rc1
-pkgrel=1slint
+pkgrel=2slint
 source=(
   "https://alpha.gnu.org/gnu/grub/grub-${_srcver}.tar.xz"
   "0001-00_header-add-GRUB_COLOR_-variables.patch"

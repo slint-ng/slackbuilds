@@ -3,7 +3,7 @@
 #Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=posy-cursors
 pkgver=1.6
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (Posy's improved cursors by Michiel de Boer)"
 docs=("Posy*png" "README.html")
 options=("nosrcpack")

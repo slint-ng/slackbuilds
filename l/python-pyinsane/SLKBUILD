@@ -2,7 +2,7 @@
 
 pkgname=python-pyinsane
 pkgver=1.4.0
-pkgrel=1slint
+pkgrel=2slint
 source=("https://github.com/jflesch/pyinsane/archive/v1.4.0.zip")
 docs=("COPYING" "ChangeLog")
 options=("nosrcpack")

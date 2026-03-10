@@ -2,7 +2,7 @@
 
 pkgname=scdoc
 pkgver=1.11.2
-pkgrel=1slint
+pkgrel=2slint
 options=("nosrcpack")
 docs=("COPYING")
 slackdesc=\

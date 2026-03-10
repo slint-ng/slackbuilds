@@ -4,7 +4,7 @@
 export pkgbase=yaru
 pkgname='yaru-gtk-theme'
 pkgver=25.10.2
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (Yaru default gtk ubuntu theme)"
 url="https://github.com/ubuntu/yaru"
 license=('GPL3')

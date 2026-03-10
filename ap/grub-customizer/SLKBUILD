@@ -2,7 +2,7 @@
 # Modified and included in Slint by Didier Spaier didieratslintdotfr
 pkgname=grub-customizer
 pkgver=5.1.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (a graphical grub2 settings manager)"
 url="https://launchpad.net/grub-customizer"
 arch=('x86_64')

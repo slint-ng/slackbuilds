@@ -2,7 +2,7 @@
 
 pkgname=matchbox-panel
 pkgver=0.9.3
-pkgrel=1slint
+pkgrel=2slint
 docs=("AUTHORS" "COPYING" "README")
 source=("http://deb.debian.org/debian/pool/main/m/matchbox-panel/matchbox-panel_0.9.3+git20100816.orig.tar.xz")
 doinst() {

@@ -4,7 +4,7 @@
 pkgname=Qogir-icon-theme
 _pkgver=2023-06-05
 pkgver=${_pkgver//-/.}
-pkgrel=2slint
+pkgrel=3slint
 slackdesc="$pkgname (A colorful design icon theme for linux desktops)"
 url="https://www.pling.com/p/1296407"
 license=('GPL3')

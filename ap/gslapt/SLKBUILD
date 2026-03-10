@@ -3,7 +3,7 @@
 
 pkgname=gslapt
 pkgver=0.5.10
-pkgrel=3slint
+pkgrel=4slint
 source=("https://software.jaos.org/git/gslapt/snapshot/gslapt-$pkgver.tar.gz" "newpixmaps.tar.gz") 
 url=http://software.jaos.org/
 

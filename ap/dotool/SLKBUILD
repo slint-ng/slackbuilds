@@ -3,7 +3,7 @@
 # Included in Slint by Didier Spaier diider at slint dot fr
 pkgname=dotool
 pkgver=1.5
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="Command to simulate input anywhere (X11, Wayland, TTYs)"
 url="https://sr.ht/~geb/dotool"
 license="GPL-3.0-only"

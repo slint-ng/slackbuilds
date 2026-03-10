@@ -5,7 +5,7 @@
 
 pkgname=btrfs-progs
 pkgver=6.17.1
-pkgrel=1slint
+pkgrel=2slint
 source=("https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/${pkgname}-v${pkgver}.tar.xz")
 docs=("CHANGES" "COPYING*" "INSTALL" "README*")
 url="https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/"

@@ -3,7 +3,7 @@
 
 pkgname=xdg-dbus-proxy
 pkgver=0.1.2
-pkgrel=1slint
+pkgrel=2slint
 source=("https://github.com/flatpak/xdg-dbus-proxy/releases/download/${pkgver}/${pkgname}-${pkgver}.tar.xz")
 url="https://github.com/flatpak/xdg-dbus-proxy"
 

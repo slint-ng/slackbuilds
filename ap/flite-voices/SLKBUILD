@@ -1,6 +1,6 @@
 pkgname=flite-voice-$VOICE
 pkgver=2.1
-pkgrel=1slint
+pkgrel=2slint
 # alternate download URL:
 # http://tts.speech.cs.cmu.edu/festvox.org/flite/
 slackdesc=\

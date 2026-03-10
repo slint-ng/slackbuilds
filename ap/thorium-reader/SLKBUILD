@@ -3,7 +3,7 @@
 
 pkgname=thorium-reader
 pkgver=2.3.0
-pkgrel=1slint
+pkgrel=2slint
 export srcname=EDRLab.ThoriumReader_${pkgver}_amd64.deb
 #arch=noarch
 source=(https://raw.githubusercontent.com/edrlab/thorium-reader/develop/LICENSE

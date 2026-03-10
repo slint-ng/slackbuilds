@@ -1,7 +1,7 @@
 # Maintainer: Didier Spaier didieratslintdotfr
 pkgname=eukleides
 pkgver=1.5.4
-pkgrel=3slint
+pkgrel=4slint
 epoch=
 slackdesc="Eukleides (computer language devoted to elementary plane geometry.)"
 arch=(x86_64)

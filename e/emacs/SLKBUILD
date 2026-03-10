@@ -4,7 +4,7 @@
 
 pkgname=emacs
 pkgver=30.2
-pkgrel=2slint
+pkgrel=3slint
 source=("https://mirror.team-cymru.com/gnu/emacs/emacs-${pkgver}.tar.xz")
 url="http://www.gnu.org/software/emacs/"
 options=("nosrcpack")

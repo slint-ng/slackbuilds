@@ -2,7 +2,7 @@
 
 pkgname=liblouisutdml
 pkgver=2.12.0
-pkgrel=1slint
+pkgrel=2slint
 arch=x86_64
 source=("https://github.com/liblouis/liblouisutdml/releases/download/v2.12.0/liblouisutdml-2.12.0.tar.gz")
 options=("nosrcpack")

@@ -5,7 +5,7 @@
 pkgname=Newaita
 export commit=c2b596b
 pkgver=git$commit
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (Newaita icon theme)"
 docs=("copying" "authors" "README*" license)
 options=("nosrcpack")

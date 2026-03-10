@@ -5,7 +5,7 @@
 pkgname=python-asn1crypto
 _srcname=asn1crypto
 pkgver=1.4.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (fast ASN.1 parser and serializer)"

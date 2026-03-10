@@ -7,7 +7,7 @@
 # open-jtalk-mecab-naist-jdic - Didier
 pkgname=open-jtalk
 pkgver=1.11
-pkgrel=1slint
+pkgrel=2slint
 slackdesc="$pkgname (A Japanese text-to-speech synthesis system)"
 #arch=('i686' 'x86_64')
 url="https://sourceforge.net/projects/open-jtalk/"

@@ -3,7 +3,7 @@
 
 pkgname=alpine
 pkgver=2.26
-pkgrel=1slint
+pkgrel=2slint
 pinepgpver=0.18.0
 imapdpkg=imapd
 imapdrel=1slint

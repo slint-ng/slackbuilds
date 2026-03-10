@@ -5,7 +5,7 @@
 pkgname=python-snowballstemmer
 _srcname=snowballstemmer
 pkgver=2.2.0
-pkgrel=2slint
+pkgrel=3slint
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
 "$pkgname (Snowball stemming library for Python)"

@@ -3,7 +3,7 @@
 pkgname=clutter
 pkgver=1.26.4
 _majorver=`echo $pkgver | cut -d'.' -f1,2`
-pkgrel=1slint
+pkgrel=2slint
 source=("http://ftp.gnome.org/pub/gnome/sources/clutter/${_majorver}/clutter-${pkgver}.tar.xz")
 docs=("readme" "install" "copying" "changelog*" "authors" "news" "todo" "about-nls")
 

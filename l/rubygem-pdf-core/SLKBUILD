@@ -5,7 +5,7 @@
 export _gemname=pdf-core
 pkgname=rubygem-$_gemname
 pkgver=0.9.0
-pkgrel=2slint
+pkgrel=3slint
 slackdesc="$pkgname (used by Prawn to render PDF documents)"
 url='https://prawn.majesticseacreature.com'
 license=('custom:PRAWN' 'GPL2' 'GPL3')

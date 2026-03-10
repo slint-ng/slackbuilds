@@ -4,7 +4,7 @@
 
 pkgname=bubblewrap
 pkgver=0.10.0
-pkgrel=1slint
+pkgrel=2slint
 source=("https://github.com/containers/bubblewrap/archive/refs/tags/v$pkgver.tar.gz")
 docs=("readme.md" "security.md" "code-of-conduct.md" "install" "copying" "changelog" "authors" "news" "todo")
 url=https://github.com/containers/bubblewrap

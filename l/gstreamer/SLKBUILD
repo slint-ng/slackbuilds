@@ -2,7 +2,7 @@
 
 pkgname=gstreamer
 pkgver=1.20.4
-pkgrel=1slint
+pkgrel=2slint
 source=("$pkgname-$pkgver.tar.xz")
 url="https://gstreamer.freedesktop.org/"
 makedepends=('meson' 'ninja')

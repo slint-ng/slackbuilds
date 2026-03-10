@@ -1,6 +1,6 @@
 pkgname=slint-mate-settings
 pkgver=15.0
-pkgrel=5slint
+pkgrel=6slint
 arch=noarch
 options=('noautodotnew')
 slackdesc=\

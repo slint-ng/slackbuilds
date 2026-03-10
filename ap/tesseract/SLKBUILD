@@ -5,7 +5,7 @@
 
 pkgname=tesseract
 pkgver=5.3.0
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|

@@ -3,7 +3,7 @@
 
 pkgname=modules-installer
 pkgver=6.19.3
-pkgrel=1slint
+pkgrel=2slint
 arch=x86_64
 source=()
 options=('nosrcpack')

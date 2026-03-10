@@ -3,7 +3,7 @@
 
 pkgname=dracut
 pkgver=108
-pkgrel=1slint
+pkgrel=2slint
 source=("https://github.com/dracut-ng/dracut-ng/archive/refs/tags/${pkgver}.tar.gz")
 url="https://github.com/dracut-ng/dracut"
 docs=("AUTHORS" "COPYING" "README.md" "dracut.conf.d")

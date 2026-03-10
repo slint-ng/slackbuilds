@@ -1,7 +1,7 @@
 # Maintainer: Steffen Hansen <steffengrundsoe@gmail.com>
 pkgname=quickemu
 pkgver=4.9.6
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=("$pkgname (Quickly create and run optimised virtual machines.)")
 url="https://github.com/quickemu-project/quickemu"
 license=('MIT')
