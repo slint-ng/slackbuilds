@@ -872,13 +872,15 @@ remove_stale_depfiles() {
   local keepDepFile=$3
   local depFilePath=""
 
+  # Keep exactly one depfile per package directory. Older package names or
+  # stale releases should not linger after a rebuild.
+  : "$packageName"
+
   while IFS= read -r depFilePath; do
     [[ "$depFilePath" == "$keepDepFile" ]] && continue
     rm -f -- "$depFilePath"
   done < <(
-    find "$packageDir" -maxdepth 1 -type f \
-      \( -name "${packageName}.dep" -o -name "${packageName}-*.dep" \) \
-      -print | sort
+    find "$packageDir" -maxdepth 1 -type f -name '*.dep' -print | sort
   )
 }
 
