@@ -1,0 +1,63 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=spice-gtk
+pkgver=0.40
+pkgrel=1slint
+source=("https://www.spice-space.org/download/gtk/${pkgname}-${pkgver}.tar.xz")
+url="https://www.spice-space.org"
+docs=("AUTHORS" "CHANGELOG.md" "COPYING" "README.md")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"spice-gtk (SPICE GTK client and libraries)"
+""
+"spice-gtk provides a GTK client and libraries for SPICE remote"
+"desktop servers."
+""
+"Homepage: https://www.spice-space.org"
+)
+
+doinst() {
+if [ -x usr/libexec/spice-client-glib-usb-acl-helper ] && [ -x /sbin/setcap ]; then
+  /sbin/setcap CAP_FOWNER=+ep usr/libexec/spice-client-glib-usb-acl-helper >/dev/null 2>&1 || true
+fi
+}
+
+build() {
+  local legacy_doc_name
+
+  legacy_doc_name="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  # Meson 1.7 rejects files() references into nested subprojects.
+  sed -i \
+    -e "s|^keymapgen = files('subprojects/keycodemapdb/tools/keymap-gen')\$|keymapgen = find_program('subprojects/keycodemapdb/tools/keymap-gen')|" \
+    -e "s|^keymapcsv = files('subprojects/keycodemapdb/data/keymaps.csv')\$|keymapcsv = join_paths(meson.project_source_root(), 'subprojects', 'keycodemapdb', 'data', 'keymaps.csv')|" \
+    meson.build || return 1
+
+  meson setup build \
+    --prefix=/usr \
+    --libdir="lib${LIBDIRSUFFIX}" \
+    --libexecdir=/usr/libexec \
+    --bindir=/usr/bin \
+    --sbindir=/usr/sbin \
+    --includedir=/usr/include \
+    --datadir=/usr/share \
+    --mandir=/usr/man \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release \
+    -Dgtk_doc=enabled \
+    -Dusb-ids-path=/usr/share/hwdata/usb.ids || return 1
+
+  meson compile -C build || return 1
+  DESTDIR="$PKG" meson install -C build || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacy_doc_name" || return 1
+}

@@ -141,6 +141,7 @@ Preferred validator entry point:
 - `bash -n` result
 - `shellcheck` result
 - validator output from `slkbuild-validation`
+- depfile status and any validator-reported post-install library symlink note
 
 ## Integration Notes
 

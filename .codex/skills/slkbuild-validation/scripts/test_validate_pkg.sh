@@ -41,6 +41,13 @@ if ! printf '%s\n' "$output_missing" | grep -Fq "Provide a valid package directo
   exit 1
 fi
 
+write_dep_file() {
+  local dep_path="$1"
+  cat > "$dep_path" <<'EOF'
+aaa_libraries|gcc
+EOF
+}
+
 mkdir -p "${stage_dir}/install"
 mkdir -p "${stage_dir}/usr/src/${pkg_name}-${pkgver}"
 mkdir -p "${stage_dir}/usr/doc/${pkg_name}-${pkgver}"
@@ -61,6 +68,7 @@ EOF
 mkdir -p "$pkg_dir"
 tar -C "$stage_dir" -cJf "$pkg_file" install usr lib
 (cd "$pkg_dir" && md5sum "$(basename "$pkg_file")" > "$(basename "$md5_file")")
+write_dep_file "${pkg_file%.txz}.dep"
 
 cat > "$log_file" <<EOF
 Slackware package ${pkg_file} created.
@@ -87,6 +95,12 @@ fi
 if ! printf '%s\n' "$output" | grep -Fq "Verdict"; then
   printf '%s\n' "$output"
   echo "FAIL: validator output missing Verdict section."
+  exit 1
+fi
+
+if ! printf '%s\n' "$output" | grep -Fq "Depfile status: present"; then
+  printf '%s\n' "$output"
+  echo "FAIL: validator did not report the matching depfile."
   exit 1
 fi
 
@@ -227,6 +241,7 @@ EOF
 
   tar -C "$codex_stage_dir" -cJf "$codex_pkg_file" install usr
   (cd "$codex_pkg_dir" && md5sum "$(basename "$codex_pkg_file")" > "$(basename "$codex_md5_file")")
+  write_dep_file "${codex_pkg_file%.txz}.dep"
 }
 
 create_codex_fixture "yes" "no"
@@ -249,6 +264,71 @@ fi
 if ! printf '%s\n' "$output_codex_pass" | grep -Fq -- "- PASS"; then
   printf '%s\n' "$output_codex_pass"
   echo "FAIL: codex complete payload fixture should PASS."
+  exit 1
+fi
+
+symlink_pkg_name="symlink-demo"
+symlink_pkg_ver="1.0"
+symlink_pkg_arch="x86_64"
+symlink_pkg_rel="1slint"
+symlink_pkg_dir="${fixture_root}/l/${symlink_pkg_name}"
+symlink_stage_dir="${symlink_pkg_dir}/stage"
+symlink_pkg_file="${symlink_pkg_dir}/${symlink_pkg_name}-${symlink_pkg_ver}-${symlink_pkg_arch}-${symlink_pkg_rel}.txz"
+symlink_md5_file="${symlink_pkg_file%.txz}.md5"
+symlink_log_file="${symlink_pkg_dir}/build-${symlink_pkg_name}-${symlink_pkg_ver}-${symlink_pkg_arch}-${symlink_pkg_rel}.log"
+
+rm -rf "$symlink_pkg_dir"
+mkdir -p "${symlink_stage_dir}/install"
+mkdir -p "${symlink_stage_dir}/usr/src/${symlink_pkg_name}-${symlink_pkg_ver}"
+mkdir -p "${symlink_stage_dir}/usr/lib64"
+mkdir -p "$symlink_pkg_dir"
+
+cat > "${symlink_stage_dir}/install/slack-desc" <<'EOF'
+symlink-demo: symlink-demo (doinst symlink fixture)
+EOF
+
+cat > "${symlink_stage_dir}/install/doinst.sh" <<'EOF'
+( cd usr/lib64 ; ln -sf libsymlink-demo.so.1.2.3 libsymlink-demo.so.1 )
+( cd usr/lib64 ; ln -sf libsymlink-demo.so.1 libsymlink-demo.so )
+EOF
+
+cat > "${symlink_stage_dir}/usr/src/${symlink_pkg_name}-${symlink_pkg_ver}/SLKBUILD" <<'EOF'
+pkgname=symlink-demo
+EOF
+
+cat > "${symlink_stage_dir}/usr/lib64/libsymlink-demo.so.1.2.3" <<'EOF'
+fake elf payload
+EOF
+
+tar -C "$symlink_stage_dir" -cJf "$symlink_pkg_file" install usr
+(cd "$symlink_pkg_dir" && md5sum "$(basename "$symlink_pkg_file")" > "$(basename "$symlink_md5_file")")
+write_dep_file "${symlink_pkg_file%.txz}.dep"
+
+cat > "$symlink_log_file" <<EOF
+Slackware package ${symlink_pkg_file} created.
+EOF
+
+if ! output_symlink_note="$(bash "$validator" "$symlink_pkg_dir")"; then
+  printf '%s\n' "$output_symlink_note"
+  echo "FAIL: validator should pass for doinst symlink fixture."
+  exit 1
+fi
+
+if ! printf '%s\n' "$output_symlink_note" | grep -Fq "Post-install library symlinks recreated by doinst.sh:"; then
+  printf '%s\n' "$output_symlink_note"
+  echo "FAIL: validator did not report the doinst symlink note header."
+  exit 1
+fi
+
+if ! printf '%s\n' "$output_symlink_note" | grep -Fq "usr/lib64/libsymlink-demo.so.1 -> libsymlink-demo.so.1.2.3"; then
+  printf '%s\n' "$output_symlink_note"
+  echo "FAIL: validator did not explain the SONAME symlink recreated by doinst.sh."
+  exit 1
+fi
+
+if ! printf '%s\n' "$output_symlink_note" | grep -Fq "raw txz scans can miss these SONAME symlinks before installation"; then
+  printf '%s\n' "$output_symlink_note"
+  echo "FAIL: validator did not explain why the doinst symlink note matters."
   exit 1
 fi
 
@@ -395,6 +475,7 @@ chmod 755 "${manifest_stage_dir}/usr/bin/manifest-demo"
 
 tar -C "$manifest_stage_dir" -cJf "$manifest_pkg_file" install usr
 (cd "$manifest_pkg_dir" && md5sum "$(basename "$manifest_pkg_file")" > "$(basename "$manifest_md5_file")")
+write_dep_file "${manifest_pkg_file%.txz}.dep"
 
 cat > "$manifest_log_file" <<EOF
 Slackware package ${manifest_pkg_file} created.
@@ -485,6 +566,7 @@ EOF
 
 tar -C "$manifest_shift_stage_dir" -cJf "$manifest_shift_pkg_file" install usr etc
 (cd "$manifest_shift_pkg_dir" && md5sum "$(basename "$manifest_shift_pkg_file")" > "$(basename "$manifest_shift_md5_file")")
+write_dep_file "${manifest_shift_pkg_file%.txz}.dep"
 
 cat > "$manifest_shift_log_file" <<EOF
 Slackware package ${manifest_shift_pkg_file} created.

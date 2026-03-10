@@ -1,0 +1,55 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=speex
+pkgver=1.2.0
+pkgrel=1slint
+source=("https://downloads.xiph.org/releases/speex/${pkgname}-${pkgver}.tar.gz")
+url="https://www.speex.org/"
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"speex (low-bitrate voice audio codec)"
+""
+"Speex is a patent-free, open source voice codec designed to"
+"compress speech at low bitrates."
+""
+"Possible applications include VoIP, internet audio streaming,"
+"speech archiving, and audiobooks."
+""
+"Homepage: https://www.speex.org/"
+)
+
+build() {
+  local jobs
+
+  jobs="${numjobs:-$(nproc)}"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --mandir=/usr/man \
+    --infodir=/usr/info \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --disable-static \
+    --enable-binaries \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make -j "$jobs" || make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -d "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a AUTHORS COPYING* NEWS* README* TODO "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
+  if [ -r ChangeLog ]; then
+    sed -n '1,1000p' ChangeLog > "$PKG/usr/doc/$pkgname-$pkgver/ChangeLog" || return 1
+    touch -r ChangeLog "$PKG/usr/doc/$pkgname-$pkgver/ChangeLog" || return 1
+  fi
+}

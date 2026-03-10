@@ -1,0 +1,44 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=sord
+pkgver=0.16.8
+pkgrel=1slint
+source=("https://download.drobilla.net/${pkgname}-${pkgver}.tar.bz2")
+url="https://drobilla.net/software/sord/"
+docs=("AUTHORS" "COPYING" "INSTALL" "NEWS" "README.md")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"sord (lightweight RDF storing library)"
+""
+"Sord is a lightweight C library for storing RDF data in memory."
+""
+"Homepage: https://drobilla.net/software/sord/"
+)
+
+build() {
+  local legacy_doc_name
+
+  legacy_doc_name="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  python3 ./waf configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --configdir=/etc \
+    --mandir=/usr/man \
+    --docdir="/usr/doc/$pkgname-$pkgver" || return 1
+
+  python3 ./waf || return 1
+  python3 ./waf install --destdir="$PKG" || return 1
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacy_doc_name" || return 1
+}
