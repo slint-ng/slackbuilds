@@ -228,8 +228,12 @@ find_depfile() {
   local packageDir=$1
   local packageName=$2
   local -a artifactCandidates=()
+  local -a matchingArtifactCandidates=()
   local -a allCandidates=()
   local depFile=""
+  local packageVersion=""
+  local packageRelease=""
+  local artifactBaseName=""
 
   while IFS= read -r depFile; do
     artifactCandidates+=("$depFile")
@@ -243,6 +247,27 @@ find_depfile() {
   fi
 
   if (( ${#artifactCandidates[@]} > 1 )); then
+    if [[ -f "${packageDir}/SLKBUILD" ]]; then
+      packageVersion=$(parse_slkbuild_scalar "${packageDir}/SLKBUILD" pkgver)
+      packageRelease=$(parse_slkbuild_scalar "${packageDir}/SLKBUILD" pkgrel)
+
+      for depFile in "${artifactCandidates[@]}"; do
+        artifactBaseName=$(basename "$depFile")
+        if [[ "$artifactBaseName" == "${packageName}-${packageVersion}-"*"-${packageRelease}.dep" ]]; then
+          matchingArtifactCandidates+=("$depFile")
+        fi
+      done
+
+      if (( ${#matchingArtifactCandidates[@]} == 1 )); then
+        printf '%s\n' "${matchingArtifactCandidates[0]}"
+        return
+      fi
+
+      if (( ${#matchingArtifactCandidates[@]} > 1 )); then
+        die "multiple current artifact-style depfiles found for ${packageName}: ${matchingArtifactCandidates[*]}"
+      fi
+    fi
+
     die "multiple artifact-style depfiles found for ${packageName}: ${artifactCandidates[*]}"
   fi
 
