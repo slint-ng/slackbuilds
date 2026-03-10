@@ -660,7 +660,6 @@ tree-sitter.prev/tree-sitter.SlackBuild 23 # Included in Slint by Didier Spaier 
 sbo-maintainer-tools/sbo-maintainer-tools.SlackBuild 21 # Included in Slint by Didier Spaier didieratslintdotfr
 spkg/glib2/glib2.SlackBuild 23 # Included in Slint by Didier Spaier didieraslintdotfr
 gegl/gegl.SlackBuild 24 # Included in Slint by Didier Spaier didieratslintdotfr
-deno/deno.SlackBuild 26 # Included Slint by Didier Spaier didier@slint.fr
 alsacap/alsacap.SlackBuild 16 # Included in Slint by Didier Spaier didieratslintdotfr
 spkg/SLKBUILD 3 # Included in Slint by Didier Spaier didieraslintdotfr
 dotool/SLKBUILD 3 # Included in Slint by Didier Spaier diider at slint dot fr

@@ -10,7 +10,7 @@ export srcname=yt_dlp_ejs
 slackdesc="$pkgname (External JavaScript for yt-dlp supporting many runtimes)"
 url='https://github.com/yt-dlp/ejs'
 license=(Unlicense)
-depends=(deno
+depends=(nodejs
          python)
 makedepends=(nodejs
              pnpm

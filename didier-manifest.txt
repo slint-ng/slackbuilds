@@ -94,7 +94,6 @@ python3-dbus
 python3-dbus
 dcron
 dee
-deno
 device-tree-compiler
 dia
 dialog
