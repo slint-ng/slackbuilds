@@ -70,6 +70,7 @@ packageList=(
   "l/python3-trove-classifiers"
   "l/python3-pycparser"
   "l/python3-cffi"
+  "l/python3-semantic-version"
   "l/python3-setuptools-rust"
   "l/python3-cryptography"
   "l/python3-pynacl"
@@ -98,7 +99,6 @@ packageList=(
   "l/python3-wcwidth"
   "l/python3-xlib"
   "l/python3-pyudev"
-  "l/python3-semantic-version"
   "l/python3-diff-match-patch"
   "l/python3-packaging"
   "l/python3-setuptools-scm"
@@ -151,5 +151,5 @@ start_sudo_keepalive
 
 for packagePath in "${packageList[@]}"; do
   printf 'Building %s\n' "$packagePath"
-  BUILD_PACKAGE_SUDO_READY=1 "$scriptDir/build-package.sh" --skip-staged "$packagePath"
+  BUILD_PACKAGE_SUDO_READY=1 "$scriptDir/build-package.sh" --full --skip-staged "$packagePath"
 done

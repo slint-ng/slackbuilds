@@ -761,6 +761,48 @@ artifact_looks_like_python_package() {
     '(^|/)usr/lib(64)?/python[0-9.]+/|(^|/)(site-packages|dist-packages)/|\.dist-info/|\.egg-info/'
 }
 
+current_python_path_token() {
+  command -v python3 >/dev/null 2>&1 || return 1
+
+  python3 - <<'PY'
+import sys
+print(f"python{sys.version_info[0]}.{sys.version_info[1]}")
+PY
+}
+
+python_artifact_matches_runtime() {
+  local artifactPath=$1
+  local currentPythonToken=""
+  local recordedToken=""
+  local -a recordedTokens=()
+
+  artifact_looks_like_python_package "$artifactPath" || return 0
+
+  currentPythonToken=$(current_python_path_token) || return 0
+
+  while IFS= read -r recordedToken; do
+    [[ -n "$recordedToken" ]] || continue
+    recordedTokens+=("$recordedToken")
+  done < <(
+    tar -tf "$artifactPath" 2>/dev/null \
+      | grep -Eo 'usr/lib(64)?/python[0-9]+\.[0-9]+/' \
+      | sed -E 's|^usr/lib(64)?/(python[0-9]+\.[0-9]+)/$|\2|' \
+      | sort -u
+  )
+
+  if (( ${#recordedTokens[@]} == 0 )); then
+    return 0
+  fi
+
+  for recordedToken in "${recordedTokens[@]}"; do
+    if [[ "$recordedToken" == "$currentPythonToken" ]]; then
+      return 0
+    fi
+  done
+
+  return 1
+}
+
 remove_stale_depfiles() {
   local packageDir=$1
   local packageName=$2
@@ -888,6 +930,12 @@ filter_staged_packages() {
     packageName=${packageNameByDir[${packageDir}]}
     stagedArtifactPath=$(staged_artifact_for_package "$packageDir")
     if [[ -n "$stagedArtifactPath" ]]; then
+      if ! python_artifact_matches_runtime "$stagedArtifactPath"; then
+        printf 'Ignoring stale Python staged artifact for %s; it targets a different Python runtime: %s\n' \
+          "${packageDirByRelative[${packageDir}]}" "$(basename "$stagedArtifactPath")"
+        filteredQueue+=("$packageDir")
+        continue
+      fi
       printf 'Skipping %s; matching staged artifact already exists: %s\n' \
         "${packageDirByRelative[${packageDir}]}" "$(basename "$stagedArtifactPath")"
       reusedStagedArtifactByDir["$packageDir"]=$stagedArtifactPath
