@@ -1,0 +1,57 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: sektor
+
+_gemname=asciidoctor-pdf
+pkgname=rubygem-$_gemname
+pkgver=1.6.2
+pkgrel=1slint
+source=(
+  "${_gemname}-${pkgver}.gem"
+  "SLKBUILD"
+)
+url="https://asciidoctor.org/docs/asciidoctor-pdf"
+license=("MIT")
+noextract=("${_gemname}-${pkgver}.gem")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"rubygem-asciidoctor-pdf ((Converts AsciiDoc documents to PDF)"
+""
+"rubygem-asciidoctor-pdf is an extension for Acsiidoctor."
+"It uses the Prawn PDF library."
+""
+"To know more visit: https://rubygems.org/search?query=asciidoctor-pdf"
+""
+""
+""
+""
+)
+
+build() {
+  local _docdir _gemdir
+
+  _gemdir="$(ruby -e 'puts Gem.default_dir')" || return 1
+  _docdir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  gem install --local --no-update-sources --ignore-dependencies --backtrace \
+    --install-dir "$PKG/$_gemdir" \
+    --bindir "$PKG/usr/bin" \
+    "$SRC/${_gemname}-${pkgver}.gem" || return 1
+
+  mkdir -p "$_docdir" || return 1
+  tar -x -O --file="$SRC/${_gemname}-${pkgver}.gem" data.tar.gz | \
+    tar -xz -C "$_docdir" --file=- \
+      CHANGELOG.adoc LICENSE NOTICE.adoc README.adoc || return 1
+  tar -x -O --file="$SRC/${_gemname}-${pkgver}.gem" data.tar.gz | \
+    tar -xz -C "$_docdir" --strip-components=1 --file=- \
+      docs/theming-guide.adoc || return 1
+  asciidoctor -o "$_docdir/CHANGELOG.html" "$_docdir/CHANGELOG.adoc" || return 1
+  asciidoctor -o "$_docdir/NOTICE.html" "$_docdir/NOTICE.adoc" || return 1
+  asciidoctor -o "$_docdir/README.html" "$_docdir/README.adoc" >/dev/null 2>&1 || \
+    [ -f "$_docdir/README.html" ]
+  asciidoctor -o "$_docdir/theming-guide.html" "$_docdir/theming-guide.adoc" || return 1
+  install -Dm0644 "$SRC/SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/${pkgname}.SlackBuild" || return 1
+}

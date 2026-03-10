@@ -1,0 +1,60 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: sektor
+
+_gemname=ronn
+pkgname=rubygem-$_gemname
+pkgver=0.7.3
+pkgrel=2slint
+source=(
+  "${_gemname}-${pkgver}.gem"
+  "SLKBUILD"
+)
+url="http://rtomayko.github.com/ronn"
+license=("MIT")
+noextract=("${_gemname}-${pkgver}.gem")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"rubygem-ronn (manual authoring tool)"
+"Ronn converts textfiles to standard roff-formatted UNIX manpages or"
+"HTML."
+""
+""
+""
+""
+""
+""
+""
+)
+
+build() {
+  local _gemdir
+
+  _gemdir="$(ruby -e 'puts Gem.default_dir')" || return 1
+
+  gem install --local --no-update-sources --ignore-dependencies --backtrace \
+    --install-dir "$PKG/$_gemdir" \
+    --bindir "$PKG/usr/bin" \
+    "$SRC/${_gemname}-${pkgver}.gem" || return 1
+  rm -f "$PKG/$_gemdir/cache/${_gemname}-${pkgver}.gem" || return 1
+  rmdir "$PKG/$_gemdir/cache" 2>/dev/null || true
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  tar -x -O --file="$SRC/${_gemname}-${pkgver}.gem" data.tar.gz | \
+    tar -xz -C "$PKG/usr/doc/$pkgname-$pkgver" --file=- \
+      AUTHORS CHANGES COPYING INSTALLING README.md || return 1
+  tar -x -O --file="$SRC/${_gemname}-${pkgver}.gem" data.tar.gz | \
+    tar -xz -C "$PKG/usr/doc/$pkgname-$pkgver" --strip-components=1 --file=- \
+      man/index.txt || return 1
+  mkdir -p "$PKG/usr/man/man1" "$PKG/usr/man/man7" || return 1
+  tar -x -O --file="$SRC/${_gemname}-${pkgver}.gem" data.tar.gz | \
+    tar -xz -C "$PKG/usr/man/man1" --strip-components=1 --file=- \
+      man/ronn.1 || return 1
+  tar -x -O --file="$SRC/${_gemname}-${pkgver}.gem" data.tar.gz | \
+    tar -xz -C "$PKG/usr/man/man7" --strip-components=1 --file=- \
+      man/ronn-format.7 || return 1
+  install -Dm0644 "$SRC/SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/${pkgname}.SlackBuild" || return 1
+}

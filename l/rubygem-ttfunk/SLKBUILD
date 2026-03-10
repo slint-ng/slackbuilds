@@ -1,0 +1,52 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: sektor
+
+_gemname=ttfunk
+pkgname=rubygem-$_gemname
+pkgver=1.7.0
+pkgrel=1slint
+source=(
+  "${_gemname}-${pkgver}.gem"
+  "SLKBUILD"
+)
+url="https://github.com/prawnpdf/ttfunk"
+license=(
+  "Nonstandard"
+  "GPL-2.0"
+  "GPL-3.0"
+)
+noextract=("${_gemname}-${pkgver}.gem")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"rubygem-ttfunk (Font Metrics Parser for the Prawn PDF generator)"
+""
+"To know more visit: https://rubygems.org/search?query=ttfunk"
+""
+""
+""
+""
+""
+""
+""
+)
+
+build() {
+  local _gemdir
+
+  _gemdir="$(ruby -e 'puts Gem.default_dir')" || return 1
+
+  gem install --local --no-update-sources --ignore-dependencies --backtrace \
+    --install-dir "$PKG/$_gemdir" \
+    --bindir "$PKG/usr/bin" \
+    "$SRC/${_gemname}-${pkgver}.gem" || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  tar -x -O --file="$SRC/${_gemname}-${pkgver}.gem" data.tar.gz | \
+    tar -xz -C "$PKG/usr/doc/$pkgname-$pkgver" --file=- \
+      CHANGELOG.md LICENSE README.md COPYING GPLv2 GPLv3 || return 1
+  install -Dm0644 "$SRC/SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/${pkgname}.SlackBuild" || return 1
+}

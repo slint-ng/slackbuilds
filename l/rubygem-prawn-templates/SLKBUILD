@@ -1,0 +1,48 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: sektor
+
+_gemname=prawn-templates
+pkgname=rubygem-$_gemname
+pkgver=0.1.2
+pkgrel=1slint
+source=(
+  "${_gemname}-${pkgver}.gem"
+  "SLKBUILD"
+)
+url="https://github.com/prawnpdf/prawn-templates"
+license=("GPL-2.0" "GPL-3.0")
+noextract=("${_gemname}-${pkgver}.gem")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"rubygem-prawn-templates (extension that allows to include other pdfs)"
+""
+"rubygem-prawn-templates is an extension to prawn that lets you"
+"include other pdfs either as background pages or combine several"
+"pdf documents into one."
+""
+"To know more visit: https://rubygems.org/search?query=prawn-templates"
+""
+""
+""
+)
+
+build() {
+  local _gemdir
+
+  _gemdir="$(ruby -e 'puts Gem.default_dir')" || return 1
+
+  gem install --local --no-update-sources --ignore-dependencies --backtrace \
+    --install-dir "$PKG/$_gemdir" \
+    --bindir "$PKG/usr/bin" \
+    "$SRC/${_gemname}-${pkgver}.gem" || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  tar -x -O --file="$SRC/${_gemname}-${pkgver}.gem" data.tar.gz | \
+    tar -xz -C "$PKG/usr/doc/$pkgname-$pkgver" --file=- \
+      COPYING GPLv2 GPLv3 LICENSE || return 1
+  install -Dm0644 "$SRC/SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/${pkgname}.SlackBuild" || return 1
+}

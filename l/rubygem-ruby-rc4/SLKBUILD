@@ -1,0 +1,48 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: sektor
+
+_gemname=ruby-rc4
+pkgname=rubygem-$_gemname
+pkgver=0.1.5
+pkgrel=1slint
+source=(
+  "${_gemname}-${pkgver}.gem"
+  "SLKBUILD"
+)
+url="http://rubyforge.org/projects/rc4/"
+license=("BSD-3-Clause")
+noextract=("${_gemname}-${pkgver}.gem")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"rubygem-ruby-rc4 (pure Ruby implementation of the RC4 algorithm.)"
+""
+"To know more visit: https://rubygems.org/search?query=ruby-rc4"
+""
+""
+""
+""
+""
+""
+""
+)
+
+build() {
+  local _gemdir
+
+  _gemdir="$(ruby -e 'puts Gem.default_dir')" || return 1
+
+  gem install --local --no-update-sources --ignore-dependencies --backtrace \
+    --install-dir "$PKG/$_gemdir" \
+    --bindir "$PKG/usr/bin" \
+    "$SRC/${_gemname}-${pkgver}.gem" || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  tar -x -O --file="$SRC/${_gemname}-${pkgver}.gem" data.tar.gz | \
+    tar -xz -C "$PKG/usr/doc/$pkgname-$pkgver" --file=- \
+      LICENSE README.md || return 1
+  install -Dm0644 "$SRC/SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/${pkgname}.SlackBuild" || return 1
+}
