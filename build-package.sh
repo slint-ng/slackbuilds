@@ -818,15 +818,20 @@ generate_depfile_for_artifact() {
   printf '%s\n' "$depFilePath"
 }
 
-install_package() {
-  local packageDir=$1
-  local artifactPath=${builtArtifactByDir[${packageDir}]}
-
+install_artifact_path() {
+  local artifactPath=$1
   [[ "$noInstall" == false ]] || return 0
 
   printf 'Installing %s\n' "$(basename "$artifactPath")"
   sudo upgradepkg --install-new "$artifactPath" >/dev/null \
     || die "Install failed for ${artifactPath}"
+}
+
+install_package() {
+  local packageDir=$1
+  local artifactPath=${builtArtifactByDir[${packageDir}]}
+
+  install_artifact_path "$artifactPath"
 }
 
 ensure_staging_dir() {
@@ -885,6 +890,8 @@ filter_staged_packages() {
     if [[ -n "$stagedArtifactPath" ]]; then
       printf 'Skipping %s; matching staged artifact already exists: %s\n' \
         "${packageDirByRelative[${packageDir}]}" "$(basename "$stagedArtifactPath")"
+      reusedStagedArtifactByDir["$packageDir"]=$stagedArtifactPath
+      reusedStagedQueue+=("$packageDir")
       continue
     fi
     filteredQueue+=("$packageDir")
@@ -932,6 +939,7 @@ sudoKeepalivePid=""
 declare -a buildQueue=()
 declare -a dependencyOutput=()
 declare -a packageStack=()
+declare -a reusedStagedQueue=()
 declare -a skippedPackages=()
 declare -A packageDirByName=()
 declare -A packageNameByDir=()
@@ -946,6 +954,7 @@ declare -A packageVersionByDir=()
 declare -A packageReleaseByDir=()
 declare -A builtArtifactByDir=()
 declare -A builtDepfileByDir=()
+declare -A reusedStagedArtifactByDir=()
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -1087,6 +1096,10 @@ for packageDir in "${buildQueue[@]}"; do
 done
 
 start_sudo_keepalive
+
+for packageDir in "${reusedStagedQueue[@]}"; do
+  install_artifact_path "${reusedStagedArtifactByDir[${packageDir}]}"
+done
 
 for packageDir in "${buildQueue[@]}"; do
   build_package "$packageDir"
