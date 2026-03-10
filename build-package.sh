@@ -782,6 +782,8 @@ generate_depfile_for_artifact() {
   local packageName=$2
   local artifactPath=$3
   local depFilePath=""
+  local depfinderFailed=false
+  local fallbackDepFile=""
   local tempDepFile=""
 
   depFilePath=$(depfile_path_for_artifact "$artifactPath")
@@ -789,11 +791,24 @@ generate_depfile_for_artifact() {
 
   rm -f -- "$tempDepFile"
   if artifact_looks_like_python_package "$artifactPath"; then
-    depfinder -p -f -3 "$artifactPath" > "$tempDepFile" \
-      || die "depfinder failed for $(basename "$artifactPath")"
+    DEPFINDERNOEXIT=1 depfinder -p -f -3 "$artifactPath" > "$tempDepFile" \
+      || depfinderFailed=true
   else
-    depfinder -f "$artifactPath" > "$tempDepFile" \
-      || die "depfinder failed for $(basename "$artifactPath")"
+    DEPFINDERNOEXIT=1 depfinder -f "$artifactPath" > "$tempDepFile" \
+      || depfinderFailed=true
+  fi
+
+  if [[ "$depfinderFailed" == true ]]; then
+    rm -f -- "$tempDepFile"
+    fallbackDepFile=$(find_depfile "$packageDir" "$packageName" || true)
+    if [[ -n "$fallbackDepFile" && -f "$fallbackDepFile" ]]; then
+      printf 'Warning: depfinder failed for %s; using existing depfile %s\n' \
+        "$(basename "$artifactPath")" "$(basename "$fallbackDepFile")" >&2
+      printf '%s\n' "$fallbackDepFile"
+      return
+    fi
+
+    die "depfinder failed for $(basename "$artifactPath")"
   fi
 
   remove_stale_depfiles "$packageDir" "$packageName" "$depFilePath"
@@ -892,6 +907,7 @@ cleanup() {
 
 start_sudo_keepalive() {
   [[ "$noInstall" == false ]] || return 0
+  [[ "${BUILD_PACKAGE_SUDO_READY:-}" == "1" ]] && return 0
 
   sudo -v || die "failed to acquire sudo privileges for package installation"
 
