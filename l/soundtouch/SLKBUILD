@@ -1,0 +1,54 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=soundtouch
+pkgver=2.3.1
+srcname="$pkgname"
+export srcname
+pkgrel=1slint
+source=("https://codeberg.org/soundtouch/soundtouch/archive/${pkgver}.tar.gz")
+url="https://codeberg.org/soundtouch/soundtouch"
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"soundtouch (sound processing library)"
+""
+"SoundTouch is an open-source audio processing library that allows"
+"changing sound tempo, pitch, and playback rate independently."
+""
+"Homepage: https://codeberg.org/soundtouch/soundtouch"
+)
+
+build() {
+  local jobs
+  local legacy_doc_name
+
+  jobs="${numjobs:-$(nproc)}"
+  legacy_doc_name="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$srcname" || return 1
+
+  ./bootstrap || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --enable-shared \
+    --disable-static \
+    --localstatedir=/var \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make -j "$jobs" pkgdocdir="/usr/doc/$pkgname-$pkgver" || return 1
+  make install \
+    DESTDIR="$PKG" \
+    pkgdocdir="/usr/doc/$pkgname-$pkgver" || return 1
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacy_doc_name" || return 1
+}

@@ -1,0 +1,51 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=soxr
+pkgver=0.1.3
+srcname="${pkgname}-${pkgver}-Source"
+export srcname
+pkgrel=1slint
+source=("https://downloads.sourceforge.net/project/soxr/${pkgname}-${pkgver}-Source.tar.xz")
+url="https://sourceforge.net/projects/soxr"
+docs=("NEWS" "COPYING.LGPL" "LICENCE" "README")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"soxr (one-dimensional sample-rate conversion library)"
+""
+"The SoX Resampler library performs one-dimensional sample-rate"
+"conversion for PCM-encoded audio."
+""
+"It aims to provide fast, high-quality results for constant"
+"resampling ratios."
+""
+"Homepage: https://sourceforge.net/projects/soxr"
+)
+
+build() {
+  local jobs
+  local legacy_doc_name
+
+  jobs="${numjobs:-$(nproc)}"
+  legacy_doc_name="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$srcname" || return 1
+
+  cmake -S . -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DLIB_SUFFIX="${LIBDIRSUFFIX}" \
+    -DDOC_INSTALL_DIR="/usr/doc/$pkgname-$pkgver" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -Wno-dev || return 1
+
+  cmake --build build -j "$jobs" || return 1
+  ctest --test-dir build --output-on-failure || return 1
+  DESTDIR="$PKG" cmake --install build || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacy_doc_name" || return 1
+}

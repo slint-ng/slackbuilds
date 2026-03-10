@@ -1,0 +1,54 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=seatd
+pkgver=0.6.4
+srcname="${pkgname}-${pkgver}"
+export srcname
+pkgrel=1slint
+source=("https://git.sr.ht/~kennylevinsen/seatd/archive/${pkgver}.tar.gz")
+url="https://sr.ht/~kennylevinsen/seatd/"
+docs=("LICENSE" "README.md")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"seatd (universal seat management library and daemon)"
+""
+"seatd provides a minimal seat management daemon and a universal"
+"seat management library."
+""
+"Homepage: https://sr.ht/~kennylevinsen/seatd/"
+)
+
+build() {
+  local legacy_doc_name
+
+  legacy_doc_name="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$srcname" || return 1
+
+  meson setup build \
+    --buildtype=release \
+    --infodir=/usr/info \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    -Dlibseat-logind=elogind \
+    -Dlibseat-seatd=enabled \
+    -Dlibseat-builtin=disabled \
+    -Dserver=enabled \
+    -Dman-pages=enabled || return 1
+
+  meson compile -C build || return 1
+  DESTDIR="$PKG" meson install -C build || return 1
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacy_doc_name" || return 1
+}
