@@ -3,13 +3,13 @@
 
 pkgname=python3-pillow
 _srcname=pillow
-pkgver=12.1.0
-pkgrel=3slint
-source=("https://files.pythonhosted.org/packages/d0/02/d52c733a2452ef1ffcc123b68e6606d07276b0e358db70eabad7e40042b7/pillow-12.1.0.tar.gz")
-md5sums=("7be15203f5fe63d857814da49a51b616")
+pkgver=12.1.1
+pkgrel=1slint
+source=("https://files.pythonhosted.org/packages/1f/42/5c74462b4fd957fcd7b13b04fb3205ff8349236ea74c7c375766d6c82288/pillow-12.1.1.tar.gz")
+md5sums=("819a76e17b885a9fbb126ddcedfeb57e")
 url="https://github.com/python-pillow/Pillow"
 depends=('python3')
-makedepends=('pybind11' 'python3-setuptools')
+makedepends=('pybind11' 'python3-setuptools' 'python3-trove-classifiers')
 docs=("AUTHORS" "AUTHORS.txt" "CHANGELOG" "ChangeLog" "CHANGES" \
   "CHANGES.txt" "CHANGES.md" "COPYING" "COPYING.txt" "LICENSE" \
   "LICENSE.txt" "README" "README.md" "README.rst" "README.txt" "PKG-INFO")
@@ -31,6 +31,9 @@ slackdesc=\
 
 build() {
   cd "$SRC/${_srcname}-$pkgver" || exit 1
+
+  # The shipped trove-classifiers package can lag behind upstream Pillow.
+  sed -i '/Programming Language :: Python :: 3.14/d' pyproject.toml || return 1
 
   python3 setup.py install --root="$PKG"
 }
