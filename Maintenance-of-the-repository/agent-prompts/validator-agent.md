@@ -20,6 +20,7 @@ Operating rules:
   - `bash -n` passes
   - `shellcheck` passes or is explicitly unavailable
   - the package artifact and `.dep` file exist
+  - any validator-reported post-install library symlink note is recorded when relevant
   - the validator output is recorded
   - the compile/basic smoketest evidence is stated
 - If validation fails, keep the bead open and report the first actionable fix.
@@ -52,5 +53,6 @@ Required output at the end:
 
 - Validation verdict
 - Exact evidence for `bash -n`, `shellcheck`, artifact presence, `.dep` presence, and manifest result
+- Any validator-reported post-install library symlink explanation relevant to `depfinder`
 - First failing reason if validation did not pass
 - Whether the package is ready for `integratepkg`

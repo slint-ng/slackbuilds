@@ -112,6 +112,10 @@ parsed_pkgname="$pkgname_dir"
 pkgver=""
 txz_base=""
 txz_arch=""
+dep_file=""
+dep_selection_reason="missing"
+dep_status="not-run"
+dep_note="not-run"
 log_file=""
 log_selection_reason="missing"
 md5_file=""
@@ -133,6 +137,7 @@ tmp_tar_index="${tmpdir}/package-manifest.txt"
 tmp_tar_listing="${tmpdir}/package-listing.txt"
 tmp_baseline_index="${tmpdir}/baseline-manifest.txt"
 tmp_pkgdiff_output="${tmpdir}/pkgdiff-output.txt"
+tmp_doinst="${tmpdir}/doinst.sh"
 
 fail_reasons=()
 hard_hits_actionable=""
@@ -140,6 +145,7 @@ hard_hits_soft=""
 hard_hits_benign=""
 has_success_marker="no"
 use_rg="no"
+postinstall_symlink_notes=()
 
 if command -v rg >/dev/null 2>&1; then
   use_rg="yes"
@@ -222,6 +228,103 @@ select_log_file() {
   else
     printf '|%s\n' "missing"
   fi
+}
+
+select_dep_file() {
+  local dir="$1"
+  local txz="$2"
+  local expected=""
+  local candidate=""
+
+  if [[ -n "$txz" ]]; then
+    expected="${txz%.txz}.dep"
+    if [[ -f "$expected" ]]; then
+      printf '%s|%s\n' "$expected" "artifact-name"
+      return
+    fi
+  fi
+
+  candidate="$(latest_file "$dir" '*.dep')"
+  if [[ -n "$candidate" ]]; then
+    printf '%s|%s\n' "$candidate" "latest"
+  else
+    printf '|%s\n' "missing"
+  fi
+}
+
+payload_has_path() {
+  local path="$1"
+  grep -Fxq "$path" "$tmp_tar_index"
+}
+
+resolve_payload_path() {
+  local dir="$1"
+  local path="$2"
+
+  if [[ "$path" = /* ]]; then
+    printf '%s\n' "${path#/}"
+    return
+  fi
+
+  case "$dir" in
+    ""|".")
+      printf '%s\n' "$path"
+      ;;
+    *)
+      printf '%s\n' "${dir%/}/${path}"
+      ;;
+  esac
+}
+
+inspect_doinst_library_symlinks() {
+  local tar_member=""
+  local line=""
+  local dir=""
+  local target=""
+  local link_name=""
+  local resolved_link=""
+  local resolved_target=""
+
+  postinstall_symlink_notes=()
+  [[ -n "$txz_file" ]] || return
+
+  tar_member="$(
+    tar -tf "$txz_file" 2>/dev/null | while IFS= read -r member; do
+      case "${member#./}" in
+        install/doinst.sh)
+          printf '%s\n' "$member"
+          break
+          ;;
+      esac
+    done
+  )"
+
+  [[ -n "$tar_member" ]] || return 0
+  tar -xOf "$txz_file" "$tar_member" >"$tmp_doinst" 2>/dev/null || return 0
+
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    if [[ "$line" =~ ^\([[:space:]]*cd[[:space:]]+([^[:space:];]+)[[:space:]]*\;[[:space:]]*ln[[:space:]]+-sf[[:space:]]+([^[:space:];]+)[[:space:]]+([^[:space:];]+)[[:space:]]*\)$ ]]; then
+      dir="${BASH_REMATCH[1]}"
+      target="${BASH_REMATCH[2]}"
+      link_name="${BASH_REMATCH[3]}"
+    else
+      continue
+    fi
+
+    resolved_link="$(resolve_payload_path "$dir" "$link_name")"
+    resolved_target="$(resolve_payload_path "$dir" "$target")"
+
+    [[ "$resolved_link" =~ (^|/)[^/]+\.so(\.[^/]+)*$ ]] || continue
+    payload_has_path "$resolved_link" && continue
+
+    if payload_has_path "$resolved_target"; then
+      postinstall_symlink_notes+=(
+        "${resolved_link} -> ${target} (target present in payload at ${resolved_target})"
+      )
+    fi
+  done <"$tmp_doinst"
+
+  return 0
 }
 
 fetch_to_path() {
@@ -564,6 +667,25 @@ else
   fi
 fi
 
+dep_choice="$(select_dep_file "$pkgdir" "$txz_file")"
+dep_file="${dep_choice%%|*}"
+dep_selection_reason="${dep_choice#*|}"
+if [[ -z "$txz_file" ]]; then
+  dep_status="not-run"
+  dep_note="package artifact missing"
+elif [[ -n "$dep_file" ]]; then
+  if [[ "$dep_selection_reason" == "artifact-name" ]]; then
+    dep_status="present"
+    dep_note="matched package-style depfile for built artifact"
+  else
+    dep_status="mismatch"
+    dep_note="latest depfile found, but it does not match the built artifact name"
+  fi
+else
+  dep_status="missing"
+  dep_note="no depfile found next to the built artifact"
+fi
+
 log_choice="$(select_log_file "$pkgdir" "$txz_file" "$parsed_pkgname" "$pkgver")"
 log_file="${log_choice%%|*}"
 log_selection_reason="${log_choice#*|}"
@@ -652,6 +774,7 @@ add_payload_nonempty_file_check() {
 if [[ -n "$txz_file" ]]; then
   tar -tf "$txz_file" | sed 's#^\./##' >"$tmp_tar_index"
   tar -tvf "$txz_file" >"$tmp_tar_listing"
+  inspect_doinst_library_symlinks
 
   add_payload_check "install/slack-desc" "slack-desc present"
   if [[ -n "$pkgver" ]]; then
@@ -736,6 +859,17 @@ echo "- Build log: ${log_file:-MISSING}"
 echo "- Log selection: $log_selection_reason"
 echo "- Package artifact: ${txz_file:-MISSING}"
 echo "- MD5 file: ${md5_file:-MISSING}"
+echo "- Depfile: ${dep_file:-MISSING}"
+echo "- Depfile selection: $dep_selection_reason"
+echo "- Depfile status: $dep_status"
+echo "- Depfile note: $dep_note"
+if [[ ${#postinstall_symlink_notes[@]} -gt 0 ]]; then
+  echo "- Post-install library symlinks recreated by doinst.sh:"
+  printf '%s\n' "${postinstall_symlink_notes[@]}" | sed 's/^/  /'
+  echo "- Note: raw txz scans can miss these SONAME symlinks before installation."
+else
+  echo "- Post-install library symlinks recreated by doinst.sh: none detected"
+fi
 echo
 
 echo "Log Health"

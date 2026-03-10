@@ -66,6 +66,10 @@ It accepts either:
 - `Next Action`
 - Include `.dep` artifact presence and filename as part of artifact evidence
   (package-style `<pkgfull>.dep`, generated from built package).
+- If the validator reports post-install library symlinks recreated by
+  `install/doinst.sh`, treat raw-artifact `depfinder` warnings about those
+  SONAMEs as explained/non-fatal when the real library target is present in the
+  payload.
 
 5. On failure, report the first actionable fix.
 - Example: missing artifact, missing payload path, hard-failure marker in log.
@@ -91,6 +95,9 @@ It accepts either:
 - `depfinder` warnings about missing optional/test Python modules can be
   non-fatal when build success markers, required artifacts, and payload checks
   all pass.
+- Raw-artifact `depfinder` warnings about a package's own library SONAMEs can
+  be non-fatal when the validator reports that `install/doinst.sh` recreates
+  those library symlinks and the real library target is present in the payload.
 - `python2` entries in generated `.dep` files are not automatic failures in
   this repository; some packages legitimately depend on Python 2.
 - The validator derives package name/version from the built `.txz`, so package

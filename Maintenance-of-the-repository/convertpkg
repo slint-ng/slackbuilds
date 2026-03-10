@@ -173,7 +173,7 @@ print_cmd bash -lc "cd '$worktree_path/$pkg_path' && fakeroot slkbuild -X"
 
 if [[ -n "$work_bead" ]]; then
   printf '\nValidation Bead\n'
-  print_cmd bd create "Validate $pkg_path: <change summary>" -t bug -p 1 --deps "discovered-from:$work_bead" --description "Validate bash -n/shellcheck, fakeroot slkbuild -X artifacts, depfinder output, baseline manifest diff, and basic smoketests" --json
+  print_cmd bd create "Validate $pkg_path: <change summary>" -t bug -p 1 --deps "discovered-from:$work_bead" --description "Validate bash -n/shellcheck, fakeroot slkbuild -X artifacts, dep metadata (.dep) evidence, baseline manifest diff, and basic smoketests" --json
 fi
 
 printf '\nHandoff Command\n'

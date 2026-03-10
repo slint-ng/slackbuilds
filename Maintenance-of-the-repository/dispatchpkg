@@ -336,7 +336,7 @@ printf '\n'
 
 if [[ -n "$work_bead" && -z "$validation_bead" ]]; then
   printf 'Validation Bead Command\n'
-  print_cmd bd create "Validate $pkg_path: <change summary>" -t bug -p 1 --deps "discovered-from:$work_bead" --description "Validate bash -n/shellcheck, fakeroot slkbuild -X artifacts, depfinder output, baseline manifest diff, and basic smoketests" --json
+  print_cmd bd create "Validate $pkg_path: <change summary>" -t bug -p 1 --deps "discovered-from:$work_bead" --description "Validate bash -n/shellcheck, fakeroot slkbuild -X artifacts, dep metadata (.dep) evidence, baseline manifest diff, and basic smoketests" --json
   printf '\n'
 fi
 
