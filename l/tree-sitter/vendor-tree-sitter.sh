@@ -1,35 +1,39 @@
 #!/bin/bash
 
 VERSION=${VERSION:-0.25.3}
+SOURCE_TARBALL="v$VERSION.tar.gz"
+SOURCE_DIR="tree-sitter-$VERSION"
+VENDORED_DIR="tree-sitter-vendored-$VERSION"
 
-if [ ! -r v$VERSION.tar.gz ]; then
-  echo "ERROR: v$VERSION.tar.gz not found"
+if [ ! -r "$SOURCE_TARBALL" ]; then
+  echo "ERROR: $SOURCE_TARBALL not found"
   exit 1
 fi
 
 # Let's get the timestamp correct as long as we're here:
-touch -d "$(tar tvf v$VERSION.tar.gz | head -n 1 | cut -d 0 -f 2- | cut -d ' ' -f 2-3)" v$VERSION.tar.gz
+touch -d "$(tar tvf "$SOURCE_TARBALL" | head -n 1 | cut -d 0 -f 2- | cut -d ' ' -f 2-3)" "$SOURCE_TARBALL"
 
 # Clear any existing stuff out:
-rm -rf tree-sitter-$VERSION tree-sitter-${VERSION}* *.tar
+rm -rf "$SOURCE_DIR" "$VENDORED_DIR" ./*.tar
 
 # Extract the original tarball:
-tar xf v$VERSION.tar.gz
+tar xf "$SOURCE_TARBALL"
 
 # Vendor it:
-cd tree-sitter-$VERSION
+(
+cd "$SOURCE_DIR" || exit 1
   if ! [ -f /usr/bin/cargo-vendor-filterer ]; then
     echo "WARNING: Creating unfiltered vendor libs tarball!"
     cargo vendor
   else
     cargo vendor-filterer --platform="x86_64-unknown-linux-gnu" --platform="i686-unknown-linux-gnu"
   fi
-cd ..
-mv tree-sitter-$VERSION tree-sitter-vendored-$VERSION
+)
+mv "$SOURCE_DIR" "$VENDORED_DIR"
 
 # Tar up the vendored version:
-tar cf tree-sitter-vendored-$VERSION.tar tree-sitter-vendored-$VERSION
-plzip -9 tree-sitter-vendored-$VERSION.tar
+tar cf "$VENDORED_DIR.tar" "$VENDORED_DIR"
+plzip -9 "$VENDORED_DIR.tar"
 
 # Clean up:
-rm -rf tree-sitter-vendored-$VERSION
+rm -rf "$VENDORED_DIR"
