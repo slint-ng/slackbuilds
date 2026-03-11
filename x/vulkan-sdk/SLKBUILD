@@ -7,6 +7,10 @@ pkgrel=2slint
 url="https://www.khronos.org/vulkan/"
 license=("Apache-2.0" "MIT" "custom")
 source=("VERSION" "fetch-sources.sh")
+for archiveName in ./*.tar.gz ./*.tar.xz ./*.tar.bz2 ./*.tar.lz; do
+  [ -e "$archiveName" ] || continue
+  source+=("$(basename "$archiveName")")
+done
 options=("nosrcpack")
 slackdesc=\
 (
@@ -23,6 +27,59 @@ slackdesc=\
 )
 
 build() {
+  have_archive() {
+    local packageDir=$1
+    local archivePrefix=$2
+
+    compgen -G "$packageDir/${archivePrefix}-*.tar.?z*" >/dev/null
+  }
+
+  ensure_sdk_sources() {
+    local packageDir=$1
+    local missingPrefixes=()
+    local requiredPrefixes=(
+      "SPIRV-Headers"
+      "SPIRV-Tools-sdk"
+      "glslang-sdk"
+      "Vulkan-Headers-sdk"
+      "Vulkan-Loader-sdk"
+      "Vulkan-ValidationLayers-sdk"
+      "robin-hood-hashing"
+      "Vulkan-ExtensionLayer-sdk"
+      "Vulkan-Tools-sdk"
+      "VulkanTools-sdk"
+      "shaderc"
+      "SPIRV-Cross-sdk"
+      "gfxreconstruct-sdk"
+      "DirectXShaderCompiler"
+      "SPIRV-Reflect-sdk"
+      "Vulkan-Profiles-sdk"
+    )
+    local archivePrefix=""
+
+    for archivePrefix in "${requiredPrefixes[@]}"; do
+      have_archive "$packageDir" "$archivePrefix" || missingPrefixes+=("$archivePrefix")
+    done
+
+    if [ "${#missingPrefixes[@]}" -eq 0 ]; then
+      return 0
+    fi
+
+    printf 'Missing Vulkan SDK source archives: %s\n' "${missingPrefixes[*]}" >&2
+    printf 'Fetching Vulkan SDK sources into %s\n' "$packageDir" >&2
+    (
+      cd "$packageDir" || exit 1
+      VERSION="$pkgver" /bin/sh "./fetch-sources.sh"
+    ) || return 1
+
+    for archivePrefix in "${requiredPrefixes[@]}"; do
+      have_archive "$packageDir" "$archivePrefix" || {
+        printf 'Still missing Vulkan SDK source archive after fetch: %s\n' "$archivePrefix" >&2
+        return 1
+      }
+    done
+  }
+
   find_archive_version() {
     local packageDir=$1
     local archivePrefix=$2
@@ -89,7 +146,7 @@ build() {
     ) || return 1
   }
 
-  local packageDir=""
+  local packageDir="$SRC"
   local buildRoot="$SRC"
   local spirvHeadersVersion=""
   local spirvToolsVersion=""
@@ -109,7 +166,7 @@ build() {
   local vulkanProfilesVersion=""
   local docDir=""
 
-  packageDir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd) || return 1
+  ensure_sdk_sources "$packageDir" || return 1
 
   spirvHeadersVersion=$(find_archive_version "$packageDir" "SPIRV-Headers") || return 1
   spirvToolsVersion=$(find_archive_version "$packageDir" "SPIRV-Tools-sdk") || return 1
