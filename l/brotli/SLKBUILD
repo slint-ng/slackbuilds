@@ -1,0 +1,49 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didier@slintdotfr
+
+pkgname=brotli
+pkgver=1.1.0
+pkgrel=2slint
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"brotli (Brotli compression format)"
+""
+"Brotli is a general purpose lossless compression algorithm that"
+"compresses data using a combination of a modern variant of the LZ77"
+"algorithm, Huffman coding, and second order context modeling."
+"It provides compression ratios comparable to the best current"
+"general-purpose methods while remaining similar in speed to deflate."
+""
+""
+""
+)
+url="https://github.com/google/brotli"
+license=("MIT")
+source=("https://github.com/google/brotli/archive/refs/tags/v${pkgver}.tar.gz")
+docs=("BUILD" "CONTRIBUTING" "LICENSE" "README" "WORKSPACE")
+
+build() {
+  cd "${pkgname}-${pkgver}" || return 1
+
+  cmake -B cmake-build -S . \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=/usr/lib"${LIBDIRSUFFIX}" \
+    -DMAN_INSTALL_DIR=/usr/man \
+    -DSYSCONF_INSTALL_DIR=/etc \
+    -DLIB_SUFFIX="${LIBDIRSUFFIX}" \
+    -DBUILD_TESTING=NO || return 1
+
+  cmake --build cmake-build -j "$numjobs" || cmake --build cmake-build || return 1
+  DESTDIR="$PKG" cmake --build cmake-build --target install || return 1
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}/"*.a || return 1
+
+  if [ -r docs/brotli.1 ]; then
+    install -Dm0644 docs/brotli.1 "$PKG/usr/man/man1/brotli.1" || return 1
+    gzip -9 "$PKG/usr/man/man1/brotli.1" || return 1
+  fi
+}
