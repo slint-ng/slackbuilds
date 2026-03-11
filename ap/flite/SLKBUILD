@@ -37,6 +37,7 @@ EOF
 build() {
   local docDir
   local infoName
+  local buildHtmlDocs
 
   cd "${pkgname}-${pkgver}" || return 1
 
@@ -57,18 +58,25 @@ build() {
   install -Dm0755 bin/t2p "$PKG/usr/bin/t2p" || return 1
   install -Dm0755 bin/flite_time "$PKG/usr/bin/flite_time" || return 1
 
+  buildHtmlDocs=yes
+  if ! command -v ed >/dev/null 2>&1; then
+    buildHtmlDocs=no
+  fi
+
   (
     cd doc || exit 1
-    make "${pkgname}.html" || exit 1
-    (
-      cd html || exit 1
-      rm -f index.html
-      ln -s "${pkgname}_toc.html" index.html
-      sed -i \
-        -e 's,HREF="flite.pdf",HREF="http://www.festvox.org/flite/doc/flite.pdf",' \
-        -e 's,\.tar\.gz,.tar.bz2,g' \
-        "${pkgname}_toc.html" || exit 1
-    )
+    if [ "$buildHtmlDocs" = yes ]; then
+      make "${pkgname}.html" || exit 1
+      (
+        cd html || exit 1
+        rm -f index.html
+        ln -s "${pkgname}_toc.html" index.html
+        sed -i \
+          -e 's,HREF="flite.pdf",HREF="http://www.festvox.org/flite/doc/flite.pdf",' \
+          -e 's,\.tar\.gz,.tar.bz2,g' \
+          "${pkgname}_toc.html" || exit 1
+      )
+    fi
     makeinfo "${pkgname}.texi" || exit 1
   ) || return 1
 
@@ -79,5 +87,8 @@ build() {
   docDir="$PKG/usr/doc/${pkgname}-${pkgver}"
   install -d "$docDir" || return 1
   cp -a ACKNOWLEDGEMENTS COPYING README* ../flite.rst "$docDir/" || return 1
-  cp -a doc/html doc/*.txt doc/alice "$docDir/" || return 1
+  cp -a doc/*.txt doc/alice "$docDir/" || return 1
+  if [ "$buildHtmlDocs" = yes ] && [ -d doc/html ]; then
+    cp -a doc/html "$docDir/" || return 1
+  fi
 }
