@@ -1,3 +1,5 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
 # Maintainer: Storm Dragon <storm_dragon@stormux.org>
 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 
@@ -5,10 +7,10 @@ pkgname="barnard"
 pkgrel=2slint
 pkgver=2026.02.09
 url="https://git.stormux.org/storm/barnard"
-source=(https://git.stormux.org/storm/barnard/archive/${pkgver}.tar.gz)
+source=("https://git.stormux.org/storm/barnard/archive/${pkgver}.tar.gz")
 options=('nosrcpack')
 license=('GPL2')
-depends=('openal' 'opus' 'opusfile')
+depends=('OpenAL' 'opus' 'opusfile')
 optdepends=('dialog: for barnard-ui')
 makedepends=('google-go-lang' 'git')
 startdir=$(pwd)
@@ -25,9 +27,9 @@ slackdesc=\
 )
 build() {
   if [ -d "$SRC/$pkgname" ]; then
-    cd "$SRC/$pkgname"
+    cd "$SRC/$pkgname" || return 1
   elif [ -d "$SRC/$pkgname-$pkgver" ]; then
-    cd "$SRC/$pkgname-$pkgver"
+    cd "$SRC/$pkgname-$pkgver" || return 1
   else
     echo "Source directory for $pkgname not found." >&2
     return 1

@@ -522,6 +522,13 @@ is_installed() {
         "${installedDbDir}/gcc-*"
       )
       ;;
+    openal|OpenAL|openal-soft)
+      patterns=(
+        "${installedDbDir}/OpenAL-*"
+        "${installedDbDir}/openal-*"
+        "${installedDbDir}/openal-soft-*"
+      )
+      ;;
     python)
       patterns=(
         "${installedDbDir}/python-*"

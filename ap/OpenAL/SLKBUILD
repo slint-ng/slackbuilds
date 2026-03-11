@@ -17,7 +17,7 @@ slackdesc=\
 )
 url="https://www.openal-soft.org/"
 license=("custom")
-source=("https://www.openal-soft.org/openal-releases/openal-soft-${pkgver}.tar.bz2")
+source=("https://github.com/kcat/openal-soft/archive/refs/tags/${pkgver}.tar.gz")
 docs=("COPYING")
 
 build() {
