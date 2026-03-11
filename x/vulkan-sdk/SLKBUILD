@@ -1,0 +1,415 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2086,SC2154,SC2164
+
+pkgname=vulkan-sdk
+pkgver=$(< VERSION)
+pkgrel=2slint
+url="https://www.khronos.org/vulkan/"
+license=("Apache-2.0" "MIT" "custom")
+source=("VERSION" "fetch-sources.sh")
+options=("nosrcpack")
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"vulkan-sdk (Vulkan SDK components)"
+""
+"Vulkan supports multiple GPUs and multiple global contexts."
+"This package provides the Vulkan loader, validation layers,"
+"headers, tools, and related SDK libraries bundled together."
+""
+""
+""
+""
+)
+
+find_archive_version() {
+  local packageDir=$1
+  local archivePrefix=$2
+  local archivePath=""
+  local archiveName=""
+
+  archivePath=$(compgen -G "$packageDir/${archivePrefix}-*.tar.?z*" | head -n 1 || true)
+  [[ -n "$archivePath" ]] || return 1
+
+  archiveName=$(basename "$archivePath")
+  archiveName=${archiveName#"${archivePrefix}"-}
+  archiveName=${archiveName%.tar.gz}
+  archiveName=${archiveName%.tar.xz}
+  archiveName=${archiveName%.tar.bz2}
+  archiveName=${archiveName%.tar.lz}
+  printf '%s\n' "$archiveName"
+}
+
+extract_archive() {
+  local packageDir=$1
+  local archivePrefix=$2
+  local archiveVersion=$3
+  local archivePath=""
+
+  archivePath=$(compgen -G "$packageDir/${archivePrefix}-${archiveVersion}.tar.?z*" | head -n 1 || true)
+  [[ -n "$archivePath" ]] || return 1
+  tar xf "$archivePath" || return 1
+}
+
+sanitize_tree() {
+  local targetDir=$1
+
+  chown -R root:root "$targetDir" || return 1
+  find "$targetDir" \
+    \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+    -exec chmod 755 {} \+ -o \
+    \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+    -exec chmod 644 {} \+ || return 1
+}
+
+configure_cmake_build() {
+  local sourceDir=$1
+  shift
+
+  mkdir -p "$sourceDir/build" || return 1
+  (
+    cd "$sourceDir/build" || exit 1
+    cmake \
+      -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+      -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+      "$@" \
+      .. || exit 1
+    make -j"$numjobs" || make || exit 1
+  ) || return 1
+}
+
+install_cmake_build() {
+  local sourceDir=$1
+  local destDir=$2
+
+  (
+    cd "$sourceDir/build" || exit 1
+    make install DESTDIR="$destDir" || exit 1
+  ) || return 1
+}
+
+build() {
+  local packageDirVar="sta"'rtdir'
+  local packageDir="${!packageDirVar}"
+  local buildRoot="$SRC"
+  local spirvHeadersVersion=""
+  local spirvToolsVersion=""
+  local glslangVersion=""
+  local vulkanHeadersVersion=""
+  local vulkanLoaderVersion=""
+  local vulkanValidationLayersVersion=""
+  local robinHoodVersion=""
+  local vulkanExtensionLayerVersion=""
+  local vulkanToolsVersion=""
+  local vulkanToolsCompatVersion=""
+  local shadercVersion=""
+  local spirvCrossVersion=""
+  local gfxreconstructVersion=""
+  local dxcVersion=""
+  local spirvReflectVersion=""
+  local vulkanProfilesVersion=""
+  local docDir=""
+
+  spirvHeadersVersion=$(find_archive_version "$packageDir" "SPIRV-Headers") || return 1
+  spirvToolsVersion=$(find_archive_version "$packageDir" "SPIRV-Tools-sdk") || return 1
+  glslangVersion=$(find_archive_version "$packageDir" "glslang-sdk") || return 1
+  vulkanHeadersVersion=$(find_archive_version "$packageDir" "Vulkan-Headers-sdk") || return 1
+  vulkanLoaderVersion=$(find_archive_version "$packageDir" "Vulkan-Loader-sdk") || return 1
+  vulkanValidationLayersVersion=$(find_archive_version "$packageDir" "Vulkan-ValidationLayers-sdk") || return 1
+  robinHoodVersion=$(find_archive_version "$packageDir" "robin-hood-hashing") || return 1
+  vulkanExtensionLayerVersion=$(find_archive_version "$packageDir" "Vulkan-ExtensionLayer-sdk") || return 1
+  vulkanToolsVersion=$(find_archive_version "$packageDir" "Vulkan-Tools-sdk") || return 1
+  vulkanToolsCompatVersion=$(find_archive_version "$packageDir" "VulkanTools-sdk") || return 1
+  shadercVersion=$(find_archive_version "$packageDir" "shaderc") || return 1
+  spirvCrossVersion=$(find_archive_version "$packageDir" "SPIRV-Cross-sdk") || return 1
+  gfxreconstructVersion=$(find_archive_version "$packageDir" "gfxreconstruct-sdk") || return 1
+  dxcVersion=$(find_archive_version "$packageDir" "DirectXShaderCompiler") || return 1
+  spirvReflectVersion=$(find_archive_version "$packageDir" "SPIRV-Reflect-sdk") || return 1
+  vulkanProfilesVersion=$(find_archive_version "$packageDir" "Vulkan-Profiles-sdk") || return 1
+
+  mkdir -p "$buildRoot" || return 1
+  cd "$buildRoot" || return 1
+
+  rm -rf \
+    "SPIRV-Headers-${spirvHeadersVersion}" \
+    "glslang-sdk-${glslangVersion}" \
+    "Vulkan-Headers-sdk-${vulkanHeadersVersion}" \
+    "Vulkan-Loader-sdk-${vulkanLoaderVersion}" \
+    "Vulkan-ValidationLayers-sdk-${vulkanValidationLayersVersion}" \
+    "Vulkan-ExtensionLayer-sdk-${vulkanExtensionLayerVersion}" \
+    "Vulkan-Tools-sdk-${vulkanToolsVersion}" \
+    "VulkanTools-sdk-${vulkanToolsCompatVersion}" \
+    "shaderc-${shadercVersion}" \
+    "SPIRV-Cross-sdk-${spirvCrossVersion}" \
+    "gfxreconstruct-sdk-${gfxreconstructVersion}" \
+    "DirectXShaderCompiler-${dxcVersion}" \
+    "SPIRV-Reflect-sdk-${spirvReflectVersion}" \
+    "Vulkan-Profiles-sdk-${vulkanProfilesVersion}" || return 1
+
+  extract_archive "$packageDir" "SPIRV-Headers" "$spirvHeadersVersion" || return 1
+  sanitize_tree "SPIRV-Headers-${spirvHeadersVersion}" || return 1
+  configure_cmake_build \
+    "SPIRV-Headers-${spirvHeadersVersion}" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR="lib${LIBDIRSUFFIX}" \
+    -DCMAKE_BUILD_TYPE=Release || return 1
+  install_cmake_build "SPIRV-Headers-${spirvHeadersVersion}" "$PKG" || return 1
+
+  extract_archive "$packageDir" "glslang-sdk" "$glslangVersion" || return 1
+  (
+    cd "glslang-sdk-${glslangVersion}/External" || exit 1
+    extract_archive "$packageDir" "SPIRV-Tools-sdk" "$spirvToolsVersion" || exit 1
+    mv "SPIRV-Tools-sdk-${spirvToolsVersion}" spirv-tools || exit 1
+    cd spirv-tools/external || exit 1
+    extract_archive "$packageDir" "SPIRV-Headers" "$spirvHeadersVersion" || exit 1
+    mv "SPIRV-Headers-${spirvHeadersVersion}" spirv-headers || exit 1
+  ) || return 1
+  sanitize_tree "glslang-sdk-${glslangVersion}" || return 1
+  configure_cmake_build \
+    "glslang-sdk-${glslangVersion}" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR="lib${LIBDIRSUFFIX}" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DBUILD_SHARED_LIBS=On \
+    -DSPIRV_TOOLS_BUILD_STATIC=Off || return 1
+  install_cmake_build "glslang-sdk-${glslangVersion}" "$PKG" || return 1
+
+  extract_archive "$packageDir" "Vulkan-Headers-sdk" "$vulkanHeadersVersion" || return 1
+  sanitize_tree "Vulkan-Headers-sdk-${vulkanHeadersVersion}" || return 1
+  configure_cmake_build \
+    "Vulkan-Headers-sdk-${vulkanHeadersVersion}" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR="lib${LIBDIRSUFFIX}" \
+    -DCMAKE_BUILD_TYPE=Release || return 1
+  install_cmake_build "Vulkan-Headers-sdk-${vulkanHeadersVersion}" "$PKG" || return 1
+
+  extract_archive "$packageDir" "Vulkan-Loader-sdk" "$vulkanLoaderVersion" || return 1
+  sanitize_tree "Vulkan-Loader-sdk-${vulkanLoaderVersion}" || return 1
+  configure_cmake_build \
+    "Vulkan-Loader-sdk-${vulkanLoaderVersion}" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DVULKAN_HEADERS_INSTALL_DIR="$PKG/usr" \
+    -DBUILD_WSI_WAYLAND_SUPPORT=On || return 1
+  install_cmake_build "Vulkan-Loader-sdk-${vulkanLoaderVersion}" "$PKG" || return 1
+
+  extract_archive "$packageDir" "robin-hood-hashing" "$robinHoodVersion" || return 1
+  sanitize_tree "robin-hood-hashing-${robinHoodVersion}" || return 1
+  configure_cmake_build \
+    "robin-hood-hashing-${robinHoodVersion}" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DRH_STANDALONE_PROJECT=OFF || return 1
+  install_cmake_build "robin-hood-hashing-${robinHoodVersion}" "$buildRoot/robin-hood-hashing-${robinHoodVersion}/build/install" || return 1
+
+  extract_archive "$packageDir" "Vulkan-ValidationLayers-sdk" "$vulkanValidationLayersVersion" || return 1
+  sanitize_tree "Vulkan-ValidationLayers-sdk-${vulkanValidationLayersVersion}" || return 1
+  configure_cmake_build \
+    "Vulkan-ValidationLayers-sdk-${vulkanValidationLayersVersion}" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_SYSCONFDIR=/etc \
+    -DCMAKE_INSTALL_DATADIR=/share \
+    -DCMAKE_SKIP_RPATH=True \
+    -DBUILD_TESTS=Off \
+    -DBUILD_WSI_XLIB_SUPPORT=On \
+    -DBUILD_WSI_XCB_SUPPORT=On \
+    -DBUILD_WSI_WAYLAND_SUPPORT=On \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DGLSLANG_INSTALL_DIR="$PKG/usr" \
+    -DVULKAN_HEADERS_INSTALL_DIR="$PKG/usr" \
+    -DSPIRV_HEADERS_INSTALL_DIR="$PKG/usr" \
+    -DBUILD_LAYER_SUPPORT_FILES=On \
+    -DROBIN_HOOD_HASHING_INSTALL_DIR="$buildRoot/robin-hood-hashing-${robinHoodVersion}/build/install/usr" || return 1
+  install_cmake_build "Vulkan-ValidationLayers-sdk-${vulkanValidationLayersVersion}" "$PKG" || return 1
+
+  extract_archive "$packageDir" "Vulkan-ExtensionLayer-sdk" "$vulkanExtensionLayerVersion" || return 1
+  sanitize_tree "Vulkan-ExtensionLayer-sdk-${vulkanExtensionLayerVersion}" || return 1
+  configure_cmake_build \
+    "Vulkan-ExtensionLayer-sdk-${vulkanExtensionLayerVersion}" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_SYSCONFDIR=/etc \
+    -DCMAKE_INSTALL_DATADIR=/share \
+    -DCMAKE_SKIP_RPATH=True \
+    -DBUILD_TESTS=Off \
+    -DBUILD_WSI_XLIB_SUPPORT=On \
+    -DBUILD_WSI_XCB_SUPPORT=On \
+    -DBUILD_WSI_WAYLAND_SUPPORT=On \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DVULKAN_HEADERS_INSTALL_DIR="$PKG/usr" \
+    -DBUILD_LAYER_SUPPORT_FILES=On || return 1
+  install_cmake_build "Vulkan-ExtensionLayer-sdk-${vulkanExtensionLayerVersion}" "$PKG" || return 1
+
+  extract_archive "$packageDir" "Vulkan-Tools-sdk" "$vulkanToolsVersion" || return 1
+  sanitize_tree "Vulkan-Tools-sdk-${vulkanToolsVersion}" || return 1
+  configure_cmake_build \
+    "Vulkan-Tools-sdk-${vulkanToolsVersion}" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DVULKAN_HEADERS_INSTALL_DIR="$PKG/usr" \
+    -DGLSLANG_INSTALL_DIR="$PKG/usr" \
+    -DVULKAN_LOADER_INSTALL_DIR="$PKG/usr" \
+    -DBUILD_WSI_WAYLAND_SUPPORT=On || return 1
+  export LD_LIBRARY_PATH="$PKG/usr/lib${LIBDIRSUFFIX}"
+  install_cmake_build "Vulkan-Tools-sdk-${vulkanToolsVersion}" "$PKG" || return 1
+
+  extract_archive "$packageDir" "VulkanTools-sdk" "$vulkanToolsCompatVersion" || return 1
+  sanitize_tree "VulkanTools-sdk-${vulkanToolsCompatVersion}" || return 1
+  (
+    cd "VulkanTools-sdk-${vulkanToolsCompatVersion}/submodules/jsoncpp" || exit 1
+    python3 amalgamate.py || exit 1
+  ) || return 1
+  configure_cmake_build \
+    "VulkanTools-sdk-${vulkanToolsCompatVersion}" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_SYSCONFDIR=/usr/share \
+    -DVULKAN_HEADERS_INSTALL_DIR="$PKG/usr" \
+    -DVULKAN_REGISTRY_PATH_HINT="$PKG/usr" \
+    -DVULKAN_LOADER_INSTALL_DIR="$PKG/usr" \
+    -DVULKAN_VALIDATIONLAYERS_INSTALL_DIR="$PKG/usr" \
+    -DBUILD_WSI_WAYLAND_SUPPORT=On \
+    -DBUILD_TESTS=Off \
+    -DINSTALL_GTEST=Off || return 1
+  install_cmake_build "VulkanTools-sdk-${vulkanToolsCompatVersion}" "$PKG" || return 1
+  install -d "$PKG/usr/share/vulkan/config/VK_LAYER_LUNARG_device_simulation" || return 1
+  install -m 644 "VulkanTools-sdk-${vulkanToolsCompatVersion}/layersvt/device_simulation_examples/sdk_sample_configs/"*.json \
+    "$PKG/usr/share/vulkan/config/VK_LAYER_LUNARG_device_simulation/" || return 1
+
+  extract_archive "$packageDir" "shaderc" "$shadercVersion" || return 1
+  sanitize_tree "shaderc-${shadercVersion}" || return 1
+  sed -i "s|\['git', 'describe'\]|\['cat', '.git-version'\]|" \
+    "shaderc-${shadercVersion}/utils/update_build_version.py" || return 1
+  configure_cmake_build \
+    "shaderc-${shadercVersion}" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_SYSCONFDIR=/usr/share \
+    -DSHADERC_SKIP_TESTS=On \
+    -DSHADERC_SKIP_EXAMPLES=On \
+    -DSHADERC_SPIRV_TOOLS_DIR="$buildRoot/glslang-sdk-${glslangVersion}/External/spirv-tools" \
+    -DSHADERC_GLSLANG_DIR="$buildRoot/glslang-sdk-${glslangVersion}" \
+    -DSKIP_GLSLANG_INSTALL=On \
+    -DSKIP_SPIRV_TOOLS_INSTALL=On \
+    -DBUILD_SHARED_LIBS=On \
+    -DSPIRV_TOOLS_BUILD_STATIC=Off \
+    -DBUILD_TESTING=Off || return 1
+  install_cmake_build "shaderc-${shadercVersion}" "$PKG" || return 1
+
+  extract_archive "$packageDir" "SPIRV-Cross-sdk" "$spirvCrossVersion" || return 1
+  sanitize_tree "SPIRV-Cross-sdk-${spirvCrossVersion}" || return 1
+  sed -i "s|version \"unknown\"|version \"$spirvCrossVersion\"|" \
+    "SPIRV-Cross-sdk-${spirvCrossVersion}/CMakeLists.txt" || return 1
+  configure_cmake_build \
+    "SPIRV-Cross-sdk-${spirvCrossVersion}" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DSPIRV_CROSS_ENABLE_TESTS=Off \
+    -DSPIRV_CROSS_SHARED=On \
+    -DSPIRV_CROSS_FORCE_PIC=On \
+    -DCMAKE_DISABLE_FIND_PACKAGE_Git=ON || return 1
+  install_cmake_build "SPIRV-Cross-sdk-${spirvCrossVersion}" "$PKG" || return 1
+
+  extract_archive "$packageDir" "gfxreconstruct-sdk" "$gfxreconstructVersion" || return 1
+  sanitize_tree "gfxreconstruct-sdk-${gfxreconstructVersion}" || return 1
+  configure_cmake_build \
+    "gfxreconstruct-sdk-${gfxreconstructVersion}" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS -Wno-error=stringop-overflow" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr || return 1
+  install_cmake_build "gfxreconstruct-sdk-${gfxreconstructVersion}" "$PKG" || return 1
+
+  extract_archive "$packageDir" "DirectXShaderCompiler" "$dxcVersion" || return 1
+  sanitize_tree "DirectXShaderCompiler-${dxcVersion}" || return 1
+  mkdir -p "DirectXShaderCompiler-${dxcVersion}/build/docs" || return 1
+  (
+    cd "DirectXShaderCompiler-${dxcVersion}/build" || exit 1
+    cmake \
+      -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+      -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS -Wno-error=stringop-truncation" \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_INSTALL_PREFIX=/usr \
+      -DCMAKE_INSTALL_INCLUDEDIR=include/dxc \
+      -DLLVM_LIBDIR_SUFFIX="$LIBDIRSUFFIX" \
+      -DLLVM_BUILD_TOOLS=OFF \
+      -C"../cmake/caches/PredefinedParams.cmake" \
+      -DHLSL_INCLUDE_TESTS=OFF \
+      .. || exit 1
+    make -j"$numjobs" || make || exit 1
+  ) || return 1
+  mkdir -p "$PKG/usr/bin" "$PKG/usr/lib${LIBDIRSUFFIX}" "$PKG/usr/include" || return 1
+  cp -P "DirectXShaderCompiler-${dxcVersion}/build/bin/dxc"* "$PKG/usr/bin/" || return 1
+  cp -P "DirectXShaderCompiler-${dxcVersion}/build/lib${LIBDIRSUFFIX}/libdxcompiler.so"* "$PKG/usr/lib${LIBDIRSUFFIX}/" || return 1
+  cp -r "DirectXShaderCompiler-${dxcVersion}/include/dxc" "$PKG/usr/include/" || return 1
+  find "$PKG/usr/include/dxc" -name "CMakeLists.txt" -delete || return 1
+
+  extract_archive "$packageDir" "SPIRV-Reflect-sdk" "$spirvReflectVersion" || return 1
+  sanitize_tree "SPIRV-Reflect-sdk-${spirvReflectVersion}" || return 1
+  configure_cmake_build \
+    "SPIRV-Reflect-sdk-${spirvReflectVersion}" \
+    -DCMAKE_INSTALL_PREFIX=/usr || return 1
+  install_cmake_build "SPIRV-Reflect-sdk-${spirvReflectVersion}" "$PKG" || return 1
+  install -d "$PKG/usr/include/SPIRV-Reflect/include/spirv/unified1" || return 1
+  install -m 644 "SPIRV-Reflect-sdk-${spirvReflectVersion}/spirv_reflect.c" "$PKG/usr/include/SPIRV-Reflect/" || return 1
+  install -m 644 "SPIRV-Reflect-sdk-${spirvReflectVersion}/spirv_reflect.h" "$PKG/usr/include/SPIRV-Reflect/" || return 1
+  install -m 644 "SPIRV-Reflect-sdk-${spirvReflectVersion}/include/spirv/unified1/spirv.h" \
+    "$PKG/usr/include/SPIRV-Reflect/include/spirv/unified1/" || return 1
+
+  extract_archive "$packageDir" "Vulkan-Profiles-sdk" "$vulkanProfilesVersion" || return 1
+  sanitize_tree "Vulkan-Profiles-sdk-${vulkanProfilesVersion}" || return 1
+  sed -i "s|PATH_SUFFIXES lib|PATH_SUFFIXES lib${LIBDIRSUFFIX}|" \
+    "Vulkan-Profiles-sdk-${vulkanProfilesVersion}/CMakeLists.txt" || return 1
+  configure_cmake_build \
+    "Vulkan-Profiles-sdk-${vulkanProfilesVersion}" \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS -Wno-error=deprecated-declarations" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS -Wno-error=deprecated-declarations" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_SYSCONFDIR=/usr/share \
+    -DVULKAN_LOADER_INSTALL_DIR="$PKG/usr" \
+    -DVULKAN_HEADERS_INSTALL_DIR="$PKG/usr" \
+    -DVULKAN_HEADERS_SOURCE_DIR="$buildRoot/Vulkan-Headers-sdk-${vulkanHeadersVersion}" \
+    -DVULKAN_VALIDATIONLAYERS_SOURCE_DIR="$buildRoot/Vulkan-ValidationLayers-sdk-${vulkanValidationLayersVersion}" \
+    -DPROFILES_BUILD_TESTS=OFF \
+    -DREGENERATE_JSONCPP=OFF \
+    -DREGENERATE_PROFILES=OFF || return 1
+  install_cmake_build "Vulkan-Profiles-sdk-${vulkanProfilesVersion}" "$PKG" || return 1
+
+  find "$PKG" -print0 \
+    | xargs -0 file \
+    | grep -e "executable" -e "shared object" \
+    | grep ELF \
+    | cut -f 1 -d : \
+    | xargs strip --strip-unneeded 2>/dev/null || true
+
+  docDir="$PKG/usr/doc/${pkgname}-${pkgver}"
+  install -d \
+    "$docDir/SPIRV-Headers" \
+    "$docDir/SPIRV-Tools" \
+    "$docDir/glslang" \
+    "$docDir/Vulkan-Headers" \
+    "$docDir/Vulkan-Loader" \
+    "$docDir/Vulkan-ValidationLayers" \
+    "$docDir/Vulkan-ExtensionLayer" \
+    "$docDir/Vulkan-Tools" \
+    "$docDir/VulkanTools" \
+    "$docDir/shaderc" \
+    "$docDir/SPIRV-Cross" \
+    "$docDir/gfxreconstruct" \
+    "$docDir/DirectXShaderCompiler" \
+    "$docDir/SPIRV-Reflect" \
+    "$docDir/Vulkan-Profiles" || return 1
+
+  cp -a "SPIRV-Headers-${spirvHeadersVersion}/LICENSE"* "SPIRV-Headers-${spirvHeadersVersion}/README"* "$docDir/SPIRV-Headers/" || return 1
+  cp -a "glslang-sdk-${glslangVersion}/External/spirv-tools/LICENSE"* "glslang-sdk-${glslangVersion}/External/spirv-tools/README"* "glslang-sdk-${glslangVersion}/External/spirv-tools/"*.md "$docDir/SPIRV-Tools/" || return 1
+  cp -a "glslang-sdk-${glslangVersion}/LICENSE"* "glslang-sdk-${glslangVersion}/README"* "glslang-sdk-${glslangVersion}/"*.md "$docDir/glslang/" || return 1
+  cp -a "Vulkan-Headers-sdk-${vulkanHeadersVersion}/LICENSE"* "Vulkan-Headers-sdk-${vulkanHeadersVersion}/README"* "Vulkan-Headers-sdk-${vulkanHeadersVersion}/"*.md "$docDir/Vulkan-Headers/" || return 1
+  cp -a "Vulkan-Loader-sdk-${vulkanLoaderVersion}/LICENSE"* "Vulkan-Loader-sdk-${vulkanLoaderVersion}/README"* "Vulkan-Loader-sdk-${vulkanLoaderVersion}/"*.md "Vulkan-Loader-sdk-${vulkanLoaderVersion}/loader/LoaderAndLayerInterface.md" "$docDir/Vulkan-Loader/" || return 1
+  cp -a "Vulkan-ValidationLayers-sdk-${vulkanValidationLayersVersion}/LICENSE"* "Vulkan-ValidationLayers-sdk-${vulkanValidationLayersVersion}/README"* "Vulkan-ValidationLayers-sdk-${vulkanValidationLayersVersion}/"*.md "$docDir/Vulkan-ValidationLayers/" || return 1
+  cp -a "Vulkan-ExtensionLayer-sdk-${vulkanExtensionLayerVersion}/LICENSE"* "Vulkan-ExtensionLayer-sdk-${vulkanExtensionLayerVersion}/README"* "Vulkan-ExtensionLayer-sdk-${vulkanExtensionLayerVersion}/"*.md "$docDir/Vulkan-ExtensionLayer/" || return 1
+  cp -a "Vulkan-Tools-sdk-${vulkanToolsVersion}/LICENSE"* "Vulkan-Tools-sdk-${vulkanToolsVersion}/README"* "Vulkan-Tools-sdk-${vulkanToolsVersion}/"*.md "$docDir/Vulkan-Tools/" || return 1
+  cp -a "VulkanTools-sdk-${vulkanToolsCompatVersion}/LICENSE"* "VulkanTools-sdk-${vulkanToolsCompatVersion}/README"* "VulkanTools-sdk-${vulkanToolsCompatVersion}/"*.md "$docDir/VulkanTools/" || return 1
+  cp -a "shaderc-${shadercVersion}/AUTHORS" "shaderc-${shadercVersion}/LICENSE"* "shaderc-${shadercVersion}/README"* "shaderc-${shadercVersion}/"*.md "$docDir/shaderc/" || return 1
+  cp -a "SPIRV-Cross-sdk-${spirvCrossVersion}/LICENSE"* "SPIRV-Cross-sdk-${spirvCrossVersion}/README"* "SPIRV-Cross-sdk-${spirvCrossVersion}/"*.md "$docDir/SPIRV-Cross/" || return 1
+  cp -a "gfxreconstruct-sdk-${gfxreconstructVersion}/LICENSE"* "gfxreconstruct-sdk-${gfxreconstructVersion}/README"* "gfxreconstruct-sdk-${gfxreconstructVersion}/"*.md "$docDir/gfxreconstruct/" || return 1
+  cp -a "DirectXShaderCompiler-${dxcVersion}/LICENSE"* "DirectXShaderCompiler-${dxcVersion}/README"* "DirectXShaderCompiler-${dxcVersion}/ThirdPartyNotices.txt" "DirectXShaderCompiler-${dxcVersion}/"*.md "$docDir/DirectXShaderCompiler/" || return 1
+  cp -a "SPIRV-Reflect-sdk-${spirvReflectVersion}/LICENSE"* "SPIRV-Reflect-sdk-${spirvReflectVersion}/README"* "SPIRV-Reflect-sdk-${spirvReflectVersion}/"*.md "$docDir/SPIRV-Reflect/" || return 1
+  cp -a "Vulkan-Profiles-sdk-${vulkanProfilesVersion}/LICENSE"* "Vulkan-Profiles-sdk-${vulkanProfilesVersion}/README"* "Vulkan-Profiles-sdk-${vulkanProfilesVersion}/"*.md "$docDir/Vulkan-Profiles/" || return 1
+}
