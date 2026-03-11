@@ -536,6 +536,12 @@ is_installed() {
       )
       commands=("python" "python3")
       ;;
+    freetype|freetype2)
+      patterns=(
+        "${installedDbDir}/freetype-*"
+        "${installedDbDir}/freetype2-*"
+      )
+      ;;
     *)
       patterns=("${installedDbDir}/${packageName}-*")
       ;;
