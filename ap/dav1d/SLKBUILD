@@ -1,0 +1,40 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didier~at~slint~dot~fr
+
+pkgname=dav1d
+pkgver=0.9.2
+pkgrel=3slint
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"dav1d (AV1 decoder)"
+""
+"dav1d is an AV1 decoder focused on speed and correctness."
+"It is developed by the VideoLAN, VLC and FFmpeg communities"
+"for use with AV1, the video codec created by the Alliance"
+"for Open Media."
+""
+""
+""
+""
+)
+url="https://code.videolan.org/videolan/dav1d"
+license=("BSD")
+source=("https://downloads.videolan.org/pub/videolan/dav1d/${pkgver}/${pkgname}-${pkgver}.tar.xz")
+
+build() {
+  local docDir
+
+  cd "${pkgname}-${pkgver}" || return 1
+
+  meson setup build \
+    --prefix /usr \
+    --libdir "lib${LIBDIRSUFFIX}" || return 1
+  DESTDIR="$PKG" ninja -C build all install || return 1
+
+  docDir="$PKG/usr/doc/${pkgname}-${pkgver}"
+  install -d "$docDir" || return 1
+  cp -a COPYING NEWS ./*.md doc/PATENTS "$docDir/" || return 1
+}
