@@ -503,6 +503,8 @@ is_installed() {
   local pattern=""
   local -a commands=()
   local commandName=""
+  local -a filePaths=()
+  local filePath=""
 
   if [[ "$packageName" == "slapt-get" ]]; then
     return 0
@@ -542,6 +544,20 @@ is_installed() {
         "${installedDbDir}/freetype2-*"
       )
       ;;
+    docbook-sgml)
+      patterns=(
+        "${installedDbDir}/docbook-sgml-*"
+        "${installedDbDir}/sgml-common-*"
+      )
+      filePaths=(
+        "/usr/share/sgml/docbook"
+        "/etc/sgml/catalog"
+      )
+      ;;
+    docbook-utils)
+      patterns=("${installedDbDir}/docbook-utils-*")
+      commands=("docbook2html" "docbook2man")
+      ;;
     *)
       patterns=("${installedDbDir}/${packageName}-*")
       ;;
@@ -555,6 +571,12 @@ is_installed() {
 
   for commandName in "${commands[@]}"; do
     if command -v "$commandName" >/dev/null 2>&1; then
+      return 0
+    fi
+  done
+
+  for filePath in "${filePaths[@]}"; do
+    if [[ -e "$filePath" ]]; then
       return 0
     fi
   done
