@@ -379,7 +379,6 @@ load_package_dependencies() {
 
   dependencyRef=()
 
-  depFilePath=$(find_depfile "$packageDir" "$packageName")
   if [[ -n "${packageNameByDir[${packageDir}]:-}" ]]; then
     read_slkbuild_array "${packageDir}/SLKBUILD" depends slkbuildDepends
     read_slkbuild_array "${packageDir}/SLKBUILD" makedepends slkbuildMakeDepends
@@ -391,6 +390,7 @@ load_package_dependencies() {
     fi
   fi
 
+  depFilePath=$(find_depfile "$packageDir" "$packageName")
   read_dependencies "$depFilePath" depFileDependencies
 
   append_unique_values dependencyRef "${depFileDependencies[@]}"
@@ -807,6 +807,8 @@ build_package() {
     effectiveNumjobs=$defaultNumjobs
   fi
 
+  prune_local_outputs_if_depfiles_ambiguous "$packageDir"
+
   printf 'Building %s (numjobs=%s)\n' "${packageDirByRelative[${packageDir}]}" "$effectiveNumjobs"
   pushd "$packageDir" >/dev/null || die "failed to enter package directory: ${packageDirByRelative[${packageDir}]}"
   if ! env numjobs="$effectiveNumjobs" fakeroot slkbuild -X 2>&1 | tee "$logPath"; then
@@ -822,6 +824,32 @@ build_package() {
 
   builtArtifactByDir["$packageDir"]=$artifactPath
   builtDepfileByDir["$packageDir"]=$depFilePath
+}
+
+prune_local_outputs_if_depfiles_ambiguous() {
+  local packageDir=$1
+  local packageRelativePath=${packageDirByRelative[${packageDir}]:-${packageDir}}
+  local -a depFiles=()
+  local stalePath=""
+
+  while IFS= read -r stalePath; do
+    depFiles+=("$stalePath")
+  done < <(
+    find "$packageDir" -maxdepth 1 -type f -name '*.dep' -print | sort
+  )
+
+  (( ${#depFiles[@]} > 1 )) || return 0
+
+  printf 'Removing stale local package outputs for %s; found multiple depfiles.\n' \
+    "$packageRelativePath" >&2
+
+  while IFS= read -r stalePath; do
+    rm -f -- "$stalePath"
+  done < <(
+    find "$packageDir" -maxdepth 1 -type f \
+      \( -name '*.dep' -o -name '*.txz' -o -name '*.tgz' -o -name '*.tbz' -o -name '*.tlz' \) \
+      -print | sort
+  )
 }
 
 artifact_looks_like_python_package() {
