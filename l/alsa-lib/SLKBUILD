@@ -1,0 +1,109 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=alsa-lib
+pkgver=1.2.8
+pkgrel=2slint
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"alsa-lib (Advanced Linux Sound Architecture library)"
+""
+"The Advanced Linux Sound Architecture (ALSA) provides audio and MIDI"
+"functionality to the Linux operating system. This is the ALSA library"
+"(libasound) which is used by audio applications."
+""
+""
+""
+""
+""
+)
+url="https://www.alsa-project.org/"
+license=("LGPL2.1" "GPL2")
+source=(
+  "https://www.alsa-project.org/files/pub/lib/${pkgname}-${pkgver}.tar.bz2"
+  "https://www.alsa-project.org/files/pub/lib/alsa-ucm-conf-${pkgver}.tar.bz2"
+  "https://www.alsa-project.org/files/pub/lib/alsa-topology-conf-${pkgver}.tar.bz2"
+  "smixer.conf"
+)
+
+doinst() {
+  config_file() {
+    local newFile
+    local oldFile
+
+    newFile="$1"
+    oldFile="$(dirname "$newFile")/$(basename "$newFile" .new)"
+
+    if [ ! -r "$newFile" ]; then
+      return 0
+    fi
+
+    if [ ! -r "$oldFile" ]; then
+      mv "$newFile" "$oldFile"
+    elif [ "$(cat "$oldFile" | md5sum)" = "$(cat "$newFile" | md5sum)" ]; then
+      rm "$newFile"
+    fi
+  }
+
+  config_file etc/asound.conf.new
+}
+
+build() {
+  local helperDir
+  local configDir
+  local item
+  local docDir
+
+  cd "${pkgname}-${pkgver}" || return 1
+  helperDir="$(cd .. && pwd)" || return 1
+
+  if [ ! -r src/conf/smixer.conf ]; then
+    cp -a "${helperDir}/smixer.conf" src/conf/ || return 1
+  fi
+
+  ./configure \
+    --libdir=/usr/lib"${LIBDIRSUFFIX}" \
+    --enable-mixer-modules \
+    --enable-topology \
+    --enable-ucm \
+    --build="${ARCH}-slackware-linux" || return 1
+
+  make -j"$numjobs" || make || return 1
+  make DESTDIR="$PKG" install || return 1
+
+  rm -f "$PKG"/lib"${LIBDIRSUFFIX}"/*.la "$PKG"/usr/lib"${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -d "$PKG/usr/share/alsa" || return 1
+  for configDir in \
+    "${helperDir}/alsa-ucm-conf-${pkgver}" \
+    "${helperDir}/alsa-topology-conf-${pkgver}"
+  do
+    for item in "${configDir}"/*; do
+      if [ "$(basename "$item")" = "README.md" ]; then
+        continue
+      fi
+      cp -a "$item" "$PKG/usr/share/alsa/" || return 1
+    done
+  done
+  if [ -r "${helperDir}/alsa-ucm-conf-${pkgver}/README.md" ]; then
+    install -Dm0644 "${helperDir}/alsa-ucm-conf-${pkgver}/README.md" \
+      "$PKG/usr/share/alsa/README-alsa-ucm-conf" || return 1
+  fi
+  if [ -r "${helperDir}/alsa-topology-conf-${pkgver}/README.md" ]; then
+    install -Dm0644 "${helperDir}/alsa-topology-conf-${pkgver}/README.md" \
+      "$PKG/usr/share/alsa/README-alsa-topology-conf" || return 1
+  fi
+
+  docDir="$PKG/usr/doc/${pkgname}-${pkgver}"
+  install -d "$docDir" || return 1
+  cp -a INSTALL MEMORY-LEAK NOTES TODO "$docDir/" || return 1
+  cp -a COPYING "$docDir/COPYING.lib" || return 1
+  cp -a aserver/COPYING "$docDir/COPYING.aserver" || return 1
+  if [ -r ChangeLog ]; then
+    head -n 1000 ChangeLog > "$docDir/ChangeLog" || return 1
+    touch -r ChangeLog "$docDir/ChangeLog" || return 1
+  fi
+}
