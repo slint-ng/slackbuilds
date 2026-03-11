@@ -69,7 +69,7 @@ build() {
     printf 'Fetching Vulkan SDK sources into %s\n' "$packageDir" >&2
     (
       cd "$packageDir" || exit 1
-      VERSION="$pkgver" /bin/sh "./fetch-sources.sh"
+      VERSION="$pkgver" bash "./fetch-sources.sh"
     ) || return 1
 
     for archivePrefix in "${requiredPrefixes[@]}"; do

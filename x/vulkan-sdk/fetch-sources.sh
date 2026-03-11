@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Copyright 2017, 2018  Patrick J. Volkerding, Sebeka, Minnesota, USA
 # Copyright 2021  Heinz Wiesinger, Amsterdam, The Netherlands
@@ -28,102 +28,138 @@
 #
 # Example:  VERSION=1.1.92.1 ./fetch-sources.sh
 
-VERSION=${VERSION:-latest}
+set -euo pipefail
 
-get_known_good() {
-JSON_PATH=$1
-DEP=$2
-KEY=$3
+version=${VERSION:-latest}
 
-DEP_COMMIT=$(python3 - << EOF
-import json
-with open('$JSON_PATH') as f:
-	known_good = json.load(f)
-name = '$DEP'
-headers = next(commit for commit in known_good['$KEY'] if commit['name'] == name)
-print(headers['commit'])
-EOF
-)
-
-echo $DEP_COMMIT
+map_archive_name() {
+  case "$1" in
+    glslang) printf '%s\n' "glslang-sdk" ;;
+    SPIRV-Tools) printf '%s\n' "SPIRV-Tools-sdk" ;;
+    Vulkan-Headers) printf '%s\n' "Vulkan-Headers-sdk" ;;
+    Vulkan-Loader) printf '%s\n' "Vulkan-Loader-sdk" ;;
+    Vulkan-ValidationLayers) printf '%s\n' "Vulkan-ValidationLayers-sdk" ;;
+    Vulkan-ExtensionLayer) printf '%s\n' "Vulkan-ExtensionLayer-sdk" ;;
+    Vulkan-Tools) printf '%s\n' "Vulkan-Tools-sdk" ;;
+    VulkanTools) printf '%s\n' "VulkanTools-sdk" ;;
+    SPIRV-Cross) printf '%s\n' "SPIRV-Cross-sdk" ;;
+    gfxreconstruct) printf '%s\n' "gfxreconstruct-sdk" ;;
+    SPIRV-Reflect) printf '%s\n' "SPIRV-Reflect-sdk" ;;
+    Vulkan-Profiles) printf '%s\n' "Vulkan-Profiles-sdk" ;;
+    shaderc|DirectXShaderCompiler) printf '%s\n' "$1" ;;
+    *) return 1 ;;
+  esac
 }
 
-rm -f *.tar.lz
+extract_release_components() {
+  local releaseNotesPath=$1
 
-wget https://vulkan.lunarg.com/doc/view/$VERSION/linux/release_notes.html
+  python3 - "$releaseNotesPath" << 'EOF'
+import html
+import re
+import sys
+from pathlib import Path
 
-VERSION=$(grep "Version" release_notes.html | grep "for Linux" | sed -e 's/<[^>]*>//g' | cut -d " " -f 2)
+text = Path(sys.argv[1]).read_text(encoding="utf-8", errors="ignore")
+text = re.sub(r"(?is)<(script|style).*?>.*?</\\1>", "", text)
+text = html.unescape(re.sub(r"(?s)<[^>]+>", "\n", text))
+lines = [re.sub(r"\\s+", " ", line).strip() for line in text.splitlines()]
 
-for i in $(grep "Repo:" release_notes.html | cut -d "\"" -f 2); do
-  COMMIT=$(basename $i)
-  REPO=$(echo $i | cut -d "/" -f 1-5)
-  NAME=$(basename $REPO)
-  echo ""
-  echo "$NAME"
-  echo ""
+for line in lines:
+    if "GitHub Repo:" not in line:
+        continue
+    match = re.search(
+        r"GitHub Repo:\\s*([^,]+?)\\s*,?\\s*(Version Tag|Commit):\\s*([^,\\s]+)",
+        line,
+        re.IGNORECASE,
+    )
+    if match:
+        print(f"{match.group(1).strip()}\\t{match.group(2).strip()}\\t{match.group(3).strip()}")
+EOF
+}
 
-  # release notes for bugfix releases contain the repo list multiple times
-  # only create tarballs for the most recent ones (on top)
-  if ! [ -e $NAME.fetched ]; then
-    git clone $REPO $NAME-$COMMIT
-    cd $NAME-$COMMIT
-      git reset --hard $COMMIT || git reset --hard origin/$COMMIT
-      git submodule update --init --recursive
-      git describe --tags > .git-version
-    cd ..
-    tar --exclude-vcs -cf $NAME-$COMMIT.tar $NAME-$COMMIT
-    plzip -9 $NAME-$COMMIT.tar
-    touch $NAME.fetched
+get_known_good() {
+  local jsonPath=$1
+  local depName=$2
+  local jsonKey=$3
 
-    if [ "$NAME" = "glslang" -a ! -e SPIRV-Headers.fetched ]; then
-      SPIRV_HEADERS_COMMIT=$(get_known_good glslang-$COMMIT/known_good.json spirv-tools/external/spirv-headers commits)
+  python3 - << EOF
+import json
+with open('$jsonPath', encoding='utf-8') as f:
+	known_good = json.load(f)
+name = '$depName'
+headers = next(commit for commit in known_good['$jsonKey'] if commit['name'] == name)
+print(headers['commit'])
+EOF
+}
 
-      git clone https://github.com/KhronosGroup/SPIRV-Headers.git SPIRV-Headers-$SPIRV_HEADERS_COMMIT
-      cd SPIRV-Headers-$SPIRV_HEADERS_COMMIT
-        git reset --hard $SPIRV_HEADERS_COMMIT || git reset --hard origin/$SPIRV_HEADERS_COMMIT
-        git submodule update --init --recursive
-        git describe --tags > .git-version
-      cd ..
-      tar --exclude-vcs -cf SPIRV-Headers-$SPIRV_HEADERS_COMMIT.tar SPIRV-Headers-$SPIRV_HEADERS_COMMIT
-      plzip -9 SPIRV-Headers-$SPIRV_HEADERS_COMMIT.tar
-      rm -rf SPIRV-Headers-$SPIRV_HEADERS_COMMIT
-      touch SPIRV-Headers.fetched
-    elif [ "$NAME" = "Vulkan-ValidationLayers" -a ! -e robin-hood-hashing.fetched ]; then
-      ROBIN_HOOD_COMMIT=$(get_known_good Vulkan-ValidationLayers-$COMMIT/scripts/known_good.json robin-hood-hashing repos)
+clone_and_pack() {
+  local repoPath=$1
+  local archiveName=$2
+  local refName=$3
+  local cloneDir="${archiveName}-${refName}"
 
-      git clone https://github.com/martinus/robin-hood-hashing.git robin-hood-hashing-$ROBIN_HOOD_COMMIT
-      cd robin-hood-hashing-$ROBIN_HOOD_COMMIT
-        git reset --hard $ROBIN_HOOD_COMMIT || git reset --hard origin/$ROBIN_HOOD_COMMIT
-        git submodule update --init --recursive
-        git describe --tags > .git-version
-      cd ..
-      tar --exclude-vcs -cf robin-hood-hashing-$ROBIN_HOOD_COMMIT.tar robin-hood-hashing-$ROBIN_HOOD_COMMIT
-      plzip -9 robin-hood-hashing-$ROBIN_HOOD_COMMIT.tar
-      rm -rf robin-hood-hashing-$ROBIN_HOOD_COMMIT
-      touch robin-hood-hashing.fetched
+  if [ -e "${archiveName}-${refName}.tar.lz" ]; then
+    if ! [ -d "$cloneDir" ]; then
+      tar xf "${cloneDir}.tar.lz"
     fi
-
-    rm -rf $NAME-$COMMIT
+    return 0
   fi
 
-done
+  git clone "https://github.com/${repoPath}.git" "$cloneDir"
+  (
+    cd "$cloneDir"
+    git reset --hard "$refName" || git reset --hard "origin/$refName"
+    git submodule update --init --recursive
+    git describe --tags --always > .git-version
+  )
+  tar --exclude-vcs -cf "${cloneDir}.tar" "$cloneDir"
+  plzip -9 "${cloneDir}.tar"
+}
 
-if ! [ -e "Vulkan-ExtensionLayer.fetched" ]; then
-    git clone https://github.com/KhronosGroup/Vulkan-ExtensionLayer.git Vulkan-ExtensionLayer-sdk-$VERSION
-    cd Vulkan-ExtensionLayer-sdk-$VERSION
-      git reset --hard sdk-$VERSION || git reset --hard origin/sdk-$VERSION || \
-      git reset --hard sdk-$VERSION-TAG || git reset --hard origin/sdk-$VERSION-TAG || \
-      git reset --hard sdk.$VERSION-TAG || git reset --hard origin/sdk.$VERSION-TAG
-      git submodule update --init --recursive
-      git describe --tags > .git-version
-    cd ..
-    tar --exclude-vcs -cf Vulkan-ExtensionLayer-sdk-$VERSION.tar Vulkan-ExtensionLayer-sdk-$VERSION
-    plzip -9 Vulkan-ExtensionLayer-sdk-$VERSION.tar
-    rm -rf Vulkan-ExtensionLayer-sdk-$VERSION
-    touch Vulkan-ExtensionLayer.fetched
+rm -f ./*.tar.lz
+rm -f release_notes.html release_components.tsv
+
+if [ "$version" = "latest" ]; then
+  version=$(wget -qO- "https://vulkan.lunarg.com/sdk/latest/linux.txt")
 fi
 
-echo $VERSION > VERSION
+releaseNotesUrl="https://vulkan.lunarg.com/doc/view/${version}/linux/release_notes.html"
+wget -O release_notes.html "$releaseNotesUrl"
+extract_release_components release_notes.html > release_components.tsv
+
+while IFS=$'\t' read -r repoPath refType refName; do
+  [ -n "$repoPath" ] || continue
+
+  repoPath=${repoPath#https://github.com/}
+  repoPath=${repoPath%.git}
+  repoName=$(basename "$repoPath")
+
+  if ! archiveName=$(map_archive_name "$repoName"); then
+    continue
+  fi
+
+  if [ -e "${archiveName}.fetched" ]; then
+    continue
+  fi
+
+  printf '\n%s (%s %s)\n\n' "$archiveName" "$refType" "$refName"
+  clone_and_pack "$repoPath" "$archiveName" "$refName"
+  touch "${archiveName}.fetched"
+
+  if [ "$repoName" = "glslang" ] && ! [ -e "SPIRV-Headers.fetched" ]; then
+    spirvHeadersCommit=$(get_known_good "${archiveName}-${refName}/known_good.json" "spirv-tools/external/spirv-headers" "commits")
+    clone_and_pack "KhronosGroup/SPIRV-Headers" "SPIRV-Headers" "$spirvHeadersCommit"
+    touch "SPIRV-Headers.fetched"
+  elif [ "$repoName" = "Vulkan-ValidationLayers" ] && ! [ -e "robin-hood-hashing.fetched" ]; then
+    robinHoodCommit=$(get_known_good "${archiveName}-${refName}/scripts/known_good.json" "robin-hood-hashing" "repos")
+    clone_and_pack "martinus/robin-hood-hashing" "robin-hood-hashing" "$robinHoodCommit"
+    touch "robin-hood-hashing.fetched"
+  fi
+done < release_components.tsv
+
+printf '%s\n' "$version" > VERSION
 
 rm -f release_notes.html
-rm -f *.fetched
+rm -f release_components.tsv
+rm -f -- ./*.fetched
