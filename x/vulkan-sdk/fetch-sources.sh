@@ -148,8 +148,8 @@ while IFS=$'\t' read -r repoPath refType refName; do
   touch "${archiveName}.fetched"
 
   if [ "$repoName" = "glslang" ] && ! [ -e "SPIRV-Headers.fetched" ]; then
-    spirvHeadersCommit=$(get_known_good "${archiveName}-${refName}/known_good.json" "spirv-tools/external/spirv-headers" "commits")
-    clone_and_pack "KhronosGroup/SPIRV-Headers" "SPIRV-Headers" "$spirvHeadersCommit"
+    spirvHeadersTag="vulkan-sdk-${version}"
+    clone_and_pack "KhronosGroup/SPIRV-Headers" "SPIRV-Headers" "$spirvHeadersTag"
     touch "SPIRV-Headers.fetched"
   elif [ "$repoName" = "Vulkan-ValidationLayers" ] && ! [ -e "robin-hood-hashing.fetched" ]; then
     robinHoodCommit=$(get_known_good "${archiveName}-${refName}/scripts/known_good.json" "robin-hood-hashing" "repos")
