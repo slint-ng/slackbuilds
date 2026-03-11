@@ -61,20 +61,20 @@ import sys
 from pathlib import Path
 
 text = Path(sys.argv[1]).read_text(encoding="utf-8", errors="ignore")
-text = re.sub(r"(?is)<(script|style).*?>.*?</\\1>", "", text)
+text = re.sub(r"(?is)<(script|style).*?>.*?</\1>", "", text)
 text = html.unescape(re.sub(r"(?s)<[^>]+>", "\n", text))
-lines = [re.sub(r"\\s+", " ", line).strip() for line in text.splitlines()]
+lines = [re.sub(r"\s+", " ", line).strip() for line in text.splitlines()]
 
 for line in lines:
     if "GitHub Repo:" not in line:
         continue
     match = re.search(
-        r"GitHub Repo:\\s*([^,]+?)\\s*,?\\s*(Version Tag|Commit):\\s*([^,\\s]+)",
+        r"GitHub Repo:\s*([^,]+?)\s*,?\s*(Version Tag|Commit):\s*([^,\s]+)",
         line,
         re.IGNORECASE,
     )
     if match:
-        print(f"{match.group(1).strip()}\\t{match.group(2).strip()}\\t{match.group(3).strip()}")
+        print(f"{match.group(1).strip()}\t{match.group(2).strip()}\t{match.group(3).strip()}")
 EOF
 }
 
