@@ -22,7 +22,10 @@ slackdesc=\
 )
 url="https://festvox.org/"
 license=("BSD")
-source=("https://github.com/festvox/flite/archive/v${pkgver}/flite-${pkgver}.tar.gz")
+source=(
+  "https://github.com/festvox/flite/archive/v${pkgver}/flite-${pkgver}.tar.gz"
+  "flite.rst"
+)
 
 doinst() {
   if ! grep "(flite)" usr/info/dir 1>/dev/null 2>/dev/null; then
