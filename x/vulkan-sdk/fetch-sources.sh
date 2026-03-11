@@ -51,6 +51,26 @@ map_archive_name() {
   esac
 }
 
+resolve_repo_path() {
+  case "$1" in
+    glslang|SPIRV-Headers|SPIRV-Tools|Vulkan-Headers|Vulkan-Loader|Vulkan-ValidationLayers|Vulkan-ExtensionLayer|Vulkan-Tools|SPIRV-Cross|SPIRV-Reflect|Vulkan-Profiles)
+      printf '%s\n' "KhronosGroup/$1"
+      ;;
+    VulkanTools|gfxreconstruct)
+      printf '%s\n' "LunarG/$1"
+      ;;
+    shaderc)
+      printf '%s\n' "google/shaderc"
+      ;;
+    DirectXShaderCompiler)
+      printf '%s\n' "microsoft/DirectXShaderCompiler"
+      ;;
+    *)
+      printf '%s\n' "$1"
+      ;;
+  esac
+}
+
 extract_release_components() {
   local releaseNotesPath=$1
 
@@ -135,6 +155,9 @@ while IFS=$'\t' read -r repoPath refType refName; do
 
   repoPath=${repoPath#https://github.com/}
   repoPath=${repoPath%.git}
+  if [[ "$repoPath" != */* ]]; then
+    repoPath=$(resolve_repo_path "$repoPath")
+  fi
   repoName=$(basename "$repoPath")
 
   if ! archiveName=$(map_archive_name "$repoName"); then
