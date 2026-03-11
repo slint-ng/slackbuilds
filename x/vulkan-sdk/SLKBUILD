@@ -89,8 +89,7 @@ build() {
     ) || return 1
   }
 
-  local packageDirVar="sta"'rtdir'
-  local packageDir="${!packageDirVar}"
+  local packageDir=""
   local buildRoot="$SRC"
   local spirvHeadersVersion=""
   local spirvToolsVersion=""
@@ -109,6 +108,8 @@ build() {
   local spirvReflectVersion=""
   local vulkanProfilesVersion=""
   local docDir=""
+
+  packageDir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd) || return 1
 
   spirvHeadersVersion=$(find_archive_version "$packageDir" "SPIRV-Headers") || return 1
   spirvToolsVersion=$(find_archive_version "$packageDir" "SPIRV-Tools-sdk") || return 1
