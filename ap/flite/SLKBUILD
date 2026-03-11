@@ -1,0 +1,83 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=flite
+pkgver=2.2
+pkgrel=2slint
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"flite (speech synthesis engine)"
+""
+"Flite is a small and fast run-time synthesis engine designed for"
+"embedded systems and servers. Flite was developed by Alan W. Black"
+"and Kevin Lenzo at Carnegie Mellon University, in Pittsburgh."
+""
+""
+""
+""
+""
+)
+url="https://festvox.org/"
+license=("BSD")
+source=("https://github.com/festvox/flite/archive/v${pkgver}/flite-${pkgver}.tar.gz")
+
+doinst() {
+  if ! grep "(flite)" usr/info/dir 1>/dev/null 2>/dev/null; then
+    cat << 'EOF' >> usr/info/dir
+
+Miscellaneous
+* FLITE:  (flite).                Flite, a small, fast speech synthesis engine.
+EOF
+  fi
+}
+
+build() {
+  local docDir
+  local infoName
+
+  cd "${pkgname}-${pkgver}" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir=/usr/lib"${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --with-audio=alsa \
+    --enable-shared \
+    --build="${ARCH}-slackware-linux" || return 1
+
+  make -j"$numjobs" || make || return 1
+  make install prefix="$PKG/usr" INSTALLLIBDIR="$PKG/usr/lib${LIBDIRSUFFIX}" || return 1
+
+  rm -rf "$PKG/usr/lib${LIBDIRSUFFIX}/"*.a || return 1
+
+  install -Dm0755 bin/t2p "$PKG/usr/bin/t2p" || return 1
+  install -Dm0755 bin/flite_time "$PKG/usr/bin/flite_time" || return 1
+
+  (
+    cd doc || exit 1
+    make "${pkgname}.html" || exit 1
+    (
+      cd html || exit 1
+      rm -f index.html
+      ln -s "${pkgname}_toc.html" index.html
+      sed -i \
+        -e 's,HREF="flite.pdf",HREF="http://www.festvox.org/flite/doc/flite.pdf",' \
+        -e 's,\.tar\.gz,.tar.bz2,g' \
+        "${pkgname}_toc.html" || exit 1
+    )
+    makeinfo "${pkgname}.texi" || exit 1
+  ) || return 1
+
+  infoName="${pkgname}$(printf '\056info')"
+  install -Dm0644 "doc/${infoName}" "$PKG/usr/info/${infoName}" || return 1
+  gzip -9 "$PKG/usr/info/${infoName}" || return 1
+
+  docDir="$PKG/usr/doc/${pkgname}-${pkgver}"
+  install -d "$docDir" || return 1
+  cp -a ACKNOWLEDGEMENTS COPYING README* ../flite.rst "$docDir/" || return 1
+  cp -a doc/html doc/*.txt doc/alice "$docDir/" || return 1
+}
