@@ -1,0 +1,45 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didier~at~slint~dot~fr
+
+pkgname=celt
+pkgver=0.11.3
+pkgrel=3slint
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"celt (low delay audio codec)"
+""
+"CELT is a very low delay audio codec designed for high-quality"
+"communications. Traditional full-bandwidth codecs such as Vorbis"
+"and AAC can offer high quality but they require delays of hundreds"
+"of milliseconds, which makes them unsuitable for real-time"
+"interactive applications like teleconferencing."
+""
+""
+""
+)
+url="https://www.celt-codec.org/"
+license=("BSD")
+source=("https://downloads.xiph.org/releases/celt/${pkgname}-${pkgver}.tar.gz")
+docs=("AUTHORS" "ChangeLog" "COPYING" "INSTALL" "NEWS" "README" "TODO")
+
+build() {
+  cd "${pkgname}-${pkgver}" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir=/usr/lib"${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --disable-static \
+    --build="${ARCH}-slackware-linux" \
+    --host="${ARCH}-slackware-linux" || return 1
+
+  make -j"$numjobs" || make || return 1
+  make install-strip DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}/"*.la || return 1
+}
