@@ -6,6 +6,8 @@
 pkgname=alsa-lib
 pkgver=1.2.8
 pkgrel=2slint
+ucmConfVer=1.2.8
+topologyConfVer=1.2.5.1
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|
@@ -24,8 +26,8 @@ url="https://www.alsa-project.org/"
 license=("LGPL2.1" "GPL2")
 source=(
   "https://www.alsa-project.org/files/pub/lib/${pkgname}-${pkgver}.tar.bz2"
-  "https://www.alsa-project.org/files/pub/lib/alsa-ucm-conf-${pkgver}.tar.bz2"
-  "https://www.alsa-project.org/files/pub/lib/alsa-topology-conf-${pkgver}.tar.bz2"
+  "https://www.alsa-project.org/files/pub/lib/alsa-ucm-conf-${ucmConfVer}.tar.bz2"
+  "https://www.alsa-project.org/files/pub/lib/alsa-topology-conf-${topologyConfVer}.tar.bz2"
   "smixer.conf"
 )
 
@@ -78,8 +80,8 @@ build() {
 
   install -d "$PKG/usr/share/alsa" || return 1
   for configDir in \
-    "${helperDir}/alsa-ucm-conf-${pkgver}" \
-    "${helperDir}/alsa-topology-conf-${pkgver}"
+    "${helperDir}/alsa-ucm-conf-${ucmConfVer}" \
+    "${helperDir}/alsa-topology-conf-${topologyConfVer}"
   do
     for item in "${configDir}"/*; do
       if [ "$(basename "$item")" = "README.md" ]; then
@@ -88,12 +90,12 @@ build() {
       cp -a "$item" "$PKG/usr/share/alsa/" || return 1
     done
   done
-  if [ -r "${helperDir}/alsa-ucm-conf-${pkgver}/README.md" ]; then
-    install -Dm0644 "${helperDir}/alsa-ucm-conf-${pkgver}/README.md" \
+  if [ -r "${helperDir}/alsa-ucm-conf-${ucmConfVer}/README.md" ]; then
+    install -Dm0644 "${helperDir}/alsa-ucm-conf-${ucmConfVer}/README.md" \
       "$PKG/usr/share/alsa/README-alsa-ucm-conf" || return 1
   fi
-  if [ -r "${helperDir}/alsa-topology-conf-${pkgver}/README.md" ]; then
-    install -Dm0644 "${helperDir}/alsa-topology-conf-${pkgver}/README.md" \
+  if [ -r "${helperDir}/alsa-topology-conf-${topologyConfVer}/README.md" ]; then
+    install -Dm0644 "${helperDir}/alsa-topology-conf-${topologyConfVer}/README.md" \
       "$PKG/usr/share/alsa/README-alsa-topology-conf" || return 1
   fi
 
