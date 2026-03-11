@@ -1,3 +1,5 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2086,SC2154,SC2162,SC2164
 # Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 # Contributor: Jan de Groot <jgc@archlinux.org>
 # File derived from a PKGBUILD from Arch with patches from Arch, Debian
@@ -24,12 +26,9 @@ depends=(
   freetype2
 )
 makedepends=(
-  docbook-sgml
-  docbook-utils
   git
   gperf
   meson
-  perl-sgmls
 )
 provides=(fontconfig-docs)
 conflicts=(fontconfig-docs)
@@ -95,7 +94,7 @@ patch -p1 --verbose < $startdir/slint_mods.diff || exit 1
     -D cache-build=disabled \
     -D default-hinting=slight \
     -D default-sub-pixel-rendering=rgb \
-    -D doc-html=enabled \
+    -D doc-html=disabled \
     -D doc-pdf=disabled \
     -D doc-txt=disabled   
   ninja
@@ -117,4 +116,3 @@ mkdir -p $PKG/var/log/setup
 cat $startdir/setup.05.fontconfig > $PKG/var/log/setup/setup.05.fontconfig
 chmod 755 $PKG/var/log/setup/setup.05.fontconfig
 }
-
