@@ -22,73 +22,73 @@ slackdesc=\
 ""
 )
 
-find_archive_version() {
-  local packageDir=$1
-  local archivePrefix=$2
-  local archivePath=""
-  local archiveName=""
-
-  archivePath=$(compgen -G "$packageDir/${archivePrefix}-*.tar.?z*" | head -n 1 || true)
-  [[ -n "$archivePath" ]] || return 1
-
-  archiveName=$(basename "$archivePath")
-  archiveName=${archiveName#"${archivePrefix}"-}
-  archiveName=${archiveName%.tar.gz}
-  archiveName=${archiveName%.tar.xz}
-  archiveName=${archiveName%.tar.bz2}
-  archiveName=${archiveName%.tar.lz}
-  printf '%s\n' "$archiveName"
-}
-
-extract_archive() {
-  local packageDir=$1
-  local archivePrefix=$2
-  local archiveVersion=$3
-  local archivePath=""
-
-  archivePath=$(compgen -G "$packageDir/${archivePrefix}-${archiveVersion}.tar.?z*" | head -n 1 || true)
-  [[ -n "$archivePath" ]] || return 1
-  tar xf "$archivePath" || return 1
-}
-
-sanitize_tree() {
-  local targetDir=$1
-
-  chown -R root:root "$targetDir" || return 1
-  find "$targetDir" \
-    \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
-    -exec chmod 755 {} \+ -o \
-    \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
-    -exec chmod 644 {} \+ || return 1
-}
-
-configure_cmake_build() {
-  local sourceDir=$1
-  shift
-
-  mkdir -p "$sourceDir/build" || return 1
-  (
-    cd "$sourceDir/build" || exit 1
-    cmake \
-      -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
-      -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
-      "$@" \
-      .. || exit 1
-    make -j"$numjobs" || make || exit 1
-  ) || return 1
-}
-
-install_cmake_build() {
-  local sourceDir=$1
-  local destDir=$2
-
-  (
-    cd "$sourceDir/build" || exit 1
-    make install DESTDIR="$destDir" || exit 1
-  ) || return 1
-}
-
 build() {
+  find_archive_version() {
+    local packageDir=$1
+    local archivePrefix=$2
+    local archivePath=""
+    local archiveName=""
+
+    archivePath=$(compgen -G "$packageDir/${archivePrefix}-*.tar.?z*" | head -n 1 || true)
+    [[ -n "$archivePath" ]] || return 1
+
+    archiveName=$(basename "$archivePath")
+    archiveName=${archiveName#"${archivePrefix}"-}
+    archiveName=${archiveName%.tar.gz}
+    archiveName=${archiveName%.tar.xz}
+    archiveName=${archiveName%.tar.bz2}
+    archiveName=${archiveName%.tar.lz}
+    printf '%s\n' "$archiveName"
+  }
+
+  extract_archive() {
+    local packageDir=$1
+    local archivePrefix=$2
+    local archiveVersion=$3
+    local archivePath=""
+
+    archivePath=$(compgen -G "$packageDir/${archivePrefix}-${archiveVersion}.tar.?z*" | head -n 1 || true)
+    [[ -n "$archivePath" ]] || return 1
+    tar xf "$archivePath" || return 1
+  }
+
+  sanitize_tree() {
+    local targetDir=$1
+
+    chown -R root:root "$targetDir" || return 1
+    find "$targetDir" \
+      \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+      -exec chmod 755 {} \+ -o \
+      \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+      -exec chmod 644 {} \+ || return 1
+  }
+
+  configure_cmake_build() {
+    local sourceDir=$1
+    shift
+
+    mkdir -p "$sourceDir/build" || return 1
+    (
+      cd "$sourceDir/build" || exit 1
+      cmake \
+        -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+        -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+        "$@" \
+        .. || exit 1
+      make -j"$numjobs" || make || exit 1
+    ) || return 1
+  }
+
+  install_cmake_build() {
+    local sourceDir=$1
+    local destDir=$2
+
+    (
+      cd "$sourceDir/build" || exit 1
+      make install DESTDIR="$destDir" || exit 1
+    ) || return 1
+  }
+
   local packageDirVar="sta"'rtdir'
   local packageDir="${!packageDirVar}"
   local buildRoot="$SRC"
