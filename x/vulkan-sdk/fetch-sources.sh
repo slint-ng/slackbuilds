@@ -62,19 +62,21 @@ from pathlib import Path
 
 text = Path(sys.argv[1]).read_text(encoding="utf-8", errors="ignore")
 text = re.sub(r"(?is)<(script|style).*?>.*?</\1>", "", text)
-text = html.unescape(re.sub(r"(?s)<[^>]+>", "\n", text))
-lines = [re.sub(r"\s+", " ", line).strip() for line in text.splitlines()]
+text = html.unescape(re.sub(r"(?s)<[^>]+>", " ", text))
+text = re.sub(r"\s+", " ", text)
 
-for line in lines:
-    if "GitHub Repo:" not in line:
-        continue
-    match = re.search(
-        r"GitHub Repo:\s*([^,]+?)\s*,?\s*(Version Tag|Commit):\s*([^,\s]+)",
-        line,
-        re.IGNORECASE,
-    )
-    if match:
-        print(f"{match.group(1).strip()}\t{match.group(2).strip()}\t{match.group(3).strip()}")
+pattern = re.compile(
+    r"(?:GitHub|Github) Repo:\s*"
+    r"([A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)?)"
+    r"(?:\s+github\.com)?"
+    r"\s*,?\s*"
+    r"(Version Tag|Commit|tag|commit):\s*"
+    r"([^,\s]+)",
+    re.IGNORECASE,
+)
+
+for match in pattern.finditer(text):
+    print(f"{match.group(1).strip()}\t{match.group(2).strip()}\t{match.group(3).strip()}")
 EOF
 }
 
