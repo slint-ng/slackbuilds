@@ -39,6 +39,7 @@ map_archive_name() {
     Vulkan-Headers) printf '%s\n' "Vulkan-Headers-sdk" ;;
     Vulkan-Loader) printf '%s\n' "Vulkan-Loader-sdk" ;;
     Vulkan-ValidationLayers) printf '%s\n' "Vulkan-ValidationLayers-sdk" ;;
+    Vulkan-Utility-Libraries) printf '%s\n' "Vulkan-Utility-Libraries-sdk" ;;
     Vulkan-ExtensionLayer) printf '%s\n' "Vulkan-ExtensionLayer-sdk" ;;
     Vulkan-Tools) printf '%s\n' "Vulkan-Tools-sdk" ;;
     VulkanTools) printf '%s\n' "VulkanTools-sdk" ;;
@@ -53,7 +54,7 @@ map_archive_name() {
 
 resolve_repo_path() {
   case "$1" in
-    glslang|SPIRV-Headers|SPIRV-Tools|Vulkan-Headers|Vulkan-Loader|Vulkan-ValidationLayers|Vulkan-ExtensionLayer|Vulkan-Tools|SPIRV-Cross|SPIRV-Reflect|Vulkan-Profiles)
+    glslang|SPIRV-Headers|SPIRV-Tools|Vulkan-Headers|Vulkan-Loader|Vulkan-ValidationLayers|Vulkan-Utility-Libraries|Vulkan-ExtensionLayer|Vulkan-Tools|SPIRV-Cross|SPIRV-Reflect|Vulkan-Profiles)
       printf '%s\n' "KhronosGroup/$1"
       ;;
     VulkanTools|gfxreconstruct)
