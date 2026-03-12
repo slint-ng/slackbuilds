@@ -1,0 +1,11 @@
+# Qt configure probes intentionally fail for optional backends and SDKs that
+# are not present on the build host. The package can still build successfully.
+main\.cpp:[0-9]+:[0-9]+: fatal error: EGL/fbdev_window\.h: No such file or directory
+main\.cpp:[0-9]+:[0-9]+: fatal error: EGL/eglvivante\.h: No such file or directory
+main\.cpp:[0-9]+:[0-9]+: fatal error: sybfront\.h: No such file or directory
+main\.cpp:[0-9]+:[0-9]+: fatal error: windows\.h: No such file or directory
+config\.tests/d3d12/.*fatal error: d3d12\.h: No such file or directory
+config\.tests/assimp/.*fatal error: assimp/cimport\.h: No such file or directory
+config\.tests/fbx/.*fatal error: fbxsdk\.h: No such file or directory
+main\.cpp:[0-9]+:[0-9]+: fatal error: hybris/eglplatformcommon/hybris_nativebufferext\.h: No such file or directory
+config\.tests/winrt/.*fatal error: windows\.system\.h: No such file or directory

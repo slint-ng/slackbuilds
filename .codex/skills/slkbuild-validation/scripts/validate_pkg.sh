@@ -102,8 +102,17 @@ latest_file() {
   local pattern="$2"
   find "$dir" -maxdepth 1 -type f -name "$pattern" -printf '%T@ %p\n' 2>/dev/null \
     | sort -nr \
-    | head -n 1 \
-    | cut -d' ' -f2-
+    | awk '
+        NR == 1 {
+          sub(/^[^[:space:]]+[[:space:]]+/, "")
+          first = $0
+        }
+        END {
+          if (NR > 0) {
+            print first
+          }
+        }
+      '
 }
 
 txz_file="$(latest_file "$pkgdir" '*.txz')"
@@ -131,6 +140,8 @@ manifest_unexpected_additions=""
 manifest_unexpected_removals=""
 manifest_allow_add_patterns=()
 manifest_allow_remove_patterns=()
+benign_log_pattern_files=()
+package_benign_log_re=""
 workingdir="${SLKBUILD_VALIDATION_WORKINGDIR:-}"
 manifest_allowlist_files=("$default_manifest_allowlist")
 tmp_tar_index="${tmpdir}/package-manifest.txt"
@@ -288,16 +299,14 @@ inspect_doinst_library_symlinks() {
   postinstall_symlink_notes=()
   [[ -n "$txz_file" ]] || return
 
-  tar_member="$(
-    tar -tf "$txz_file" 2>/dev/null | while IFS= read -r member; do
-      case "${member#./}" in
-        install/doinst.sh)
-          printf '%s\n' "$member"
-          break
-          ;;
-      esac
-    done
-  )"
+  while IFS= read -r member; do
+    case "${member#./}" in
+      install/doinst.sh)
+        tar_member="$member"
+        break
+        ;;
+    esac
+  done < <(tar -tf "$txz_file" 2>/dev/null)
 
   [[ -n "$tar_member" ]] || return 0
   tar -xOf "$txz_file" "$tar_member" >"$tmp_doinst" 2>/dev/null || return 0
@@ -381,25 +390,24 @@ parse_slapt_getrc() {
 find_cached_baseline() {
   local dir="$1"
   local candidate=""
+  local path=""
 
   [[ -z "$dir" || ! -d "$dir" ]] && return 1
 
-  candidate="$(
-    find "$dir" -type f -printf '%T@ %p\n' 2>/dev/null \
-      | sort -nr \
-      | while read -r _ts path; do
-          case "$(basename "$path")" in
-            "${parsed_pkgname}-${pkgver}-${txz_arch}-"*.txz|\
-            "${parsed_pkgname}-${pkgver}-${txz_arch}-"*.tgz|\
-            "${parsed_pkgname}-${pkgver}-${txz_arch}-"*.tlz|\
-            "${parsed_pkgname}-${pkgver}-${txz_arch}-"*.tbz|\
-            "${parsed_pkgname}-${pkgver}-${txz_arch}-"*.tbr)
-              printf '%s\n' "$path"
-              break
-              ;;
-          esac
-        done
-  )"
+  while read -r _ts path; do
+    case "$(basename "$path")" in
+      "${parsed_pkgname}-${pkgver}-${txz_arch}-"*.txz|\
+      "${parsed_pkgname}-${pkgver}-${txz_arch}-"*.tgz|\
+      "${parsed_pkgname}-${pkgver}-${txz_arch}-"*.tlz|\
+      "${parsed_pkgname}-${pkgver}-${txz_arch}-"*.tbz|\
+      "${parsed_pkgname}-${pkgver}-${txz_arch}-"*.tbr)
+        candidate="$path"
+        break
+        ;;
+    esac
+  done < <(
+    find "$dir" -type f -printf '%T@ %p\n' 2>/dev/null | sort -nr
+  )
 
   [[ -n "$candidate" ]] || return 1
   baseline_pkg="$candidate"
@@ -540,6 +548,36 @@ load_manifest_allowlist() {
           ;;
       esac
     done <"$allowlist_file"
+  done
+}
+
+load_benign_log_patterns() {
+  local pattern_file=""
+  local package_patterns_dir="${references_dir}/log-benign-patterns.d"
+  local package_pattern_file="${package_patterns_dir}/${parsed_pkgname}.txt"
+  local line=""
+
+  benign_log_pattern_files=()
+  package_benign_log_re=""
+
+  if [[ -f "$package_pattern_file" ]]; then
+    benign_log_pattern_files+=("$package_pattern_file")
+  fi
+  if [[ -f "${pkgdir}/validator-benign-log-patterns.txt" ]]; then
+    benign_log_pattern_files+=("${pkgdir}/validator-benign-log-patterns.txt")
+  fi
+
+  for pattern_file in "${benign_log_pattern_files[@]}"; do
+    while IFS= read -r line || [[ -n "$line" ]]; do
+      line="${line#"${line%%[![:space:]]*}"}"
+      line="${line%"${line##*[![:space:]]}"}"
+      [[ -z "$line" || "${line:0:1}" == "#" ]] && continue
+
+      if [[ -n "$package_benign_log_re" ]]; then
+        package_benign_log_re+="|"
+      fi
+      package_benign_log_re+="$line"
+    done <"$pattern_file"
   done
 }
 
@@ -689,6 +727,7 @@ fi
 log_choice="$(select_log_file "$pkgdir" "$txz_file" "$parsed_pkgname" "$pkgver")"
 log_file="${log_choice%%|*}"
 log_selection_reason="${log_choice#*|}"
+load_benign_log_patterns
 
 if [[ -z "$log_file" ]]; then
   fail_reasons+=("Missing build log (build-*.log).")
@@ -707,6 +746,9 @@ if [[ -n "$log_file" ]]; then
   hard_hits="$(search_ci_with_lineno "$hard_failure_re" "$log_file")"
   if [[ -n "$hard_hits" ]]; then
     benign_re="rmdir: failed to remove 'usr/doc[^']*': No such file or directory|collect2: error: ld returned [0-9]+ exit status"
+    if [[ -n "$package_benign_log_re" ]]; then
+      benign_re="${benign_re}|${package_benign_log_re}"
+    fi
     hard_hits_benign="$(printf '%s\n' "$hard_hits" | filter_ci "$benign_re")"
     hard_hits_non_benign="$(printf '%s\n' "$hard_hits" | filter_ci_invert "$benign_re")"
     if [[ -n "$hard_hits_non_benign" ]]; then
@@ -956,7 +998,7 @@ fi
 
 echo "- First failing reason: ${fail_reasons[0]}"
 if [[ -n "$hard_hits_actionable" ]]; then
-  first_hit="$(printf '%s\n' "$hard_hits_actionable" | head -n 1)"
+  first_hit="${hard_hits_actionable%%$'\n'*}"
   echo "- Inspect and fix: $first_hit"
 elif [[ -z "$txz_file" ]]; then
   echo "- Re-run slkbuild and ensure a .txz is produced."

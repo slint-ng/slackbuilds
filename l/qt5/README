@@ -1,0 +1,14 @@
+qt5 requires a locally prepared source tarball before running slkbuild.
+
+From this directory, run:
+
+    ./fetch_sources.sh
+
+This script clones the Qt 5.15 source tree and creates the expected
+qt-everywhere-src-5.15.3_20220318_e507d3e5.tar.lz tarball.
+
+After the tarball is present, build the package with:
+
+    fakeroot slkbuild -X
+
+The SLKBUILD does not fetch sources on its own.

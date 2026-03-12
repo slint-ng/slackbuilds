@@ -1,0 +1,45 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Codex <codex@openai>
+Date: Wed, 11 Mar 2026 00:00:00 +0000
+Subject: [PATCH] content: depend on spellcheck buildflags
+
+QtWebEngine's vendored Chromium tree includes
+`components/spellcheck/spellcheck_buildflags.h` from
+`content/public/browser/browser_context.h`, but the relevant `content` targets
+do not currently depend on `//components/spellcheck:buildflags`.
+
+That leaves downstream compilation units without an input dependency on the
+generated header, so Ninja can compile files that include `browser_context.h`
+before `gen/components/spellcheck/spellcheck_buildflags.h` exists.
+---
+ content/browser/BUILD.gn        | 1 +
+ content/public/browser/BUILD.gn | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/content/browser/BUILD.gn b/content/browser/BUILD.gn
+index b8926ba..a0d1052 100644
+--- a/content/browser/BUILD.gn
++++ b/content/browser/BUILD.gn
+@@ -153,6 +153,7 @@ jumbo_static_library("browser") {
+     "//components/payments/core",
+     "//components/payments/core:error_strings",
+     "//components/payments/mojom",
++    "//components/spellcheck:buildflags",
+     "//components/rappor",
+     "//components/services/filesystem:lib",
+     "//components/services/quarantine:quarantine",
+
+diff --git a/content/public/browser/BUILD.gn b/content/public/browser/BUILD.gn
+index 0e8204f..5b05cf2 100644
+--- a/content/public/browser/BUILD.gn
++++ b/content/public/browser/BUILD.gn
+@@ -436,6 +436,7 @@ jumbo_source_set("browser_sources") {
+ 
+   public_deps = [
+     "//build:chromecast_buildflags",
++    "//components/spellcheck:buildflags",
+     "//components/download/public/common:public",
+     "//components/services/storage/public/mojom",
+     "//content/public/common:common_sources",
+-- 
+2.39.5

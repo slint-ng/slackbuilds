@@ -780,6 +780,8 @@ def audit_generated_slkbuild(pkg_dir: Path, rendered_text: str, source_entries: 
                 )
             continue
         if not (pkg_dir / entry).exists():
+            if allow_missing_generated_local_source(pkg_dir, entry):
+                continue
             issues.append(f"declares missing local source `{entry}`")
     dotnew_entries = extract_array_entries(rendered_text, 'dotnew')
     if dotnew_entries:
@@ -803,6 +805,21 @@ def audit_generated_slkbuild(pkg_dir: Path, rendered_text: str, source_entries: 
     if not has_inline_slackdesc(rendered_text):
         issues.append("is missing an inline `slackdesc` block")
     return dedupe_preserve_order(issues)
+
+
+def allow_missing_generated_local_source(pkg_dir: Path, entry: str) -> bool:
+    fetch_script = pkg_dir / 'fetch_sources.sh'
+    readme = pkg_dir / 'README'
+
+    if not fetch_script.exists() or not readme.exists():
+        return False
+
+    try:
+        readme_text = readme.read_text(encoding='utf-8', errors='replace')
+    except OSError:
+        return False
+
+    return 'fetch_sources.sh' in readme_text and entry in readme_text
 
 
 def find_legacy_files(pkg_dir: Path) -> list[str]:
