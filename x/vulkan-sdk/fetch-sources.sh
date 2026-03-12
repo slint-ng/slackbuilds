@@ -119,9 +119,29 @@ clone_and_pack() {
   local repoPath=$1
   local archiveName=$2
   local refName=$3
-  local cloneDir="${archiveName}-${refName}"
+  local cloneDir=""
+  local oldPwd=$PWD
+  local resolvedRefName=$refName
+  local refCandidates=("$refName")
+  local refCandidate=""
+  local refResolved=0
 
-  if [ -e "${archiveName}-${refName}.tar.lz" ]; then
+  if [ "$archiveName" = "VulkanTools-sdk" ]; then
+    refCandidates+=("vulkan-sdk-${version}")
+    refCandidates+=("v${version%.0}")
+  fi
+
+  for refCandidate in "${refCandidates[@]}"; do
+    if [ -e "${archiveName}-${refCandidate}.tar.lz" ]; then
+      resolvedRefName=$refCandidate
+      refResolved=1
+      break
+    fi
+  done
+
+  cloneDir="${archiveName}-${resolvedRefName}"
+
+  if [ "$refResolved" -eq 1 ] && [ -e "${archiveName}-${resolvedRefName}.tar.lz" ]; then
     if ! [ -d "$cloneDir" ]; then
       tar xf "${cloneDir}.tar.lz"
     fi
@@ -129,12 +149,22 @@ clone_and_pack() {
   fi
 
   git clone "https://github.com/${repoPath}.git" "$cloneDir"
-  (
-    cd "$cloneDir"
-    git reset --hard "$refName" || git reset --hard "origin/$refName"
-    git submodule update --init --recursive
-    git describe --tags --always > .git-version
-  )
+  cd "$cloneDir" || return 1
+  for refCandidate in "${refCandidates[@]}"; do
+    if git reset --hard "$refCandidate" || git reset --hard "origin/$refCandidate"; then
+      resolvedRefName=$refCandidate
+      refResolved=1
+      break
+    fi
+  done
+  [ "$refResolved" -eq 1 ] || return 1
+  git submodule update --init --recursive
+  git describe --tags --always > .git-version
+  cd "$oldPwd" || return 1
+  if [ "$resolvedRefName" != "$refName" ]; then
+    mv "$cloneDir" "${archiveName}-${resolvedRefName}"
+    cloneDir="${archiveName}-${resolvedRefName}"
+  fi
   tar --exclude-vcs -cf "${cloneDir}.tar" "$cloneDir"
   plzip -9 "${cloneDir}.tar"
 }
