@@ -56,6 +56,7 @@ build() {
       "DirectXShaderCompiler"
       "SPIRV-Reflect-sdk"
       "valijson"
+      "jsoncpp"
       "Vulkan-Profiles-sdk"
     )
     local archivePrefix=""
@@ -169,6 +170,7 @@ build() {
   local dxcVersion=""
   local spirvReflectVersion=""
   local valijsonVersion=""
+  local jsoncppVersion=""
   local vulkanProfilesVersion=""
   local docDir=""
 
@@ -192,6 +194,7 @@ build() {
   dxcVersion=$(find_archive_version "$packageDir" "DirectXShaderCompiler") || return 1
   spirvReflectVersion=$(find_archive_version "$packageDir" "SPIRV-Reflect-sdk") || return 1
   valijsonVersion=$(find_archive_version "$packageDir" "valijson") || return 1
+  jsoncppVersion=$(find_archive_version "$packageDir" "jsoncpp") || return 1
   vulkanProfilesVersion=$(find_archive_version "$packageDir" "Vulkan-Profiles-sdk") || return 1
 
   mkdir -p "$buildRoot" || return 1
@@ -214,6 +217,7 @@ build() {
     "DirectXShaderCompiler-${dxcVersion}" \
     "SPIRV-Reflect-sdk-${spirvReflectVersion}" \
     "valijson-${valijsonVersion}" \
+    "jsoncpp-${jsoncppVersion}" \
     "Vulkan-Profiles-sdk-${vulkanProfilesVersion}" || return 1
 
   extract_archive "$packageDir" "SPIRV-Headers" "$spirvHeadersVersion" || return 1
@@ -471,6 +475,19 @@ build() {
     -Dvalijson_BUILD_TESTS=OFF || return 1
   install_cmake_build "valijson-${valijsonVersion}" "$PKG" || return 1
 
+  extract_archive "$packageDir" "jsoncpp" "$jsoncppVersion" || return 1
+  sanitize_tree "jsoncpp-${jsoncppVersion}" || return 1
+  configure_cmake_build \
+    "jsoncpp-${jsoncppVersion}" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR="lib${LIBDIRSUFFIX}" \
+    -DBUILD_SHARED_LIBS=OFF \
+    -DBUILD_STATIC_LIBS=ON \
+    -DJSONCPP_WITH_TESTS=OFF \
+    -DJSONCPP_WITH_POST_BUILD_UNITTEST=OFF \
+    -DJSONCPP_WITH_EXAMPLE=OFF || return 1
+  install_cmake_build "jsoncpp-${jsoncppVersion}" "$PKG" || return 1
+
   extract_archive "$packageDir" "Vulkan-Profiles-sdk" "$vulkanProfilesVersion" || return 1
   sanitize_tree "Vulkan-Profiles-sdk-${vulkanProfilesVersion}" || return 1
   sed -i "s|PATH_SUFFIXES lib|PATH_SUFFIXES lib${LIBDIRSUFFIX}|" \
@@ -518,6 +535,7 @@ build() {
     "$docDir/DirectXShaderCompiler" \
     "$docDir/SPIRV-Reflect" \
     "$docDir/valijson" \
+    "$docDir/jsoncpp" \
     "$docDir/Vulkan-Profiles" || return 1
 
   cp -a "SPIRV-Headers-${spirvHeadersVersion}/LICENSE"* "SPIRV-Headers-${spirvHeadersVersion}/README"* "$docDir/SPIRV-Headers/" || return 1
@@ -537,5 +555,6 @@ build() {
   cp -a "DirectXShaderCompiler-${dxcVersion}/LICENSE"* "DirectXShaderCompiler-${dxcVersion}/README"* "DirectXShaderCompiler-${dxcVersion}/ThirdPartyNotices.txt" "DirectXShaderCompiler-${dxcVersion}/"*.md "$docDir/DirectXShaderCompiler/" || return 1
   cp -a "SPIRV-Reflect-sdk-${spirvReflectVersion}/LICENSE"* "SPIRV-Reflect-sdk-${spirvReflectVersion}/README"* "SPIRV-Reflect-sdk-${spirvReflectVersion}/"*.md "$docDir/SPIRV-Reflect/" || return 1
   cp -a "valijson-${valijsonVersion}/Authors" "valijson-${valijsonVersion}/LICENSE"* "valijson-${valijsonVersion}/README"* "valijson-${valijsonVersion}/"*.md "$docDir/valijson/" || return 1
+  cp -a "jsoncpp-${jsoncppVersion}/AUTHORS" "jsoncpp-${jsoncppVersion}/LICENSE"* "jsoncpp-${jsoncppVersion}/README"* "jsoncpp-${jsoncppVersion}/"*.md "$docDir/jsoncpp/" || return 1
   cp -a "Vulkan-Profiles-sdk-${vulkanProfilesVersion}/LICENSE"* "Vulkan-Profiles-sdk-${vulkanProfilesVersion}/README"* "Vulkan-Profiles-sdk-${vulkanProfilesVersion}/"*.md "$docDir/Vulkan-Profiles/" || return 1
 }

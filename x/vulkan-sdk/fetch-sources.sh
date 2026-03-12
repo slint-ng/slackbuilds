@@ -48,7 +48,7 @@ map_archive_name() {
     gfxreconstruct) printf '%s\n' "gfxreconstruct-sdk" ;;
     SPIRV-Reflect) printf '%s\n' "SPIRV-Reflect-sdk" ;;
     Vulkan-Profiles) printf '%s\n' "Vulkan-Profiles-sdk" ;;
-    shaderc|DirectXShaderCompiler|valijson) printf '%s\n' "$1" ;;
+    shaderc|DirectXShaderCompiler|valijson|jsoncpp) printf '%s\n' "$1" ;;
     *) return 1 ;;
   esac
 }
@@ -72,6 +72,9 @@ resolve_repo_path() {
       ;;
     valijson)
       printf '%s\n' "tristanpenman/valijson"
+      ;;
+    jsoncpp)
+      printf '%s\n' "open-source-parsers/jsoncpp"
       ;;
     *)
       printf '%s\n' "$1"
@@ -225,6 +228,12 @@ valijsonVersion="v1.1.0"
 if ! [ -e "valijson-${valijsonVersion}.tar.lz" ]; then
   printf '\n%s (%s %s)\n\n' "valijson" "Version Tag" "$valijsonVersion"
   clone_and_pack "tristanpenman/valijson" "valijson" "$valijsonVersion"
+fi
+
+jsoncppVersion="1.9.6"
+if ! [ -e "jsoncpp-${jsoncppVersion}.tar.lz" ]; then
+  printf '\n%s (%s %s)\n\n' "jsoncpp" "Version Tag" "$jsoncppVersion"
+  clone_and_pack "open-source-parsers/jsoncpp" "jsoncpp" "$jsoncppVersion"
 fi
 
 printf '%s\n' "$version" > VERSION
