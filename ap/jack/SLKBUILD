@@ -51,9 +51,6 @@ EOF
 
 build() {
   local docDir
-  local packageDir
-
-  packageDir=$(cd -- "$(dirname "${BASH_SOURCE[0]}")" && pwd) || return 1
 
   cd "${srcname}-${pkgver}" || return 1
 
@@ -82,10 +79,5 @@ build() {
 
   docDir="$PKG/usr/doc/${pkgname}-${pkgver}"
   install -d "$docDir" || return 1
-  cp -a README* html \
-    "$packageDir/LOG" \
-    "$packageDir/README" \
-    "$packageDir/jack2vsjack1.txt" \
-    "$packageDir/note" \
-    "$docDir/" || return 1
+  cp -a README* html "$docDir/" || return 1
 }
