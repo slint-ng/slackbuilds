@@ -1,0 +1,53 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=leptonica
+pkgver=1.86.0
+pkgrel=1slint
+url="https://www.leptonica.org/"
+license=("BSD-2-Clause")
+source=("https://github.com/DanBloomberg/leptonica/releases/download/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+docs=("README.html" "version-notes.html" "leptonica-license.txt")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"leptonica (image processing library)"
+""
+"Leptonica is an open source C library for efficient"
+"image processing and image analysis operations."
+"It provides image I/O, morphology, scaling, rotation,"
+"rasterops, and utility code used by OCR software such"
+"as Tesseract and other document image tools."
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  autoreconf -vi || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --disable-static \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib"${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
