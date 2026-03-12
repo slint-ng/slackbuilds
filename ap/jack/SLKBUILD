@@ -6,7 +6,7 @@
 pkgname=jack
 srcname=jack2
 export srcname
-pkgver=1.9.20
+pkgver=1.9.22
 pkgrel=2slint
 slackdesc=\
 (
@@ -43,6 +43,7 @@ if [ -x /sbin/setcap ]; then
     jack_midisine jack_unload jack_load jack_samplerate \
     jack_midi_latency_test jack_cpu_load jack_multiple_metro
   do
+    [ -x "usr/bin/$i" ] || continue
     /sbin/setcap cap_ipc_lock,cap_sys_nice=ep "usr/bin/$i"
   done
 fi
@@ -65,7 +66,6 @@ build() {
     --htmldir=/usr/doc/"${pkgname}-${pkgver}"/html \
     --classic \
     --dbus \
-    --readline \
     --alsa || return 1
 
   ./waf build -j"$numjobs" || ./waf build || return 1
