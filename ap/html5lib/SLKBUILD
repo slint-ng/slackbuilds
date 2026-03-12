@@ -1,0 +1,52 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: sektor
+
+pkgname=html5lib
+pkgver=1.1
+pkgrel=1slint
+source=(
+  "https://files.pythonhosted.org/packages/ac/b6/b55c3f49042f1df3dcd422b7f224f939892ee94f22abcf503a9b7339eaf2/${pkgname}-${pkgver}.tar.gz"
+  "slack-required"
+)
+url="https://github.com/html5lib/html5lib-python"
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"html5lib (HTML parser based on the HTML5 specification)"
+""
+"Standards-compliant library for parsing and serializing HTML"
+"documents and fragments in Python."
+""
+"Homepage: https://github.com/html5lib/html5lib-python"
+)
+
+build() {
+  local docdir="$PKG/usr/doc/${pkgname}-${pkgver}"
+  local legacy_suffix="SlackBuild"
+  local pkgroot
+  local py3ver
+  local py3libdir
+
+  cd "${pkgname}-${pkgver}" || return 1
+  pkgroot="$(dirname "$SRC")" || return 1
+  py3ver="$(python3 -c 'import sys; print(f"{sys.version_info[0]}.{sys.version_info[1]}")')" || return 1
+  py3libdir="/usr/lib${LIBDIRSUFFIX}/python${py3ver}/site-packages"
+
+  chown -R root:root . || return 1
+  find -L . \
+    \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
+    -o -perm 511 \) -exec chmod 755 {} \; -o \
+    \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
+    -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \; || return 1
+
+  python2 setup.py install --root="$PKG" || return 1
+  python3 setup.py install --root="$PKG" --install-lib="$py3libdir" || return 1
+
+  install -d "$docdir" || return 1
+  cp -a ./*.rst LICENSE PKG-INFO "$docdir/" || return 1
+  install -m0644 "$pkgroot/SLKBUILD" "$docdir/${pkgname}.${legacy_suffix}" || return 1
+
+  install -Dm0644 "$SRC/slack-required" "$PKG/install/slack-required" || return 1
+}

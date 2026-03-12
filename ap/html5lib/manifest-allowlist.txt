@@ -1,0 +1,7 @@
+# The current validation host only provides Python 3.11, while the shipped
+# baseline package was built against Python 3.9. Allow that interpreter-path
+# drift for same-version conversion validation.
++^usr/lib64/python3\.11/?$
++^usr/lib64/python3\.11/.+$
+-^usr/lib64/python3\.9/?$
+-^usr/lib64/python3\.9/.+$
