@@ -371,11 +371,19 @@ build() {
   fi
 
   extract_archive "$packageDir" "shaderc" "$shadercVersion" || return 1
-  sanitize_tree "shaderc-${shadercVersion}" || return 1
-  sed -i "s|\['git', 'describe'\]|\['cat', '.git-version'\]|" \
-    "shaderc-${shadercVersion}/utils/update_build_version.py" || return 1
+  local shadercSourceDir="shaderc-${shadercVersion}"
+  sanitize_tree "$shadercSourceDir" || return 1
+  if [ -f "$shadercSourceDir/update_shaderc_sources.py" ] && [ ! -f "$shadercSourceDir/CMakeLists.txt" ]; then
+    local shadercMaterializedDir="${shadercSourceDir}/source"
+    rm -rf "$shadercMaterializedDir" || return 1
+    python3 "$shadercSourceDir/update_shaderc_sources.py" \
+      --dir "$shadercMaterializedDir" \
+      --file "$shadercSourceDir/known_good.json" || return 1
+    shadercSourceDir="$shadercMaterializedDir"
+    sanitize_tree "$shadercSourceDir" || return 1
+  fi
   configure_cmake_build \
-    "shaderc-${shadercVersion}" \
+    "$shadercSourceDir" \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_INSTALL_SYSCONFDIR=/usr/share \
@@ -388,7 +396,7 @@ build() {
     -DBUILD_SHARED_LIBS=On \
     -DSPIRV_TOOLS_BUILD_STATIC=Off \
     -DBUILD_TESTING=Off || return 1
-  install_cmake_build "shaderc-${shadercVersion}" "$PKG" || return 1
+  install_cmake_build "$shadercSourceDir" "$PKG" || return 1
 
   extract_archive "$packageDir" "SPIRV-Cross-sdk" "$spirvCrossVersion" || return 1
   sanitize_tree "SPIRV-Cross-sdk-${spirvCrossVersion}" || return 1
