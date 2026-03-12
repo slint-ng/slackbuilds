@@ -5,6 +5,7 @@
 
 pkgname=jack
 srcname=jack2
+export srcname
 pkgver=1.9.20
 pkgrel=2slint
 slackdesc=\
@@ -52,7 +53,7 @@ EOF
 build() {
   local docDir
 
-  cd "${srcname}-${pkgver}" || return 1
+  cd "$SRC/${srcname}-${pkgver}" || return 1
 
   # Preserve the 1.x-compatible Libs line expected by older JACK clients.
   sed -i '/^Libs:/s,$, -lpthread,' jack.pc.in || return 1
