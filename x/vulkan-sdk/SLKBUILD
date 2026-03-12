@@ -342,6 +342,7 @@ build() {
 
   extract_archive "$packageDir" "VulkanTools-sdk" "$vulkanToolsCompatVersion" || return 1
   sanitize_tree "VulkanTools-sdk-${vulkanToolsCompatVersion}" || return 1
+  sed -i '/find_package(valijson REQUIRED CONFIG)/d' "VulkanTools-sdk-${vulkanToolsCompatVersion}/CMakeLists.txt" || return 1
   if [ -d "VulkanTools-sdk-${vulkanToolsCompatVersion}/submodules/jsoncpp" ]; then
     (
       cd "VulkanTools-sdk-${vulkanToolsCompatVersion}/submodules/jsoncpp" || exit 1
@@ -357,6 +358,8 @@ build() {
     -DVULKAN_REGISTRY_PATH_HINT="$PKG/usr" \
     -DVULKAN_LOADER_INSTALL_DIR="$PKG/usr" \
     -DVULKAN_VALIDATIONLAYERS_INSTALL_DIR="$PKG/usr" \
+    -DBUILD_VIA=Off \
+    -DBUILD_LAYERMGR=Off \
     -DBUILD_WSI_WAYLAND_SUPPORT=On \
     -DBUILD_TESTS=Off \
     -DINSTALL_GTEST=Off || return 1
