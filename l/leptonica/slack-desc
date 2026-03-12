@@ -6,13 +6,13 @@
 # customary to leave one space after the ':' except on otherwise blank lines.
 
          |-----handy-ruler------------------------------------------------------|
-leptonica: leptonica (Image Processing Library)
+leptonica: leptonica (image processing library)
 leptonica:
 leptonica: Leptonica is an open source C library for efficient
 leptonica: image processing and image analysis operations.
-leptonica:
-leptonica: Homepage: http://www.leptonica.com/
-leptonica:
+leptonica: It provides image I/O, morphology, scaling, rotation,
+leptonica: rasterops, and utility code used by OCR software such
+leptonica: as Tesseract and other document image tools.
 leptonica:
 leptonica:
 leptonica:
