@@ -53,6 +53,7 @@ EOF
 
 build() {
   local docDir
+  local docFile
 
   cd "$SRC/${srcname}-${pkgver}" || return 1
 
@@ -80,5 +81,14 @@ build() {
 
   docDir="$PKG/usr/doc/${pkgname}-${pkgver}"
   install -d "$docDir" || return 1
-  cp -a README* html "$docDir/" || return 1
+
+  shopt -s nullglob
+  for docFile in README*; do
+    cp -a "$docFile" "$docDir/" || return 1
+  done
+  shopt -u nullglob
+
+  if [ -d html ]; then
+    cp -a html "$docDir/" || return 1
+  fi
 }
