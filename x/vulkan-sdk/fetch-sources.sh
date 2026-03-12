@@ -38,6 +38,7 @@ map_archive_name() {
     SPIRV-Tools) printf '%s\n' "SPIRV-Tools-sdk" ;;
     Vulkan-Headers) printf '%s\n' "Vulkan-Headers-sdk" ;;
     Vulkan-Loader) printf '%s\n' "Vulkan-Loader-sdk" ;;
+    volk) printf '%s\n' "volk" ;;
     Vulkan-ValidationLayers) printf '%s\n' "Vulkan-ValidationLayers-sdk" ;;
     Vulkan-Utility-Libraries) printf '%s\n' "Vulkan-Utility-Libraries-sdk" ;;
     Vulkan-ExtensionLayer) printf '%s\n' "Vulkan-ExtensionLayer-sdk" ;;
@@ -59,6 +60,9 @@ resolve_repo_path() {
       ;;
     VulkanTools|gfxreconstruct)
       printf '%s\n' "LunarG/$1"
+      ;;
+    volk)
+      printf '%s\n' "zeux/volk"
       ;;
     shaderc)
       printf '%s\n' "google/shaderc"

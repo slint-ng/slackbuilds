@@ -43,6 +43,7 @@ build() {
       "glslang-sdk"
       "Vulkan-Headers-sdk"
       "Vulkan-Loader-sdk"
+      "volk"
       "Vulkan-ValidationLayers-sdk"
       "Vulkan-Utility-Libraries-sdk"
       "robin-hood-hashing"
@@ -154,6 +155,7 @@ build() {
   local glslangVersion=""
   local vulkanHeadersVersion=""
   local vulkanLoaderVersion=""
+  local volkVersion=""
   local vulkanValidationLayersVersion=""
   local vulkanUtilityLibrariesVersion=""
   local robinHoodVersion=""
@@ -175,6 +177,7 @@ build() {
   glslangVersion=$(find_archive_version "$packageDir" "glslang-sdk") || return 1
   vulkanHeadersVersion=$(find_archive_version "$packageDir" "Vulkan-Headers-sdk") || return 1
   vulkanLoaderVersion=$(find_archive_version "$packageDir" "Vulkan-Loader-sdk") || return 1
+  volkVersion=$(find_archive_version "$packageDir" "volk") || return 1
   vulkanValidationLayersVersion=$(find_archive_version "$packageDir" "Vulkan-ValidationLayers-sdk") || return 1
   vulkanUtilityLibrariesVersion=$(find_archive_version "$packageDir" "Vulkan-Utility-Libraries-sdk") || return 1
   robinHoodVersion=$(find_archive_version "$packageDir" "robin-hood-hashing") || return 1
@@ -196,6 +199,7 @@ build() {
     "glslang-sdk-${glslangVersion}" \
     "Vulkan-Headers-sdk-${vulkanHeadersVersion}" \
     "Vulkan-Loader-sdk-${vulkanLoaderVersion}" \
+    "volk-${volkVersion}" \
     "Vulkan-ValidationLayers-sdk-${vulkanValidationLayersVersion}" \
     "Vulkan-Utility-Libraries-sdk-${vulkanUtilityLibrariesVersion}" \
     "Vulkan-ExtensionLayer-sdk-${vulkanExtensionLayerVersion}" \
@@ -253,6 +257,17 @@ build() {
     -DVULKAN_HEADERS_INSTALL_DIR="$PKG/usr" \
     -DBUILD_WSI_WAYLAND_SUPPORT=On || return 1
   install_cmake_build "Vulkan-Loader-sdk-${vulkanLoaderVersion}" "$PKG" || return 1
+
+  extract_archive "$packageDir" "volk" "$volkVersion" || return 1
+  sanitize_tree "volk-${volkVersion}" || return 1
+  configure_cmake_build \
+    "volk-${volkVersion}" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR="lib${LIBDIRSUFFIX}" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DVOLK_INSTALL=ON \
+    -DVULKAN_HEADERS_INSTALL_DIR="$PKG/usr" || return 1
+  install_cmake_build "volk-${volkVersion}" "$PKG" || return 1
 
   extract_archive "$packageDir" "robin-hood-hashing" "$robinHoodVersion" || return 1
   sanitize_tree "robin-hood-hashing-${robinHoodVersion}" || return 1
@@ -317,6 +332,7 @@ build() {
     "Vulkan-Tools-sdk-${vulkanToolsVersion}" \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_PREFIX_PATH="$PKG/usr" \
     -DVULKAN_HEADERS_INSTALL_DIR="$PKG/usr" \
     -DGLSLANG_INSTALL_DIR="$PKG/usr" \
     -DVULKAN_LOADER_INSTALL_DIR="$PKG/usr" \
@@ -460,6 +476,7 @@ build() {
     "$docDir/glslang" \
     "$docDir/Vulkan-Headers" \
     "$docDir/Vulkan-Loader" \
+    "$docDir/volk" \
     "$docDir/Vulkan-ValidationLayers" \
     "$docDir/Vulkan-Utility-Libraries" \
     "$docDir/Vulkan-ExtensionLayer" \
@@ -477,6 +494,7 @@ build() {
   cp -a "glslang-sdk-${glslangVersion}/LICENSE"* "glslang-sdk-${glslangVersion}/README"* "glslang-sdk-${glslangVersion}/"*.md "$docDir/glslang/" || return 1
   cp -a "Vulkan-Headers-sdk-${vulkanHeadersVersion}/LICENSE"* "Vulkan-Headers-sdk-${vulkanHeadersVersion}/README"* "Vulkan-Headers-sdk-${vulkanHeadersVersion}/"*.md "$docDir/Vulkan-Headers/" || return 1
   cp -a "Vulkan-Loader-sdk-${vulkanLoaderVersion}/LICENSE"* "Vulkan-Loader-sdk-${vulkanLoaderVersion}/README"* "Vulkan-Loader-sdk-${vulkanLoaderVersion}/"*.md "Vulkan-Loader-sdk-${vulkanLoaderVersion}/loader/LoaderAndLayerInterface.md" "$docDir/Vulkan-Loader/" || return 1
+  cp -a "volk-${volkVersion}/LICENSE"* "volk-${volkVersion}/README"* "volk-${volkVersion}/"*.md "$docDir/volk/" || return 1
   cp -a "Vulkan-ValidationLayers-sdk-${vulkanValidationLayersVersion}/LICENSE"* "Vulkan-ValidationLayers-sdk-${vulkanValidationLayersVersion}/README"* "Vulkan-ValidationLayers-sdk-${vulkanValidationLayersVersion}/"*.md "$docDir/Vulkan-ValidationLayers/" || return 1
   cp -a "Vulkan-Utility-Libraries-sdk-${vulkanUtilityLibrariesVersion}/LICENSE"* "Vulkan-Utility-Libraries-sdk-${vulkanUtilityLibrariesVersion}/README"* "Vulkan-Utility-Libraries-sdk-${vulkanUtilityLibrariesVersion}/"*.md "$docDir/Vulkan-Utility-Libraries/" || return 1
   cp -a "Vulkan-ExtensionLayer-sdk-${vulkanExtensionLayerVersion}/LICENSE"* "Vulkan-ExtensionLayer-sdk-${vulkanExtensionLayerVersion}/README"* "Vulkan-ExtensionLayer-sdk-${vulkanExtensionLayerVersion}/"*.md "$docDir/Vulkan-ExtensionLayer/" || return 1
