@@ -32,6 +32,24 @@ set -euo pipefail
 
 version=${VERSION:-latest}
 
+retry_command() {
+  local maxAttempts=$1
+  shift
+  local attempt=1
+
+  while true; do
+    if "$@"; then
+      return 0
+    fi
+    if [ "$attempt" -ge "$maxAttempts" ]; then
+      return 1
+    fi
+    printf 'Retrying command (%d/%d): %s\n' "$attempt" "$maxAttempts" "$*" >&2
+    attempt=$((attempt + 1))
+    sleep 2
+  done
+}
+
 map_archive_name() {
   case "$1" in
     glslang) printf '%s\n' "glslang-sdk" ;;
@@ -159,7 +177,8 @@ clone_and_pack() {
     return 0
   fi
 
-  git clone "https://github.com/${repoPath}.git" "$cloneDir"
+  rm -rf "$cloneDir"
+  retry_command 3 git clone "https://github.com/${repoPath}.git" "$cloneDir"
   cd "$cloneDir" || return 1
   for refCandidate in "${refCandidates[@]}"; do
     if git reset --hard "$refCandidate" || git reset --hard "origin/$refCandidate"; then
@@ -169,7 +188,7 @@ clone_and_pack() {
     fi
   done
   [ "$refResolved" -eq 1 ] || return 1
-  git submodule update --init --recursive
+  retry_command 3 git submodule update --init --recursive
   git describe --tags --always > .git-version
   cd "$oldPwd" || return 1
   if [ "$resolvedRefName" != "$refName" ]; then
