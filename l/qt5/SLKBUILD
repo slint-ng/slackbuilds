@@ -1,0 +1,326 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Packager: sektor
+
+pkgname=qt5
+_srcname=qt-everywhere-src
+# Keep the published Slint baseline for this conversion.
+pkgver=5.15.3_20220318_e507d3e5
+pkgrel=2slint
+url="https://www.qt.io/"
+source=(
+  "qt-everywhere-src-5.15.3_20220318_e507d3e5.tar.lz"
+  "qt5.mysql.h.diff.gz"
+  "qt5-qtbase-gcc11.patch.gz"
+  "qt5-qtwebsockets-gcc11.patch.gz"
+  "qt5-qtwebengine-gcc11.patch.gz"
+  "qt5-qtwebengine-spellcheck-buildflags.patch"
+  "qt5-webengine-ffmpeg5.patch.gz"
+  "qt5-webengine-ffmpeg6.patch"
+  "qt5-webengine-binutils241.patch"
+  "qt5.qtbase_cmake_isystem_includes.patch.gz"
+  "qt5.sh"
+  "qt5.csh"
+)
+options=("noautodotnew" "nosrcpack" "noextract")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"qt5 (a C++ graphical user interface toolkit)"
+""
+"Qt is a complete and well-developed object-oriented framework for"
+"developing graphical user interface (GUI) applications using C++."
+""
+"Homepage: http://www.qt.io/"
+""
+""
+""
+""
+)
+
+doinst() {
+if [ -x /usr/bin/update-desktop-database ]; then
+  /usr/bin/update-desktop-database -q usr/share/applications >/dev/null 2>&1
+fi
+
+if [ -e usr/share/icons/hicolor/icon-theme.cache ]; then
+  if [ -x /usr/bin/gtk-update-icon-cache ]; then
+    /usr/bin/gtk-update-icon-cache usr/share/icons/hicolor >/dev/null 2>&1
+  fi
+fi
+}
+
+build() {
+  local relocations=""
+  local pulseaudio_option=""
+  local codec_option=""
+  local ffmpeg_option=""
+  local linker_flags="${SLKLDFLAGS:-}"
+  local job_count="${numjobs:-1}"
+  local qtdir="$SRC/$_srcname-$pkgver"
+  local file=""
+  local rpath=""
+  local icon=""
+  local size=""
+  local docdir=""
+  local tarball="$SRC/qt-everywhere-src-5.15.3_20220318_e507d3e5.tar.lz"
+
+  rm -rf "$qtdir" || return 1
+  tar -xf "$tarball" -C "$SRC" || return 1
+  cd "$qtdir" || return 1
+
+  chown -R root:root . || return 1
+  find . \
+    -type l -prune -o \
+    \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+    -exec chmod 755 {} + -o \
+    \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+    -exec chmod 644 {} + || return 1
+
+  case "${ARCH:-}" in
+    i?86|x86_64)
+      relocations="-reduce-relocations"
+      ;;
+  esac
+
+  if [ "${ARCH:-}" = "x86_64" ]; then
+    linker_flags="${linker_flags:+$linker_flags }-L/usr/lib64"
+  fi
+
+  zcat "$SRC/qt5.mysql.h.diff.gz" | patch -p1 --verbose || return 1
+
+  (
+    cd qtbase || exit 1
+    zcat "$SRC/qt5-qtbase-gcc11.patch.gz" | patch -p1 --verbose
+  ) || return 1
+  (
+    cd qtwebsockets || exit 1
+    zcat "$SRC/qt5-qtwebsockets-gcc11.patch.gz" | patch -p1 --verbose
+  ) || return 1
+  (
+    cd qtwebengine || exit 1
+    zcat "$SRC/qt5-qtwebengine-gcc11.patch.gz" | patch -p1 --verbose
+  ) || return 1
+  (
+    cd qtwebengine/src/3rdparty/chromium || exit 1
+    patch -p1 --verbose < "$SRC/qt5-qtwebengine-spellcheck-buildflags.patch"
+  ) || return 1
+  (
+    cd qtwebengine/src/3rdparty || exit 1
+    zcat "$SRC/qt5-webengine-ffmpeg5.patch.gz" | patch -p1 --verbose
+  ) || return 1
+  (
+    cd qtwebengine/src/3rdparty || exit 1
+    patch -p1 --verbose < "$SRC/qt5-webengine-ffmpeg6.patch"
+  ) || return 1
+  (
+    cd qtwebengine/src/3rdparty || exit 1
+    patch -p1 --verbose < "$SRC/qt5-webengine-binutils241.patch"
+  ) || return 1
+  (
+    cd qtbase || exit 1
+    zcat "$SRC/qt5.qtbase_cmake_isystem_includes.patch.gz" \
+      | patch -p1 --verbose
+  ) || return 1
+
+  if ! pkg-config --exists libpulse 2>/dev/null; then
+    pulseaudio_option="-no-pulseaudio -no-webengine-pulseaudio"
+  fi
+
+  sed -i \
+    -e "s|^\\(QMAKE_CFLAGS_RELEASE.*\\)|\\1 ${SLKCFLAGS}|" \
+    qtbase/mkspecs/common/gcc-base.conf || return 1
+  sed -i \
+    -e "s|^\\(QMAKE_LFLAGS_RELEASE.*\\)|\\1 ${linker_flags}|" \
+    qtbase/mkspecs/common/g++-unix.conf || return 1
+
+  if [ "${USE_CODECS:-NO}" != "NO" ]; then
+    codec_option="-proprietary-codecs -webengine-proprietary-codecs"
+  fi
+
+  if [ "${SYSTEM_FFMPEG:-NO}" = "YES" ]; then
+    ffmpeg_option="-webengine-ffmpeg"
+  fi
+
+  export NINJAJOBS="-j$job_count"
+  export OPENSOURCE_CXXFLAGS="$SLKCFLAGS"
+  export QTDIR="$qtdir"
+  export LD_LIBRARY_PATH="$QTDIR/qtbase/lib:$QTDIR/qttools/lib:${LD_LIBRARY_PATH:-}"
+  export QT_PLUGIN_PATH="$QTDIR/qtbase/plugins"
+
+  ./configure -v \
+    -confirm-license \
+    -opensource \
+    -prefix /usr \
+    -libdir "/usr/lib${LIBDIRSUFFIX}" \
+    -bindir "/usr/lib${LIBDIRSUFFIX}/qt5/bin" \
+    -sysconfdir /etc/xdg \
+    -headerdir /usr/include/qt5 \
+    -datadir /usr/share/qt5 \
+    -archdatadir "/usr/lib${LIBDIRSUFFIX}/qt5" \
+    -docdir /usr/doc/$pkgname-$pkgver \
+    -examplesdir /usr/doc/$pkgname-$pkgver/examples \
+    -system-libpng \
+    -system-libjpeg \
+    -system-sqlite \
+    -system-zlib \
+    -plugin-sql-mysql \
+    -plugin-sql-sqlite \
+    -accessibility \
+    -alsa \
+    -dbus \
+    -glib \
+    -icu \
+    -opengl \
+    -openssl-linked \
+    -optimized-qmake \
+    -qpa "xcb;wayland" \
+    -qt-harfbuzz \
+    -verbose \
+    -xcb \
+    -egl \
+    -eglfs \
+    -nomake examples \
+    -nomake tests \
+    -no-mimetype-database \
+    -no-separate-debug-info \
+    -no-strip \
+    -no-use-gold-linker \
+    ${codec_option:+$codec_option} \
+    ${ffmpeg_option:+$ffmpeg_option} \
+    ${pulseaudio_option:+$pulseaudio_option} \
+    ${relocations:+$relocations} \
+    -no-pch || return 1
+
+  make -j"$job_count" || make || return 1
+  make install INSTALL_ROOT="$PKG" || return 1
+
+  while IFS= read -r file; do
+    rpath="$(patchelf --print-rpath "$file" 2>/dev/null || true)"
+    if [ -n "$rpath" ]; then
+      patchelf --remove-rpath "$file" || return 1
+    fi
+  done < <(
+    find "$PKG" -type f -exec file {} + \
+      | awk -F: '/(executable|shared object).*ELF/{print $1}'
+  )
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+
+  sed -i \
+    -e 's|-Wl,--start-group.* -Wl,--end-group||' \
+    -e "s|-L${PWD}/qtwebengine/src/core/api/Release||" \
+    "$PKG/usr/lib${LIBDIRSUFFIX}/pkgconfig/Qt5WebEngineCore.pc" || return 1
+
+  find "$PKG/usr/lib${LIBDIRSUFFIX}" -type f -name '*.prl' \
+    -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d;s/\(QMAKE_PRL_LIBS =\).*/\1/' {} + \
+    || return 1
+
+  sed -i \
+    "s,${QTDIR}/qtbase,/usr/lib${LIBDIRSUFFIX}/qt5," \
+    "$PKG/usr/lib${LIBDIRSUFFIX}/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri" \
+    || return 1
+
+  mkdir -p "$PKG/usr/bin" || return 1
+  for file in "$PKG"/usr/lib"${LIBDIRSUFFIX}"/qt5/bin/*; do
+    ln -sf "../lib${LIBDIRSUFFIX}/qt5/bin/$(basename "$file")" \
+      "$PKG/usr/bin/$(basename "$file")-qt5" || return 1
+  done
+
+  mkdir -p "$PKG/etc/profile.d" || return 1
+  sed -e "s,@LIBDIRSUFFIX@,${LIBDIRSUFFIX},g" \
+    "$SRC/qt5.sh" > "$PKG/etc/profile.d/qt5.sh" || return 1
+  sed -e "s,@LIBDIRSUFFIX@,${LIBDIRSUFFIX},g" \
+    "$SRC/qt5.csh" > "$PKG/etc/profile.d/qt5.csh" || return 1
+  chmod 0755 "$PKG/etc/profile.d/"* || return 1
+
+  mkdir -p "$PKG/usr/share/icons/hicolor/48x48/apps" || return 1
+  convert qtdoc/doc/src/images/qt-logo.png -resize 48x48 \
+    "$PKG/usr/share/icons/hicolor/48x48/apps/qt5-logo.png" || return 1
+  install -p -m0644 -D qttools/src/assistant/assistant/images/assistant.png \
+    "$PKG/usr/share/icons/hicolor/32x32/apps/qt5-assistant.png" || return 1
+  install -p -m0644 -D qttools/src/assistant/assistant/images/assistant-128.png \
+    "$PKG/usr/share/icons/hicolor/128x128/apps/qt5-assistant.png" || return 1
+  install -p -m0644 -D qttools/src/designer/src/designer/images/designer.png \
+    "$PKG/usr/share/icons/hicolor/128x128/apps/qt5-designer.png" || return 1
+  install -p -m0644 -D qttools/src/qdbus/qdbusviewer/images/qdbusviewer.png \
+    "$PKG/usr/share/icons/hicolor/32x32/apps/qt5-qdbusviewer.png" || return 1
+  install -p -m0644 -D qttools/src/qdbus/qdbusviewer/images/qdbusviewer-128.png \
+    "$PKG/usr/share/icons/hicolor/128x128/apps/qt5-qdbusviewer.png" || return 1
+
+  for icon in qttools/src/linguist/linguist/images/icons/linguist-*-32.png; do
+    size="$(basename "$icon" | cut -d- -f2)"
+    install -p -m0644 -D "$icon" \
+      "$PKG/usr/share/icons/hicolor/${size}x${size}/apps/qt5-linguist.png" \
+      || return 1
+  done
+
+  mkdir -p "$PKG/usr/share/applications" || return 1
+  cat > "$PKG/usr/share/applications/qt5-designer.desktop" <<'EOF' || return 1
+[Desktop Entry]
+Name=Qt5 Designer
+GenericName=Interface Designer
+Comment=Design GUIs for Qt5 applications
+Exec=designer-qt5
+Icon=qt5-designer
+MimeType=application/x-designer;
+Terminal=false
+Encoding=UTF-8
+Type=Application
+Categories=Qt;Development;
+EOF
+  cat > "$PKG/usr/share/applications/qt5-assistant.desktop" <<'EOF' || return 1
+[Desktop Entry]
+Name=Qt5 Assistant
+Comment=Shows Qt5 documentation and examples
+Exec=assistant-qt5
+Icon=qt5-assistant
+Terminal=false
+Encoding=UTF-8
+Type=Application
+Categories=Qt;Development;Documentation;
+EOF
+  cat > "$PKG/usr/share/applications/qt5-linguist.desktop" <<'EOF' || return 1
+[Desktop Entry]
+Name=Qt5 Linguist
+Comment=Add translations to Qt5 applications
+Exec=linguist-qt5
+Icon=qt5-linguist
+MimeType=text/vnd.trolltech.linguist;application/x-linguist;
+Terminal=false
+Encoding=UTF-8
+Type=Application
+Categories=Qt;Development;
+EOF
+  cat > "$PKG/usr/share/applications/qt5-qdbusviewer.desktop" <<'EOF' || return 1
+[Desktop Entry]
+Name=Qt5 QDbusViewer
+GenericName=Qt5 D-Bus Debugger
+Comment=Debug D-Bus applications
+Exec=qdbusviewer-qt5
+Icon=qt5-qdbusviewer
+Terminal=false
+Type=Application
+Categories=Qt;Development;Debugger;
+EOF
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  mkdir -p "$docdir" || return 1
+  install -m0644 README "$docdir/" || return 1
+
+  # Qt 5.15.3 no longer ships some older qtbase doc/license files.
+  while IFS= read -r -d '' file; do
+    cp -a "$file" "$docdir/" || return 1
+  done < <(
+    find qtbase -maxdepth 1 -type f \
+      \( -name 'header*' -o -name 'LGPL_EXCEPTION.txt' -o -name 'LICENSE*' \) \
+      -print0
+  )
+
+  if [ -d "$PKG/usr/lib${LIBDIRSUFFIX}/qt5/doc/html" ]; then
+    (
+      cd "$docdir" || exit 1
+      ln -sf "/usr/lib${LIBDIRSUFFIX}/qt5/doc/html" .
+    ) || return 1
+  fi
+}
