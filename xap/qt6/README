@@ -12,6 +12,21 @@ them. Thus the framework itself and applications/libraries using it
 can be compiled by any standard compliant C++ compiler like Clang,
 GCC, ICC, MinGW and MSVC.
 
+qt6 requires local source archives before running slkbuild.
+
+From this directory, run:
+
+    ./fetch_sources.sh
+
+This downloads:
+
+    qt-everywhere-src-6.6.3.tar.xz
+    libclang-release_130-based-linux-Ubuntu20.04-gcc9.3-x86_64.7z
+
+After both files are present, build the package with:
+
+    fakeroot slkbuild -X
+
 Qt6 has a compiler cache option when building. By default, this
 behavior is disabled. To enable it, pass CCACHE=ON to the build script.
 Unless you are building qt6 multiple times, you should leave this

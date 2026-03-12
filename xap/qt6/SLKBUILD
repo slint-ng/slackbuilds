@@ -1,0 +1,184 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: sektor
+
+pkgname=qt6
+pkgver=6.6.3
+pkgrel=1slint
+_srcname=qt-everywhere-src
+_clang_bundle=libclang-release_130-based-linux-Ubuntu20.04-gcc9.3-x86_64
+source=(
+  "qt-everywhere-src-6.6.3.tar.xz"
+  "libclang-release_130-based-linux-Ubuntu20.04-gcc9.3-x86_64.7z"
+  "slack-required"
+)
+options=("noextract" "nosrcpack")
+url="https://qt.io"
+dotnew=(
+  "etc/profile.d/qt6.sh"
+  "etc/profile.d/qt6.csh"
+)
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"qt6 (Application development framework)"
+""
+"Qt is a cross-platform application development framework for"
+"desktop, embedded, and mobile software."
+""
+"Builds include the Qt 6 libraries, tools, and documentation."
+""
+"Homepage: https://qt.io"
+)
+
+doinst() {
+if [ -x /usr/bin/update-desktop-database ]; then
+  /usr/bin/update-desktop-database -q usr/share/applications >/dev/null 2>&1
+fi
+
+if [ -e usr/share/icons/hicolor/icon-theme.cache ]; then
+  if [ -x /usr/bin/gtk-update-icon-cache ]; then
+    /usr/bin/gtk-update-icon-cache -f usr/share/icons/hicolor >/dev/null 2>&1
+  fi
+fi
+}
+
+build() {
+  local examples="${EXAMPLES:-OFF}"
+  local use_ccache="${CCACHE:-OFF}"
+  local linked_openssl="${LINKED_OPENSSL:-ON}"
+  local proprietary_codecs="${PROPRIETARY_CODECS:-OFF}"
+  local system_ffmpeg="${SYSTEM_FFMPEG:-ON}"
+  local system_harfbuzz="${SYSTEM_HARFBUZZ:-OFF}"
+  local system_sqlite="${SYSTEM_SQLITE:-ON}"
+  local system_xcb_input="${SYSTEM_XCB_INPUT:-ON}"
+  local pkg_root=""
+  local source_dir="$SRC/${_srcname}-${pkgver}"
+  local build_dir="$source_dir/build"
+  local desktop_file=""
+  local tool=""
+  local doc=""
+  local doc_dir="$PKG/usr/doc/${pkgname}-${pkgver}"
+
+  if [ "${ARCH:-}" != "x86_64" ]; then
+    echo "$pkgname currently supports x86_64 only." >&2
+    echo "The required libclang bundle is only published for x86_64." >&2
+    return 1
+  fi
+
+  pkg_root="$(cd "$SRC/.." && pwd)" || return 1
+  rm -rf "$source_dir" || return 1
+  tar -xf "$SRC/${_srcname}-${pkgver}.tar.xz" -C "$SRC" || return 1
+  cd "$source_dir" || return 1
+
+  bsdtar -xf "$SRC/${_clang_bundle}.7z" || return 1
+  chown -R root:root . || return 1
+  find -L . \
+    \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
+    -o -perm 511 \) -exec chmod 755 {} \; -o \
+    \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
+    -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \; || return 1
+
+  # Fix compile on gcc13+.
+  sed -i \
+    '54i #include <cstdint>' \
+    qt3d/src/3rdparty/assimp/src/code/AssetLib/FBX/FBXBinaryTokenizer.cpp \
+    || return 1
+
+  export CC=clang
+  export CXX=clang++
+
+  cmake -S "$source_dir" -B "$build_dir" \
+    -G Ninja \
+    -Wno-dev \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+    -DClang_DIR="$source_dir/libclang/lib/cmake/clang" \
+    -DFEATURE_openssl_linked="$linked_openssl" \
+    -DFEATURE_system_harfbuzz="$system_harfbuzz" \
+    -DFEATURE_system_sqlite="$system_sqlite" \
+    -DFEATURE_system_xcb_xinput="$system_xcb_input" \
+    -DFEATURE_webengine_proprietary_codecs="$proprietary_codecs" \
+    -DFEATURE_webengine_system_ffmpeg="$system_ffmpeg" \
+    -DINSTALL_ARCHDATADIR="./lib${LIBDIRSUFFIX}" \
+    -DINSTALL_BINDIR="./lib${LIBDIRSUFFIX}/${pkgname}/bin" \
+    -DINSTALL_DESCRIPTIONSDIR="./lib${LIBDIRSUFFIX}/${pkgname}/modules" \
+    -DINSTALL_DOCDIR="./doc/${pkgname}-${pkgver}" \
+    -DINSTALL_EXAMPLESDIR="./doc/${pkgname}-${pkgver}/examples" \
+    -DINSTALL_INCLUDEDIR="./include/${pkgname}" \
+    -DINSTALL_LIBDIR="./lib${LIBDIRSUFFIX}" \
+    -DINSTALL_LIBEXECDIR="./lib${LIBDIRSUFFIX}/${pkgname}/libexec" \
+    -DINSTALL_MKSPECSDIR="./lib${LIBDIRSUFFIX}/${pkgname}/mkspecs" \
+    -DINSTALL_PLUGINSDIR="./lib${LIBDIRSUFFIX}/${pkgname}/plugins" \
+    -DINSTALL_QMLDIR="./lib${LIBDIRSUFFIX}/${pkgname}/qml" \
+    -DINSTALL_TRANSLATIONSDIR="./share/${pkgname}/translations" \
+    -DINSTALL_TESTSDIR="./lib${LIBDIRSUFFIX}/${pkgname}/tests" \
+    -DQT_BUILD_EXAMPLES="$examples" \
+    -DQT_USE_CCACHE="$use_ccache" || return 1
+  cmake --build "$build_dir" || return 1
+  DESTDIR="$PKG" cmake --install "$build_dir" || return 1
+
+  install -d "$PKG/usr/share/${pkgname}" || return 1
+  if [ -d "$PKG/usr/phrasebooks" ]; then
+    mv "$PKG/usr/phrasebooks" "$PKG/usr/share/${pkgname}/" || return 1
+  fi
+  if [ -d "$PKG/usr/resources" ]; then
+    mv "$PKG/usr/resources" "$PKG/usr/share/${pkgname}/" || return 1
+  fi
+
+  if [ "$examples" = "ON" ] && [ -d "$PKG/usr/doc/${pkgname}-${pkgver}/examples" ]; then
+    find -L "$PKG/usr/doc/${pkgname}-${pkgver}/examples" \
+      -type d -exec chmod 755 {} \; || return 1
+    find -L "$PKG/usr/doc/${pkgname}-${pkgver}/examples" \
+      -type f -exec chmod 644 {} \; || return 1
+  fi
+
+  for desktop_file in "$pkg_root"/desktop/*.desktop; do
+    [ -e "$desktop_file" ] || continue
+    install -Dm0644 "$desktop_file" \
+      "$PKG/usr/share/applications/$(basename "$desktop_file")" || return 1
+  done
+  if compgen -G "$PKG/usr/share/applications/*.desktop" >/dev/null; then
+    sed -i \
+      "s|@LIBDIR@|$LIBDIRSUFFIX|" \
+      "$PKG"/usr/share/applications/*.desktop || return 1
+  fi
+
+  install -d "$PKG/usr/bin" || return 1
+  for tool in "$PKG"/usr/lib"${LIBDIRSUFFIX}"/qt6/bin/*; do
+    [ -e "$tool" ] || continue
+    if [[ "$(basename "$tool")" =~ (6$|cmake$) ]]; then
+      continue
+    fi
+    ln -sf "../lib${LIBDIRSUFFIX}/qt6/bin/$(basename "$tool")" \
+      "$PKG/usr/bin/$(basename "$tool")-qt6" || return 1
+  done
+
+  install -Dm0644 qttools/src/assistant/assistant/images/assistant-128.png \
+    "$PKG/usr/share/icons/hicolor/128x128/apps/assistant-qt6.png" || return 1
+  install -Dm0644 qttools/src/designer/src/designer/images/designer.png \
+    "$PKG/usr/share/icons/hicolor/128x128/apps/designer-qt6.png" || return 1
+  install -Dm0644 qttools/src/qdbus/qdbusviewer/images/qdbusviewer-128.png \
+    "$PKG/usr/share/icons/hicolor/128x128/apps/qdbusviewer-qt6.png" || return 1
+  install -Dm0644 \
+    qttools/src/linguist/linguist/images/icons/linguist-128-32.png \
+    "$PKG/usr/share/icons/hicolor/128x128/apps/linguist-qt6.png" || return 1
+
+  install -d "$PKG/etc/profile.d" || return 1
+  sed -e "s|@LIBDIRSUFFIX@|${LIBDIRSUFFIX}|g" \
+    "$pkg_root/profile.d/${pkgname}.sh" > "$PKG/etc/profile.d/${pkgname}.sh" || return 1
+  sed -e "s|@LIBDIRSUFFIX@|${LIBDIRSUFFIX}|g" \
+    "$pkg_root/profile.d/${pkgname}.csh" > "$PKG/etc/profile.d/${pkgname}.csh" || return 1
+  chmod 0755 "$PKG/etc/profile.d/"* || return 1
+
+  install -d "$doc_dir" || return 1
+  cp -a .QT-ENTERPRISE-LICENSE-AGREEMENT README.md "$doc_dir/" || return 1
+  while IFS= read -r -d '' doc; do
+    cp -a "$doc" "$doc_dir/" || return 1
+  done < <(find . -maxdepth 1 -type f -name 'LICENSE*' -print0)
+  cp -a "$pkg_root/SLKBUILD" "$doc_dir/SLKBUILD" || return 1
+
+  install -Dm0644 "$SRC/slack-required" "$PKG/install/slack-required" || return 1
+}
