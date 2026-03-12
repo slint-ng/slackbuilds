@@ -364,9 +364,11 @@ build() {
     -DBUILD_TESTS=Off \
     -DINSTALL_GTEST=Off || return 1
   install_cmake_build "VulkanTools-sdk-${vulkanToolsCompatVersion}" "$PKG" || return 1
-  install -d "$PKG/usr/share/vulkan/config/VK_LAYER_LUNARG_device_simulation" || return 1
-  install -m 644 "VulkanTools-sdk-${vulkanToolsCompatVersion}/layersvt/device_simulation_examples/sdk_sample_configs/"*.json \
-    "$PKG/usr/share/vulkan/config/VK_LAYER_LUNARG_device_simulation/" || return 1
+  if compgen -G "VulkanTools-sdk-${vulkanToolsCompatVersion}/layersvt/device_simulation_examples/sdk_sample_configs/*.json" >/dev/null; then
+    install -d "$PKG/usr/share/vulkan/config/VK_LAYER_LUNARG_device_simulation" || return 1
+    install -m 644 "VulkanTools-sdk-${vulkanToolsCompatVersion}/layersvt/device_simulation_examples/sdk_sample_configs/"*.json \
+      "$PKG/usr/share/vulkan/config/VK_LAYER_LUNARG_device_simulation/" || return 1
+  fi
 
   extract_archive "$packageDir" "shaderc" "$shadercVersion" || return 1
   sanitize_tree "shaderc-${shadercVersion}" || return 1
