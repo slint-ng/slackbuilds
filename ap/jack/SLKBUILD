@@ -25,10 +25,6 @@ url="https://jackaudio.org/"
 license=("GPL-2.0-or-later" "LGPL-2.1-or-later")
 source=(
   "https://github.com/jackaudio/jack2/archive/v${pkgver}/${srcname}-${pkgver}.tar.gz"
-  "LOG"
-  "README"
-  "jack2vsjack1.txt"
-  "note"
 )
 
 doinst() {
@@ -55,6 +51,9 @@ EOF
 
 build() {
   local docDir
+  local packageDir
+
+  packageDir=$(cd -- "$(dirname "${BASH_SOURCE[0]}")" && pwd) || return 1
 
   cd "${srcname}-${pkgver}" || return 1
 
@@ -83,5 +82,10 @@ build() {
 
   docDir="$PKG/usr/doc/${pkgname}-${pkgver}"
   install -d "$docDir" || return 1
-  cp -a README* html ../LOG ../README ../jack2vsjack1.txt ../note "$docDir/" || return 1
+  cp -a README* html \
+    "$packageDir/LOG" \
+    "$packageDir/README" \
+    "$packageDir/jack2vsjack1.txt" \
+    "$packageDir/note" \
+    "$docDir/" || return 1
 }
