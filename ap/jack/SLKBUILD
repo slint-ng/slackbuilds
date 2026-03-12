@@ -1,0 +1,87 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=jack
+srcname=jack2
+pkgver=1.9.20
+pkgrel=2slint
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"jack (realtime low-latency sound server)"
+""
+"JACK is a system for handling real-time, low latency audio and MIDI."
+"It can connect a number of different applications to an audio device,"
+"as well as allowing them to share audio between themselves."
+""
+"Its clients can run in their own processes (ie. as normal apps), or"
+"within the JACK server (ie. as a \"plugin\"). JACK also has support"
+"for distributing audio processing across a network, both fast and"
+"reliable LANs as well as slower, less reliable WANs."
+)
+url="https://jackaudio.org/"
+license=("GPL-2.0-or-later" "LGPL-2.1-or-later")
+source=(
+  "https://github.com/jackaudio/jack2/archive/v${pkgver}/${srcname}-${pkgver}.tar.gz"
+  "LOG"
+  "README"
+  "jack2vsjack1.txt"
+  "note"
+)
+
+doinst() {
+  if [ "${SETCAP:-yes}" = "yes" ]; then
+    cat <<'EOF'
+if [ -x /sbin/setcap ]; then
+  for i in \
+    jackdbus jack_monitor_client jack_latent_client alsa_in \
+    jack_midi_dump jack_showtime jack_rec jack_zombie jack_midiseq \
+    jack_thru jack_connect jack_net_slave jack_bufsize jack_wait \
+    alsa_out jack_freewheel jack_server_control jack_net_master \
+    jack_evmon jack_metro jack_simple_client jack_lsp jack_cpu \
+    jack_control jack_netsource jack_test jack_session_notify \
+    jack_alias jack_iodelay jackd jack_simple_session_client \
+    jack_midisine jack_unload jack_load jack_samplerate \
+    jack_midi_latency_test jack_cpu_load jack_multiple_metro
+  do
+    /sbin/setcap cap_ipc_lock,cap_sys_nice=ep "usr/bin/$i"
+  done
+fi
+EOF
+  fi
+}
+
+build() {
+  local docDir
+
+  cd "${srcname}-${pkgver}" || return 1
+
+  # Preserve the 1.x-compatible Libs line expected by older JACK clients.
+  sed -i '/^Libs:/s,$, -lpthread,' jack.pc.in || return 1
+
+  ./waf configure \
+    --prefix=/usr \
+    --libdir=/usr/lib"${LIBDIRSUFFIX}" \
+    --mandir=/usr/man/man1 \
+    --htmldir=/usr/doc/"${pkgname}-${pkgver}"/html \
+    --classic \
+    --dbus \
+    --readline \
+    --alsa || return 1
+
+  ./waf build -j"$numjobs" || ./waf build || return 1
+  ./waf install --destdir="$PKG" || return 1
+
+  gzip -9 "$PKG"/usr/man/man?/* || return 1
+
+  if [ "${SETCAP:-yes}" = "yes" ]; then
+    chown root:audio "$PKG"/usr/bin/* || return 1
+    chmod 0750 "$PKG"/usr/bin/* || return 1
+  fi
+
+  docDir="$PKG/usr/doc/${pkgname}-${pkgver}"
+  install -d "$docDir" || return 1
+  cp -a README* html ../LOG ../README ../jack2vsjack1.txt ../note "$docDir/" || return 1
+}
