@@ -342,10 +342,12 @@ build() {
 
   extract_archive "$packageDir" "VulkanTools-sdk" "$vulkanToolsCompatVersion" || return 1
   sanitize_tree "VulkanTools-sdk-${vulkanToolsCompatVersion}" || return 1
-  (
-    cd "VulkanTools-sdk-${vulkanToolsCompatVersion}/submodules/jsoncpp" || exit 1
-    python3 amalgamate.py || exit 1
-  ) || return 1
+  if [ -d "VulkanTools-sdk-${vulkanToolsCompatVersion}/submodules/jsoncpp" ]; then
+    (
+      cd "VulkanTools-sdk-${vulkanToolsCompatVersion}/submodules/jsoncpp" || exit 1
+      python3 amalgamate.py || exit 1
+    ) || return 1
+  fi
   configure_cmake_build \
     "VulkanTools-sdk-${vulkanToolsCompatVersion}" \
     -DCMAKE_BUILD_TYPE=Release \
