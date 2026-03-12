@@ -48,7 +48,7 @@ map_archive_name() {
     gfxreconstruct) printf '%s\n' "gfxreconstruct-sdk" ;;
     SPIRV-Reflect) printf '%s\n' "SPIRV-Reflect-sdk" ;;
     Vulkan-Profiles) printf '%s\n' "Vulkan-Profiles-sdk" ;;
-    shaderc|DirectXShaderCompiler) printf '%s\n' "$1" ;;
+    shaderc|DirectXShaderCompiler|valijson) printf '%s\n' "$1" ;;
     *) return 1 ;;
   esac
 }
@@ -69,6 +69,9 @@ resolve_repo_path() {
       ;;
     DirectXShaderCompiler)
       printf '%s\n' "microsoft/DirectXShaderCompiler"
+      ;;
+    valijson)
+      printf '%s\n' "tristanpenman/valijson"
       ;;
     *)
       printf '%s\n' "$1"
@@ -217,6 +220,12 @@ while IFS=$'\t' read -r repoPath refType refName; do
     touch "robin-hood-hashing.fetched"
   fi
 done < release_components.tsv
+
+valijsonVersion="v1.1.0"
+if ! [ -e "valijson-${valijsonVersion}.tar.lz" ]; then
+  printf '\n%s (%s %s)\n\n' "valijson" "Version Tag" "$valijsonVersion"
+  clone_and_pack "tristanpenman/valijson" "valijson" "$valijsonVersion"
+fi
 
 printf '%s\n' "$version" > VERSION
 

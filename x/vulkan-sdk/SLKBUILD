@@ -55,6 +55,7 @@ build() {
       "gfxreconstruct-sdk"
       "DirectXShaderCompiler"
       "SPIRV-Reflect-sdk"
+      "valijson"
       "Vulkan-Profiles-sdk"
     )
     local archivePrefix=""
@@ -167,6 +168,7 @@ build() {
   local gfxreconstructVersion=""
   local dxcVersion=""
   local spirvReflectVersion=""
+  local valijsonVersion=""
   local vulkanProfilesVersion=""
   local docDir=""
 
@@ -189,6 +191,7 @@ build() {
   gfxreconstructVersion=$(find_archive_version "$packageDir" "gfxreconstruct-sdk") || return 1
   dxcVersion=$(find_archive_version "$packageDir" "DirectXShaderCompiler") || return 1
   spirvReflectVersion=$(find_archive_version "$packageDir" "SPIRV-Reflect-sdk") || return 1
+  valijsonVersion=$(find_archive_version "$packageDir" "valijson") || return 1
   vulkanProfilesVersion=$(find_archive_version "$packageDir" "Vulkan-Profiles-sdk") || return 1
 
   mkdir -p "$buildRoot" || return 1
@@ -210,6 +213,7 @@ build() {
     "gfxreconstruct-sdk-${gfxreconstructVersion}" \
     "DirectXShaderCompiler-${dxcVersion}" \
     "SPIRV-Reflect-sdk-${spirvReflectVersion}" \
+    "valijson-${valijsonVersion}" \
     "Vulkan-Profiles-sdk-${vulkanProfilesVersion}" || return 1
 
   extract_archive "$packageDir" "SPIRV-Headers" "$spirvHeadersVersion" || return 1
@@ -457,6 +461,16 @@ build() {
   install -m 644 "SPIRV-Reflect-sdk-${spirvReflectVersion}/include/spirv/unified1/spirv.h" \
     "$PKG/usr/include/SPIRV-Reflect/include/spirv/unified1/" || return 1
 
+  extract_archive "$packageDir" "valijson" "$valijsonVersion" || return 1
+  sanitize_tree "valijson-${valijsonVersion}" || return 1
+  configure_cmake_build \
+    "valijson-${valijsonVersion}" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR="lib${LIBDIRSUFFIX}" \
+    -Dvalijson_BUILD_EXAMPLES=OFF \
+    -Dvalijson_BUILD_TESTS=OFF || return 1
+  install_cmake_build "valijson-${valijsonVersion}" "$PKG" || return 1
+
   extract_archive "$packageDir" "Vulkan-Profiles-sdk" "$vulkanProfilesVersion" || return 1
   sanitize_tree "Vulkan-Profiles-sdk-${vulkanProfilesVersion}" || return 1
   sed -i "s|PATH_SUFFIXES lib|PATH_SUFFIXES lib${LIBDIRSUFFIX}|" \
@@ -468,6 +482,7 @@ build() {
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_INSTALL_SYSCONFDIR=/usr/share \
+    -DCMAKE_PREFIX_PATH="$PKG/usr" \
     -DVULKAN_LOADER_INSTALL_DIR="$PKG/usr" \
     -DVULKAN_HEADERS_INSTALL_DIR="$PKG/usr" \
     -DVULKAN_HEADERS_SOURCE_DIR="$buildRoot/Vulkan-Headers-sdk-${vulkanHeadersVersion}" \
@@ -502,6 +517,7 @@ build() {
     "$docDir/gfxreconstruct" \
     "$docDir/DirectXShaderCompiler" \
     "$docDir/SPIRV-Reflect" \
+    "$docDir/valijson" \
     "$docDir/Vulkan-Profiles" || return 1
 
   cp -a "SPIRV-Headers-${spirvHeadersVersion}/LICENSE"* "SPIRV-Headers-${spirvHeadersVersion}/README"* "$docDir/SPIRV-Headers/" || return 1
@@ -520,5 +536,6 @@ build() {
   cp -a "gfxreconstruct-sdk-${gfxreconstructVersion}/LICENSE"* "gfxreconstruct-sdk-${gfxreconstructVersion}/README"* "gfxreconstruct-sdk-${gfxreconstructVersion}/"*.md "$docDir/gfxreconstruct/" || return 1
   cp -a "DirectXShaderCompiler-${dxcVersion}/LICENSE"* "DirectXShaderCompiler-${dxcVersion}/README"* "DirectXShaderCompiler-${dxcVersion}/ThirdPartyNotices.txt" "DirectXShaderCompiler-${dxcVersion}/"*.md "$docDir/DirectXShaderCompiler/" || return 1
   cp -a "SPIRV-Reflect-sdk-${spirvReflectVersion}/LICENSE"* "SPIRV-Reflect-sdk-${spirvReflectVersion}/README"* "SPIRV-Reflect-sdk-${spirvReflectVersion}/"*.md "$docDir/SPIRV-Reflect/" || return 1
+  cp -a "valijson-${valijsonVersion}/Authors" "valijson-${valijsonVersion}/LICENSE"* "valijson-${valijsonVersion}/README"* "valijson-${valijsonVersion}/"*.md "$docDir/valijson/" || return 1
   cp -a "Vulkan-Profiles-sdk-${vulkanProfilesVersion}/LICENSE"* "Vulkan-Profiles-sdk-${vulkanProfilesVersion}/README"* "Vulkan-Profiles-sdk-${vulkanProfilesVersion}/"*.md "$docDir/Vulkan-Profiles/" || return 1
 }
