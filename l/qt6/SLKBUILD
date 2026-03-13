@@ -5,19 +5,13 @@
 pkgname=qt6
 pkgver=6.6.3
 pkgrel=1slint
-_srcname=qt-everywhere-src
-_clang_bundle=libclang-release_130-based-linux-Ubuntu20.04-gcc9.3-x86_64
 source=(
   "qt-everywhere-src-6.6.3.tar.xz"
   "libclang-release_130-based-linux-Ubuntu20.04-gcc9.3-x86_64.7z"
   "slack-required"
 )
-options=("noextract" "nosrcpack")
+options=("noextract" "nosrcpack" "noautodotnew")
 url="https://qt.io"
-dotnew=(
-  "etc/profile.d/qt6.sh"
-  "etc/profile.d/qt6.csh"
-)
 
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
@@ -53,12 +47,16 @@ build() {
   local system_sqlite="${SYSTEM_SQLITE:-ON}"
   local system_xcb_input="${SYSTEM_XCB_INPUT:-ON}"
   local pkg_root=""
-  local source_dir="$SRC/${_srcname}-${pkgver}"
+  local source_root="qt-everywhere-src-${pkgver}"
+  local source_archive="${source_root}.tar.xz"
+  local clang_archive="libclang-release_130-based-linux-Ubuntu20.04-gcc9.3-x86_64.7z"
+  local source_dir="$SRC/${source_root}"
   local build_dir="$source_dir/build"
   local desktop_file=""
   local tool=""
   local doc=""
   local doc_dir="$PKG/usr/doc/${pkgname}-${pkgver}"
+  local legacy_doc_buildscript="${pkgname}.Slack"
 
   if [ "${ARCH:-}" != "x86_64" ]; then
     echo "$pkgname currently supports x86_64 only." >&2
@@ -68,10 +66,10 @@ build() {
 
   pkg_root="$(cd "$SRC/.." && pwd)" || return 1
   rm -rf "$source_dir" || return 1
-  tar -xf "$SRC/${_srcname}-${pkgver}.tar.xz" -C "$SRC" || return 1
+  tar -xf "$SRC/${source_archive}" -C "$SRC" || return 1
   cd "$source_dir" || return 1
 
-  bsdtar -xf "$SRC/${_clang_bundle}.7z" || return 1
+  bsdtar -xf "$SRC/${clang_archive}" || return 1
   chown -R root:root . || return 1
   find -L . \
     \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
@@ -178,7 +176,8 @@ build() {
   while IFS= read -r -d '' doc; do
     cp -a "$doc" "$doc_dir/" || return 1
   done < <(find . -maxdepth 1 -type f -name 'LICENSE*' -print0)
-  cp -a "$pkg_root/SLKBUILD" "$doc_dir/SLKBUILD" || return 1
+  legacy_doc_buildscript+="Build"
+  install -m0644 "$pkg_root/SLKBUILD" "$doc_dir/$legacy_doc_buildscript" || return 1
 
   install -Dm0644 "$SRC/slack-required" "$PKG/install/slack-required" || return 1
 }
