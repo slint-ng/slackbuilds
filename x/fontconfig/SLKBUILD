@@ -100,8 +100,16 @@ patch -p1 --verbose < $startdir/slint_mods.diff || exit 1
   ninja
   DESTDIR=$PKG ninja install
 mkdir -p $PKG/usr/doc/${pkgname}-$pkgver
-mv $PKG/usr/share/doc/$pkgname/* $PKG/usr/doc/${pkgname}-$pkgver || exit 1
-rm -r $PKG/usr/share/doc || exit 1
+if [ -d "$PKG/usr/share/doc/$pkgname" ]; then
+  mv "$PKG/usr/share/doc/$pkgname"/* \
+    "$PKG/usr/doc/${pkgname}-$pkgver" || exit 1
+elif [ -d "$srcdir/$pkgname-$pkgver" ]; then
+  cp -a "$srcdir/$pkgname-$pkgver"/README* \
+    "$PKG/usr/doc/${pkgname}-$pkgver" 2>/dev/null || true
+fi
+if [ -d "$PKG/usr/share/doc" ]; then
+  rm -rf "$PKG/usr/share/doc" || exit 1
+fi
 # quote from Slackware's fontconfig.SlackBuild:
 # Upstream has changed the default templatedir to /usr/share/fontconfig/conf.avail.
 # This change, if accepted, would break any existing font package containing a
