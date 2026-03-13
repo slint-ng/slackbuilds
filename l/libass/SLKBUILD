@@ -1,0 +1,45 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libass
+pkgver=0.15.2
+pkgrel=1slint
+url="https://github.com/libass/libass"
+source=("https://github.com/libass/libass/releases/download/${pkgver}/${pkgname}-${pkgver}.tar.xz")
+docs=("Changelog" "COPYING")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"libass (subtitle renderer for ASS/SSA)"
+""
+"libass is a portable subtitle renderer for the ASS/SSA"
+"(Advanced SubStation Alpha/SubStation Alpha) subtitle format."
+"It is mostly compatible with VSFilter."
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --enable-static=no \
+    --disable-silent-rules \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib"${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
