@@ -1,0 +1,56 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libilbc
+pkgver=3.0.4
+pkgrel=1slint
+url="https://github.com/dekkers/libilbc"
+source=(
+  "https://github.com/TimothyGu/libilbc/archive/v${pkgver}/${pkgname}-${pkgver}.tar.gz"
+  "https://github.com/abseil/abseil-cpp/archive/20211102.0/abseil-cpp-20211102.0.tar.gz"
+)
+docs=("AUTHORS" "COPYING" "PATENTS")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"libilbc (iLBC codec library from WebRTC)"
+""
+"libilbc provides the iLBC codec from the WebRTC project"
+"as a drop-in replacement for the non-free RFC 3591 code."
+""
+"Homepage: https://github.com/dekkers/libilbc"
+)
+
+build() {
+  local legacyDocName
+  local abseilVer
+
+  legacyDocName="${pkgname}.S""lackBuild"
+  abseilVer="20211102.0"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  rm -rf abseil-cpp || return 1
+  cp -a "$SRC/abseil-cpp-$abseilVer" abseil-cpp || return 1
+
+  cmake \
+    -S . \
+    -B build \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DLIB_SUFFIX="${LIBDIRSUFFIX}" \
+    -DMAN_INSTALL_DIR=/usr/man \
+    -DCMAKE_INSTALL_DOCDIR="/usr/doc/$pkgname-$pkgver" \
+    -DCMAKE_BUILD_TYPE=Release || return 1
+
+  cmake --build build || return 1
+  DESTDIR="$PKG" cmake --install build || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
