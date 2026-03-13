@@ -954,21 +954,31 @@ generate_depfile_for_artifact() {
   local depFilePath=""
   local depfinderFailed=false
   local fallbackDepFile=""
+  local depfinderWorkDir=""
+  local generatedDepFile=""
   local tempDepFile=""
 
   depFilePath=$(depfile_path_for_artifact "$artifactPath")
+  generatedDepFile="$(basename "$depFilePath")"
   tempDepFile="${depFilePath}.tmp"
 
   rm -f -- "$tempDepFile"
+  depfinderWorkDir=$(mktemp -d "${TMPDIR:-/tmp}/depfinder.XXXXXX") \
+    || die "failed to create depfinder workdir"
   if artifact_looks_like_python_package "$artifactPath"; then
-    DEPFINDERNOEXIT=1 depfinder -p -f -3 "$artifactPath" > "$tempDepFile" \
-      || depfinderFailed=true
+    (
+      cd "$depfinderWorkDir" || exit 1
+      DEPFINDERNOEXIT=1 depfinder -p -f -3 "$artifactPath"
+    ) || depfinderFailed=true
   else
-    DEPFINDERNOEXIT=1 depfinder -f "$artifactPath" > "$tempDepFile" \
-      || depfinderFailed=true
+    (
+      cd "$depfinderWorkDir" || exit 1
+      DEPFINDERNOEXIT=1 depfinder -f "$artifactPath"
+    ) || depfinderFailed=true
   fi
 
   if [[ "$depfinderFailed" == true ]]; then
+    rm -rf -- "$depfinderWorkDir"
     rm -f -- "$tempDepFile"
     fallbackDepFile=$(find_depfile "$packageDir" "$packageName" || true)
     if [[ -n "$fallbackDepFile" && -f "$fallbackDepFile" ]]; then
@@ -980,6 +990,16 @@ generate_depfile_for_artifact() {
 
     die "depfinder failed for $(basename "$artifactPath")"
   fi
+
+  if [[ ! -f "$depfinderWorkDir/$generatedDepFile" ]]; then
+    rm -rf -- "$depfinderWorkDir"
+    rm -f -- "$tempDepFile"
+    die "depfinder did not create $(basename "$depFilePath")"
+  fi
+
+  mv -f -- "$depfinderWorkDir/$generatedDepFile" "$tempDepFile" \
+    || die "failed to stage $(basename "$depFilePath")"
+  rm -rf -- "$depfinderWorkDir"
 
   remove_stale_depfiles "$packageDir" "$packageName" "$depFilePath"
   mv -f -- "$tempDepFile" "$depFilePath" || die "failed to write $(basename "$depFilePath")"
