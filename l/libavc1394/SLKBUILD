@@ -1,0 +1,49 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libavc1394
+pkgver=0.5.4
+pkgrel=1slint
+url="https://sourceforge.net/projects/libavc1394"
+source=("https://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+docs=("ChangeLog" "AUTHORS" "COPYING" "INSTALL" "NEWS" "README" "TODO")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"libavc1394 (GNU/Linux 1394 AV/C Library)"
+""
+"libavc1394 is a programming interface for the 1394 Trade"
+"Association AV/C (Audio/Video Control) Digital Interface"
+"Command Set. It is intended for use with GNU/Linux IEEE-1394."
+""
+"Homepage: https://sourceforge.net/projects/libavc1394"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --disable-static \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib"${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
