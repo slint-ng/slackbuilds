@@ -1,0 +1,86 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=portmidi
+pkgver=2.0.2
+pkgrel=3slint
+url="https://github.com/PortMidi/portmidi"
+source=(
+  "https://github.com/PortMidi/portmidi/archive/refs/tags/v${pkgver}.tar.gz"
+)
+docs=(
+  "CHANGELOG.txt"
+  "README.txt"
+  "license.txt"
+)
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"portmidi: portmidi (Realtime IO MIDI library)"
+"portmidi:"
+"portmidi: PortMidi is a computer library for real time input and"
+"portmidi: output of MIDI data."
+"portmidi:"
+"portmidi: PortMidi is part of the PortMusic project."
+"portmidi:"
+"portmidi: Homepage: https://github.com/PortMidi/portmidi"
+"portmidi:"
+"portmidi:"
+)
+
+doinst() {
+if [ -x /usr/bin/update-desktop-database ]; then
+  /usr/bin/update-desktop-database -q usr/share/applications >/dev/null 2>&1
+fi
+
+if [ -e usr/share/icons/hicolor/icon-theme.cache ]; then
+  if [ -x /usr/bin/gtk-update-icon-cache ]; then
+    /usr/bin/gtk-update-icon-cache -f usr/share/icons/hicolor >/dev/null 2>&1
+  fi
+fi
+}
+
+build() {
+  local build_dir
+  local legacy_doc_name
+  local pmtests
+
+  build_dir="$SRC/$pkgname-$pkgver/build"
+  legacy_doc_name="${pkgname}.S""lackBuild"
+
+  if [ "${PMTESTS:-no}" = yes ]; then
+    pmtests=ON
+  else
+    pmtests=OFF
+  fi
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  chown -R root:root . || return 1
+  find -L . \
+    \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
+    -o -perm 511 \) -exec chmod 755 {} \; -o \
+    \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 \
+    -o -perm 400 \) -exec chmod 644 {} \; || return 1
+
+  rm -rf "$build_dir" || return 1
+  cmake -S . -B "$build_dir" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_INSTALL_LIBDIR="lib${LIBDIRSUFFIX}" \
+    -DCMAKE_RUNTIME_OUTPUT_DIRECTORY="$PKG/usr/bin" \
+    -DBUILD_PORTMIDI_TESTS="$pmtests" \
+    -DCMAKE_CACHEFILE_DIR="$build_dir" || return 1
+
+  cmake --build "$build_dir" -- -j1 PMFLAGS=-DNEWBUFFER || return 1
+  DESTDIR="$PKG" cmake --install "$build_dir" || return 1
+
+  install -Dm0644 pm_common/pmutil.h "$PKG/usr/include/pmutil.h" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacy_doc_name" || return 1
+}
