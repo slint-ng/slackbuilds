@@ -1,0 +1,60 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libfdk-aac
+pkgver=2.0.0
+pkgrel=1slint
+srcName=fdk-aac-free
+url="https://cgit.freedesktop.org/~wtay/fdk-aac/log/?h=fedora"
+source=("https://cygwin.com/cygwin/packages/src/fdk-aac-src/fdk-aac-${pkgver}-1.src/${srcName}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"libfdk-aac (Fraunhofer FDK AAC library from Android)"
+""
+"libfdk-aac is a standalone library of the Fraunhofer"
+"FDK AAC code from Android."
+""
+"Homepage: https://cgit.freedesktop.org/~wtay/fdk-aac/log/?h=fedora"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$srcName-$pkgver" || return 1
+
+  autoreconf -fiv || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --enable-shared \
+    --disable-static \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib"${LIBDIRSUFFIX}"/*.la || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a \
+    "$SRC/../README.Slint" \
+    ChangeLog \
+    NOTICE \
+    README.fedora \
+    documentation/*.pdf \
+    "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
