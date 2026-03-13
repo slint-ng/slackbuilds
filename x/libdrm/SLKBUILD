@@ -1,0 +1,57 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libdrm
+pkgver=2.4.125
+pkgrel=1slint
+url="https://dri.freedesktop.org/libdrm/"
+source=("https://dri.freedesktop.org/${pkgname}/${pkgname}-${pkgver}.tar.xz")
+docs=("CONTRIB*" "README*" "RELEAS*")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"libdrm (direct rendering manager userspace library)"
+""
+"libdrm provides the userspace interface to the kernel DRM"
+"services used for hardware-accelerated graphics rendering."
+)
+
+build() {
+  local legacyDocName
+  local -a ninjaArgs
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  if [ -n "${NUMJOBS:-}" ]; then
+    read -r -a ninjaArgs <<< "${NUMJOBS}"
+  else
+    ninjaArgs=(-j"$(( $(nproc) + 1 ))")
+  fi
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  meson setup meson-build \
+    --prefix=/usr \
+    --libdir="lib${LIBDIRSUFFIX}" \
+    --libexecdir=/usr/libexec \
+    --bindir=/usr/bin \
+    --sbindir=/usr/sbin \
+    --includedir=/usr/include \
+    --datadir=/usr/share \
+    --mandir=/usr/man \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release \
+    -Dudev=true \
+    -Dintel=enabled || return 1
+
+  "${NINJA:=ninja}" -C meson-build "${ninjaArgs[@]}" || return 1
+  DESTDIR="$PKG" "${NINJA:=ninja}" -C meson-build install || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
