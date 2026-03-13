@@ -1,0 +1,50 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libdc1394
+pkgver=2.2.6
+pkgrel=1slint
+url="https://damien.douxchamps.net/ieee1394/libdc1394/"
+source=("https://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.gz")
+docs=("AUTHORS" "ChangeLog" "COPYING" "NEWS" "README")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"libdc1394 (1394 digital camera control library)"
+""
+"libdc1394 provides a high-level API for controlling"
+"IEEE 1394 cameras that conform to the IIDC or DCAM"
+"digital camera specifications."
+""
+"Homepage: https://damien.douxchamps.net/ieee1394/libdc1394/"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --mandir=/usr/man \
+    --enable-doxygen-man \
+    --disable-silent-rules \
+    --enable-static=no \
+    --with-x \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib"${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
