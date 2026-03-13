@@ -1,0 +1,49 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libiec61883
+pkgver=1.2.0
+pkgrel=2slint
+url="https://www.kernel.org/pub/linux/libs/ieee1394/"
+source=("https://www.kernel.org/pub/linux/libs/ieee1394/${pkgname}-${pkgver}.tar.xz")
+docs=("AUTHORS" "COPYING" "ChangeLog" "INSTALL" "NEWS" "README")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"libiec61883 (IEC 61883 streaming library for FireWire)"
+""
+"libiec61883 implements key IEC 61883 protocols used by"
+"multimedia FireWire devices and provides a higher-level"
+"API for DV, MPEG-2, and audio streaming over IEEE 1394."
+""
+"Homepage: https://www.kernel.org/pub/linux/libs/ieee1394/"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --disable-static \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib"${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
