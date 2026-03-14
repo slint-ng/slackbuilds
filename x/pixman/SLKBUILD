@@ -1,0 +1,47 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=pixman
+pkgver=0.42.2
+pkgrel=1slint
+url="https://www.x.org/"
+source=("https://www.cairographics.org/releases/${pkgname}-${pkgver}.tar.gz")
+docs=("AUTHORS" "COPYING" "ChangeLog" "NEWS" "README")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"pixman (pixel manipulation library)"
+""
+"Pixman provides low-level pixel manipulation routines"
+"used by both X.Org and cairo."
+""
+"Homepage: https://www.x.org/"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  meson setup build \
+    --buildtype=release \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --localstatedir=/var \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    -Dstrip=true || return 1
+
+  "${NINJA:=ninja}" -C build || return 1
+  DESTDIR="$PKG" "${NINJA:=ninja}" -C build install || return 1
+
+  rm -f "$PKG"/usr/lib"${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
