@@ -1,0 +1,44 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=sratom
+pkgver=0.6.8
+pkgrel=1slint
+url="https://drobilla.net/software/sratom/"
+source=("https://download.drobilla.net/${pkgname}-${pkgver}.tar.bz2")
+docs=("COPYING" "NEWS" "README*")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"sratom (LV2 atom RDF serializing library)"
+""
+"Sratom is a library for serialising LV2 atoms to and"
+"from RDF, particularly the Turtle syntax."
+""
+"Homepage: https://drobilla.net/software/sratom/"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./waf configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --configdir=/etc \
+    --mandir=/usr/man \
+    --docdir="/usr/doc/$pkgname-$pkgver" || return 1
+
+  ./waf || return 1
+  ./waf install --destdir="$PKG" || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
