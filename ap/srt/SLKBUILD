@@ -1,0 +1,51 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=srt
+pkgver=1.4.4
+pkgrel=1slint
+source=("https://github.com/Haivision/srt/archive/v${pkgver}/${pkgname}-${pkgver}.tar.gz")
+url="https://github.com/Haivision/srt"
+options=("nosrcpack" "nostrip")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"srt (Secure Reliable Transport)"
+""
+"Secure Reliable Transport (SRT) is an open source transport technology"
+"that optimizes streaming performance across unpredictable networks,"
+"such as the Internet."
+)
+
+build() {
+  local docItems legacyScriptName
+
+  docItems=(CONTRIBUTING.md LICENSE README.md docs)
+  legacyScriptName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --disable-static \
+    --cmake_install_libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --cmake_install_bindir=/usr/bin \
+    --cmake_install_includedir=/usr/include || return 1
+
+  make || return 1
+
+  sed -i '/^\(libdir\|includedir\)/s,=.*//,=/,' ./*.pc || return 1
+
+  make install DESTDIR="$PKG" || return 1
+
+  strip "$PKG"/usr/bin/srt-{fi,l,t}* "$PKG"/usr/lib*/libsrt.so.*.*.* || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a "${docItems[@]}" "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyScriptName" || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+}
