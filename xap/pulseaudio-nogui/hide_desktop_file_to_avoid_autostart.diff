@@ -1,0 +1,7 @@
+--- src/daemon/pulseaudio.desktop.in	2018-06-18 15:33:47.000000000 +0200
++++ src/daemon/pulseaudio.desktop.in.new	2018-06-27 00:12:40.197022939 +0200
+@@ -9,3 +9,4 @@
+ GenericName=
+ X-GNOME-Autostart-Phase=Initialization
+ X-KDE-autostart-phase=1
++Hidden=true

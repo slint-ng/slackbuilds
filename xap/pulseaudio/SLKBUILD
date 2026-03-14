@@ -1,0 +1,115 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=pulseaudio
+pkgver=17.0
+pkgrel=1slint
+source=(
+  "https://freedesktop.org/software/pulseaudio/releases/${pkgname}-${pkgver}.tar.xz"
+  "hide_desktop_file_to_avoid_autostart.diff.gz"
+  "use_dmix_in_Slint.diff"
+  "rc.pulseaudio"
+)
+docs=("NEWS" "*GPL" "LICENSE" "README*")
+url="https://www.freedesktop.org/wiki/Software/PulseAudio/"
+options=("nosrcpack" "noautodotnew")
+dotnew=(
+  "etc/pulse/client.conf"
+  "etc/pulse/daemon.conf"
+  "etc/pulse/default.pa"
+  "etc/pulse/system.pa"
+  "etc/rc.d/rc.pulseaudio"
+)
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"pulseaudio (PulseAudio sound server)"
+""
+"Pulseaudio is a networked low-latency sound server intended to be an"
+"improved replacement for the Enlightened Sound Daemon (EsounD)."
+""
+"Homepage: https://www.freedesktop.org/wiki/Software/PulseAudio/"
+)
+
+doinst() {
+  preserve_perms() {
+    local newFile oldFile
+
+    newFile="$1"
+    oldFile="$(dirname "$newFile")/$(basename "$newFile" .new)"
+
+    if [ -e "$oldFile" ]; then
+      cp -a "$oldFile" "${newFile}.incoming"
+      cat "$newFile" > "${newFile}.incoming"
+      mv "${newFile}.incoming" "$newFile"
+    fi
+
+    dotnew "$newFile"
+  }
+
+  preserve_perms etc/rc.d/rc.pulseaudio.new
+
+  chroot . /usr/sbin/usermod -a -G audio pulse >/dev/null 2>&1
+  chroot . /usr/sbin/usermod -a -G audio root >/dev/null 2>&1
+
+  if [ -e usr/share/glib-2.0/schemas ] && [ -x /usr/bin/glib-compile-schemas ]; then
+    /usr/bin/glib-compile-schemas usr/share/glib-2.0/schemas >/dev/null 2>&1
+  fi
+}
+
+build() {
+  local dbusConfigs=()
+  local buildArgs=()
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  zcat "$SRC/../hide_desktop_file_to_avoid_autostart.diff.gz" | \
+    patch -p0 --verbose || return 1
+  patch -p1 --verbose < "$SRC/../use_dmix_in_Slint.diff" || return 1
+
+  sed -i \
+    -e "/@PA_BINARY@/ imkdir -p \\$HOME/.config/pulse" \
+    src/daemon/start-pulseaudio-x11.in || return 1
+  echo "X-MATE-Autostart-Phase=Initialization" >> \
+    src/daemon/pulseaudio.desktop.in || return 1
+
+  if [ -n "${NUMJOBS:-}" ]; then
+    read -r -a buildArgs <<< "$NUMJOBS"
+  fi
+
+  meson setup meson-build \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --libexecdir=/usr/libexec \
+    --bindir=/usr/bin \
+    --sbindir=/usr/sbin \
+    --includedir=/usr/include \
+    --datadir=/usr/share \
+    --mandir=/usr/man \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release \
+    -Dman=true \
+    -Dorc=enabled \
+    -Dgsettings=enabled \
+    -Dhal-compat=false \
+    -Dsystem_user="pulse" \
+    -Dsystem_group="pulse" \
+    -Daccess_group="audio" \
+    -Dbashcompletiondir="/usr/share/bash-completion/completions" || return 1
+
+  "${NINJA:=ninja}" -C meson-build "${buildArgs[@]}" || return 1
+  DESTDIR="$PKG" "${NINJA:=ninja}" -C meson-build install || return 1
+
+  dbusConfigs=("$PKG"/etc/dbus-1/system.d/*)
+  if [ -e "${dbusConfigs[0]}" ]; then
+    mkdir -p "$PKG/usr/share/dbus-1/system.d" || return 1
+    mv "$PKG"/etc/dbus-1/system.d/* "$PKG/usr/share/dbus-1/system.d/" || return 1
+    rmdir --parents "$PKG/etc/dbus-1/system.d" 2>/dev/null || true
+  fi
+
+  install -Dm0644 "$SRC/../rc.pulseaudio" \
+    "$PKG/etc/rc.d/rc.pulseaudio.new" || return 1
+}
