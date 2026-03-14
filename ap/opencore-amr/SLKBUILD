@@ -1,0 +1,53 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=opencore-amr
+pkgver=0.1.5
+pkgrel=2slint
+url="https://opencore-amr.sourceforge.net/"
+source=("https://downloads.sourceforge.net/opencore-amr/${pkgname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"opencore-amr (AMR narrowband and wideband speech codec)"
+""
+"opencore-amr provides the OpenCORE implementation of"
+"the Adaptive Multi-Rate narrowband and wideband codecs."
+""
+"Homepage: https://opencore-amr.sourceforge.net/"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --disable-static \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver/opencore" || return 1
+  cp -a ChangeLog LICENSE README "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a opencore/ChangeLog opencore/NOTICE \
+    "$PKG/usr/doc/$pkgname-$pkgver/opencore" || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
