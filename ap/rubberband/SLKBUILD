@@ -1,0 +1,103 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=rubberband
+pkgver=3.2.1
+pkgrel=1slint
+source=(
+  "https://breakfastquay.com/files/releases/${pkgname}-${pkgver}.tar.bz2"
+  "rubberband.1"
+)
+docs=("CHANGELOG" "COPYING" "README*")
+url="https://breakfastquay.com/rubberband"
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"rubberband (audio time-stretching and pitch-shifting)"
+""
+"Rubber Band is a library and utility program that permits you to"
+"change the tempo and pitch of an audio recording independently of one"
+"another."
+""
+"This package can optionally be built with Java JNI support."
+""
+"Homepage: https://breakfastquay.com/rubberband"
+)
+
+build() {
+  local extraArgs=()
+  local jdkProfile jniLib legacyScriptName withJava
+
+  legacyScriptName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  JAVA="${JAVA:-no}"
+
+  if [ "$JAVA" = "yes" ]; then
+    if [ -z "${JAVA_HOME:-}" ]; then
+      for jdkProfile in /etc/profile.d/*jdk*.sh ; do
+        if [ -r "$jdkProfile" ]; then
+          # shellcheck disable=SC1090
+          . "$jdkProfile"
+          break
+        fi
+      done
+    fi
+
+    if [ -z "${JAVA_HOME:-}" ]; then
+      cat <<'EOF'
+!!! Java support requested, but JAVA_HOME is unset and no readable
+!!! /etc/profile.d/*jdk*.sh script was found. Are you sure a JDK is installed?
+EOF
+      return 1
+    fi
+
+    if [ ! -e "$JAVA_HOME/include/jni.h" ]; then
+      cat <<'EOF'
+!!! Java support requested, but JAVA_HOME does not contain include/jni.h.
+EOF
+      return 1
+    fi
+
+    extraArgs=("-Dextra_include_dirs=$JAVA_HOME/include,$JAVA_HOME/include/linux")
+  fi
+
+  meson setup build \
+    --buildtype=release \
+    --infodir=/usr/info \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    "${extraArgs[@]}" \
+    -Dstrip=true || return 1
+
+  "${NINJA:=ninja}" -C build || return 1
+  DESTDIR="$PKG" "${NINJA:=ninja}" -C build install || return 1
+
+  rm -f "$PKG"/usr/lib*/lib"$pkgname".a || return 1
+
+  jniLib="$PKG/usr/lib${LIBDIRSUFFIX}/lib${pkgname}-jni.so"
+  if [ "$JAVA" = "yes" ] && [ ! -e "$jniLib" ]; then
+    cat <<'EOF'
+!!! Java support requested, but the JNI library was not built.
+!!! Check the Meson and Ninja output above and adjust JAVA_HOME if needed.
+EOF
+    return 1
+  fi
+
+  withJava="WITHOUT"
+  if [ -e "$jniLib" ]; then
+    withJava="WITH"
+  fi
+
+  install -Dm0644 "$SRC/../rubberband.1" \
+    "$PKG/usr/man/man1/rubberband.1" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyScriptName" || return 1
+}
