@@ -1,0 +1,59 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=rtmpdump
+pkgver=20210219_f1b83c1
+pkgrel=1slint
+source=(
+  "https://ponce.cc/slackware/sources/repo/${pkgname}-${pkgver}.tar.xz"
+  "librtmp-makefile.patch"
+)
+url="https://rtmpdump.mplayerhq.hu/"
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"rtmpdump (RTMP streams toolkit)"
+""
+"rtmpdump is a toolkit for RTMP streams."
+"All forms of RTMP are supported, including rtmp://, rtmpt://,"
+"rtmpe://, rtmpte://, and rtmps://."
+"This package contains the library, librtmp, and the binaries rtmpdump,"
+"rtmpgw, rtmpsrv and rtmpsuck."
+""
+"Homepage: https://rtmpdump.mplayerhq.hu/"
+)
+
+build() {
+  local legacyScriptName
+
+  legacyScriptName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  patch -p1 < "$SRC/../librtmp-makefile.patch" || return 1
+
+  sed -i \
+    -e 's/^CRYPTO=OPENSSL/#CRYPTO=OPENSSL/' \
+    -e 's/#CRYPTO=GNUTLS/CRYPTO=GNUTLS/' \
+    Makefile librtmp/Makefile || return 1
+
+  make \
+    XCFLAGS="$SLKCFLAGS" \
+    prefix=/usr \
+    libdir="/usr/lib${LIBDIRSUFFIX}" || return 1
+
+  make \
+    XCFLAGS="$SLKCFLAGS" \
+    prefix=/usr \
+    libdir="/usr/lib${LIBDIRSUFFIX}" \
+    DESTDIR="$PKG" \
+    install || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a COPYING ChangeLog README "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyScriptName" || return 1
+}
