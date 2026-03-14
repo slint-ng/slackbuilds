@@ -1,0 +1,54 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=twolame
+pkgver=0.4.0
+pkgrel=1slint
+source=("https://downloads.sourceforge.net/twolame/${pkgname}-${pkgver}.tar.gz")
+url="https://www.twolame.org/"
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"twolame (an MP2 encoder)"
+""
+"TwoLAME is an optimized MPEG Audio Layer 2 (MP2) encoder."
+"TwoLAME should be able to be used as a drop-in replacement for"
+"LAME. The frontend takes very similar command line options, and the"
+"backend library has a similar API."
+""
+"Homepage: https://www.twolame.org/"
+)
+
+build() {
+  local legacyScriptName
+
+  legacyScriptName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --disable-static \
+    --build="$arch-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  if [ -d "$PKG/usr/share/doc/twolame" ]; then
+    mv "$PKG/usr/share/doc/twolame"/* "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
+  fi
+  cp -a AUTHORS COPYING README* NEWS "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyScriptName" || return 1
+  rm -rf "${PKG:?}/usr/share" || return 1
+}
