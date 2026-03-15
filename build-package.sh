@@ -344,6 +344,23 @@ read_slkbuild_array() {
   )
 }
 
+slkbuild_variable_declared() {
+  local slkbuildPath=$1
+  local variableName=$2
+  local packageDir=""
+
+  [[ -f "$slkbuildPath" ]] || return 1
+
+  packageDir=$(dirname "$slkbuildPath")
+  cd "$packageDir" && \
+    bash -c '
+      set +eu
+      source ./SLKBUILD >/dev/null 2>&1
+      variableName=$1
+      declare -p "$variableName" >/dev/null 2>&1
+    ' _ "$variableName"
+}
+
 append_unique_values() {
   local targetArrayName=$1
   shift
@@ -371,18 +388,27 @@ load_package_dependencies() {
   local packageName=$2
   local arrayName=$3
   local depFilePath=""
+  local slkbuildPath="${packageDir}/SLKBUILD"
   local -a depFileDependencies=()
   local -a slkbuildDepends=()
   local -a slkbuildMakeDepends=()
+  local hasDepends=false
+  local hasMakeDepends=false
   # shellcheck disable=SC2178
   declare -n dependencyRef=$arrayName
 
   dependencyRef=()
 
   if [[ -n "${packageNameByDir[${packageDir}]:-}" ]]; then
-    read_slkbuild_array "${packageDir}/SLKBUILD" depends slkbuildDepends
-    read_slkbuild_array "${packageDir}/SLKBUILD" makedepends slkbuildMakeDepends
-    if (( ${#slkbuildDepends[@]} > 0 || ${#slkbuildMakeDepends[@]} > 0 )); then
+    if slkbuild_variable_declared "$slkbuildPath" depends; then
+      hasDepends=true
+    fi
+    if slkbuild_variable_declared "$slkbuildPath" makedepends; then
+      hasMakeDepends=true
+    fi
+    read_slkbuild_array "$slkbuildPath" depends slkbuildDepends
+    read_slkbuild_array "$slkbuildPath" makedepends slkbuildMakeDepends
+    if [[ "$hasDepends" == true || "$hasMakeDepends" == true ]]; then
       append_unique_values dependencyRef "${slkbuildDepends[@]}"
       append_unique_values dependencyRef "${slkbuildMakeDepends[@]}"
       remove_value dependencyRef "$packageName"

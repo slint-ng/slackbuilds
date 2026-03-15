@@ -7,6 +7,7 @@ pkgname=x264
 pkgver=git_20210613_5db6aa6c
 pkgrel=1slint
 _commit=5db6aa6c
+depends=()
 url="https://www.videolan.org/developers/x264.html"
 source=("https://code.videolan.org/videolan/${pkgname}/-/archive/${_commit}/${pkgname}-${_commit}.tar.gz")
 options=("nosrcpack")
