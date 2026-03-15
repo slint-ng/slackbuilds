@@ -1,0 +1,43 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=x264
+pkgver=git_20210613_5db6aa6c
+pkgrel=1slint
+_commit=5db6aa6c
+url="https://www.videolan.org/developers/x264.html"
+source=("https://code.videolan.org/videolan/${pkgname}/-/archive/${_commit}/${pkgname}-${_commit}.tar.gz")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"x264 (H.264/AVC encoder library)"
+"x264 is a free software library and CLI for encoding H.264/AVC"
+"video streams."
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$_commit" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --enable-shared \
+    --enable-pic \
+    --enable-strip || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  install -d "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a AUTHORS COPYING doc/*.txt "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
