@@ -1,0 +1,89 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=x265
+pkgver=3.5
+pkgrel=1slint
+_srcname="${pkgname}_${pkgver}"
+url="https://www.videolan.org/developers/x265.html"
+source=("https://bitbucket.org/multicoreware/${pkgname}_git/downloads/${_srcname}.tar.gz")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"x265 (H.265/HEVC video encoder)"
+"x265 is a free software library and application for encoding"
+"video streams into the H.265/MPEG-H HEVC compression format."
+)
+
+build() {
+  local legacyDocName
+  local -a cmakeArgs
+
+  legacyDocName="${pkgname}.S""lackBuild"
+  cmakeArgs=(
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS"
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS"
+    -DCMAKE_INSTALL_PREFIX=/usr
+    "-DLIB_INSTALL_DIR=lib${LIBDIRSUFFIX}"
+    -DCMAKE_BUILD_TYPE=Release
+  )
+
+  cd "$SRC/$_srcname" || return 1
+
+  mkdir -p build-8 || return 1
+  if [[ "$ARCH" == "x86_64" ]]; then
+    mkdir -p build-10 build-12 || return 1
+
+    cd build-12 || return 1
+    cmake "${cmakeArgs[@]}" \
+      -DHIGH_BIT_DEPTH=ON \
+      -DMAIN12=ON \
+      -DEXPORT_C_API=OFF \
+      -DENABLE_CLI=OFF \
+      -DENABLE_SHARED=OFF \
+      ../source || return 1
+    make || return 1
+
+    cd ../build-10 || return 1
+    cmake "${cmakeArgs[@]}" \
+      -DHIGH_BIT_DEPTH=ON \
+      -DEXPORT_C_API=OFF \
+      -DENABLE_CLI=OFF \
+      -DENABLE_SHARED=OFF \
+      ../source || return 1
+    make || return 1
+
+    cd ../build-8 || return 1
+    ln -sf ../build-10/libx265.a libx265_main10.a || return 1
+    ln -sf ../build-12/libx265.a libx265_main12.a || return 1
+
+    cmake "${cmakeArgs[@]}" \
+      -DENABLE_SHARED=ON \
+      -DEXTRA_LIB="x265_main10.a;x265_main12.a" \
+      -DEXTRA_LINK_FLAGS=-L. \
+      -DLINKED_10BIT=ON \
+      -DLINKED_12BIT=ON \
+      ../source || return 1
+    make || return 1
+  else
+    cd build-8 || return 1
+    cmake "${cmakeArgs[@]}" \
+      -DENABLE_SHARED=ON \
+      ../source || return 1
+    make || return 1
+  fi
+
+  make install DESTDIR="$PKG" || return 1
+
+  cd .. || return 1
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}/libx265.a"
+
+  install -d "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a COPYING doc/intra/* "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
