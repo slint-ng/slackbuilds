@@ -5,11 +5,10 @@
 
 pkgname=libaom
 pkgver=1.0.0.r1804.gcb43f766c
-pkgrel=2slint
+pkgrel=3slint
 url="https://aomedia.googlesource.com/aom"
 license=("BSD-2-Clause")
-source=("https://www.andrews-corner.org/downloads/SBo/${pkgname}-${pkgver}.tar.gz")
-docs=("AUTHORS" "CHANGELOG" "LICENSE" "PATENTS" "README.md")
+source=("https://aomedia.googlesource.com/aom/+archive/cb43f766c.tar.gz")
 options=("nosrcpack")
 
 slackdesc=\
@@ -27,11 +26,17 @@ slackdesc=\
 )
 
 build() {
-  local legacyDocName
+  local legacyDocName sourceRoot
 
   legacyDocName="${pkgname}.S""lackBuild"
+  sourceRoot="$SRC/$pkgname-$pkgver"
 
-  cd "$SRC/$pkgname-$pkgver/build" || return 1
+  if [ ! -d "$sourceRoot" ]; then
+    sourceRoot="$SRC"
+  fi
+
+  mkdir -p "$sourceRoot/build" || return 1
+  cd "$sourceRoot/build" || return 1
 
   cmake \
     -G "Unix Makefiles" \
@@ -49,6 +54,16 @@ build() {
   make || return 1
   make install DESTDIR="$PKG" || return 1
 
+  install -Dm0644 "$sourceRoot/AUTHORS" \
+    "$PKG/usr/doc/$pkgname-$pkgver/AUTHORS" || return 1
+  install -Dm0644 "$sourceRoot/CHANGELOG" \
+    "$PKG/usr/doc/$pkgname-$pkgver/CHANGELOG" || return 1
+  install -Dm0644 "$sourceRoot/LICENSE" \
+    "$PKG/usr/doc/$pkgname-$pkgver/LICENSE" || return 1
+  install -Dm0644 "$sourceRoot/PATENTS" \
+    "$PKG/usr/doc/$pkgname-$pkgver/PATENTS" || return 1
+  install -Dm0644 "$sourceRoot/README.md" \
+    "$PKG/usr/doc/$pkgname-$pkgver/README.md" || return 1
   install -Dm0644 "$SRC/../SLKBUILD" \
     "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
 }
