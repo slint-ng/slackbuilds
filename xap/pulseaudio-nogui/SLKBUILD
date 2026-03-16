@@ -6,7 +6,7 @@
 pkgname=pulseaudio-nogui
 pkgver=17.0
 export srcname=pulseaudio
-pkgrel=1slint
+pkgrel=2slint
 source=(
   "https://freedesktop.org/software/pulseaudio/releases/${srcname}-${pkgver}.tar.xz"
   "hide_desktop_file_to_avoid_autostart.diff"
@@ -118,5 +118,5 @@ build() {
   fi
 
   install -Dm0644 "$SRC/../rc.pulseaudio" \
-    "$PKG/etc/rc.d/rc.pulseaudio.new" || return 1
+    "$PKG/etc/rc.d/rc.pulseaudio" || return 1
 }

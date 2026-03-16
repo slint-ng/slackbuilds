@@ -5,7 +5,7 @@
 
 pkgname=pulseaudio
 pkgver=17.0
-pkgrel=1slint
+pkgrel=2slint
 source=(
   "https://freedesktop.org/software/pulseaudio/releases/${pkgname}-${pkgver}.tar.xz"
   "hide_desktop_file_to_avoid_autostart.diff.gz"
@@ -111,5 +111,5 @@ build() {
   fi
 
   install -Dm0644 "$SRC/../rc.pulseaudio" \
-    "$PKG/etc/rc.d/rc.pulseaudio.new" || return 1
+    "$PKG/etc/rc.d/rc.pulseaudio" || return 1
 }
