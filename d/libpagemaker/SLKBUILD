@@ -1,0 +1,51 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libpagemaker
+pkgver=0.0.4
+pkgrel=2slint
+url="https://wiki.documentfoundation.org/DLP/Libraries/libpagemaker"
+source=("https://dev-www.libreoffice.org/src/${pkgname}/${pkgname}-${pkgver}.tar.xz")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"libpagemaker (Adobe PageMaker import library)"
+"Libpagemaker is an import filter library for Adobe PageMaker files"
+"and part of the Document Liberation Project."
+)
+
+build() {
+  local legacyDocName
+  local docFlag
+
+  legacyDocName="${pkgname}.S""lackBuild"
+  docFlag="--without-docs"
+  if [ "${DOC:-0}" != "0" ]; then
+    docFlag="--with-docs"
+  fi
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --disable-werror \
+    --build="$ARCH-slackware-linux" \
+    "$docFlag" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  install -d "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a AUTHORS COPYING ChangeLog HACKING NEWS NOTES README \
+    "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la
+}
