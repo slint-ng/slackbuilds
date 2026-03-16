@@ -1,0 +1,54 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=abook
+pkgver=0.6.1
+pkgrel=3slint
+url="https://abook.sourceforge.io/"
+source=(
+  "https://abook.sourceforge.io/devel/${pkgname}-${pkgver}.tar.gz"
+  "gcc5.patch"
+)
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"abook (text-based address book)"
+"Abook is a text-based address book program designed to use with"
+"the mutt mail client."
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  aclocal || return 1
+  automake --add-missing || return 1
+  autoconf || return 1
+  sed -i 's/0.18/0.20/g' po/Makefile.in.in || return 1
+  patch -p1 --verbose < "$SRC/gcc5.patch" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --mandir=/usr/man \
+    --localstatedir=/var \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  install -d "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a ABOUT-NLS ANNOUNCE AUTHORS BUGS COPYING ChangeLog FAQ INSTALL NEWS \
+    README RELEASE_NOTES THANKS TODO doc/HOWTO.translating_abook \
+    "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
