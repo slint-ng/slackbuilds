@@ -1,0 +1,109 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=fcron
+pkgver=3.3.1
+pkgrel=2slint
+url="http://fcron.free.fr/"
+source=(
+  "https://distfiles.alpinelinux.org/distfiles/v3.17/${pkgname}-${pkgver}.src.tar.gz"
+  "rc.fcron"
+  "sample-root-fcrontab.txt"
+)
+options=("noautodotnew" "nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"fcron (periodical command scheduler)"
+"Fcron is a periodical command scheduler intended to replace Vixie"
+"Cron and Anacron on systems that are not always running."
+)
+
+doinst() {
+  cat <<'EOF'
+config() {
+  NEW="$1"
+  OLD="$(dirname "$NEW")/$(basename "$NEW" .new)"
+  if [ ! -r "$OLD" ]; then
+    mv "$NEW" "$OLD"
+  elif [ "$(cat "$OLD" | md5sum)" = "$(cat "$NEW" | md5sum)" ]; then
+    rm "$NEW"
+  fi
+}
+
+if ! grep -q fcron /etc/group; then
+  groupadd -g 289 fcron
+fi
+if ! grep -q fcron /etc/passwd; then
+  useradd -u 289 -g fcron -d /var/spool/fcron -M -s /bin/false fcron
+fi
+config etc/fcron.conf.new
+config etc/fcron.allow.new
+config etc/fcron.deny.new
+if [ ! -f /var/spool/fcron/root.orig ]; then
+  cp /etc/fcron/root.orig /var/spool/fcron/
+  fcrontab -z -u root
+  chown root:root /var/spool/fcron/*
+fi
+EOF
+}
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  if ! getent group "${FCRON_GROUP:-fcron}" >/dev/null; then
+    echo "Error, the group ${FCRON_GROUP:-fcron} does not exist." >&2
+    echo "Create the group and user like this:" >&2
+    echo "  groupadd -g 289 ${FCRON_GROUP:-fcron}" >&2
+    echo "  useradd -u 289 -g ${FCRON_GROUP:-fcron} -d /var/spool/fcron -M -s /bin/false ${FCRON_USER:-fcron}" >&2
+    return 1
+  fi
+  if ! getent passwd "${FCRON_USER:-fcron}" >/dev/null; then
+    echo "Error, the userid ${FCRON_USER:-fcron} does not exist." >&2
+    echo "Create the user like this:" >&2
+    echo "  useradd -u 289 -g ${FCRON_GROUP:-fcron} -d /var/spool/fcron -M -s /bin/false ${FCRON_USER:-fcron}" >&2
+    return 1
+  fi
+
+  ./configure \
+    --with-boot-install=no \
+    --with-cflags="$SLKCFLAGS -Wall" \
+    --with-docdir=/usr/doc \
+    --without-pam \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --with-editor=/usr/bin/nano \
+    --prefix=/usr \
+    --sysconfdir=/etc || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  if [ -d "$PKG/usr/man" ]; then
+    find "$PKG/usr/man" -type f -exec gzip -9 {} \; || return 1
+    while IFS= read -r -d '' manPage; do
+      ln -s "$(readlink "$manPage").gz" "${manPage}.gz" || return 1
+      rm -f "$manPage" || return 1
+    done < <(find "$PKG/usr/man" -type l -print0)
+  fi
+
+  install -Dm0755 "$SRC/rc.fcron" "$PKG/etc/rc.d/rc.fcron" || return 1
+  install -Dm0644 "$SRC/sample-root-fcrontab.txt" \
+    "$PKG/usr/doc/$pkgname-$pkgver/sample-root-fcrontab.txt" || return 1
+  install -Dm0644 "$SRC/README" "$PKG/usr/doc/$pkgname-$pkgver/README" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+  install -Dm0644 "$SRC/sample-root-fcrontab.txt" "$PKG/etc/fcron/root.orig" || return 1
+
+  mv "$PKG/etc/fcron.conf" "$PKG/etc/fcron.conf.new" || return 1
+  mv "$PKG/etc/fcron.allow" "$PKG/etc/fcron.allow.new" || return 1
+  mv "$PKG/etc/fcron.deny" "$PKG/etc/fcron.deny.new" || return 1
+}
