@@ -5,10 +5,10 @@
 
 pkgname=libfdk-aac
 pkgver=2.0.0
-pkgrel=1slint
+pkgrel=2slint
 srcName=fdk-aac-free
 url="https://cgit.freedesktop.org/~wtay/fdk-aac/log/?h=fedora"
-source=("https://cygwin.com/cygwin/packages/src/fdk-aac-src/fdk-aac-${pkgver}-1.src/${srcName}-${pkgver}.tar.gz")
+source=("https://people.freedesktop.org/~wtay/${srcName}-${pkgver}.tar.gz")
 options=("nosrcpack")
 
 slackdesc=\
