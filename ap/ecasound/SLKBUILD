@@ -1,0 +1,118 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=ecasound
+pkgver=2.9.3
+pkgrel=4slint
+url="https://eca.cx/ecasound/"
+source=("https://ecasound.seul.org/download/${pkgname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"ecasound (multitrack audio processing)"
+"Ecasound is a software package for audio playback, recording,"
+"conversion, multitrack effect processing, mixing, and signal"
+"recycling."
+)
+
+doinst() {
+  if [ "${SETCAP:-yes}" = "yes" ]; then
+    cat <<'EOF'
+if [ -x /sbin/setcap ] && [ -x usr/bin/ecasound ]; then
+  /sbin/setcap cap_ipc_lock,cap_sys_nice=ep usr/bin/ecasound
+fi
+EOF
+  fi
+}
+
+build() {
+  local legacyDocName
+  local pyVer
+  local pathBackup
+  local toolSum
+  local manPage
+
+  set_pyver() {
+    pyVer="$(python -c 'import sys; print("%d.%d" % sys.version_info[0:2])')" || return 1
+    echo "=== PYVER='${pyVer}'"
+  }
+
+  configure_build() {
+    ./configure \
+      --disable-arts \
+      --prefix=/usr \
+      --libdir="/usr/lib${LIBDIRSUFFIX}" \
+      --sysconfdir=/etc \
+      --localstatedir=/var \
+      --mandir=/usr/man \
+      --docdir="/usr/doc/${pkgname}-${pkgver}" \
+      --with-python-modules="/usr/lib${LIBDIRSUFFIX}/python${pyVer}" \
+      --enable-python-force-site-packages \
+      --disable-all-static \
+      --build="$ARCH-slackware-linux" || return 1
+  }
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  sed -e 's/lv2core/lv2/g' -i configure.ac || return 1
+  autoreconf -vif || return 1
+
+  set_pyver || return 1
+  configure_build || return 1
+  make || return 1
+  make install-strip DESTDIR="$PKG" || return 1
+
+  mkdir pytmp || return 1
+  ln -s /usr/bin/python3 pytmp/python || return 1
+  pathBackup="$PATH"
+  PATH="$(pwd)/pytmp:$PATH"
+  export PATH
+
+  set_pyver || return 1
+  configure_build || return 1
+  make || return 1
+  make install-strip DESTDIR="$PKG" || return 1
+  make -C pyecasound install DESTDIR="$PKG" || return 1
+  export PATH="$pathBackup"
+
+  rm -f "$PKG"/usr/lib"${LIBDIRSUFFIX}"/*.la
+
+  mkdir -p "$PKG/usr/man/man1" || return 1
+  cd "$PKG/usr/man/man1" || return 1
+  toolSum="$(cat ecatools.1 | md5sum)" || return 1
+  shopt -s nullglob
+  for manPage in *; do
+    [ "$manPage" = "ecatools.1" ] && continue
+    if [ "$toolSum" = "$(cat "$manPage" | md5sum)" ]; then
+      rm -f "$manPage" || return 1
+      ln -s ecatools.1 "$manPage" || return 1
+    fi
+  done
+  shopt -u nullglob
+  cd - >/dev/null || return 1
+
+  if [ -d "$PKG/usr/man" ]; then
+    find "$PKG/usr/man" -type f -exec gzip -9 {} \; || return 1
+    while IFS= read -r -d '' manPage; do
+      ln -s "$(readlink "$manPage").gz" "${manPage}.gz" || return 1
+      rm -f "$manPage" || return 1
+    done < <(find "$PKG/usr/man" -type l -print0)
+  fi
+
+  install -d "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a AUTHORS BUGS COPYING* INSTALL README RELNOTES TODO \
+    "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+
+  if [ "${SETCAP:-yes}" = "yes" ]; then
+    chown root:audio "$PKG/usr/bin/$pkgname" || return 1
+    chmod 0750 "$PKG/usr/bin/$pkgname" || return 1
+  fi
+}
