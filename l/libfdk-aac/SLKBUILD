@@ -6,9 +6,9 @@
 pkgname=libfdk-aac
 pkgver=2.0.0
 pkgrel=2slint
-srcName=fdk-aac-free
+srcname=fdk-aac-free
 url="https://cgit.freedesktop.org/~wtay/fdk-aac/log/?h=fedora"
-source=("https://people.freedesktop.org/~wtay/${srcName}-${pkgver}.tar.gz")
+source=("https://people.freedesktop.org/~wtay/${srcname}-${pkgver}.tar.gz")
 options=("nosrcpack")
 
 slackdesc=\
@@ -27,7 +27,7 @@ build() {
 
   legacyDocName="${pkgname}.S""lackBuild"
 
-  cd "$SRC/$srcName-$pkgver" || return 1
+  cd "$SRC/$srcname-$pkgver" || return 1
 
   autoreconf -fiv || return 1
 
