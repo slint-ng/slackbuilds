@@ -1,0 +1,52 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=geos
+pkgver=3.11.0
+pkgrel=1slint
+url="https://libgeos.org/"
+source=("https://download.osgeo.org/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"geos (Geometry Engine)"
+"GEOS is a C++ port of the Java Topology Suite with OpenGIS spatial"
+"predicate functions, operators, and topology features."
+)
+
+build() {
+  local legacyDocName
+  local -a testBuildFlags
+
+  legacyDocName="${pkgname}.S""lackBuild"
+  testBuildFlags=()
+  if [ "${TESTBUILD:-NO}" = "NO" ]; then
+    testBuildFlags=(-DBUILD_TESTING=OFF)
+  fi
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  cmake -S . -B build \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_MANDIR=/usr/man \
+    "${testBuildFlags[@]}" \
+    -DCMAKE_BUILD_TYPE=Release || return 1
+
+  make -C build || return 1
+  if [ "${TESTBUILD:-NO}" = "YES" ]; then
+    make -C build test || return 1
+  fi
+  make -C build install DESTDIR="$PKG" || return 1
+
+  install -d "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a AUTHORS CODE_OF_CONDUCT.md COPYING DEVELOPER-NOTES.md NEWS.md \
+    README.md release.md "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
