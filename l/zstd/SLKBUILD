@@ -4,11 +4,8 @@
 
 pkgname=zstd
 pkgver=1.5.5
-pkgrel=1slint
-source=(
-  "https://github.com/facebook/zstd/releases/download/v${pkgver}/${pkgname}-${pkgver}.tar.gz"
-  "zstd.dont.link.pzstd.to.static.libzstd.a.diff.gz"
-)
+pkgrel=2slint
+source=("https://github.com/facebook/zstd/releases/download/v${pkgver}/${pkgname}-${pkgver}.tar.gz")
 url="https://github.com/facebook/zstd"
 license=("BSD")
 options=("nosrcpack")
@@ -31,10 +28,7 @@ build() {
 
   cd "$SRC/$pkgname-$pkgver" || return 1
 
-  zcat "$startdir/zstd.dont.link.pzstd.to.static.libzstd.a.diff.gz" | patch -p1 --verbose || return 1
-
   make -j "$jobs" CFLAGS="$SLKCFLAGS" || return 1
-  make -j "$jobs" CFLAGS="$SLKCFLAGS" -C contrib/pzstd || return 1
 
   make \
     -j "$jobs" \
@@ -43,8 +37,6 @@ build() {
     mandir=/usr/man \
     DESTDIR="$PKG" \
     install || return 1
-
-  install -Dm0755 contrib/pzstd/pzstd "$PKG/usr/bin/pzstd" || return 1
 
   rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.a || return 1
 
