@@ -5,7 +5,7 @@
 
 pkgname=libdrm
 pkgver=2.4.125
-pkgrel=1slint
+pkgrel=2slint
 url="https://dri.freedesktop.org/libdrm/"
 source=("https://dri.freedesktop.org/${pkgname}/${pkgname}-${pkgver}.tar.xz")
 docs=("CONTRIB*" "README*" "RELEAS*")
@@ -22,6 +22,7 @@ slackdesc=\
 
 build() {
   local legacyDocName
+  local -a mesonArgs
   local -a ninjaArgs
 
   legacyDocName="${pkgname}.S""lackBuild"
@@ -32,22 +33,31 @@ build() {
     ninjaArgs=(-j"$(( $(nproc) + 1 ))")
   fi
 
+  mesonArgs=(
+    --prefix=/usr
+    --libdir="lib${LIBDIRSUFFIX}"
+    --libexecdir=/usr/libexec
+    --bindir=/usr/bin
+    --sbindir=/usr/sbin
+    --includedir=/usr/include
+    --datadir=/usr/share
+    --mandir=/usr/man
+    --sysconfdir=/etc
+    --localstatedir=/var
+    --buildtype=release
+    -Dudev=true
+    -Dintel=enabled
+  )
+
+  if python3 -c 'import docutils' >/dev/null 2>&1; then
+    mesonArgs+=(-Dman-pages=enabled)
+  else
+    mesonArgs+=(-Dman-pages=disabled)
+  fi
+
   cd "$SRC/$pkgname-$pkgver" || return 1
 
-  meson setup meson-build \
-    --prefix=/usr \
-    --libdir="lib${LIBDIRSUFFIX}" \
-    --libexecdir=/usr/libexec \
-    --bindir=/usr/bin \
-    --sbindir=/usr/sbin \
-    --includedir=/usr/include \
-    --datadir=/usr/share \
-    --mandir=/usr/man \
-    --sysconfdir=/etc \
-    --localstatedir=/var \
-    --buildtype=release \
-    -Dudev=true \
-    -Dintel=enabled || return 1
+  meson setup meson-build "${mesonArgs[@]}" || return 1
 
   "${NINJA:=ninja}" -C meson-build "${ninjaArgs[@]}" || return 1
   DESTDIR="$PKG" "${NINJA:=ninja}" -C meson-build install || return 1
