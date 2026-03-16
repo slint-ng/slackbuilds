@@ -119,6 +119,12 @@ build() {
     configureArgs+=(--disable-vapoursynth)
   fi
 
+  if pkg-config --exists glslang && command -v spirv_compiler >/dev/null 2>&1; then
+    configureArgs+=(--enable-libglslang)
+  else
+    configureArgs+=(--disable-libglslang)
+  fi
+
   CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS" ./configure "${configureArgs[@]}" || return 1
 
   # numjobs is intentionally expanded as a make-style argument list.
