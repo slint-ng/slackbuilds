@@ -1,0 +1,12 @@
+--- a/mbswidth.c
++++ b/mbswidth.c
+@@ -56,7 +56,7 @@
+ #ifndef HAVE_DECL_WCWIDTH
+ #	warn "this configure-time declaration test was not run"
+ #endif
+ #if !HAVE_DECL_WCWIDTH
+-int wcwidth ();
++int wcwidth (wchar_t);
+ #endif
+ 
+ #ifndef wcwidth
