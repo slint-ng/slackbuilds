@@ -1,0 +1,84 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=gnustep-make
+pkgver=2.9.0
+pkgrel=2slint
+url="https://www.gnustep.org/"
+source=(
+  "https://ftp.gnustep.org/pub/gnustep/core/${pkgname}-${pkgver}.tar.gz"
+  "fhs-slackware"
+)
+options=("noautodotnew" "nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"gnustep-make (GNUstep build/setup/packaging tool)"
+"GNUstep-make provides the GNUstep build system plus filesystem and"
+"packaging setup for Objective-C development tools and libraries."
+)
+
+doinst() {
+  cat <<'EOF'
+config() {
+  NEW="$1"
+  OLD="$(dirname "$NEW")/$(basename "$NEW" .new)"
+  if [ ! -r "$OLD" ]; then
+    mv "$NEW" "$OLD"
+  elif [ "$(cat "$OLD" | md5sum)" = "$(cat "$NEW" | md5sum)" ]; then
+    rm "$NEW"
+  fi
+}
+
+config etc/GNUstep/GNUstep.conf.new
+EOF
+}
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  sed -e "s/_lib_/lib${LIBDIRSUFFIX}/g" \
+    "$SRC/fhs-slackware" > FilesystemLayouts/slackware || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --mandir=/usr/man \
+    --infodir=/usr/info \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --with-layout=slackware \
+    --with-config-file=/etc/GNUstep/GNUstep.conf \
+    --with-library-combo=gnu-gnu-gnu \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la
+  mv "$PKG/etc/GNUstep/GNUstep.conf" "$PKG/etc/GNUstep/GNUstep.conf.new" || return 1
+
+  sed -e "s,/lib/,/lib${LIBDIRSUFFIX}/,g" \
+    -e "s,/usr/local/share/info,/usr/local/info,g" \
+    -e "s,/usr/local/share/man,/usr/local/man,g" \
+    -e "s,/usr/share/info,/usr/info,g" \
+    -e "s,/usr/share/man,/usr/man,g" \
+    -i "$PKG/etc/GNUstep/GNUstep.conf.new" || return 1
+
+  if [ -d "$PKG/usr/share/man" ]; then
+    mv "$PKG/usr/share/man" "$PKG/usr/" || return 1
+    rmdir "$PKG/usr/share" 2>/dev/null || true
+  fi
+
+  install -d "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a ANNOUNCE COPYING ChangeLog ChangeLog.1 FAQ GNUstep-HOWTO INSTALL \
+    NEWS README README.Packaging RELEASENOTES \
+    "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
