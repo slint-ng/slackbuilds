@@ -10,7 +10,6 @@ source=(
 )
 url="https://github.com/mpv-player/mpv"
 license=("GPL2")
-makedepends=("meson" "ninja" "python3" "python-docutils")
 docs=("Copyright*" "LICENSE*" "README*" "RELEASE_NOTES*")
 options=("nosrcpack")
 
