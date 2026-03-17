@@ -1,0 +1,52 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libxml++3
+srcname=libxml++
+export srcname
+pkgver=3.2.3
+pkgrel=1slint
+url="https://libxmlplusplus.sourceforge.net/"
+license=("LGPL-2.1-or-later")
+source=("https://download.gnome.org/sources/libxml++/3.2/${srcname}-${pkgver}.tar.xz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libxml++3 (C++ wrapper for the libxml XML parser library)"
+""
+"libxml++ is a C++ API for the popular libxml2 XML parser, written in"
+"C. libxml2 is known for high performance and standards compliance,"
+"but its C API is difficult even for common tasks."
+""
+"Homepage: https://libxmlplusplus.sourceforge.net/"
+)
+
+build() {
+  local docsDir legacyDocName
+
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+
+  ./autogen.sh || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --docdir="$docsDir" \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make "$numjobs" || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+
+  mkdir -p "$docsDir" || return 1
+  cp -a AUTHORS COPYING NEWS README "$docsDir" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$docsDir/$legacyDocName" || return 1
+}
