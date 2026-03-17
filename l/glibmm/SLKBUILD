@@ -5,7 +5,7 @@
 
 pkgname=glibmm
 pkgver=2.64.5
-pkgrel=2slint
+pkgrel=3slint
 url="https://www.gtkmm.org/"
 license=("LGPL-2.1-or-later")
 source=("https://download.gnome.org/sources/glibmm/2.64/${pkgname}-${pkgver}.tar.xz")
@@ -42,8 +42,7 @@ build() {
     --mandir=/usr/man \
     --sysconfdir=/etc \
     --localstatedir=/var \
-    --buildtype=release \
-    . || return 1
+    --buildtype=release || return 1
 
   "${NINJA:=ninja}" -C meson-build "$numjobs" || return 1
   DESTDIR="$PKG" "${NINJA:=ninja}" -C meson-build install || return 1
