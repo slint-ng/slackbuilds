@@ -383,6 +383,41 @@ append_unique_values() {
   done
 }
 
+dependencyTokenMatchesPackage() {
+  local packageDir=$1
+  local packageName=$2
+  local dependencyToken=$3
+  local -a dependencyChoices=()
+  local dependencyChoice=""
+  local trimmedChoice=""
+  local providerPath=""
+
+  [[ -n "$dependencyToken" ]] || return 1
+  [[ -n "$packageName" ]] || return 1
+
+  if [[ "$dependencyToken" == "$packageName" ]]; then
+    return 0
+  fi
+
+  IFS='|' read -r -a dependencyChoices <<< "$dependencyToken"
+
+  for dependencyChoice in "${dependencyChoices[@]}"; do
+    trimmedChoice=$(trim_whitespace "$dependencyChoice")
+    [[ -n "$trimmedChoice" ]] || continue
+
+    if [[ "$trimmedChoice" == "$packageName" ]]; then
+      return 0
+    fi
+
+    providerPath=$(provider_for_package "$trimmedChoice" || true)
+    if [[ -n "$providerPath" && "$providerPath" == "$packageDir" ]]; then
+      return 0
+    fi
+  done
+
+  return 1
+}
+
 load_package_dependencies() {
   local packageDir=$1
   local packageName=$2
@@ -392,6 +427,8 @@ load_package_dependencies() {
   local -a depFileDependencies=()
   local -a slkbuildDepends=()
   local -a slkbuildMakeDepends=()
+  local -a filteredDependencies=()
+  local dependencyValue=""
   local hasDepends=false
   local hasMakeDepends=false
   # shellcheck disable=SC2178
@@ -423,10 +460,14 @@ load_package_dependencies() {
   append_unique_values dependencyRef "${slkbuildDepends[@]}"
   append_unique_values dependencyRef "${slkbuildMakeDepends[@]}"
 
-  # Self-hosting/bootstrap packages sometimes declare themselves in depends or
-  # makedepends to mean "use an installed copy if present". That should not
-  # create a repository dependency cycle.
-  remove_value dependencyRef "$packageName"
+  for dependencyValue in "${dependencyRef[@]}"; do
+    if dependencyTokenMatchesPackage "$packageDir" "$packageName" "$dependencyValue"; then
+      continue
+    fi
+    filteredDependencies+=("$dependencyValue")
+  done
+
+  dependencyRef=("${filteredDependencies[@]}")
 }
 
 remove_value() {
