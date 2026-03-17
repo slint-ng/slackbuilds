@@ -7,7 +7,7 @@ pkgname=libxml++3
 srcname=libxml++
 export srcname
 pkgver=3.2.3
-pkgrel=1slint
+pkgrel=2slint
 url="https://libxmlplusplus.sourceforge.net/"
 license=("LGPL-2.1-or-later")
 source=("https://download.gnome.org/sources/libxml++/3.2/${srcname}-${pkgver}.tar.xz")
@@ -40,7 +40,7 @@ build() {
     --docdir="$docsDir" \
     --build="$ARCH-slackware-linux" || return 1
 
-  make "$numjobs" || return 1
+  make -j "$numjobs" || return 1
   make install DESTDIR="$PKG" || return 1
 
   rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
