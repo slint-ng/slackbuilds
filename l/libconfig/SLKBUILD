@@ -1,0 +1,71 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libconfig
+pkgver=1.7.3
+pkgrel=1slint
+url="https://github.com/hyperrealm/libconfig"
+license=("LGPL-2.1-or-later")
+source=("https://github.com/hyperrealm/libconfig/archive/refs/tags/v${pkgver}.tar.gz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libconfig (Library for structured configuration files)"
+""
+"Libconfig is a simple library for processing structured"
+"configuration files. The format is more compact and readable than"
+"XML, and unlike XML it is type-aware, so applications do not need"
+"to parse string values manually."
+""
+"The library includes bindings for both the C and C++ languages."
+)
+
+build() {
+  local docsDir legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  autoreconf -if || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --infodir=/usr/info \
+    --docdir="$docsDir" \
+    --disable-static \
+    --disable-examples \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make "$numjobs" || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+  rm -f "$PKG/usr/info/dir" || return 1
+  rm -rf "$PKG/usr/share/doc" || return 1
+
+  mkdir -p "$docsDir" || return 1
+  cp -a AUTHORS COPYING.LIB INSTALL ChangeLog README TODO "$docsDir" || return 1
+
+  if [ "${DOC:-no}" = "yes" ]; then
+    make html pdf || return 1
+    cp -a doc/libconfig.html doc/libconfig.pdf "$docsDir" || return 1
+  fi
+
+  if [ "${EXAMPLES:-no}" = "yes" ]; then
+    mkdir -p "$docsDir/examples/c" "$docsDir/examples/c++" || return 1
+    cp -a examples/c/*.cfg examples/c/*.c "$docsDir/examples/c/" || return 1
+    cp -a examples/c++/*.cfg examples/c++/*.cpp "$docsDir/examples/c++/" || return 1
+  fi
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$docsDir/$legacyDocName" || return 1
+}
