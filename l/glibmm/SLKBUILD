@@ -1,0 +1,68 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=glibmm
+pkgver=2.64.5
+pkgrel=2slint
+url="https://www.gtkmm.org/"
+license=("LGPL-2.1-or-later")
+source=("https://download.gnome.org/sources/glibmm/2.64/${pkgname}-${pkgver}.tar.xz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"glibmm (C++ bindings for glib)"
+""
+"glibmm is a set of C++ bindings for glib, including cross-platform"
+"APIs such as a std::string-like UTF8 string class, string utility"
+"methods, such as a text encoding converter API, file access,"
+"and threads."
+""
+"Homepage: https://www.gtkmm.org/"
+)
+
+build() {
+  local docsDir legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  meson setup meson-build \
+    --prefix=/usr \
+    --libdir="lib${LIBDIRSUFFIX}" \
+    --libexecdir=/usr/libexec \
+    --bindir=/usr/bin \
+    --sbindir=/usr/sbin \
+    --includedir=/usr/include \
+    --datadir=/usr/share \
+    --mandir=/usr/man \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release \
+    . || return 1
+
+  "${NINJA:=ninja}" -C meson-build "$numjobs" || return 1
+  DESTDIR="$PKG" "${NINJA:=ninja}" -C meson-build install || return 1
+
+  rm -rf "$PKG/usr/share/doc" || return 1
+
+  mkdir -p "$docsDir" || return 1
+  cp -a AUTHORS COPYING* README* "$docsDir" || return 1
+
+  if [ -r ChangeLog ]; then
+    head -n 1000 ChangeLog > "$docsDir/ChangeLog" || return 1
+    touch -r ChangeLog "$docsDir/ChangeLog" || return 1
+  fi
+
+  if [ -r NEWS ]; then
+    head -n 1000 NEWS > "$docsDir/NEWS" || return 1
+    touch -r NEWS "$docsDir/NEWS" || return 1
+  fi
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$docsDir/$legacyDocName" || return 1
+}
