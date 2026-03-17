@@ -7,7 +7,7 @@ pkgname=OpenAL
 srcname=openal-soft
 export srcname
 pkgver=1.21.1
-pkgrel=1slint
+pkgrel=2slint
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|
@@ -26,6 +26,7 @@ build() {
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_VERBOSE_MAKEFILE=ON \
     -DALSOFT_EXAMPLES=OFF \
+    -DALSOFT_NO_CONFIG_UTIL=ON \
     -DLIB_SUFFIX="${LIBDIRSUFFIX}" \
     -Wno-dev || return 1
 
