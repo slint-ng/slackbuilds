@@ -1,0 +1,83 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libffado
+pkgver=2.4.4
+pkgrel=2slint
+url="https://www.ffado.org/"
+license=("GPL-2.0-or-later")
+source=("https://www.ffado.org/files/${pkgname}-${pkgver}.tgz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libffado (FireWire audio interface drivers)"
+""
+"The FFADO project aims to provide a free driver implementation for"
+"FireWire based professional audio interfaces. The focus is on"
+"audio and music production rather than consumer audio features."
+)
+
+doinst() {
+  if [ -x /usr/bin/update-desktop-database ]; then
+    /usr/bin/update-desktop-database usr/share/applications >/dev/null 2>&1
+  fi
+}
+
+build() {
+  local legacyDocName pythonVersion target
+
+  legacyDocName="${pkgname}.S""lackBuild"
+  pythonVersion=$(python3 -c 'import sys; print(f"{sys.version_info[0]}.{sys.version_info[1]}")') || return 1
+
+  case "$ARCH" in
+    i[3-5]86)
+      target="i386"
+      ;;
+    i686)
+      target="i686"
+      ;;
+    x86_64)
+      target="x86_64"
+      ;;
+    *)
+      target="$ARCH"
+      ;;
+  esac
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  sed -i 's/hi64-apps-ffado/ffado-mixer/g' \
+    support/xdg/ffado.org-ffadomixer.desktop || return 1
+  sed -i 's/ffado.org-ffadomixer.desktop/ffado-mixer.desktop/g' \
+    support/xdg/ffado-mixer.appdata.xml || return 1
+
+  CXXFLAGS="$SLKCFLAGS -std=gnu++11 -Wno-deprecated-declarations" \
+  scons \
+    PREFIX=/usr \
+    LIBDIR="/usr/lib${LIBDIRSUFFIX}" \
+    DIST_TARGET="$target" \
+    PYTHON_INTERPRETER=/usr/bin/python3 \
+    PYPKGDIR="/usr/lib${LIBDIRSUFFIX}/python${pythonVersion}/site-packages" \
+    CUSTOM_ENV=True \
+    DEBUG=False \
+    UDEVDIR=/lib/udev/rules.d || return 1
+
+  scons \
+    DESTDIR="$PKG" \
+    WILL_DEAL_WITH_XDG_MYSELF=True \
+    install || return 1
+
+  mkdir -p "$PKG/usr/share/applications" "$PKG/usr/share/pixmaps" || return 1
+  install -Dm0644 support/xdg/ffado.org-ffadomixer.desktop \
+    "$PKG/usr/share/applications/ffado-mixer.desktop" || return 1
+  install -Dm0644 support/xdg/hi64-apps-ffado.png \
+    "$PKG/usr/share/pixmaps/ffado-mixer.png" || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a AUTHORS ChangeLog LICENSE* README "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
