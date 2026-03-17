@@ -1,0 +1,17 @@
+--- a/support/tools/ffado-diag.in
++++ b/support/tools/ffado-diag.in
+@@ -83,6 +83,12 @@
+ for command in ("gcc", "g++", "pyuic4", "pyuic5"):
+     path = which (command)
+     show_pair (command, path)
+-    if path:
+-        version = stdout (path, "--version")
++    if path:
++        try:
++            version = stdout (path, "--version")
++        except subprocess.CalledProcessError:
++            version = None
++        if version is None:
++            show_pair ('', "version probe failed")
++            continue
+         show_pair ('', version [:version.find ("\n")])

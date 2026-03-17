@@ -5,10 +5,13 @@
 
 pkgname=libffado
 pkgver=2.4.4
-pkgrel=2slint
+pkgrel=3slint
 url="https://www.ffado.org/"
 license=("GPL-2.0-or-later")
-source=("https://www.ffado.org/files/${pkgname}-${pkgver}.tgz")
+source=(
+  "https://www.ffado.org/files/${pkgname}-${pkgver}.tgz"
+  "ffado-diag-ignore-broken-pyuic.patch"
+)
 options=("nosrcpack")
 
 slackdesc=(
@@ -48,6 +51,8 @@ build() {
   esac
 
   cd "$SRC/$pkgname-$pkgver" || return 1
+
+  patch -p1 < "$SRC/../ffado-diag-ignore-broken-pyuic.patch" || return 1
 
   sed -i 's/hi64-apps-ffado/ffado-mixer/g' \
     support/xdg/ffado.org-ffadomixer.desktop || return 1
