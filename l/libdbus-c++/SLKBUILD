@@ -1,0 +1,55 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libdbus-c++
+pkgver=20160924_e3455d2
+pkgrel=2slint
+url="https://dbus-cplusplus.sourceforge.net/"
+license=("LGPL-2.1-or-later")
+source=("https://ponce.cc/slackware/sources/repo/${pkgname}-${pkgver}.tar.xz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libdbus-c++ (C++ API for D-Bus)"
+""
+"DBus-c++ attempts to provide a C++ API for D-Bus. The library has"
+"glib and Ecore mainloop integration. It also offers an optional"
+"main loop of its own."
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./bootstrap || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir=/usr/lib"${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --disable-static \
+    --disable-ecore \
+    --disable-examples \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make -j "$numjobs" || return 1
+  make install-strip DESTDIR="$PKG" || return 1
+
+  rm -f \
+    "$PKG/lib${LIBDIRSUFFIX}"/*.la \
+    "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a AUTHORS ChangeLog COPYING INSTALL NEWS README TODO \
+    "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
