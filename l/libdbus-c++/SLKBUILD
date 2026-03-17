@@ -5,10 +5,13 @@
 
 pkgname=libdbus-c++
 pkgver=20160924_e3455d2
-pkgrel=2slint
+pkgrel=3slint
 url="https://dbus-cplusplus.sourceforge.net/"
 license=("LGPL-2.1-or-later")
-source=("https://ponce.cc/slackware/sources/repo/${pkgname}-${pkgver}.tar.xz")
+source=(
+  "https://ponce.cc/slackware/sources/repo/${pkgname}-${pkgver}.tar.xz"
+  "pipe-write-pointer.patch"
+)
 options=("nosrcpack")
 
 slackdesc=(
@@ -26,6 +29,8 @@ build() {
   legacyDocName="${pkgname}.S""lackBuild"
 
   cd "$SRC/$pkgname-$pkgver" || return 1
+
+  patch -p1 < "$SRC/../pipe-write-pointer.patch" || return 1
 
   ./bootstrap || return 1
 
