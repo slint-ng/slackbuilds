@@ -1,0 +1,59 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=wayland
+pkgver=1.23.1
+pkgrel=3slint
+url="https://wayland.freedesktop.org/"
+license=("MIT")
+source=(
+  "https://gitlab.freedesktop.org/wayland/wayland/-/releases/${pkgver}/downloads/${pkgname}-${pkgver}.tar.xz"
+  "xkb_wayland.sh"
+)
+options=("nosrcpack")
+dotnew=()
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"wayland (Wayland display server)"
+""
+"Wayland is protocol for a compositor to talk to its clients as well"
+"as a library implementation of the protocol. The compositor can be"
+"a standalone display server running on Linux kernel modesetting and"
+"evdev input devices, an X application, or a wayland client itself."
+"The clients can be traditional applications, X servers (rootless or"
+"fullscreen) or other display servers."
+)
+
+build() {
+  local docsDir
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  meson setup buildDir \
+    --prefix=/usr \
+    --libdir="lib${LIBDIRSUFFIX}" \
+    --libexecdir=/usr/libexec \
+    --bindir=/usr/bin \
+    --sbindir=/usr/sbin \
+    --includedir=/usr/include \
+    --datadir=/usr/share \
+    --mandir=/usr/man \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release \
+    -Ddocumentation=false || return 1
+
+  ninja -j "$numjobs" -C buildDir || return 1
+  DESTDIR="$PKG" ninja -C buildDir install || return 1
+
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+  mkdir -p "$docsDir" || return 1
+  cp -a CONTRIBUTING* COPYING* README* TODO* "$docsDir" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docsDir/SLKBUILD" || return 1
+
+  # Export converted X keyboard settings for Wayland sessions in Slint.
+  install -Dm0755 "$SRC/../xkb_wayland.sh" "$PKG/etc/profile.d/xkb_wayland.sh" || return 1
+}
