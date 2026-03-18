@@ -5,7 +5,7 @@
 
 pkgname=snappy
 pkgver=1.1.8
-pkgrel=2slint
+pkgrel=3slint
 source=(
   "https://github.com/google/snappy/archive/${pkgver}/${pkgname}-${pkgver}.tar.gz"
   "73.patch"
@@ -38,7 +38,8 @@ build() {
     -DCMAKE_CXX_FLAGS="$SLKCFLAGS" \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
-    -DBUILD_SHARED_LIBS=ON || return 1
+    -DBUILD_SHARED_LIBS=ON \
+    -DSNAPPY_BUILD_TESTS=OFF || return 1
 
   cmake --build build || return 1
   DESTDIR="$PKG" cmake --install build || return 1
