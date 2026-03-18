@@ -1,36 +1,34 @@
-# Packager: Didier Spaier didieratslintdotfr
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
 
 pkgname=gst-plugins-good
-pkgver=1.20.4
-pkgrel=3slint
-source=("$pkgname-$pkgver.tar.xz")
+pkgver=1.28.1
+pkgrel=1slint
 url="https://gstreamer.freedesktop.org/"
-makedepends=('meson' 'ninja')
-docs=("AUTHORS*" "COPYING*" "ChangeLog" "NEWS*" "README*" "RELEASE*")
+license=("LGPL-2.1-or-later")
+source=("https://gstreamer.freedesktop.org/src/gst-plugins-good/${pkgname}-${pkgver}.tar.xz")
+options=("nosrcpack")
+docs=("AUTHORS*" "COPYING*" "NEWS*" "README*" "RELEASE*")
 
-slackdesc=\
-(
+slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
-"gst-plugins-good: gst-plugins-good (good set of GStreamer plugins)"
-"gst-plugins-good:"
-"gst-plugins-good: GStreamer Good Plug-ins are high-quality plug-ins."
-"gst-plugins-good: Correct functionality and a good license."
-"gst-plugins-good: LGPL for plug-in code; LGPL-compatible for libs."
-"gst-plugins-good:"
-"gst-plugins-good:"
-"gst-plugins-good:"
-"gst-plugins-good:"
-"gst-plugins-good:"
+"gst-plugins-good (good set of GStreamer plugins)"
+""
+"GStreamer Good Plug-ins are a set of high-quality plug-ins."
+"They provide correct functionality, broad usefulness, and"
+"licensing suitable for general distribution."
 )
 
 build() {
-  cd "$SRC/$pkgname-$pkgver" || exit 1
-  export CFLAGS="$SLKCFLAGS"
-  export CXXFLAGS="$SLKCFLAGS"
+  local docsDir
 
-  meson setup \
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  meson setup buildDir \
     --prefix=/usr \
-    --libdir=lib${LIBDIRSUFFIX} \
+    --libdir="lib${LIBDIRSUFFIX}" \
     --libexecdir=/usr/libexec \
     --bindir=/usr/bin \
     --sbindir=/usr/sbin \
@@ -40,8 +38,11 @@ build() {
     --sysconfdir=/etc \
     --localstatedir=/var \
     --buildtype=release \
-    meson-build
+    -Dbenchmarks=disabled \
+    -Dexamples=disabled || return 1
 
-  meson compile -C meson-build -j $numjobs
-  DESTDIR="$PKG" meson install -C meson-build
+  meson compile -C buildDir -j "$numjobs" || return 1
+  DESTDIR="$PKG" meson install -C buildDir || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" "$docsDir/SLKBUILD" || return 1
 }

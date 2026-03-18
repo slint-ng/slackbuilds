@@ -1,23 +1,24 @@
 #!/bin/bash
 # shellcheck shell=bash disable=SC2034,SC2154
 
-pkgname=gstreamer
+pkgname=gst-plugins-libav
+srcname=gst-libav
+export srcname
 pkgver=1.28.1
 pkgrel=1slint
 url="https://gstreamer.freedesktop.org/"
 license=("LGPL-2.1-or-later")
-source=("https://gstreamer.freedesktop.org/src/gstreamer/${pkgname}-${pkgver}.tar.xz")
+source=("https://gstreamer.freedesktop.org/src/gst-libav/${srcname}-${pkgver}.tar.xz")
 options=("nosrcpack")
 docs=("AUTHORS*" "COPYING*" "NEWS*" "README*" "RELEASE*")
 
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
-"gstreamer (streaming multimedia framework)"
+"gst-plugins-libav (GStreamer FFmpeg/Libav plugin)"
 ""
-"GStreamer lets you build graphs of media components."
-"From simple audio playback to complex audio/video processing,"
-"applications benefit from codec advances and filter technology."
-"Developers add new codecs and filters via plug-ins."
+"GStreamer Libav contains one plug-in with many elements using"
+"the FFmpeg/Libav library code."
+"It provides many popular audio and video decoders and encoders."
 )
 
 build() {
@@ -25,7 +26,7 @@ build() {
 
   docsDir="$PKG/usr/doc/$pkgname-$pkgver"
 
-  cd "$SRC/$pkgname-$pkgver" || return 1
+  cd "$SRC/$srcname-$pkgver" || return 1
 
   meson setup buildDir \
     --prefix=/usr \
@@ -38,11 +39,7 @@ build() {
     --mandir=/usr/man \
     --sysconfdir=/etc \
     --localstatedir=/var \
-    --buildtype=release \
-    -Dbenchmarks=disabled \
-    -Dexamples=disabled \
-    -Dglib_debug=disabled \
-    -Dcoretracers=enabled || return 1
+    --buildtype=release || return 1
 
   meson compile -C buildDir -j "$numjobs" || return 1
   DESTDIR="$PKG" meson install -C buildDir || return 1

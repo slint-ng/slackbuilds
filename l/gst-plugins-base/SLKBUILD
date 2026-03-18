@@ -1,36 +1,34 @@
-# Packager: Didier Spaier didieratslintdotfr
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
 
 pkgname=gst-plugins-base
-pkgver=1.20.4
-pkgrel=2slint
-source=("$pkgname-$pkgver.tar.xz")
+pkgver=1.28.1
+pkgrel=1slint
 url="https://gstreamer.freedesktop.org/"
-makedepends=('meson' 'ninja')
-docs=("AUTHORS*" "COPYING*" "ChangeLog" "NEWS*" "README*" "RELEASE*")
+license=("LGPL-2.1-or-later")
+source=("https://gstreamer.freedesktop.org/src/gst-plugins-base/${pkgname}-${pkgver}.tar.xz")
+options=("nosrcpack")
+docs=("AUTHORS*" "COPYING*" "NEWS*" "README*" "RELEASE*")
 
-slackdesc=\
-(
+slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
-"gst-plugins-base: gst-plugins-base (base set of GStreamer plugins)"
-"gst-plugins-base:"
-"gst-plugins-base: Core GStreamer plug-ins and elements."
-"gst-plugins-base: Covers most element types you would write."
-"gst-plugins-base: Includes helper libraries and base classes."
-"gst-plugins-base: Ships many video/audio decoders, encoders, filters."
-"gst-plugins-base:"
-"gst-plugins-base:"
-"gst-plugins-base:"
-"gst-plugins-base:"
+"gst-plugins-base (base set of GStreamer plugins)"
+""
+"Core GStreamer plug-ins and helper libraries."
+"This package provides the essential audio and video elements,"
+"base classes, and libraries used by higher-level plug-ins."
 )
 
 build() {
-  cd "$SRC/$pkgname-$pkgver" || exit 1
-  export CFLAGS="$SLKCFLAGS"
-  export CXXFLAGS="$SLKCFLAGS"
+  local docsDir
 
-  meson setup \
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  meson setup buildDir \
     --prefix=/usr \
-    --libdir=lib${LIBDIRSUFFIX} \
+    --libdir="lib${LIBDIRSUFFIX}" \
     --libexecdir=/usr/libexec \
     --bindir=/usr/bin \
     --sbindir=/usr/sbin \
@@ -40,12 +38,11 @@ build() {
     --sysconfdir=/etc \
     --localstatedir=/var \
     --buildtype=release \
-    -Dexamples=disabled \
-    meson-build
+    -Dbenchmarks=disabled \
+    -Dexamples=disabled || return 1
 
-  if ! meson compile -C meson-build -j $numjobs; then
-    cp -a gst-libs/gst/gl/xdg-shell-client-protocol.h .
-    meson compile -C meson-build -j $numjobs
-  fi
-  DESTDIR="$PKG" meson install -C meson-build
+  meson compile -C buildDir -j "$numjobs" || return 1
+  DESTDIR="$PKG" meson install -C buildDir || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" "$docsDir/SLKBUILD" || return 1
 }
