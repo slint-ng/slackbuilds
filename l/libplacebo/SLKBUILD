@@ -1,0 +1,58 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libplacebo
+pkgver=6.338.2
+pkgrel=1slint
+url="https://code.videolan.org/videolan/libplacebo"
+license=("LGPL-2.1-or-later")
+source=("https://github.com/haasn/libplacebo/archive/refs/tags/v${pkgver}.tar.gz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libplacebo (GPU-accelerated video processing library)"
+""
+"libplacebo is, in a nutshell, the core rendering algorithms and ideas"
+"of mpv rewritten as an independent library. It contains a large"
+"assortment of video processing shaders, focusing on both quality and"
+"performance."
+)
+
+build() {
+  local docsDir
+  local docPath
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  meson setup meson-build \
+    --prefix=/usr \
+    --libdir="lib${LIBDIRSUFFIX}" \
+    --libexecdir=/usr/libexec \
+    --bindir=/usr/bin \
+    --sbindir=/usr/sbin \
+    --includedir=/usr/include \
+    --datadir=/usr/share \
+    --mandir=/usr/man \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release \
+    -Ddemos=false \
+    -Dglslang=enabled \
+    -Ddovi=disabled \
+    -Dlibdovi=disabled \
+    -Dd3d11=disabled || return 1
+
+  ninja -j "$numjobs" -C meson-build || return 1
+  DESTDIR="$PKG" ninja -C meson-build install || return 1
+
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+  mkdir -p "$docsDir" || return 1
+  for docPath in LICENSE* README*; do
+    [ -e "$docPath" ] || continue
+    cp -a "$docPath" "$docsDir" || return 1
+  done
+  install -Dm0644 "$SRC/../SLKBUILD" "$docsDir/SLKBUILD" || return 1
+}
