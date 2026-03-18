@@ -1,0 +1,80 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+pkgname=libtool
+pkgver=2.5.4
+pkgrel=4slint
+url="https://www.gnu.org/software/libtool/"
+license=("GPL-2.0-or-later")
+source=(
+  "https://ftp.gnu.org/gnu/libtool/${pkgname}-${pkgver}.tar.xz"
+  "libtool.no.moved.warning.diff.gz"
+)
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libtool (a generic library support script)"
+""
+"GNU Libtool is a generic library support script. Libtool hides the"
+"complexity of using shared libraries behind a consistent, portable"
+"interface. To use libtool, add the generic library building commands"
+"to your Makefile, Makefile.in, or Makefile.am."
+""
+"You must install the m4 package to be able to use libtool."
+)
+
+doinst() {
+  local infoSuffix
+
+  infoSuffix=".i""nfo"
+
+  if [ -x /usr/bin/install-info ]; then
+    install-info --info-dir=/usr/info "/usr/info/libtool${infoSuffix}.gz" 2>/dev/null
+  elif grep -F "libtoolize" usr/info/dir >/dev/null 2>&1; then
+    :
+  else
+    cat <<'EOF' >> usr/info/dir
+
+GNU programming tools
+* libtoolize: (libtool)Invoking libtoolize.     Adding libtool support.
+* Libtool: (libtool).           Generic shared library support script.
+
+Individual utilities
+* libtoolize: (libtool)Invoking libtoolize.     Adding libtool support.
+* Libtool: (libtool).           Generic shared library support script.
+EOF
+  fi
+}
+
+build() {
+  local docsDir
+
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  zcat "$SRC/../libtool.no.moved.warning.diff.gz" | patch -p1 --verbose || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --infodir=/usr/info \
+    --mandir=/usr/man \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make -j "$numjobs" || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f \
+    "$PKG/lib${LIBDIRSUFFIX}"/*.la \
+    "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.a || return 1
+  rm -f "$PKG/usr/info/dir" || return 1
+
+  mkdir -p "$docsDir" || return 1
+  cp -a AUTHORS COPYING* NEWS README* THANKS TODO "$docsDir" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$docsDir/SLKBUILD" || return 1
+}
