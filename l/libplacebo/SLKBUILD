@@ -5,10 +5,14 @@
 
 pkgname=libplacebo
 pkgver=6.338.2
-pkgrel=1slint
+pkgrel=2slint
 url="https://code.videolan.org/videolan/libplacebo"
 license=("LGPL-2.1-or-later")
-source=("https://github.com/haasn/libplacebo/archive/refs/tags/v${pkgver}.tar.gz")
+source=(
+  "https://github.com/haasn/libplacebo/archive/refs/tags/v${pkgver}.tar.gz"
+  "https://github.com/pallets/jinja/archive/refs/tags/3.1.6.tar.gz"
+  "https://github.com/pallets/markupsafe/archive/refs/tags/3.0.3.tar.gz"
+)
 options=("nosrcpack")
 
 slackdesc=(
@@ -26,6 +30,11 @@ build() {
   local docPath
 
   cd "$SRC/$pkgname-$pkgver" || return 1
+
+  rm -rf 3rdparty/jinja 3rdparty/markupsafe || return 1
+  mkdir -p 3rdparty || return 1
+  cp -a "$SRC/jinja-3.1.6" 3rdparty/jinja || return 1
+  cp -a "$SRC/markupsafe-3.0.3" 3rdparty/markupsafe || return 1
 
   meson setup meson-build \
     --prefix=/usr \
