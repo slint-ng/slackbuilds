@@ -5,7 +5,7 @@
 
 pkgname=pipewire
 pkgver=0.3.60
-pkgrel=1slint
+pkgrel=2slint
 url="https://pipewire.org/"
 license=("MIT" "LGPL-2.1-or-later")
 source=(
@@ -44,11 +44,16 @@ EOF
 build() {
   local docsDir
   local docPath
+  local manArg="-Dman=disabled"
 
   cd "$SRC/$pkgname-$pkgver" || return 1
 
   rm -rf subprojects/media-session || return 1
   cp -a "$SRC/media-session-0.4.1" subprojects/media-session || return 1
+
+  if python3 -c 'import docutils' >/dev/null 2>&1; then
+    manArg="-Dman=enabled"
+  fi
 
   meson setup meson-build \
     --prefix=/usr \
@@ -62,6 +67,7 @@ build() {
     --sysconfdir=/etc \
     --localstatedir=/var \
     --buildtype=release \
+    "$manArg" \
     -Dffmpeg=enabled \
     -Dvulkan=enabled \
     -Dsession-managers=media-session || return 1
