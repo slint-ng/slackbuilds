@@ -1,0 +1,60 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=vamp-plugin-sdk
+pkgver=2.9.0
+pkgrel=1slint
+url="https://www.vamp-plugins.org/"
+license=("WTFPL")
+source=("https://code.soundsoftware.ac.uk/attachments/download/2588/${pkgname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+dotnew=()
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"vamp-plugin-sdk (audio analysis API)"
+""
+"Vamp is an API for C and C++ plugins that process sampled audio data"
+"to produce descriptive output such as measurements and semantic"
+"observations."
+)
+
+build() {
+  local docsDir
+
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  # Fix libdir on x86_64 in the build system and generated pc files.
+  sed -i "s,\\<lib\\>,&$LIBDIRSUFFIX,g" Makefile.in pkgconfig/*.pc.in || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --enable-programs \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make -j "$numjobs" || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.a || return 1
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+
+  mkdir -p "$PKG/etc/profile.d" || return 1
+  cat <<EOF > "$PKG/etc/profile.d/vamp.csh"
+#!/bin/csh
+setenv VAMP_PATH /usr/lib${LIBDIRSUFFIX}/vamp
+EOF
+  cat <<EOF > "$PKG/etc/profile.d/vamp.sh"
+#!/bin/sh
+export VAMP_PATH=/usr/lib${LIBDIRSUFFIX}/vamp
+EOF
+  chmod 0755 "$PKG"/etc/profile.d/* || return 1
+
+  mkdir -p "$docsDir" || return 1
+  cp -a CHANGELOG COPYING INSTALL README* "$docsDir" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docsDir/SLKBUILD" || return 1
+}
