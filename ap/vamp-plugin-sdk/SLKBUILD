@@ -5,10 +5,12 @@
 
 pkgname=vamp-plugin-sdk
 pkgver=2.9.0
-pkgrel=1slint
+pkgrel=2slint
+srcname=vamp-plugin-sdk-vamp-plugin-sdk-v2.9
+export srcname
 url="https://www.vamp-plugins.org/"
 license=("WTFPL")
-source=("https://code.soundsoftware.ac.uk/attachments/download/2588/${pkgname}-${pkgver}.tar.gz")
+source=("https://github.com/vamp-plugins/vamp-plugin-sdk/archive/refs/tags/vamp-plugin-sdk-v2.9.tar.gz")
 options=("nosrcpack")
 dotnew=()
 
@@ -26,7 +28,7 @@ build() {
 
   docsDir="$PKG/usr/doc/$pkgname-$pkgver"
 
-  cd "$SRC/$pkgname-$pkgver" || return 1
+  cd "$SRC/$srcname" || return 1
 
   # Fix libdir on x86_64 in the build system and generated pc files.
   sed -i "s,\\<lib\\>,&$LIBDIRSUFFIX,g" Makefile.in pkgconfig/*.pc.in || return 1
