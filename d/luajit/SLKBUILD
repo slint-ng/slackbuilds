@@ -1,0 +1,62 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=luajit
+pkgver=2.1.1765228720
+pkgrel=1slint
+url="https://luajit.org/"
+license=("MIT")
+source=("https://mirrors.slackware.com/slackware/slackware-current/source/d/luajit/${pkgname}-${pkgver}.tar.lz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"luajit (Just-In-Time Lua compiler)"
+""
+"LuaJIT is a Just-In-Time (JIT) compiler for the Lua programming"
+"language."
+)
+
+build() {
+  local docsDir
+  local docPath
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  # Enable Lua 5.2 features.
+  sed -i -e '/-DLUAJIT_ENABLE_LUA52COMPAT/s/^#//' src/Makefile || return 1
+
+  # Preserve timestamps on installed files.
+  sed -i -e '/install -m/s/-m/-p -m/' Makefile || return 1
+
+  CFLAGS="$SLKCFLAGS" \
+  CXXFLAGS="$SLKCFLAGS" \
+  make -j "$numjobs" \
+    Q= \
+    PREFIX=/usr \
+    MULTILIB="lib${LIBDIRSUFFIX}" \
+    INSTALL_LIB="/usr/lib${LIBDIRSUFFIX}" \
+    INSTALL_MAN=/usr/man/man1 || return 1
+
+  CFLAGS="$SLKCFLAGS" \
+  CXXFLAGS="$SLKCFLAGS" \
+  make install \
+    Q= \
+    DESTDIR="$PKG" \
+    PREFIX=/usr \
+    MULTILIB="lib${LIBDIRSUFFIX}" \
+    INSTALL_LIB="$PKG/usr/lib${LIBDIRSUFFIX}" \
+    INSTALL_MAN="$PKG/usr/man/man1" || return 1
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/libluajit*.a || return 1
+
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+  mkdir -p "$docsDir" || return 1
+  for docPath in COPYRIGHT* README*; do
+    [ -e "$docPath" ] || continue
+    cp -a "$docPath" "$docsDir" || return 1
+  done
+  install -Dm0644 "$SRC/../SLKBUILD" "$docsDir/SLKBUILD" || return 1
+}

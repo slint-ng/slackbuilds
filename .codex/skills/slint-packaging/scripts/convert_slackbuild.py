@@ -10,6 +10,7 @@ TARBALL_SUFFIXES = (
     '.tar.gz',
     '.tar.bz2',
     '.tar.xz',
+    '.tar.lz',
     '.tar.zst',
     '.tgz',
     '.tbz',
