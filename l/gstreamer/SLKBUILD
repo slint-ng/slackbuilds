@@ -3,7 +3,7 @@
 
 pkgname=gstreamer
 pkgver=1.28.1
-pkgrel=1slint
+pkgrel=2slint
 url="https://gstreamer.freedesktop.org/"
 license=("LGPL-2.1-or-later")
 source=("https://gstreamer.freedesktop.org/src/gstreamer/${pkgname}-${pkgver}.tar.xz")
@@ -40,7 +40,9 @@ build() {
     --localstatedir=/var \
     --buildtype=release \
     -Dbenchmarks=disabled \
+    -Ddoc=disabled \
     -Dexamples=disabled \
+    -Dtests=disabled \
     -Dglib_debug=disabled \
     -Dcoretracers=enabled || return 1
 

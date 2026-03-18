@@ -5,7 +5,7 @@ pkgname=gst-plugins-bad-free
 srcname=gst-plugins-bad
 export srcname
 pkgver=1.28.1
-pkgrel=1slint
+pkgrel=2slint
 url="https://gstreamer.freedesktop.org/"
 license=("LGPL-2.1-or-later")
 source=("https://gstreamer.freedesktop.org/src/gst-plugins-bad/${srcname}-${pkgver}.tar.xz")
@@ -40,9 +40,10 @@ build() {
     --sysconfdir=/etc \
     --localstatedir=/var \
     --buildtype=release \
-    -Dbenchmarks=disabled \
+    -Ddoc=disabled \
     -Dexamples=disabled \
     -Dgpl=disabled \
+    -Dtests=disabled \
     -Ddvbsuboverlay=disabled \
     -Ddvdspu=disabled \
     -Dsiren=disabled || return 1

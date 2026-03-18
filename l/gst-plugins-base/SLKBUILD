@@ -3,7 +3,7 @@
 
 pkgname=gst-plugins-base
 pkgver=1.28.1
-pkgrel=1slint
+pkgrel=2slint
 url="https://gstreamer.freedesktop.org/"
 license=("LGPL-2.1-or-later")
 source=("https://gstreamer.freedesktop.org/src/gst-plugins-base/${pkgname}-${pkgver}.tar.xz")
@@ -38,8 +38,9 @@ build() {
     --sysconfdir=/etc \
     --localstatedir=/var \
     --buildtype=release \
-    -Dbenchmarks=disabled \
-    -Dexamples=disabled || return 1
+    -Ddoc=disabled \
+    -Dexamples=disabled \
+    -Dtests=disabled || return 1
 
   meson compile -C buildDir -j "$numjobs" || return 1
   DESTDIR="$PKG" meson install -C buildDir || return 1

@@ -5,7 +5,7 @@ pkgname=gst-plugins-libav
 srcname=gst-libav
 export srcname
 pkgver=1.28.1
-pkgrel=1slint
+pkgrel=2slint
 url="https://gstreamer.freedesktop.org/"
 license=("LGPL-2.1-or-later")
 source=("https://gstreamer.freedesktop.org/src/gst-libav/${srcname}-${pkgver}.tar.xz")
@@ -39,7 +39,9 @@ build() {
     --mandir=/usr/man \
     --sysconfdir=/etc \
     --localstatedir=/var \
-    --buildtype=release || return 1
+    --buildtype=release \
+    -Ddoc=disabled \
+    -Dtests=disabled || return 1
 
   meson compile -C buildDir -j "$numjobs" || return 1
   DESTDIR="$PKG" meson install -C buildDir || return 1
