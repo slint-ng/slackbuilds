@@ -5,7 +5,7 @@
 
 pkgname=wayland
 pkgver=1.23.1
-pkgrel=3slint
+pkgrel=4slint
 url="https://wayland.freedesktop.org/"
 license=("MIT")
 source=(
@@ -29,6 +29,7 @@ slackdesc=(
 
 build() {
   local docsDir
+  local docPath
 
   cd "$SRC/$pkgname-$pkgver" || return 1
 
@@ -51,7 +52,10 @@ build() {
 
   docsDir="$PKG/usr/doc/$pkgname-$pkgver"
   mkdir -p "$docsDir" || return 1
-  cp -a CONTRIBUTING* COPYING* README* TODO* "$docsDir" || return 1
+  for docPath in CONTRIBUTING* COPYING* README* TODO*; do
+    [ -e "$docPath" ] || continue
+    cp -a "$docPath" "$docsDir" || return 1
+  done
   install -Dm0644 "$SRC/../SLKBUILD" "$docsDir/SLKBUILD" || return 1
 
   # Export converted X keyboard settings for Wayland sessions in Slint.
