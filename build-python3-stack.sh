@@ -121,6 +121,7 @@ packageList=(
   "l/python3-pyparsing"
   "l/python3-dbus"
   "l/python3-lxml"
+  "x/python-glad2"
   "d/nodejs"
   "d/pnpm"
   "l/yt-dlp-ejs"

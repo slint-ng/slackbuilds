@@ -1,0 +1,40 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python-glad2
+pkgver=2.0.8
+pkgrel=1slint
+srcname=glad2
+export srcname
+url="https://pypi.org/project/glad2/"
+license=("MIT")
+source=("https://files.pythonhosted.org/packages/source/g/glad2/glad2-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"python-glad2 (Vulkan/GL/GLES/EGL/GLX/WGL Loader-Generator)"
+""
+"Glad uses the official Khronos XML specs to generate a"
+"GL/GLES/EGL/GLX/WGL loader made for your needs."
+)
+
+build() {
+  local docsDir
+  local docPath
+
+  cd "$SRC/$srcname-$pkgver" || return 1
+
+  python3 -m build --wheel --no-isolation || return 1
+  python3 -m installer --destdir "$PKG" dist/*.whl || return 1
+
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+  mkdir -p "$docsDir" || return 1
+  for docPath in *.md *.rst COPYING PKG-INFO; do
+    [ -e "$docPath" ] || continue
+    cp -a "$docPath" "$docsDir" || return 1
+  done
+  install -Dm0644 "$SRC/../SLKBUILD" "$docsDir/SLKBUILD" || return 1
+}
