@@ -1,0 +1,98 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=pipewire
+pkgver=0.3.60
+pkgrel=1slint
+url="https://pipewire.org/"
+license=("MIT" "LGPL-2.1-or-later")
+source=(
+  "https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/${pkgver}/${pkgname}-${pkgver}.tar.gz"
+  "https://gitlab.freedesktop.org/pipewire/media-session/-/archive/0.4.1/media-session-0.4.1.tar.gz"
+  "pipewire.desktop.sample"
+  "pipewire-media-session.desktop.sample"
+  "pipewire-pulse.desktop.sample"
+  "pipewire-enable.sh"
+  "pipewire-disable.sh"
+)
+options=("nosrcpack")
+dotnew=()
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"pipewire (multimedia processing)"
+""
+"PipeWire is a project that aims to greatly improve handling of audio"
+"and video under Linux. It provides a low-latency, graph based"
+"processing engine on top of audio and video devices that can be used"
+"to support the use cases currently handled by both pulseaudio and"
+"JACK. PipeWire was designed with a powerful security model"
+"particularly suited for containerized applications."
+)
+
+doinst() {
+  cat <<'EOF'
+# Toss redundant sample files:
+for file in pipewire.desktop pipewire-media-session.desktop pipewire-pulse.desktop ; do
+  cmp etc/xdg/autostart/${file} etc/xdg/autostart/${file}.sample 2> /dev/null && rm etc/xdg/autostart/${file}.sample
+done
+EOF
+}
+
+build() {
+  local docsDir
+  local docPath
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  rm -rf subprojects/media-session || return 1
+  cp -a "$SRC/media-session-0.4.1" subprojects/media-session || return 1
+
+  meson setup meson-build \
+    --prefix=/usr \
+    --libdir="lib${LIBDIRSUFFIX}" \
+    --libexecdir=/usr/libexec \
+    --bindir=/usr/bin \
+    --sbindir=/usr/sbin \
+    --includedir=/usr/include \
+    --datadir=/usr/share \
+    --mandir=/usr/man \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release \
+    -Dffmpeg=enabled \
+    -Dvulkan=enabled \
+    -Dsession-managers=media-session || return 1
+
+  ninja -j "$numjobs" -C meson-build || return 1
+  DESTDIR="$PKG" ninja -C meson-build install || return 1
+
+  mkdir -p "$PKG/etc/pipewire" || return 1
+
+  install -Dm0644 "$SRC/../pipewire.desktop.sample" \
+    "$PKG/etc/xdg/autostart/pipewire.desktop.sample" || return 1
+  install -Dm0644 "$SRC/../pipewire-media-session.desktop.sample" \
+    "$PKG/etc/xdg/autostart/pipewire-media-session.desktop.sample" || return 1
+  install -Dm0644 "$SRC/../pipewire-pulse.desktop.sample" \
+    "$PKG/etc/xdg/autostart/pipewire-pulse.desktop.sample" || return 1
+  install -Dm0755 "$SRC/../pipewire-disable.sh" \
+    "$PKG/usr/sbin/pipewire-disable.sh" || return 1
+  install -Dm0755 "$SRC/../pipewire-enable.sh" \
+    "$PKG/usr/sbin/pipewire-enable.sh" || return 1
+
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+  mkdir -p "$docsDir" || return 1
+  for docPath in CODE_OF_CONDUCT* COPYING* INSTALL* LICENSE* NEWS* PROTOCOL* README*; do
+    [ -e "$docPath" ] || continue
+    cp -a "$docPath" "$docsDir" || return 1
+  done
+
+  if [ -r NEWS ]; then
+    head -n 1000 NEWS > "$docsDir/NEWS" || return 1
+    touch -r NEWS "$docsDir/NEWS" || return 1
+  fi
+
+  install -Dm0644 "$SRC/../SLKBUILD" "$docsDir/SLKBUILD" || return 1
+}
