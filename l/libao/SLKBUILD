@@ -5,11 +5,11 @@
 
 pkgname=libao
 pkgver=1.2.2
-pkgrel=3slint
+pkgrel=4slint
 url="https://www.xiph.org/ao/"
 license=("GPL-2.0-or-later")
 source=(
-  "https://downloads.xiph.org/releases/ao/${pkgname}-${pkgver}.tar.gz"
+  "https://github.com/xiph/${pkgname}/archive/refs/tags/${pkgver}.tar.gz"
   "libao.conf"
 )
 options=("nosrcpack")
