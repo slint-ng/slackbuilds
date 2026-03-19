@@ -1,0 +1,12 @@
+# Python bindings moved to the separate python3-brotli package.
+-usr/lib64/python3\.9/
+-usr/lib64/python3\.9/site-packages/
+-usr/lib64/python3\.9/site-packages/Brotli-@PKGVER@-py3\.9\.egg-info/
+-usr/lib64/python3\.9/site-packages/Brotli-@PKGVER@-py3\.9\.egg-info/PKG-INFO
+-usr/lib64/python3\.9/site-packages/Brotli-@PKGVER@-py3\.9\.egg-info/SOURCES.txt
+-usr/lib64/python3\.9/site-packages/Brotli-@PKGVER@-py3\.9\.egg-info/dependency_links.txt
+-usr/lib64/python3\.9/site-packages/Brotli-@PKGVER@-py3\.9\.egg-info/top_level.txt
+-usr/lib64/python3\.9/site-packages/__pycache__/
+-usr/lib64/python3\.9/site-packages/__pycache__/brotli\.cpython-39\.pyc
+-usr/lib64/python3\.9/site-packages/_brotli\.cpython-39-x86_64-linux-gnu\.so
+-usr/lib64/python3\.9/site-packages/brotli\.py

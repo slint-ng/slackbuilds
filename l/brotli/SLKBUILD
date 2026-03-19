@@ -23,7 +23,7 @@ slackdesc=\
 url="https://github.com/google/brotli"
 license=("MIT")
 source=("https://github.com/google/brotli/archive/refs/tags/v${pkgver}.tar.gz")
-docs=("BUILD" "CONTRIBUTING" "LICENSE" "README" "WORKSPACE")
+docs=("BUILD*" "CONTRIBUTING*" "LICENSE*" "README*" "WORKSPACE*")
 
 build() {
   cd "${pkgname}-${pkgver}" || return 1

@@ -22,29 +22,29 @@
 
 CWD=$(pwd)
 GITHUB_ARCHIVE=$(/bin/ls v[0-9]*.tar.gz)
-OUTPUT_NAME=$(tar tvvf $GITHUB_ARCHIVE | head -n 1 | tr -d / | rev | cut -f 1 -d ' ' | rev)
-OUTPUT_TIMESTAMP=$(tar tvvf $GITHUB_ARCHIVE | head -n 1 | tr -d / | rev | cut -f 2,3 -d ' ' | rev)
+OUTPUT_NAME=$(tar tvvf "$GITHUB_ARCHIVE" | head -n 1 | tr -d / | rev | cut -f 1 -d ' ' | rev)
+OUTPUT_TIMESTAMP=$(tar tvvf "$GITHUB_ARCHIVE" | head -n 1 | tr -d / | rev | cut -f 2,3 -d ' ' | rev)
 
 # Create a temporary extraction directory:
 EXTRACT_DIR=$(mktemp -d)
 
 # Extract, repack, compress, and fix timestamp:
-( cd $EXTRACT_DIR
-  tar xf $CWD/$GITHUB_ARCHIVE
+( cd "$EXTRACT_DIR" || exit 1
+  tar xf "$CWD/$GITHUB_ARCHIVE"
 
   # This is excessive:
-  rm -rf $OUTPUT_NAME/tests/*
-  rm -f $OUTPUT_NAME/research/img/*
-  rm -f $OUTPUT_NAME/java/org/brotli/integration/*.zip
-  rm -f $OUTPUT_NAME/docs/brotli-comparison-study-2015-09-22.pdf
+  rm -rf "$OUTPUT_NAME"/tests/*
+  rm -f "$OUTPUT_NAME"/research/img/*
+  rm -f "$OUTPUT_NAME"/java/org/brotli/integration/*.zip
+  rm -f "$OUTPUT_NAME"/docs/brotli-comparison-study-2015-09-22.pdf
 
-  tar cf $OUTPUT_NAME.tar $OUTPUT_NAME
-  plzip -9 $OUTPUT_NAME.tar
-  touch -d "$OUTPUT_TIMESTAMP" $OUTPUT_NAME.tar.lz
+  tar cf "$OUTPUT_NAME.tar" "$OUTPUT_NAME"
+  plzip -9 "$OUTPUT_NAME.tar"
+  touch -d "$OUTPUT_TIMESTAMP" "$OUTPUT_NAME.tar.lz"
 )
 
 # Move the repacked archive here:
-mv $EXTRACT_DIR/$OUTPUT_NAME.tar.lz .
+mv "$EXTRACT_DIR/$OUTPUT_NAME.tar.lz" .
 
 # Remove the temporary directory:
-rm -rf $EXTRACT_DIR
+rm -rf "$EXTRACT_DIR"
