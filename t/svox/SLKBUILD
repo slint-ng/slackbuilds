@@ -1,0 +1,77 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=svox
+debVer=1.0+git20130326
+debRev=14.1
+pkgver="${debVer}_${debRev}"
+pkgrel=1slint
+url="https://packages.debian.org/source/sid/svox"
+license=("Apache-2.0")
+source=(
+  "https://deb.debian.org/debian/pool/non-free/s/${pkgname}/${pkgname}_${debVer}.orig.tar.gz"
+  "https://deb.debian.org/debian/pool/non-free/s/${pkgname}/${pkgname}_${debVer}-${debRev}.debian.tar.xz"
+  "dont_try_to_free_argv.diff"
+  "pico2audio"
+  "pico2wave.1"
+  "pico2audio.1"
+)
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"svox (small footprint text-to-speech engine)"
+""
+"The SVOX Pico engine is a software speech synthesizer for German,"
+"English (GB and US), Spanish, French and Italian. SVOX produces a"
+"clear and distinct speech output made possible by the use of Hidden"
+"Markov Model (HMM) algorithms."
+)
+
+build() {
+  local patchName
+  local docsDir
+
+  cd "$SRC/$pkgname-$debVer" || return 1
+
+  while read -r patchName; do
+    [ -n "$patchName" ] || continue
+    [ -e "$SRC/debian/patches/$patchName" ] || continue
+    patch --verbose -p1 < "$SRC/debian/patches/$patchName" || return 1
+  done < "$SRC/debian/patches/series"
+
+  patch --verbose -p1 < "$SRC/../dont_try_to_free_argv.diff" || return 1
+
+  cd pico || return 1
+  autoreconf -if || return 1
+
+  ./configure \
+    --enable-shared \
+    --disable-static \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make -j "$numjobs" || make || return 1
+  make install-strip DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -Dm0755 "$SRC/../pico2audio" "$PKG/usr/bin/pico2audio" || return 1
+
+  mkdir -p "$PKG/usr/man/man1" || return 1
+  gzip -9c < "$SRC/../pico2wave.1" > "$PKG/usr/man/man1/pico2wave.1.gz" || return 1
+  ln -sf pico2wave.1.gz "$PKG/usr/man/man1/$pkgname.1.gz" || return 1
+  gzip -9c < "$SRC/../pico2audio.1" > "$PKG/usr/man/man1/pico2audio.1.gz" || return 1
+
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+  mkdir -p "$docsDir" || return 1
+  install -Dm0644 "$SRC/debian/copyright" "$docsDir/copyright" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docsDir/SLKBUILD" || return 1
+}
