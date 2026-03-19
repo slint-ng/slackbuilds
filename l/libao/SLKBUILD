@@ -1,0 +1,72 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libao
+pkgver=1.2.2
+pkgrel=3slint
+url="https://www.xiph.org/ao/"
+license=("GPL-2.0-or-later")
+source=(
+  "https://downloads.xiph.org/releases/ao/${pkgname}-${pkgver}.tar.gz"
+  "libao.conf"
+)
+options=("nosrcpack")
+dotnew=("etc/libao.conf")
+
+# If the build is made without PulseAudio support, tag the package accordingly.
+if [ ! -r "/usr/lib${LIBDIRSUFFIX}/pkgconfig/libpulse.pc" ]; then
+  pkgrel="${pkgrel}_alsa"
+fi
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libao (Audio Output library)"
+""
+"Libao is a cross-platform audio library, and is required by many"
+"programs and other libraries that use audio. This package provides"
+"plugins for OSS, ESD, aRts, and ALSA. You will need to install the"
+"supporting libraries for any plugins you want to use."
+)
+
+build() {
+  local docsDir
+  local docPath
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./autogen.sh || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make -j "$numjobs" || make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/lib"${LIBDIRSUFFIX}"/*.la || return 1
+  rm -f "$PKG"/usr/lib"${LIBDIRSUFFIX}"/*.la || return 1
+
+  if [ -d "$PKG/usr/share/man" ]; then
+    mkdir -p "$PKG/usr" || return 1
+    mv "$PKG/usr/share/man" "$PKG/usr" || return 1
+  fi
+
+  mkdir -p "$PKG/etc" || return 1
+  install -Dm0644 "$SRC/../libao.conf" "$PKG/etc/libao.conf.new" || return 1
+
+  if [ -d "$PKG/usr/share/doc" ]; then
+    mkdir -p "$PKG/usr" || return 1
+    mv "$PKG/usr/share/doc" "$PKG/usr" || return 1
+  fi
+
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+  mkdir -p "$docsDir" || return 1
+  for docPath in AUTHORS COPYING* README* TODO; do
+    [ -e "$docPath" ] || continue
+    cp -a "$docPath" "$docsDir" || return 1
+  done
+  install -Dm0644 "$SRC/../SLKBUILD" "$docsDir/SLKBUILD" || return 1
+}
