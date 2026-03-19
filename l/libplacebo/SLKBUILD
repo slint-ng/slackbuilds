@@ -6,12 +6,17 @@
 pkgname=libplacebo
 pkgver=6.338.2
 pkgrel=2slint
+gladver=2.0.8
+jinjaver=3.1.6
+markupsafever=3.0.3
 url="https://code.videolan.org/videolan/libplacebo"
 license=("LGPL-2.1-or-later")
 source=(
   "https://github.com/haasn/libplacebo/archive/refs/tags/v${pkgver}.tar.gz"
-  "https://github.com/pallets/jinja/archive/refs/tags/3.1.6.tar.gz"
-  "https://github.com/pallets/markupsafe/archive/refs/tags/3.0.3.tar.gz"
+  "libplacebo-silence-git-describe.patch"
+  "https://files.pythonhosted.org/packages/source/g/glad2/glad2-${gladver}.tar.gz"
+  "https://github.com/pallets/jinja/archive/refs/tags/${jinjaver}.tar.gz"
+  "https://github.com/pallets/markupsafe/archive/refs/tags/${markupsafever}.tar.gz"
 )
 options=("nosrcpack")
 
@@ -28,14 +33,19 @@ slackdesc=(
 build() {
   local docsDir
   local docPath
+  local gladver=2.0.8
+  local jinjaver=3.1.6
+  local markupsafever=3.0.3
   local glslangArg="-Dglslang=disabled"
 
   cd "$SRC/$pkgname-$pkgver" || return 1
 
-  rm -rf 3rdparty/jinja 3rdparty/markupsafe || return 1
+  patch -p1 < "$SRC/libplacebo-silence-git-describe.patch" || return 1
+  rm -rf 3rdparty/glad 3rdparty/jinja 3rdparty/markupsafe || return 1
   mkdir -p 3rdparty || return 1
-  cp -a "$SRC/jinja-3.1.6" 3rdparty/jinja || return 1
-  cp -a "$SRC/markupsafe-3.0.3" 3rdparty/markupsafe || return 1
+  cp -a "$SRC/glad2-$gladver" 3rdparty/glad || return 1
+  cp -a "$SRC/jinja-$jinjaver" 3rdparty/jinja || return 1
+  cp -a "$SRC/markupsafe-$markupsafever" 3rdparty/markupsafe || return 1
 
   if pkg-config --exists glslang; then
     glslangArg="-Dglslang=enabled"
@@ -68,5 +78,4 @@ build() {
     [ -e "$docPath" ] || continue
     cp -a "$docPath" "$docsDir" || return 1
   done
-  install -Dm0644 "$SRC/../SLKBUILD" "$docsDir/SLKBUILD" || return 1
 }

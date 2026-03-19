@@ -1,0 +1,12 @@
+--- a/src/meson.build
++++ b/src/meson.build
+@@ -216,7 +216,7 @@ sources += configure_file(
+   configuration: conf_internal
+ )
+ 
+ version_h = vcs_tag(
+-  command: ['git', 'describe', '--dirty'],
++  command: ['sh', '-c', 'git describe --dirty 2>/dev/null'],
+   fallback: version_pretty,
+   replace_string: '@buildver@',
+   input: 'version.h.in',
