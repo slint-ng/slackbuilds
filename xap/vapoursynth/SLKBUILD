@@ -5,9 +5,12 @@
 
 pkgname=vapoursynth
 pkgver=R57
-pkgrel=2slint
+pkgrel=3slint
 url="https://www.vapoursynth.com/"
-source=("https://github.com/vapoursynth/${pkgname}/archive/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+source=(
+  "https://github.com/vapoursynth/${pkgname}/archive/${pkgver}/${pkgname}-${pkgver}.tar.gz"
+  "vapoursynth-cython3-noexcept.patch"
+)
 docs=("COPYING.LESSER" "ChangeLog" "README.md")
 options=("nosrcpack")
 
@@ -25,6 +28,8 @@ build() {
   legacyDocName="${pkgname}.S""lackBuild"
 
   cd "$SRC/$pkgname-$pkgver" || return 1
+
+  patch -p1 < "$SRC/vapoursynth-cython3-noexcept.patch" || return 1
 
   autoreconf -fi || return 1
 
