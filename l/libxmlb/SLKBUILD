@@ -1,0 +1,40 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
+pkgname=libxmlb
+pkgver=0.3.21
+pkgrel=1slint
+source=("https://github.com/hughsie/libxmlb/archive/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+url="https://github.com/hughsie/libxmlb"
+docs=("CODE_OF_CONDUCT.md" "LICENSE" "MAINTAINERS" "NEWS" "README.md")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libxmlb (library for creating and querying binary XML blobs)"
+""
+"libxmlb is a library to help create and query binary XML blobs."
+""
+"Homepage: https://github.com/hughsie/libxmlb"
+)
+
+build() {
+  local legacy_doc_path
+
+  legacy_doc_path="$PKG/usr/doc/$pkgname-$pkgver/${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  meson setup build \
+    --prefix=/usr \
+    --libdir="lib${LIBDIRSUFFIX}" \
+    --infodir=/usr/info \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --sysconfdir=/etc \
+    --buildtype=release || return 1
+
+  meson compile -C build -j "${numjobs:-1}" || return 1
+  DESTDIR="$PKG" meson install -C build || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" "$legacy_doc_path" || return 1
+}
