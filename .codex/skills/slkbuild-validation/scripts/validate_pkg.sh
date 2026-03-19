@@ -425,17 +425,18 @@ find_baseline_in_source() {
   local location=""
   local pkgfile=""
   local baseline_url=""
+  local pkg_prefix=""
 
   fetch_to_path "$packages_url" "$packages_txt" || return 1
+  pkg_prefix="${parsed_pkgname}-${pkgver}-${txz_arch}-"
 
   mapfile -t match < <(
-    awk -v pkg="$parsed_pkgname" -v ver="$pkgver" -v arch="$txz_arch" '
+    awk -v prefix="$pkg_prefix" '
       function maybe_emit() {
         if (name == "" || location == "") {
           return
         }
-        pattern = "^" pkg "-" ver "-" arch "-[^[:space:]]+\\.(txz|tgz|tlz|tbz|tbr)$"
-        if (name ~ pattern) {
+        if (index(name, prefix) == 1 && name ~ /\.(txz|tgz|tlz|tbz|tbr)$/) {
           gsub(/^\.\//, "", location)
           print location
           print name
@@ -512,15 +513,23 @@ resolve_baseline_package() {
   return 1
 }
 
+escape_ere_literal() {
+  printf '%s' "$1" | sed -e 's/[][(){}.^$*+?|\\]/\\&/g'
+}
+
 load_manifest_allowlist() {
   local allowlist_file=""
   local package_allowlist="${references_dir}/manifest-allowlist.d/${parsed_pkgname}.txt"
   local line=""
   local prefix=""
+  local escaped_pkgname=""
+  local escaped_pkgver=""
 
   manifest_allow_add_patterns=()
   manifest_allow_remove_patterns=()
   manifest_allowlist_files=("$default_manifest_allowlist")
+  escaped_pkgname="$(escape_ere_literal "$parsed_pkgname")"
+  escaped_pkgver="$(escape_ere_literal "$pkgver")"
 
   if [[ -f "$package_allowlist" ]]; then
     manifest_allowlist_files+=("$package_allowlist")
@@ -533,8 +542,8 @@ load_manifest_allowlist() {
     [[ -f "$allowlist_file" ]] || continue
     while IFS= read -r line || [[ -n "$line" ]]; do
       [[ -z "$line" || "${line:0:1}" == "#" ]] && continue
-      line="${line//@PKGNAME@/$parsed_pkgname}"
-      line="${line//@PKGVER@/$pkgver}"
+      line="${line//@PKGNAME@/$escaped_pkgname}"
+      line="${line//@PKGVER@/$escaped_pkgver}"
       prefix="${line:0:1}"
       case "$prefix" in
         +)

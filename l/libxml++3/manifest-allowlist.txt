@@ -1,0 +1,5 @@
+# The generated API reference set is not fully stable across doxygen/toolchain
+# combinations; these helper pages may legitimately disappear while the shipped
+# library and public docs remain intact.
+-^usr/share/doc/libxml\+\+-3\.0/reference/html/classhash__load__check__resize__trigger__size__base\.html$
+-^usr/share/doc/libxml\+\+-3\.0/reference/html/classlu__counter__policy__base\.html$

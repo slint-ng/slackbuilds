@@ -613,4 +613,78 @@ if ! printf '%s\n' "$output_manifest_shift_pass" | grep -Fq "Status: PASS"; then
   exit 1
 fi
 
+manifest_plus_pkg_name="manifest++"
+manifest_plus_pkg_ver="1.0"
+manifest_plus_pkg_arch="x86_64"
+manifest_plus_pkg_rel="1slint"
+manifest_plus_pkg_dir="${fixture_root}/n/${manifest_plus_pkg_name}"
+manifest_plus_stage_dir="${manifest_plus_pkg_dir}/stage"
+manifest_plus_pkg_file="${manifest_plus_pkg_dir}/${manifest_plus_pkg_name}-${manifest_plus_pkg_ver}-${manifest_plus_pkg_arch}-${manifest_plus_pkg_rel}.txz"
+manifest_plus_md5_file="${manifest_plus_pkg_file%.txz}.md5"
+manifest_plus_log_file="${manifest_plus_pkg_dir}/build-${manifest_plus_pkg_name}-${manifest_plus_pkg_ver}-${manifest_plus_pkg_arch}-${manifest_plus_pkg_rel}.log"
+manifest_plus_baseline_stage="${tmpdir}/manifest-plus-baseline-stage"
+manifest_plus_baseline_pkg="${baseline_repo_root}/${manifest_plus_pkg_name}-${manifest_plus_pkg_ver}-${manifest_plus_pkg_arch}-${manifest_plus_pkg_rel}.txz"
+
+rm -rf "$manifest_plus_pkg_dir" "$manifest_plus_stage_dir" "$manifest_plus_baseline_stage"
+mkdir -p "${manifest_plus_stage_dir}/install"
+mkdir -p "${manifest_plus_stage_dir}/usr/src/${manifest_plus_pkg_name}-${manifest_plus_pkg_ver}"
+mkdir -p "${manifest_plus_stage_dir}/usr/bin"
+mkdir -p "${manifest_plus_pkg_dir}"
+
+cat > "${manifest_plus_stage_dir}/install/slack-desc" <<'EOF'
+manifest++: manifest++ (regex literal manifest fixture)
+EOF
+
+cat > "${manifest_plus_stage_dir}/usr/src/${manifest_plus_pkg_name}-${manifest_plus_pkg_ver}/SLKBUILD" <<'EOF'
+pkgname=manifest++
+EOF
+
+cat > "${manifest_plus_stage_dir}/usr/bin/manifest++" <<'EOF'
+#!/bin/sh
+echo manifest++
+EOF
+chmod 755 "${manifest_plus_stage_dir}/usr/bin/manifest++"
+
+tar -C "$manifest_plus_stage_dir" -cJf "$manifest_plus_pkg_file" install usr
+(cd "$manifest_plus_pkg_dir" && md5sum "$(basename "$manifest_plus_pkg_file")" > "$(basename "$manifest_plus_md5_file")")
+write_dep_file "${manifest_plus_pkg_file%.txz}.dep"
+
+cat > "$manifest_plus_log_file" <<EOF
+Slackware package ${manifest_plus_pkg_file} created.
+EOF
+
+mkdir -p "${manifest_plus_baseline_stage}/install"
+mkdir -p "${manifest_plus_baseline_stage}/usr/bin"
+
+cat > "${manifest_plus_baseline_stage}/install/slack-desc" <<'EOF'
+manifest++: manifest++ (regex literal baseline fixture)
+EOF
+
+cat > "${manifest_plus_baseline_stage}/usr/bin/manifest++" <<'EOF'
+#!/bin/sh
+echo manifest++
+EOF
+chmod 755 "${manifest_plus_baseline_stage}/usr/bin/manifest++"
+
+tar -C "$manifest_plus_baseline_stage" -cJf "$manifest_plus_baseline_pkg" install usr
+create_packages_txt "$baseline_repo_root" "$manifest_plus_baseline_pkg"
+
+if ! output_manifest_plus_pass="$(SLKBUILD_VALIDATION_SLAPT_GETRC="$baseline_slapt_getrc" bash "$validator" --require-baseline "$manifest_plus_pkg_dir")"; then
+  printf '%s\n' "$output_manifest_plus_pass"
+  echo "FAIL: validator should treat plus signs in package names as literal allowlist substitutions."
+  exit 1
+fi
+
+if ! printf '%s\n' "$output_manifest_plus_pass" | grep -Fq "Allowed manifest deltas ignored: 3"; then
+  printf '%s\n' "$output_manifest_plus_pass"
+  echo "FAIL: literal package-name allowlist substitution did not ignore the expected usr/src additions."
+  exit 1
+fi
+
+if ! printf '%s\n' "$output_manifest_plus_pass" | grep -Fq "Status: PASS"; then
+  printf '%s\n' "$output_manifest_plus_pass"
+  echo "FAIL: literal package-name allowlist substitution should pass."
+  exit 1
+fi
+
 echo "PASS: firmware-installer and codex regression fixtures validate expected behavior."
