@@ -5,7 +5,7 @@
 
 pkgname=vapoursynth
 pkgver=R57
-pkgrel=3slint
+pkgrel=4slint
 url="https://www.vapoursynth.com/"
 source=(
   "https://github.com/vapoursynth/${pkgname}/archive/${pkgver}/${pkgname}-${pkgver}.tar.gz"

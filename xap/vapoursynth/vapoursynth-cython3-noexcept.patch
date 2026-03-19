@@ -1,8 +1,16 @@
 diff --git a/src/cython/vapoursynth.pyx b/src/cython/vapoursynth.pyx
-index d11b1b8..4576cf4 100644
 --- a/src/cython/vapoursynth.pyx
 +++ b/src/cython/vapoursynth.pyx
-@@ -184,11 +184,11 @@ cdef void _unset_logger(EnvironmentData env):
+@@ -17,6 +17,8 @@
+ #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ """ This is the VapourSynth module implementing the Python bindings. """
+ 
++# cython: legacy_implicit_noexcept=True
++
+ cimport vapoursynth
+ include 'vsconstants.pxd'
+ from vsscript_internal cimport VSScript
+@@ -184,12 +186,12 @@
      env.log = NULL
  
  
@@ -17,16 +25,16 @@ index d11b1b8..4576cf4 100644
      with gil:
          Py_DECREF(<object>userData)
  
-@@ -708,7 +708,7 @@ cdef object future_wrapper = None
-         else:
-             future.set_result(frame)
+@@ -708,7 +710,7 @@
+     return instance
+ 
  
 -cdef void __stdcall frameDoneCallback(void *data, const VSFrame *f, int n, VSNode *node, const char *errormsg) nogil:
 +cdef void __stdcall frameDoneCallback(void *data, const VSFrame *f, int n, VSNode *node, const char *errormsg) noexcept nogil:
      with gil:
          d = <CallbackData>data
          try:
-@@ -2170,11 +2170,11 @@ cdef LogHandle createLogHandle(object func):
+@@ -2170,11 +2172,11 @@
      instance.handle = NULL
      return instance
       
@@ -40,18 +48,16 @@ index d11b1b8..4576cf4 100644
      with gil:
          Py_DECREF(<LogHandle>userData)
  
-@@ -2645,14 +2645,14 @@ def _create_func(func, Core core):
-     if inspect.isgeneratorfunction(func):
-         raise Error('Generator functions are unsupported as filters')
-     if not callable(func):
-         raise Error('Provided object is not callable')
-     return createFuncPython(func, core.core, core.funcs)
+@@ -2645,14 +2647,14 @@
+ 
+         core.log_message(mt, message)
  
 -cdef void __stdcall freeFunc(void *pobj) nogil:
 +cdef void __stdcall freeFunc(void *pobj) noexcept nogil:
      with gil:
          fobj = <FuncData>pobj
          Py_DECREF(fobj)
+         fobj = None
  
  
 -cdef void __stdcall publicFunction(const VSMap *inm, VSMap *outm, void *userData, VSCore *core, const VSAPI *vsapi) nogil:
