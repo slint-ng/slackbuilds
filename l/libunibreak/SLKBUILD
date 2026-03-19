@@ -1,0 +1,61 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libunibreak
+pkgver=4.3
+pkgrel=1slint
+url="https://github.com/adah1972/libunibreak/"
+source=(
+  "https://github.com/adah1972/libunibreak/releases/download/libunibreak_4_3/libunibreak-${pkgver}.tar.gz"
+)
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libunibreak (a line breaking library)"
+""
+"Libunibreak is an implementation of the line breaking and word"
+"breaking algorithms as described in Unicode Standard Annex 14 and"
+"Unicode Standard Annex 29."
+""
+"It is designed to be used in a generic text renderer. FBReader is"
+"one real-world example, and the Enlightenment Foundation Libraries"
+"are another."
+)
+
+build() {
+  local docsDir
+  local docPath
+  local legacyDocName
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --enable-static=no \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make -j "$numjobs" || make || return 1
+  make install-strip DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+  mkdir -p "$docsDir" || return 1
+  for docPath in AUTHORS* LICEN* NEWS README*; do
+    [ -e "$docPath" ] || continue
+    cp -a "$docPath" "$docsDir" || return 1
+  done
+  if [ -d doc/html ]; then
+    cp -a doc/html "$docsDir" || return 1
+  fi
+  install -Dm0644 "$SRC/../SLKBUILD" "$docsDir/$legacyDocName" || return 1
+}
