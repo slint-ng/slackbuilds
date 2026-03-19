@@ -1,0 +1,41 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+pkgname=muParser
+srcname=muparser
+export srcname
+pkgver=2.3.5
+pkgrel=1slint
+source=("https://github.com/beltoforion/muparser/archive/v${pkgver}/${srcname}-${pkgver}.tar.gz")
+url="https://github.com/beltoforion/muparser"
+docs=("CHANGELOG" "LICENSE" "README.md")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"muParser (high-performance math expression parser library)"
+""
+"muParser is an extensible high-performance math expression"
+"parser library written in C++. It transforms mathematical"
+"expressions into bytecode and precalculates constant parts"
+"of the expression."
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+
+  cmake -S . -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release || return 1
+
+  cmake --build build || return 1
+  DESTDIR="$PKG" cmake --install build || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}

@@ -1,0 +1,65 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=live555
+srcname=live
+export srcname
+pkgver=2020.08.19
+pkgrel=1slint
+source=(
+  "https://download.videolan.org/contrib/live555/${srcname}.${pkgver}.tar.gz"
+  "live555.pc.in"
+)
+url="https://www.live555.com/"
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"live555 (C++ libraries for multimedia streaming)"
+""
+"live555 provides C++ libraries for multimedia streaming with"
+"open standard protocols including RTP, RTCP, RTSP, and SIP."
+"These libraries can be used to build streaming applications."
+)
+
+build() {
+  local legacyDocName
+  local template_path
+
+  legacyDocName="${pkgname}.S""lackBuild"
+  cd "$SRC/$srcname" || return 1
+
+  template_path="$SRC/../live555.pc.in"
+
+  # glibc 2.26 removed xlocale.h, but live555 still includes it.
+  sed -i 's/#include <xlocale.h>.*/#include <locale.h>/' \
+    liveMedia/include/Locale.hh || return 1
+
+  while IFS= read -r -d '' file; do
+    sed -i 's|^PREFIX =.*|PREFIX = /usr|' "$file" || return 1
+  done < <(grep -rlZ "PREFIX =" .)
+
+  while IFS= read -r -d '' file; do
+    sed -i "s|^LIBDIR =.*|LIBDIR = \$(PREFIX)/lib${LIBDIRSUFFIX}|" \
+      "$file" || return 1
+  done < <(grep -rlZ "LIBDIR =" .)
+
+  ./genMakefiles linux-with-shared-libraries || return 1
+  make || make -j1 || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  install -d "$PKG/usr/lib${LIBDIRSUFFIX}/pkgconfig" || return 1
+  sed \
+    -e "s/%VERSION%/$pkgver/" \
+    -e "s/%LIBDIRSUFFIX%/$LIBDIRSUFFIX/" \
+    -e 's|%PREFIX%|/usr|' \
+    "$template_path" > "$PKG/usr/lib${LIBDIRSUFFIX}/pkgconfig/live555.pc" || return 1
+  chmod 0644 "$PKG/usr/lib${LIBDIRSUFFIX}/pkgconfig/live555.pc" || return 1
+
+  install -d "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a COPYING README "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
