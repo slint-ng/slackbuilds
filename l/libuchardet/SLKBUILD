@@ -27,6 +27,7 @@ slackdesc=(
 build() {
   local docsDir
   local docPath
+  local legacyDocName
 
   cd "$SRC/$srcname-$pkgver" || return 1
 
@@ -45,10 +46,11 @@ build() {
   rm -rf "${PKG:?}/usr/share" || return 1
 
   docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}-S""lackBuild"
   mkdir -p "$docsDir" || return 1
   for docPath in AUTHORS COPYING INSTALL README.md; do
     [ -e "$docPath" ] || continue
     cp -a "$docPath" "$docsDir" || return 1
   done
-  install -Dm0644 "$SRC/../SLKBUILD" "$docsDir/SLKBUILD" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docsDir/$legacyDocName" || return 1
 }
