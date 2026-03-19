@@ -12,11 +12,11 @@ source=(
   "https://github.com/xiph/${pkgname}/archive/refs/tags/${pkgver}.tar.gz"
   "libao.conf"
 )
-options=("nosrcpack")
+options=("nosrcpack" "keepla")
 dotnew=("etc/libao.conf")
 
 # If the build is made without PulseAudio support, tag the package accordingly.
-if [ ! -r "/usr/lib${LIBDIRSUFFIX}/pkgconfig/libpulse.pc" ]; then
+if ! pkg-config --exists libpulse-simple; then
   pkgrel="${pkgrel}_alsa"
 fi
 
@@ -68,5 +68,4 @@ build() {
     [ -e "$docPath" ] || continue
     cp -a "$docPath" "$docsDir" || return 1
   done
-  install -Dm0644 "$SRC/../SLKBUILD" "$docsDir/SLKBUILD" || return 1
 }
