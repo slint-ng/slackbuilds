@@ -1,0 +1,1 @@
+-usr/doc/libzmf-0.0.2/libzmf.SlackBuild

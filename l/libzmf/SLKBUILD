@@ -1,0 +1,51 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
+pkgname=libzmf
+pkgver=0.0.2
+pkgrel=1slint
+source=("https://dev-www.libreoffice.org/src/libzmf/${pkgname}-${pkgver}.tar.xz")
+url="https://wiki.documentfoundation.org/DLP/Libraries/libzmf"
+docs=("AUTHORS" "COPYING" "ChangeLog" "NEWS" "README")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libzmf (Zoner Callisto/Draw documents parser library)"
+""
+"libzmf is a library and a set of tools for reading and converting"
+"Zoner Draw and Zebra file formats."
+""
+"Homepage: https://wiki.documentfoundation.org/DLP/Libraries/libzmf"
+)
+
+build() {
+  local doc_arg
+  local test_arg
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  case "${DOC:-0}" in
+    0) doc_arg='--without-docs' ;;
+    *) doc_arg='--with-docs' ;;
+  esac
+
+  if pkg-config --exists cppunit; then
+    test_arg='--enable-tests'
+  else
+    test_arg='--disable-tests'
+  fi
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --disable-static \
+    --disable-werror \
+    --build="$ARCH-slackware-linux" \
+    "$test_arg" "$doc_arg" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+}

@@ -1,0 +1,1 @@
+-usr/doc/rarian-0.8.1/rarian.SlackBuild

@@ -1,0 +1,49 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
+pkgname=rarian
+pkgver=0.8.1
+pkgrel=3slint
+source=("https://gitlab.freedesktop.org/rarian/rarian/-/releases/${pkgver}/downloads/assets/${pkgname}-${pkgver}.tar.bz2")
+url="https://rarian.freedesktop.org"
+docs=("MAINTAINERS" "TODO" "COPYING" "NEWS" "README" "INSTALL" "COPYING.UTILS" "COPYING.LIB" "ChangeLog")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"rarian (documentation metadata library)"
+""
+"Rarian is a documentation metadata library based on the proposed"
+"freedesktop.org specification."
+""
+"Rarian is a replacement for ScrollKeeper."
+""
+"Homepage: https://rarian.freedesktop.org"
+)
+
+build() {
+  local docdir
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --enable-static=no \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/{,usr/}lib"${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -d "$docdir" || return 1
+  mv "$PKG/usr/share/help" "$docdir/help" || return 1
+  find "$docdir" -type f -exec chmod 0644 {} + || return 1
+  chown -R root:root "$docdir" || return 1
+}
