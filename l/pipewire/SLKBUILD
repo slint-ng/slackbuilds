@@ -18,7 +18,7 @@ source=(
   "pipewire-disable.sh"
 )
 options=("nosrcpack")
-dotnew=()
+options+=("noautodotnew")
 
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
@@ -51,8 +51,11 @@ build() {
   rm -rf subprojects/media-session || return 1
   cp -a "$SRC/media-session-0.4.1" subprojects/media-session || return 1
 
-  if python3 -c 'import docutils' >/dev/null 2>&1; then
+  if rst2man --help >/dev/null 2>&1; then
     manArg="-Dman=enabled"
+  else
+    echo "A working rst2man/docutils setup is required to preserve pipewire man pages." >&2
+    return 1
   fi
 
   meson setup meson-build \
@@ -99,6 +102,4 @@ build() {
     head -n 1000 NEWS > "$docsDir/NEWS" || return 1
     touch -r NEWS "$docsDir/NEWS" || return 1
   fi
-
-  install -Dm0644 "$SRC/../SLKBUILD" "$docsDir/SLKBUILD" || return 1
 }

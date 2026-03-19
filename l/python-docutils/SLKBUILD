@@ -1,0 +1,61 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=python-docutils
+_srcname=docutils
+pkgver=0.17.1
+pkgrel=4slint
+url="http://docutils.sourceforge.net/"
+license=("BSD" "GPL" "PSF" "Public Domain")
+source=("https://files.pythonhosted.org/packages/source/d/${_srcname}/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Python Documentation Utilities)"
+""
+"Docutils is a modular system for processing plaintext"
+"documentation into useful formats such as HTML, XML, ODF, LaTeX,"
+"and man pages. It includes the reStructuredText markup language."
+""
+"Homepage: http://docutils.sourceforge.net/"
+)
+
+build() {
+  local docdir
+  local script
+
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  python3 setup.py install --root="$PKG" --optimize=1 || return 1
+
+  for script in \
+    rst2html \
+    rst2html4 \
+    rst2html5 \
+    rst2latex \
+    rst2man \
+    rst2odt \
+    rst2odt_prepstyles \
+    rst2pseudoxml \
+    rst2s5 \
+    rst2xetex \
+    rst2xml \
+    rstpep2html
+  do
+    ln -sf "${script}.py" "$PKG/usr/bin/$script" || return 1
+  done
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  install -d "$docdir" || return 1
+  install -m 0644 \
+    BUGS.txt \
+    COPYING.txt \
+    FAQ.txt \
+    HISTORY.txt \
+    README.txt \
+    RELEASE-NOTES.txt \
+    THANKS.txt \
+    "$docdir/" || return 1
+}
