@@ -5,7 +5,7 @@
 
 pkgname=libao
 pkgver=1.2.2
-pkgrel=4slint
+pkgrel=5slint
 url="https://www.xiph.org/ao/"
 license=("GPL-2.0-or-later")
 source=(
@@ -55,7 +55,7 @@ build() {
   fi
 
   mkdir -p "$PKG/etc" || return 1
-  install -Dm0644 "$SRC/../libao.conf" "$PKG/etc/libao.conf.new" || return 1
+  install -Dm0644 "$SRC/../libao.conf" "$PKG/etc/libao.conf" || return 1
 
   if [ -d "$PKG/usr/share/doc" ]; then
     mkdir -p "$PKG/usr" || return 1
