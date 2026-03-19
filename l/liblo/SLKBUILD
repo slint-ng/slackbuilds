@@ -1,0 +1,48 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=liblo
+pkgver=0.31
+pkgrel=1slint
+url="https://liblo.sourceforge.net/"
+source=("https://downloads.sourceforge.net/project/liblo/liblo/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+docs=("AUTHORS" "ChangeLog" "COPYING" "INSTALL" "NEWS" "README" "TODO")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"liblo (OSC protocol implementation library)"
+""
+"liblo is a lightweight library that provides an easy to"
+"use implementation of the Open Sound Control (OSC)"
+"protocol."
+""
+"Homepage: https://liblo.sourceforge.net/"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --disable-static \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install-strip DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib"${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
