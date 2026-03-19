@@ -4,10 +4,11 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 
 pkgname=svox
-debVer=1.0+git20130326
-debRev=14.1
-pkgver="${debVer}_${debRev}"
-pkgrel=1slint
+export debVer=1.0+git20130326
+export debRev=14.1
+export srcname="${pkgname}-${debVer}"
+export pkgver="${debVer}_${debRev}"
+pkgrel=2slint
 url="https://packages.debian.org/source/sid/svox"
 license=("Apache-2.0")
 source=(
@@ -34,7 +35,7 @@ build() {
   local patchName
   local docsDir
 
-  cd "$SRC/$pkgname-$debVer" || return 1
+  cd "$SRC/$srcname" || return 1
 
   while read -r patchName; do
     [ -n "$patchName" ] || continue
