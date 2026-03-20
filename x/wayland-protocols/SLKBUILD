@@ -1,0 +1,48 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=wayland-protocols
+pkgver=1.45
+pkgrel=1slint
+arch=noarch
+url="https://wayland.freedesktop.org/"
+source=("https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/${pkgver}/downloads/${pkgname}-${pkgver}.tar.xz")
+docs=("COPYING*" "README*")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"wayland-protocols: wayland-protocols (extended Wayland protocols)"
+"wayland-protocols:"
+"wayland-protocols: wayland-protocols contains Wayland protocols"
+"wayland-protocols: that add functionality not in the core protocol."
+"wayland-protocols: These either add new features or extend"
+"wayland-protocols: Wayland and protocol extension interfaces."
+)
+
+build() {
+  local docsDir=""
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  meson setup buildDir \
+    --prefix=/usr \
+    --libdir="lib${LIBDIRSUFFIX}" \
+    --libexecdir=/usr/libexec \
+    --bindir=/usr/bin \
+    --sbindir=/usr/sbin \
+    --includedir=/usr/include \
+    --datadir=/usr/share \
+    --mandir=/usr/man \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release || return 1
+
+  meson compile -C buildDir -j "$numjobs" || return 1
+  DESTDIR="$PKG" meson install -C buildDir || return 1
+
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+  mkdir -p "$docsDir" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docsDir/SLKBUILD" || return 1
+}
