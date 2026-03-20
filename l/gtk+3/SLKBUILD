@@ -6,8 +6,8 @@
 pkgname=gtk+3
 _srcname=gtk
 pkgver=3.24.49
-pkgrel=6slint
-makedepends=('gobject-introspection' 'meson' 'ninja' 'python3')
+pkgrel=7slint
+makedepends=('gobject-introspection' 'meson' 'ninja' 'python3' 'wayland-protocols')
 url="https://www.gtk.org/"
 source=("https://download.gnome.org/sources/${_srcname}/3.24/${_srcname}-${pkgver}.tar.xz"
         "update-gtk-immodules-3.0")
@@ -89,10 +89,10 @@ build() {
     -Dtests=false \
     -Dinstalled_tests=false \
     -Dwayland_backend=true \
-    meson-build
+    meson-build || exit 1
 
-  meson compile -C meson-build -j "$numjobs"
-  DESTDIR="$PKG" meson install -C meson-build
+  meson compile -C meson-build -j "$numjobs" || exit 1
+  DESTDIR="$PKG" meson install -C meson-build || exit 1
 
   gtkTypelibDir="$PKG/usr/lib${LIBDIRSUFFIX}/girepository-1.0"
   if [ ! -e "$gtkTypelibDir/Gtk-3.0.typelib" ]; then
