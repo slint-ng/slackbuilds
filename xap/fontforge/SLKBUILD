@@ -18,9 +18,9 @@ slackdesc=\
 #Homepage: http://fontforge.sourceforge.net/
 
 url='https://fontforge.github.io/'
-makedepends=('cmake' 'git' 'python-sphinx' 'python3')
+makedepends=('cmake' 'python3')
 depends=('libtool' 'pango' 'giflib' 'libtiff' 'libxml2' 'python3'
-         'potrace' 'woff2' 'gtk+3' 'libuninameslist')
+         'potrace' 'gtk+3')
 source=("https://github.com/${pkgname}/${pkgname}/releases/download/${pkgver}/${pkgname}-${pkgver}.tar.xz"
         "fontforge-msgfmt-no-check.patch")
 docs=(AUTHORS COPYING.gplv3 LICENSE)
