@@ -32,6 +32,9 @@ doinst() {
 config() {
   newFile="$1"
   oldFile="$(dirname "$newFile")/$(basename "$newFile" .new)"
+  if [ ! -r "$newFile" ]; then
+    return
+  fi
   if [ ! -r "$oldFile" ]; then
     mv "$newFile" "$oldFile"
   elif [ "$(cat "$oldFile" | md5sum)" = "$(cat "$newFile" | md5sum)" ]; then
