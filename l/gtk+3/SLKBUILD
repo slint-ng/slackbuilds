@@ -1,10 +1,15 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
 # Packager: Didier Spaier didieratslintdotfr
 
 pkgname=gtk+3
 _srcname=gtk
 pkgver=3.24.49
-pkgrel=2slint
-source=("$_srcname-$pkgver.tar.xz" "update-gtk-immodules-3.0")
+pkgrel=3slint
+url="https://www.gtk.org/"
+source=("https://download.gnome.org/sources/${_srcname}/3.24/${_srcname}-${pkgver}.tar.xz"
+        "update-gtk-immodules-3.0")
 docs=()
 
 slackdesc=\
@@ -61,7 +66,7 @@ build() {
 
   meson setup \
     --prefix=/usr \
-    --libdir=lib${LIBDIRSUFFIX} \
+    --libdir="lib${LIBDIRSUFFIX}" \
     --libexecdir=/usr/libexec \
     --bindir=/usr/bin \
     --sbindir=/usr/sbin \
@@ -81,7 +86,7 @@ build() {
     -Dwayland_backend=true \
     meson-build
 
-  meson compile -C meson-build -j $numjobs
+  meson compile -C meson-build -j "$numjobs"
   DESTDIR="$PKG" meson install -C meson-build
 
   mv "$PKG/etc/gtk-3.0/im-multipress.conf" \
