@@ -1,0 +1,58 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libtpms
+pkgver=0.9.6
+pkgrel=1slint
+url="https://github.com/stefanberger/libtpms"
+source=("https://github.com/stefanberger/libtpms/archive/refs/tags/v${pkgver}/${pkgname}-${pkgver}.tar.gz")
+docs=("CREDITS" "LICENSE" "README")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libtpms (library for emulating TPM 1.2 and 2.0)"
+""
+"libtpms is a library that provides software emulation of a"
+"Trusted Platform Module (TPM 1.2 and TPM 2.0)."
+""
+"Author: Kenneth Goldman"
+"Maintainer: Stefan Berger"
+"Homepage: https://github.com/stefanberger/libtpms"
+)
+
+build() {
+  local docsdir legacy_doc
+
+  docsdir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacy_doc="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  chown -R root:root . || return 1
+  find -L . \
+    \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
+      -o -perm 511 \) -exec chmod 755 {} \; -o \
+    \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
+      -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \; || return 1
+
+  ./autogen.sh || return 1
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --docdir=/usr/doc \
+    --mandir=/usr/man \
+    --with-tpm1 \
+    --with-tpm2 \
+    --enable-static=no || return 1
+
+  make || return 1
+  make install-strip DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+  gzip -9 "$PKG"/usr/man/man3/* || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" "$docsdir/$legacy_doc" || return 1
+}
