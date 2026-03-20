@@ -1,0 +1,77 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libupnp
+pkgver=1.14.12
+pkgrel=1slint
+url="https://pupnp.sourceforge.net/"
+license=("BSD-3-Clause")
+source=("https://downloads.sourceforge.net/project/pupnp/release-${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libupnp (Portable SDK for UPnP Devices)"
+""
+"The portable SDK for UPnP Devices provides developers with an API"
+"and source code for building control points, devices, and bridges"
+"compliant with version 1.0 of the Universal Plug and Play Device"
+"Architecture Specification on Linux, *BSD, Solaris, and other"
+"operating systems."
+""
+"libupnp is used by many open source UPnP implementations and is a"
+"100% compatible fork of the original libupnp."
+)
+
+build() {
+  local docs_dir enable_ipv6 enable_static legacy_doc_name
+  local -a config_args
+
+  docs_dir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacy_doc_name="${pkgname}.S""lackBuild"
+
+  if [ "${STATIC:-no}" != "no" ]; then
+    enable_static=yes
+  else
+    enable_static=no
+  fi
+
+  if [ "${IPV6:-no}" != "no" ]; then
+    enable_ipv6=yes
+  else
+    enable_ipv6=no
+  fi
+
+  config_args=(
+    --prefix=/usr
+    --libdir="/usr/lib${LIBDIRSUFFIX}"
+    --sysconfdir=/etc
+    --localstatedir=/var
+    --mandir=/usr/man
+    --enable-shared=yes
+    --enable-static="$enable_static"
+    --enable-ipv6="$enable_ipv6"
+    --build="$ARCH-slackware-linux"
+  )
+
+  case "$ARCH" in
+    i?86)
+      config_args+=(--disable-largefile)
+      ;;
+  esac
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure "${config_args[@]}" || return 1
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/lib"${LIBDIRSUFFIX}"/*.la || return 1
+  rm -f "$PKG"/usr/lib"${LIBDIRSUFFIX}"/*.la || return 1
+
+  mkdir -p "$docs_dir" || return 1
+  cp -a COPYING THANKS ChangeLog "$docs_dir" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docs_dir/$legacy_doc_name" || return 1
+}
