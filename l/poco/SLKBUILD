@@ -1,0 +1,58 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=poco
+pkgver=1.12.4
+pkgrel=1slint
+url="https://pocoproject.org/"
+source=(
+  "https://github.com/pocoproject/poco/archive/refs/tags/poco-${pkgver}-release.tar.gz"
+  "poco_x64.patch"
+)
+docs=("CHANGELOG" "CONTRIBUTORS" "NEWS" "LICENSE" "VERSION" "README")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"poco (C++ class libraries)"
+""
+"Modern, powerful open source C++ class libraries and"
+"frameworks for building network- and internet-based"
+"applications that run on desktop, server, mobile and"
+"embedded systems."
+""
+"Homepage: https://pocoproject.org"
+)
+
+build() {
+  local docsDir legacyDocName
+
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgname-$pkgver-release" || return 1
+
+  if [ "$ARCH" = "x86_64" ]; then
+    patch -p1 < "$SRC/poco_x64.patch" || return 1
+  fi
+
+  ./configure \
+    --prefix=/usr \
+    --no-tests \
+    --no-samples \
+    --shared \
+    --omit=Data/PostgreSQL,Data/ODBC,Data/MySQL \
+    --sqlite-thread-safe=2 || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  find "$PKG" \
+    \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) \
+    -delete || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docsDir/$legacyDocName" || return 1
+}

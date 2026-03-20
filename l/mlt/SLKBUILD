@@ -1,0 +1,45 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=mlt
+pkgver=7.10.0
+pkgrel=1slint
+url="https://github.com/mltframework/mlt"
+source=("https://github.com/mltframework/mlt/archive/v${pkgver}/${pkgname}-${pkgver}.tar.gz")
+docs=(
+  "AUTHORS*"
+  "COPYING*"
+  "NEWS*"
+  "README.md"
+)
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"mlt (open source multimedia framework)"
+""
+"MLT is an open source multimedia framework, designed and"
+"developed for television broadcasting. It provides a"
+"toolkit for broadcasters, video editors, media players,"
+"transcoders, web streamers, and many more types of"
+"applications through an extensible plug-in based API."
+""
+"Homepage: http://www.mltframework.org/"
+)
+
+build() {
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  cmake \
+    -S . \
+    -B cmake-build \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_MANDIR=/usr/man || return 1
+
+  cmake --build cmake-build -j "$numjobs" || return 1
+  DESTDIR="$PKG" cmake --install cmake-build || return 1
+}

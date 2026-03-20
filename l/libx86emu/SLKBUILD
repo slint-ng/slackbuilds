@@ -1,0 +1,39 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+pkgname=libx86emu
+pkgver=3.5
+pkgrel=1slint
+source=("https://github.com/wfeldt/libx86emu/archive/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+url="https://github.com/wfeldt/libx86emu"
+docs=("LICENSE" "README.md")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libx86emu (x86 emulation library)"
+""
+"Small x86 emulation library with focus of easy usage and extended"
+"execution logging functions."
+)
+
+build() {
+  local docsDir legacyDocName
+
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  chmod -x git2log || return 1
+  sed -i "s|-O2|$SLKCFLAGS|" Makefile || return 1
+  echo "$pkgver" > VERSION || return 1
+
+  make LIBDIR="/usr/lib${LIBDIRSUFFIX}" || return 1
+  make \
+    DESTDIR="$PKG" \
+    LIBDIR="/usr/lib${LIBDIRSUFFIX}" \
+    install || return 1
+
+  mkdir -p "$docsDir" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docsDir/$legacyDocName" || return 1
+}

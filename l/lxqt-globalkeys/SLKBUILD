@@ -1,0 +1,44 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+pkgname=lxqt-globalkeys
+pkgver=2.3.0
+pkgrel=1slint
+options=("noautodotnew")
+source=("https://github.com/lxqt/lxqt-globalkeys/releases/download/${pkgver}/${pkgname}-${pkgver}.tar.xz")
+url="https://github.com/lxqt/lxqt-globalkeys"
+docs=("AUTHORS" "CHANGELOG" "LICENSE" "README.md")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"lxqt-globalkeys (LXQt global shortcut daemon)"
+""
+"lxqt-globalkeys provides the daemon and settings tool"
+"used by LXQt to register global keyboard shortcuts."
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  cmake \
+    -S . \
+    -B build \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release || return 1
+
+  cmake --build build || return 1
+  DESTDIR="$PKG" cmake --install build || return 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) \
+    -exec rm -f {} + || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}

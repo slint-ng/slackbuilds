@@ -1,0 +1,66 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+pkgname=mate-menus
+pkgver=1.28.0
+_majorver=${pkgver%.*}
+pkgrel=1slint
+options=("noautodotnew")
+source=("https://pub.mate-desktop.org/releases/${_majorver}/${pkgname}-${pkgver}.tar.xz")
+url="https://www.mate-desktop.org"
+docs=("AUTHORS" "COPYING" "COPYING.LIB" "ChangeLog" "NEWS" "README")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"mate-menus (menu library and desktop menu files)"
+""
+"mate-menus provides the libmate-menu library, layout files,"
+"and a simple menu editor for the MATE desktop."
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir=/usr/lib"${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --docdir=/usr/doc/$pkgname-$pkgver \
+    --disable-static \
+    --disable-collection \
+    --build="${ARCH}-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG/lib${LIBDIRSUFFIX}/"*.la "$PKG/usr/lib${LIBDIRSUFFIX}/"*.la
+
+  if [ -d "$PKG/usr/man" ]; then
+    while IFS= read -r -d '' manpagedir; do
+      (
+        cd "$manpagedir" || exit 1
+        shopt -s nullglob
+        for eachpage in *; do
+          [ -L "$eachpage" ] || continue
+          target=$(readlink "$eachpage") || exit 1
+          ln -s "${target}.gz" "${eachpage}.gz" || exit 1
+          rm -f "$eachpage" || exit 1
+        done
+        for eachpage in *.?; do
+          [ -f "$eachpage" ] || continue
+          gzip -9 "$eachpage" || exit 1
+        done
+      ) || return 1
+    done < <(find "$PKG/usr/man" -type d -name 'man*' -print0)
+  fi
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}

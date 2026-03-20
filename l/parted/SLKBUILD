@@ -1,0 +1,62 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+pkgname=parted
+pkgver=3.6
+pkgrel=1slint
+source=("https://ftp.gnu.org/gnu/parted/${pkgname}-${pkgver}.tar.xz")
+url="https://www.gnu.org/software/parted/"
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"parted (GNU disk partitioning tool)"
+""
+"GNU Parted is a program for creating, destroying, resizing, checking"
+"and copying partitions, and the filesystems on them. This is useful"
+"for creating space for new operating systems, reorganizing disk"
+"usage, copying data between hard disks, and disk imaging."
+)
+
+build() {
+  local docsDir enable_shared enable_static
+
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+  enable_shared=yes
+  enable_static=no
+  if [ "${STATIC:-no}" = "yes" ]; then
+    enable_shared=no
+    enable_static=yes
+  fi
+
+  PATH=$(printf '%s' "$PATH" | sed 's|/usr/libexec/icecc/bin||g' | tr -s : | sed 's/^://; s/:$//')
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --mandir=/usr/man \
+    --infodir=/usr/info \
+    --enable-shared="$enable_shared" \
+    --enable-static="$enable_static" \
+    --enable-device-mapper=yes \
+    --with-readline \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make -j "$numjobs" || make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/lib"${LIBDIRSUFFIX}"/*.la || return 1
+  rm -f "$PKG"/usr/lib"${LIBDIRSUFFIX}"/*.la || return 1
+
+  mkdir -p "$docsDir" || return 1
+  cp -a \
+    AUTHORS BUGS COPYING NEWS README THANKS TODO \
+    doc/API doc/FAT doc/USER.jp \
+    "$docsDir" || return 1
+
+  if [ -r ChangeLog ]; then
+    head -n 1000 ChangeLog > "$docsDir/ChangeLog" || return 1
+    touch -r ChangeLog "$docsDir/ChangeLog" || return 1
+  fi
+}

@@ -1,0 +1,74 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=opencv
+pkgver=4.6.0
+pkgrel=2slint
+url="https://github.com/opencv/opencv"
+source=(
+  "https://github.com/opencv/opencv/archive/${pkgver}/${pkgname}-${pkgver}.tar.gz"
+  "https://github.com/opencv/opencv_contrib/archive/${pkgver}/opencv_contrib-${pkgver}.tar.gz"
+  "0004-Add-missing-header-for-LIBAVCODEC_VERSION_INT.patch.gz"
+)
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"opencv (Open Source Computer Vision)"
+""
+"OpenCV is a collection of algorithms and sample code for"
+"various computer vision problems."
+""
+"Homepage: http://opencv.willowgarage.com"
+)
+
+build() {
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  gzip -cd "$SRC/0004-Add-missing-header-for-LIBAVCODEC_VERSION_INT.patch.gz" \
+    | patch -p1 --verbose || return 1
+
+  cmake \
+    -S . \
+    -B cmake-build \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_C_FLAGS_RELEASE:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS_RELEASE:STRING="$SLKCFLAGS" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DINSTALL_MAN_DIR=man \
+    -DINSTALL_DOC_DIR="doc/$pkgname-$pkgver" \
+    -DSYSCONF_INSTALL_DIR=/etc \
+    -DLIB_SUFFIX="${LIBDIRSUFFIX}" \
+    -DLIB_INSTALL_DIR="/usr/lib${LIBDIRSUFFIX}" \
+    -DBUILD_CUDA_STUBS=OFF \
+    -DBUILD_PACKAGE=OFF \
+    -DBUILD_PERF_TESTS=OFF \
+    -DBUILD_SHARED_LIBS=ON \
+    -DBUILD_TESTS=OFF \
+    -DBUILD_WITH_DEBUG_INFO=OFF \
+    -DENABLE_PRECOMPILED_HEADERS=OFF \
+    -DWITH_CUDA=OFF \
+    -DWITH_FFMPEG=ON \
+    -DWITH_GDAL=ON \
+    -DWITH_IPP=OFF \
+    -DWITH_OPENGL=ON \
+    -DWITH_OPENMP=ON \
+    -DWITH_QT=5 \
+    -DWITH_XINE=OFF \
+    -DOPENCV_ENABLE_NONFREE=ON \
+    -DOPENCV_EXTRA_MODULES_PATH="../opencv_contrib-$pkgver/modules" \
+    -DOPENCV_GENERATE_PKGCONFIG=ON \
+    -DOPENCV_JNI_INSTALL_PATH="lib${LIBDIRSUFFIX}" || return 1
+
+  cmake --build cmake-build -j "$numjobs" || return 1
+  DESTDIR="$PKG" cmake --install cmake-build || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  mv "$PKG/usr/share/licenses" "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  install -Dm0644 "$SRC/$pkgname-$pkgver/README.md" \
+    "$PKG/usr/doc/$pkgname-$pkgver/README.md" || return 1
+}

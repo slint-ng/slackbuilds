@@ -7,6 +7,7 @@ pkgname=libxml2_3.11
 _srcname=libxml2
 pkgver=2.11.8
 pkgrel=1slint
+options=("keepla")
 url="https://gitlab.gnome.org/GNOME/libxml2"
 source=(
   "https://download.gnome.org/sources/${_srcname}/${pkgver%.*}/${_srcname}-${pkgver}.tar.xz"
@@ -31,7 +32,7 @@ build() {
   local python3lib
 
   configuredDocDir="/usr/doc/$pkgname-$pkgver"
-  docDir="$PKG/usr/doc/${_srcname}-$pkgver"
+  docDir="$PKG$configuredDocDir"
   python3lib="$(python3.11 -c 'from distutils.sysconfig import get_python_lib; print(get_python_lib())')" || return 1
 
   cd "$SRC/${_srcname}-$pkgver" || return 1
@@ -77,6 +78,8 @@ build() {
 
   make -j "$numjobs" || make || return 1
   make install DESTDIR="$PKG" || return 1
+  install -Dm0644 python/libxml2mod.la \
+    "$PKG/usr/lib${LIBDIRSUFFIX}/python3.11/site-packages/libxml2mod.la" || return 1
 
   python3.11 -m compileall "${PKG}${python3lib}" || return 1
   python3.11 -O -m compileall "${PKG}${python3lib}" || return 1
@@ -85,11 +88,5 @@ build() {
     "$PKG/lib${LIBDIRSUFFIX}"/*.la \
     "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
 
-  mkdir -p "$PKG/usr/doc" || return 1
-  mv "$PKG/usr/share/doc/${_srcname}-python-$pkgver" "$docDir" || return 1
-  rmdir "$PKG/usr/share/doc" 2>/dev/null || true
-  cp -a \
-    AUTHORS* COPYING* Copyright* INSTALL* NEWS* README* TODO* \
-    "$docDir" || return 1
   find "$docDir" -type f -exec chmod 0644 {} \+ || return 1
 }
