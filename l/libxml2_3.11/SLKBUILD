@@ -1,0 +1,95 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libxml2_3.11
+_srcname=libxml2
+pkgver=2.11.8
+pkgrel=1slint
+url="https://gitlab.gnome.org/GNOME/libxml2"
+source=(
+  "https://download.gnome.org/sources/${_srcname}/${pkgver%.*}/${_srcname}-${pkgver}.tar.xz"
+  "libxml2-2.12.0-python3-unicode-errors.patch"
+)
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libxml2_3.11 (XML parser library)"
+""
+"Libxml2 is the XML C parser library and toolkit. XML is a"
+"metalanguage used to design markup languages, where"
+"structure is added to content with extra markup enclosed"
+"between angle brackets. HTML is the best-known example."
+"Though the library is written in C, bindings make it"
+"available in a variety of other environments."
+)
+
+build() {
+  local configuredDocDir
+  local docDir
+  local python3lib
+
+  configuredDocDir="/usr/doc/$pkgname-$pkgver"
+  docDir="$PKG/usr/doc/${_srcname}-$pkgver"
+  python3lib="$(python3.11 -c 'from distutils.sysconfig import get_python_lib; print(get_python_lib())')" || return 1
+
+  cd "$SRC/${_srcname}-$pkgver" || return 1
+
+  chown -R root:root . || return 1
+  find . \
+    \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+    -exec chmod 755 {} \+ -o \
+    \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+    -exec chmod 644 {} \+ || return 1
+
+  if [ ! -r configure ]; then
+    if [ -x ./autogen.sh ]; then
+      NOCONFIGURE=1 ./autogen.sh || return 1
+    else
+      autoreconf -vif || return 1
+    fi
+  fi
+
+  # Next build for python3...
+
+  ## Fixes for python-3.9.x:
+  #sed -i '/if Py/{s/Py/(Py/;s/)/))/}' python/{types.c,libxml.c}
+  #sed -i '/_PyVerify_fd/,+1d' python/types.c
+  #sed -i 's/test.test/#&/' python/tests/tstLastError.py
+
+  # Patch from openSUSE.
+  # See: https://bugzilla.gnome.org/show_bug.cgi?id=789714
+  patch -p1 --verbose < "$SRC/../libxml2-2.12.0-python3-unicode-errors.patch" || return 1
+
+  PYTHON=/usr/bin/python3.11 \
+  ./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --mandir=/usr/man \
+    --docdir="$configuredDocDir" \
+    --disable-static \
+    --with-python \
+    --with-legacy \
+    --with-ftp \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make -j "$numjobs" || make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  python3.11 -m compileall "${PKG}${python3lib}" || return 1
+  python3.11 -O -m compileall "${PKG}${python3lib}" || return 1
+
+  rm -f \
+    "$PKG/lib${LIBDIRSUFFIX}"/*.la \
+    "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+
+  mkdir -p "$PKG/usr/doc" || return 1
+  mv "$PKG/usr/share/doc/${_srcname}-python-$pkgver" "$docDir" || return 1
+  rmdir "$PKG/usr/share/doc" 2>/dev/null || true
+  cp -a \
+    AUTHORS* COPYING* Copyright* INSTALL* NEWS* README* TODO* \
+    "$docDir" || return 1
+  find "$docDir" -type f -exec chmod 0644 {} \+ || return 1
+}
