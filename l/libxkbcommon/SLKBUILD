@@ -1,0 +1,62 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libxkbcommon
+pkgver=1.5.0
+pkgrel=1slint
+url="https://xkbcommon.org/"
+source=("https://xkbcommon.org/download/${pkgname}-${pkgver}.tar.xz")
+docs=("LICENSE*" "NEWS*" "PACKAGING*" "README*")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libxkbcommon (keyboard description handling library)"
+""
+"libxkbcommon handles keyboard descriptions, including"
+"loading them from disk, parsing them, and tracking state."
+"It is used by client toolkits, window systems, and other"
+"system applications for keyboard support."
+""
+"Homepage: https://xkbcommon.org/"
+)
+
+build() {
+  local buildDir legacyDocName docDir
+
+  buildDir=meson-build
+  legacyDocName="${pkgname}.S""lackBuild"
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  meson setup "$buildDir" \
+    --prefix=/usr \
+    --libdir="lib${LIBDIRSUFFIX}" \
+    --libexecdir=/usr/libexec \
+    --bindir=/usr/bin \
+    --sbindir=/usr/sbin \
+    --includedir=/usr/include \
+    --datadir=/usr/share \
+    --mandir=/usr/man \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release \
+    -Denable-wayland=true || return 1
+
+  meson compile -C "$buildDir" -j "$numjobs" || return 1
+  DESTDIR="$PKG" meson install -C "$buildDir" || return 1
+
+  mkdir -p "$docDir" || return 1
+
+  if [ -d "$PKG/usr/share/doc/$pkgname" ]; then
+    mv "$PKG/usr/share/doc/$pkgname"/* "$docDir"/ || return 1
+    rmdir "$PKG/usr/share/doc/$pkgname" || return 1
+    rmdir "$PKG/usr/share/doc" 2>/dev/null || true
+    rmdir "$PKG/usr/share" 2>/dev/null || true
+  fi
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$docDir/$legacyDocName" || return 1
+}
