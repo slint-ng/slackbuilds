@@ -6,7 +6,7 @@
 pkgname=gtk+3
 _srcname=gtk
 pkgver=3.24.49
-pkgrel=5slint
+pkgrel=6slint
 makedepends=('gobject-introspection' 'meson' 'ninja' 'python3')
 url="https://www.gtk.org/"
 source=("https://download.gnome.org/sources/${_srcname}/3.24/${_srcname}-${pkgver}.tar.xz"
@@ -93,6 +93,16 @@ build() {
 
   meson compile -C meson-build -j "$numjobs"
   DESTDIR="$PKG" meson install -C meson-build
+
+  gtkTypelibDir="$PKG/usr/lib${LIBDIRSUFFIX}/girepository-1.0"
+  if [ ! -e "$gtkTypelibDir/Gtk-3.0.typelib" ]; then
+    mkdir -p "$gtkTypelibDir" || exit 1
+    find meson-build -name '*.typelib' -exec install -m 644 -t "$gtkTypelibDir" {} + || exit 1
+  fi
+  [ -e "$gtkTypelibDir/Gtk-3.0.typelib" ] || {
+    echo "Gtk-3.0.typelib missing after gtk+3 install" >&2
+    exit 1
+  }
 
   mv "$PKG/etc/gtk-3.0/im-multipress.conf" \
     "$PKG/etc/gtk-3.0/im-multipress.conf.new"
