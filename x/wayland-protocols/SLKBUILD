@@ -5,7 +5,7 @@
 
 pkgname=wayland-protocols
 pkgver=1.45
-pkgrel=1slint
+pkgrel=2slint
 arch=noarch
 url="https://wayland.freedesktop.org/"
 source=("https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/${pkgver}/downloads/${pkgname}-${pkgver}.tar.xz")
@@ -25,6 +25,12 @@ build() {
   local docsDir=""
 
   cd "$SRC/$pkgname-$pkgver" || return 1
+
+  # noarch metadata can leak impossible -march/-mtune values into Meson.
+  export CFLAGS="${CFLAGS//-march=noarch/}"
+  export CFLAGS="${CFLAGS//-mtune=noarch/}"
+  export CXXFLAGS="${CXXFLAGS//-march=noarch/}"
+  export CXXFLAGS="${CXXFLAGS//-mtune=noarch/}"
 
   meson setup buildDir \
     --prefix=/usr \
