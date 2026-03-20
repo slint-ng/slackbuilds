@@ -24,7 +24,7 @@ slackdesc=(
 )
 
 build() {
-  local legacyDocName
+  local docdir empty_doc legacyDocName
 
   legacyDocName="${pkgname}.S""lackBuild"
 
@@ -52,9 +52,18 @@ build() {
     "$PKG/lib${LIBDIRSUFFIX}"/*.la \
     "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
 
-  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
-  cp -a AUTHORS ChangeLog COPYING INSTALL NEWS README TODO \
-    "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  mkdir -p "$docdir" || return 1
+  cp -a AUTHORS ChangeLog COPYING INSTALL NEWS README TODO "$docdir" || return 1
+
+  # slkbuild prunes zero-length docs, so preserve upstream placeholders.
+  for empty_doc in ChangeLog NEWS; do
+    if [[ -f "$docdir/$empty_doc" && ! -s "$docdir/$empty_doc" ]]; then
+      printf '\n' > "$docdir/$empty_doc" || return 1
+    fi
+  done
+
   install -Dm0644 "$SRC/../SLKBUILD" \
-    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+    "$docdir/$legacyDocName" || return 1
 }
