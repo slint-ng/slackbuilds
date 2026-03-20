@@ -3,8 +3,8 @@
 
 pkgname=orca
 pkgver=50.0.9
-pkgrel=1slint
-depends=('brltty' 'gtk+3' 'liblouis' 'psutil3.11' 'python3' 'python3-cairo'
+pkgrel=2slint
+depends=('brltty' 'gobject-introspection' 'gtk+3' 'liblouis' 'psutil3.11' 'python3' 'python3-cairo'
 	'python3-dasbus' 'python3-gobject' 'python3-setproctitle'
 	'speech-dispatcher3.11')
 
@@ -38,10 +38,15 @@ build() {
 		exit 1
 	fi
 	pythonShimDir="$(mktemp -d)" || exit 1
+	giTypelibPath="/usr/lib${LIBDIRSUFFIX}/girepository-1.0"
 	ln -s /usr/bin/python3.11 "$pythonShimDir/python3" || exit 1
 
 	cd "$SRC/$pkgname-$pkgver" || exit 1
 	PATH="$pythonShimDir:$PATH" \
+	GI_TYPELIB_PATH="${giTypelibPath}${GI_TYPELIB_PATH:+:${GI_TYPELIB_PATH}}" \
+	python3 -c 'import gi; gi.require_version("Gtk", "3.0"); from gi.repository import Gtk; print(f"Gtk {Gtk.get_major_version()}.{Gtk.get_minor_version()}.{Gtk.get_micro_version()} available")' || exit 1
+	PATH="$pythonShimDir:$PATH" \
+	GI_TYPELIB_PATH="${giTypelibPath}${GI_TYPELIB_PATH:+:${GI_TYPELIB_PATH}}" \
 	CFLAGS="$SLKCFLAGS" \
 	CXXFLAGS="$SLKCFLAGS" \
 	meson setup --errorlogs \
@@ -53,8 +58,12 @@ build() {
 		--prefix=/usr \
 		--sysconfdir=/etc \
 		_build || exit 1
-	PATH="$pythonShimDir:$PATH" meson compile -C _build || exit 1
-	PATH="$pythonShimDir:$PATH" meson install -C _build --destdir="$PKG" || exit 1
+	PATH="$pythonShimDir:$PATH" \
+	GI_TYPELIB_PATH="${giTypelibPath}${GI_TYPELIB_PATH:+:${GI_TYPELIB_PATH}}" \
+	meson compile -C _build || exit 1
+	PATH="$pythonShimDir:$PATH" \
+	GI_TYPELIB_PATH="${giTypelibPath}${GI_TYPELIB_PATH:+:${GI_TYPELIB_PATH}}" \
+	meson install -C _build --destdir="$PKG" || exit 1
 	rm -rf "$pythonShimDir"
 	# No autostart but orca will be started:
 	# - at system level by gdm or lightdm if wished
