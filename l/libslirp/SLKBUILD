@@ -1,0 +1,52 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libslirp
+pkgver=4.7.0
+_srcname="${pkgname}-v${pkgver}"
+pkgrel=1slint
+url="https://gitlab.freedesktop.org/slirp/libslirp"
+source=("https://gitlab.freedesktop.org/slirp/libslirp/-/archive/v${pkgver}/${_srcname}.tar.gz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libslirp (User-mode networking library)"
+""
+"libslirp is a user-mode networking library used by virtual"
+"machines, containers, and related tools."
+"It provides a general-purpose TCP/IP emulator used by"
+"virtual machine hypervisors to provide networking services."
+""
+"Homepage: https://gitlab.freedesktop.org/slirp/libslirp"
+)
+
+build() {
+  local docsdir legacy_doc
+
+  docsdir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacy_doc="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$_srcname" || return 1
+
+  chown -R root:root . || return 1
+  find -L . \
+    \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
+      -o -perm 511 \) -exec chmod 755 {} \; -o \
+    \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
+      -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \; || return 1
+
+  meson setup build \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" || return 1
+  meson compile -C build || return 1
+  DESTDIR="$PKG" meson install -C build || return 1
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+
+  mkdir -p "$docsdir" || return 1
+  cp -a CHANGELOG.md COPYRIGHT README.md "$docsdir" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docsdir/$legacy_doc" || return 1
+}
