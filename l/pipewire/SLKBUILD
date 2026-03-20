@@ -5,7 +5,7 @@
 
 pkgname=pipewire
 pkgver=0.3.60
-pkgrel=2slint
+pkgrel=3slint
 url="https://pipewire.org/"
 license=("MIT" "LGPL-2.1-or-later")
 source=(
@@ -51,11 +51,10 @@ build() {
   rm -rf subprojects/media-session || return 1
   cp -a "$SRC/media-session-0.4.1" subprojects/media-session || return 1
 
-  if rst2man --help >/dev/null 2>&1; then
+  if command -v rst2man >/dev/null 2>&1 && python3 -c 'import docutils' >/dev/null 2>&1; then
     manArg="-Dman=enabled"
   else
-    echo "A working rst2man/docutils setup is required to preserve pipewire man pages." >&2
-    return 1
+    echo "rst2man/docutils missing; disabling pipewire man pages." >&2
   fi
 
   meson setup meson-build \
