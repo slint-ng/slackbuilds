@@ -1,7 +1,5 @@
-# shellcheck shell=bash disable=SC2034
-# Maintainer: Gaetan Bisson <bisson@archlinux.org>
-# Contributor: Eric Belanger <eric@archlinux.org>
-# Contributor: William Rea <sillywilly@gmail.com>
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
 
 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 
@@ -19,40 +17,39 @@ slackdesc=\
 )
 #Homepage: http://fontforge.sourceforge.net/
 
-
 url='https://fontforge.github.io/'
-arch=('x86_64')
 makedepends=('cmake' 'git' 'python-sphinx' 'python3')
 depends=('libtool' 'pango' 'giflib' 'libtiff' 'libxml2' 'python3'
-         'potrace' 'woff2' 'gtk3' 'libuninameslist')
+         'potrace' 'woff2' 'gtk+3' 'libuninameslist')
 source=("https://github.com/${pkgname}/${pkgname}/releases/download/${pkgver}/${pkgname}-${pkgver}.tar.xz"
         "fontforge-msgfmt-no-check.patch")
-sha256sums=('68bcba8f602819eddc29cd356ee13fafbad7a80d19b652d354c6791343476c78'
-            'cab0ae9d4b54764a2cebec68334b13830769a91d34ee65c26e55393a2c793466')
 docs=(AUTHORS COPYING.gplv3 LICENSE)
 build() {
-	cd "$SRC/${pkgname}-${pkgver}" || return 1
-	patch -Np1 -i "$SRC/fontforge-msgfmt-no-check.patch" || return 1
-	mkdir build
-	cd build || return 1
-	# python3.11 in Slint ships without the unversioned libpython symlink.
-	# Pass explicit embed artifacts so FindPython3 resolves Development.Embed.
-	cmake \
-		-DCMAKE_BUILD_TYPE=Release \
-		-DCMAKE_INSTALL_PREFIX=/usr \
-		-DENABLE_MAINTAINER_TOOLS=TRUE \
-		-DENABLE_FONTFORGE_EXTRAS=TRUE \
-		-DENABLE_LIBSPIRO=FALSE \
-		-DENABLE_DOCS=FALSE \
-		-DENABLE_LIBREADLINE=FALSE \
-		-DENABLE_LIBUNINAMESLIST=FALSE \
-		-DPython3_EXECUTABLE=/usr/bin/python3.11 \
-		-DPython3_INCLUDE_DIR=/usr/include/python3.11 \
-		-DPython3_LIBRARY=/usr/lib64/libpython3.11.so.1.0 \
-		-DUNIX=TRUE \
-		..
-sed "s/-R/-Wl,-rpath=/g" CMakeCache.txt > bof
-mv bof CMakeCache.txt
-	make
-	make DESTDIR="$PKG" install
+  cd "$SRC/${pkgname}-${pkgver}" || return 1
+  patch -Np1 -i "$SRC/fontforge-msgfmt-no-check.patch" || return 1
+  mkdir build || return 1
+  cd build || return 1
+
+  # python3.11 in Slint ships without the unversioned libpython symlink.
+  # Pass explicit embed artifacts so FindPython3 resolves Development.Embed.
+  cmake \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DENABLE_MAINTAINER_TOOLS=TRUE \
+    -DENABLE_FONTFORGE_EXTRAS=TRUE \
+    -DENABLE_LIBSPIRO=FALSE \
+    -DENABLE_DOCS=FALSE \
+    -DENABLE_LIBREADLINE=FALSE \
+    -DENABLE_LIBUNINAMESLIST=FALSE \
+    -DPython3_EXECUTABLE=/usr/bin/python3.11 \
+    -DPython3_INCLUDE_DIR=/usr/include/python3.11 \
+    -DPython3_LIBRARY=/usr/lib64/libpython3.11.so.1.0 \
+    -DUNIX=TRUE \
+    .. || return 1
+
+  sed 's/-R/-Wl,-rpath=/g' CMakeCache.txt > bof || return 1
+  mv bof CMakeCache.txt || return 1
+
+  make || return 1
+  make DESTDIR="$PKG" install || return 1
 }
