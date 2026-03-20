@@ -1,0 +1,54 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libsysstat
+pkgver=1.1.0
+pkgrel=1slint
+url="https://github.com/lxqt/libsysstat"
+source=("https://github.com/lxqt/libsysstat/releases/download/${pkgver}/${pkgname}-${pkgver}.tar.xz")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"libsysstat (LXQt system statistics library)"
+""
+"libsysstat is a library for querying CPU, memory,"
+"network, and other system statistics."
+"It is maintained by the LXQt project and is used"
+"by LXQt panel monitoring components."
+)
+
+build() {
+  local docPath
+  local docsDir
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  cmake \
+    -S . \
+    -B build \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR="/usr/lib${LIBDIRSUFFIX}" \
+    -DCMAKE_BUILD_TYPE=Release || return 1
+
+  cmake --build build || return 1
+  DESTDIR="$PKG" cmake --install build || return 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) \
+    -exec rm -f {} + || return 1
+
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+  mkdir -p "$docsDir" || return 1
+  for docPath in AUTHORS CHANGELOG COPYING README.md; do
+    [ -e "$docPath" ] || continue
+    cp -a "$docPath" "$docsDir" || return 1
+  done
+  install -Dm0644 "$SRC/../SLKBUILD" "$docsDir/$legacyDocName" || return 1
+}
