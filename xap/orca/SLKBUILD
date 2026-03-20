@@ -3,10 +3,10 @@
 
 pkgname=orca
 pkgver=50.0.9
-pkgrel=2slint
+pkgrel=3slint
 depends=('brltty' 'gobject-introspection' 'gtk+3' 'liblouis' 'psutil3.11' 'python3' 'python3-cairo'
 	'python3-dasbus' 'python3-gobject' 'python3-setproctitle'
-	'speech-dispatcher3.11')
+	'speech-dispatcher|speech-dispatcher3.11')
 
 source=(
 	"https://download.gnome.org/sources/orca/50/orca-${pkgver}.tar.xz"
