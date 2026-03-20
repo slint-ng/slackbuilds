@@ -1,0 +1,55 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libscfg
+pkgver=0.1.1
+pkgrel=1slint
+url="https://git.sr.ht/~emersion/libscfg/"
+source=(
+  "https://git.sr.ht/~emersion/libscfg/refs/download/v${pkgver}/${pkgname}-${pkgver}.tar.gz"
+  "build.patch"
+)
+docs=("LICENSE" "README.md")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libscfg (C library for scfg)"
+""
+"libscfg is a C library for scfg, the Simple"
+"configuration file format."
+""
+"Homepage: https://git.sr.ht/~emersion/libscfg/"
+)
+
+build() {
+  local docsdir legacy_doc
+
+  docsdir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacy_doc="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  chown -R root:root . || return 1
+  find -L . \
+    \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
+      -o -perm 511 \) -exec chmod 755 {} \; -o \
+    \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
+      -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \; || return 1
+
+  patch -p1 < "$SRC/build.patch" || return 1
+
+  meson setup build \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --buildtype=release || return 1
+  meson compile -C build || return 1
+  DESTDIR="$PKG" meson install -C build || return 1
+
+  rm -f "$PKG/lib${LIBDIRSUFFIX}"/*.la \
+    "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" "$docsdir/$legacy_doc" || return 1
+}
