@@ -1,9 +1,12 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
 # Packager: Didier Spaier didieratslintdotfr
 
 pkgname=at-spi2-core
 pkgver=2.58.1
-pkgrel=slint
-source=("$pkgname-$pkgver.tar.xz")
+pkgrel=2slint
+source=("https://download.gnome.org/sources/$pkgname/2.58/$pkgname-$pkgver.tar.xz")
 docs=("AUTHORS" "COPYING" "INSTALL" "NEWS" "README.md")
 
 slackdesc=\
@@ -21,10 +24,10 @@ slackdesc=\
 )
 
 doinst() {
-if ls /var/lib/pkgtools/packages/ | grep -q at-spi2-atk- ; then
+if compgen -G '/var/lib/pkgtools/packages/at-spi2-atk-*' >/dev/null; then
   /sbin/removepkg at-spi2-atk
 fi
-if ls /var/lib/pkgtools/packages/ | grep -q atk- ; then
+if compgen -G '/var/lib/pkgtools/packages/atk-*' >/dev/null; then
   /sbin/removepkg atk
 fi
 }
@@ -36,13 +39,13 @@ build() {
 
   meson setup \
     --prefix=/usr \
-    --libdir=lib${LIBDIRSUFFIX} \
+    --libdir="lib${LIBDIRSUFFIX}" \
     --sysconfdir=/etc \
     --localstatedir=/var \
     --mandir=/usr/man \
     -Dpython=python3.11 \
-    build
+    build || exit 1
 
-  meson compile -C build -j $numjobs
-  DESTDIR="$PKG" meson install -C build
+  meson compile -C build -j "$numjobs" || exit 1
+  DESTDIR="$PKG" meson install -C build || exit 1
 }
