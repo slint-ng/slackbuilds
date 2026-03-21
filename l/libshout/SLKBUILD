@@ -1,0 +1,49 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libshout
+pkgver=2.4.5
+pkgrel=3slint
+url="https://www.icecast.org"
+source=("https://ftp.osuosl.org/pub/xiph/releases/libshout/${pkgname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libshout (icecast server library)"
+""
+"Libshout is a library for communicating with and sending"
+"data to an icecast server. It handles the socket"
+"connection, timing, and bad-data filtering for the stream."
+""
+"Homepage: https://www.icecast.org"
+)
+
+build() {
+  local docdir legacyDocName
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --disable-static \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make docdir="/usr/doc/$pkgname-$pkgver" || return 1
+  make install docdir="/usr/doc/$pkgname-$pkgver" DESTDIR="$PKG" || return 1
+
+  mkdir -p "$docdir" || return 1
+  cp -a doc/libshout.xml "$docdir" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docdir/$legacyDocName" || return 1
+
+  rm -f "$PKG"/usr/lib"${LIBDIRSUFFIX}"/*.la || return 1
+}
