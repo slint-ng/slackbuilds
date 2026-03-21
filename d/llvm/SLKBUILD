@@ -1,0 +1,255 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Built for Slint by Frank Honolka
+
+pkgname=llvm
+pkgver=17.0.6
+pkgrel=1slint
+url="https://llvm.org/"
+source=(
+  "https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/llvm-${pkgver}.src.tar.xz"
+  "https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/clang-${pkgver}.src.tar.xz"
+  "https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/clang-tools-extra-${pkgver}.src.tar.xz"
+  "https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/compiler-rt-${pkgver}.src.tar.xz"
+  "https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/lldb-${pkgver}.src.tar.xz"
+  "https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/lld-${pkgver}.src.tar.xz"
+  "https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/openmp-${pkgver}.src.tar.xz"
+  "https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/polly-${pkgver}.src.tar.xz"
+  "https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/libcxx-${pkgver}.src.tar.xz"
+  "https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/libcxxabi-${pkgver}.src.tar.xz"
+  "https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/libunwind-${pkgver}.src.tar.xz"
+  "https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/cmake-${pkgver}.src.tar.xz"
+  "https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/third-party-${pkgver}.src.tar.xz"
+  "clang.toolchains.i586.triple.diff.gz"
+  "lldb.32-bit.link.libatomic.diff.gz"
+  "missing-runtime-modules/HandleFlags.cmake"
+  "missing-runtime-modules/WarningFlags.cmake"
+)
+options=("noextract" "nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"llvm (compiler infrastructure and toolchain)"
+""
+"LLVM provides reusable compiler and toolchain components,"
+"including clang, lld, lldb, compiler-rt, libc++, OpenMP,"
+"and related developer tools."
+""
+"Homepage: https://llvm.org/"
+)
+
+build() {
+  local pkgRoot workDir llvmSourceDir buildDir ignoreGnuExtensions effectiveSlkcflags
+  local llvmBuildLlvmDylib buildSharedLibs buildClangd clangdMajorVersion
+  local py2 py3 ninjaCommand legacyDocName docDir
+  local -a sharedLibraryOptions linkerOptions clangdOptions cmakeArgs
+
+  pkgRoot="$(cd "$SRC/.." && pwd)" || return 1
+  workDir="$SRC/llvm-build-$pkgver"
+  llvmSourceDir="$workDir/llvm-$pkgver.src"
+  buildDir="$workDir/build"
+  ignoreGnuExtensions="${IGNORE_GNU_EXTENSIONS:--Wno-unknown-warning-option -Wno-gnu-line-marker -Wno-gnu-anonymous-struct -Wno-gnu-include-next}"
+  effectiveSlkcflags="$SLKCFLAGS $ignoreGnuExtensions"
+  llvmBuildLlvmDylib="${LLVM_BUILD_LLVM_DYLIB:-ON}"
+  buildSharedLibs="${BUILD_SHARED_LIBS:-OFF}"
+  buildClangd="${BUILD_CLANGD:-}"
+  ninjaCommand="${NINJA:-ninja}"
+  legacyDocName="${pkgname}.S""lackBuild"
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+  clangdMajorVersion="${pkgver%%.*}"
+  sharedLibraryOptions=()
+  linkerOptions=()
+  clangdOptions=()
+
+  if [ -z "$buildClangd" ]; then
+    if [ "$ARCH" = "i586" ] || [ "$ARCH" = "i686" ]; then
+      buildClangd=NO
+    else
+      buildClangd=YES
+    fi
+  fi
+  if [ "$buildClangd" = "NO" ]; then
+    clangdOptions+=("-DCLANG_ENABLE_CLANGD=OFF")
+  fi
+
+  py2="$(python -c 'from distutils.sysconfig import get_python_lib; print(get_python_lib())' | cut -f 2 -d n | cut -f 1 -d /)" || return 1
+  py3="$(python3 -c 'from distutils.sysconfig import get_python_lib; print(get_python_lib())' | cut -f 2 -d n | cut -f 1 -d /)" || return 1
+
+  rm -rf "$workDir"
+  mkdir -p "$workDir" "$PKG" || return 1
+  cd "$workDir" || return 1
+
+  touch configure || return 1
+  chmod 755 configure || return 1
+
+  tar xf "$SRC/cmake-$pkgver.src.tar.xz" || return 1
+  mv "cmake-$pkgver.src" cmake || return 1
+  tar xf "$SRC/third-party-$pkgver.src.tar.xz" || return 1
+  mv "third-party-$pkgver.src" third-party || return 1
+  tar xf "$SRC/llvm-$pkgver.src.tar.xz" || return 1
+
+  cd "$llvmSourceDir/tools" || return 1
+  tar xf "$SRC/clang-$pkgver.src.tar.xz" || return 1
+  mv "clang-$pkgver" clang 2>/dev/null || mv "clang-$pkgver.src" clang || return 1
+  tar xf "$SRC/lldb-$pkgver.src.tar.xz" || return 1
+  mv "lldb-$pkgver" lldb 2>/dev/null || mv "lldb-$pkgver.src" lldb || return 1
+  tar xf "$SRC/lld-$pkgver.src.tar.xz" || return 1
+  mv "lld-$pkgver" lld 2>/dev/null || mv "lld-$pkgver.src" lld || return 1
+  cd clang/tools || return 1
+  tar xf "$SRC/clang-tools-extra-$pkgver.src.tar.xz" || return 1
+  mv "clang-tools-extra-$pkgver" extra 2>/dev/null || mv "clang-tools-extra-$pkgver.src" extra || return 1
+
+  cd "$llvmSourceDir/projects" || return 1
+  tar xf "$SRC/compiler-rt-$pkgver.src.tar.xz" || return 1
+  mv "compiler-rt-$pkgver" compiler-rt 2>/dev/null || mv "compiler-rt-$pkgver.src" compiler-rt || return 1
+  tar xf "$SRC/openmp-$pkgver.src.tar.xz" || return 1
+  mv "openmp-$pkgver" openmp 2>/dev/null || mv "openmp-$pkgver.src" openmp || return 1
+  tar xf "$SRC/libcxx-$pkgver.src.tar.xz" || return 1
+  mv "libcxx-$pkgver" libcxx 2>/dev/null || mv "libcxx-$pkgver.src" libcxx || return 1
+  tar xf "$SRC/libcxxabi-$pkgver.src.tar.xz" || return 1
+  mv "libcxxabi-$pkgver" libcxxabi 2>/dev/null || mv "libcxxabi-$pkgver.src" libcxxabi || return 1
+  tar xf "$SRC/polly-$pkgver.src.tar.xz" || return 1
+  mv "polly-$pkgver" polly 2>/dev/null || mv "polly-$pkgver.src" polly || return 1
+  tar xf "$SRC/libunwind-$pkgver.src.tar.xz" || return 1
+  mv "libunwind-$pkgver.src" libunwind 2>/dev/null || mv "libunwind-$pkgver" libunwind || return 1
+
+  cd "$llvmSourceDir" || return 1
+  zcat "$pkgRoot/clang.toolchains.i586.triple.diff.gz" | patch -p1 --verbose || return 1
+  if [ -f ./tools/lldb/source/Utility/CMakeLists.txt ] && { [ "$ARCH" = "i586" ] || [ "$ARCH" = "i686" ]; }; then
+    zcat "$pkgRoot/lldb.32-bit.link.libatomic.diff.gz" | patch -p1 --verbose || return 1
+  fi
+
+  cp -a "$pkgRoot"/missing-runtime-modules/*.cmake ../cmake/Modules/ || return 1
+
+  ln -sf ./*/runtimes "$workDir/runtimes" || return 1
+  (
+    cd projects || exit 1
+    ln -sf ../../cmake .
+  ) || return 1
+
+  chown -R root:root . || return 1
+  find . \
+    \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+    -exec chmod 755 {} \+ -o \
+    \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+    -exec chmod 644 {} \+ || return 1
+
+  if [ "$buildSharedLibs" = "ON" ]; then
+    sharedLibraryOptions=("-DBUILD_SHARED_LIBS=ON")
+  fi
+  if [ "$llvmBuildLlvmDylib" = "ON" ]; then
+    sharedLibraryOptions=(
+      "-DLLVM_BUILD_LLVM_DYLIB=ON"
+      "-DLLVM_LINK_LLVM_DYLIB=ON"
+      "-DCLANG_LINK_CLANG_DYLIB=ON"
+    )
+  fi
+  if [ -x /usr/bin/lld ]; then
+    linkerOptions=("-DLLVM_USE_LINKER=lld")
+  fi
+
+  mkdir -p "$buildDir/include" || return 1
+  cp -a "$llvmSourceDir/projects/libunwind/include/mach-o" "$buildDir/include" || return 1
+  rm -r "$llvmSourceDir/projects/libunwind" || return 1
+  cd "$buildDir" || return 1
+
+  cmakeArgs=(
+    -GNinja
+    "-DCMAKE_C_COMPILER=clang"
+    "-DCMAKE_CXX_COMPILER=clang++"
+    "-DCMAKE_C_FLAGS:STRING=$effectiveSlkcflags"
+    "-DCMAKE_CXX_FLAGS:STRING=$effectiveSlkcflags"
+    "-DCMAKE_INSTALL_PREFIX=/usr"
+    "-DLLVM_LIBDIR_SUFFIX=${LIBDIRSUFFIX}"
+    "-DLIBCXX_LIBDIR_SUFFIX=${LIBDIRSUFFIX}"
+    "-DLIBCXXABI_LIBDIR_SUFFIX=${LIBDIRSUFFIX}"
+    "-DCMAKE_BUILD_TYPE=Release"
+    "-DLLVM_ENABLE_RTTI=ON"
+    "-DLLVM_ENABLE_FFI=ON"
+    "-DLLVM_ENABLE_ZLIB=ON"
+    "-DLLVM_ENABLE_ASSERTIONS=OFF"
+    "-DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=NO"
+    "-DLLVM_INSTALL_UTILS=ON"
+    "-DLLVM_BINUTILS_INCDIR=/usr/include"
+    "-DCLANG_RESOURCE_DIR=../lib${LIBDIRSUFFIX}/clang/${clangdMajorVersion}"
+    "-DLLVM_TARGETS_TO_BUILD=host;AMDGPU;BPF"
+    "-DLLVM_INCLUDE_BENCHMARKS=OFF"
+    "-DLIBCXX_INCLUDE_BENCHMARKS=OFF"
+    "-DCOMPILER_RT_BUILD_LIBFUZZER=OFF"
+    "-DCLANG_DEFAULT_PIE_ON_LINUX=ON"
+    "-DLIBCXX_ENABLE_ABI_LINKER_SCRIPT=ON"
+    ..
+  )
+
+  cmake "${cmakeArgs[@]}" \
+    "${sharedLibraryOptions[@]}" \
+    "${linkerOptions[@]}" \
+    "${clangdOptions[@]}" || return 1
+
+  "$ninjaCommand" -j "${numjobs:-1}" || return 1
+  DESTDIR="$PKG" "$ninjaCommand" install || return 1
+
+  (
+    cd "$PKG/usr/bin" || exit 1
+    ln -sf clang "$ARCH-slackware-linux-clang"
+    ln -sf clang++ "$ARCH-slackware-linux-clang++"
+  ) || return 1
+
+  for toolName in ccc c++; do
+    ln -s "/usr/libexec/$toolName-analyzer" "$PKG/usr/bin/$toolName-analyzer" || return 1
+  done
+
+  if [ ! -r "$PKG/usr/bin/lit-cpuid" ]; then
+    cp -a "$buildDir/bin/lit-cpuid" "$PKG/usr/bin/lit-cpuid" || return 1
+    chown root:root "$PKG/usr/bin/lit-cpuid" || return 1
+    chmod 755 "$PKG/usr/bin/lit-cpuid" || return 1
+  fi
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}/libgomp.so" || return 1
+
+  for pyver in "$py2" "$py3"; do
+    mkdir -p "$PKG/usr/lib$LIBDIRSUFFIX/python$pyver/site-packages" || return 1
+    cp -a "$llvmSourceDir/tools/clang/bindings/python/clang" \
+      "$PKG/usr/lib$LIBDIRSUFFIX/python$pyver/site-packages/" || return 1
+  done
+
+  rm -f "$PKG/usr/lib$LIBDIRSUFFIX/python${py2}/site-packages/six.py" || return 1
+
+  python -m compileall "$PKG/usr/lib$LIBDIRSUFFIX/python${py2}/site-packages/clang" || return 1
+  python -O -m compileall "$PKG/usr/lib$LIBDIRSUFFIX/python${py2}/site-packages/clang" || return 1
+  python3 -m compileall "$PKG/usr/lib$LIBDIRSUFFIX/python${py3}/site-packages/clang" || return 1
+  python3 -O -m compileall "$PKG/usr/lib$LIBDIRSUFFIX/python${py3}/site-packages/clang" || return 1
+  python -m compileall "$PKG/usr/lib$LIBDIRSUFFIX/python${py2}/site-packages/lldb" || return 1
+  python -O -m compileall "$PKG/usr/lib$LIBDIRSUFFIX/python${py2}/site-packages/lldb" || return 1
+  python -m compileall "$PKG/usr/share/scan-view" || return 1
+  python -O -m compileall "$PKG/usr/share/scan-view" || return 1
+  python -m compileall "$PKG/usr/share/clang" || return 1
+  python -O -m compileall "$PKG/usr/share/clang" || return 1
+  python -m compileall "$PKG/usr/share/opt-viewer" || return 1
+  python -O -m compileall "$PKG/usr/share/opt-viewer" || return 1
+
+  if [ -d "$PKG/usr/share/man" ]; then
+    mv "$PKG/usr/share/man" "$PKG/usr/" || return 1
+  fi
+
+  mkdir -p \
+    "$docDir/clang" \
+    "$docDir/lldb" \
+    "$docDir/clang-tools-extra" \
+    "$docDir/compiler-rt" \
+    "$docDir/openmp" \
+    "$docDir/polly" || return 1
+  cp -a "$llvmSourceDir"/CREDITS* "$llvmSourceDir"/LICENSE* "$llvmSourceDir"/README* "$docDir" || return 1
+  cp -a "$llvmSourceDir"/tools/clang/{INSTALL,LICENSE,NOTES,README}* "$docDir/clang" || return 1
+  cp -a "$llvmSourceDir"/tools/lldb/{CODE_OWNERS,INSTALL,LICENSE}* "$docDir/lldb" || return 1
+  cp -a "$llvmSourceDir"/tools/clang/tools/extra/{CODE_OWNERS,LICENSE,README}* "$docDir/clang-tools-extra" || return 1
+  cp -a "$llvmSourceDir"/projects/compiler-rt/{CODE_OWNERS,CREDITS,LICENSE,README}* "$docDir/compiler-rt" || return 1
+  cp -a "$llvmSourceDir"/projects/openmp/{CREDITS,LICENSE}* "$docDir/openmp" || return 1
+  cp -a "$llvmSourceDir"/projects/polly/{CREDITS,LICENSE,README}* "$docDir/polly" || return 1
+  if [ -d "$PKG/usr/docs/llvm" ]; then
+    mv "$PKG/usr/docs/llvm"/* "$docDir" || return 1
+    rm -rf "$PKG/usr/docs" || return 1
+  fi
+  install -Dm0644 "$pkgRoot/SLKBUILD" "$docDir/$legacyDocName" || return 1
+}
