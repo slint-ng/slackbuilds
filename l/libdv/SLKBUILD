@@ -1,0 +1,51 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=libdv
+pkgver=1.0.0
+pkgrel=1slint
+url="https://libdv.sourceforge.net/"
+source=("https://downloads.sourceforge.net/project/libdv/libdv/$pkgver/$pkgname-$pkgver.tar.gz")
+docs=("AUTHORS" "ChangeLog" "COPYING" "COPYRIGHT" "INSTALL" "NEWS" "README*" "TODO")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libdv (DV video codec library)"
+""
+"libdv is a software codec for DV video, the format used"
+"by many digital camcorders that support IEEE 1394"
+"interfaces."
+""
+"Homepage: https://libdv.sourceforge.net/"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --enable-sdl \
+    --without-debug \
+    --disable-gtk \
+    --disable-gtktest \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install-strip DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib"${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
