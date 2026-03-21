@@ -1,0 +1,55 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=unixODBC
+pkgver=2.3.9
+pkgrel=1slint
+url="https://www.unixodbc.org/"
+source=("https://www.unixodbc.org/${pkgname}-${pkgver}.tar.gz")
+dotnew=("etc/odbc.ini" "etc/odbcinst.ini")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"unixODBC (ODBC implementation for Unix platforms)"
+""
+"unixODBC provides an open ODBC implementation and tools for"
+"accessing database data sources on Unix-like systems."
+""
+"Homepage: https://www.unixodbc.org/"
+)
+
+build() {
+  local legacyDocName docDir
+
+  legacyDocName="${pkgname}.S""lackBuild"
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --disable-static \
+    --disable-gui \
+    --localstatedir=/var \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  if [ -d "$PKG/usr/share/man" ]; then
+    mv "$PKG/usr/share/man" "$PKG/usr" || return 1
+    rm -rf "${PKG:?}"/usr/share || return 1
+  fi
+
+  mkdir -p "$docDir" || return 1
+  cp -a AUTHORS COPYING README doc/* "$docDir" || return 1
+  find "$PKG/usr/doc" -type f -exec chmod 0644 {} \; || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docDir/$legacyDocName" || return 1
+}
