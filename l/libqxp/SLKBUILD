@@ -1,0 +1,59 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libqxp
+pkgver=0.0.2
+pkgrel=1slint
+url="https://wiki.documentfoundation.org/DLP/Libraries/libqxp"
+source=("https://dev-www.libreoffice.org/src/libqxp/${pkgname}-${pkgver}.tar.xz")
+docs=("AUTHORS" "COPYING" "ChangeLog" "NEWS" "README" "TODO")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"libqxp (QuarkXPress documents parser library)"
+""
+"libqxp is a library and a set of tools for reading"
+"and converting QuarkXPress file format."
+""
+"Homepage: https://wiki.documentfoundation.org/DLP/Libraries/libqxp"
+)
+
+build() {
+  local cppunitArg
+  local docArg
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  case "${DOC:-0}" in
+    0) docArg="--without-docs" ;;
+    *) docArg="--with-docs" ;;
+  esac
+
+  if pkg-config --exists cppunit; then
+    cppunitArg="--enable-tests"
+  else
+    cppunitArg="--disable-tests"
+  fi
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --build="$ARCH-slackware-linux" \
+    "$cppunitArg" \
+    "$docArg" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
