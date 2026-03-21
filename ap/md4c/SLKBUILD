@@ -1,0 +1,52 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Built for Slint by Frank Hanolka
+
+pkgname=md4c
+_srcname=md4c-release
+pkgver=0.4.8
+pkgrel=1slint
+url="https://github.com/mity/md4c"
+source=("https://github.com/mity/md4c/archive/release-${pkgver}/${_srcname}-${pkgver}.tar.gz")
+docs=("*.md")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"md4c (Markdown parser for C)"
+""
+"md4c is a fast C Markdown parser with a SAX-like interface"
+"and CommonMark compliance."
+""
+"Homepage: https://github.com/mity/md4c"
+)
+
+build() {
+  local buildDir legacyDocName docDir
+
+  buildDir=build
+  legacyDocName="${pkgname}.S""lackBuild"
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  cd "$SRC/${_srcname}-$pkgver" || return 1
+
+  mkdir -p "$buildDir" || return 1
+  cd "$buildDir" || return 1
+
+  cmake \
+    "-DCMAKE_C_FLAGS:STRING=$SLKCFLAGS" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release \
+    .. || return 1
+
+  make || return 1
+  make install/strip DESTDIR="$PKG" || return 1
+
+  if [ -d "$PKG/usr/share/man" ]; then
+    mv "$PKG/usr/share/man" "$PKG/usr/" || return 1
+    rmdir "$PKG/usr/share" 2>/dev/null || true
+  fi
+
+  install -Dm0644 "$SRC/../SLKBUILD" "$docDir/$legacyDocName" || return 1
+}
