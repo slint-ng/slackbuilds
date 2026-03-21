@@ -1,0 +1,58 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libmpeg2
+pkgver=0.5.1
+pkgrel=2slint
+url="https://sourceforge.net/projects/libmpeg2/"
+source=(
+  "https://ponce.cc/slackware/sources/repo/${pkgname}-${pkgver}.tar.gz"
+)
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"libmpeg2 (mpeg-1 and mpeg-2 video decoding library)"
+""
+"libmpeg2 is a free library for decoding mpeg-1 and mpeg-2"
+"video streams. It includes a player and reference tools for"
+"working with mpeg video data."
+""
+"Homepage: https://sourceforge.net/projects/libmpeg2/"
+)
+
+build() {
+  local docsdir legacyDocName
+
+  docsdir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --mandir=/usr/man \
+    --enable-shared \
+    --disable-static \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f \
+    "$PKG"/lib"${LIBDIRSUFFIX}"/*.a \
+    "$PKG"/lib"${LIBDIRSUFFIX}"/*.la \
+    "$PKG"/usr/lib"${LIBDIRSUFFIX}"/*.a \
+    "$PKG"/usr/lib"${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -d "$docsdir" || return 1
+  cp -a \
+    AUTHORS ChangeLog CodingStyle COPYING INSTALL NEWS README TODO doc/*.txt \
+    "$docsdir/" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$docsdir/$legacyDocName" || return 1
+}
