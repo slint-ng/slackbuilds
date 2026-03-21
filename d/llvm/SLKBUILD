@@ -5,7 +5,7 @@
 
 pkgname=llvm
 pkgver=17.0.6
-pkgrel=1slint
+pkgrel=2slint
 url="https://llvm.org/"
 source=(
   "https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/llvm-${pkgver}.src.tar.xz"
@@ -23,8 +23,8 @@ source=(
   "https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/third-party-${pkgver}.src.tar.xz"
   "clang.toolchains.i586.triple.diff.gz"
   "lldb.32-bit.link.libatomic.diff.gz"
-  "missing-runtime-modules/HandleFlags.cmake"
-  "missing-runtime-modules/WarningFlags.cmake"
+  "HandleFlags.cmake"
+  "WarningFlags.cmake"
 )
 options=("noextract" "nosrcpack")
 
@@ -120,7 +120,7 @@ build() {
     zcat "$pkgRoot/lldb.32-bit.link.libatomic.diff.gz" | patch -p1 --verbose || return 1
   fi
 
-  cp -a "$pkgRoot"/missing-runtime-modules/*.cmake ../cmake/Modules/ || return 1
+  cp -a "$pkgRoot"/HandleFlags.cmake "$pkgRoot"/WarningFlags.cmake ../cmake/Modules/ || return 1
 
   ln -sf ./*/runtimes "$workDir/runtimes" || return 1
   (
