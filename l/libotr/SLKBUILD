@@ -1,0 +1,49 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libotr
+pkgver=4.1.1
+pkgrel=3slint
+url="https://otr.cypherpunks.ca/"
+source=("https://otr.cypherpunks.ca/${pkgname}-${pkgver}.tar.gz")
+docs=("README" "AUTHORS" "COPYING*" "ChangeLog" "INSTALL" "NEWS" "UPGRADING" "Protocol-v3.html")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libotr (OTR messaging library and toolkit)"
+""
+"Libotr is a portable off-the-record messaging library plus"
+"tools for secure IM conversations."
+"It provides encryption, authentication, deniability, and"
+"perfect forward secrecy for supported chat clients."
+)
+
+build() {
+  local docsDir
+  local legacyDocName
+
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --mandir=/usr/man \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --enable-static=no \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib"${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$docsDir/$legacyDocName" || return 1
+}
