@@ -1,0 +1,90 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libsidplay2
+pkgver=2.1.1
+pkgrel=2slint
+_srcname=sidplay-libs
+_debianrev=15
+url="https://sidplay2.sourceforge.net/"
+source=(
+  "https://deb.debian.org/debian/pool/main/s/${_srcname}/${_srcname}_${pkgver}.orig.tar.gz"
+  "https://deb.debian.org/debian/pool/main/s/${_srcname}/${_srcname}_${pkgver}-${_debianrev}.debian.tar.xz"
+)
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (SID emulation)"
+""
+"Sidplay 2 is capable of playing all C64 mono/stereo file formats"
+"and is cycle accurate for improved sound reproduction."
+""
+"Homepage: http://sidplay2.sourceforge.net/"
+)
+
+build() {
+  local docdir legacyDocName patch
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  for patch in \
+    configure-fixes.patch \
+    gcc4-fixes.patch \
+    hardsid_4_bsd.patch \
+    pkg-config.patch; do
+    patch -p1 < "$SRC/debian/patches/$patch" || return 1
+  done
+
+  ./configure \
+    --enable-shared=yes \
+    --enable-static=no \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install-strip DESTDIR="$PKG" || return 1
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  mkdir -p \
+    "$docdir/hardsid-builder" \
+    "$docdir/libsidplay" \
+    "$docdir/libsidutils" \
+    "$docdir/resid" || return 1
+
+  cp -a builders/hardsid-builder/COPYING \
+    builders/hardsid-builder/INSTALL \
+    "$docdir/hardsid-builder/" || return 1
+  cp -a libsidplay/AUTHORS \
+    libsidplay/COPYING \
+    libsidplay/ChangeLog \
+    libsidplay/INSTALL \
+    libsidplay/README \
+    libsidplay/TODO \
+    "$docdir/libsidplay/" || return 1
+  cp -a libsidutils/AUTHORS \
+    libsidutils/COPYING \
+    libsidutils/ChangeLog \
+    libsidutils/INSTALL \
+    libsidutils/README \
+    libsidutils/TODO \
+    "$docdir/libsidutils/" || return 1
+  cp -a resid/AUTHORS \
+    resid/COPYING \
+    resid/ChangeLog \
+    resid/INSTALL \
+    resid/NEWS \
+    resid/README \
+    resid/THANKS \
+    resid/TODO \
+    "$docdir/resid/" || return 1
+
+  install -Dm0644 "$SRC/debian/changelog" "$docdir/ChangeLog.Debian" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docdir/$legacyDocName" || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+}
