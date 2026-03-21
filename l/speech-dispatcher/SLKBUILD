@@ -3,7 +3,8 @@
 
 pkgname=speech-dispatcher
 pkgver=0.12.1
-pkgrel=2slint
+pkgrel=3slint
+depends=()
 export arch=x86_64
 srcname=speech-dispatcher
 export srcname
@@ -38,11 +39,11 @@ cd ${srcname}-$pkgver || exit 1
 #	git clone https://github.com/brailcom/speechd.git
 #	cd speechd || exit
 #	git checkout $commit
-patch -p1 --verbose < $SRC/add_flite_generic.conf.diff || exit 1
-patch -p1 --verbose < $SRC/speechd.conf.diff || exit 1
+patch -p1 --verbose < "$SRC"/add_flite_generic.conf.diff || exit 1
+patch -p1 --verbose < "$SRC"/speechd.conf.diff || exit 1
 ./build.sh
 PYTHON=/usr/bin/python3.11 ./configure --prefix=/usr \
---libdir=/usr/lib${LIBDIRSUFFIX} \
+--libdir="/usr/lib${LIBDIRSUFFIX}" \
 --localstatedir=/var \
 --sysconfdir=/etc \
 --disable-static \
@@ -63,8 +64,8 @@ PYTHON=/usr/bin/python3.11 ./configure --prefix=/usr \
 --with-default-audio-method=libao
 sed -i 's/help2man -N /help2man --no-discard-stderr -N /' \
   src/api/python/speechd_config/Makefile || return 1
-make install DESTDIR=$PKG || return 1
-rm -f $PKG/etc/speech-dispatcher/espeak-ng.conf*
+make install DESTDIR="$PKG" || return 1
+rm -f "$PKG"/etc/speech-dispatcher/espeak-ng.conf*
 # Although I contributed espeak-mbrola-generic.conf and 
 # espeak-mbrola-generic.conf we do not need them anymore... - Didier
 noconf="espeak-generic.conf
@@ -72,40 +73,40 @@ espeak-mbrola-generic.conf
 espeak-ng-mbrola-generic.conf
 espeak.conf"
 for i in $noconf; do
-  rm -f $PKG/etc/speech-dispatcher/modules/$i
+  rm -f "$PKG"/etc/speech-dispatcher/modules/"$i"
 done
 for i in sd_cicero sd_festival; do
-	rm -f $PKG/usr/lib64/speech-dispatcher-modules/$i
+	rm -f "$PKG"/usr/lib64/speech-dispatcher-modules/"$i"
 done
-mkdir -p $PKG/usr/doc/$pkgname-$pkgver
+mkdir -p "$PKG"/usr/doc/"$pkgname"-"$pkgver"
   for i in README.style.md README.md README.overview.md; do
 echo "processing $i"
 #	BASE_PATH=${MD_PATH%.md}
 	HTML_PATH=$PKG/usr/doc/$pkgname-$pkgver/${i%.md}.html
-	pandoc -s -f gfm -t html5 -o $HTML_PATH $i
+	pandoc -s -f gfm -t html5 -o "$HTML_PATH" "$i"
 	rm $i
   done
-mkdir -p $PKG/usr/doc/$pkgname-$pkgver
+mkdir -p "$PKG"/usr/doc/"$pkgname"-"$pkgver"
 ( cd doc || exit
 for i in ssip.texi spd-say.texi speech-dispatcher.texi speech-dispatcher-cs.texi; do
 echo "processing $i"
 	texi2any --html --no-headers --no-split $i
 done
 echo "files to be copied to  $PKG/usr/doc/$pkgname-$pkgver"
-ls *.html figures $PKG/usr/doc/$pkgname-$pkgver
-cp -r *.html figures $PKG/usr/doc/$pkgname-$pkgver
+ls ./*.html figures "$PKG"/usr/doc/"$pkgname"-"$pkgver"
+cp -r ./*.html figures "$PKG"/usr/doc/"$pkgname"-"$pkgver"
 )
-mkdir -p $PKG/usr/bin
-chmod 755 -R $PKG/usr/bin
-mkdir -p $PKG/etc/speech-dispatcher/modules
-cp -a $SRC/rhvoice.conf $PKG/etc/speech-dispatcher/modules || exit 1
-cp -a $SRC/${srcname}-$pkgver/config/modules/flite-generic.conf $PKG/etc/speech-dispatcher/modules || exit 1
-mkdir -p $PKG/usr/share/sounds/sound-icons
-mkdir -p $PKG/usr/doc/sound-icons-0.1
-( cd $SRC/sound-icons-0.1 || exit
-cp -a README COPYING $PKG/usr/doc/sound-icons-0.1
+mkdir -p "$PKG"/usr/bin
+chmod 755 -R "$PKG"/usr/bin
+mkdir -p "$PKG"/etc/speech-dispatcher/modules
+cp -a "$SRC"/rhvoice.conf "$PKG"/etc/speech-dispatcher/modules || exit 1
+cp -a "$SRC"/${srcname}-$pkgver/config/modules/flite-generic.conf "$PKG"/etc/speech-dispatcher/modules || exit 1
+mkdir -p "$PKG"/usr/share/sounds/sound-icons
+mkdir -p "$PKG"/usr/doc/sound-icons-0.1
+( cd "$SRC"/sound-icons-0.1 || exit
+cp -a README COPYING "$PKG"/usr/doc/sound-icons-0.1
 rm README COPYING
-cp -a * $PKG/usr/share/sounds/sound-icons
+cp -a ./* "$PKG"/usr/share/sounds/sound-icons
 )
 #mkdir -p $startdir/openjtalk/usr/libexec/speech-dispatcher-modules
 #mkdir -p $startdir/openjtalk/etc/speech-dispatcher/modules
