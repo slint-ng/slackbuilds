@@ -5,7 +5,7 @@
 
 pkgname=llvm
 pkgver=17.0.6
-pkgrel=2slint
+pkgrel=3slint
 url="https://llvm.org/"
 source=(
   "https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/llvm-${pkgver}.src.tar.xz"
@@ -48,7 +48,7 @@ build() {
   pkgRoot="$(cd "$SRC/.." && pwd)" || return 1
   workDir="$SRC/llvm-build-$pkgver"
   llvmSourceDir="$workDir/llvm-$pkgver.src"
-  buildDir="$workDir/build"
+  buildDir="$llvmSourceDir/build"
   ignoreGnuExtensions="${IGNORE_GNU_EXTENSIONS:--Wno-unknown-warning-option -Wno-gnu-line-marker -Wno-gnu-anonymous-struct -Wno-gnu-include-next}"
   effectiveSlkcflags="$SLKCFLAGS $ignoreGnuExtensions"
   llvmBuildLlvmDylib="${LLVM_BUILD_LLVM_DYLIB:-ON}"
