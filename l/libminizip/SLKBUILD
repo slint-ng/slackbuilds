@@ -1,0 +1,54 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libminizip
+pkgver=1.2.11
+pkgrel=1slint
+_srcname=zlib
+url="https://www.winimage.com/zLibDll/minizip.html"
+source=("https://zlib.net/fossils/${_srcname}-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libminizip (zip compression helper library)"
+""
+"libminizip is a small library to compress and decompress"
+"zip files with the help of zlib."
+)
+
+build() {
+  local legacyDocName
+  local docDir
+
+  legacyDocName="${pkgname}.S""lackBuild"
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  cd "$SRC/${_srcname}-$pkgver/contrib/minizip" || return 1
+
+  libtoolize || return 1
+  aclocal || return 1
+  autoconf || return 1
+  automake --add-missing || return 1
+
+  ./configure \
+    --disable-static \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib"${LIBDIRSUFFIX}"/*.la || return 1
+
+  mkdir -p "$docDir" || return 1
+  cp -a MiniZip64_Changes.txt MiniZip64_info.txt "$docDir" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docDir/$legacyDocName" || return 1
+}
