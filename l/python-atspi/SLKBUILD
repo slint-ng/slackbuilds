@@ -1,10 +1,13 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
 # Packager: Didier Spaier didieratslintdotfr
 
 pkgname=python-atspi
 _srcname=pyatspi
 pkgver=2.58.0
-pkgrel=2slint
-source=("$_srcname-$pkgver.tar.xz")
+pkgrel=3slint
+source=("https://download.gnome.org/sources/$_srcname/2.58/$_srcname-$pkgver.tar.xz")
 docs=("AUTHORS" "COPYING" "INSTALL" "NEWS" "README*")
 
 slackdesc=\
@@ -29,12 +32,12 @@ build() {
 
   meson setup \
     --prefix=/usr \
-    --libdir=/usr/lib${LIBDIRSUFFIX} \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
     --sysconfdir=/etc \
     --localstatedir=/var \
     --mandir=/usr/man \
-    build
+    build || exit 1
 
-  meson compile -C build -j $numjobs
-  DESTDIR="$PKG" meson install -C build
+  meson compile -C build -j "$numjobs" || exit 1
+  DESTDIR="$PKG" meson install -C build || exit 1
 }
