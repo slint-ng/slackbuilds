@@ -1,0 +1,48 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libsrtp
+pkgver=2.4.2
+pkgrel=1slint
+url="https://github.com/cisco/libsrtp"
+source=("https://github.com/cisco/${pkgname}/archive/v${pkgver}/${pkgname}-${pkgver}.tar.gz")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libsrtp (Secure RTP libraries)"
+""
+"libSRTP is the Open Source Secure RTP library from Cisco Systems, Inc."
+"RTP is the Real-time Transport Protocol, an IETF standard for the"
+"transport of real-time data such as telephony, audio, and video."
+"Secure RTP (SRTP) provides confidentiality to RTP data and"
+"authentication to the RTP header and payload."
+"SRTP is defined by RFC 3711 and was developed in the IETF"
+"Audio/Video Transport working group."
+"The library supports all mandatory SRTP features."
+)
+
+build() {
+  local docsDir legacyDocName
+
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --mandir=/usr/man \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  mkdir -p "$docsDir" || return 1
+  cp -a CHANGES LICENSE README.md CODEOWNERS "$docsDir" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docsDir/$legacyDocName" || return 1
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+}
