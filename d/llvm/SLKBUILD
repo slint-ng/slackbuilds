@@ -5,7 +5,7 @@
 
 pkgname=llvm
 pkgver=17.0.6
-pkgrel=5slint
+pkgrel=6slint
 url="https://llvm.org/"
 source=(
   "https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/llvm-${pkgver}.src.tar.xz"
@@ -43,6 +43,7 @@ build() {
   local pkgRoot workDir llvmSourceDir buildDir ignoreGnuExtensions effectiveSlkcflags
   local llvmBuildLlvmDylib buildSharedLibs buildClangd clangdMajorVersion
   local py2 py3 ninjaCommand legacyDocName docDir cCompiler cxxCompiler asmCompiler
+  local buildLibcxxProjects
   local -a sharedLibraryOptions linkerOptions clangdOptions cmakeArgs
 
   pkgRoot="$(cd "$SRC/.." && pwd)" || return 1
@@ -61,10 +62,12 @@ build() {
   sharedLibraryOptions=()
   linkerOptions=()
   clangdOptions=()
+  buildLibcxxProjects=NO
 
   if command -v clang >/dev/null 2>&1 && command -v clang++ >/dev/null 2>&1; then
     cCompiler="$(command -v clang)" || return 1
     cxxCompiler="$(command -v clang++)" || return 1
+    buildLibcxxProjects=YES
   else
     cCompiler="${CC:-gcc}"
     cxxCompiler="${CXX:-g++}"
@@ -120,14 +123,16 @@ build() {
   mv "compiler-rt-$pkgver" compiler-rt 2>/dev/null || mv "compiler-rt-$pkgver.src" compiler-rt || return 1
   tar xf "$SRC/openmp-$pkgver.src.tar.xz" || return 1
   mv "openmp-$pkgver" openmp 2>/dev/null || mv "openmp-$pkgver.src" openmp || return 1
-  tar xf "$SRC/libcxx-$pkgver.src.tar.xz" || return 1
-  mv "libcxx-$pkgver" libcxx 2>/dev/null || mv "libcxx-$pkgver.src" libcxx || return 1
-  tar xf "$SRC/libcxxabi-$pkgver.src.tar.xz" || return 1
-  mv "libcxxabi-$pkgver" libcxxabi 2>/dev/null || mv "libcxxabi-$pkgver.src" libcxxabi || return 1
   tar xf "$SRC/polly-$pkgver.src.tar.xz" || return 1
   mv "polly-$pkgver" polly 2>/dev/null || mv "polly-$pkgver.src" polly || return 1
-  tar xf "$SRC/libunwind-$pkgver.src.tar.xz" || return 1
-  mv "libunwind-$pkgver.src" libunwind 2>/dev/null || mv "libunwind-$pkgver" libunwind || return 1
+  if [ "$buildLibcxxProjects" = "YES" ]; then
+    tar xf "$SRC/libcxx-$pkgver.src.tar.xz" || return 1
+    mv "libcxx-$pkgver" libcxx 2>/dev/null || mv "libcxx-$pkgver.src" libcxx || return 1
+    tar xf "$SRC/libcxxabi-$pkgver.src.tar.xz" || return 1
+    mv "libcxxabi-$pkgver" libcxxabi 2>/dev/null || mv "libcxxabi-$pkgver.src" libcxxabi || return 1
+    tar xf "$SRC/libunwind-$pkgver.src.tar.xz" || return 1
+    mv "libunwind-$pkgver.src" libunwind 2>/dev/null || mv "libunwind-$pkgver" libunwind || return 1
+  fi
 
   cd "$llvmSourceDir" || return 1
   zcat "$pkgRoot/clang.toolchains.i586.triple.diff.gz" | patch -p1 --verbose || return 1
@@ -165,8 +170,10 @@ build() {
   fi
 
   mkdir -p "$buildDir/include" || return 1
-  cp -a "$llvmSourceDir/projects/libunwind/include/mach-o" "$buildDir/include" || return 1
-  rm -r "$llvmSourceDir/projects/libunwind" || return 1
+  if [ -d "$llvmSourceDir/projects/libunwind/include/mach-o" ]; then
+    cp -a "$llvmSourceDir/projects/libunwind/include/mach-o" "$buildDir/include" || return 1
+    rm -r "$llvmSourceDir/projects/libunwind" || return 1
+  fi
   cd "$buildDir" || return 1
 
   cmakeArgs=(
