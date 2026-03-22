@@ -5,7 +5,7 @@
 
 pkgname=llvm
 pkgver=17.0.6
-pkgrel=3slint
+pkgrel=4slint
 url="https://llvm.org/"
 source=(
   "https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/llvm-${pkgver}.src.tar.xz"
@@ -42,7 +42,7 @@ slackdesc=(
 build() {
   local pkgRoot workDir llvmSourceDir buildDir ignoreGnuExtensions effectiveSlkcflags
   local llvmBuildLlvmDylib buildSharedLibs buildClangd clangdMajorVersion
-  local py2 py3 ninjaCommand legacyDocName docDir
+  local py2 py3 ninjaCommand legacyDocName docDir cCompiler cxxCompiler asmCompiler
   local -a sharedLibraryOptions linkerOptions clangdOptions cmakeArgs
 
   pkgRoot="$(cd "$SRC/.." && pwd)" || return 1
@@ -61,6 +61,21 @@ build() {
   sharedLibraryOptions=()
   linkerOptions=()
   clangdOptions=()
+
+  if command -v clang >/dev/null 2>&1 && command -v clang++ >/dev/null 2>&1; then
+    cCompiler="$(command -v clang)" || return 1
+    cxxCompiler="$(command -v clang++)" || return 1
+  else
+    cCompiler="${CC:-gcc}"
+    cxxCompiler="${CXX:-g++}"
+    if command -v "$cCompiler" >/dev/null 2>&1; then
+      cCompiler="$(command -v "$cCompiler")" || return 1
+    fi
+    if command -v "$cxxCompiler" >/dev/null 2>&1; then
+      cxxCompiler="$(command -v "$cxxCompiler")" || return 1
+    fi
+  fi
+  asmCompiler="$cCompiler"
 
   if [ -z "$buildClangd" ]; then
     if [ "$ARCH" = "i586" ] || [ "$ARCH" = "i686" ]; then
@@ -156,8 +171,9 @@ build() {
 
   cmakeArgs=(
     -GNinja
-    "-DCMAKE_C_COMPILER=clang"
-    "-DCMAKE_CXX_COMPILER=clang++"
+    "-DCMAKE_C_COMPILER=${cCompiler}"
+    "-DCMAKE_CXX_COMPILER=${cxxCompiler}"
+    "-DCMAKE_ASM_COMPILER=${asmCompiler}"
     "-DCMAKE_C_FLAGS:STRING=$effectiveSlkcflags"
     "-DCMAKE_CXX_FLAGS:STRING=$effectiveSlkcflags"
     "-DCMAKE_INSTALL_PREFIX=/usr"
