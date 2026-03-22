@@ -5,7 +5,7 @@
 
 pkgname=llvm
 pkgver=17.0.6
-pkgrel=4slint
+pkgrel=5slint
 url="https://llvm.org/"
 source=(
   "https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/llvm-${pkgver}.src.tar.xz"
@@ -137,7 +137,7 @@ build() {
 
   cp -a "$pkgRoot"/HandleFlags.cmake "$pkgRoot"/WarningFlags.cmake ../cmake/Modules/ || return 1
 
-  ln -sf ./*/runtimes "$workDir/runtimes" || return 1
+  ln -sfn "$llvmSourceDir/runtimes" "$workDir/runtimes" || return 1
   (
     cd projects || exit 1
     ln -sf ../../cmake .
