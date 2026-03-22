@@ -1,14 +1,13 @@
-qt5 requires a locally prepared source tarball before running slkbuild.
+qt5 can fetch the published Slackware patch-source tarball directly.
 
-From this directory, run:
+If you need to regenerate the snapshot tarball locally instead, run:
 
     ./fetch_sources.sh
 
-This script clones the Qt 5.15 source tree and creates the expected
-qt-everywhere-src-5.15.3_20220318_e507d3e5.tar.lz tarball.
+That script clones the Qt 5.15 source tree and creates the expected
+qt-everywhere-src-5.15.3_20220318_e507d3e5.tar.lz tarball used by
+the package.
 
-After the tarball is present, build the package with:
+Build the package with:
 
     fakeroot slkbuild -X
-
-The SLKBUILD does not fetch sources on its own.
