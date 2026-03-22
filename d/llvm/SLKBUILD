@@ -5,7 +5,7 @@
 
 pkgname=llvm
 pkgver=17.0.6
-pkgrel=7slint
+pkgrel=8slint
 url="https://llvm.org/"
 source=(
   "https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/llvm-${pkgver}.src.tar.xz"
@@ -270,7 +270,7 @@ build() {
     "$docDir/polly" || return 1
   cp -a "$llvmSourceDir"/CREDITS* "$llvmSourceDir"/LICENSE* "$llvmSourceDir"/README* "$docDir" || return 1
   cp -a "$llvmSourceDir"/tools/clang/{INSTALL,LICENSE,NOTES,README}* "$docDir/clang" || return 1
-  cp -a "$llvmSourceDir"/tools/lldb/{CODE_OWNERS,INSTALL,LICENSE}* "$docDir/lldb" || return 1
+  cp -a "$llvmSourceDir"/tools/lldb/{CODE_OWNERS,LICENSE}* "$docDir/lldb" || return 1
   cp -a "$llvmSourceDir"/tools/clang/tools/extra/{CODE_OWNERS,LICENSE,README}* "$docDir/clang-tools-extra" || return 1
   cp -a "$llvmSourceDir"/projects/compiler-rt/{CODE_OWNERS,CREDITS,LICENSE,README}* "$docDir/compiler-rt" || return 1
   cp -a "$llvmSourceDir"/projects/openmp/{CREDITS,LICENSE}* "$docDir/openmp" || return 1
