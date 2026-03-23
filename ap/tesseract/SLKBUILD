@@ -1,3 +1,6 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
 # Maintainer: Sergej Pupykin <pupykin.s+arch@gmail.com>
 # Contributor: Andreas Hauser <andy-aur@splashground.de>
 
@@ -5,7 +8,7 @@
 
 pkgname=tesseract
 pkgver=5.3.0
-pkgrel=2slint
+pkgrel=3slint
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|
@@ -23,22 +26,22 @@ slackdesc=\
 
 # url="https://github.com/tesseract-ocr/tesseract"
 
-source=(https://github.com/tesseract-ocr/tesseract/archive/$pkgver.tar.gz
-        https://github.com/tesseract-ocr/tessdata/raw/bf82613055ebc6e63d9e3b438a5c234bfd638c93/osd.traineddata
-        tesseract.1.asc)
+source=("https://github.com/tesseract-ocr/tesseract/archive/${pkgver}.tar.gz"
+        "https://raw.githubusercontent.com/tesseract-ocr/tessdata/bf82613055ebc6e63d9e3b438a5c234bfd638c93/osd.traineddata"
+        "tesseract.1.asc")
 docs=(AUTHORS COPYING LICENSE ChangeLog)
 build() {
-  cd $SRC/${pkgname}-$pkgver
-  cp -f $SRC/tesseract.1.asc doc/
-  [ -x configure ] || ./autogen.sh
-  [ -f Makefile ] || ./configure --prefix=/usr --libdir=/usr/lib64
-  make
-  make training
-  make DESTDIR=$PKG install
-  make DESTDIR=$PKG training-install
-  rm -f $PKG/usr/lib*/*.la
-  mkdir -p $PKG/usr/share/tessdata
-  install -Dm0644 $SRC/osd.traineddata $PKG/usr/share/tessdata/osd.traineddata
-  mkdir -p $PKG/usr/doc/${pkgname}-$pkgver
-  pandoc -s -f gfm README.md -o $PKG/usr/doc/${pkgname}-$pkgver/README.html
+  cd "$SRC/${pkgname}-$pkgver" || return 1
+  cp -f "$SRC/tesseract.1.asc" doc/ || return 1
+  [ -x configure ] || ./autogen.sh || return 1
+  [ -f Makefile ] || ./configure --prefix=/usr --libdir="/usr/lib${LIBDIRSUFFIX}" || return 1
+  make || return 1
+  make training || return 1
+  make DESTDIR="$PKG" install || return 1
+  make DESTDIR="$PKG" training-install || return 1
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+  mkdir -p "$PKG/usr/share/tessdata" || return 1
+  install -Dm0644 "$SRC/osd.traineddata" "$PKG/usr/share/tessdata/osd.traineddata" || return 1
+  mkdir -p "$PKG/usr/doc/${pkgname}-$pkgver" || return 1
+  pandoc -s -f gfm README.md -o "$PKG/usr/doc/${pkgname}-$pkgver/README.html" || return 1
 }
