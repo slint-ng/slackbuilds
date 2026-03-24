@@ -1,0 +1,47 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+pkgname=libqtxdg
+pkgver=4.3.0
+pkgrel=1slint
+options=("noautodotnew")
+url="https://github.com/lxqt/libqtxdg"
+source=("https://github.com/lxqt/libqtxdg/releases/download/${pkgver}/${pkgname}-${pkgver}.tar.xz")
+docs=("AUTHORS" "CHANGELOG" "COPYING" "Digia-Qt-LGPL-Exception-1.1" "README.md")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"libqtxdg (Qt XDG specification support library)"
+""
+"libqtxdg implements freedesktop.org XDG specifications for"
+"Qt applications. It is maintained by the LXQt project and"
+"can be used independently of the LXQt desktop."
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  cmake \
+    -S . \
+    -B build \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR="/usr/lib${LIBDIRSUFFIX}" \
+    -DBUILD_TESTS=Yes \
+    -DCMAKE_BUILD_TYPE=Release || return 1
+
+  cmake --build build || return 1
+  DESTDIR="$PKG" cmake --install build || return 1
+
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) \
+    -exec rm -f {} + || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
