@@ -4,6 +4,8 @@
 pkgname=meson
 pkgver=1.7.0
 pkgrel=2slint
+depends=("python3")
+makedepends=("python3-setuptools")
 source=("https://github.com/mesonbuild/meson/releases/download/${pkgver}/${pkgname}-${pkgver}.tar.gz")
 url="https://github.com/mesonbuild/meson"
 
@@ -25,9 +27,26 @@ slackdesc=\
 )
 
 build() {
+  local mesonLauncherPath
+
   cd "$SRC/$pkgname-$pkgver" || exit 1
 
   python3 setup.py install --root="$PKG" || exit 1
+
+  # Avoid setuptools-generated entry-point wrappers that require installed
+  # distribution metadata. Fresh bootstrap systems have hit missing metadata
+  # errors even though the mesonbuild module itself was present.
+  mesonLauncherPath="$PKG/usr/bin/meson"
+  cat > "$mesonLauncherPath" <<'EOF' || exit 1
+#!/usr/bin/python3
+import re
+import sys
+from mesonbuild.mesonmain import main
+if __name__ == "__main__":
+    sys.argv[0] = re.sub(r"(-script\.pyw|\.exe)?$", "", sys.argv[0])
+    sys.exit(main())
+EOF
+  chmod 0755 "$mesonLauncherPath" || exit 1
 
   if [[ -d "$PKG/usr/share/man" ]]; then
     mkdir -p "$PKG/usr"
