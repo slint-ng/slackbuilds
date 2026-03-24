@@ -8,7 +8,18 @@ pkgver=1.0.0
 pkgrel=1slint
 url="https://libdv.sourceforge.net/"
 source=("https://downloads.sourceforge.net/project/libdv/libdv/$pkgver/$pkgname-$pkgver.tar.gz")
-docs=("AUTHORS" "ChangeLog" "COPYING" "COPYRIGHT" "INSTALL" "NEWS" "README*" "TODO")
+docs=(
+  "AUTHORS"
+  "ChangeLog"
+  "COPYING"
+  "COPYRIGHT"
+  "INSTALL"
+  "NEWS"
+  "README*"
+  "README.dvconnect"
+  "README.encoder"
+  "TODO"
+)
 options=("nosrcpack")
 
 slackdesc=(

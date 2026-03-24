@@ -1,0 +1,53 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=libva-intel-driver
+srcname=intel-vaapi-driver
+export srcname
+pkgver=2.4.1
+pkgrel=1slint
+url="https://github.com/intel/intel-vaapi-driver"
+source=("https://github.com/intel/intel-vaapi-driver/releases/download/${pkgver}/${srcname}-${pkgver}.tar.bz2")
+docs=("AUTHORS" "COPYING*" "NEWS")
+options=("nosrcpack" "keepla")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libva-intel-driver (Intel VA-API driver)"
+""
+"libva-intel-driver provides the classic Intel driver for"
+"VA-API hardware video acceleration on older Intel GPUs."
+)
+
+build() {
+  cd "$SRC/$srcname-$pkgver" || return 1
+
+  # Upstream's release tarball needs autotools regenerated for wayland-scanner.
+  mkdir -p m4 || return 1
+  autoreconf -fi || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --enable-shared \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make -j "$numjobs" || make || return 1
+  make install-strip DESTDIR="$PKG" || return 1
+
+  # Keep the historical doc payload that the in-tree package already ships.
+  if [[ -f "$SRC/$srcname-$pkgver/README" ]]; then
+    install -Dm0644 "$SRC/$srcname-$pkgver/README" \
+      "$PKG/usr/doc/$pkgname-$pkgver/README" || return 1
+  fi
+  if [[ -f "$SRC/$srcname-$pkgver/test/gtest/README.md" ]]; then
+    install -Dm0644 "$SRC/$srcname-$pkgver/test/gtest/README.md" \
+      "$PKG/usr/doc/$pkgname-$pkgver/README.md" || return 1
+  fi
+}
