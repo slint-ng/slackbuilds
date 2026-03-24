@@ -14,6 +14,7 @@ stop_sudo_keepalive() {
 
 cleanup() {
   stop_sudo_keepalive
+  command -v play && play -qnV0 pl 2 E5
 }
 
 start_sudo_keepalive() {
