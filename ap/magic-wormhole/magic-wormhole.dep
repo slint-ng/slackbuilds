@@ -1,1 +1,1 @@
-python3-click,python3-cffi,python3-autobahn,python3-tqdm,python3-hkdf,python3-pynacl,python3-spake2,python3-humanize,python3-idna,python3-service-identity,python3-txtorcon
+python3-click,python3-cffi,python3-autobahn,python3-tqdm,python3-hkdf,python3-pynacl,python3-spake2,python3-humanize,python3-idna,python3-service-identity,python3-six,python3-attrs,python3-automat,python3-twisted,python3-txtorcon

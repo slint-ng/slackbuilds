@@ -1042,8 +1042,10 @@ generate_depfile_for_artifact() {
   local fallbackDepFile=""
   local depfinderWorkDir=""
   local generatedDepFile=""
+  local packageDepFile=""
   local -a generatedDependencies=()
   local -a mergedDependencies=()
+  local -a packageDependencies=()
   local -a slkbuildDepends=()
   local slkbuildPath="${packageDir}/SLKBUILD"
   local tempDepFile=""
@@ -1091,8 +1093,13 @@ generate_depfile_for_artifact() {
     || die "failed to stage $(basename "$depFilePath")"
   rm -rf -- "$depfinderWorkDir"
 
+  packageDepFile=$(find_depfile "$packageDir" "$packageName" || true)
+  if [[ -n "$packageDepFile" && -f "$packageDepFile" ]]; then
+    read_dependencies "$packageDepFile" packageDependencies
+  fi
   read_dependencies "$tempDepFile" generatedDependencies
   read_slkbuild_array "$slkbuildPath" depends slkbuildDepends
+  append_unique_values mergedDependencies "${packageDependencies[@]}"
   append_unique_values mergedDependencies "${slkbuildDepends[@]}"
   append_unique_values mergedDependencies "${generatedDependencies[@]}"
   write_dependencies "$tempDepFile" "${mergedDependencies[@]}"
