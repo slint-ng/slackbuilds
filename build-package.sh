@@ -312,6 +312,25 @@ read_dependencies() {
   done < <(tr ',\n' '\n' < "$depFilePath")
 }
 
+write_dependencies() {
+  local depFilePath=$1
+  shift
+  local dependencyValue=""
+  local firstEntry=true
+
+  : > "$depFilePath"
+  for dependencyValue in "$@"; do
+    [[ -n "$dependencyValue" ]] || continue
+    if [[ "$firstEntry" == true ]]; then
+      printf '%s' "$dependencyValue" >> "$depFilePath"
+      firstEntry=false
+      continue
+    fi
+    printf ',%s' "$dependencyValue" >> "$depFilePath"
+  done
+  printf '\n' >> "$depFilePath"
+}
+
 read_slkbuild_array() {
   local slkbuildPath=$1
   local arrayName=$2
@@ -1023,6 +1042,10 @@ generate_depfile_for_artifact() {
   local fallbackDepFile=""
   local depfinderWorkDir=""
   local generatedDepFile=""
+  local -a generatedDependencies=()
+  local -a mergedDependencies=()
+  local -a slkbuildDepends=()
+  local slkbuildPath="${packageDir}/SLKBUILD"
   local tempDepFile=""
 
   depFilePath=$(depfile_path_for_artifact "$artifactPath")
@@ -1067,6 +1090,12 @@ generate_depfile_for_artifact() {
   mv -f -- "$depfinderWorkDir/$generatedDepFile" "$tempDepFile" \
     || die "failed to stage $(basename "$depFilePath")"
   rm -rf -- "$depfinderWorkDir"
+
+  read_dependencies "$tempDepFile" generatedDependencies
+  read_slkbuild_array "$slkbuildPath" depends slkbuildDepends
+  append_unique_values mergedDependencies "${slkbuildDepends[@]}"
+  append_unique_values mergedDependencies "${generatedDependencies[@]}"
+  write_dependencies "$tempDepFile" "${mergedDependencies[@]}"
 
   remove_stale_depfiles "$packageDir" "$packageName" "$depFilePath"
   mv -f -- "$tempDepFile" "$depFilePath" || die "failed to write $(basename "$depFilePath")"
