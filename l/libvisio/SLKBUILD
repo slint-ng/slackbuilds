@@ -1,0 +1,52 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libvisio
+pkgver=0.1.7
+pkgrel=1slint
+url="https://wiki.documentfoundation.org/DLP/Libraries/libvisio"
+source=("https://dev-www.libreoffice.org/src/${pkgname}/${pkgname}-${pkgver}.tar.xz")
+docs=("AUTHORS" "COPYING.MPL" "NEWS" "README")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"libvisio (Microsoft Visio import library)"
+""
+"libvisio is a library for parsing Microsoft Visio"
+"documents of all versions. It is part of the Document"
+"Liberation Project and is based on librevenge."
+""
+"Homepage: https://wiki.documentfoundation.org/DLP/Libraries/libvisio"
+)
+
+build() {
+  local docArg
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  case "${DOC:-0}" in
+    0) docArg="--without-docs" ;;
+    *) docArg="--with-docs" ;;
+  esac
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --build="$ARCH-slackware-linux" \
+    "$docArg" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
