@@ -1,0 +1,67 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libiscsi
+pkgver=1.19.0
+pkgrel=1slint
+url="https://github.com/sahlberg/libiscsi"
+license=("LGPL-2.1-or-later" "GPL-2.0-only")
+source=("https://github.com/sahlberg/libiscsi/archive/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+docs=(
+  "COPYING"
+  "README"
+  "TODO"
+  "LICENCE-GPL-2.txt"
+  "LICENCE-LGPL-2.1.txt"
+)
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"libiscsi (client-side iSCSI library)"
+""
+"libiscsi is a client-side library that implements"
+"the iSCSI protocol for accessing an iSCSI target."
+"It supports asynchronous commands and also"
+"provides a simpler synchronous layer."
+""
+""
+""
+""
+)
+
+build() {
+  local legacy_doc_name
+
+  legacy_doc_name="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./autogen.sh || return 1
+
+  CFLAGS+=" -fcommon"
+  CXXFLAGS+=" -fcommon"
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --disable-static \
+    --disable-tests \
+    --disable-test-tool \
+    --disable-werror \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib"${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacy_doc_name" || return 1
+}
