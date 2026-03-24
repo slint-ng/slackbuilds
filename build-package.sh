@@ -295,6 +295,16 @@ find_depfile() {
   die "multiple .dep files found for package ${packageDirByRelative[${packageDir}]}: ${allCandidates[*]}"
 }
 
+find_curated_depfile() {
+  local packageDir=$1
+  local packageName=$2
+  local depFile="${packageDir}/${packageName}.dep"
+
+  if [[ -f "$depFile" ]]; then
+    printf '%s\n' "$depFile"
+  fi
+}
+
 read_dependencies() {
   local depFilePath=$1
   local arrayName=$2
@@ -470,9 +480,15 @@ load_package_dependencies() {
       remove_value dependencyRef "$packageName"
       return
     fi
+
+    depFilePath=$(find_curated_depfile "$packageDir" "$packageName" || true)
+    if [[ -z "$depFilePath" ]]; then
+      return
+    fi
+  else
+    depFilePath=$(find_depfile "$packageDir" "$packageName")
   fi
 
-  depFilePath=$(find_depfile "$packageDir" "$packageName")
   read_dependencies "$depFilePath" depFileDependencies
 
   append_unique_values dependencyRef "${depFileDependencies[@]}"
@@ -1021,15 +1037,14 @@ remove_stale_depfiles() {
   local keepDepFile=$3
   local depFilePath=""
 
-  # Keep exactly one depfile per package directory. Older package names or
-  # stale releases should not linger after a rebuild.
-  : "$packageName"
+  # Keep the curated packageName.dep file, if present, and prune only older
+  # artifact-style depfiles for the same package.
 
   while IFS= read -r depFilePath; do
     [[ "$depFilePath" == "$keepDepFile" ]] && continue
     rm -f -- "$depFilePath"
   done < <(
-    find "$packageDir" -maxdepth 1 -type f -name '*.dep' -print | sort
+    find "$packageDir" -maxdepth 1 -type f -name "${packageName}-*.dep" -print | sort
   )
 }
 
@@ -1093,7 +1108,7 @@ generate_depfile_for_artifact() {
     || die "failed to stage $(basename "$depFilePath")"
   rm -rf -- "$depfinderWorkDir"
 
-  packageDepFile=$(find_depfile "$packageDir" "$packageName" || true)
+  packageDepFile=$(find_curated_depfile "$packageDir" "$packageName" || true)
   if [[ -n "$packageDepFile" && -f "$packageDepFile" ]]; then
     read_dependencies "$packageDepFile" packageDependencies
   fi
