@@ -29,8 +29,9 @@ start_sudo_keepalive() {
 trap cleanup EXIT INT TERM HUP
 
 # Keep this list in top-level rebuild order. build-package.sh resolves repo
-# dependencies for each target, so this list only needs the packages we want
-# rebuilt explicitly.
+# dependencies for ad hoc single-package builds, but this stack script uses the
+# curated order below so Python toolchain packages do not get rebuilt out of
+# sequence during a fresh-system bootstrap.
 packageList=(
   "d/python3"
   "d/python3-setuptools"
@@ -149,8 +150,12 @@ packageList=(
 )
 
 start_sudo_keepalive
+"$scriptDir/build-package.sh" --reset
+
+# Build only the current package. The list above carries the intended order,
+# and starting from a clean staging area keeps each run deterministic.
 
 for packagePath in "${packageList[@]}"; do
   printf 'Building %s\n' "$packagePath"
-  BUILD_PACKAGE_SUDO_READY=1 "$scriptDir/build-package.sh" --full --skip-staged "$packagePath"
+  BUILD_PACKAGE_SUDO_READY=1 "$scriptDir/build-package.sh" --only "$packagePath"
 done
