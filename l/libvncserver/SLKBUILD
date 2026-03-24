@@ -1,0 +1,71 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libvncserver
+pkgver=0.9.13
+pkgrel=1slint
+_srctag="LibVNCServer-${pkgver}"
+srcname="${pkgname}-${_srctag}"
+export srcname
+url="https://libvnc.github.io/"
+source=("https://github.com/LibVNC/libvncserver/archive/${_srctag}.tar.gz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libvncserver (VNC server and client libraries)"
+""
+"LibVNCServer makes writing VNC servers easy, while"
+"LibVNCClient provides client-side support for the"
+"Remote Framebuffer protocol."
+""
+"Homepage: https://libvnc.github.io/"
+)
+
+build() {
+  local docsDir
+  local docPath
+
+  cd "$SRC/$srcname" || return 1
+
+  chown -R root:root . || return 1
+  find . \
+    \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+    -exec chmod 755 {} + -o \
+    \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+    -exec chmod 644 {} + || return 1
+
+  rm -rf cmake-build || return 1
+  cmake -S . -B cmake-build \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR="lib${LIBDIRSUFFIX}" \
+    -DCMAKE_SKIP_RPATH=ON \
+    -DDOC_INSTALL_DIR=doc \
+    -DMAN_INSTALL_DIR=/usr/man \
+    -DWITH_FFMPEG=OFF || return 1
+
+  cmake --build cmake-build -j "$numjobs" || cmake --build cmake-build || return 1
+  DESTDIR="$PKG" cmake --install cmake-build || return 1
+
+  if [ -x cmake-build/client_examples/SDLvncviewer ]; then
+    install -Dm0755 cmake-build/client_examples/SDLvncviewer \
+      "$PKG/usr/bin/SDLvncviewer" || return 1
+  fi
+
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+  mkdir -p "$docsDir" || return 1
+  for docPath in AUTHORS COPYING* NEWS* README* TODO*; do
+    [ -e "$docPath" ] || continue
+    cp -a "$docPath" "$docsDir" || return 1
+  done
+
+  # Preserve the legacy package behavior of shipping only recent ChangeLog history.
+  if [ -r ChangeLog ]; then
+    head -n 1000 ChangeLog > "$docsDir/ChangeLog" || return 1
+    touch -r ChangeLog "$docsDir/ChangeLog" || return 1
+  fi
+}
