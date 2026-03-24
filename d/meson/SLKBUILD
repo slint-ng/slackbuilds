@@ -3,7 +3,7 @@
 
 pkgname=meson
 pkgver=1.7.0
-pkgrel=2slint
+pkgrel=3slint
 depends=("python3")
 makedepends=("python3-setuptools")
 source=("https://github.com/mesonbuild/meson/releases/download/${pkgver}/${pkgname}-${pkgver}.tar.gz")
@@ -28,10 +28,18 @@ slackdesc=\
 
 build() {
   local mesonLauncherPath
+  local purelibDir
 
   cd "$SRC/$pkgname-$pkgver" || exit 1
 
   python3 setup.py install --root="$PKG" || exit 1
+
+  purelibDir="$(python3 -c 'import sysconfig; print(sysconfig.get_path("purelib").lstrip("/"))')" || exit 1
+  install -d "$PKG/$purelibDir" || exit 1
+  if [[ ! -d "$PKG/$purelibDir/mesonbuild" ]]; then
+    cp -a mesonbuild "$PKG/$purelibDir/" || exit 1
+  fi
+  [[ -d "$PKG/$purelibDir/mesonbuild" ]] || exit 1
 
   # Avoid setuptools-generated entry-point wrappers that require installed
   # distribution metadata. Fresh bootstrap systems have hit missing metadata
