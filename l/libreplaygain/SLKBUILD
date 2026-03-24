@@ -1,0 +1,46 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libreplaygain
+pkgver=r475
+pkgrel=2slint
+url="https://www.musepack.net/"
+source=("https://files.musepack.net/source/${pkgname}_${pkgver}.tar.gz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libreplaygain (Musepack ReplayGain library)"
+""
+"libreplaygain provides ReplayGain analysis helpers used by"
+"Musepack tools and similar audio applications."
+)
+
+build() {
+  local install_rule legacyDocName
+
+  install_rule="INSTALL(FILES \${libreplaygain_SOURCE_DIR}/include/replaygain/gain_analysis.h DESTINATION include/replaygain)"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/${pkgname}_${pkgver}" || return 1
+
+  # Upstream omits this public header from the install set.
+  if ! grep -Fqx "$install_rule" src/CMakeLists.txt; then
+    printf '%s\n' "$install_rule" >> src/CMakeLists.txt || return 1
+  fi
+
+  cmake -S . -B build \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DLIB_SUFFIX="${LIBDIRSUFFIX}" || return 1
+
+  cmake --build build || return 1
+  DESTDIR="$PKG" cmake --install build || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
