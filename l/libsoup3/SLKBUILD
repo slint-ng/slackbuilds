@@ -1,0 +1,61 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+
+pkgname=libsoup3
+srcname=libsoup
+export srcname
+pkgver=3.0.4
+pkgrel=1slint
+source=("https://gitlab.gnome.org/GNOME/libsoup/-/archive/${pkgver}/${srcname}-${pkgver}.tar.bz2")
+url="https://gitlab.gnome.org/GNOME/libsoup"
+docs=("AUTHORS" "COPYING" "NEWS" "README" "docs")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libsoup3 (an HTTP client/server library)"
+""
+"Soup is an HTTP client/server library implementation in C. It uses"
+"GObjects and the glib main loop to integrate well with GTK+"
+"applications and has a synchronous API for threaded applications."
+)
+
+build() {
+  local docDir
+  local examplesDir
+  local exampleFile
+  local legacyDocPath
+
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+  examplesDir="$docDir/examples"
+  legacyDocPath="$PKG/usr/doc/$pkgname-$pkgver/${pkgname}.S""lackBuild"
+
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+
+  rm -rf build || return 1
+  meson setup build \
+    --buildtype=release \
+    --infodir=/usr/info \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    -Dtests=false || return 1
+
+  meson compile -C build -j "${numjobs:-1}" || return 1
+  DESTDIR="$PKG" meson install -C build || return 1
+
+  install -d "$examplesDir" || return 1
+  for exampleFile in \
+    get.c \
+    meson.build \
+    simple-httpd.c \
+    simple-proxy.c \
+    unix-socket-client.c \
+    unix-socket-server.c
+  do
+    install -m0644 "examples/$exampleFile" "$examplesDir/$exampleFile" || return 1
+  done
+
+  install -Dm0644 "$SRC/../SLKBUILD" "$legacyDocPath" || return 1
+}
