@@ -20,17 +20,20 @@ slackdesc=(
 )
 
 build() {
+  local -a mesonCommand
+
   cd "$SRC/${srcname}-${pkgver}" || return 1
   export PYTHONNOUSERSITE=1
   export CCACHE_DISABLE=1
+  mesonCommand=(python3 -m mesonbuild.mesonmain)
 
-  meson setup build \
+  "${mesonCommand[@]}" setup build \
     --prefix=/usr \
     --libdir=lib"${LIBDIRSUFFIX}" \
     --buildtype=release \
     -Dblas=blas \
     -Dlapack=lapack || return 1
 
-  meson compile -C build -j "${numjobs:-1}" || return 1
-  DESTDIR="$PKG" meson install -C build || return 1
+  "${mesonCommand[@]}" compile -C build -j "${numjobs:-1}" || return 1
+  DESTDIR="$PKG" "${mesonCommand[@]}" install -C build || return 1
 }
