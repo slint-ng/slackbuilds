@@ -14,7 +14,7 @@ stop_sudo_keepalive() {
 
 cleanup() {
   stop_sudo_keepalive
-  command -v play && play -qnV0 synth 2 pl E5
+  command -v play &> /dev/null && play -qnV0 synth 2 pl E5
 }
 
 start_sudo_keepalive() {
