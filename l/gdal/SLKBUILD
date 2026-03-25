@@ -1,0 +1,69 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=gdal
+pkgver=3.5.2
+pkgrel=1slint
+url="https://www.gdal.org/"
+source=("https://github.com/OSGeo/gdal/releases/download/v${pkgver}/${pkgname}-${pkgver}.tar.gz")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"gdal (raster geospatial data translator library)"
+""
+"The Geospatial Data Abstraction Library is a unifying"
+"C and C++ API for accessing raster geospatial data."
+"It also includes the related OGR vector data library."
+""
+"Homepage: https://www.gdal.org/"
+)
+
+build() {
+  local cmakeArgs
+  local docDir
+  local legacyDocName
+
+  cmakeArgs=(
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS"
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS"
+    -DCMAKE_INSTALL_PREFIX=/usr
+    -DCMAKE_INSTALL_SYSCONFDIR=/etc
+    -DCMAKE_INSTALL_LOCALSTATEDIR=/var
+    -DCMAKE_INSTALL_LIBDIR="lib${LIBDIRSUFFIX}"
+    -DCMAKE_INSTALL_DATAROOTDIR=share
+    -DCMAKE_INSTALL_MANDIR=man
+    -DCMAKE_INSTALL_DOCDIR="doc/$pkgname-$pkgver"
+    -DBUILD_CSHARP_BINDINGS:BOOL=OFF
+    -DBUILD_SHARED_LIBS:BOOL=ON
+    -DMYSQL_INCLUDE_DIR=/usr/include/mysql/server
+    -DGDAL_USE_GEOTIFF_INTERNAL=ON
+    -DGDAL_USE_TIFF_INTERNAL=ON
+    -DGDAL_USE_OPENCL=ON
+    -DCMAKE_BUILD_TYPE=Release
+  )
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  if [[ ${JAVA:=no} == no ]]; then
+    cmakeArgs+=(-DBUILD_JAVA_BINDINGS:BOOL=OFF)
+  fi
+  if [[ ${TESTBUILD:=NO} == NO ]]; then
+    cmakeArgs+=(-DBUILD_TESTING=OFF)
+  fi
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  cmake -B build -S . "${cmakeArgs[@]}" || return 1
+  cmake --build build --parallel "$numjobs" || return 1
+  if [[ $TESTBUILD == YES ]]; then
+    cmake --build build --target test || return 1
+  fi
+  DESTDIR="$PKG" cmake --install build --strip || return 1
+
+  mkdir -p "$docDir" || return 1
+  cp -a CITATION COMMITTERS HOWTO-RELEASE LICENSE.TXT MIGRATION_GUIDE.TXT \
+    NEWS.md PROVENANCE.TXT SECURITY.md VERSION "$docDir" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docDir/$legacyDocName" || return 1
+}

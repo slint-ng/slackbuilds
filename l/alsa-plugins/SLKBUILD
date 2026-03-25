@@ -1,0 +1,53 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=alsa-plugins
+pkgver=1.2.7.1
+pkgrel=1slint
+url="https://www.alsa-project.org/"
+source=("https://www.alsa-project.org/files/pub/plugins/${pkgname}-${pkgver}.tar.bz2")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"alsa-plugins (Advanced Linux Sound Architecture plugins)"
+""
+"The Advanced Linux Sound Architecture provides audio and"
+"MIDI functionality to the Linux operating system."
+"This package includes plugins for ALSA."
+""
+"Homepage: https://www.alsa-project.org/"
+)
+
+build() {
+  local docDir
+  local legacyDocName
+
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  CFLAGS="$SLKCFLAGS -DHAVE_STDINT_H -DUSE_LIBSPEEX" \
+  CXXFLAGS="$SLKCFLAGS -DHAVE_STDINT_H -DUSE_LIBSPEEX" \
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --with-speex=lib \
+    --enable-maemo-plugin \
+    --mandir=/usr/man \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make -j"$numjobs" || make || return 1
+  make install-strip DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG/etc/alsa/conf.d/98-maemo.conf" || return 1
+
+  mkdir -p "$docDir" || return 1
+  cp -a doc/*.txt doc/README* "$docDir" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docDir/$legacyDocName" || return 1
+}

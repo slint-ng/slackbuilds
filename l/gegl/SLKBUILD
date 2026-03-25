@@ -1,0 +1,60 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=gegl
+pkgver=0.4.40
+pkgrel=1slint
+url="https://download.gimp.org/pub/gegl/"
+source=(
+  "https://download.gimp.org/pub/gegl/0.4/${pkgname}-${pkgver}.tar.xz"
+  "gegl.no.runtime.dot.check.diff.gz"
+)
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"gegl (Generic Graphics Library)"
+""
+"GEGL is a graph-based image processing framework."
+"It provides cached, non-destructive image editing on"
+"larger-than-RAM buffers through babl color support."
+""
+"Homepage: https://download.gimp.org/pub/gegl/"
+)
+
+build() {
+  local docDir
+  local legacyDocName
+
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  zcat "$SRC/../gegl.no.runtime.dot.check.diff.gz" | patch -p1 --verbose || return 1
+
+  meson setup meson-build \
+    --prefix=/usr \
+    --libdir="lib${LIBDIRSUFFIX}" \
+    --libexecdir=/usr/libexec \
+    --bindir=/usr/bin \
+    --sbindir=/usr/sbin \
+    --includedir=/usr/include \
+    --datadir=/usr/share \
+    --mandir=/usr/man \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release \
+    . || return 1
+  "${NINJA:=ninja}" -C meson-build -j "$numjobs" || return 1
+  DESTDIR="$PKG" "$NINJA" -C meson-build install || return 1
+
+  mkdir -p "$docDir" || return 1
+  cp -a AUTHORS COPYING* INSTALL NEWS README* TODO "$docDir" || return 1
+  if [[ -r ChangeLog ]]; then
+    head -n 1000 ChangeLog > "$docDir/ChangeLog" || return 1
+    touch -r ChangeLog "$docDir/ChangeLog" || return 1
+  fi
+  install -Dm0644 "$SRC/../SLKBUILD" "$docDir/$legacyDocName" || return 1
+}

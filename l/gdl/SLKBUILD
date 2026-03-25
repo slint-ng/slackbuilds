@@ -1,0 +1,51 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=gdl
+pkgver=3.40.0
+pkgrel=3slint
+url="https://www.gnome.org/"
+source=("https://download.gnome.org/sources/${pkgname}/3.40/${pkgname}-${pkgver}.tar.xz")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"gdl (GNOME Docking Library)"
+""
+"gdl provides a docking system and utilities useful to"
+"GNOME development tools and GNOME applications."
+""
+"Homepage: https://www.gnome.org/"
+)
+
+build() {
+  local docDir
+  local legacyDocName
+
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  export PYTHONDONTWRITEBYTECODE=1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --disable-static \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make -j"$numjobs" || make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+
+  mkdir -p "$docDir" || return 1
+  cp -a AUTHORS COPYING ChangeLog INSTALL MAINTAINERS NEWS "$docDir" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docDir/$legacyDocName" || return 1
+}
