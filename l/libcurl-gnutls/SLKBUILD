@@ -1,0 +1,80 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libcurl-gnutls
+pkgver=8.0.1
+pkgrel=1slint
+url="https://curl.se/"
+source=("https://curl.se/download/curl-${pkgver}.tar.xz")
+options=("nostrip")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libcurl-gnutls (URL retrieval library linked against GnuTLS)"
+""
+"libcurl-gnutls provides the libcurl transfer library built"
+"against GnuTLS instead of the default TLS backend."
+""
+"Homepage: https://curl.se/"
+)
+
+build() {
+  local curlSoVersion
+  local docDir
+  local legacyDocName
+  local versionLib
+
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/curl-$pkgver" || return 1
+
+  LDFLAGS="-L/usr/lib${LIBDIRSUFFIX}" \
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --infodir=/usr/info \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --enable-static=no \
+    --enable-shared=yes \
+    --disable-manual \
+    --without-libssh2 \
+    --without-gssapi \
+    --without-ca-bundle \
+    --with-ca-path=/etc/ssl/certs \
+    --with-gnutls=/usr \
+    --host="$ARCH-slackware-linux" \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make -C lib -j"$numjobs" || make -C lib || return 1
+  make -C lib DESTDIR="$PKG" install || return 1
+
+  curlSoVersion="$(basename "$(find "$PKG/usr/lib${LIBDIRSUFFIX}" -maxdepth 1 -type f -name 'libcurl.so.4.*.*' | head -n 1)")" || return 1
+  curlSoVersion="${curlSoVersion#libcurl.so.}"
+  [[ -n "$curlSoVersion" ]] || return 1
+
+  mv "$PKG/usr/lib${LIBDIRSUFFIX}/libcurl.so.$curlSoVersion" \
+    "$PKG/usr/lib${LIBDIRSUFFIX}/libcurl-gnutls.so.$curlSoVersion" || return 1
+  rm -f "$PKG"/usr/lib"${LIBDIRSUFFIX}"/libcurl.so* || return 1
+  for versionLib in 3 4 4.0.0 4.1.0 4.2.0 4.3.0 4.4.0 4.5.0 4.6.0; do
+    ln -sf "libcurl-gnutls.so.$curlSoVersion" \
+      "$PKG/usr/lib${LIBDIRSUFFIX}/libcurl-gnutls.so.$versionLib" || return 1
+  done
+
+  rm -f "$PKG"/{,usr/}lib"${LIBDIRSUFFIX}"/*.la || return 1
+
+  find "$PKG" -print0 | xargs -0 file | grep -e "executable" -e "shared object" \
+    | grep ELF | cut -d: -f1 | xargs -r strip --strip-unneeded 2>/dev/null || true
+  find "$PKG" -print0 | xargs -0 file | grep "current ar archive" \
+    | cut -d: -f1 | xargs -r strip -g 2>/dev/null || true
+
+  mkdir -p "$docDir" || return 1
+  cp -a COPYING* README* "$docDir" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$docDir/$legacyDocName" || return 1
+}

@@ -1,0 +1,45 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=judy
+pkgver=1.0.5
+pkgrel=1slintstatic
+url="https://sourceforge.net/projects/judy/"
+source=("https://downloads.sourceforge.net/project/judy/judy/Judy-${pkgver}/Judy-${pkgver}.tar.gz")
+docs=("AUTHORS" "COPYING" "ChangeLog" "README")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"judy (sparse dynamic array library)"
+""
+"Judy is a C library that provides a state-of-the-art core"
+"technology for sparse dynamic arrays with good scalability,"
+"performance, and memory efficiency."
+""
+"Homepage: https://sourceforge.net/projects/judy/"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make -j"$numjobs" || make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}

@@ -1,0 +1,61 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libdvdcss
+pkgver=1.4.3
+pkgrel=1slint
+url="https://www.videolan.org/developers/libdvdcss.html"
+source=("https://download.videolan.org/pub/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libdvdcss (DVD decrypting library)"
+""
+"libdvdcss is a simple library designed for accessing DVDs"
+"like block devices without having to handle decryption"
+"details directly."
+""
+"Homepage: https://www.videolan.org/developers/libdvdcss.html"
+)
+
+build() {
+  local legacyDocName
+  local targetTriplet
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  case "$ARCH" in
+    arm*) targetTriplet="${ARCH}-slackware-linux-gnueabi" ;;
+    *) targetTriplet="${ARCH}-slackware-linux" ;;
+  esac
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  autoreconf -vif || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --localstatedir=/var \
+    --sysconfdir=/etc \
+    --disable-doc \
+    --program-prefix="" \
+    --program-suffix="" \
+    --build="$targetTriplet" || return 1
+
+  make -j"$numjobs" || make || return 1
+  make DESTDIR="$PKG" install || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a AUTHORS COPYING ChangeLog INSTALL NEWS README doc/html \
+    "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+
+  rm -rf "$PKG/usr/share/doc" || return 1
+  rmdir "$PKG/usr/share" 2>/dev/null || true
+}
