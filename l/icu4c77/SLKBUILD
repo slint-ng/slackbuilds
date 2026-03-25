@@ -1,0 +1,57 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+# In Slint this package does not conflict with icu4c but allows building
+# and packaging webkitgtk-2.48.1.
+
+pkgname=icu4c77
+pkgver=77.1
+pkgrel=1slint
+url="https://github.com/unicode-org/icu"
+source=("https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-src.tgz")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"icu4c77 (International Components for Unicode)"
+""
+"icu4c77 provides robust Unicode and globalization services."
+"This package is only used as a dependency of webkit2gtk."
+""
+"Homepage: https://github.com/unicode-org/icu"
+)
+
+doinst() {
+cat <<'EOF'
+if [ -x /sbin/ldconfig ]; then
+  /sbin/ldconfig &
+fi
+EOF
+}
+
+build() {
+  local docDir
+  local legacyDocName
+
+  docDir="$PKG/usr/doc/icu4c-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/icu/source" || return 1
+
+  mkdir -p build || return 1
+  cd build || return 1
+
+  ../configure --prefix=/opt/icu4c77 --disable-samples --disable-tests || return 1
+  make -j"$numjobs" || make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  mkdir -p "$docDir" || return 1
+  cp -a "$SRC/icu/license.html" "$SRC/icu/readme.html" "$docDir" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docDir/$legacyDocName" || return 1
+
+  install -Dm0644 /dev/stdin "$PKG/etc/ld.so.conf.d/icu4c77.conf" <<'EOF'
+/opt/icu4c77/lib
+EOF
+
+  rm -rf "$PKG/opt/icu4c77"/sbin "$PKG/opt/icu4c77"/bin "$PKG/opt/icu4c77"/share || return 1
+}

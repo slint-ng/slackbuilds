@@ -1,0 +1,51 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=ORBit2
+pkgver=2.14.19
+pkgrel=1slint
+url="https://download.gnome.org/sources/ORBit2/2.14/"
+source=("https://download.gnome.org/sources/ORBit2/2.14/${pkgname}-${pkgver}.tar.bz2")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"ORBit2 (CORBA ORB library)"
+""
+"ORBit2 is a high-performance CORBA object request broker"
+"library for communication between program objects."
+""
+"Homepage: https://download.gnome.org/sources/ORBit2/2.14/"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --disable-gtk-doc \
+    --disable-static \
+    --build="$ARCH-slackware-linux" || return 1
+
+  sed -i 's/-DG_DISABLE_DEPRECATED//' linc2/src/Makefile || return 1
+
+  make -j"$numjobs" || make || return 1
+  make install-strip DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a AUTHORS COPYING COPYING.LIB ChangeLog HACKING MAINTAINERS NEWS \
+    README* TODO "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  ln -sf /usr/share/gtk-doc/html/ORBit2 "$PKG/usr/doc/$pkgname-$pkgver/html" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}

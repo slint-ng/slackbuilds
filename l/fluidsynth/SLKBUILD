@@ -1,0 +1,71 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=fluidsynth
+pkgver=2.5.2
+pkgrel=1slint
+url="https://github.com/FluidSynth/fluidsynth"
+source=("https://github.com/FluidSynth/fluidsynth/archive/refs/tags/v${pkgver}.tar.gz")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"fluidsynth (real-time software synthesizer)"
+""
+"FluidSynth is a real-time software synthesizer based on"
+"the SoundFont 2 specification."
+""
+"Homepage: https://github.com/FluidSynth/fluidsynth"
+)
+
+doinst() {
+cat <<'EOF'
+if [ ! -r usr/share/soundfonts/default.sf2 ]; then
+  if [ -r usr/share/minuet/soundfonts/GeneralUser-v1.47.sf2 ]; then
+    ln -sf /usr/share/minuet/soundfonts/GeneralUser-v1.47.sf2 usr/share/soundfonts/default.sf2
+  fi
+fi
+EOF
+}
+
+build() {
+  local buildDir
+  local docDir
+  local legacyDocName
+
+  buildDir="$SRC/$pkgname-$pkgver/build"
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  mkdir -p "$buildDir" || return 1
+  cd "$buildDir" || return 1
+
+  cmake .. \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DLIB_SUFFIX="$LIBDIRSUFFIX" \
+    -DCMAKE_INSTALL_MANDIR=/usr/man \
+    -Denable-ladspa=ON \
+    -Denable-portaudio=ON || return 1
+
+  make -j"$numjobs" || make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  mkdir -p "$PKG/usr/share/soundfonts" || return 1
+
+  mkdir -p "$docDir" || return 1
+  cp -a "$SRC/$pkgname-$pkgver"/AUTHORS* "$SRC/$pkgname-$pkgver"/CONTRIBUTING* \
+    "$SRC/$pkgname-$pkgver"/COPYING* "$SRC/$pkgname-$pkgver"/INSTALL \
+    "$SRC/$pkgname-$pkgver"/LICENSE* "$SRC/$pkgname-$pkgver"/NEWS* \
+    "$SRC/$pkgname-$pkgver"/README* "$SRC/$pkgname-$pkgver"/THANKS* \
+    "$SRC/$pkgname-$pkgver"/TODO* "$docDir" 2>/dev/null || true
+  if [[ -r "$SRC/$pkgname-$pkgver/ChangeLog" ]]; then
+    head -n 1000 "$SRC/$pkgname-$pkgver/ChangeLog" > "$docDir/ChangeLog" || return 1
+    touch -r "$SRC/$pkgname-$pkgver/ChangeLog" "$docDir/ChangeLog" || return 1
+  fi
+  install -Dm0644 "$SRC/../SLKBUILD" "$docDir/$legacyDocName" || return 1
+}

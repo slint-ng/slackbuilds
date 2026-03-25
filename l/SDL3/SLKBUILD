@@ -1,0 +1,55 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=SDL3
+srcname="SDL-release-${pkgver:-3.2.28}"
+pkgver=3.2.28
+pkgrel=1slint
+url="https://github.com/libsdl-org/SDL"
+source=("https://github.com/libsdl-org/SDL/archive/release-${pkgver}/SDL-release-${pkgver}.tar.gz")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"SDL3 (Simple DirectMedia Layer version 3)"
+""
+"SDL3 is a cross-platform development library for audio,"
+"input, OpenGL, and other low-level multimedia access."
+""
+"Homepage: https://github.com/libsdl-org/SDL"
+)
+
+build() {
+  local buildDir
+  local docDir
+  local legacyDocName
+
+  buildDir="$SRC/$srcname/build"
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$srcname" || return 1
+
+  rm -rf "$buildDir" || return 1
+  cmake -S . -B "$buildDir" \
+    -DCMAKE_C_FLAGS_RELEASE:STRING="$SLKCFLAGS" \
+    -DCMAKE_INSTALL_INCLUDEDIR=/usr/include \
+    -DCMAKE_INSTALL_LIBDIR="lib${LIBDIRSUFFIX}" \
+    -DCMAKE_INSTALL_BINDIR="" \
+    -DCMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING="-pthread" || return 1
+
+  cmake --build "$buildDir" -j "$numjobs" || return 1
+  DESTDIR="$PKG" cmake --install "$buildDir" || return 1
+
+  rm -f "$PKG"/{,usr/}lib"${LIBDIRSUFFIX}"/*.la || return 1
+  find "$PKG" \( -name perllocal.pod -o -name .packlist -o -name '*.bs' \) \
+    -delete || return 1
+
+  mkdir -p "$docDir" || return 1
+  if [[ -d "$PKG/usr/local/share/licenses/SDL3" ]]; then
+    mv "$PKG/usr/local/share/licenses/SDL3"/* "$docDir" || return 1
+    rm -rf "${PKG:?}/usr/local" || return 1
+  fi
+  install -Dm0644 "$SRC/../SLKBUILD" "$docDir/$legacyDocName" || return 1
+}
