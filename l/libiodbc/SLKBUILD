@@ -1,0 +1,54 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+# disable-gui to remove deps on X and GTK
+# Probably very few people use /usr/bin/iodbcadm-gtk anyway. - Didier
+
+pkgname=libiodbc
+pkgver=3.52.15
+pkgrel=1slint
+url="https://www.iodbc.org/dataspace/iodbc/wiki/iODBC/"
+source=(
+  "https://downloads.sourceforge.net/project/iodbc/iodbc/${pkgver}/${pkgname}-${pkgver}.tar.gz"
+  "libiodbc.disable.rpath.diff.gz"
+)
+docs=("AUTHORS" "COPYING" "ChangeLog" "INSTALL" "README" "TODO")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libiodbc (Independent Open DataBase Connectivity)"
+""
+"iODBC is an open source platform-independent implementation"
+"of the ODBC and X/Open specifications."
+""
+"Homepage: https://www.iodbc.org/dataspace/iodbc/wiki/iODBC/"
+)
+
+build() {
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  if [[ ! -r configure ]]; then
+    NOCONFIGURE=1 ./autogen.sh || return 1
+  fi
+
+  zcat "$SRC/../libiodbc.disable.rpath.diff.gz" | patch -p1 --verbose || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --mandir=/usr/man \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --disable-static \
+    --disable-libodbc \
+    --disable-gui \
+    --program-prefix="" \
+    --program-suffix="" \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make -j"$numjobs" || make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/{,usr/}lib"${LIBDIRSUFFIX}"/*.la || return 1
+}

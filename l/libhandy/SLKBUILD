@@ -1,0 +1,49 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libhandy
+pkgver=1.5.0
+pkgrel=1slint
+url="https://gitlab.gnome.org/GNOME/libhandy/"
+source=("https://download.gnome.org/sources/${pkgname}/1.5/${pkgname}-${pkgver}.tar.xz")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libhandy (additional UI components for GTK+3)"
+""
+"libhandy provides additional GTK+3 UI components intended"
+"to help develop interfaces for mobile devices."
+""
+"Homepage: https://gitlab.gnome.org/GNOME/libhandy/"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  meson setup build \
+    --buildtype=release \
+    --infodir=/usr/info \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    -Dgtk_doc=true \
+    -Dstrip=true || return 1
+
+  "${NINJA:=ninja}" -C build -j "$numjobs" || return 1
+  DESTDIR="$PKG" "$NINJA" -C build install || return 1
+
+  rm -f "$PKG"/{,usr/}lib"${LIBDIRSUFFIX}"/*.la || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a AUTHORS COPYING NEWS ./*.md "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}

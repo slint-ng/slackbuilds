@@ -1,0 +1,49 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=gtkspell3
+pkgver=3.0.10
+pkgrel=2slint
+url="https://gtkspell.sourceforge.net/"
+source=("https://downloads.sourceforge.net/project/gtkspell/${pkgver}/${pkgname}-${pkgver}.tar.xz")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"gtkspell3 (GTK3 spell checker interface library)"
+""
+"GtkSpell provides word-processor-style highlighting and"
+"replacement of misspelled words in a GtkTextView widget."
+""
+"Homepage: https://gtkspell.sourceforge.net/"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --enable-static=no \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make -j"$numjobs" || make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a AUTHORS COPYING ChangeLog INSTALL README docs/html \
+    "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}

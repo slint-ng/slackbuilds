@@ -1,0 +1,40 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=configobj
+pkgver=5.0.8
+pkgrel=1slint
+url="https://pypi.org/project/configobj/"
+source=("https://files.pythonhosted.org/packages/source/c/configobj/${pkgname}-${pkgver}.tar.gz")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"configobj (configuration file Python module)"
+""
+"ConfigObj is a Python module for simple handling of"
+"configuration files and human-readable data persistence."
+""
+"Homepage: https://pypi.org/project/configobj/"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  python2 setup.py install --root="$PKG" || return 1
+  python3 setup.py install --root="$PKG" || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  if [[ -d docs ]]; then
+    cp -a docs/* "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  fi
+  install -Dm0644 "$SRC/../README" \
+    "$PKG/usr/doc/$pkgname-$pkgver/README" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}

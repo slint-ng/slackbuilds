@@ -1,0 +1,50 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=bamf
+pkgver=0.5.6
+pkgrel=1slint
+url="https://launchpad.net/bamf"
+source=("https://launchpad.net/${pkgname}/0.5/${pkgver}/+download/${pkgname}-${pkgver}.tar.gz")
+docs=("ChangeLog" "COPYING" "COPYING.LGPL" "INSTALL" "TODO")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"bamf (window matching shared library)"
+""
+"bamf matches application windows to desktop files and"
+"provides a simple D-Bus daemon and C wrapper library."
+""
+"Homepage: https://launchpad.net/bamf"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  autoreconf -vif || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --enable-introspection \
+    --enable-compile-warnings=no \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make -j"$numjobs" || make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
