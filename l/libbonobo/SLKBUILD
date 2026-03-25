@@ -1,0 +1,57 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libbonobo
+pkgver=2.32.1
+pkgrel=1slint
+url="https://www.gnome.org/"
+source=(
+  "https://download.gnome.org/sources/${pkgname}/2.32/${pkgname}-${pkgver}.tar.bz2"
+  "remove_use_of_G_DISABLE_DEPRECATED.patch"
+  "test_no_srcdir.patch"
+)
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libbonobo (CORBA interface support library)"
+""
+"libbonobo provides GNOME support libraries for reusable"
+"CORBA components and compound documents."
+""
+"Homepage: https://www.gnome.org/"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  patch -p1 < "$SRC/../remove_use_of_G_DISABLE_DEPRECATED.patch" || return 1
+  patch -p1 < "$SRC/../test_no_srcdir.patch" || return 1
+
+  autoreconf -fi || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --disable-static \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make -j"$numjobs" || make || return 1
+  make install-strip DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a AUTHORS COPYING* ChangeLog MAINTAINERS NEWS README TODO \
+    "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}

@@ -1,0 +1,40 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+pkgname=liblxqt
+pkgver=2.3.0
+pkgrel=1slint
+url="https://github.com/lxqt/liblxqt"
+source=("https://github.com/lxqt/liblxqt/releases/download/${pkgver}/${pkgname}-${pkgver}.tar.xz")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"liblxqt (common base library for LXQt components)"
+""
+"liblxqt provides the common base functionality used by"
+"nearly all LXQt components."
+""
+"Homepage: https://github.com/lxqt/liblxqt"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  cmake -S . -B build \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR="lib${LIBDIRSUFFIX}" \
+    -DCMAKE_BUILD_TYPE=Release || return 1
+  cmake --build build -j "$numjobs" || return 1
+  DESTDIR="$PKG" cmake --install build || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a AUTHORS CHANGELOG COPYING README.md "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}

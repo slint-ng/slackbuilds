@@ -1,0 +1,45 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+pkgname=libdbusmenu-lxqt
+pkgver=0.3.0
+pkgrel=1slint
+url="https://github.com/lxqt/libdbusmenu-lxqt"
+source=("https://github.com/lxqt/libdbusmenu-lxqt/releases/download/${pkgver}/${pkgname}-${pkgver}.tar.xz")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libdbusmenu-lxqt (Qt implementation of the DBusMenu spec)"
+""
+"libdbusmenu-lxqt provides a Qt implementation of the"
+"DBusMenu specification for LXQt components."
+""
+"Homepage: https://github.com/lxqt/libdbusmenu-lxqt"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  cmake -S . -B build \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+    -Wno-dev \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR="lib${LIBDIRSUFFIX}" \
+    -DCMAKE_INSTALL_MANDIR=/usr/man \
+    -DCMAKE_BUILD_TYPE=Release || return 1
+  cmake --build build -j "$numjobs" || return 1
+  DESTDIR="$PKG" cmake --build build --target install/strip || return 1
+
+  rm -f "$PKG"/{,usr/}lib"${LIBDIRSUFFIX}"/*.la || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a CHANGELOG COPYING NEWS README.md RELEASE_CHECK_LIST \
+    "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}

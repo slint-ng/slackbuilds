@@ -1,0 +1,40 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+pkgname=libfm-qt
+pkgver=2.3.1
+pkgrel=1slint
+url="https://github.com/lxqt/libfm-qt"
+source=("https://github.com/lxqt/libfm-qt/releases/download/${pkgver}/${pkgname}-${pkgver}.tar.xz")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libfm-qt (Qt binding library for libfm)"
+""
+"libfm-qt is the Qt port of libfm used to build LXQt file"
+"manager components."
+""
+"Homepage: https://github.com/lxqt/libfm-qt"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  cmake -S . -B build \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=NONE || return 1
+  cmake --build build -j "$numjobs" || return 1
+  DESTDIR="$PKG" cmake --install build || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a AUTHORS CHANGELOG LICENSE LICENSE.BSD-3-Clause README.md \
+    "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}

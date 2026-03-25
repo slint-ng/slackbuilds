@@ -1,0 +1,58 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+pkgname=libfm-extra
+srcname=libfm
+pkgver=1.4.0
+pkgrel=2slint
+url="https://wiki.lxde.org/en/Libfm"
+source=("https://github.com/lxde/libfm/archive/${pkgver}/${srcname}-${pkgver}.tar.gz")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libfm-extra (libfm extra-only library package)"
+""
+"libfm-extra provides the libfm components required by"
+"menu-cache-gen and related extra-only consumers."
+""
+"Homepage: https://wiki.lxde.org/en/Libfm"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$srcname-$pkgver" || return 1
+
+  sed -i 's/create=xarchiver --add-to %F/create=xarchiver --compress %F/' \
+    data/archivers.list || return 1
+  ./autogen.sh || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --enable-static=no \
+    --with-extra-only \
+    --with-gtk=no \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make -j"$numjobs" || make || return 1
+  make install-strip DESTDIR="$PKG" || return 1
+
+  (
+    cd "$PKG/usr/include" || return 1
+    rm -rf libfm || return 1
+    ln -sf libfm-1.0 libfm || return 1
+  ) || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a AUTHORS COPYING NEWS README TODO "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
