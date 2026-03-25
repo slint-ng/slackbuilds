@@ -1,0 +1,45 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libmpdclient
+pkgver=2.20
+pkgrel=1slint
+url="https://www.musicpd.org/doc/libmpdclient/"
+source=("https://www.musicpd.org/download/libmpdclient/2/${pkgname}-${pkgver}.tar.xz")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libmpdclient (MPD client library)"
+""
+"libmpdclient is a stable, documented, asynchronous API"
+"library for interfacing MPD in the C, C++, and"
+"Objective C languages."
+""
+"Homepage: https://www.musicpd.org/doc/libmpdclient/"
+)
+
+build() {
+  local docDir
+  local legacyDocName
+
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  meson setup output \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var || return 1
+  ninja -C output || return 1
+  DESTDIR="$PKG" ninja -C output install || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+
+  mkdir -p "$docDir" || return 1
+  cp -a AUTHORS COPYING NEWS README.* "$docDir" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docDir/$legacyDocName" || return 1
+}

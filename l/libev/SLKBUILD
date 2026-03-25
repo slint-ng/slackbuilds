@@ -1,0 +1,49 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libev
+pkgver=4.33
+pkgrel=1slint
+url="https://software.schmorp.de/pkg/libev.html"
+source=("https://dist.schmorp.de/libev/${pkgname}-${pkgver}.tar.gz")
+docs=("README" "LICENSE" "Changes")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libev (high-performance event loop/model)"
+""
+"libev is modelled after libevent and the Event Perl module,"
+"but is faster, scales better, and is more featureful."
+""
+"Homepage: https://software.schmorp.de/pkg/libev.html"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  sed -i "s|-g -O3|$SLKCFLAGS|" configure || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --mandir=/usr/man \
+    --enable-static=no \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+
+  mkdir -p "$PKG/usr/include/libev" || return 1
+  mv "$PKG/usr/include/event.h" "$PKG/usr/include/libev/" || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
