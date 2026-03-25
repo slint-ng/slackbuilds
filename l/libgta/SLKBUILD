@@ -1,0 +1,47 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libgta
+pkgver=1.2.1
+pkgrel=1slint
+url="https://marlam.de/gta/"
+source=("https://marlam.de/gta/releases/${pkgname}-${pkgver}.tar.xz")
+docs=("AUTHORS" "COPYING" "ChangeLog" "INSTALL" "NEWS" "README")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libgta (Generic Tagged Arrays library)"
+""
+"libgta provides the Generic Tagged Arrays file format"
+"and library for storing and manipulating multidimensional"
+"array data."
+""
+"Homepage: https://marlam.de/gta/"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  # shellcheck disable=SC2016
+  sed -i -e 's:share/doc/libgta:doc/libgta-${GTA_VERSION}:' CMakeLists.txt || return 1
+
+  cmake -B build -S . \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DGTA_BUILD_DOCUMENTATION=ON \
+    -DGTA_BUILD_SHARED_LIB=ON \
+    -DGTA_BUILD_STATIC_LIB=OFF \
+    -DLIB_SUFFIX="${LIBDIRSUFFIX}" \
+    -DCMAKE_BUILD_TYPE=Release || return 1
+  cmake --build build || return 1
+  DESTDIR="$PKG" cmake --install build || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}

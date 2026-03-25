@@ -1,0 +1,41 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libgxps
+pkgver=0.3.2
+pkgrel=1slint
+url="https://github.com/GNOME/libgxps"
+source=("https://download.gnome.org/sources/${pkgname}/0.3/${pkgname}-${pkgver}.tar.xz")
+docs=("AUTHORS" "COPYING" "NEWS" "README" "TODO")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libgxps (XPS rendering library)"
+""
+"libgxps is a GObject-based library for handling"
+"and rendering XPS documents."
+""
+"Homepage: https://github.com/GNOME/libgxps"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  meson setup build \
+    --prefix=/usr \
+    --buildtype=release \
+    --localstatedir=/var \
+    --libdir="lib${LIBDIRSUFFIX}" \
+    --mandir=/usr/man || return 1
+  ninja -C build || return 1
+  DESTDIR="$PKG" ninja -C build install || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}

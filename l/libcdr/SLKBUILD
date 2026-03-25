@@ -1,0 +1,61 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libcdr
+pkgver=0.1.7
+pkgrel=1slint
+url="https://wiki.documentfoundation.org/DLP/Libraries/libcdr"
+source=("https://dev-www.libreoffice.org/src/${pkgname}/${pkgname}-${pkgver}.tar.xz")
+docs=("AUTHORS" "COPYING.MPL" "ChangeLog" "NEWS" "README")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libcdr (CorelDRAW import library)"
+""
+"libcdr is a library that parses the file format of"
+"CorelDRAW documents of all versions."
+""
+"Homepage: https://wiki.documentfoundation.org/DLP/Libraries/libcdr"
+)
+
+build() {
+  local docOption
+  local cppunitOption
+  local legacyDocName
+
+  case "${DOC:-0}" in
+    0) docOption="--without-docs" ;;
+    *) docOption="--with-docs" ;;
+  esac
+
+  if pkg-config --exists cppunit; then
+    cppunitOption="--enable-tests"
+  else
+    cppunitOption="--disable-tests"
+  fi
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  sed -i 's/TRUE/true/' src/lib/libcdr_utils.cpp || return 1
+  autoreconf -fi || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --disable-werror \
+    --build="$ARCH-slackware-linux" \
+    $cppunitOption $docOption || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}

@@ -1,0 +1,65 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libfreehand
+pkgver=0.1.2
+pkgrel=3slint
+url="https://wiki.documentfoundation.org/DLP/Libraries/libfreehand"
+source=(
+  "https://dev-www.libreoffice.org/src/${pkgname}/${pkgname}-${pkgver}.tar.xz"
+  "0001-Add-missing-semicolon-to-fix-build-with-icu-65.1.patch"
+)
+docs=("AUTHORS" "COPYING" "ChangeLog" "NEWS")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libfreehand (Adobe FreeHand import library)"
+""
+"libfreehand is a library that parses Aldus, Macromedia,"
+"and Adobe FreeHand documents from version 3 to 11."
+""
+"Homepage: https://wiki.documentfoundation.org/DLP/Libraries/libfreehand"
+)
+
+build() {
+  local docOption
+  local cppunitOption
+  local legacyDocName
+
+  case "${DOC:-0}" in
+    0) docOption="--without-docs" ;;
+    *) docOption="--with-docs" ;;
+  esac
+
+  if pkg-config --exists cppunit; then
+    cppunitOption="--enable-tests"
+  else
+    cppunitOption="--disable-tests"
+  fi
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  patch -p1 < "$SRC/../0001-Add-missing-semicolon-to-fix-build-with-icu-65.1.patch" || return 1
+  autoreconf -fi || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --disable-static \
+    --disable-werror \
+    --build="$ARCH-slackware-linux" \
+    $cppunitOption $docOption || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
