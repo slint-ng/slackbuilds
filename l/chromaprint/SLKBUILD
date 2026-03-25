@@ -1,0 +1,54 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=chromaprint
+pkgver=1.5.1
+pkgrel=2slint
+url="https://acoustid.org/chromaprint"
+source=(
+  "https://github.com/acoustid/chromaprint/releases/download/v${pkgver}/${pkgname}-${pkgver}.tar.gz"
+  "8ccad693.patch"
+)
+docs=("LICENSE.md" "NEWS.txt" "README.md")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"chromaprint (audio fingerprint library)"
+""
+"Chromaprint is the core component of the Acoustid project."
+"It is a client-side library for extracting fingerprints"
+"from audio sources."
+""
+"Homepage: https://acoustid.org/chromaprint"
+)
+
+build() {
+  local buildTools
+  local legacyDocName
+
+  if pkg-config --exists libavcodec; then
+    buildTools="-DBUILD_TOOLS=ON"
+  else
+    buildTools=""
+  fi
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  patch --verbose -p1 < "$SRC/../8ccad693.patch" || return 1
+
+  cmake -B build -S . \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DLIB_SUFFIX="${LIBDIRSUFFIX}" \
+    $buildTools \
+    -DCMAKE_BUILD_TYPE=Release || return 1
+  cmake --build build || return 1
+  DESTDIR="$PKG" cmake --install build || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}

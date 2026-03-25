@@ -1,0 +1,44 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+pkgname=libdisplay-info
+pkgver=0.1.1
+pkgrel=1slint
+url="https://gitlab.freedesktop.org/emersion/libdisplay-info"
+source=("https://gitlab.freedesktop.org/emersion/${pkgname}/-/archive/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+docs=("LICENSE" "README.md")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libdisplay-info (EDID and DisplayID library)"
+""
+"libdisplay-info is a library for parsing EDID and"
+"DisplayID data with both high-level and low-level APIs."
+""
+"Homepage: https://gitlab.freedesktop.org/emersion/libdisplay-info"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  meson setup build \
+    --buildtype=release \
+    --infodir=/usr/info \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    -Dstrip=true || return 1
+  ninja -C build || return 1
+  DESTDIR="$PKG" ninja -C build install || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}

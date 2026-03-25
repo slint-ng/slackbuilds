@@ -1,0 +1,56 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=confuse
+pkgver=3.3
+pkgrel=1slint
+url="https://github.com/martinh/libconfuse"
+source=("https://github.com/martinh/libconfuse/releases/download/v${pkgver}/${pkgname}-${pkgver}.tar.gz")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"confuse (configuration file parser library)"
+""
+"Confuse is a configuration file parser library."
+"It supports sections, typed values, environment"
+"expansion, and nested include statements."
+""
+"Homepage: https://github.com/martinh/libconfuse"
+)
+
+build() {
+  local docsDir
+  local legacyDocName
+
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  CFLAGS="-Wno-unused ${SLKCFLAGS}" \
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --enable-shared=yes \
+    --enable-static=no \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install-strip DESTDIR="$PKG" || return 1
+
+  mkdir -p "$PKG/usr/man/man3" || return 1
+  cp -a doc/man/man3/* "$PKG/usr/man/man3/" || return 1
+  gzip -9 "$PKG"/usr/man/man3/* || return 1
+
+  rm -rf -- "${PKG:?}/usr/bin" || return 1
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+
+  mkdir -p "$docsDir" || return 1
+  mv "$PKG/usr/share/doc/$pkgname/"* "$docsDir" || return 1
+  rm -rf "$PKG/usr/share/doc" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docsDir/$legacyDocName" || return 1
+}

@@ -1,0 +1,45 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=gumbo-parser
+pkgver=0.10.1
+pkgrel=2slint
+url="https://github.com/google/gumbo-parser"
+source=("https://github.com/google/gumbo-parser/archive/v${pkgver}/${pkgname}-${pkgver}.tar.gz")
+docs=("CHANGES.md" "CONTRIBUTING.md" "COPYING" "DEBUGGING.md" "README.md" "THANKS")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"gumbo-parser (HTML5 parsing library in pure C99)"
+""
+"Gumbo is an implementation of the HTML5 parsing algorithm"
+"as a pure C99 library with no outside dependencies."
+""
+"Homepage: https://github.com/google/gumbo-parser"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  autoreconf -fi || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --disable-static \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
