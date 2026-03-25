@@ -1,0 +1,53 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=libcuefile
+_srcname="${pkgname}_${pkgver:-r475}"
+pkgver=r475
+pkgrel=2slint
+url="https://www.musepack.net/"
+source=("https://files.musepack.net/source/${_srcname}.tar.gz")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libcuefile (CUE file library)"
+""
+"libcuefile is a CUE file parsing library from the Musepack"
+"project."
+""
+"Homepage: https://www.musepack.net/"
+)
+
+build() {
+  local sourceTree
+  local docDir
+  local legacyDocName
+
+  sourceTree="${pkgname}_${pkgver}"
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$sourceTree" || return 1
+
+  printf '%s\n' \
+    "INSTALL(FILES \${libcuefile_SOURCE_DIR}/include/cuetools/cuefile.h \${libcuefile_SOURCE_DIR}/include/cuetools/cd.h \${libcuefile_SOURCE_DIR}/include/cuetools/cdtext.h DESTINATION include/cuetools)" \
+    >> src/CMakeLists.txt || return 1
+
+  cmake \
+    -G "Unix Makefiles" \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DLIB_SUFFIX="${LIBDIRSUFFIX}" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+
+  mkdir -p "$docDir" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docDir/$legacyDocName" || return 1
+}

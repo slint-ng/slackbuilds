@@ -1,0 +1,48 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=libdca
+pkgver=0.0.7
+pkgrel=1slint
+url="https://www.videolan.org/developers/libdca.html"
+source=("https://download.videolan.org/pub/videolan/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.bz2")
+docs=("AUTHORS" "COPYING" "ChangeLog" "INSTALL" "NEWS" "README" "TODO")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libdca (free DTS Coherent Acoustics decoder)"
+""
+"libdca is a free library for decoding DTS Coherent"
+"Acoustics streams. It includes libdts."
+""
+"Homepage: https://www.videolan.org/developers/libdca.html"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  autoreconf -vif || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --mandir=/usr/man \
+    --program-prefix="" \
+    --program-suffix="" \
+    --enable-shared || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  cp -a libdca/dca_internal.h "$PKG/usr/include" || return 1
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}

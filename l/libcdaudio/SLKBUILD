@@ -1,0 +1,47 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libcdaudio
+pkgver=0.99.12p2
+pkgrel=1slint
+url="https://sourceforge.net/projects/libcdaudio/"
+source=("https://downloads.sourceforge.net/project/libcdaudio/libcdaudio/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+docs=("AUTHORS" "COPYING" "ChangeLog" "INSTALL" "NEWS" "README" "TODO")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libcdaudio (audio CD control library)"
+""
+"libcdaudio provides functions to control CD-ROM drives when"
+"playing audio CDs. It also contains functions for CDDB and"
+"CD Index lookup."
+""
+"Homepage: https://sourceforge.net/projects/libcdaudio/"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la || return 1
+  sed -i "s#/lib#/lib${LIBDIRSUFFIX}#g" "$PKG/usr/bin/libcdaudio-config" || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}

@@ -1,0 +1,43 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=libebml
+pkgver=1.4.2
+pkgrel=1slint
+url="https://www.matroska.org/downloads/libraries.html"
+source=("https://dl.matroska.org/downloads/${pkgname}/${pkgname}-${pkgver}.tar.xz")
+docs=("ChangeLog" "LICENSE.LGPL")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"libebml (C++ library for parsing EBML files)"
+""
+"libebml is a C++ library for parsing EBML files."
+"EBML is a simple XML-like binary language for"
+"describing structured data."
+""
+"Homepage: https://www.matroska.org/downloads/libraries.html"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  patch -p1 --verbose < "$SRC/../0001-include-appropriate-header-files-for-std-numeric_lim.patch" || return 1
+
+  cmake -B build -S . \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR="/usr/lib${LIBDIRSUFFIX}" \
+    -DBUILD_SHARED_LIBS=ON || return 1
+
+  cmake --build build || return 1
+  DESTDIR="$PKG" cmake --install build || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
