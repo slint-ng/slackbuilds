@@ -1,0 +1,28 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=sphinx-rtd-theme
+_srcname=sphinx_rtd_theme
+pkgver=1.0.0
+pkgrel=1slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Read the Docs theme for Sphinx)"
+""
+"sphinx-rtd-theme provides the responsive Read the Docs"
+"HTML theme for Sphinx-generated documentation."
+""
+"Homepage: https://pypi.org/project/sphinx-rtd-theme/"
+)
+url="https://pypi.org/project/sphinx-rtd-theme/"
+license=("MIT")
+source=("https://files.pythonhosted.org/packages/source/s/${pkgname}/${_srcname}-${pkgver}.tar.gz")
+docs=("LICENSE" "README.rst")
+options=("nosrcpack")
+
+build() {
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  python3 setup.py install --root="$PKG" || return 1
+}
