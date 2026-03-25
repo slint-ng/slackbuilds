@@ -1,0 +1,111 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=glib2
+srcname=glib
+pkgver=2.70.3
+pkgrel=slint-static
+url="https://download.gnome.org/sources/glib/2.70/"
+source=(
+  "https://download.gnome.org/sources/${srcname}/2.70/${srcname}-${pkgver}.tar.xz"
+  "libglib2.csh"
+  "libglib2.sh"
+)
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"glib2 (library of C routines)"
+""
+"GLib is a library which includes support routines for C"
+"such as lists, trees, hashes, memory allocation, and"
+"many other core utility functions."
+""
+"Homepage: https://download.gnome.org/sources/glib/2.70/"
+)
+
+doinst() {
+cat <<EOF
+# Handle the incoming configuration files:
+config() {
+  for inputFile in "\$1"; do
+    newFile="\$inputFile"
+    oldFile="\$(dirname "\$newFile")/\$(basename "\$newFile" .new)"
+    if [ ! -r "\$oldFile" ]; then
+      mv "\$newFile" "\$oldFile"
+    elif [ "\$(cat "\$oldFile" | md5sum)" = "\$(cat "\$newFile" | md5sum)" ]; then
+      rm "\$newFile"
+    fi
+  done
+}
+
+for file in etc/profile.d/libglib2.csh.new etc/profile.d/libglib2.sh.new ; do
+  if [ -e "\$(dirname "\$file")/\$(basename "\$file" .new)" ]; then
+    if [ ! -x "\$(dirname "\$file")/\$(basename "\$file" .new)" ]; then
+      chmod 644 "\$file"
+    else
+      chmod 755 "\$file"
+    fi
+  fi
+  config "\$file"
+done
+
+chroot . /usr/bin/glib-compile-schemas /usr/share/glib-2.0/schemas/ 1> /dev/null 2> /dev/null
+chroot . /usr/bin/gio-querymodules /usr/lib${LIBDIRSUFFIX}/gio/modules/ 1> /dev/null 2> /dev/null
+EOF
+}
+
+build() {
+  local docDir
+  local legacyDocName
+
+  docDir="$PKG/usr/doc/$srcname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$srcname-$pkgver" || return 1
+
+  meson setup meson-build \
+    --prefix=/usr \
+    --libdir="lib${LIBDIRSUFFIX}" \
+    --libexecdir=/usr/libexec \
+    --bindir=/usr/bin \
+    --sbindir=/usr/sbin \
+    --includedir=/usr/include \
+    --datadir=/usr/share \
+    --mandir=/usr/man \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release \
+    --default-library=both \
+    "-Dc_args=-fdata-sections -ffunction-sections -flto" \
+    -Dselinux=disabled \
+    -Dfam=false \
+    -Dman=false \
+    -Dgtk_doc=false \
+    -Dinstalled_tests=false \
+    . || return 1
+  "${NINJA:=ninja}" -C meson-build -j "$numjobs" || return 1
+  DESTDIR="$PKG" "$NINJA" -C meson-build install || return 1
+
+  rm -rf "$PKG/usr/libexec/installed-tests" || return 1
+  rmdir "$PKG/usr/libexec" 2>/dev/null || true
+
+  install -Dm0755 "$SRC/../libglib2.csh" "$PKG/etc/profile.d/libglib2.csh" || return 1
+  install -Dm0755 "$SRC/../libglib2.sh" "$PKG/etc/profile.d/libglib2.sh" || return 1
+  mv "$PKG/etc/profile.d/libglib2.csh" "$PKG/etc/profile.d/libglib2.csh.new" || return 1
+  mv "$PKG/etc/profile.d/libglib2.sh" "$PKG/etc/profile.d/libglib2.sh.new" || return 1
+
+  mkdir -p "$docDir" || return 1
+  cp -a AUTHORS COPYING* NEWS README* "$docDir" || return 1
+  rm -f "$docDir/README.in" "$docDir/README.win32" || return 1
+  if [[ -r ChangeLog ]]; then
+    head -n 1000 ChangeLog > "$docDir/ChangeLog" || return 1
+    touch -r ChangeLog "$docDir/ChangeLog" || return 1
+  fi
+  if [[ -r NEWS ]]; then
+    head -n 1000 NEWS > "$docDir/NEWS" || return 1
+    touch -r NEWS "$docDir/NEWS" || return 1
+  fi
+  install -Dm0644 "$SRC/../SLKBUILD" "$docDir/$legacyDocName" || return 1
+}
