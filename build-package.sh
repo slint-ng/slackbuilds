@@ -458,38 +458,22 @@ load_package_dependencies() {
   local -a slkbuildMakeDepends=()
   local -a filteredDependencies=()
   local dependencyValue=""
-  local hasDepends=false
-  local hasMakeDepends=false
   # shellcheck disable=SC2178
   declare -n dependencyRef=$arrayName
 
   dependencyRef=()
 
   if [[ -n "${packageNameByDir[${packageDir}]:-}" ]]; then
-    if slkbuild_variable_declared "$slkbuildPath" depends; then
-      hasDepends=true
-    fi
-    if slkbuild_variable_declared "$slkbuildPath" makedepends; then
-      hasMakeDepends=true
-    fi
     read_slkbuild_array "$slkbuildPath" depends slkbuildDepends
     read_slkbuild_array "$slkbuildPath" makedepends slkbuildMakeDepends
-    if [[ "$hasDepends" == true || "$hasMakeDepends" == true ]]; then
-      append_unique_values dependencyRef "${slkbuildDepends[@]}"
-      append_unique_values dependencyRef "${slkbuildMakeDepends[@]}"
-      remove_value dependencyRef "$packageName"
-      return
-    fi
-
     depFilePath=$(find_curated_depfile "$packageDir" "$packageName" || true)
-    if [[ -z "$depFilePath" ]]; then
-      return
-    fi
   else
     depFilePath=$(find_depfile "$packageDir" "$packageName")
   fi
 
-  read_dependencies "$depFilePath" depFileDependencies
+  if [[ -n "$depFilePath" ]]; then
+    read_dependencies "$depFilePath" depFileDependencies
+  fi
 
   append_unique_values dependencyRef "${depFileDependencies[@]}"
   append_unique_values dependencyRef "${slkbuildDepends[@]}"
