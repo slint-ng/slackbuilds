@@ -1,0 +1,59 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=glibmm27
+srcname=glibmm
+pkgver=2.70.0
+pkgrel=1slint
+url="https://download.gnome.org/sources/glibmm/2.70/"
+source=("https://download.gnome.org/sources/${srcname}/2.70/${srcname}-${pkgver}.tar.xz")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"glibmm27 (C++ bindings for glib)"
+""
+"glibmm27 provides C++ bindings for glib and can coexist"
+"with previous glibmm versions."
+""
+"Homepage: https://www.gtkmm.org/"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$srcname-$pkgver" || return 1
+
+  meson setup meson-build \
+    --prefix=/usr \
+    --libdir="lib${LIBDIRSUFFIX}" \
+    --libexecdir=/usr/libexec \
+    --bindir=/usr/bin \
+    --sbindir=/usr/sbin \
+    --includedir=/usr/include \
+    --datadir=/usr/share \
+    --mandir=/usr/man \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release \
+    . || return 1
+  "${NINJA:=ninja}" -C meson-build -j "$numjobs" || return 1
+  DESTDIR="$PKG" "$NINJA" -C meson-build install || return 1
+
+  rm -rf "$PKG/usr/share/doc" || return 1
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a AUTHORS COPYING* NEWS README* "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  if [[ -r ChangeLog ]]; then
+    head -n 1000 ChangeLog > "$PKG/usr/doc/$pkgname-$pkgver/ChangeLog" || return 1
+    touch -r ChangeLog "$PKG/usr/doc/$pkgname-$pkgver/ChangeLog" || return 1
+  fi
+  if [[ -r NEWS ]]; then
+    head -n 1000 NEWS > "$PKG/usr/doc/$pkgname-$pkgver/NEWS" || return 1
+    touch -r NEWS "$PKG/usr/doc/$pkgname-$pkgver/NEWS" || return 1
+  fi
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}
