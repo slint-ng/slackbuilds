@@ -35,7 +35,7 @@ build() {
     "INSTALL(FILES \${libcuefile_SOURCE_DIR}/include/cuetools/cuefile.h \${libcuefile_SOURCE_DIR}/include/cuetools/cd.h \${libcuefile_SOURCE_DIR}/include/cuetools/cdtext.h DESTINATION include/cuetools)" \
     >> src/CMakeLists.txt || return 1
 
-  cmake \
+  cmake -Wno-dev -S . -B build \
     -G "Unix Makefiles" \
     -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
     -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
@@ -43,8 +43,8 @@ build() {
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DLIB_SUFFIX="${LIBDIRSUFFIX}" || return 1
 
-  make || return 1
-  make install DESTDIR="$PKG" || return 1
+  cmake --build build || return 1
+  DESTDIR="$PKG" cmake --install build || return 1
 
   rm -f "$PKG"/usr/lib*/*.la || return 1
 

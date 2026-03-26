@@ -4,11 +4,12 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 
 pkgname=libnfs
-_srcname="${pkgname}-${pkgname}-${pkgver:-5.0.1}"
 pkgver=5.0.1
+_tag="${pkgname}-${pkgver}"
+_srcname="${pkgname}-${_tag}"
 pkgrel=1slint
 url="https://github.com/sahlberg/libnfs"
-source=("https://github.com/sahlberg/libnfs/archive/${_srcname}/${_srcname}.tar.gz")
+source=("https://github.com/sahlberg/libnfs/archive/${_tag}.tar.gz")
 docs=("CHANGELOG" "COPYING" "LICENCE*" "README")
 
 slackdesc=(
