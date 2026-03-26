@@ -1,0 +1,108 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=glib2
+srcname=glib
+export srcname
+pkgver=2.84.1
+pkgrel=1slint
+url="https://download.gnome.org/sources/${srcname}/2.84/"
+source=(
+  "https://download.gnome.org/sources/${srcname}/2.84/${srcname}-${pkgver}.tar.xz"
+  "0001-glib-compile-schemas-Remove-noisy-deprecation-warnin.patch"
+  "libglib2.csh"
+  "libglib2.sh"
+)
+dotnew=(
+  "etc/profile.d/libglib2.csh"
+  "etc/profile.d/libglib2.sh"
+)
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"glib2 (library of C routines)"
+""
+"GLib is the low-level core library that forms the basis"
+"for projects such as GTK+ and GNOME. It provides data"
+"structures, portability wrappers, and core runtime"
+"functionality such as an event loop, threads, dynamic"
+"loading, and an object system."
+""
+"This package is only to be used to build at-spi2-core."
+)
+
+doinst() {
+cat <<EOF
+chroot . /usr/bin/glib-compile-schemas /usr/share/glib-2.0/schemas/ 1> /dev/null 2> /dev/null
+chroot . /usr/bin/gio-querymodules /usr/lib${LIBDIRSUFFIX}/gio/modules/ 1> /dev/null 2> /dev/null
+EOF
+}
+
+build() {
+  local docDir
+  local docEntry
+  local -a docEntries
+
+  docDir="$PKG/usr/doc/$srcname-$pkgver"
+  docEntries=(
+    COPYING
+    LICENSES
+    NEWS
+    README.md
+  )
+
+  cd "$SRC/$srcname-$pkgver" || return 1
+
+  patch -p1 --verbose < "$SRC/../0001-glib-compile-schemas-Remove-noisy-deprecation-warnin.patch" || return 1
+
+  meson setup meson-build . \
+    --prefix=/usr \
+    --libdir="lib${LIBDIRSUFFIX}" \
+    --libexecdir=/usr/libexec \
+    --bindir=/usr/bin \
+    --sbindir=/usr/sbin \
+    --includedir=/usr/include \
+    --datadir=/usr/share \
+    --mandir=/usr/man \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release \
+    -Dselinux=disabled \
+    -Dsysprof=disabled \
+    -Dglib_debug=disabled \
+    -Dman-pages=enabled \
+    -Ddocumentation=false \
+    -Dinstalled_tests=false || return 1
+  "${NINJA:=ninja}" -C meson-build -j "$numjobs" || return 1
+  DESTDIR="$PKG" "$NINJA" -C meson-build install || return 1
+
+  rm -rf "$PKG/usr/libexec/installed-tests" || return 1
+  rmdir "$PKG/usr/libexec" 2>/dev/null || true
+
+  install -Dm0755 "$SRC/../libglib2.csh" "$PKG/etc/profile.d/libglib2.csh" || return 1
+  install -Dm0755 "$SRC/../libglib2.sh" "$PKG/etc/profile.d/libglib2.sh" || return 1
+
+  if [ -d "$PKG/usr/share/doc/glib-2.0" ]; then
+    mv "$PKG/usr/share/doc/glib-2.0" "$docDir" || return 1
+    rmdir "$PKG/usr/share/doc" 2>/dev/null || true
+  else
+    mkdir -p "$docDir" || return 1
+  fi
+
+  for docEntry in "${docEntries[@]}"; do
+    if [[ -e "$docEntry" ]]; then
+      cp -a "$docEntry" "$docDir" || return 1
+    fi
+  done
+  if [[ -r ChangeLog ]]; then
+    head -n 1000 ChangeLog > "$docDir/ChangeLog" || return 1
+    touch -r ChangeLog "$docDir/ChangeLog" || return 1
+  fi
+  if [[ -r NEWS ]]; then
+    head -n 1000 NEWS > "$docDir/NEWS" || return 1
+    touch -r NEWS "$docDir/NEWS" || return 1
+  fi
+}
