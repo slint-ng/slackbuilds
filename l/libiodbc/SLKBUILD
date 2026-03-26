@@ -13,7 +13,7 @@ source=(
   "https://downloads.sourceforge.net/project/iodbc/iodbc/${pkgver}/${pkgname}-${pkgver}.tar.gz"
   "libiodbc.disable.rpath.diff.gz"
 )
-docs=("AUTHORS" "COPYING" "ChangeLog" "INSTALL" "README" "TODO")
+docs=("AUTHORS" "COPYING" "INSTALL" "README" "TODO")
 
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
@@ -32,8 +32,6 @@ build() {
     NOCONFIGURE=1 ./autogen.sh || return 1
   fi
 
-  zcat "$SRC/../libiodbc.disable.rpath.diff.gz" | patch -p1 --verbose || return 1
-
   ./configure \
     --prefix=/usr \
     --libdir="/usr/lib${LIBDIRSUFFIX}" \
@@ -47,8 +45,13 @@ build() {
     --program-suffix="" \
     --build="$ARCH-slackware-linux" || return 1
 
+  zcat "$SRC/../libiodbc.disable.rpath.diff.gz" | patch -p1 --verbose || return 1
+
   make -j"$numjobs" || make || return 1
   make install DESTDIR="$PKG" || return 1
 
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -L ChangeLog "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
+  rm -f "$PKG/usr/doc/$pkgname-$pkgver/changelog" || return 1
   rm -f "$PKG"/{,usr/}lib"${LIBDIRSUFFIX}"/*.la || return 1
 }
