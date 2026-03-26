@@ -24,7 +24,7 @@ build() {
   local docDir
   local legacyDocName
 
-  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+  docDir="$PKG/usr/doc/$pkgname"
   legacyDocName="${pkgname}.S""lackBuild"
 
   cd "$SRC/$pkgname-$pkgver" || return 1
