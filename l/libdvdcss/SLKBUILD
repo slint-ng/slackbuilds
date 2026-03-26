@@ -21,9 +21,11 @@ slackdesc=(
 )
 
 build() {
+  local docDir
   local legacyDocName
   local targetTriplet
 
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
   legacyDocName="${pkgname}.S""lackBuild"
 
   case "$ARCH" in
@@ -50,11 +52,13 @@ build() {
 
   rm -f "$PKG"/usr/lib*/*.la || return 1
 
-  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
-  cp -a AUTHORS COPYING ChangeLog INSTALL NEWS README doc/html \
-    "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  mkdir -p "$docDir" || return 1
+  cp -a AUTHORS COPYING ChangeLog INSTALL NEWS README "$docDir" || return 1
+  if [[ -d doc/html ]]; then
+    cp -a doc/html "$docDir" || return 1
+  fi
   install -Dm0644 "$SRC/../SLKBUILD" \
-    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+    "$docDir/$legacyDocName" || return 1
 
   rm -rf "$PKG/usr/share/doc" || return 1
   rmdir "$PKG/usr/share" 2>/dev/null || true

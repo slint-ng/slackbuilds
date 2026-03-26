@@ -4,11 +4,10 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 
 pkgname=glibmm27
-srcname=glibmm
 pkgver=2.70.0
 pkgrel=1slint
 url="https://download.gnome.org/sources/glibmm/2.70/"
-source=("https://download.gnome.org/sources/${srcname}/2.70/${srcname}-${pkgver}.tar.xz")
+source=("https://download.gnome.org/sources/glibmm/2.70/glibmm-${pkgver}.tar.xz")
 
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
@@ -21,13 +20,13 @@ slackdesc=(
 )
 
 build() {
-  local legacyDocName
+  local _srcname
 
-  legacyDocName="${pkgname}.S""lackBuild"
+  _srcname=glibmm
 
-  cd "$SRC/$srcname-$pkgver" || return 1
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
 
-  meson setup meson-build \
+  meson setup meson-build . \
     --prefix=/usr \
     --libdir="lib${LIBDIRSUFFIX}" \
     --libexecdir=/usr/libexec \
@@ -38,8 +37,7 @@ build() {
     --mandir=/usr/man \
     --sysconfdir=/etc \
     --localstatedir=/var \
-    --buildtype=release \
-    . || return 1
+    --buildtype=release || return 1
   "${NINJA:=ninja}" -C meson-build -j "$numjobs" || return 1
   DESTDIR="$PKG" "$NINJA" -C meson-build install || return 1
 
@@ -54,6 +52,4 @@ build() {
     head -n 1000 NEWS > "$PKG/usr/doc/$pkgname-$pkgver/NEWS" || return 1
     touch -r NEWS "$PKG/usr/doc/$pkgname-$pkgver/NEWS" || return 1
   fi
-  install -Dm0644 "$SRC/../SLKBUILD" \
-    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
 }

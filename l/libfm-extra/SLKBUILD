@@ -2,11 +2,10 @@
 # shellcheck shell=bash disable=SC2034,SC2154
 
 pkgname=libfm-extra
-srcname=libfm
 pkgver=1.4.0
 pkgrel=2slint
 url="https://wiki.lxde.org/en/Libfm"
-source=("https://github.com/lxde/libfm/archive/${pkgver}/${srcname}-${pkgver}.tar.gz")
+source=("https://github.com/lxde/libfm/archive/${pkgver}/libfm-${pkgver}.tar.gz")
 
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
@@ -20,10 +19,12 @@ slackdesc=(
 
 build() {
   local legacyDocName
+  local _srcname
 
   legacyDocName="${pkgname}.S""lackBuild"
+  _srcname=libfm
 
-  cd "$SRC/$srcname-$pkgver" || return 1
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
 
   sed -i 's/create=xarchiver --add-to %F/create=xarchiver --compress %F/' \
     data/archivers.list || return 1

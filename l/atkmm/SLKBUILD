@@ -17,13 +17,9 @@ slackdesc=(
 )
 
 build() {
-  local legacyDocName
-
-  legacyDocName="${pkgname}.S""lackBuild"
-
   cd "$SRC/$pkgname-$pkgver" || return 1
 
-  meson setup meson-build \
+  meson setup meson-build . \
     --prefix=/usr \
     --libdir="lib${LIBDIRSUFFIX}" \
     --libexecdir=/usr/libexec \
@@ -34,8 +30,7 @@ build() {
     --mandir=/usr/man \
     --sysconfdir=/etc \
     --localstatedir=/var \
-    --buildtype=release \
-    . || return 1
+    --buildtype=release || return 1
   "${NINJA:=ninja}" -C meson-build -j "$numjobs" || return 1
   DESTDIR="$PKG" "$NINJA" -C meson-build install || return 1
 
@@ -45,6 +40,4 @@ build() {
     head -n 1000 ChangeLog > "$PKG/usr/doc/$pkgname-$pkgver/ChangeLog" || return 1
     touch -r ChangeLog "$PKG/usr/doc/$pkgname-$pkgver/ChangeLog" || return 1
   fi
-  install -Dm0644 "$SRC/../SLKBUILD" \
-    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
 }

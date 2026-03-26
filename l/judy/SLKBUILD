@@ -22,10 +22,6 @@ slackdesc=(
 )
 
 build() {
-  local legacyDocName
-
-  legacyDocName="${pkgname}.S""lackBuild"
-
   cd "$SRC/$pkgname-$pkgver" || return 1
 
   ./configure \
@@ -39,7 +35,4 @@ build() {
 
   make -j"$numjobs" || make || return 1
   make install DESTDIR="$PKG" || return 1
-
-  install -Dm0644 "$SRC/../SLKBUILD" \
-    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
 }

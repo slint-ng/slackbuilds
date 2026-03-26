@@ -8,10 +8,9 @@ pkgver=20191108_9084868
 pkgrel=3slint
 url="https://github.com/sergiomb2/libmp4v2"
 source=(
-  "https://github.com/sergiomb2/libmp4v2/archive/refs/tags/${pkgver}.tar.gz"
+  "https://github.com/sergiomb2/libmp4v2/archive/9084868.tar.gz"
   "libmp4v2_gcc_narrowing.patch"
 )
-docs=("COPYING" "README")
 
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
@@ -25,11 +24,15 @@ slackdesc=(
 )
 
 build() {
+  local docDir
+  local _srcname
   local legacyDocName
 
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+  _srcname="libmp4v2-9084868fd9f86bee118001c23171e832f15009f4"
   legacyDocName="${pkgname}.S""lackBuild"
 
-  cd "$SRC/$pkgname-$pkgver" || return 1
+  cd "$SRC/${_srcname}" || return 1
 
   patch --verbose -p1 < "$SRC/../libmp4v2_gcc_narrowing.patch" || return 1
 
@@ -46,9 +49,11 @@ build() {
   make -j"$numjobs" || make || return 1
   make install DESTDIR="$PKG" || return 1
 
-  find "$PKG/usr/doc/$pkgname-$pkgver" -type f -exec chmod 0644 {} + || return 1
+  mkdir -p "$docDir" || return 1
+  cp -a COPYING README "$docDir" || return 1
+  find "$docDir" -type f -exec chmod 0644 {} + || return 1
   rm -f "$PKG"/usr/lib*/*.la || return 1
 
   install -Dm0644 "$SRC/../SLKBUILD" \
-    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+    "$docDir/$legacyDocName" || return 1
 }

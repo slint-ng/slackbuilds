@@ -20,7 +20,8 @@ slackdesc=(
 "libfreehand is a library that parses Aldus, Macromedia,"
 "and Adobe FreeHand documents from version 3 to 11."
 ""
-"Homepage: https://wiki.documentfoundation.org/DLP/Libraries/libfreehand"
+"Homepage: https://wiki.documentfoundation.org/DLP/"
+"Libraries/libfreehand"
 )
 
 build() {

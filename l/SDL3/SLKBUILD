@@ -4,7 +4,6 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 
 pkgname=SDL3
-srcname="SDL-release-${pkgver:-3.2.28}"
 pkgver=3.2.28
 pkgrel=1slint
 url="https://github.com/libsdl-org/SDL"
@@ -24,12 +23,14 @@ build() {
   local buildDir
   local docDir
   local legacyDocName
+  local _srcname
 
-  buildDir="$SRC/$srcname/build"
+  _srcname="SDL-release-${pkgver}"
+  buildDir="$SRC/${_srcname}/build"
   docDir="$PKG/usr/doc/$pkgname-$pkgver"
   legacyDocName="${pkgname}.S""lackBuild"
 
-  cd "$SRC/$srcname" || return 1
+  cd "$SRC/${_srcname}" || return 1
 
   rm -rf "$buildDir" || return 1
   cmake -S . -B "$buildDir" \

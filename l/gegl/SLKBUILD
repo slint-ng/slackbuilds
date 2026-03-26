@@ -34,7 +34,7 @@ build() {
 
   zcat "$SRC/../gegl.no.runtime.dot.check.diff.gz" | patch -p1 --verbose || return 1
 
-  meson setup meson-build \
+  meson setup meson-build . \
     --prefix=/usr \
     --libdir="lib${LIBDIRSUFFIX}" \
     --libexecdir=/usr/libexec \
@@ -45,8 +45,7 @@ build() {
     --mandir=/usr/man \
     --sysconfdir=/etc \
     --localstatedir=/var \
-    --buildtype=release \
-    . || return 1
+    --buildtype=release || return 1
   "${NINJA:=ninja}" -C meson-build -j "$numjobs" || return 1
   DESTDIR="$PKG" "$NINJA" -C meson-build install || return 1
 

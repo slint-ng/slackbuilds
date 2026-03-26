@@ -19,13 +19,9 @@ slackdesc=(
 )
 
 build() {
-  local legacyDocName
-
-  legacyDocName="${pkgname}.S""lackBuild"
-
   cd "$SRC/$pkgname-$pkgver" || return 1
 
-  meson setup meson-build \
+  meson setup meson-build . \
     --prefix=/usr \
     --libdir="lib${LIBDIRSUFFIX}" \
     --libexecdir=/usr/libexec \
@@ -38,19 +34,16 @@ build() {
     --localstatedir=/var \
     --buildtype=release \
     -Dintrospection=true \
-    -Ddocs=true \
-    . || return 1
+    -Ddocs=true || return 1
   "${NINJA:=ninja}" -C meson-build -j "$numjobs" || return 1
   DESTDIR="$PKG" "$NINJA" -C meson-build install || return 1
 
   rm -f "$PKG"/{,usr/}lib"${LIBDIRSUFFIX}"/*.la || return 1
 
   mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
-  cp -a AUTHORS COPYING* NEWS README* TODO "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a AUTHORS COPYING* NEWS README* "$PKG/usr/doc/$pkgname-$pkgver" || return 1
   if [[ -r ChangeLog ]]; then
     head -n 1000 ChangeLog > "$PKG/usr/doc/$pkgname-$pkgver/ChangeLog" || return 1
     touch -r ChangeLog "$PKG/usr/doc/$pkgname-$pkgver/ChangeLog" || return 1
   fi
-  install -Dm0644 "$SRC/../SLKBUILD" \
-    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
 }
