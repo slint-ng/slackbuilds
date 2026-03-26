@@ -5,13 +5,18 @@
 
 pkgname=glib2
 srcname=glib
+export srcname
 pkgver=2.70.3
-pkgrel=slint-static
+pkgrel=1slintstatic
 url="https://download.gnome.org/sources/glib/2.70/"
 source=(
   "https://download.gnome.org/sources/${srcname}/2.70/${srcname}-${pkgver}.tar.xz"
   "libglib2.csh"
   "libglib2.sh"
+)
+dotnew=(
+  "etc/profile.d/libglib2.csh"
+  "etc/profile.d/libglib2.sh"
 )
 
 slackdesc=(
@@ -27,30 +32,6 @@ slackdesc=(
 
 doinst() {
 cat <<EOF
-# Handle the incoming configuration files:
-config() {
-  for inputFile in "\$1"; do
-    newFile="\$inputFile"
-    oldFile="\$(dirname "\$newFile")/\$(basename "\$newFile" .new)"
-    if [ ! -r "\$oldFile" ]; then
-      mv "\$newFile" "\$oldFile"
-    elif [ "\$(cat "\$oldFile" | md5sum)" = "\$(cat "\$newFile" | md5sum)" ]; then
-      rm "\$newFile"
-    fi
-  done
-}
-
-for file in etc/profile.d/libglib2.csh.new etc/profile.d/libglib2.sh.new ; do
-  if [ -e "\$(dirname "\$file")/\$(basename "\$file" .new)" ]; then
-    if [ ! -x "\$(dirname "\$file")/\$(basename "\$file" .new)" ]; then
-      chmod 644 "\$file"
-    else
-      chmod 755 "\$file"
-    fi
-  fi
-  config "\$file"
-done
-
 chroot . /usr/bin/glib-compile-schemas /usr/share/glib-2.0/schemas/ 1> /dev/null 2> /dev/null
 chroot . /usr/bin/gio-querymodules /usr/lib${LIBDIRSUFFIX}/gio/modules/ 1> /dev/null 2> /dev/null
 EOF
@@ -65,7 +46,7 @@ build() {
 
   cd "$SRC/$srcname-$pkgver" || return 1
 
-  meson setup meson-build \
+  meson setup meson-build . \
     --prefix=/usr \
     --libdir="lib${LIBDIRSUFFIX}" \
     --libexecdir=/usr/libexec \
@@ -83,8 +64,7 @@ build() {
     -Dfam=false \
     -Dman=false \
     -Dgtk_doc=false \
-    -Dinstalled_tests=false \
-    . || return 1
+    -Dinstalled_tests=false || return 1
   "${NINJA:=ninja}" -C meson-build -j "$numjobs" || return 1
   DESTDIR="$PKG" "$NINJA" -C meson-build install || return 1
 
@@ -93,8 +73,6 @@ build() {
 
   install -Dm0755 "$SRC/../libglib2.csh" "$PKG/etc/profile.d/libglib2.csh" || return 1
   install -Dm0755 "$SRC/../libglib2.sh" "$PKG/etc/profile.d/libglib2.sh" || return 1
-  mv "$PKG/etc/profile.d/libglib2.csh" "$PKG/etc/profile.d/libglib2.csh.new" || return 1
-  mv "$PKG/etc/profile.d/libglib2.sh" "$PKG/etc/profile.d/libglib2.sh.new" || return 1
 
   mkdir -p "$docDir" || return 1
   cp -a AUTHORS COPYING* NEWS README* "$docDir" || return 1
