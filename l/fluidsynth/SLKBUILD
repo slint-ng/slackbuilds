@@ -32,11 +32,9 @@ EOF
 build() {
   local buildDir
   local docDir
-  local legacyDocName
 
   buildDir="$SRC/$pkgname-$pkgver/build"
   docDir="$PKG/usr/doc/$pkgname-$pkgver"
-  legacyDocName="${pkgname}.S""lackBuild"
 
   cd "$SRC/$pkgname-$pkgver" || return 1
 
@@ -67,5 +65,4 @@ build() {
     head -n 1000 "$SRC/$pkgname-$pkgver/ChangeLog" > "$docDir/ChangeLog" || return 1
     touch -r "$SRC/$pkgname-$pkgver/ChangeLog" "$docDir/ChangeLog" || return 1
   fi
-  install -Dm0644 "$SRC/../SLKBUILD" "$docDir/$legacyDocName" || return 1
 }
