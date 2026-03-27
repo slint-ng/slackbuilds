@@ -4,9 +4,9 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 
 pkgname=x264
-pkgver=git_20210613_5db6aa6c
+pkgver=gitb093bbe
 pkgrel=1slint
-_commit=5db6aa6c
+_commit=b093bbe
 depends=()
 url="https://www.videolan.org/developers/x264.html"
 source=("https://code.videolan.org/videolan/${pkgname}/-/archive/${_commit}/${pkgname}-${_commit}.tar.gz")
@@ -30,13 +30,16 @@ build() {
   ./configure \
     --prefix=/usr \
     --libdir="/usr/lib${LIBDIRSUFFIX}" \
-    --disable-lavf \
     --enable-shared \
     --enable-pic \
     --enable-strip || return 1
 
   make || return 1
   make install DESTDIR="$PKG" || return 1
+
+  # Keep the converted payload aligned with the shipped Slint package.
+  rm -rf "$PKG/usr/share/bash-completion" || return 1
+  rmdir --ignore-fail-on-non-empty "$PKG/usr/share" || return 1
 
   install -d "$PKG/usr/doc/$pkgname-$pkgver" || return 1
   cp -a AUTHORS COPYING doc/*.txt "$PKG/usr/doc/$pkgname-$pkgver" || return 1
