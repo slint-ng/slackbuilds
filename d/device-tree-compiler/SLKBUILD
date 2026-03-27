@@ -1,0 +1,66 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=device-tree-compiler
+pkgver=1.6.1
+pkgrel=1slint
+_srcname=dtc
+url="https://git.kernel.org/pub/scm/utils/dtc/dtc.git"
+source=(
+  "https://www.kernel.org/pub/software/utils/dtc/${_srcname}-${pkgver}.tar.gz"
+  "fix-python-destdir-usage.diff"
+)
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"device-tree-compiler (Device Tree Compiler for Flat Device Trees)"
+""
+"Device Tree Compiler, dtc, transforms a textual description of a"
+"device tree (DTS) into a binary object (DTB)."
+""
+"DTS is most commonly used on embedded platforms."
+""
+"This tool is particularly useful for building a DTS-enabled U-Boot"
+"binary."
+""
+)
+
+build() {
+  local docDir legacyDocName
+
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  patch -p1 < "$SRC/fix-python-destdir-usage.diff" || return 1
+
+  # The source is unpacked inside this repo, so fence dtc's version probe away
+  # from the parent git checkout and keep the release version at 1.6.1.
+  make clean || return 1
+  GIT_DIR=/nonexistent GIT_WORK_TREE=/nonexistent \
+  make \
+    CFLAGS="$SLKCFLAGS -w -Wl,--allow-multiple-definition" \
+    PREFIX=/usr \
+    LIBDIR="/usr/lib${LIBDIRSUFFIX}" || return 1
+  GIT_DIR=/nonexistent GIT_WORK_TREE=/nonexistent \
+  make \
+    CFLAGS="$SLKCFLAGS -w -Wl,--allow-multiple-definition" \
+    DESTDIR="$PKG" \
+    PREFIX=/usr \
+    LIBDIR="/usr/lib${LIBDIRSUFFIX}" \
+    install || return 1
+
+  find "$PKG" -print0 \
+    | xargs -0 file \
+    | grep -e "executable" -e "shared object" \
+    | grep ELF \
+    | cut -f 1 -d : \
+    | xargs strip --strip-unneeded 2>/dev/null || true
+
+  install -d "$docDir" || return 1
+  cp -a Documentation/manual.txt GPL README* TODO "$docDir/" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docDir/$legacyDocName" || return 1
+}
