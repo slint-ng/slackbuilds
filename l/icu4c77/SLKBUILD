@@ -10,6 +10,7 @@ pkgver=77.1
 pkgrel=1slint
 url="https://github.com/unicode-org/icu"
 source=("https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-src.tgz")
+options=("noautodotnew")
 
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
@@ -31,10 +32,8 @@ EOF
 
 build() {
   local docDir
-  local legacyDocName
 
   docDir="$PKG/usr/doc/icu4c-$pkgver"
-  legacyDocName="${pkgname}.S""lackBuild"
 
   cd "$SRC/icu/source" || return 1
 
@@ -47,7 +46,6 @@ build() {
 
   mkdir -p "$docDir" || return 1
   cp -a "$SRC/icu/license.html" "$SRC/icu/readme.html" "$docDir" || return 1
-  install -Dm0644 "$SRC/../SLKBUILD" "$docDir/$legacyDocName" || return 1
 
   install -Dm0644 /dev/stdin "$PKG/etc/ld.so.conf.d/icu4c77.conf" <<'EOF'
 /opt/icu4c77/lib

@@ -8,6 +8,7 @@ pkgver=2.14.19
 pkgrel=1slint
 url="https://download.gnome.org/sources/ORBit2/2.14/"
 source=("https://download.gnome.org/sources/ORBit2/2.14/${pkgname}-${pkgver}.tar.bz2")
+options=("keepla")
 
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
@@ -39,6 +40,10 @@ build() {
 
   make -j"$numjobs" || make || return 1
   make install-strip DESTDIR="$PKG" || return 1
+
+  # The legacy package shipped this libtool archive under orbit-2.0.
+  install -Dm0644 test/everything/Everything_module.la \
+    "$PKG/usr/lib${LIBDIRSUFFIX}/orbit-2.0/Everything_module.la" || return 1
 
   rm -f "$PKG"/usr/lib*/*.la || return 1
 
