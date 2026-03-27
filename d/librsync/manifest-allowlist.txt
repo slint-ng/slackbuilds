@@ -1,0 +1,2 @@
+# The converted package intentionally drops the legacy packaged build script.
+-^usr/doc/@PKGNAME@-@PKGVER@/@PKGNAME@\.SlackBuild$

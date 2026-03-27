@@ -1,0 +1,32 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=mujs
+pkgver=1.3.3
+pkgrel=1slint
+url="https://mujs.com/"
+source=("https://mujs.com/downloads/${pkgname}-${pkgver}.tar.gz" "Makefile.diff")
+docs=("AUTHORS" "COPYING" "README" "docs")
+options=("nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (javascript interpreter)"
+"MuJS is a lightweight JavaScript interpreter designed for embedding"
+"in other software to extend them with scripting capabilities."
+"It is written in portable C and implements ECMAScript as specified"
+"by ECMA-262."
+"MuJS focuses on small size, correctness and simplicity."
+)
+
+build() {
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  patch -p1 < "$SRC/Makefile.diff" || return 1
+  sed -i '/LIBREADLINE +=/ s/$/ -ltermcap/' Makefile || return 1
+
+  make install-shared DESTDIR="$PKG" || return 1
+}
