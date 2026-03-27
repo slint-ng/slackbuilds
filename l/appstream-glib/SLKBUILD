@@ -5,6 +5,13 @@ pkgname=appstream-glib
 pkgver=0.8.2
 _pkgver=`echo $pkgver | tr '.' '_'`
 pkgrel=2slint
+depends=(
+  json-glib
+  gcab
+)
+makedepends=(
+  meson
+)
 source=("https://github.com/hughsie/appstream-glib/archive/refs/tags/appstream_glib_${_pkgver}.tar.gz")
 docs=("README.md" "install" "copying" "changelog" "authors" "news" "todo")
 #url=https://github.com/hughsie/appstream-glib
