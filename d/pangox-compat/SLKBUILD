@@ -1,0 +1,62 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+pkgname=pangox-compat
+pkgver=0.0.2
+pkgrel=3slint
+url="https://download.gnome.org/sources/pangox-compat/"
+options=("noautodotnew")
+source=(
+  "https://download.gnome.org/sources/${pkgname}/0.0/${pkgname}-${pkgver}.tar.xz"
+  "0002.patch"
+)
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"pangox-compat (X font support for Pango)"
+""
+"pangox-compat provides X Window System font support for Pango."
+""
+"Homepage: https://www.pango.org/"
+)
+
+build() {
+  local compileHost docDir expectedHost
+
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+  expectedHost="$ARCH-slackware-linux-gnu"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  patch -p1 < "$SRC/0002.patch" || return 1
+
+  CFLAGS="$SLKCFLAGS" \
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --mandir=/usr/man \
+    --disable-static \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --build="$ARCH-slackware-linux" \
+    --host="$ARCH-slackware-linux" \
+    --target="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+
+  compileHost="$(sed -n 's/.*host_triplet = //p' Makefile | head -n 1)"
+  if [[ "$compileHost" != "$expectedHost" ]]; then
+    printf "Host mismatch: compile='%s', SLKBUILD='%s'\n" \
+      "$compileHost" "$expectedHost"
+    return 1
+  fi
+
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG/lib${LIBDIRSUFFIX}/"*.la || return 1
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}/"*.la || return 1
+
+  install -d "$docDir" || return 1
+  cp -a AUTHORS ChangeLog NEWS INSTALL COPYING README "$docDir/" || return 1
+}

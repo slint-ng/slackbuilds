@@ -1,0 +1,40 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=samurai
+pkgver=1.2
+pkgrel=1slint
+url="https://github.com/michaelforney/samurai"
+source=("https://github.com/michaelforney/samurai/releases/download/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"samurai (ninja-compatible build tool written in C)"
+""
+"samurai is a ninja-compatible build tool written in C99 with a"
+"focus on simplicity, speed, and portability."
+""
+"Homepage: https://github.com/michaelforney/samurai"
+)
+
+build() {
+  local docDir legacyDocName
+
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  make install \
+    CFLAGS="$SLKCFLAGS" \
+    PREFIX=/usr \
+    MANDIR=/usr/man \
+    DESTDIR="$PKG" || return 1
+
+  install -d "$docDir" || return 1
+  cp -a LICENSE README.md "$docDir/" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docDir/$legacyDocName" || return 1
+}
