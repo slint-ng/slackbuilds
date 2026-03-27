@@ -9,7 +9,7 @@ pkgrel=2slint
 arch=noarch
 url="https://wayland.freedesktop.org/"
 source=("https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/${pkgver}/downloads/${pkgname}-${pkgver}.tar.xz")
-docs=("COPYING*" "README*")
+docs=("COPYING*" "README.md")
 
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
@@ -22,8 +22,6 @@ slackdesc=(
 )
 
 build() {
-  local docsDir=""
-
   cd "$SRC/$pkgname-$pkgver" || return 1
 
   # noarch metadata can leak impossible -march/-mtune values into Meson.
@@ -47,8 +45,4 @@ build() {
 
   meson compile -C buildDir -j "$numjobs" || return 1
   DESTDIR="$PKG" meson install -C buildDir || return 1
-
-  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
-  mkdir -p "$docsDir" || return 1
-  install -Dm0644 "$SRC/../SLKBUILD" "$docsDir/SLKBUILD" || return 1
 }
