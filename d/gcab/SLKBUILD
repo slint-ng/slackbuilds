@@ -1,0 +1,44 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=gcab
+pkgver=1.4
+pkgrel=1slint
+url="https://wiki.gnome.org/msitools/"
+source=("https://download.gnome.org/sources/${pkgname}/1.4/${pkgname}-${pkgver}.tar.xz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"gcab (A GObject library to create cabinet files)"
+""
+"A GObject library to create cabinet files."
+""
+"Homepage: https://wiki.gnome.org/msitools/"
+)
+
+build() {
+  local docDir legacyDocName
+
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+  rm -rf build || return 1
+
+  meson setup build . \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --mandir=/usr/man || return 1
+  "${NINJA:=ninja}" -C build -j "$numjobs" || return 1
+  DESTDIR="$PKG" "$NINJA" -C build install || return 1
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -d "$docDir" || return 1
+  cp -a COPYING NEWS "$docDir/" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docDir/$legacyDocName" || return 1
+}

@@ -1,0 +1,49 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in and adapted to Slint by Didier Spaier didieratslintdotfr
+
+pkgname=mm-common
+pkgver=1.0.4
+pkgrel=1slint
+arch=noarch
+url="https://www.gtkmm.org/"
+source=("https://download.gnome.org/sources/${pkgname}/1.0/${pkgname}-${pkgver}.tar.xz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"mm-common (build infrastructure and utilities for GNOME C++ bindings)"
+""
+"The mm-common module provides the build infrastructure and utilities"
+"shared among the GNOME C++ binding libraries. It is mainly required"
+"for building the C++ bindings from the gnome.org version control"
+"repository."
+""
+"It is not required for building tarball releases unless configured"
+"to use maintainer-mode."
+)
+
+build() {
+  local docDir legacyDocName
+
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+  rm -rf meson-build || return 1
+
+  meson setup meson-build . \
+    --prefix=/usr \
+    --mandir=/usr/man \
+    -Duse-network=true || return 1
+  "${NINJA:=ninja}" -C meson-build -j "$numjobs" || return 1
+  DESTDIR="$PKG" "$NINJA" -C meson-build install || return 1
+
+  install -d "$PKG/usr/share/glibmm-2.4" || return 1
+  ln -sf /usr/share/mm-common/doctool "$PKG/usr/share/glibmm-2.4/doctool" || return 1
+
+  install -d "$docDir" || return 1
+  cp -a AUTHORS COPYING ChangeLog NEWS README "$docDir/" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docDir/$legacyDocName" || return 1
+}
