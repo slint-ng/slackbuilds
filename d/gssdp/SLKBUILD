@@ -1,0 +1,74 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=gssdp
+pkgver=1.6.3
+pkgrel=2slint
+url="https://github.com/GNOME/gssdp"
+source=("https://download.gnome.org/sources/${pkgname}/1.6/${pkgname}-${pkgver}.tar.xz")
+docs=("AUTHORS" "COPYING" "NEWS" "README.md")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"gssdp (GObject API for SSDP resource discovery)"
+""
+"GSSDP implements resource discovery and announcement over SSDP."
+""
+"Homepage: https://github.com/GNOME/gssdp"
+)
+
+build() {
+  local legacyDocName
+
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+  rm -rf build || return 1
+
+  meson setup build . \
+    --prefix=/usr \
+    --buildtype=release \
+    --localstatedir=/var \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --mandir=/usr/man \
+    -Dgtk_doc=false \
+    -Dmanpages=false || return 1
+
+  "${NINJA:=ninja}" -C build -j "$numjobs" || return 1
+  DESTDIR="$PKG" "$NINJA" -C build install || return 1
+
+  install -d "$PKG/usr/man/man1" || return 1
+  cat > gssdp-device-sniffer.1 <<'EOF' || return 1
+.TH GSSDP-DEVICE-SNIFFER 1 "November 2022" "Jens Georg" "User Commands"
+.SH NAME
+gssdp-device-sniffer \- display SSDP packets on your network
+.SH SYNOPSIS
+.B gssdp-device-sniffer
+.RB [ \-i ]
+.RB [ \-6 ]
+.SH DESCRIPTION
+gssdp-device-sniffer listens for SSDP announcements on your network.
+It records SSDP packets, shows the raw traffic, and keeps track of the
+devices it discovers.
+.SH OPTIONS
+.TP
+.BR \-h ", " \-\-help
+Display help.
+.TP
+.BR \-i ", " \-\-interface
+Name of the network interface the sniffer will listen on.
+.TP
+.BR \-6 ", " \-\-prefer-v6
+Listen on IPv6 for SSDP announcements.
+EOF
+  gzip -9n gssdp-device-sniffer.1 || return 1
+  install -m0644 gssdp-device-sniffer.1.gz \
+    "$PKG/usr/man/man1/gssdp-device-sniffer.1.gz" || return 1
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" \
+    "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1
+}

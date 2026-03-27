@@ -1,8 +1,0 @@
-PRGNAM="lxqt-build-tools"
-VERSION="2.3.0"
-HOMEPAGE="https://github.com/lxqt/lxqt-build-tools"
-DOWNLOAD="https://github.com/lxqt/lxqt-build-tools/releases/download/2.3.0/lxqt-build-tools-2.3.0.tar.xz"
-MD5SUM="322e9e75b884334abb2e2fd6f8f57995"
-REQUIRES=""
-MAINTAINER="Frank Honolka"
-EMAIL="slackernetuk@gmail.com"
