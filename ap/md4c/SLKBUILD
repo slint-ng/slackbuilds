@@ -9,7 +9,7 @@ pkgver=0.4.8
 pkgrel=1slint
 url="https://github.com/mity/md4c"
 source=("https://github.com/mity/md4c/archive/release-${pkgver}/${_srcname}-${pkgver}.tar.gz")
-docs=("*.md")
+docs=("CHANGELOG.md" "LICENSE.md" "README.md")
 options=("nosrcpack")
 
 slackdesc=(
