@@ -46,6 +46,16 @@ build() {
   make check || return 1
   make install-strip DESTDIR="$PKG" || return 1
 
+  if [ -f "$PKG/usr/share/doc/potrace/placement.pdf" ]; then
+    install -Dm0644 "$PKG/usr/share/doc/potrace/placement.pdf" \
+      "$PKG/usr/doc/$pkgname-$pkgver/placement.pdf" || return 1
+    rm -f "$PKG/usr/share/doc/potrace/placement.pdf" || return 1
+    rmdir --ignore-fail-on-non-empty \
+      "$PKG/usr/share/doc/potrace" \
+      "$PKG/usr/share/doc" \
+      "$PKG/usr/share" 2>/dev/null || true
+  fi
+
   find "$PKG/usr/lib${LIBDIRSUFFIX}" -name '*.la' -delete || return 1
 
   install -Dm0644 "$SRC/../SLKBUILD" \
