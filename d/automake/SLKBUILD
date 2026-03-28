@@ -1,0 +1,90 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+pkgname=automake
+pkgver=1.16.2
+pkgrel=4
+arch=noarch
+url="https://www.gnu.org/software/automake/"
+license=("GPL-2.0-or-later")
+source=("https://ftp.gnu.org/gnu/automake/${pkgname}-${pkgver}.tar.xz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"automake (a Makefile generator)"
+""
+"This is Automake, a Makefile generator. It was inspired by"
+"the 4.4BSD make and include files, but aims to be portable"
+"and to conform to the GNU standards for Makefile variables"
+"and targets. Automake is a Perl script. The input files are"
+"called Makefile.am. The output files are called Makefile.in;"
+"they are intended for use with Autoconf. Automake requires"
+"certain things to be done in your configure.in. You must"
+"install the m4 and perl packages to be able to use automake."
+)
+
+doinst() {
+  local info_page
+
+  info_page="/usr/info/automake."info.gz
+
+  if [ -x /usr/bin/install-info ]; then
+    install-info --info-dir=/usr/info "$info_page" 2>/dev/null
+  elif grep -F "automake" usr/info/dir >/dev/null 2>&1; then
+    :
+  else
+    cat <<'EOF' >> usr/info/dir
+
+GNU admin
+* aclocal: (automake)Invoking aclocal.          Generating aclocal.m4
+* automake: (automake).         Making Makefile.in's
+EOF
+  fi
+}
+
+build() {
+  local build_arch
+  local doc_dir
+  local doc_file
+  local shortver
+
+  cd "$SRC/${pkgname}-${pkgver}" || return 1
+  build_arch="$(uname -m)"
+
+  ./configure \
+    --prefix=/usr \
+    --mandir=/usr/man \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --infodir=/usr/info \
+    --build="${build_arch}-slackware-linux" || return 1
+
+  make -j"$numjobs" || make || return 1
+  make DESTDIR="$PKG" install || return 1
+
+  rm -f "$PKG/usr/info/dir" || return 1
+
+  shortver="${pkgver%.*}"
+  rm -f "$PKG/usr/bin/aclocal" || return 1
+  ln -sf "aclocal-${shortver}" "$PKG/usr/bin/aclocal" || return 1
+  rm -f "$PKG/usr/bin/automake" || return 1
+  ln -sf "automake-${shortver}" "$PKG/usr/bin/automake" || return 1
+
+  mkdir -p "$PKG/usr/share/aclocal" || return 1
+  touch "$PKG/usr/share/aclocal" || return 1
+
+  doc_dir="$PKG/usr/doc/${pkgname}-${pkgver}"
+  mkdir -p "$doc_dir" || return 1
+  if [ -d "$PKG/usr/share/doc/automake" ]; then
+    mv "$PKG/usr/share/doc/automake"/* "$doc_dir/" || return 1
+    rmdir "$PKG/usr/share/doc/automake" || return 1
+    rmdir "$PKG/usr/share/doc" || return 1
+  fi
+
+  shopt -s nullglob
+  for doc_file in AUTHORS COPYING* NEWS README* THANKS TODO; do
+    [ -e "$doc_file" ] || continue
+    cp -a "$doc_file" "$doc_dir/" || return 1
+  done
+  shopt -u nullglob
+}

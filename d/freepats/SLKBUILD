@@ -1,0 +1,55 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
+
+pkgname=freepats
+pkgver=20060219
+pkgrel=2slint
+arch=noarch
+url="https://freepats.zenvoid.org/"
+license=("GPL2")
+source=("https://deb.debian.org/debian/pool/main/f/freepats/${pkgname}_${pkgver}.orig.tar.gz")
+options=("nosrcpack")
+dotnew=("etc/timidity/crude.cfg" "etc/timidity/freepats.cfg")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"freepats (MIDI instrument patches)"
+""
+"freepats is a free and open set of instrument patches. A"
+"patchset is required for MIDI files to be audible through"
+"TiMidity++. These patches also work with applications that"
+"use SDL_mixer for MIDI audio."
+""
+""
+""
+""
+)
+
+build() {
+  local docDir
+  local legacyDocName
+
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+  tar -xf "upstream/${pkgname}-${pkgver}.tar.bz2" || return 1
+  cd "$pkgname" || return 1
+
+  install -d \
+    "$PKG/usr/share/sounds/$pkgname" \
+    "$PKG/etc/timidity" \
+    "$docDir" || return 1
+
+  cp -a Drum_000 Tone_000 "$PKG/usr/share/sounds/$pkgname/" || return 1
+  install -m0644 crude.cfg "$PKG/etc/timidity/crude.cfg" || return 1
+  install -m0644 freepats.cfg "$PKG/etc/timidity/freepats.cfg" || return 1
+
+  sed -i "4idir /usr/share/sounds/$pkgname" "$PKG/etc/timidity/freepats.cfg" || return 1
+  sed -i "10idir /usr/share/sounds/$pkgname" "$PKG/etc/timidity/crude.cfg" || return 1
+
+  cp -a COPYING README "$docDir/" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docDir/$legacyDocName" || return 1
+}
