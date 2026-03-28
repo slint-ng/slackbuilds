@@ -1,0 +1,63 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=oprofile
+pkgver=1.4.0
+pkgrel=1slint
+url="https://oprofile.sourceforge.io/"
+license=("GPL-2.0-or-later")
+source=("https://downloads.sourceforge.net/project/oprofile/oprofile/oprofile-${pkgver}/${pkgname}-${pkgver}.tar.gz")
+options=("keepla" "nosrcpack")
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (system profiling tool)"
+""
+"OProfile is a profiling system for Linux. It profiles the whole"
+"system in the background using hardware performance counters or"
+"timer interrupts on CPUs without counters."
+)
+
+build() {
+  local source_dir docdir
+
+  source_dir="$SRC/$pkgname-$pkgver"
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  cd "$source_dir" || return 1
+
+  ./autogen.sh || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --mandir=/usr/man \
+    --with-kernel-support || return 1
+
+  make -j "$numjobs" || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  if [[ -r "$PKG/usr/share/mangled-name" ]]; then
+    install -d "$PKG/usr/share/oprofile" || return 1
+    mv "$PKG/usr/share/mangled-name" "$PKG/usr/share/oprofile/mangled-name" || return 1
+  fi
+
+  if [[ -d "$PKG/usr/share/doc" ]]; then
+    mv "$PKG/usr/share/doc" "$PKG/usr/" || return 1
+  fi
+  if [[ -d "$PKG/usr/doc/$pkgname" ]]; then
+    mv "$PKG/usr/doc/$pkgname" "$docdir" || return 1
+  else
+    install -d "$docdir" || return 1
+  fi
+
+  cp -a COPYING README TODO "$docdir/" || return 1
+
+  if [[ -r ChangeLog ]]; then
+    head -n 1000 ChangeLog > "$docdir/ChangeLog" || return 1
+    touch -r ChangeLog "$docdir/ChangeLog" || return 1
+  fi
+}
