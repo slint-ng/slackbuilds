@@ -1,0 +1,74 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=mfx_dispatch
+pkgver=1.35.1
+pkgrel=1slint
+url="https://github.com/lu-zero/mfx_dispatch"
+source=("https://github.com/lu-zero/mfx_dispatch/archive/refs/tags/${pkgver}.tar.gz")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"mfx_dispatch (Intel Media SDK dispatcher library)"
+""
+"mfx_dispatch provides the Intel Media SDK dispatcher library used"
+"to locate and load the appropriate backend implementation."
+""
+"Homepage: https://github.com/lu-zero/mfx_dispatch"
+)
+
+build() {
+  local docDir legacyDocName
+
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  [ -x configure ] || autoreconf -vif || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --disable-static \
+    --enable-shared \
+    --build="${ARCH}-slackware-linux" || return 1
+
+  make -j "$numjobs" || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -d "$docDir" || return 1
+  cp -a readme-dispatcher.rtf LICENSE "$docDir/" || return 1
+  if command -v pandoc >/dev/null 2>&1; then
+    pandoc -f gfm -t html5 --metadata pagetitle=README \
+      -o "$docDir/README.html" README.md || return 1
+  else
+    # Keep the legacy HTML doc artifact even when pandoc is unavailable.
+    python3 - "$docDir/README.html" README.md <<'PY' || return 1
+from html import escape
+from pathlib import Path
+import sys
+
+dst = Path(sys.argv[1])
+src = Path(sys.argv[2])
+body = escape(src.read_text(encoding="utf-8"))
+dst.write_text(
+    "<!doctype html>\n"
+    "<html><head><meta charset=\"utf-8\"><title>README</title></head>"
+    "<body><pre>\n"
+    f"{body}\n"
+    "</pre></body></html>\n",
+    encoding="utf-8",
+)
+PY
+  fi
+  install -Dm0644 "$SRC/../SLKBUILD" "$docDir/$legacyDocName" || return 1
+}
