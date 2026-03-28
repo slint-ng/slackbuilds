@@ -1,0 +1,15 @@
+# The Python payload follows the host Python minor version in local builds.
+-^run/$
+-^run/fail2ban/$
++^usr/lib64/python3\.[0-9]+/$
++^usr/lib64/python3\.[0-9]+/site-packages/$
++^usr/lib64/python3\.[0-9]+/site-packages/fail2ban-@PKGVER@-py3\.[0-9]+\.egg-info/?$
++^usr/lib64/python3\.[0-9]+/site-packages/fail2ban-@PKGVER@-py3\.[0-9]+\.egg-info/.+$
++^usr/lib64/python3\.[0-9]+/site-packages/fail2ban/?$
++^usr/lib64/python3\.[0-9]+/site-packages/fail2ban/.+$
+-^usr/lib64/python3\.[0-9]+/$
+-^usr/lib64/python3\.[0-9]+/site-packages/$
+-^usr/lib64/python3\.[0-9]+/site-packages/fail2ban-@PKGVER@-py3\.[0-9]+\.egg-info/?$
+-^usr/lib64/python3\.[0-9]+/site-packages/fail2ban-@PKGVER@-py3\.[0-9]+\.egg-info/.+$
+-^usr/lib64/python3\.[0-9]+/site-packages/fail2ban/?$
+-^usr/lib64/python3\.[0-9]+/site-packages/fail2ban/.+$

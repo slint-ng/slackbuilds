@@ -1,0 +1,17 @@
+# The Python bindings follow the host Python minor version in local builds.
++^usr/lib64/python3\.[0-9]+/$
++^usr/lib64/python3\.[0-9]+/site-packages/$
++^usr/lib64/python3\.[0-9]+/site-packages/__pycache__/?$
++^usr/lib64/python3\.[0-9]+/site-packages/__pycache__/libfdt\.cpython-[0-9]+\.pyc$
++^usr/lib64/python3\.[0-9]+/site-packages/_libfdt\.cpython-[0-9]+-x86_64-linux-gnu\.so$
++^usr/lib64/python3\.[0-9]+/site-packages/libfdt-@PKGVER@-py3\.[0-9]+\.egg-info/?$
++^usr/lib64/python3\.[0-9]+/site-packages/libfdt-@PKGVER@-py3\.[0-9]+\.egg-info/.+$
++^usr/lib64/python3\.[0-9]+/site-packages/libfdt\.py$
+-^usr/lib64/python3\.[0-9]+/$
+-^usr/lib64/python3\.[0-9]+/site-packages/$
+-^usr/lib64/python3\.[0-9]+/site-packages/__pycache__/?$
+-^usr/lib64/python3\.[0-9]+/site-packages/__pycache__/libfdt\.cpython-[0-9]+\.pyc$
+-^usr/lib64/python3\.[0-9]+/site-packages/_libfdt\.cpython-[0-9]+-x86_64-linux-gnu\.so$
+-^usr/lib64/python3\.[0-9]+/site-packages/libfdt-@PKGVER@-py3\.[0-9]+\.egg-info/?$
+-^usr/lib64/python3\.[0-9]+/site-packages/libfdt-@PKGVER@-py3\.[0-9]+\.egg-info/.+$
+-^usr/lib64/python3\.[0-9]+/site-packages/libfdt\.py$

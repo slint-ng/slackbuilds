@@ -1,0 +1,160 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=fail2ban
+pkgver=0.11.2
+pkgrel=2slint
+url="https://github.com/fail2ban/fail2ban/"
+license=("GPL-2.0-or-later")
+source=(
+  "https://github.com/fail2ban/fail2ban/archive/refs/tags/${pkgver}.tar.gz"
+  "fail2ban-setuptools.patch"
+  "paths-slackware.conf"
+  "jail.conf.patch"
+  "rc.fail2ban"
+  "README.Slint"
+)
+options=("noautodotnew" "nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"fail2ban (bans IP that makes too many password failures)"
+""
+"Fail2Ban scans log files like /var/log/pwdfail and bans IP"
+"that makes too many password failures. It updates firewall"
+"rules to reject the IP address. These rules can be defined by"
+"the user. Fail2Ban can read multiple log files such as sshd,"
+"Apache web server, postfix and others."
+""
+"Homepage: https://www.fail2ban.org/"
+""
+)
+
+doinst() {
+  config() {
+    local newFile oldFile
+
+    newFile="$1"
+    oldFile="$(dirname "$newFile")/$(basename "$newFile" .new)"
+
+    if [ ! -r "$oldFile" ]; then
+      mv "$newFile" "$oldFile"
+    elif [ "$(md5sum < "$oldFile")" = "$(md5sum < "$newFile")" ]; then
+      rm "$newFile"
+    fi
+  }
+
+  preserve_perms() {
+    local newFile oldFile
+
+    newFile="$1"
+    oldFile="$(dirname "$newFile")/$(basename "$newFile" .new)"
+
+    if [ -e "$oldFile" ]; then
+      cp -a "$oldFile" "${newFile}.incoming"
+      cat "$newFile" > "${newFile}.incoming"
+      mv "${newFile}.incoming" "$newFile"
+    fi
+
+    config "$newFile"
+  }
+
+  preserve_perms etc/rc.d/rc.fail2ban.new
+  config etc/logrotate.d/fail2ban.new
+  config etc/fail2ban/fail2ban.conf.new
+  config etc/fail2ban/jail.conf.new
+  config etc/fail2ban/paths-common.conf.new
+  config etc/fail2ban/paths-slackware.conf.new
+  [ -e etc/bash_completion.d/fail2ban.new ] && config etc/bash_completion.d/fail2ban.new
+
+  for confFile in etc/fail2ban/action.d/*.new; do
+    [ -e "$confFile" ] && config "$confFile"
+  done
+
+  for confFile in etc/fail2ban/filter.d/*.new; do
+    [ -e "$confFile" ] && config "$confFile"
+  done
+}
+
+build() {
+  local bashCompletion docDir legacyDocName pythonBranch sitePackages
+
+  bashCompletion="${BASH_COMPLETION:-no}"
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+  pythonBranch="$(python3 -c 'import sys; print(f"{sys.version_info[0]}.{sys.version_info[1]}")')"
+  sitePackages="/usr/lib${LIBDIRSUFFIX}/python${pythonBranch}/site-packages"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  patch -p1 < "$SRC/../fail2ban-setuptools.patch" || return 1
+  2to3 -w -n bin fail2ban >/dev/null || return 1
+
+  python3 setup.py install \
+    --root="$PKG" \
+    --install-lib="$sitePackages" || return 1
+
+  install -dm0755 "$PKG/usr/man/man1" "$PKG/usr/man/man5" || return 1
+  install -m0644 \
+    man/fail2ban-client.1 \
+    man/fail2ban-regex.1 \
+    man/fail2ban-server.1 \
+    man/fail2ban-testcases.1 \
+    man/fail2ban.1 \
+    "$PKG/usr/man/man1/" || return 1
+  install -m0644 man/jail.conf.5 "$PKG/usr/man/man5/" || return 1
+
+  while IFS= read -r -d '' confFile; do
+    mv "$confFile" "${confFile}.new" || return 1
+  done < <(find "$PKG/etc/fail2ban" -type f -print0)
+
+  (
+    cd "$PKG/etc/fail2ban" || exit 1
+    patch -p0 < "$SRC/../jail.conf.patch"
+  ) || return 1
+
+  install -Dm0644 "$SRC/../rc.fail2ban" \
+    "$PKG/etc/rc.d/rc.fail2ban.new" || return 1
+  install -Dm0644 "$SRC/../paths-slackware.conf" \
+    "$PKG/etc/fail2ban/paths-slackware.conf.new" || return 1
+
+  rm -f \
+    "$PKG/etc/fail2ban/paths-arch.conf.new" \
+    "$PKG/etc/fail2ban/paths-debian.conf.new" \
+    "$PKG/etc/fail2ban/paths-fedora.conf.new" \
+    "$PKG/etc/fail2ban/paths-freebsd.conf.new" \
+    "$PKG/etc/fail2ban/paths-osx.conf.new" \
+    "$PKG/etc/fail2ban/paths-opensuse.conf.new" || return 1
+
+  if [ "$bashCompletion" = "yes" ]; then
+    install -Dm0644 files/bash-completion \
+      "$PKG/etc/bash_completion.d/fail2ban.new" || return 1
+  fi
+
+  install -Dm0644 files/fail2ban-logrotate \
+    "$PKG/etc/logrotate.d/fail2ban.new" || return 1
+
+  install -dm0755 "$PKG/var/run/fail2ban" "$PKG/var/lib/fail2ban" || return 1
+  rm -rf "${PKG:?}/run" || return 1
+
+  rm -rf "${PKG:?}/usr/share" || return 1
+
+  install -dm0755 "$docDir" || return 1
+  cp -a \
+    CONTRIBUTING.md \
+    COPYING \
+    ChangeLog \
+    DEVELOP \
+    FILTERS \
+    MANIFEST \
+    README.md \
+    RELEASE \
+    THANKS \
+    TODO \
+    doc/run-rootless.txt \
+    "$docDir/" || return 1
+  install -Dm0644 "$SRC/../README.Slint" "$docDir/README.Slint" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docDir/$legacyDocName" || return 1
+}
