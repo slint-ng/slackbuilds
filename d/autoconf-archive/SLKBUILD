@@ -1,0 +1,87 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154,SC2329
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=autoconf-archive
+pkgver=2021.02.19
+pkgrel=1
+arch=noarch
+url="https://www.gnu.org/software/autoconf-archive/"
+license=("GPL3+")
+source=("https://ftp.gnu.org/gnu/autoconf-archive/${pkgname}-${pkgver}.tar.xz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"autoconf-archive (macros for GNU Autoconf)"
+""
+"The GNU Autoconf Archive is a large collection of useful,"
+"tested macros for GNU Autoconf."
+""
+"This package installs the complete archive, contributed as"
+"free software by supporters from across the Internet."
+)
+
+build() {
+  local doc_dir
+  local doc_file
+  local host_arch
+
+  cd "$SRC/${pkgname}-${pkgver}" || return 1
+  host_arch="$(uname -m)"
+
+  if [ ! -r configure ]; then
+    if [ -x ./autogen.sh ]; then
+      NOCONFIGURE=1 ./autogen.sh || return 1
+    else
+      autoreconf -vif || return 1
+    fi
+  fi
+
+  ./configure \
+    --prefix=/usr \
+    "--libdir=/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --docdir=/usr/doc/${pkgname}-${pkgver} \
+    --mandir=/usr/man \
+    --infodir=/usr/info \
+    --build="${host_arch}-slackware-linux" || return 1
+
+  make -j"$numjobs" || make || return 1
+  make DESTDIR="$PKG" install || return 1
+
+  doc_dir="$PKG/usr/doc/${pkgname}-${pkgver}"
+  install -d "$doc_dir" || return 1
+  shopt -s nullglob
+  for doc_file in AUTHORS* COPYING* NEWS* README* TODO*; do
+    cp -a "$doc_file" "$doc_dir/" || return 1
+  done
+  shopt -u nullglob
+  if [ -r ChangeLog ]; then
+    head -n 1000 ChangeLog > "$doc_dir/ChangeLog" || return 1
+    touch -r ChangeLog "$doc_dir/ChangeLog" || return 1
+  fi
+
+  post_checks() {
+    if [ -d "$PKG/usr/doc/$pkgname-$pkgver" ]; then
+      if ! find "$PKG/usr/doc/$pkgname-$pkgver" -type f | grep -qm1 .; then
+        rmdir "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+      fi
+      if [ -d "$PKG/usr/doc" ] && ! find "$PKG/usr/doc" -type f | grep -qm1 .; then
+        rmdir "$PKG/usr/doc" || return 1
+      fi
+    fi
+
+    if [ -d "$PKG/usr/doc/$pkgname-$pkgver" ]; then
+      cd "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+      if find . -type f -size 0 | grep -qm1 .; then
+        echo "Removing some zero lenght files"
+        find . -type f -size 0 -exec rm -f {} \;
+      fi
+    fi
+
+    rm -f "$PKG/usr/info/dir" || return 1
+  }
+}

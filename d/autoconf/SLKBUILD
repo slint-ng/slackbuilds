@@ -1,0 +1,95 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154,SC2329
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=autoconf
+pkgver=2.72
+pkgrel=1slint
+arch=noarch
+url="https://www.gnu.org/software/autoconf/"
+license=("GPL3+")
+source=("https://ftp.gnu.org/gnu/autoconf/${pkgname}-${pkgver}.tar.xz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"autoconf (generate configuration scripts)"
+""
+"GNU autoconf is an extensible package of m4 macros that"
+"produce shell scripts to automatically configure software"
+"source code packages on many UNIX-like systems."
+""
+"You must install the m4 package to be able to use autoconf."
+)
+
+build() {
+  local doc_dir
+  local doc_file
+  local host_arch
+  local info_page
+  local install_script
+
+  cd "$SRC/${pkgname}-${pkgver}" || return 1
+  host_arch="$(uname -m)"
+
+  ./configure \
+    --prefix=/usr \
+    --infodir=/usr/info \
+    --mandir=/usr/man \
+    --build="${host_arch}-slackware-linux" || return 1
+
+  make -j"$numjobs" || make || return 1
+  make DESTDIR="$PKG" install || return 1
+
+  doc_dir="$PKG/usr/doc/${pkgname}-${pkgver}"
+  install -d "$doc_dir" "$PKG/install" || return 1
+  shopt -s nullglob
+  for doc_file in AUTHORS BUGS COPYING* NEWS README* THANKS TODO; do
+    cp -a "$doc_file" "$doc_dir/" || return 1
+  done
+  shopt -u nullglob
+  if [ -r ChangeLog ]; then
+    head -n 1000 ChangeLog > "$doc_dir/ChangeLog" || return 1
+    touch -r ChangeLog "$doc_dir/ChangeLog" || return 1
+  fi
+
+  info_page="/usr/info/autoconf."info.gz
+  install_script="$PKG/install/doinst."sh
+  cat > "$install_script" <<EOF || return 1
+# Update the /usr/info/dir info-database, so that we will see the new
+# "autoconf" item in info root structure, if we type "info".
+if [ -x /usr/bin/install-info ] ; then
+  install-info --info-dir=/usr/info ${info_page} 2>/dev/null
+elif grep -F "Autoconf" usr/info/dir 1> /dev/null 2> /dev/null ; then
+  GOOD=yes # It seems to be entered in the /usr/info/dir already
+else # add the info to the dir file directly:
+cat << EOF2 >> usr/info/dir
+
+Miscellaneous
+* Autoconf: (autoconf).         Create source code configuration scripts.
+EOF2
+fi
+EOF
+
+  post_checks() {
+    if [ -d "$PKG/usr/doc/$pkgname-$pkgver" ]; then
+      if ! find "$PKG/usr/doc/$pkgname-$pkgver" -type f | grep -qm1 .; then
+        rmdir "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+      fi
+      if [ -d "$PKG/usr/doc" ] && ! find "$PKG/usr/doc" -type f | grep -qm1 .; then
+        rmdir "$PKG/usr/doc" || return 1
+      fi
+    fi
+
+    if [ -d "$PKG/usr/doc/$pkgname-$pkgver" ]; then
+      cd "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+      if find . -type f -size 0 | grep -qm1 .; then
+        echo "Removing some zero lenght files"
+        find . -type f -size 0 -exec rm -f {} \;
+      fi
+    fi
+
+    rm -f "$PKG/usr/info/dir" || return 1
+  }
+}
