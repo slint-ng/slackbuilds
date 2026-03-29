@@ -1,0 +1,56 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=cairomm16
+_srcname=cairomm
+pkgver=1.16.1
+pkgrel=1slint
+url="https://www.cairographics.org/cairomm/"
+source=("https://www.cairographics.org/releases/${_srcname}-${pkgver}.tar.xz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"cairomm16 (C++ bindings for cairo 1.16 API)"
+""
+"cairomm16 provides the cairomm 1.16 API line so it can coexist"
+"with the older cairomm package already shipped in Slint."
+""
+"Homepage: https://www.cairographics.org/cairomm/"
+)
+
+build() {
+  local docdir
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+  rm -rf meson-build || return 1
+
+  meson setup meson-build . \
+    --prefix=/usr \
+    --libdir="lib${LIBDIRSUFFIX}" \
+    --libexecdir=/usr/libexec \
+    --bindir=/usr/bin \
+    --sbindir=/usr/sbin \
+    --includedir=/usr/include \
+    --datadir=/usr/share \
+    --mandir=/usr/man \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release \
+    -Dbuild-documentation=true \
+    -Dbuild-examples=false \
+    -Dbuild-tests=false || return 1
+  "${NINJA:=ninja}" -C meson-build -j "$numjobs" || return 1
+  DESTDIR="$PKG" "$NINJA" -C meson-build install || return 1
+
+  install -d "$docdir" || return 1
+  cp -a AUTHORS COPYING* NEWS README* "$docdir/" || return 1
+  if [ -r ChangeLog ]; then
+    head -n 1000 ChangeLog > "$docdir/ChangeLog" || return 1
+    touch -r ChangeLog "$docdir/ChangeLog" || return 1
+  fi
+}
