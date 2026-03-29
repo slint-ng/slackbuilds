@@ -1,0 +1,76 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=pkg-config
+pkgver=0.29.2
+pkgrel=4slint
+url="https://pkgconfig.freedesktop.org/"
+source=(
+  "https://pkgconfig.freedesktop.org/releases/${pkgname}-${pkgver}.tar.gz"
+  "pkgconfig.csh"
+  "pkgconfig.sh"
+)
+options=("noautodotnew")
+dotnew=()
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"pkg-config (system for managing library compile/link flags)"
+""
+"pkg-config is a system for managing library compile/link flags"
+"that works with automake and autoconf. It replaces the"
+"ubiquitous *-config scripts with a single tool."
+"See the pkg-config man page for full documentation."
+)
+
+doinst() {
+cat <<EOF
+# Break the /usr/share/pkgconfig symlink, if it exists.
+# Then move the .pc files to the standard location.
+if [ -L usr/share/pkgconfig ]; then
+  rm usr/share/pkgconfig
+  mkdir -p usr/share/pkgconfig
+  grep usr/share/pkgconfig var/log/packages/* | grep '\\.pc$' | cut -f 2 -d : | cut -f 4 -d / | while read -r movefile ; do
+    mv usr/lib${LIBDIRSUFFIX}/pkgconfig/\$movefile usr/share/pkgconfig 1> /dev/null 2> /dev/null
+  done
+fi
+EOF
+}
+
+build() {
+  local docDir
+  local docEntry
+
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --mandir=/usr/man \
+    --docdir="/usr/doc/$pkgname-$pkgver" \
+    --build="${ARCH}-slackware-linux" || return 1
+
+  make -j "$numjobs" || make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  install -d "$PKG/etc/profile.d" || return 1
+  sed "s|@LIBDIRSUFFIX@|${LIBDIRSUFFIX}|g" "$SRC/../pkgconfig.csh" \
+    > "$PKG/etc/profile.d/pkgconfig.csh" || return 1
+  sed "s|@LIBDIRSUFFIX@|${LIBDIRSUFFIX}|g" "$SRC/../pkgconfig.sh" \
+    > "$PKG/etc/profile.d/pkgconfig.sh" || return 1
+  chmod 0755 "$PKG/etc/profile.d/pkgconfig.csh" "$PKG/etc/profile.d/pkgconfig.sh" || return 1
+
+  mkdir -p "$docDir" || return 1
+  for docEntry in AUTHORS COPYING NEWS README README.win32 pkg-config-guide.html; do
+    [ -e "$docEntry" ] || continue
+    cp -a "$docEntry" "$docDir/" || return 1
+  done
+  if [ -r ChangeLog ]; then
+    head -n 1000 ChangeLog > "$docDir/ChangeLog" || return 1
+    touch -r ChangeLog "$docDir/ChangeLog" || return 1
+  fi
+}
