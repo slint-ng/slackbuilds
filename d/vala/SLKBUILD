@@ -1,0 +1,68 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=vala
+pkgver=0.56.18
+pkgrel=1slint
+url="https://wiki.gnome.org/Projects/Vala"
+source=("https://download.gnome.org/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
+options=("keepla" "nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"vala (GNOME programming language)"
+""
+"Vala is a programming language that aims to bring modern programming"
+"language features to GNOME developers without imposing any additional"
+"runtime requirements and without using a different ABI compared to"
+"applications and libraries written in C."
+""
+"Homepage: https://wiki.gnome.org/Projects/Vala"
+)
+
+build() {
+  local doc_dir
+  local doc_file
+  local host_arch
+
+  doc_dir="$PKG/usr/doc/${pkgname}-${pkgver}"
+
+  cd "$SRC/${pkgname}-${pkgver}" || return 1
+  host_arch="$(uname -m)"
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --docdir="/usr/doc/${pkgname}-${pkgver}" \
+    --mandir=/usr/man \
+    --infodir=/usr/info \
+    --disable-static \
+    --build="${host_arch}-slackware-linux" || return 1
+
+  if [ ! -x /usr/bin/valac ]; then
+    PATH="$(pwd)/compiler:$PATH"
+    export PATH
+  fi
+
+  make -j"$numjobs" || make || return 1
+  make DESTDIR="$PKG" install || return 1
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -d "$doc_dir" || return 1
+  shopt -s nullglob
+  for doc_file in AUTHORS* ChangeLog CHANGES COPYING* LICENSE* NEWS* README* THANKS* TODO*; do
+    [ -e "$doc_file" ] || continue
+    cp -a "$doc_file" "$doc_dir/" || return 1
+  done
+  shopt -u nullglob
+
+  if [ -r ChangeLog ]; then
+    head -n 1000 ChangeLog > "$doc_dir/ChangeLog" || return 1
+    touch -r ChangeLog "$doc_dir/ChangeLog" || return 1
+  fi
+}

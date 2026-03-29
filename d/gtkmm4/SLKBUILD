@@ -1,0 +1,58 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=gtkmm4
+pkgver=4.6.1
+pkgrel=2slint
+url="https://www.gtkmm.org/"
+source=("https://download.gnome.org/sources/gtkmm/${pkgver%.*}/gtkmm-${pkgver}.tar.xz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"gtkmm4 (C++ interface for GTK+4)"
+""
+"gtkmm is the official C++ interface for the popular GUI library"
+"GTK+. Highlights include typesafe callbacks, and a comprehensive set"
+"of widgets that are easily extensible via inheritance."
+""
+"Homepage: http://www.gtkmm.org/"
+)
+
+build() {
+  local doc_dir
+  local srcname
+
+  srcname=gtkmm
+  doc_dir="$PKG/usr/doc/${srcname}-${pkgver}"
+
+  cd "$SRC/${srcname}-${pkgver}" || return 1
+  rm -rf meson-build || return 1
+
+  meson setup meson-build . \
+    --prefix=/usr \
+    --libdir="lib${LIBDIRSUFFIX}" \
+    --libexecdir=/usr/libexec \
+    --bindir=/usr/bin \
+    --sbindir=/usr/sbin \
+    --includedir=/usr/include \
+    --datadir=/usr/share \
+    --mandir=/usr/man \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release || return 1
+  "${NINJA:=ninja}" -C meson-build -j "$numjobs" || return 1
+  DESTDIR="$PKG" "$NINJA" -C meson-build install || return 1
+
+  rm -rf "$PKG/usr/share/doc" || return 1
+
+  install -d "$doc_dir" || return 1
+  cp -a AUTHORS COPYING* NEWS PORTING README* "$doc_dir/" || return 1
+
+  if [ -r ChangeLog ]; then
+    head -n 1000 ChangeLog > "$doc_dir/ChangeLog" || return 1
+    touch -r ChangeLog "$doc_dir/ChangeLog" || return 1
+  fi
+}
