@@ -1,0 +1,78 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Packager: sektor
+
+pkgname=gtk4
+_srcname=gtk
+pkgver=4.4.1
+pkgrel=1
+url="https://www.gtk.org/"
+source=("https://download.gnome.org/sources/${_srcname}/${pkgver%.*}/${_srcname}-${pkgver}.tar.xz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"gtk4: gtk4 (multi-platform GUI toolkit v4)"
+"gtk4:"
+"gtk4: GTK is a multi-platform toolkit for graphical interfaces."
+"gtk4: It offers a complete set of widgets for apps of any size."
+"gtk4: Suitable for small projects or full application suites."
+"gtk4:"
+"gtk4:"
+"gtk4:"
+"gtk4:"
+)
+
+doinst() {
+chroot . rm -f /usr/share/icons/*/icon-theme.cache >/dev/null 2>&1
+
+if [ -x /usr/bin/glib-compile-schemas ] && [ -d /usr/share/glib-2.0/schemas ]; then
+  chroot . /usr/bin/glib-compile-schemas /usr/share/glib-2.0/schemas >/dev/null 2>&1
+fi
+
+if [ -x /usr/bin/gio-querymodules ]; then
+  if [ -d /usr/lib"${LIBDIRSUFFIX}"/gtk-4.0/4.0.0/media ]; then
+    chroot . /usr/bin/gio-querymodules /usr/lib"${LIBDIRSUFFIX}"/gtk-4.0/4.0.0/media >/dev/null 2>&1
+  fi
+  if [ -d /usr/lib"${LIBDIRSUFFIX}"/gtk-4.0/4.0.0/printbackends ]; then
+    chroot . /usr/bin/gio-querymodules /usr/lib"${LIBDIRSUFFIX}"/gtk-4.0/4.0.0/printbackends >/dev/null 2>&1
+  fi
+fi
+}
+
+build() {
+  local docdir="$PKG/usr/doc/${pkgname}-${pkgver}"
+
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+  rm -rf meson-build || return 1
+
+  export CFLAGS="$SLKCFLAGS -DG_ENABLE_DEBUG"
+  export CXXFLAGS="$SLKCFLAGS -DG_ENABLE_DEBUG"
+
+  meson setup meson-build . \
+    --prefix=/usr \
+    --libdir="lib${LIBDIRSUFFIX}" \
+    --libexecdir=/usr/libexec \
+    --bindir=/usr/bin \
+    --sbindir=/usr/sbin \
+    --includedir=/usr/include \
+    --datadir=/usr/share \
+    --mandir=/usr/man \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release \
+    -Dman-pages=true \
+    -Ddemos=true \
+    -Dgtk_doc=false \
+    -Dbuild-examples=false \
+    -Dbuild-tests=false \
+    -Dinstall-tests=false \
+    -Dwayland-backend=true || return 1
+  "${NINJA:=ninja}" -C meson-build -j "$numjobs" || return 1
+  DESTDIR="$PKG" "$NINJA" -C meson-build install || return 1
+
+  install -d "$docdir" || return 1
+  cp -a AUTHORS COPYING NEWS "$docdir/" || return 1
+  find "$docdir" -type f -exec chmod 0644 {} + || return 1
+}
