@@ -23,7 +23,7 @@ depends=('libao' 'ffmpeg' 'libmodplug' 'audiofile' 'libshout' 'libmad' 'curl' 'f
 	'sqlite' 'jack' 'libmms' 'wavpack' 'avahi' 'libid3tag' 'yajl' 'libmpdclient'
 	'icu' 'libupnp' 'libnfs' 'libsamplerate' 'libsoxr' 'smbclient' 'libcdio-paranoia'
 	'libgme' 'zziplib' 'fluidsynth' 'libmikmod' 'wildmidi')
-makedepends=('boost' 'meson' 'python-sphinx' 'clang' 'ninja')
+makedepends=('boost' 'meson' 'python-sphinx' 'llvm' 'ninja')
 source=("mpd-${pkgver}.tar.xz" 'sysusers.d' 'tmpfiles.d' 'conf' 'README.Slint')
 docs=(mpdconf.example README.Slint)
 options=('nosrcpack')

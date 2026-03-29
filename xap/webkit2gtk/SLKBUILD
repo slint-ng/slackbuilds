@@ -91,7 +91,7 @@ depends=(
   zlib
 )
 makedepends=(
-  clang
+  llvm
   cmake
   gi-docgen
   glib2-devel
