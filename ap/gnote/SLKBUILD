@@ -1,3 +1,6 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
 # Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 # Contributor: Jan de Groot <jgc@archlinux.org>
 # Contributor: Ionut Biru <ibiru@archlinux.org>
@@ -11,27 +14,22 @@ slackdesc=("$pkgname (Gnote is a simple note-taking application.)"
 "It allows you to capture your ideas, link them together using"
 "WikiWiki style links")
 url="https://wiki.gnome.org/Apps/Gnote"
-source="gnote-${pkgver}.tar.xz"
+source=("https://download.gnome.org/sources/${pkgname}/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz")
 arch=(x86_64)
 license=(GPL-3.0-or-later)
 depends=(
-  cairomm-1.16
   dconf
   gcc-libs
   glib2
   glibc
-  glibmm-2.68
-  gtk4
-  gtkmm-4.0
+  glibmm
+  gspell
+  gtkmm3
   hicolor-icon-theme
-  libadwaita
   libsecret
-  libsigc++-3.0
   libxml2
   libxslt
-  pango
-  pangomm-2.48
-  util-linux-libs
+  util-linux
 )
 makedepends=(
   git
@@ -42,8 +40,8 @@ doinst() {
 # Update any existing icon cache files:
 if find /usr/share/icons -maxdepth 2 2> /dev/null | grep -q icon-theme.cache ; then
   for theme_dir in /usr/share/icons/* ; do
-    if [ -r ${theme_dir}/icon-theme.cache ]; then
-      /usr/bin/gtk-update-icon-cache -t -f ${theme_dir} 1> /dev/null 2> /dev/null &
+    if [ -r "${theme_dir}/icon-theme.cache" ]; then
+      /usr/bin/gtk-update-icon-cache -t -f "${theme_dir}" 1> /dev/null 2> /dev/null &
     fi
   done
   # This would be a large file and probably shouldn't be there.
@@ -57,21 +55,21 @@ if [ -x /usr/bin/update-desktop-database ]; then
 fi
 }
 build() {
-cd ${pkgname}-$pkgver
+cd "${pkgname}-${pkgver}" || return 1
 mkdir build
   CFLAGS="$SLKCFLAGS" \
   CXXFLAGS="$SLKCFLAGS" \
   meson setup \
     --buildtype=release \
     --infodir=/usr/info \
-    --libdir=/usr/lib${LIBDIRSUFFIX} \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
     --localstatedir=/var \
     --prefix=/usr \
     --sysconfdir=/etc \
    build
    meson compile -C build
    meson install -C build --destdir "$PKG"
-cd ..
+cd .. || return 1
 }
 
 # vim:set sw=2 sts=-1 et:

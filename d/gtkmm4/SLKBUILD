@@ -6,6 +6,7 @@
 pkgname=gtkmm4
 pkgver=4.6.1
 pkgrel=3slint
+depends=('cairomm16' 'gtk4' 'pangomm48')
 url="https://www.gtkmm.org/"
 source=("https://download.gnome.org/sources/gtkmm/${pkgver%.*}/gtkmm-${pkgver}.tar.xz")
 options=("nosrcpack")
@@ -52,7 +53,7 @@ build() {
   rm -rf "$PKG/usr/share/doc" || return 1
 
   install -d "$doc_dir" || return 1
-  cp -a AUTHORS COPYING* NEWS PORTING README* "$doc_dir/" || return 1
+  cp -a AUTHORS COPYING* NEWS README* "$doc_dir/" || return 1
 
   if [ -r ChangeLog ]; then
     head -n 1000 ChangeLog > "$doc_dir/ChangeLog" || return 1

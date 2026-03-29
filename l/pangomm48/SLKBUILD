@@ -7,6 +7,7 @@ pkgname=pangomm48
 _srcname=pangomm
 pkgver=2.50.0
 pkgrel=1slint
+depends=('cairomm16' 'pango')
 url="https://www.gtkmm.org/"
 source=("https://download.gnome.org/sources/${_srcname}/${pkgver%.*}/${_srcname}-${pkgver}.tar.xz")
 options=("nosrcpack")
