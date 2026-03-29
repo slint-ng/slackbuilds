@@ -31,6 +31,7 @@ build() {
   cd "$SRC/${srcname}-${pkgver}" || return 1
   rm -rf meson-build || return 1
 
+  # Distro builds should not silently fetch moving git subprojects.
   meson setup meson-build . \
     --prefix=/usr \
     --libdir="lib${LIBDIRSUFFIX}" \
@@ -42,6 +43,7 @@ build() {
     --mandir=/usr/man \
     --sysconfdir=/etc \
     --localstatedir=/var \
+    --wrap-mode=nofallback \
     --buildtype=release || return 1
   "${NINJA:=ninja}" -C meson-build -j "$numjobs" || return 1
   DESTDIR="$PKG" "$NINJA" -C meson-build install || return 1
