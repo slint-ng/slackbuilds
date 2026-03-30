@@ -1,1 +1,1 @@
-cblas,lapack,python3
+cblas,lapack,python3,aaa_libraries|gcc,aaa_libraries|gcc-g++,blas,gcc,gcc-gfortran

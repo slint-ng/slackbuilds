@@ -2,7 +2,7 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 
 pkgname=codex
-pkgver=0.116.0
+pkgver=0.117.0
 _tag="rust-v${pkgver}"
 pkgrel=2slint
 arch=('x86_64' 'aarch64')
@@ -17,7 +17,7 @@ slackdesc=\
 url="https://github.com/openai/codex"
 license=('Apache-2.0')
 depends=('glibc' 'libcap' 'openssl' 'sqlite' 'dbus')
-makedepends=('rust' 'cargo' 'gcc' 'clang' 'llvm' 'git' 'pkgconf' 'cmake' 'ninja' 'perl' 'libcap' 'openssl' 'sqlite' 'dbus')
+makedepends=('rust' 'cargo' 'gcc' 'llvm' 'git' 'pkg-config' 'cmake' 'ninja' 'perl' 'libcap' 'openssl' 'sqlite' 'dbus')
 optdepends=('just: upstream command runner used by codex justfile'
             'cargo-nextest: optional upstream test runner'
             'pnpm: optional npm workflow support'

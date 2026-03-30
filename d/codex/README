@@ -10,7 +10,7 @@ Runtime dependencies used by the codex binary:
 Build dependencies for this package:
   rust and cargo (rustc 1.93 or newer)
   gcc/clang/llvm and git
-  pkgconf, cmake, ninja, perl
+  pkg-config, cmake, ninja, perl
   libcap, openssl, sqlite, dbus development files
 
 Build notes:
