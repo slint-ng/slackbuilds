@@ -1,0 +1,48 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=unifdef
+pkgver=2.12
+pkgrel=1slint
+url="https://dotat.at/prog/unifdef/"
+source=("https://dotat.at/prog/unifdef/${pkgname}-${pkgver}.tar.xz")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"unifdef (selective C conditional compilation processor)"
+""
+"The unifdef utility selectively processes C preprocessor"
+"conditionals such as #if and #ifdef."
+"It removes directives and the text they delimit while"
+"otherwise leaving the file alone."
+)
+
+build() {
+  local docDir legacyDocName
+
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  make CFLAGS="$SLKCFLAGS" || return 1
+
+  if [ "${TESTSUITE:-no}" = "yes" ]; then
+    # The eperm test expects to run as a non-root user.
+    rm -f tests/outeperm.* || return 1
+    make test || return 1
+  fi
+
+  install -d "$PKG/usr/bin" "$PKG/usr/man/man1" "$docDir" || return 1
+
+  install -m0755 "$pkgname" "$PKG/usr/bin/" || return 1
+  install -m0755 "${pkgname}all.sh" "$PKG/usr/bin/${pkgname}all" || return 1
+  install -m0644 "${pkgname}.1" "$PKG/usr/man/man1/" || return 1
+  ln -s "${pkgname}.1" "$PKG/usr/man/man1/${pkgname}all.1" || return 1
+
+  gzip -9f Changelog || return 1
+  cp -a COPYING README Changelog.gz "$docDir/" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docDir/$legacyDocName" || return 1
+}
