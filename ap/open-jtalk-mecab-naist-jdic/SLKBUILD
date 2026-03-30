@@ -13,7 +13,7 @@ slackdesc=("$pkgname (Japanese Dictionary converted for Mecab)"
 #arch=('i686' 'x86_64')
 url="https://sourceforge.net/projects/open-jtalk/"
 license=('BSD')
-depends=('gcc-libs')
+depends=()
 makedepends=('hts-engine')
 source=("https://downloads.sourceforge.net/project/open-jtalk/Open%20JTalk/open_jtalk-$pkgver/open_jtalk-$pkgver.tar.gz"
 "5_spelling_errors.patch"

@@ -11,7 +11,8 @@ url="https://libxmlplusplus.github.io/libxmlplusplus/"
 arch=(x86_64)
 license=(LGPL)
 depends=(
-  gcc-libs
+  'aaa_libraries|gcc'
+  'aaa_libraries|gcc-g++'
   libxml2
 )
 makedepends=(

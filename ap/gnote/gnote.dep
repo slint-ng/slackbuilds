@@ -1,1 +1,1 @@
-dconf,gcc-libs,glib2,glibc,glibmm,gspell,gtkmm3,hicolor-icon-theme,libsecret,libxml2,libxslt,util-linux
+dconf,aaa_libraries|gcc,aaa_libraries|gcc-g++,glib2,glibc,glibmm,gspell,gtkmm3,hicolor-icon-theme,libsecret,libxml2,libxslt,util-linux

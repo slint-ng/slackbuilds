@@ -26,7 +26,7 @@ docs=("license*" "README.html")
 options=("nosrcpack")
 url="https://gitlab.com/libblkio/libblkio"
 license=(MIT Apache)
-depends=(gcc-libs)
+depends=('aaa_libraries|gcc')
 makedepends=(cargo git meson python-docutils)
 source=(https://gitlab.com/libblkio/libblkio/-/archive/v1.3.0/libblkio-v1.3.0.tar.gz)
 

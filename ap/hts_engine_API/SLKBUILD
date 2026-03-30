@@ -8,7 +8,7 @@ slackdesc="$pkgname (The HMM-Based Speech Synthesis Engine "
 #arch=('i686' 'x86_64')
 url="https://sourceforge.net/projects/open-jtalk/"
 license=('BSD')
-depends=('gcc-libs')
+depends=('aaa_libraries|gcc')
 makedepends=('hts-engine')
 source=("https://sourceforge.net/projects/hts-engine/files/hts_engine%20API/hts_engine_API-1.10/hts_engine_API-1.10.tar.gz"
 "https://sourceforge.net/projects/hts-engine/files/hts_engine%20API/hts_engine_API-1.10/hts_engine_API_readme-1.10.txt"

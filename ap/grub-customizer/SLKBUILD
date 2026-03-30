@@ -8,7 +8,7 @@ url="https://launchpad.net/grub-customizer"
 arch=('x86_64')
 license=('GPL3')
 docs=(COPYING README changelog)
-depends=('gcc-libs' 'glibc' 'grub' 'gtkmm3' 'openssl')
+depends=('aaa_libraries|gcc' 'aaa_libraries|gcc-g++' 'glibc' 'grub' 'gtkmm3' 'openssl')
 makedepends=('atkmm' 'cairomm' 'cmake' 'glib2' 'glibmm' 'gtk3' 'libarchive'
 'libsigc++' 'pangomm')
 optdepends=(

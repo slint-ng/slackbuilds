@@ -10,7 +10,7 @@ slackdesc="$pkgname (OpenGL and OpenGL ES shader front end and validator)"
 arch=('x86_64')
 url='https://github.com/KhronosGroup/glslang'
 license=('BSD')
-depends=('gcc-libs' 'python')
+depends=('aaa_libraries|gcc' 'aaa_libraries|gcc-g++' 'python')
 makedepends=('cmake' 'ninja' 'git')
 options=('nosrcpack')
 # Get the commits from known_good.json for every release

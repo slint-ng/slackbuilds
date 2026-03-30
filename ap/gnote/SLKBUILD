@@ -19,7 +19,8 @@ arch=(x86_64)
 license=(GPL-3.0-or-later)
 depends=(
   dconf
-  gcc-libs
+  'aaa_libraries|gcc'
+  'aaa_libraries|gcc-g++'
   glib2
   glibc
   glibmm

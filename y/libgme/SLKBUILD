@@ -14,7 +14,7 @@ slackdesc=(
 "multiple video game music formats."
 )
 url="https://bitbucket.org/mpyne/game-music-emu/wiki/Home"
-depends=('gcc-libs' 'zlib')
+depends=('aaa_libraries|gcc' 'aaa_libraries|gcc-g++' 'zlib')
 makedepends=('cmake')
 source=("https://bitbucket.org/mpyne/game-music-emu/downloads/${_srcname}-${pkgver}.tar.xz")
 md5sums=('SKIP')

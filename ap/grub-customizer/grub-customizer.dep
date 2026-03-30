@@ -1,1 +1,1 @@
-gcc-libs,glibc,grub,gtkmm3,openssl
+aaa_libraries|gcc,aaa_libraries|gcc-g++,glibc,grub,gtkmm3,openssl

@@ -72,6 +72,22 @@ trim_whitespace() {
   printf '%s\n' "$value"
 }
 
+normalize_dependency_token() {
+  local dependencyToken=$1
+
+  case "$dependencyToken" in
+    gcc-libs)
+      # Arch's gcc-libs package does not exist in Slint. Use the libgcc
+      # provider token as a safe fallback; depfinder will add libstdc++
+      # providers when the built artifact actually needs them.
+      printf '%s\n' 'aaa_libraries|gcc'
+      ;;
+    *)
+      printf '%s\n' "$dependencyToken"
+      ;;
+  esac
+}
+
 trim_trailing_slash() {
   local value=$1
 
@@ -318,6 +334,7 @@ read_dependencies() {
   while IFS= read -r rawValue; do
     trimmedValue=$(trim_whitespace "$rawValue")
     [[ -n "$trimmedValue" ]] || continue
+    trimmedValue=$(normalize_dependency_token "$trimmedValue")
     dependencyRef+=("$trimmedValue")
   done < <(tr ',\n' '\n' < "$depFilePath")
 }
@@ -357,6 +374,7 @@ read_slkbuild_array() {
   while IFS= read -r rawValue; do
     trimmedValue=$(trim_whitespace "$rawValue")
     [[ -n "$trimmedValue" ]] || continue
+    trimmedValue=$(normalize_dependency_token "$trimmedValue")
     valueRef+=("$trimmedValue")
   done < <(
     cd "$packageDir" && \

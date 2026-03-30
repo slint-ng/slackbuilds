@@ -1,1 +1,1 @@
-glibc,gcc-libs,zlib
+glibc,aaa_libraries|gcc,aaa_libraries|gcc-g++,zlib
