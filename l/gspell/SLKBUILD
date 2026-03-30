@@ -10,7 +10,7 @@ url="https://wiki.gnome.org/Projects/gspell"
 arch=(x86_64)
 license=(GPL2)
 depends=(gtk+3 enchant libxml2 iso-codes)
-makedepends=(gobject-introspection vala gtk-doc autoconf-archive git)
+makedepends=(gobject-introspection vala autoconf-archive git)
 source=("https://download.gnome.org/sources/gspell/1.9/gspell-1.9.1.tar.xz")
 sha256sums=('dcbb769dfdde8e3c0a8ed3102ce7e661abbf7ddf85df08b29915e92cd723abdd')
 docs=("AUTHORS" "COPYING" "NEWS" "README" "THANKS")
@@ -24,7 +24,7 @@ build() {
   --mandir=/usr/man \
   --enable-vala=no \
   --build=$ARCH-slackware-linux \
-  --enable-gtk-doc
+  --disable-gtk-doc
   sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
   make
   make DESTDIR="$PKG" install
