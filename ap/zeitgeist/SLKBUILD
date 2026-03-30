@@ -17,7 +17,7 @@ license=(
   LGPL-3.0-or-later
 )
 depends=(
-  gtk3
+  gtk+3
   json-glib
   sqlite
   telepathy-glib

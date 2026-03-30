@@ -12,7 +12,7 @@ arch=('x86_64')
 url='https://github.com/zquestz/plank-reloaded'
 license=('GPL3')
 depends=('atk' 'bamf' 'cairo' 'gdk-pixbuf2' 'glib2' 'glibc' 'gnome-menus'
-         'gtk3' 'libgee' 'libwnck3' 'libx11' 'libxfixes' 'libxi' 'pango')
+         'gtk+3' 'libgee' 'libwnck3' 'libx11' 'libxfixes' 'libxi' 'pango')
 makedepends=('gnome-common' 'git' 'intltool' 'vala' 'meson' 'ninja')
 provides=('plank')
 conflicts=('plank')

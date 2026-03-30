@@ -9,7 +9,7 @@ slackdesc="$pkgname (A system information and benchmark tool.)"
 arch=('x86_64')
 url="https://github.com/lpereira/hardinfo"
 license=('GPL-2.0-or-later')
-depends=('gtk3' 'libsoup')
+depends=('gtk+3' 'libsoup')
 makedepends=('cmake' 'git')
 optdepends=('dmidecode: Memory Devices module'
             'fwupd: Firmware module'

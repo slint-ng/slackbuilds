@@ -12,7 +12,7 @@ slackdesc=("hardinfo2 (System Information and Benchmark for Linux Systems)"
 arch=('x86_64')
 url="https://www.hardinfo2.org"
 license=('GPL-2.0-or-later AND GPL-3.0-or-later AND LGPL-2.1-or-later')
-depends=('gtk3' 'libsoup3' 'qt5-base')
+depends=('gtk+3' 'libsoup3' 'qt5-base')
 makedepends=('cmake')
 optdepends=(
   'dmidecode: Memory Devices / System DMI module'

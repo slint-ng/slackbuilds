@@ -9,7 +9,7 @@ slackdesc="$pkgname (Window manager of GNOME Flashback)"
 url='https://wiki.gnome.org/Projects/Metacity'
 license=('GPL-2.0-or-later')
 depends=('at-spi2-core' 'cairo' 'dconf' 'gdk-pixbuf2' 'glib2' 'glibc' 'gsettings-desktop-schemas'
-         'gtk3' 'libcanberra' 'libice' 'libgtop' 'libsm' 'libx11' 'libxcomposite' 'libxcursor'
+         'gtk+3' 'libcanberra' 'libice' 'libgtop' 'libsm' 'libx11' 'libxcomposite' 'libxcursor'
          'libxdamage' 'libxext' 'libxfixes' 'libxinerama' 'libxpresent' 'libxrandr' 'libxres'
          'libxrender' 'pango' 'startup-notification' 'zenity')
 makedepends=('python')

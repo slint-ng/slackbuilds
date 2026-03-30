@@ -11,7 +11,7 @@ slackdesc="$pkgname (A slick-looking LightDM greeter)"
 arch=('x86_64')
 url="https://github.com/linuxmint/slick-greeter"
 license=('GPL3')
-depends=('cairo' 'freetype2' 'gtk3' 'libcanberra' 'libxext' 'lightdm' 'pixman'
+depends=('cairo' 'freetype2' 'gtk+3' 'libcanberra' 'libxext' 'lightdm' 'pixman'
          'python' 'xorg-server' 'xapp')
 optdepends=('numlockx: enable numerical keypad on supported keyboard')
 makedepends=('intltool' 'vala' 'gnome-common')

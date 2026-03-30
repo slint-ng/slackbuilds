@@ -9,7 +9,7 @@ arch=('x86_64')
 license=('GPL3')
 docs=(COPYING README changelog)
 depends=('aaa_libraries|gcc' 'aaa_libraries|gcc-g++' 'glibc' 'grub' 'gtkmm3' 'openssl')
-makedepends=('atkmm' 'cairomm' 'cmake' 'glib2' 'glibmm' 'gtk3' 'libarchive'
+makedepends=('atkmm' 'cairomm' 'cmake' 'glib2' 'glibmm' 'gtk+3' 'libarchive'
 'libsigc++' 'pangomm')
 optdepends=(
   'hwinfo: for additional hardware information'

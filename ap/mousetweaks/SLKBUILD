@@ -11,7 +11,7 @@ docs=("copying" "authors" "README.html")
 options=("nosrcpack")
 source="https://download.gnome.org/sources/mousetweaks/3.32/mousetweaks-3.32.0.tar.xz"
 license=(GPL3 FDL)
-depends=(libxtst gtk3 gsettings-desktop-schemas)
+depends=(libxtst gtk+3 gsettings-desktop-schemas)
 makedepends=(python git)
 sha256sums=('SKIP')
 doinst() {

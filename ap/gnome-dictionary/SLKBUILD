@@ -11,7 +11,7 @@ options=("nosrcpack")
 url="https://wiki.gnome.org/Apps/Dictionary"
 source=("https://download.gnome.org/sources/gnome-dictionary/40/gnome-dictionary-40.0.tar.xz")
 license=(GPL2)
-depends=(gtk3)
+depends=(gtk+3)
 makedepends=(
   appstream-glib
   git

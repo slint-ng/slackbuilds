@@ -57,7 +57,7 @@ depends=(
   gst-plugins-bad-libs
   gst-plugins-base-libs
   gstreamer
-  gtk3
+  gtk+3
   harfbuzz
   harfbuzz-icu
   hyphen
