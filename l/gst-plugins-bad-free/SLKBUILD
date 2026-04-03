@@ -2,15 +2,17 @@
 # shellcheck shell=bash disable=SC2034,SC2154
 
 pkgname=gst-plugins-bad-free
-srcname=gst-plugins-bad
-export srcname
 pkgver=1.28.1
 pkgrel=2slint
 url="https://gstreamer.freedesktop.org/"
 license=("LGPL-2.1-or-later")
-source=("https://gstreamer.freedesktop.org/src/gst-plugins-bad/${srcname}-${pkgver}.tar.xz")
+source=(
+  "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-${pkgver}.tar.xz"
+)
 options=("nosrcpack")
 docs=("AUTHORS*" "COPYING*" "NEWS*" "README*" "RELEASE*")
+depends=("gstreamer" "gst-plugins-base")
+makedepends=("gstreamer" "gst-plugins-base")
 
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|
@@ -26,7 +28,7 @@ build() {
 
   docsDir="$PKG/usr/doc/$pkgname-$pkgver"
 
-  cd "$SRC/$srcname-$pkgver" || return 1
+  cd "$SRC/gst-plugins-bad-$pkgver" || return 1
 
   meson setup buildDir \
     --prefix=/usr \
