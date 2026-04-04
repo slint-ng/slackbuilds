@@ -1,3 +1,6 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
 # Maintainer: Jan Alexander Steffens (heftig) <jan.steffens@gmail.com> 
 # Contributor: Jan de Groot <jgc@archlinux.org>
 
@@ -11,7 +14,7 @@ docs=("copying" "authors" "README.html")
 options=("nosrcpack")
 source="https://download.gnome.org/sources/mousetweaks/3.32/mousetweaks-3.32.0.tar.xz"
 license=(GPL3 FDL)
-depends=(libxtst gtk+3 gsettings-desktop-schemas)
+depends=(libXtst gtk+3 gsettings-desktop-schemas)
 makedepends=(python git)
 sha256sums=('SKIP')
 doinst() {
@@ -20,7 +23,7 @@ doinst() {
 	fi
 }
 build() {
-  cd $pkgname-$pkgver
+  cd "$pkgname-$pkgver" || exit 1
 [ -f README.md ] && pandoc -f gfm -t html5 -o README.html README.md
   ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var
   make
