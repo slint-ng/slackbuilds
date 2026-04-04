@@ -1,0 +1,104 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=openbox
+pkgver=3.6.1
+pkgrel=3slint
+url="https://openbox.org/"
+source=(
+  "https://openbox.org/dist/openbox/${pkgname}-${pkgver}.tar.xz"
+  "py2-to-py3.patch"
+  "nice-and-dark.diff"
+  "xinitrc.gnome-openbox"
+  "xinitrc.kde-openbox"
+  "xinitrc.openbox"
+  "xinitrc.openbox-session"
+)
+options=("nosrcpack" "noautodotnew")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"openbox (Openbox window manager)"
+""
+"Openbox is a standards compliant, fast, light-weight,"
+"extensible window manager. Openbox was written first to"
+"comply with standards and to work properly. It is fully"
+"functional as a stand-alone working environment, or can"
+"be used as a drop-in replacement for the default"
+"window manager in the GNOME or KDE desktop environments."
+""
+"Homepage: http://www.icculus.org/openbox"
+)
+
+doinst() {
+  if [ -x /usr/bin/update-desktop-database ]; then
+    /usr/bin/update-desktop-database -q usr/share/applications >/dev/null 2>&1
+  fi
+}
+
+build() {
+  local docsDir=""
+  local legacyDocName=""
+  local docPath=""
+  local xinitScript=""
+
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  patch -p1 < "$SRC/py2-to-py3.patch" || return 1
+  patch --verbose data/rc.xml "$SRC/nice-and-dark.diff" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --enable-startup-notification \
+    --enable-static=no \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  if [ -d "$PKG/usr/share/doc/$pkgname" ]; then
+    mkdir -p "$PKG/usr/doc" || return 1
+    mv "$PKG/usr/share/doc/$pkgname" "$docsDir" || return 1
+    rmdir "$PKG/usr/share/doc" 2>/dev/null || true
+  else
+    mkdir -p "$docsDir" || return 1
+  fi
+
+  for docPath in AUTHORS CHANGELOG COMPLIANCE COPYING README; do
+    [ -e "$docPath" ] || continue
+    cp -a "$docPath" "$docsDir/" || return 1
+  done
+  if [ -f "$PKG/usr/bin/openbox-gnome-session" ]; then
+    install -Dm0644 "$PKG/usr/bin/openbox-gnome-session" \
+      "$docsDir/openbox-gnome-session" || return 1
+    rm -f "$PKG/usr/bin/openbox-gnome-session"
+  fi
+  if [ -f "$PKG/usr/bin/openbox-kde-session" ]; then
+    install -Dm0644 "$PKG/usr/bin/openbox-kde-session" \
+      "$docsDir/openbox-kde-session" || return 1
+    rm -f "$PKG/usr/bin/openbox-kde-session"
+  fi
+  mkdir -p "$docsDir/xinit" || return 1
+  for xinitScript in \
+    xinitrc.gnome-openbox \
+    xinitrc.kde-openbox \
+    xinitrc.openbox \
+    xinitrc.openbox-session; do
+    install -Dm0644 "$SRC/$xinitScript" "$docsDir/xinit/$xinitScript" || return 1
+  done
+  install -Dm0644 "$SRC/../SLKBUILD" "$docsDir/$legacyDocName" || return 1
+  rm -rf "$PKG/usr/doc/$pkgname"
+  ln -s "$pkgname-$pkgver" "$PKG/usr/doc/$pkgname" || return 1
+
+  rm -f "$PKG"/usr/lib*/*.la
+  rm -rf "$PKG/usr/share/xsessions"
+}
