@@ -1,45 +1,62 @@
-# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
-# Contributor: Ionut Biru <ibiru@archlinux.org>
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
 
-#Included in Slint by Didier Spaier didieratslintdotfr
+# Included in Slint by Didier Spaier didieratslintdotfr
+
 pkgname=gnome-dictionary
 pkgver=40.0
 pkgrel=2slint
-slackdesc="$pkgname (Look up words in dictionary sources)"
-docs=("copying" "authors" "README*" "LICENSE*")
-options=("nosrcpack")
 url="https://wiki.gnome.org/Apps/Dictionary"
-source=("https://download.gnome.org/sources/gnome-dictionary/40/gnome-dictionary-40.0.tar.xz")
-license=(GPL2)
-depends=(gtk+3)
-makedepends=(
-  appstream-glib
-  git
-  meson
-  yelp-tools
+source=(
+  "https://download.gnome.org/sources/${pkgname}/40/${pkgname}-${pkgver}.tar.xz"
+  "meson-1.7-merge-file.patch"
 )
-groups=(gnome-extra)
-_commit=c37edfc2cbf91d6bae6d5264d0dcfcb5dd34b313  # tags/40.0^0
+docs=("COPYING" "README*")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"gnome-dictionary (dictionary client for GNOME desktops)"
+""
+"GNOME Dictionary looks up definitions from dictionary sources"
+"using the DICT protocol. It can browse definitions, match"
+"similar words, and switch between local or remote sources."
+""
+"Homepage: https://wiki.gnome.org/Apps/Dictionary"
+)
 
 build() {
-  cd $pkgname-$pkgver
-  [ -f README.md ] && pandoc -f gfm -t html5 -o README.html README.md
-mkdir build
-cd build
-  CFLAGS="$SLKCFLAGS" \
-  CXXFLAGS="$SLKCFLAGS" \
-  meson .. \
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  patch -Np1 -i "$SRC/meson-1.7-merge-file.patch" || return 1
+
+  if [ -f README.md ]; then
+    if command -v pandoc >/dev/null 2>&1; then
+      pandoc -f gfm -t html5 -o README.html README.md || return 1
+    else
+      {
+        printf '%s\n' '<!DOCTYPE html>' '<html><body><pre>'
+        sed \
+          -e 's/&/\&amp;/g' \
+          -e 's/</\&lt;/g' \
+          -e 's/>/\&gt;/g' \
+          README.md
+        printf '%s\n' '</pre></body></html>'
+      } > README.html || return 1
+    fi
+  fi
+
+  meson setup build \
     --buildtype=release \
     --infodir=/usr/info \
-    --libdir=/usr/lib64 \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
     --localstatedir=/var \
     --mandir=/usr/man \
     --prefix=/usr \
-    --sysconfdir=/etc
-  ninja
-  DESTDIR=$PKG ninja install
-cd ..
+    --sysconfdir=/etc || return 1
 
-# Don't ship .la files:
-rm -f $PKG/{,usr/}lib${LIBDIRSUFFIX}/*.la
+  "${NINJA:=ninja}" -C build -j "$numjobs" || return 1
+  DESTDIR="$PKG" "${NINJA:=ninja}" -C build install || return 1
+
+  rm -f "$PKG"/usr/lib"${LIBDIRSUFFIX}"/*.la || return 1
 }
