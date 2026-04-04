@@ -1,0 +1,50 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=wmctrl
+pkgver=1.07
+pkgrel=1slint
+url="https://web.archive.org/web/20200512082905/http://tripie.sweb.cz/utils/wmctrl/"
+source=(
+  "https://ponce.cc/slackware/sources/repo/${pkgname}-${pkgver}.tar.gz"
+  "patch-64bit.diff"
+)
+docs=("AUTHORS" "ChangeLog" "COPYING" "INSTALL" "NEWS" "README")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"wmctrl (tool to interact with an X Window Manager)"
+""
+"The wmctrl program is a command line tool to interact"
+"with an EWMH/NetWM-compatible X Window Manager. It"
+"provides command line access to almost all the"
+"features defined in the EWMH specification."
+""
+"Homepage: http://sweb.cz/tripie/utils/wmctrl"
+)
+
+build() {
+  local docsDir legacyDocName
+
+  docsDir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacyDocName="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc/X11/WindowMaker \
+    --mandir=/usr/man \
+    --build="$ARCH-slackware-linux" || return 1
+
+  patch -p0 --verbose < "$SRC/patch-64bit.diff" || return 1
+
+  make || return 1
+  make install DESTDIR="$PKG" || return 1
+
+  install -Dm0644 "$SRC/../SLKBUILD" "$docsDir/$legacyDocName" || return 1
+}
