@@ -6,12 +6,12 @@
 # Patches from Arch, thanks! - Didier
 pkgname=obconf
 pkgver=2.0.4
-pkgrel=2slint
+pkgrel=3slint
 slackdesc="$pkgname (GTK+ based configuration tool for the Openbox windowmanager)"
 arch=('x86_64')
 url="http://openbox.org/wiki/ObConf:About"
 license=('GPL')
-depends=('openbox' 'gtk+3' 'libobrender.so')
+depends=('openbox' 'gtk+3')
 source=("http://openbox.org/dist/$pkgname/$pkgname-$pkgver.tar.gz"
         stop-using-libglade.patch
         switch-to-gtk3.patch)
