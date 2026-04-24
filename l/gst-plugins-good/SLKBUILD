@@ -9,6 +9,8 @@ license=("LGPL-2.1-or-later")
 source=("https://gstreamer.freedesktop.org/src/gst-plugins-good/${pkgname}-${pkgver}.tar.xz")
 options=("nosrcpack")
 docs=("AUTHORS*" "COPYING*" "NEWS*" "README*" "RELEASE*")
+depends=("gstreamer" "gst-plugins-base")
+makedepends=("gstreamer" "gst-plugins-base")
 
 slackdesc=(
 #|-----handy-ruler------------------------------------------------------|

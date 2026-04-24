@@ -24,21 +24,21 @@
 # like to fetch the sources for. This will fetch the base source from
 # github, and then remove the non-free sources.
 #
-# Example:  VERSION=1.18.4 ./fetch-sources.sh
+# Example:  VERSION=1.28.1 ./fetch-sources.sh
 
-VERSION=${VERSION:-1.20.4}
+VERSION=${VERSION:-1.28.1}
 
-rm -rf rm -rf gst-plugins-bad-free-$VERSION gst-plugins-bad-$VERSION
+rm -rf "gst-plugins-bad-free-$VERSION" "gst-plugins-bad-$VERSION"
 
-wget https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-$VERSION.tar.xz
+wget "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-$VERSION.tar.xz"
 
-tar xvf gst-plugins-bad-$VERSION.tar.xz
-rm -f gst-plugins-bad-$VERSION.tar.xz
+tar xvf "gst-plugins-bad-$VERSION.tar.xz"
+rm -f "gst-plugins-bad-$VERSION.tar.xz"
 
-./gst-p-bad-cleanup.sh gst-plugins-bad-$VERSION
+./gst-p-bad-cleanup.sh "gst-plugins-bad-$VERSION"
 
-mv gst-plugins-bad-$VERSION gst-plugins-bad-free-$VERSION
+mv "gst-plugins-bad-$VERSION" "gst-plugins-bad-free-$VERSION"
 
-tar cf gst-plugins-bad-free-$VERSION.tar gst-plugins-bad-free-$VERSION
-rm -rf gst-plugins-bad-free-$VERSION
-plzip -9 gst-plugins-bad-free-$VERSION.tar
+tar cf "gst-plugins-bad-free-$VERSION.tar" "gst-plugins-bad-free-$VERSION"
+rm -rf "gst-plugins-bad-free-$VERSION"
+plzip -9 "gst-plugins-bad-free-$VERSION.tar"

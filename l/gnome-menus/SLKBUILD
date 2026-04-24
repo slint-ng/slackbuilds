@@ -40,7 +40,7 @@ build() {
 
   cd "$SRC/$pkgname-$pkgver" || return 1
 
-  ./autogen.sh \
+  ./configure \
     --prefix=/usr \
     --libdir="/usr/lib${LIBDIRSUFFIX}" \
     --sysconfdir=/etc \
@@ -57,7 +57,7 @@ build() {
   rm -f "$PKG"/usr/lib*/*.la || return 1
 
   mkdir -p "$PKG/usr/doc/$pkgname-$pkgver" || return 1
-  cp -a ABOUT-NLS AUTHORS COPYING COPYING.LIB ChangeLog ChangeLog.pre-git \
+  cp -a ABOUT-NLS AUTHORS COPYING COPYING.LIB ChangeLog \
     HACKING NEWS README "$PKG/usr/doc/$pkgname-$pkgver" || return 1
   install -Dm0644 "$SRC/../SLKBUILD" \
     "$PKG/usr/doc/$pkgname-$pkgver/$legacyDocName" || return 1

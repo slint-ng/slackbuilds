@@ -1,3 +1,4 @@
+# shellcheck shell=bash disable=SC2034
 # Maintainer:  Josh Ellithorpe <quest@mac.com>
 # Included in Slint by Didier Spaier didieratslintdotfr
 
@@ -12,7 +13,7 @@ arch=('x86_64')
 url='https://github.com/zquestz/plank-reloaded'
 license=('GPL3')
 depends=('atk' 'bamf' 'cairo' 'gdk-pixbuf2' 'glib2' 'glibc' 'gnome-menus'
-         'gtk+3' 'libgee' 'libwnck3' 'libx11' 'libxfixes' 'libxi' 'pango')
+         'gtk+3' 'libgee' 'libwnck3' 'libX11' 'libXfixes' 'libXi' 'pango')
 makedepends=('gnome-common' 'git' 'intltool' 'vala' 'meson' 'ninja')
 provides=('plank')
 conflicts=('plank')
@@ -38,8 +39,8 @@ fi
 # Update any existing icon cache files:
 if find /usr/share/icons -maxdepth 2 2> /dev/null | grep -q icon-theme.cache ; then
   for theme_dir in /usr/share/icons/* ; do
-    if [ -r ${theme_dir}/icon-theme.cache ]; then
-      /usr/bin/gtk-update-icon-cache -t -f ${theme_dir} 1> /dev/null 2> /dev/null &
+    if [ -r "${theme_dir}"/icon-theme.cache ]; then
+      /usr/bin/gtk-update-icon-cache -t -f "${theme_dir}" 1> /dev/null 2> /dev/null &
     fi
   done
   # This would be a large file and probably shouldn't be there.
@@ -55,11 +56,11 @@ build() {
   meson setup --prefix=/usr build -Denable-apport=false -Dproduction-release=true
   meson compile -C build
   meson install --destdir="$PKG" -C build
-  mkdir -p $PKG/usr/share/plank
-  cd $SRC
-  cp startplank.desktop $PKG/usr/share/plank
+  mkdir -p "$PKG"/usr/share/plank
+  cd "$SRC" || exit
+  cp startplank.desktop "$PKG"/usr/share/plank
   mkdir -p "$PKG"/usr/bin
-  cp plank-on plank-off $PKG/usr/bin
+  cp plank-on plank-off "$PKG"/usr/bin
   chown -R root: "$PKG"/usr/bin
   chmod 755 "$PKG"/usr/bin/*
   # Provide an override fitting graphical environments with panels

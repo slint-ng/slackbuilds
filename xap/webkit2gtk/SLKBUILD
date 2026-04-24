@@ -48,30 +48,25 @@ depends=(
   enchant
   expat
   fontconfig
-  freetype2
+  freetype
   'aaa_libraries|gcc'
   'aaa_libraries|gcc-g++'
   gdk-pixbuf2
   glib2
   glibc
-  gst-plugins-bad-libs
-  gst-plugins-base-libs
+  gst-plugins-bad-free
+  gst-plugins-base
   gstreamer
   gtk+3
   harfbuzz
-  harfbuzz-icu
   hyphen
-  icu
+  icu4c77
   lcms2
-  libavif
   libdrm
-  libegl
   libepoxy
   libgcrypt
-  libgl
-  libgles
+  libglvnd
   libjpeg-turbo
-  libjxl
   libmanette
   libpng
   libseccomp
@@ -79,11 +74,11 @@ depends=(
   libsoup
   libtasn1
   libwebp
-  libx11
+  libX11
   libxml2
   libxslt
   mesa
-  openjpeg2
+  openjpeg
   pango
   sqlite
   wayland
@@ -94,16 +89,13 @@ depends=(
 makedepends=(
   llvm
   cmake
-  gi-docgen
-  glib2-devel
+  glib2
   gobject-introspection
   gperf
-  gst-plugins-bad
-  lld
+  gst-plugins-bad-free
   ninja
   python
   ruby
-  ruby-stdlib
   unifdef
   wayland-protocols
 )

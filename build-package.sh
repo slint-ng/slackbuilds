@@ -82,6 +82,12 @@ normalize_dependency_token() {
       # providers when the built artifact actually needs them.
       printf '%s\n' 'aaa_libraries|gcc'
       ;;
+    icu)
+      # Slint ships the primary ICU runtime as icu4c. Normalize the generic
+      # token so dependency closure and installed-package checks stay
+      # consistent with generated depfiles.
+      printf '%s\n' 'icu4c'
+      ;;
     gtk3)
       # Slint ships GTK 3 as the gtk+3 package. Accept the common alias so
       # dependency closure, rebuild order, and merged depfiles stay canonical.

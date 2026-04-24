@@ -8,11 +8,6 @@ pkgrel=2slint
 slackdesc="$pkgname (Window manager of GNOME Flashback)"
 url='https://wiki.gnome.org/Projects/Metacity'
 license=('GPL-2.0-or-later')
-depends=('at-spi2-core' 'cairo' 'dconf' 'gdk-pixbuf2' 'glib2' 'glibc' 'gsettings-desktop-schemas'
-         'gtk+3' 'libcanberra' 'libice' 'libgtop' 'libsm' 'libx11' 'libxcomposite' 'libxcursor'
-         'libxdamage' 'libxext' 'libxfixes' 'libxinerama' 'libxpresent' 'libxrandr' 'libxres'
-         'libxrender' 'pango' 'startup-notification' 'zenity')
-makedepends=('python')
 source=("https://download.gnome.org/sources/$pkgname/${pkgver%.*}/$pkgname-$pkgver.tar.xz"
         '0001-frames-Add-basic-color-scheme-support.patch')
 sha256sums=('18e9b106438d46394e4148bcb83acc6367312be54559cdb564e270c1ccaeb60f'

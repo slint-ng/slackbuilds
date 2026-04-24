@@ -18,7 +18,7 @@ depends=('bash' 'python3-lxml' 'python3-six' 'python3-diff-match-patch')
 makedepends=('python3-setuptools')
 optdepends=('gaupol: for po2sub'
             'python3-chardet: encoding detector'
-            'python-levenshtein: faster matching'
+            'python-Levenshtein: faster matching'
             'python-cheroot: for TM Server')
 source=(https://github.com/translate/translate/archive/$pkgver.tar.gz)
 sha256sums=('dd82e3b2ba865617051ccec130eb8254aa34edeeaffaa47553e791aae9d62227')
