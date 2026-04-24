@@ -246,20 +246,17 @@ latest_matching_file() {
 
 parse_pkgname() {
   local slkbuildPath=$1
-  local packageDir
-  local assignmentText=""
+  local packageDir=""
   local packageName=""
 
   packageDir=$(dirname "$slkbuildPath")
-  assignmentText=$(
-    sed -nE 's/^[[:space:]]*(export[[:space:]]+)?pkgname[[:space:]]*=(.*)$/\2/p' "$slkbuildPath" \
-      | head -n 1
-  )
-  [[ -n "$assignmentText" ]] || die "could not parse pkgname from $slkbuildPath"
-
   packageName=$(
     cd "$packageDir" && \
-      bash -c 'set -eo pipefail; assignmentText=$1; set +u; eval "pkgname=${assignmentText}"; printf "%s\n" "${pkgname:-}"' _ "$assignmentText"
+      bash -c '
+        set +eu
+        source ./SLKBUILD >/dev/null 2>&1
+        printf "%s\n" "${pkgname:-}"
+      '
   ) || die "could not parse pkgname from $slkbuildPath"
 
   [[ -n "$packageName" ]] || die "could not parse pkgname from $slkbuildPath"
