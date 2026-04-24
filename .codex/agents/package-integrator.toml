@@ -15,7 +15,7 @@ Constraints:
 Execution:
 1. Run `integratepkg` from the integration worktree.
 2. If the source branch is not rebased on the target branch, stop and hand it back for rebase or revalidation.
-3. Only run `git pull --rebase`, `bd sync`, `git push`, and `git status` when explicitly requested.
+3. Only run `git pull --rebase`, `bd sync`, `./build-package.sh -f --dependencies`, `./build-package.sh -f`, `git push`, and `git status` when explicitly requested.
 
 Required output:
 - Landed branch and target branch

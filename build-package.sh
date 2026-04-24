@@ -3,16 +3,17 @@ set -euo pipefail
 
 show_usage() {
   cat <<'EOF'
-Usage: build-package.sh [options] <category/package>
+Usage: build-package.sh [options] [category/package]
 
 Build a package and any missing repository dependencies described by SLKBUILD
-metadata. Built package artifacts get a fresh .dep file from depfinder.
+metadata and package depfiles. Built package artifacts get a fresh .dep file from depfinder.
 New artifacts are added to the staging directory without removing existing ones.
-Use --reset without a package path to clear staged artifacts and exit.
+Use -f/--full without a package path to build every SLKBUILD package in the repo.
+Use --reset without -f or a package path to clear staged artifacts and exit.
 
 Options:
       --dependencies       Print the recursive dependency closure and exit.
-  -f, --full               Rebuild the full in-repo dependency closure and reuse matching staged artifacts.
+  -f, --full               Rebuild the full in-repo dependency closure, or all packages when no path is given.
       --only               Build only the requested package and skip dependency resolution.
       --reset              Remove existing staged package artifacts before building.
       --skip PKGNAME       Treat a package as already satisfied. Repeatable.
@@ -74,6 +75,31 @@ trim_whitespace() {
 
 normalize_dependency_token() {
   local dependencyToken=$1
+  local -a dependencyChoices=()
+  local dependencyChoice=""
+  local normalizedChoice=""
+  local normalizedToken=""
+
+  IFS='|' read -r -a dependencyChoices <<< "$dependencyToken"
+
+  for dependencyChoice in "${dependencyChoices[@]}"; do
+    normalizedChoice=$(normalize_dependency_choice "$dependencyChoice")
+    [[ -n "$normalizedChoice" ]] || continue
+
+    if [[ -n "$normalizedToken" ]]; then
+      normalizedToken+="|"
+    fi
+    normalizedToken+="$normalizedChoice"
+  done
+
+  printf '%s\n' "$normalizedToken"
+}
+
+normalize_dependency_choice() {
+  local dependencyToken=$1
+
+  dependencyToken=$(trim_whitespace "$dependencyToken")
+  dependencyToken=${dependencyToken%%[<>=]*}
 
   case "$dependencyToken" in
     gcc-libs)
@@ -92,6 +118,16 @@ normalize_dependency_token() {
       # Slint ships GTK 3 as the gtk+3 package. Accept the common alias so
       # dependency closure, rebuild order, and merged depfiles stay canonical.
       printf '%s\n' 'gtk+3'
+      ;;
+    libcrypto.so|libssl.so)
+      # Some older tracked depfiles name OpenSSL sonames directly. Resolve them
+      # through the package providers so full traversal can reuse installed
+      # packages or repo packages consistently.
+      printf '%s\n' 'openssl|openssl-solibs'
+      ;;
+    X-ABI-VIDEODRV_VERSION)
+      # This is an xorg-server driver ABI guard, not a package in this repo.
+      printf '%s\n' 'xorg-server-devel|xorg-server'
       ;;
     *)
       printf '%s\n' "$dependencyToken"
@@ -393,11 +429,21 @@ read_slkbuild_array() {
         set +eu
         source ./SLKBUILD >/dev/null 2>&1
         arrayName=$1
-        items=()
-        eval "items=(\"\${${arrayName}[@]}\")"
-        for item in "${items[@]}"; do
-          printf "%s\n" "$item"
-        done
+        if ! declare -p "$arrayName" >/dev/null 2>&1; then
+          exit 0
+        fi
+        if declare -p "$arrayName" 2>/dev/null | grep -q "^declare \-[^ ]*a"; then
+          items=()
+          eval "items=(\"\${${arrayName}[@]}\")"
+          for item in "${items[@]}"; do
+            printf "%s\n" "$item"
+          done
+        else
+          eval "scalarValue=\${${arrayName}}"
+          for item in $scalarValue; do
+            printf "%s\n" "$item"
+          done
+        fi
       ' _ "$arrayName"
   )
 }
@@ -467,6 +513,10 @@ dependencyTokenMatchesPackage() {
       return 0
     fi
 
+    if [[ -n "${duplicatePackageDirsByName[${trimmedChoice}]:-}" ]]; then
+      continue
+    fi
+
     providerPath=$(provider_for_package "$trimmedChoice" || true)
     if [[ -n "$providerPath" && "$providerPath" == "$packageDir" ]]; then
       return 0
@@ -496,6 +546,9 @@ load_package_dependencies() {
     read_slkbuild_array "$slkbuildPath" depends slkbuildDepends
     read_slkbuild_array "$slkbuildPath" makedepends slkbuildMakeDepends
     depFilePath=$(find_curated_depfile "$packageDir" "$packageName" || true)
+    if [[ -z "$depFilePath" ]]; then
+      depFilePath=$(find_depfile "$packageDir" "$packageName" || true)
+    fi
   else
     depFilePath=$(find_depfile "$packageDir" "$packageName")
   fi
@@ -547,6 +600,26 @@ skip_requested() {
   return 1
 }
 
+dependency_has_installed_choice() {
+  local dependencyToken=$1
+  local -a dependencyChoices=()
+  local dependencyChoice=""
+  local trimmedChoice=""
+
+  IFS='|' read -r -a dependencyChoices <<< "$dependencyToken"
+
+  for dependencyChoice in "${dependencyChoices[@]}"; do
+    trimmedChoice=$(trim_whitespace "$dependencyChoice")
+    [[ -n "$trimmedChoice" ]] || continue
+
+    if skip_requested "$trimmedChoice" || is_installed "$trimmedChoice"; then
+      return 0
+    fi
+  done
+
+  return 1
+}
+
 build_repo_index() {
   local slkbuildPath=""
   local packageDir=""
@@ -569,6 +642,7 @@ build_repo_index() {
     packageDirByName["$packageName"]=$packageDir
     packageNameByDir["$packageDir"]=$packageName
     packageDirByRelative["$packageDir"]=$relativePath
+    allPackageDirs+=("$packageDir")
   done < <(
     find "$repoRoot" -mindepth 2 -maxdepth 3 -type f -name 'SLKBUILD' \
       -not -path "$repoRoot/.git/*" \
@@ -576,6 +650,21 @@ build_repo_index() {
       -not -path "$repoRoot/staging/*" \
       | sort
   )
+}
+
+collect_full_build_queue() {
+  local packageDir=""
+  local packageName=""
+
+  for packageDir in "${allPackageDirs[@]}"; do
+    packageName=${packageNameByDir[${packageDir}]}
+    if skip_requested "$packageName"; then
+      printf 'Skipping %s because --skip %s was requested.\n' \
+        "${packageDirByRelative[${packageDir}]}" "$packageName"
+      continue
+    fi
+    visit_package "$packageDir"
+  done
 }
 
 build_legacy_index() {
@@ -765,6 +854,15 @@ resolve_dependency_provider() {
     fi
 
     if [[ -z "$repoChoice" ]]; then
+      if [[ -n "${duplicatePackageDirsByName[${trimmedChoice}]:-}" ]]; then
+        if [[ "$buildAllPackages" == true ]]; then
+          printf 'Warning: treating ambiguous repository dependency as preinstalled for full repository build: %s\n' \
+            "$trimmedChoice" >&2
+          installedChoice=${installedChoice:-$trimmedChoice}
+          continue
+        fi
+        provider_for_package "$trimmedChoice" >/dev/null
+      fi
       repoPath=$(provider_for_package "$trimmedChoice" || true)
       if [[ -n "$repoPath" ]]; then
         repoChoice=$trimmedChoice
@@ -772,8 +870,28 @@ resolve_dependency_provider() {
       fi
     fi
 
+    if [[ "$buildAllPackages" == true && -n "$installedChoice" ]]; then
+      continue
+    fi
+
+    if [[ -n "${duplicateLegacyPackageDirsByName[${trimmedChoice}]:-}" ]]; then
+      if [[ "$buildAllPackages" == true ]]; then
+        printf 'Warning: treating ambiguous legacy dependency as preinstalled for full repository build: %s\n' \
+          "$trimmedChoice" >&2
+        installedChoice=${installedChoice:-$trimmedChoice}
+        continue
+      fi
+      legacy_provider_for_package "$trimmedChoice" >/dev/null
+    fi
+
     legacyPath=$(legacy_provider_for_package "$trimmedChoice" || true)
     if [[ -n "$legacyPath" ]]; then
+      if [[ "$buildAllPackages" == true ]]; then
+        printf 'Warning: treating legacy-only dependency as preinstalled for full repository build: %s (%s)\n' \
+          "$trimmedChoice" "${legacyPackageDirByRelative[${legacyPath}]}" >&2
+        installedChoice=$trimmedChoice
+        continue
+      fi
       die "package ${trimmedChoice} exists only as legacy SlackBuild at ${legacyPackageDirByRelative[${legacyPath}]}; convert it to SLKBUILD first"
     fi
   done
@@ -798,6 +916,13 @@ resolve_dependency_provider() {
       printf 'repo:%s\n' "$repoChoice"
       return
     fi
+  fi
+
+  if [[ "$buildAllPackages" == true ]]; then
+    printf 'Warning: treating unresolved external dependency as preinstalled for full repository build: %s\n' \
+      "$dependencyToken" >&2
+    printf 'external:%s\n' "$dependencyToken"
+    return
   fi
 
   die "Could not find package ${dependencyToken} in current repository"
@@ -907,6 +1032,7 @@ visit_package() {
   local dependencyName=""
   local resolution=""
   local providerName=""
+  local providerDir=""
 
   case "$currentState" in
     completed)
@@ -926,7 +1052,14 @@ visit_package() {
     resolution=$(resolve_dependency_provider "$dependencyName")
     if [[ "$resolution" == repo:* ]]; then
       providerName=${resolution#repo:}
-      visit_package "${packageDirByName[${providerName}]}"
+      providerDir=${packageDirByName[${providerName}]}
+      if [[ "${packageVisitState[${providerDir}]:-}" == "visiting" ]] \
+        && dependency_has_installed_choice "$dependencyName"; then
+        printf 'Using installed %s to break dependency cycle: %s\n' \
+          "$dependencyName" "$(format_cycle "$providerDir")" >&2
+        continue
+      fi
+      visit_package "$providerDir"
     fi
   done
 
@@ -1255,6 +1388,7 @@ start_sudo_keepalive() {
 repoRoot=$(cd "$(dirname "$0")" && pwd -P)
 dependenciesOnly=false
 fullBuild=false
+buildAllPackages=false
 onlyTarget=false
 noInstall=false
 resetStaging=false
@@ -1345,13 +1479,26 @@ if [[ $# -gt 0 ]]; then
 fi
 
 if [[ -z "$packagePath" ]]; then
-  if [[ "$resetStaging" == true && "$dependenciesOnly" == false ]]; then
+  if [[ "$resetStaging" == true && "$dependenciesOnly" == false && "$fullBuild" == false ]]; then
     ensure_staging_dir
     reset_staging_dir
     printf 'Removed staged artifacts from %s\n' "$stagingDir"
     exit 0
   fi
 
+  if [[ "$fullBuild" == true && "$onlyTarget" == false ]]; then
+    buildAllPackages=true
+  else
+    show_usage
+    exit 2
+  fi
+fi
+
+if [[ "$buildAllPackages" == true && ${#skippedPackages[@]} -gt 0 ]]; then
+  printf 'Full repository build requested; skipped packages are treated as already installed.\n'
+fi
+
+if [[ "$buildAllPackages" == false && -z "$packagePath" ]]; then
   show_usage
   exit 2
 fi
@@ -1369,24 +1516,36 @@ if [[ "$dependenciesOnly" == false ]]; then
   fi
 fi
 
-if [[ "$dependenciesOnly" == false && "$onlyTarget" == false ]]; then
+if [[ "$onlyTarget" == false && ( "$dependenciesOnly" == false || "$buildAllPackages" == true ) ]]; then
   [[ -d "$installedDbDir" ]] || die "Installed package database not found at ${installedDbDir}; run this on the Slackware/Slint VM"
 fi
 
-packagePath=$(normalize_repo_path "$packagePath")
-packageDir="${repoRoot}/${packagePath}"
-[[ -f "${packageDir}/SLKBUILD" ]] || die "SLKBUILD not found for package: ${packagePath}"
+if [[ "$buildAllPackages" == false ]]; then
+  packagePath=$(normalize_repo_path "$packagePath")
+  packageDir="${repoRoot}/${packagePath}"
+  [[ -f "${packageDir}/SLKBUILD" ]] || die "SLKBUILD not found for package: ${packagePath}"
+else
+  packageDir=""
+fi
 
 if [[ "$dependenciesOnly" == true ]]; then
   build_repo_index
   build_legacy_index
-  packageNameByDir["$packageDir"]=$(parse_pkgname "${packageDir}/SLKBUILD")
-  packageDirByRelative["$packageDir"]=$packagePath
-  collect_dependency_closure "$packageDir" "${packageNameByDir[${packageDir}]}"
-  printf 'Dependencies for %s:\n' "$packagePath"
-  for dependencyName in "${dependencyOutput[@]}"; do
-    printf '  %s\n' "$dependencyName"
-  done
+  if [[ "$buildAllPackages" == true ]]; then
+    collect_full_build_queue
+    printf 'Full repository build queue:\n'
+    for packageDir in "${buildQueue[@]}"; do
+      printf '  %s\n' "${packageDirByRelative[${packageDir}]}"
+    done
+  else
+    packageNameByDir["$packageDir"]=$(parse_pkgname "${packageDir}/SLKBUILD")
+    packageDirByRelative["$packageDir"]=$packagePath
+    collect_dependency_closure "$packageDir" "${packageNameByDir[${packageDir}]}"
+    printf 'Dependencies for %s:\n' "$packagePath"
+    for dependencyName in "${dependencyOutput[@]}"; do
+      printf '  %s\n' "$dependencyName"
+    done
+  fi
   exit 0
 elif [[ "$onlyTarget" == true ]]; then
   packageNameByDir["$packageDir"]=$(parse_pkgname "${packageDir}/SLKBUILD")
@@ -1396,9 +1555,11 @@ else
   build_repo_index
   build_legacy_index
 
-  [[ -n "${packageNameByDir[${packageDir}]:-}" ]] || die "package directory was not indexed as an SLKBUILD package: ${packagePath}"
-  if skip_requested "${packageNameByDir[${packageDir}]}"; then
-    die "target package ${packageNameByDir[${packageDir}]} cannot be skipped"
+  if [[ "$buildAllPackages" == false ]]; then
+    [[ -n "${packageNameByDir[${packageDir}]:-}" ]] || die "package directory was not indexed as an SLKBUILD package: ${packagePath}"
+    if skip_requested "${packageNameByDir[${packageDir}]}"; then
+      die "target package ${packageNameByDir[${packageDir}]} cannot be skipped"
+    fi
   fi
 fi
 
@@ -1407,8 +1568,13 @@ if [[ "$resetStaging" == true ]]; then
   reset_staging_dir
 fi
 if [[ "$onlyTarget" == false ]]; then
-  visit_package "$packageDir"
-  (( ${#buildQueue[@]} > 0 )) || die "no packages were selected to build for ${packagePath}"
+  if [[ "$buildAllPackages" == true ]]; then
+    collect_full_build_queue
+    (( ${#buildQueue[@]} > 0 )) || die "no packages were selected to build"
+  else
+    visit_package "$packageDir"
+    (( ${#buildQueue[@]} > 0 )) || die "no packages were selected to build for ${packagePath}"
+  fi
 fi
 filter_staged_packages
 

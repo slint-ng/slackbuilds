@@ -35,6 +35,8 @@ Execution flow:
    ```bash
    git pull --rebase
    bd sync
+   ./build-package.sh -f --dependencies
+   ./build-package.sh -f
    git push
    git status
    ```

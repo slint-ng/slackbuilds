@@ -173,8 +173,19 @@ After the validated branches you want are landed:
 ```bash
 git pull --rebase
 bd sync
+./build-package.sh -f --dependencies
+./build-package.sh -f
 git push
 git status
 ```
 
-Keep this step serialized.
+Keep this step serialized. The dependency-only command is the cheap graph gate:
+it confirms the full repository build queue can be computed before starting the
+actual build/install pass.
+
+`build-package.sh -f` with no package path is the full repository build mode. It
+builds every indexed `SLKBUILD` package in dependency order, reuses matching
+staged artifacts, and still regenerates package-style `.dep` files from built
+artifacts. Since curated `pkg.dep` tracking is being phased out, dependency
+resolution falls back to current artifact-style depfiles when the curated file
+is absent.
