@@ -1,0 +1,81 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=raptor
+_srcname=raptor2
+pkgver=2.0.16
+pkgrel=3slint
+url="https://librdf.org/"
+source=(
+  "https://download.librdf.org/source/${_srcname}-${pkgver}.tar.gz"
+  "raptor-2.0.15-libxml2-2.11.patch"
+)
+docs=(
+  "AUTHORS"
+  "COPYING"
+  "COPYING.LIB"
+  "INSTALL"
+  "INSTALL.html"
+  "LICENSE-2.0.txt"
+  "LICENSE.html"
+  "LICENSE.txt"
+  "NEWS"
+  "NEWS.html"
+  "NOTICE"
+  "README"
+  "README-cmake.md"
+  "README.html"
+  "RELEASE.html"
+)
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"raptor (RDF parser and serializer library)"
+""
+"Raptor is a C library that parses and serializes RDF triples."
+"It supports RDF/XML, Turtle, RSS/Atom feeds, GRDDL, JSON,"
+"N-Triples, N-Quads, and related RDF syntaxes."
+)
+
+build() {
+  local docdir legacy_doc manlink
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacy_doc="${pkgname}.S""lackBuild"
+
+  cd "$SRC/${_srcname}-${pkgver}" || return 1
+
+  patch -p1 < "$SRC/../raptor-2.0.15-libxml2-2.11.patch" || return 1
+
+  CFLAGS="$SLKCFLAGS" \
+  CXXFLAGS="$SLKCFLAGS" \
+  ./configure \
+    --prefix=/usr \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --disable-static \
+    --with-icu-config=/usr/bin/icu-config \
+    --build="$ARCH-slackware-linux" || return 1
+
+  make || return 1
+  make DESTDIR="$PKG" install || return 1
+
+  if [ -d "$PKG/usr/man" ]; then
+    find "$PKG/usr/man" -type f -exec gzip -9 {} \; || return 1
+    while IFS= read -r manlink; do
+      ln -sf "$(readlink "$manlink").gz" "${manlink}.gz" || return 1
+      rm "$manlink" || return 1
+    done < <(find "$PKG/usr/man" -type l)
+  fi
+
+  rm -f "$PKG/usr/lib${LIBDIRSUFFIX}"/*.la || return 1
+
+  install -d "$docdir" || return 1
+  ln -sf /usr/share/gtk-doc/html/${_srcname} "$docdir/html" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docdir/$legacy_doc" || return 1
+}

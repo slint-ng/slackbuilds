@@ -1,69 +1,66 @@
-# Maintainer: Jan Alexander Steffens (heftig) <jan.steffens@gmail.com>
-# Contributor: Andrea Scarpino <andrea@archlinux.org>
-# Contributor: György Balló <ballogy@freestart.hu>
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
 
-#Included in Slint by Didier Spaier didieratslintdotfr
+# Included in Slint by Didier Spaier didieratslintdotfr
+
 pkgname=zeitgeist
 pkgver=1.0.4
 pkgrel=2slint
-slackdesc="$pkgname (Service logging user activities and events)"
-docs=("copying" "authors" "README*" "LICENSE*")
-options=("nosrcpack")
 url="https://launchpad.net/zeitgeist/"
-license=(
-  "BSD-3-Clause OR CC-BY-3.0"
-  GPL-3.0-or-later
-  LGPL-2.1-or-later
-  LGPL-3.0-or-later
+source=(
+  "https://launchpad.net/zeitgeist/1.0/${pkgver}/+download/${pkgname}-${pkgver}.tar.xz"
+  "zeitgeist-1.0.4-crash-fixes.patch"
 )
+docs=("AUTHORS" "COPYING*" "README*")
+options=("nosrcpack")
 depends=(
-  gtk+3
-  json-glib
-  sqlite
-  telepathy-glib
-  xapian-core
+  "dee"
+  "gtk+3"
+  "json-glib"
+  "sqlite"
+  "telepathy-glib"
+  "xapian-core"
 )
 makedepends=(
-  git
-  gobject-introspection
-  python-rdflib
-  raptor
-  vala
+  "gobject-introspection"
+  "python-rdflib"
+  "raptor"
+  "vala"
 )
-checkdepends=(xorg-server-xvfb)
-optdepends=('python: Python bindings')
-provides=(zeitgeist-datahub)
-conflicts=(zeitgeist-datahub)
-replaces=(zeitgeist-datahub)
-_commit=8b89364c077b46734d193c5b8a80f83b0fc917dd  # tags/v1.0.4^0
 
-b2sums=('SKIP')
-validpgpkeys=(
-  E4884AEEDE4CC02043C3D8045DECDBA89270E723  # Rico Tzschichholz <ricotz@ubuntu.com>
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"zeitgeist (Service logging user activities and events)"
+""
+"Zeitgeist is a service that logs user activities and events"
+"from applications and exposes that information over D-Bus."
+"It also ships a datahub and optional FTS support backed by"
+"Xapian."
+""
+"Homepage: https://launchpad.net/zeitgeist"
 )
 
 build() {
-  git clone https://gitlab.freedesktop.org/zeitgeist/zeitgeist.git
-  cd $pkgname
-  git checkout $_commit
-  # Fix some crashes
-  # https://gitlab.freedesktop.org/zeitgeist/zeitgeist/issues/19
-  # https://gitlab.freedesktop.org/zeitgeist/zeitgeist/issues/26
-  git cherry-pick -n 1be2a5fff77cdf61c843edc8356dfdef3fd2dbfc \
-                     33ab4cce74857f928382ba6cfada111a64dafe88
-[ -f README.md ] && pandoc -f gfm -t html5 -o README.html README.md
-  autoreconf -fi
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  patch -Np1 -i "$SRC/zeitgeist-1.0.4-crash-fixes.patch" || return 1
+
+  if [ -f README.md ] && command -v pandoc >/dev/null 2>&1; then
+    pandoc -f gfm -t html5 -o README.html README.md || return 1
+  fi
+
+  autoreconf -fi || return 1
   ./configure \
     --prefix=/usr \
     --sysconfdir=/etc \
-    --libdir=/usr/lib64 \
+    --libdir="/usr/lib${LIBDIRSUFFIX}" \
     --localstatedir=/var \
     --enable-telepathy \
     --enable-introspection \
     --libexecdir=/usr/libexec \
     --enable-fts \
-    --with-dee-icu=yes
-  sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
-  make
-  make DESTDIR="$PKG" install
+    --with-dee-icu=yes || return 1
+  sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool || return 1
+  make || return 1
+  make DESTDIR="$PKG" install || return 1
 }

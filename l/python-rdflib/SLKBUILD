@@ -6,21 +6,21 @@
 #Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=python-rdflib
 pkgver=6.2.0
-pkgrel=2slint
+pkgrel=3slint
 slackdesc="$pkgname (A Python library for working with RDF)"
 docs=("copying*" "authors*" "README* LICENSE" )
 options=("nosrcpack")
 url="https://github.com/RDFLib/rdflib"
 license=('BSD')
-depends=('python-isodate' 'python-pyparsing' 'python-setuptools')
+depends=('isodate' 'python3-pyparsing' 'python3-setuptools')
 optdepends=('python-html5lib: for html support')
 checkdepends=('python-pytest-cov' 'python3-six' 'python-html5lib' 'python-networkx'
               'python-doctest-ignore-unicode' 'python-pip')
-source=(https://github.com/RDFLib/rdflib/archive/$pkgver/$pkgname-$pkgver.tar.gz)
+source=("https://github.com/RDFLib/rdflib/archive/$pkgver/$pkgname-$pkgver.tar.gz")
 sha512sums=('8177c50e9c2d48859a061dfee24c3560b8f979bc306b3d940a9251ec130e3a324bbad474f4fa7ced5e11522d3bd4e13931461bf106f31177fd972806968d8245')
 
 build() {
-  cd rdflib-$pkgver
+  cd "rdflib-$pkgver" || return 1
 [ -f README.md ] && pandoc -f gfm -t html5 -o README.html README.md
   python3 setup.py build
   python3 setup.py install --root="$PKG" --optimize=1

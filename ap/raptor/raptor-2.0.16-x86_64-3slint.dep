@@ -1,0 +1,1 @@
+aaa_libraries|gcc,aaa_libraries|gcc-g++,aaa_libraries|keyutils,aaa_libraries|krb5,aaa_libraries|libidn2,aaa_libraries|libnsl,aaa_libraries|libpsl,aaa_libraries|libssh2,aaa_libraries|libtirpc,aaa_libraries|openldap,brotli,c-ares,curl,cyrus-sasl,e2fsprogs,icu4c,libunistring,libxml2,libxslt,nghttp2,openssl|openssl-solibs,xz,yajl,zlib,zstd

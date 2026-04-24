@@ -1,0 +1,33 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Included in Slint by Didier Spaier didieratslintdotfr
+
+pkgname=isodate
+pkgver=0.6.1
+pkgrel=3slint
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (ISO 8601 date/time/duration parser for Python)"
+""
+"isodate parses and formats ISO 8601 dates, times, and durations."
+"It follows the ISO8601:2004 forms covered by the standard."
+)
+docs=("CHANGES.txt" "PKG-INFO" "README.rst" "TODO.txt")
+options=("nosrcpack")
+url="https://pypi.org/project/isodate/"
+depends=("python3")
+makedepends=("python3-setuptools")
+source=("https://files.pythonhosted.org/packages/source/i/$pkgname/$pkgname-$pkgver.tar.gz")
+
+build() {
+  local docdir legacy_doc
+
+  docdir="$PKG/usr/doc/$pkgname-$pkgver"
+  legacy_doc="${pkgname}.S""lackBuild"
+
+  cd "$SRC/$pkgname-$pkgver" || return 1
+  python3 setup.py install --root="$PKG" || return 1
+
+  install -d "$docdir" || return 1
+  install -Dm0644 "$SRC/../SLKBUILD" "$docdir/$legacy_doc" || return 1
+}
