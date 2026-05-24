@@ -415,23 +415,23 @@ fi
 # time of log in:
 
 if [ -x /etc/rc.d/rc.espeakup ]; then
-  . /etc/rc.d/rc.espeakup start
+  /etc/rc.d/rc.espeakup start
 fi
 
 # Or, start speechd-up so that users who need it will have speech at
 # time of log using the voices from speech-dispatcher:
 
 if [ -x /etc/rc.d/rc.speechd-up ]; then
-  . /etc/rc.d/rc.speechd-up start
+  /etc/rc.d/rc.speechd-up start
 fi
 
 # Or, start fenrir so that users who need it will have speech at
 # time of log using the voices from speech-dispatcher or espeak-ng:
 
 if [ -x /etc/rc.d/rc.fenrir ]; then
-  . /etc/rc.d/rc.espeakup start
+  /etc/rc.d/rc.espeakup start
   clear
-  . /etc/rc.d/rc.fenrir start
+  /etc/rc.d/rc.fenrir start
   killall espeakup
 fi
 
