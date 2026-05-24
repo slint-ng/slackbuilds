@@ -58,6 +58,19 @@ includeUpstreamBadSignatures="yes"
 
 # Function section
 
+show_usage() {
+    local scriptName=""
+
+    scriptName=${0##*/}
+    cat <<EOF
+Usage: ${scriptName} [--no-sync] [--help]
+
+Options:
+  --no-sync    Skip the initial mirror sync from ${remoteHost}::${mirror}/.
+  --help       Show this help message and exit.
+EOF
+}
+
 notify() {
     (
         play -q -n synth .1 tri 420 : synth .2 tri 710 </dev/tty >/dev/null 2>&1 || printf '\a' >/dev/tty 2>/dev/null || true
@@ -916,13 +929,13 @@ collect_changes() {
             root="${currentRoots[${key}]}"
             filePath="${currentFiles[${key}]}"
             logPath=$(log_path_for_file "${root}" "${filePath}")
-            addedByRoot["${root}"]+=$(printf '%s\n' "${logPath}")
+            addedByRoot["${root}"]+="${logPath}"$'\n'
             changedRoots["${root}"]=1
         elif [[ "${baselineVersions[${key}]}" != "${currentVersions[${key}]}" ]]; then
             root="${currentRoots[${key}]}"
             filePath="${currentFiles[${key}]}"
             logPath=$(log_path_for_file "${root}" "${filePath}")
-            upgradedByRoot["${root}"]+=$(printf '%s\n' "${logPath}")
+            upgradedByRoot["${root}"]+="${logPath}"$'\n'
             changedRoots["${root}"]=1
         fi
     done
@@ -932,7 +945,7 @@ collect_changes() {
             root="${baselineRoots[${key}]}"
             filePath="${baselineFiles[${key}]}"
             logPath=$(log_path_for_file "${root}" "${filePath}")
-            removedByRoot["${root}"]+=$(printf '%s\n' "${logPath}")
+            removedByRoot["${root}"]+="${logPath}"$'\n'
             changedRoots["${root}"]=1
         fi
     done
@@ -1348,6 +1361,26 @@ prompt_upload() {
 
 # Preflight checks
 
+skipInitialSync="no"
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --no-sync)
+            skipInitialSync="yes"
+            ;;
+        --help|-h)
+            show_usage
+            exit 0
+            ;;
+        *)
+            echo "Unknown option: $1"
+            show_usage
+            exit 1
+            ;;
+    esac
+    shift
+done
+
 # Make sure we're in the correct repository directory
 dirName=$(pwd)
 dirName="${dirName##*/}"
@@ -1434,8 +1467,6 @@ if [[ ${#editor} -lt 2 ]]; then
 fi
 
 # Make sure the upstream repository matches the local version.
-
-echo "Syncing mirror..."
 rsyncBaseOptions=(
     --no-motd
     --contimeout=30
@@ -1458,7 +1489,12 @@ for pattern in "${excludePatterns[@]}"; do
     excludeArgs+=(--exclude="${pattern}")
 done
 
-rsync "${mirrorOptions[@]}" "${excludeArgs[@]}" "${remoteHost}::${mirror}/" .
+if [[ "${skipInitialSync}" == "yes" ]]; then
+    echo "Skipping initial mirror sync."
+else
+    echo "Syncing mirror..."
+    rsync "${mirrorOptions[@]}" "${excludeArgs[@]}" "${remoteHost}::${mirror}/" .
+fi
 
 declare -a repoRoots
 discover_repo_roots
@@ -1474,7 +1510,11 @@ declare -A currentRoots
 build_package_map baseline
 
 notify
-echo "The mirror has been synced to this device."
+if [[ "${skipInitialSync}" == "yes" ]]; then
+    echo "Using the existing local mirror state on this device."
+else
+    echo "The mirror has been synced to this device."
+fi
 read -r -p "Add any updated packages and press enter to continue."
 echo -e "\nUpdating repository..."
 

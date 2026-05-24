@@ -3,7 +3,7 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 
 pkgname=yt-dlp
-pkgver=2026.02.21
+pkgver=2026.03.17
 pkgrel=1slint
 slackdesc=\
 (
@@ -18,6 +18,7 @@ license=("Unlicense")
 depends=("python")
 makedepends=("python-build" "python-hatchling" "python-installer" "python-wheel")
 source=("https://github.com/yt-dlp/yt-dlp/archive/${pkgver}/yt-dlp-${pkgver}.tar.gz")
+sha256sums=('924483986441d8a1e669a0e4371d753a9256ce4bdc06032394ccb7b793342434')
 
 build() {
   cd "$SRC/${pkgname}-${pkgver}" || return 1
