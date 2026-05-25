@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 # Slint repository management
 
-# Your username for rsync access
-userName=""
-
-# Your password for rsync access
-password=""
+# Repository profile config. The default path is created on first run.
+configFile="${SLINT_REPOSITORIES_CONFIG:-${HOME}/.slint-repositories}"
+selectedMirror="default"
 
 # your preferred editor if not set $EDITOR will be used or nano if not set
 editor=""
@@ -15,10 +13,13 @@ forceRegenMetadata="yes"
 
 # Change this if you want a different directory for repository management
 repoDir="slint-repo"
+syncDir="${repoDir}"
 
-# Remote mirror details
-remoteHost="slackware.uk"
-mirror="slint"
+# Remote mirror details. These are defaults for new config files.
+readHost="slackware.uk"
+readMirror="slint"
+writeHost="core.slackware.uk.net"
+writeMirror="slint-upload"
 
 # GPG configuration
 gpgBin="gpg2"
@@ -57,6 +58,334 @@ includeUpstreamBadSignatures="yes"
 # ---------- NO EDITS REQUIRED BELOW THIS LINE ----------
 
 # Function section
+
+show_usage() {
+    local scriptName=""
+
+    scriptName=${0##*/}
+    cat <<EOF
+Usage: ${scriptName} [--mirror NAME] [--no-sync] [--cleanup-stale] [--add] [--help]
+
+Options:
+  -m, --mirror NAME  Use repository profile NAME from ${configFile}.
+                     Default: ${selectedMirror}
+  -a, --add          Add a repository profile to ${configFile}.
+  --no-sync          Skip the initial mirror sync from the selected profile.
+  --cleanup-stale    Remove old duplicate versions even if they were already
+                     present before this run.
+  --help             Show this help message and exit.
+EOF
+}
+
+trim_string() {
+    local value=$1
+
+    if [[ -z "${value//[[:space:]]/}" ]]; then
+        printf ''
+        return 0
+    fi
+    value=${value#"${value%%[![:space:]]*}"}
+    value=${value%"${value##*[![:space:]]}"}
+    printf '%s' "${value}"
+}
+
+unquote_config_value() {
+    local value=$1
+
+    if [[ "${value}" == \"*\" && "${value}" == *\" ]]; then
+        value=${value#\"}
+        value=${value%\"}
+    elif [[ "${value}" == \'*\' && "${value}" == *\' ]]; then
+        value=${value#\'}
+        value=${value%\'}
+    fi
+    printf '%s' "${value}"
+}
+
+create_default_config() {
+    local configDir=""
+
+    configDir=${configFile%/*}
+    if [[ "${configDir}" == "${configFile}" ]]; then
+        configDir="."
+    fi
+    mkdir -p "${configDir}"
+    # Create files privately because this config stores rsync credentials.
+    umask 077
+    cat > "${configFile}" <<EOF
+# Slint repository sync profiles.
+# Keep this file readable only by your user because it stores rsync credentials.
+#
+# Add another profile by adding another section, for example:
+# [test]
+# username=your-rsync-username
+# password=your-rsync-password
+# read_host=slackware.uk
+# read_mirror=slint-test
+# write_host=core.slackware.uk.net
+# write_mirror=slint-test-upload
+# folder_name=slint-test
+
+[default]
+username=
+password=
+read_host=${readHost}
+read_mirror=${readMirror}
+write_host=${writeHost}
+write_mirror=${writeMirror}
+folder_name=${syncDir}
+EOF
+    # Enforce private permissions even if the process umask was changed.
+    chmod 600 "${configFile}"
+    echo "Created ${configFile}."
+}
+
+ensure_config_file() {
+    if [[ ! -f "${configFile}" ]]; then
+        create_default_config
+    else
+        chmod 600 "${configFile}"
+    fi
+}
+
+validate_mirror_name() {
+    local mirrorName=$1
+
+    if [[ ! "${mirrorName}" =~ ^[A-Za-z0-9_-]+$ ]]; then
+        echo "Invalid mirror profile name: ${mirrorName}"
+        echo "Use only letters, numbers, underscores, and hyphens."
+        return 1
+    fi
+}
+
+list_repository_profiles() {
+    local line=""
+
+    [[ -f "${configFile}" ]] || return 0
+    while IFS= read -r line || [[ -n "${line}" ]]; do
+        line=$(trim_string "${line}")
+        if [[ "${line}" =~ ^\[([A-Za-z0-9_-]+)\]$ ]]; then
+            printf '%s\n' "${BASH_REMATCH[1]}"
+        fi
+    done < "${configFile}"
+}
+
+repository_profile_exists() {
+    local mirrorName=$1
+    local profile=""
+
+    while IFS= read -r profile; do
+        [[ "${profile}" == "${mirrorName}" ]] && return 0
+    done < <(list_repository_profiles)
+    return 1
+}
+
+read_required_value() {
+    local prompt=$1
+    local -n targetValue=$2
+
+    targetValue=""
+    while [[ -z "${targetValue}" ]]; do
+        read -r -p "${prompt}: " targetValue
+        targetValue=$(trim_string "${targetValue}")
+        if [[ -z "${targetValue}" ]]; then
+            echo "This value is required."
+        fi
+    done
+}
+
+read_required_secret() {
+    local prompt=$1
+    local -n targetValue=$2
+
+    targetValue=""
+    while [[ -z "${targetValue}" ]]; do
+        read -r -s -p "${prompt}: " targetValue
+        echo
+        targetValue=$(trim_string "${targetValue}")
+        if [[ -z "${targetValue}" ]]; then
+            echo "This value is required."
+        fi
+    done
+}
+
+add_repository_profile() {
+    local newMirror=""
+    local newUserName=""
+    local newPassword=""
+    local newReadHost=""
+    local newReadMirror=""
+    local newWriteHost=""
+    local newWriteMirror=""
+    local newSyncDir=""
+    local reply=""
+
+    ensure_config_file
+
+    while true; do
+        read_required_value "Profile name" newMirror
+        if ! validate_mirror_name "${newMirror}"; then
+            continue
+        fi
+        if repository_profile_exists "${newMirror}"; then
+            echo "Profile [${newMirror}] already exists in ${configFile}."
+            continue
+        fi
+        break
+    done
+
+    read_required_value "Username" newUserName
+    read_required_secret "Password" newPassword
+    read_required_value "Read host" newReadHost
+    read_required_value "Read mirror" newReadMirror
+    read_required_value "Write host" newWriteHost
+    read_required_value "Write mirror" newWriteMirror
+    read_required_value "Sync folder name" newSyncDir
+
+    echo
+    echo "Profile to add:"
+    echo "Name: ${newMirror}"
+    echo "Username: ${newUserName}"
+    echo "Password: (hidden)"
+    echo "Read URL: ${newReadHost}::${newReadMirror}/"
+    echo "Write URL: ${newWriteHost}::${newWriteMirror}"
+    echo "Sync folder name: ${newSyncDir}"
+    echo
+
+    while true; do
+        read -r -p "Add this mirror to ${configFile}? (yes/no): " reply
+        case "${reply,,}" in
+            y|yes)
+                {
+                    echo
+                    echo "[${newMirror}]"
+                    echo "username=${newUserName}"
+                    echo "password=${newPassword}"
+                    echo "read_host=${newReadHost}"
+                    echo "read_mirror=${newReadMirror}"
+                    echo "write_host=${newWriteHost}"
+                    echo "write_mirror=${newWriteMirror}"
+                    echo "folder_name=${newSyncDir}"
+                } >> "${configFile}"
+                chmod 600 "${configFile}"
+                echo "Added [${newMirror}] to ${configFile}."
+                return 0
+                ;;
+            n|no)
+                echo "Mirror profile not added."
+                return 0
+                ;;
+            *)
+                echo "Please answer yes or no."
+                ;;
+        esac
+    done
+}
+
+select_repository_profile() {
+    local -a profileOptions=()
+    local selectedProfile=""
+    local originalColumns=""
+
+    ensure_config_file
+    mapfile -t profileOptions < <(list_repository_profiles)
+    if ((${#profileOptions[@]} == 0)); then
+        echo "No repository profiles were found in ${configFile}."
+        echo "Run ${0##*/} --add to add one."
+        exit 1
+    fi
+
+    originalColumns=${COLUMNS-}
+    COLUMNS=1
+    PS3="Select mirror profile: "
+    select selectedProfile in "${profileOptions[@]}" "Exit"; do
+        if [[ -z "${selectedProfile}" ]]; then
+            echo "Invalid selection."
+            continue
+        fi
+        if [[ "${selectedProfile}" == "Exit" ]]; then
+            exit 0
+        fi
+        selectedMirror=${selectedProfile}
+        break
+    done
+    if [[ -n "${originalColumns}" ]]; then
+        COLUMNS="${originalColumns}"
+    else
+        unset COLUMNS
+    fi
+}
+
+load_repository_config() {
+    local currentSection=""
+    local foundSection="no"
+    local line=""
+    local key=""
+    local value=""
+
+    if ! validate_mirror_name "${selectedMirror}"; then
+        exit 1
+    fi
+
+    ensure_config_file
+
+    while IFS= read -r line || [[ -n "${line}" ]]; do
+        line=$(trim_string "${line}")
+        [[ -z "${line}" ]] && continue
+        [[ "${line}" == \#* || "${line}" == \;* ]] && continue
+
+        if [[ "${line}" =~ ^\[([A-Za-z0-9_-]+)\]$ ]]; then
+            currentSection=${BASH_REMATCH[1]}
+            if [[ "${currentSection}" == "${selectedMirror}" ]]; then
+                foundSection="yes"
+            fi
+            continue
+        fi
+
+        [[ "${currentSection}" == "${selectedMirror}" ]] || continue
+        if [[ ! "${line}" =~ ^([A-Za-z_][A-Za-z0-9_]*)=(.*)$ ]]; then
+            echo "Invalid line in [${selectedMirror}] section of ${configFile}:"
+            echo "${line}"
+            exit 1
+        fi
+
+        key=${BASH_REMATCH[1]}
+        value=$(trim_string "${BASH_REMATCH[2]}")
+        value=$(unquote_config_value "${value}")
+        case "${key}" in
+            username|userName)
+                userName=${value}
+                ;;
+            password)
+                password=${value}
+                ;;
+            read_host|remote_host|remoteHost)
+                readHost=${value}
+                ;;
+            read_mirror|mirror)
+                readMirror=${value}
+                ;;
+            write_host)
+                writeHost=${value}
+                ;;
+            write_mirror)
+                writeMirror=${value}
+                ;;
+            folder_name|sync_dir|repo_dir)
+                syncDir=${value}
+                ;;
+            *)
+                echo "Unknown key in [${selectedMirror}] section of ${configFile}: ${key}"
+                exit 1
+                ;;
+        esac
+    done < "${configFile}"
+
+    if [[ "${foundSection}" != "yes" ]]; then
+        echo "Mirror profile [${selectedMirror}] was not found in ${configFile}."
+        exit 1
+    fi
+}
 
 notify() {
     (
@@ -528,11 +857,12 @@ import_missing_signature_keys() {
 }
 
 discover_repo_roots() {
-    # Repo roots are directories that have a PACKAGES.TXT at shallow depth.
+    # Repo roots are directories that have repository metadata at shallow depth.
     declare -ga repoRoots=()
     while IFS= read -r -d '' pkgFile; do
         local root=${pkgFile%/PACKAGES.TXT}
         root=${root#./}
+        [[ -f "${root}/CHECKSUMS.md5" && -f "${root}/ChangeLog.txt" ]] || continue
         repoRoots+=("${root}")
     done < <(find . -maxdepth 3 -type f -name 'PACKAGES.TXT' -print0 | sort -z)
 
@@ -640,6 +970,36 @@ gather_package_files_for_root() {
     fi
 
     printf '%s\0' "${files[@]}" | sort -z
+}
+
+gather_metadata_package_files_for_root() {
+    local root=$1
+    local pkgFile="${root}/PACKAGES.TXT"
+    local line=""
+    local pkgName=""
+    local location=""
+    local relPath=""
+
+    [[ -f "${pkgFile}" ]] || return 0
+
+    while IFS= read -r line || [[ -n "${line}" ]]; do
+        case "${line}" in
+            "PACKAGE NAME:  "*)
+                pkgName=${line#PACKAGE NAME:  }
+                ;;
+            "PACKAGE LOCATION:  "*)
+                location=${line#PACKAGE LOCATION:  }
+                location=${location#./}
+                if [[ -n "${pkgName}" && -n "${location}" ]]; then
+                    relPath="${location}/${pkgName}"
+                    relPath=${relPath#./}
+                    printf '%s\0' "${root}/${relPath}"
+                fi
+                pkgName=""
+                location=""
+                ;;
+        esac
+    done < "${pkgFile}"
 }
 
 parse_package_fields() {
@@ -842,8 +1202,52 @@ build_package_map() {
     done
 }
 
+build_package_map_from_metadata() {
+    local mapPrefix=$1
+    # shellcheck disable=SC2178
+    local -n versions="${mapPrefix}Versions"
+    # shellcheck disable=SC2178
+    local -n files="${mapPrefix}Files"
+    # shellcheck disable=SC2178
+    local -n roots="${mapPrefix}Roots"
+    local pkg=""
+    local parsed=""
+    local name=""
+    local version=""
+    local arch=""
+    local build=""
+    local key=""
+    local versionBuild=""
+    local root=""
+    local pkgDir=""
+
+    # Reset target maps for this build.
+    versions=()
+    files=()
+    roots=()
+
+    for root in "${repoRoots[@]}"; do
+        while IFS= read -r -d '' pkg; do
+            parsed=$(parse_package_fields "${pkg}") || continue
+            IFS='|' read -r name version arch build <<< "${parsed}"
+            pkgDir=$(dirname "${pkg}")
+            key="${root}|${pkgDir}|${name}|${arch}"
+            versionBuild="${version}-${build}"
+            if version_is_newer "${versionBuild}" "${versions[${key}]}" ; then
+                versions["${key}"]="${versionBuild}"
+                # shellcheck disable=SC2034
+                files["${key}"]="${pkg}"
+                # shellcheck disable=SC2034
+                roots["${key}"]="${root}"
+            fi
+        done < <(gather_metadata_package_files_for_root "${root}")
+    done
+}
+
 remove_old_packages() {
-    # Remove older versions only when a newer version appears.
+    # Remove older versions for packages changed in this run. Broad stale
+    # duplicate cleanup is intentionally opt-in because some package families
+    # may keep multiple versions on purpose.
     local key=""
     local currentFile=""
     local currentVersion=""
@@ -867,8 +1271,10 @@ remove_old_packages() {
     for key in "${!currentVersions[@]}"; do
         baselineVersion=${baselineVersions[${key}]-}
         currentVersion=${currentVersions[${key}]}
-        if [[ -z "${baselineVersion}" || "${baselineVersion}" == "${currentVersion}" ]]; then
-            continue
+        if [[ "${cleanupStalePackages}" != "yes" ]]; then
+            if [[ -z "${baselineVersion}" || "${baselineVersion}" == "${currentVersion}" ]]; then
+                continue
+            fi
         fi
 
         currentFile=${currentFiles[${key}]}
@@ -916,13 +1322,13 @@ collect_changes() {
             root="${currentRoots[${key}]}"
             filePath="${currentFiles[${key}]}"
             logPath=$(log_path_for_file "${root}" "${filePath}")
-            addedByRoot["${root}"]+=$(printf '%s\n' "${logPath}")
+            addedByRoot["${root}"]+="${logPath}"$'\n'
             changedRoots["${root}"]=1
         elif [[ "${baselineVersions[${key}]}" != "${currentVersions[${key}]}" ]]; then
             root="${currentRoots[${key}]}"
             filePath="${currentFiles[${key}]}"
             logPath=$(log_path_for_file "${root}" "${filePath}")
-            upgradedByRoot["${root}"]+=$(printf '%s\n' "${logPath}")
+            upgradedByRoot["${root}"]+="${logPath}"$'\n'
             changedRoots["${root}"]=1
         fi
     done
@@ -932,7 +1338,7 @@ collect_changes() {
             root="${baselineRoots[${key}]}"
             filePath="${baselineFiles[${key}]}"
             logPath=$(log_path_for_file "${root}" "${filePath}")
-            removedByRoot["${root}"]+=$(printf '%s\n' "${logPath}")
+            removedByRoot["${root}"]+="${logPath}"$'\n'
             changedRoots["${root}"]=1
         fi
     done
@@ -1317,11 +1723,11 @@ regenerate_metadata() {
 
 run_dry_run() {
     echo "Running upload dry-run..."
-    RSYNC_PASSWORD="${password}" rsync "${uploadOptions[@]}" --dry-run "${excludeArgs[@]}" . "${userName}@${remoteHost}::slint-upload" |& w3m -T text/plain -
+    RSYNC_PASSWORD="${password}" rsync "${uploadOptions[@]}" --dry-run "${excludeArgs[@]}" . "${userName}@${writeHost}::${writeMirror}" |& w3m -T text/plain -
 }
 
 perform_upload() {
-    RSYNC_PASSWORD="${password}" rsync "${uploadOptions[@]}" "${excludeArgs[@]}" . "${userName}@${remoteHost}::slint-upload"
+    RSYNC_PASSWORD="${password}" rsync "${uploadOptions[@]}" "${excludeArgs[@]}" . "${userName}@${writeHost}::${writeMirror}"
 }
 
 prompt_upload() {
@@ -1346,15 +1752,98 @@ prompt_upload() {
     done
 }
 
+confirm_sync_directory() {
+    local dirName=$1
+    local reply=""
+
+    if [[ "${syncDir}" == "${dirName}" ]]; then
+        return 0
+    fi
+
+    echo "Current folder is ${dirName}, but mirror [${selectedMirror}] is configured for ${syncDir}."
+    while true; do
+        read -r -p "Is ${PWD} the sync folder you want to use? (yes/no): " reply
+        case "${reply,,}" in
+            y|yes)
+                return 0
+                ;;
+            n|no)
+                echo "Aborting. Run from the intended sync folder."
+                return 1
+                ;;
+            *)
+                echo "Please answer yes or no."
+                ;;
+        esac
+    done
+}
+
 # Preflight checks
 
-# Make sure we're in the correct repository directory
+skipInitialSync="no"
+addMirrorProfile="no"
+mirrorSpecified="no"
+cleanupStalePackages="no"
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -m|--mirror)
+            if [[ $# -lt 2 ]]; then
+                echo "$1 requires a mirror profile name."
+                show_usage
+                exit 1
+            fi
+            selectedMirror=$2
+            mirrorSpecified="yes"
+            shift
+            ;;
+        --mirror=*)
+            selectedMirror=${1#*=}
+            mirrorSpecified="yes"
+            ;;
+        -a|--add)
+            addMirrorProfile="yes"
+            ;;
+        --no-sync)
+            skipInitialSync="yes"
+            ;;
+        --cleanup-stale)
+            cleanupStalePackages="yes"
+            ;;
+        --help|-h)
+            show_usage
+            exit 0
+            ;;
+        *)
+            echo "Unknown option: $1"
+            show_usage
+            exit 1
+            ;;
+    esac
+    shift
+done
+
+if [[ "${addMirrorProfile}" == "yes" ]]; then
+    add_repository_profile
+    exit 0
+fi
+
+if [[ ! -f "${configFile}" ]]; then
+    create_default_config
+    echo "Set credentials in ${configFile}, or run ${0##*/} --add to add a profile interactively."
+    exit 1
+fi
+
+if [[ "${mirrorSpecified}" != "yes" ]]; then
+    select_repository_profile
+fi
+
+load_repository_config
+
+# Confirm before using an unexpected sync directory.
 dirName=$(pwd)
 dirName="${dirName##*/}"
-
-# If not in proper directory, exit with error
-if [[ "${repoDir}" != "${dirName}" ]]; then
-    echo "Current directory <$(pwd)> does not match expected repository directory ${repoDir}."
+if ! confirm_sync_directory "${dirName}"; then
     exit 1
 fi
 
@@ -1391,13 +1880,18 @@ if [[ ${#missingDependencies[@]} -gt 0 ]]; then
     exit 1
 fi
 
-# Make sure username and password is set
+# Make sure username and password are set
 if [[ ${#userName} -lt 2 ]]; then
-    echo "Username is not set. Please edit $0 and set the requested variables near the top of the file."
+    echo "Username is not set in [${selectedMirror}] of ${configFile}."
     exit 1
 fi
 if [[ ${#password} -lt 2 ]]; then
-    echo "Password is not set. Please edit $0 and set the requested variables near the top of the file."
+    echo "Password is not set in [${selectedMirror}] of ${configFile}."
+    exit 1
+fi
+if [[ -z "${readHost}" || -z "${readMirror}" || -z "${writeHost}" || -z "${writeMirror}" ]]; then
+    echo "Mirror profile [${selectedMirror}] in ${configFile} is incomplete."
+    echo "Required keys: read_host, read_mirror, write_host, write_mirror."
     exit 1
 fi
 
@@ -1434,8 +1928,6 @@ if [[ ${#editor} -lt 2 ]]; then
 fi
 
 # Make sure the upstream repository matches the local version.
-
-echo "Syncing mirror..."
 rsyncBaseOptions=(
     --no-motd
     --contimeout=30
@@ -1458,7 +1950,12 @@ for pattern in "${excludePatterns[@]}"; do
     excludeArgs+=(--exclude="${pattern}")
 done
 
-rsync "${mirrorOptions[@]}" "${excludeArgs[@]}" "${remoteHost}::${mirror}/" .
+if [[ "${skipInitialSync}" == "yes" ]]; then
+    echo "Skipping initial mirror sync."
+else
+    echo "Syncing mirror ${selectedMirror} from ${readHost}::${readMirror}/..."
+    rsync "${mirrorOptions[@]}" "${excludeArgs[@]}" "${readHost}::${readMirror}/" .
+fi
 
 declare -a repoRoots
 discover_repo_roots
@@ -1471,10 +1968,14 @@ declare -A currentVersions
 declare -A currentFiles
 declare -A currentRoots
 
-build_package_map baseline
+build_package_map_from_metadata baseline
 
 notify
-echo "The mirror has been synced to this device."
+if [[ "${skipInitialSync}" == "yes" ]]; then
+    echo "Using the existing local mirror state on this device."
+else
+    echo "The mirror has been synced to this device."
+fi
 read -r -p "Add any updated packages and press enter to continue."
 echo -e "\nUpdating repository..."
 
