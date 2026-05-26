@@ -393,6 +393,29 @@ notify() {
     ) &
 }
 
+cleanup_editor_backup_files() {
+    local targetDir=$1
+    local filePath=""
+    local removedCount=0
+
+    while IFS= read -r -d '' filePath; do
+        echo "Removing editor backup file: ${filePath#./}"
+        if ! rm -f -- "${filePath}"; then
+            echo "Failed to remove editor backup file: ${filePath#./}"
+            return 1
+        fi
+        ((removedCount += 1))
+    done < <(
+        find "${targetDir}" \
+            -type d \( -name '.git' -o -name '.rsync-tmp' \) -prune -o \
+            -type f \( -name '*.save' -o -name '*.swp' -o -name '*.bak' -o -name '*~' \) -print0
+    )
+
+    if ((removedCount > 0)); then
+        echo "Removed ${removedCount} editor backup file(s)."
+    fi
+}
+
 select_gpg_key() {
     local -a keyLabels=()
     local -a keyOptions=()
@@ -1727,6 +1750,7 @@ run_dry_run() {
 }
 
 perform_upload() {
+    cleanup_editor_backup_files "."
     RSYNC_PASSWORD="${password}" rsync "${uploadOptions[@]}" "${excludeArgs[@]}" . "${userName}@${writeHost}::${writeMirror}"
 }
 
@@ -1957,6 +1981,8 @@ else
     rsync "${mirrorOptions[@]}" "${excludeArgs[@]}" "${readHost}::${readMirror}/" .
 fi
 
+cleanup_editor_backup_files "."
+
 declare -a repoRoots
 discover_repo_roots
 load_package_base_dirs
@@ -2044,6 +2070,7 @@ fi
 
 prompt_orphan_signature_review
 
+cleanup_editor_backup_files "."
 run_dry_run
 prompt_upload
 
