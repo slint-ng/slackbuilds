@@ -2,8 +2,8 @@
 # Packager: Storm Dragon <storm_dragon@stormux.org>
 
 pkgname=cthulhu
-pkgver=2026.01.26
-pkgrel=2slint
+pkgver=2026.05.25
+pkgrel=1slint
 source=()
 url="https://git.stormux.org/storm/cthulhu"
 options=('nosrcpack')
@@ -27,15 +27,21 @@ depends=(
   'python3-dasbus'
   'pygobject3.11'
   'python3-pluggy'
+  'python3-tomlkit'
   'setproctitle3.11'
   'socat'
   'speech-dispatcher'
   'xkbcomp'
+  'xmodmap'
   'python3-pyautogui'
   'python3-msgpack'
   'python3-tornado'
   'python3-pillow'
+  'python-pdf2image'
   'python-pytesseract'
+  'python-scipy'
+  'python-webcolors'
+  'python-xlib'
   'tesseract'
   'tesseract-data'
 )

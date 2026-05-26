@@ -1,9 +1,10 @@
+# shellcheck shell=bash disable=SC2034,SC2154
 # Maintainer: Storm Dragon <storm_dragon@linux-a11y.org>
 # Contributor: Didier Spaier
 pkgname='fenrir'
-pkgver=2026.01.28
+pkgver=2026.05.25
 pkgrel=1slint
-source=(https://git.stormux.org/storm/fenrir/archive/${pkgver}.tar.gz)
+source=("https://git.stormux.org/storm/fenrir/archive/${pkgver}.tar.gz")
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|
@@ -29,6 +30,7 @@ depends=('gstreamer'
   'python-pyte'
   'python-pyudev'
   'python-pyxdg'
+  'python-xlib'
   'python-setproctitle'
   'speech-dispatcher')
 optdepends=('socat: Control running Fenrir screenreader'
@@ -36,21 +38,21 @@ optdepends=('socat: Control running Fenrir screenreader'
   'xclip: for copy to X session clipboard')
 makedepends=('python-setuptools')
 doinst (){
-	(cd /usr/sbin
+	(cd /usr/sbin || return 1
 	ln -sf /usr/share/fenrirscreenreader/tools/configure_fenrir.py ./configure-fenrir
 	)
 }
 
 build() {
-  cd "$SRC/fenrir"
+  cd "$SRC/fenrir" || return 1
   python3 setup.py install --force-settings --root="$PKG" --optimize=1
-  mkdir -p $PKG/etc/rc.d $PKG/usr/doc/${pkgname}-${pkgver}
-  mkdir -p $PKG/usr/share/fenrirscreenreader/scripts
-  chmod -R 755 $PKG/usr/share/fenrirscreenreader/scripts
-  cp $startdir/README.fenrir $PKG/usr/doc/${pkgname}-${pkgver}
-  cp $startdir/rc.fenrir $PKG/etc/rc.d/
-#  cp $startdir/fenrir.conf $PKG/etc
-  chmod 644 $PKG/etc/rc.d/rc.fenrir
+  mkdir -p "$PKG/etc/rc.d" "$PKG/usr/doc/${pkgname}-${pkgver}"
+  mkdir -p "$PKG/usr/share/fenrirscreenreader/scripts"
+  chmod -R 755 "$PKG/usr/share/fenrirscreenreader/scripts"
+  cp "$startdir/README.fenrir" "$PKG/usr/doc/${pkgname}-${pkgver}"
+  cp "$startdir/rc.fenrir" "$PKG/etc/rc.d/"
+#  cp "$startdir/fenrir.conf" "$PKG/etc"
+  chmod 644 "$PKG/etc/rc.d/rc.fenrir"
 
 }
 

@@ -29,14 +29,20 @@ SlackBuilds.org:
 - python3-dasbus
 - pygobject3.11
 - python3-pluggy
+- python3-tomlkit
 - setproctitle3.11
 - socat
 - speech-dispatcher
 - xkbcomp
+- xmodmap
 - python3-pyautogui (AI assistant actions)
 - python3-msgpack (nvda2cthulhu)
 - python3-tornado (nvda2cthulhu WebSocket)
 - python3-pillow (OCR plugin)
+- python-pdf2image (OCR plugin)
 - python-pytesseract (OCR plugin)
+- python-scipy (OCR plugin)
+- python-webcolors (OCR plugin)
+- python-xlib (Window Title Reader plugin)
 - tesseract (OCR engine)
 - tesseract-data (OCR language data)

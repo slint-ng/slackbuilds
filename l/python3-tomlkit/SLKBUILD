@@ -1,0 +1,33 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Maintainer: Storm Dragon <storm_dragon@linux-a11y.org>
+
+pkgname=python3-tomlkit
+_srcname=tomlkit
+pkgver=0.15.0
+pkgrel=1slint
+source=("https://files.pythonhosted.org/packages/py3/t/$_srcname/$_srcname-$pkgver-py3-none-any.whl")
+sha256sums=('430cf247ee57df2b94ee3fbe588e71d362a941ebb545dec29b53961d61add2a1')
+url="https://github.com/python-poetry/tomlkit"
+license=('MIT')
+depends=('python')
+makedepends=('python-installer3.11')
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Style-preserving TOML library for Python)"
+""
+"TOML Kit is a TOML 1.1.0-compliant library. It preserves comments,"
+"indentation, whitespace, and internal element ordering while parsing"
+"and editing TOML documents."
+""
+"Homepage: https://github.com/python-poetry/tomlkit"
+""
+""
+""
+)
+
+build() {
+  python3.11 -m installer --destdir="$PKG" \
+    "$SRC/$_srcname-$pkgver-py3-none-any.whl" || return 1
+}
+
+# vim: set ts=2 sw=2 et:
