@@ -395,24 +395,25 @@ notify() {
 
 cleanup_editor_backup_files() {
     local targetDir=$1
-    local filePath=""
+    local backupPath=""
     local removedCount=0
 
-    while IFS= read -r -d '' filePath; do
-        echo "Removing editor backup file: ${filePath#./}"
-        if ! rm -f -- "${filePath}"; then
-            echo "Failed to remove editor backup file: ${filePath#./}"
+    while IFS= read -r -d '' backupPath; do
+        echo "Removing editor backup path: ${backupPath#./}"
+        if ! rm -rf -- "${backupPath}"; then
+            echo "Failed to remove editor backup path: ${backupPath#./}"
             return 1
         fi
         ((removedCount += 1))
     done < <(
         find "${targetDir}" \
             -type d \( -name '.git' -o -name '.rsync-tmp' \) -prune -o \
+            -type d -name '*.save' -print0 -prune -o \
             -type f \( -name '*.save' -o -name '*.swp' -o -name '*.bak' -o -name '*~' \) -print0
     )
 
     if ((removedCount > 0)); then
-        echo "Removed ${removedCount} editor backup file(s)."
+        echo "Removed ${removedCount} editor backup path(s)."
     fi
 }
 
@@ -1936,6 +1937,7 @@ excludePatterns=(
     ".git/"
     ".rsync-tmp/"
     "slint_repo.sh"
+    "*.save"
     "*.swp"
     "*.bak"
     "*~"
@@ -1978,7 +1980,10 @@ if [[ "${skipInitialSync}" == "yes" ]]; then
     echo "Skipping initial mirror sync."
 else
     echo "Syncing mirror ${selectedMirror} from ${readHost}::${readMirror}/..."
-    rsync "${mirrorOptions[@]}" "${excludeArgs[@]}" "${readHost}::${readMirror}/" .
+    if ! rsync "${mirrorOptions[@]}" "${excludeArgs[@]}" "${readHost}::${readMirror}/" .; then
+        echo "Mirror sync failed; local repository was not updated."
+        exit 1
+    fi
 fi
 
 cleanup_editor_backup_files "."
