@@ -45,6 +45,9 @@ Each package directory typically contains `<pkg>.SlackBuild`, `<pkg>.info`,
   README list (use `%README%` when dependencies are documented there).
 - Keep secrets out of scripts; use `Maintenance-of-the-repository/` tools for
   repo-wide maintenance tasks.
+- Repository mirror updates are not synced from this VM. Prepare packages and
+  matching `.dep` files in `/home/storm/staging`; the user copies that staging
+  directory to their main machine before running mirror update/upload workflows.
 
 ## Landing the Plane (Session Completion)
 

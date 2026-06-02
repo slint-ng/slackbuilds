@@ -3,10 +3,10 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 
 pkgname=firmware-installer
-_fwdate=20260110
-_fwcommit=06a743f
+_fwdate=20260519
+_fwcommit=d962a6a
 pkgver="${_fwdate}_${_fwcommit}"
-pkgrel=2slint
+pkgrel=1slint
 arch=noarch
 source=()
 options=('nosrcpack')

@@ -2,11 +2,11 @@
 # Packager: Didier Spaier didieratslintdotfr
 
 pkgname=intel-microcode
-pkgver=20260210
+pkgver=20260512
 pkgrel=1slint
 arch=noarch
 source=("https://github.com/intel/Intel-Linux-Processor-Microcode-Data-Files/archive/refs/tags/microcode-${pkgver}.tar.gz")
-sha256sums=('252b4c2c1ed930b0422ee0cb843140c93f5e12a75bbbcca7d64e21b1bcf05bfa')
+sha256sums=('5a07ce745d0bd8b360a4713564d46d5e38be797316a52abedaff0761e1b02370')
 url="https://github.com/intel/Intel-Linux-Processor-Microcode-Data-Files"
 
 slackdesc=\
@@ -44,7 +44,7 @@ build() {
 
   mkdir -p "$PKG/boot"
   # Use .img naming in Slint so grub-mkconfig picks it up.
-  /usr/sbin/iucode_tool -v --write-earlyfw="$PKG/boot/intel-ucode.img" \
+  "${IUCODE_TOOL:-/usr/sbin/iucode_tool}" -v --write-earlyfw="$PKG/boot/intel-ucode.img" \
     "$PKG/lib/firmware/intel-ucode" || return 1
 
   mkdir -p "$PKG/usr/doc/$pkgname-$pkgver"

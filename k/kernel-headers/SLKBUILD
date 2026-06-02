@@ -2,10 +2,10 @@
 # Packager: Didier Spaier didieratslintdotfr
 
 pkgname=kernel-headers
-pkgver=6.19.3
+pkgver=7.0.10
 pkgrel=1slint
 arch=x86_64
-source=("https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${pkgver}.tar.xz")
+source=("https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-${pkgver}.tar.xz")
 url="https://www.kernel.org/"
 
 slackdesc=\
