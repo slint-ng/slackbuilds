@@ -1,0 +1,35 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034
+# Packager: storm
+
+pkgname=zmusic
+pkgver=1.1.14
+pkgrel=1slint
+url="https://github.com/coelckers/ZMusic"
+source=("https://github.com/coelckers/ZMusic/archive/${pkgver}/ZMusic-${pkgver}.tar.gz")
+options=("nosrcpack")
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"zmusic (library for music support in games)"
+""
+"ZMusic is GZDoom's music system separated as a stand-alone music"
+"library, providing a unified interface for its components."
+)
+
+build() {
+  cd "$SRC/ZMusic-$pkgver" || return 1
+
+  cmake \
+    -B build \
+    -DCMAKE_C_FLAGS_RELEASE="$SLKCFLAGS -DNDEBUG" \
+    -DCMAKE_CXX_FLAGS_RELEASE="$SLKCFLAGS -DNDEBUG" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release \
+    . || return 1
+  make -C build VERBOSE=1 || return 1
+  make -C build install/strip DESTDIR="$PKG" || return 1
+
+  install -d "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp -a licenses/. "$PKG/usr/doc/$pkgname-$pkgver/" || return 1
+}
