@@ -1,0 +1,21 @@
+Game Data
+---------
+uzdoom is only a game engine. To actually play the game, you'll need the
+game data (IWAD file) from one or more of the supported games. These
+include Doom, Ultimate Doom, Final Doom, FreeDoom, Heretic, Hexen,
+and Strife. Place the .wad file(s) in /usr/share/games/doom.
+
+Music Support
+-------------
+To hear the in-game music, there are several options. In the game menu,
+select "Options | Sound Options" and set "MIDI Device" to one of the
+below:
+
+1. FluidSynth - Install fluidsynth and fluid-soundfont. These are runtime
+dependencies (no need to rebuild uzdoom).
+
+2. Timidity - Install TiMidity++ and either eawpats or freepats (all
+runtime dependencies), and set up /etc/timidity/timidity.cfg to use it.
+
+3. GUS or OPL - Nothing extra required; these are software emulations
+of classic soundcards.

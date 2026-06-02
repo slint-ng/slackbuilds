@@ -1,0 +1,9 @@
+uzdoom (feature-centric Doom source port)
+
+UZDoom is a feature-centric port for Doom-engine games, based on
+GZDoom. It adds an advanced renderer and powerful scripting
+capabilities.
+
+UZDoom does not support 32-bit x86.
+
+See README.SBo for optional runtime dependencies and game data notes.
