@@ -1,0 +1,45 @@
+# Maintainer: Storm Dragon <storm_dragon@stormux.org>
+# Included in Slint by Storm Dragon <storm_dragon~at~stormux~dot~org>
+
+pkgname=rnnoise
+pkgver=0.2
+pkgrel=1slint
+url="https://github.com/xiph/rnnoise/"
+source=("https://github.com/xiph/rnnoise/releases/download/v${pkgver}/rnnoise-${pkgver}.tar.gz")
+md5sums=('0e795b2d2b4730fc5ee6e38b77699e91')
+license=('BSD-3-Clause')
+options=('nosrcpack')
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"rnnoise (RNNoise is a noise suppression library)"
+"RNNoise is a noise suppression library based on a recurrent neural"
+"network from Xiph.org."
+)
+
+build() {
+  cd "$SRC/$pkgname-$pkgver" || return 1
+
+  patch -p1 < "$startdir/rnnoise.patch"
+
+  CFLAGS="$SLKCFLAGS" \
+  CXXFLAGS="$SLKCFLAGS" \
+  ./configure \
+    --prefix=/usr \
+    --libdir=/usr/lib${LIBDIRSUFFIX} \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --mandir=/usr/man \
+    --docdir=/usr/doc/$pkgname-$pkgver \
+    --disable-static \
+    --build=$arch-slackware-linux
+
+  make
+  make install DESTDIR="$PKG"
+  rm -f "$PKG"/usr/lib${LIBDIRSUFFIX}/*.la
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver"
+  cp -a AUTHORS COPYING doc README "$PKG/usr/doc/$pkgname-$pkgver/"
+  cp "$startdir/SLKBUILD" "$PKG/usr/doc/$pkgname-$pkgver/SLKBUILD"
+}

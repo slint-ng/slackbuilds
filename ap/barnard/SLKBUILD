@@ -9,7 +9,7 @@ url="https://git.stormux.org/storm/barnard"
 source=("https://git.stormux.org/storm/barnard/archive/${pkgver}.tar.gz")
 options=('nosrcpack')
 license=('GPL-2.0-only' 'GPL-3.0-or-later')
-depends=('openal' 'opus' 'opusfile' 'rnnoise')
+depends=('openal-soft' 'opus' 'opusfile' 'rnnoise')
 optdepends=(
   'openssl: certificate management from barnard-ui'
   'magic-wormhole: send logs from barnard-ui'
