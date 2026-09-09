@@ -1,4 +1,23 @@
 Build notes:
   The SLKBUILD builds from source using the system Go toolchain.
-  Go 1.21.5+ is required (per go.mod).
+  Go 1.25.0+ is required (per go.mod).
   Go modules are downloaded during the build.
+  Both barnard and the native Go barnard-ui are installed.
+
+Required libraries:
+  openal, opus, opusfile, and rnnoise
+
+Optional notification and UI helpers:
+  openssl, magic-wormhole, sox, socat, speech-dispatcher, espeak-ng,
+  and libnotify
+
+Upgrade notes:
+  Users of the old barnard-ui should remove
+  ~/.config/barnard/servers.conf before starting the new UI.
+
+  To adopt the new default keybindings, remove the keybinding entries
+  from ~/.barnard.toml. Leave them in place to retain existing bindings.
+
+  Copy /usr/share/barnard/barnard-sound.sh to a user-writable location
+  before customizing it, then point notifycommand in ~/.barnard.toml to
+  that copy.

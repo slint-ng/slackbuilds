@@ -1,33 +1,60 @@
+# shellcheck shell=bash disable=SC2034,SC2154
 # Maintainer: Storm Dragon <storm_dragon@stormux.org>
 # Included in Slint by Didier Spaier <didier~at~slint~dot~fr>
 
 pkgname="barnard"
 pkgrel=1slint
-pkgver=2026.02.09
+pkgver=2026.09.09
 url="https://git.stormux.org/storm/barnard"
-source=(https://git.stormux.org/storm/barnard/archive/${pkgver}.tar.gz)
+source=("https://git.stormux.org/storm/barnard/archive/${pkgver}.tar.gz")
 options=('nosrcpack')
-license=('GPL2')
-depends=('openal' 'opus' 'opusfile')
-optdepends=('dialog: for barnard-ui')
+license=('GPL-2.0-only' 'GPL-3.0-or-later')
+depends=('openal' 'opus' 'opusfile' 'rnnoise')
+optdepends=(
+  'openssl: certificate management from barnard-ui'
+  'magic-wormhole: send logs from barnard-ui'
+  'sox: sound effects from barnard-sound.sh'
+  'socat: Fenrir notifications from barnard-sound.sh'
+  'speech-dispatcher: fallback speech from barnard-sound.sh'
+  'espeak-ng: alternate fallback speech from barnard-sound.sh'
+  'libnotify: desktop notifications from barnard-sound.sh'
+)
 makedepends=('google-go-lang' 'git')
 startdir=$(pwd)
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|
 "barnard (Accessible command line mumble client.)"
-"This copy of Barnard and it's associated Gumble library have been"
+"This copy of Barnard and its associated Gumble library have been"
 "modified to support usage by blind users."
 "The original version from Tim Cooper is available at"
 "https://github.com/layeh/barnard"
 "This version has been modified by Storm Dragon and is"
 "available at https://git.stormux.org/storm/barnard"
 )
+
+doinst() {
+cat << 'EOF'
+Barnard configuration notes:
+
+If upgrading from the old barnard-ui, remove its server list before
+starting the new UI:
+  rm -f ~/.config/barnard/servers.conf
+
+To adopt the new keybindings, remove the keybinding entries from
+~/.barnard.toml. Leave them unchanged to retain existing bindings.
+
+Barnard uses /usr/share/barnard/barnard-sound.sh as its default notification
+command. Copy it to a user-writable location before customizing it, then point
+notifycommand in ~/.barnard.toml to that copy.
+EOF
+}
+
 build() {
   if [ -d "$SRC/$pkgname" ]; then
-    cd "$SRC/$pkgname"
+    cd "$SRC/$pkgname" || return 1
   elif [ -d "$SRC/$pkgname-$pkgver" ]; then
-    cd "$SRC/$pkgname-$pkgver"
+    cd "$SRC/$pkgname-$pkgver" || return 1
   else
     echo "Source directory for $pkgname not found." >&2
     return 1
@@ -39,17 +66,12 @@ build() {
   export GO111MODULE=on
   export CGO_ENABLED=1
 
-  go build -v -o barnard .
-  install -Dm755 barnard "$PKG/usr/bin/barnard"
-  if [ -f barnard-ui ]; then
-    install -Dm755 barnard-ui "$PKG/usr/bin/barnard-ui"
-  fi
-
-
-  if [ -f "extras/$pkgname-sound.sh" ]; then
-    install -Dm755 "extras/$pkgname-sound.sh" \
-      "$PKG/usr/share/$pkgname/$pkgname-sound.sh"
-  fi
+  mkdir -p build
+  go build -v -o build/ . ./cmd/barnard-ui
+  install -Dm755 build/barnard "$PKG/usr/bin/barnard"
+  install -Dm755 build/barnard-ui "$PKG/usr/bin/barnard-ui"
+  install -Dm755 "extras/$pkgname-sound.sh" \
+    "$PKG/usr/share/$pkgname/$pkgname-sound.sh"
 
   mkdir -p "$PKG/usr/doc/$pkgname-$pkgver"
   if [ -f README.md ]; then

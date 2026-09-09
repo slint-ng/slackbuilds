@@ -1,3 +1,4 @@
-  Barnard now builds from source using the system Go compiler.
-  Go 1.21.5 or newer is required (see go.mod).
-  Build requires opus, opusfile, and openal development headers.
+  Barnard builds from source using the system Go compiler.
+  Go 1.25.0 or newer is required (see go.mod).
+  Building requires openal, opus, opusfile, and rnnoise headers.
+  The package includes both barnard and the native Go barnard-ui.
