@@ -2,7 +2,7 @@
 # Packager: Storm Dragon <storm_dragon@stormux.org>
 
 pkgname=cthulhu
-pkgver=2026.05.25
+pkgver=2026.09.09
 pkgrel=1slint
 source=()
 url="https://git.stormux.org/storm/cthulhu"
@@ -11,6 +11,7 @@ options=('nosrcpack')
 depends=(
   'at-spi2-core'
   'brltty'
+  'cthulhu-wine-access'
   'gobject-introspection'
   'gsettings-desktop-schemas'
   'gstreamer'
@@ -51,7 +52,6 @@ makedepends=(
   'ninja'
   'pandoc'
 )
-
 slackdesc=\
 (
 #|-----handy-ruler------------------------------------------------------|
@@ -111,6 +111,7 @@ build() {
   CFLAGS="$SLKCFLAGS" \
   CXXFLAGS="$SLKCFLAGS" \
   meson setup build \
+    -Dwine-access=disabled \
     --prefix=/usr \
     --libdir=/usr/lib"${LIBDIRSUFFIX}" \
     --sysconfdir=/etc \

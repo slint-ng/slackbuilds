@@ -2,8 +2,8 @@
 # Maintainer: Storm Dragon <storm_dragon@linux-a11y.org>
 # Contributor: Didier Spaier
 pkgname='fenrir'
-pkgver=2026.05.25
-pkgrel=1slint
+pkgver=2026.09.09
+pkgrel=2slint
 source=("https://git.stormux.org/storm/fenrir/archive/${pkgver}.tar.gz")
 slackdesc=\
 (
@@ -21,17 +21,17 @@ depends=('gstreamer'
   'gst-plugins-good'
   'python'
   'python-daemonize'
-  'python-dbus'
+  'dbus-python'
   'python-evdev'
-  'python-gobject'
+  'pygobject3'
   'python-pexpect'
   'python-pyenchant'
   'python-pyperclip'
   'python-pyte'
   'python-pyudev'
-  'python-pyxdg'
+  'pyxdg'
   'python-xlib'
-  'python-setproctitle'
+  'setproctitle'
   'speech-dispatcher')
 optdepends=('socat: Control running Fenrir screenreader'
   'sox: sound driver'

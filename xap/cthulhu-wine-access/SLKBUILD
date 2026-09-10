@@ -1,0 +1,83 @@
+# shellcheck shell=bash disable=SC2034,SC2154
+# Packager: Storm Dragon <storm_dragon@stormux.org>
+
+pkgname=cthulhu-wine-access
+pkgver=2026.09.09
+pkgrel=1slint
+source=()
+url="https://git.stormux.org/storm/cthulhu"
+options=('nosrcpack')
+
+depends=(
+  'glib2'
+  'wine-staging'
+)
+makedepends=(
+  'cmake'
+  'git'
+  'meson'
+  'ninja'
+)
+
+slackdesc=\
+(
+#|-----handy-ruler------------------------------------------------------|
+"cthulhu-wine-access (Wine accessibility bridge for Cthulhu)"
+""
+"This package provides the optional Winelib helper used by Cthulhu"
+"to expose Wine and Proton applications through NVDA Controller and"
+"Tolk-compatible accessibility interfaces."
+""
+"Homepage: https://git.stormux.org/storm/cthulhu"
+""
+""
+""
+)
+
+build() {
+  cd "$SRC" || exit 1
+  rm -rf cthulhu-"$pkgver"
+  git clone -b "$pkgver" https://git.stormux.org/storm/cthulhu.git \
+    cthulhu-"$pkgver"
+  cd cthulhu-"$pkgver" || exit 1
+
+  sed -i \
+    -e 's/value\.vt/V_VT(\&value)/g' \
+    -e 's/value\.bstrVal/V_BSTR(\&value)/g' \
+    -e 's/value\.lVal/V_I4(\&value)/g' \
+    wine-access/main.cpp
+  sed -i \
+    -e 's/\[in\] const SYMBOL_LEVEL/[in] SYMBOL_LEVEL/' \
+    -e 's/\[in\] const SPEECH_PRIORITY/[in] SPEECH_PRIORITY/' \
+    -e 's/\[in\] const boolean/[in] boolean/' \
+    wine-access/nvdaController.idl
+
+  chown -R root:root .
+  find -L . \
+    \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
+    -o -perm 511 \) -exec chmod 755 {} \; -o \
+    \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
+    -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
+
+  CFLAGS="$SLKCFLAGS" \
+  CXXFLAGS="$SLKCFLAGS" \
+  meson setup build \
+    -Dwine-access=enabled \
+    --prefix=/usr \
+    --libdir=/usr/lib"${LIBDIRSUFFIX}" \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --buildtype=release
+
+  meson compile -C build -j "$numjobs" || return 1
+
+  install -Dm755 build/cthulhu-wine-access.exe \
+    "$PKG/usr/libexec/cthulhu/wine/cthulhu-wine-access.exe" || return 1
+  install -Dm755 build/cthulhu-wine-access.exe.so \
+    "$PKG/usr/libexec/cthulhu/wine/cthulhu-wine-access.exe.so" || return 1
+
+  mkdir -p "$PKG/usr/doc/$pkgname-$pkgver"
+  cp -a COPYING docs/wine-accessibility.md \
+    "$PKG/usr/doc/$pkgname-$pkgver" || return 1
+  cp "$startdir/SLKBUILD" "$PKG/usr/doc/$pkgname-$pkgver/SLKBUILD" || return 1
+}
