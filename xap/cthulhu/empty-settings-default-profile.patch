@@ -1,0 +1,46 @@
+diff --git a/src/cthulhu/backends/toml_backend.py b/src/cthulhu/backends/toml_backend.py
+index 7f0f54a..21613de 100644
+--- a/src/cthulhu/backends/toml_backend.py
++++ b/src/cthulhu/backends/toml_backend.py
+@@ -302,6 +302,14 @@ class Backend:
+         except Exception:
+             return
+ 
++    def _getProfileSettings(self, profile='default'):
++        """Return profile settings, falling back for empty or incomplete files."""
++        profileSettings = self.profiles.get(profile)
++        if not isinstance(profileSettings, dict):
++            profileSettings = self._defaultProfiles['default'].copy()
++            self.profiles[profile] = profileSettings
++        return profileSettings.copy()
++
+     def _migrateSettings(self, settingsDict):
+         """Migrate old setting names to new ones."""
+         migrationKey = 'wineAccessibilityPluginMigrated'
+@@ -366,7 +374,7 @@ class Backend:
+                                              ['Default', 'default'])
+         if profile is None:
+             profile = defaultProfile[1]
+-        profileSettings = self.profiles[profile].copy()
++        profileSettings = self._getProfileSettings(profile)
+         profileSettings = self._migrateSettings(profileSettings)
+         for key, value in profileSettings.items():
+             if key == 'voices':
+@@ -401,7 +409,7 @@ class Backend:
+             override with profile values. """
+         self._getSettings()
+         pronunciations = self.pronunciations.copy()
+-        profileSettings = self.profiles[profile].copy()
++        profileSettings = self._getProfileSettings(profile)
+         if 'pronunciations' in profileSettings:
+             pronunciations = profileSettings['pronunciations']
+         return pronunciations
+@@ -411,7 +419,7 @@ class Backend:
+             override with profile values. """
+         self._getSettings()
+         keybindings = self.keybindings.copy()
+-        profileSettings = self.profiles[profile].copy()
++        profileSettings = self._getProfileSettings(profile)
+         if 'keybindings' in profileSettings:
+             keybindings = profileSettings['keybindings']
+         return keybindings

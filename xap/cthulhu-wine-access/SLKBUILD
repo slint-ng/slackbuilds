@@ -3,20 +3,23 @@
 
 pkgname=cthulhu-wine-access
 pkgver=2026.09.09
-pkgrel=1slint
+pkgrel=2slint
 source=()
 url="https://git.stormux.org/storm/cthulhu"
 options=('nosrcpack')
 
 depends=(
   'glib2'
-  'wine-staging'
 )
 makedepends=(
   'cmake'
   'git'
   'meson'
   'ninja'
+  'wine-staging'
+)
+optdepends=(
+  'wine-staging: run the Wine, Proton, NVDA Controller, and Tolk helper'
 )
 
 slackdesc=\

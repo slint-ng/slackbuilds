@@ -3,8 +3,8 @@
 
 pkgname=cthulhu
 pkgver=2026.09.09
-pkgrel=1slint
-source=()
+pkgrel=2slint
+source=("empty-settings-default-profile.patch")
 url="https://git.stormux.org/storm/cthulhu"
 options=('nosrcpack')
 
@@ -84,6 +84,7 @@ build() {
   rm -rf "$pkgname-$pkgver"
   git clone -b "$pkgver" https://git.stormux.org/storm/cthulhu.git "$pkgname-$pkgver"
   cd "$pkgname-$pkgver" || exit 1
+  patch -p1 < "$startdir/empty-settings-default-profile.patch"
 
   chown -R root:root .
   find -L . \
