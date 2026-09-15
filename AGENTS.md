@@ -53,43 +53,18 @@ Each package directory typically contains `<pkg>.SlackBuild`, `<pkg>.info`,
 
 **When ending a work session**, complete all steps below:
 
-1. File follow-up work in `bd` (no markdown TODO tracking).
-2. Run quality gates when code changed (tests/lint/build as applicable).
-3. For package conversion/update work, create a validation bead:
-   `bd create "Validate <pkg>: <change summary>" -t bug -p 1 --deps discovered-from:<work-id> --description="Validation scope and expected outcome" --json`
-4. Record explicit validation evidence before closing validation beads.
-5. Update and close work beads with clear reasons.
-6. Push code changes:
+1. Run quality gates when code changed (tests/lint/build as applicable).
+2. Record explicit validation evidence for package conversions and updates.
+3. Push code changes:
    ```bash
    git pull --rebase
-   bd sync
    git push
    git status  # should show up to date with origin
    ```
 
 **Critical rules:**
-- Use `bd sync` for bead synchronization in `bd 0.55.4`.
-- Do not use `bd dolt pull`/`bd dolt push` for the `0.55.4` workflow.
-- For package conversion/update work, validation beads are mandatory (`bug`,
-  `p1`, linked with `discovered-from:<work-id>`).
-- Do not close validation beads without explicit evidence in notes/reason, to include the following:
+- Do not call package conversion/update work validated without explicit
+  evidence that includes the following:
   - shellcheck/bash -n return no errors.
   - the package compiles
   - relatively basic smoketests pass
-
-
-<!-- BEGIN BEADS INTEGRATION -->
-## Issue Tracking
-
-This project uses **bd (beads)** for issue tracking.
-Run `bd prime` for workflow context, or install hooks (`bd hooks install`) for
-auto-injection.
-
-**Quick reference:**
-- `bd ready --json` - Find unblocked work
-- `bd create "Title" --type task --priority 2 --json` - Create issue
-- `bd update <id> --status in_progress --json` - Claim work
-- `bd close <id> --reason "Completed" --json` - Complete work
-- `bd sync` - Sync beads state for commit/push workflows in `bd 0.55.4`
-
-<!-- END BEADS INTEGRATION -->

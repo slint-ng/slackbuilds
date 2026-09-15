@@ -14,12 +14,11 @@ Default sparse paths:
   - <category/package>
 
 Options:
-  -i, --id <id>            Include a work/bead id in generated names.
+  -i, --id <id>            Include a work id in generated names.
   -b, --branch <name>      Use this branch name.
   -w, --worktree <path>    Use this worktree path.
   -r, --ref <git-ref>      Base the worktree on this ref (default: HEAD).
   -a, --add <path>         Add an extra sparse path. Repeatable.
-      --beads              Add .beads to the sparse checkout.
       --templates          Add templates/SlackBuilds to the sparse checkout.
       --full-templates     Add the full templates directory.
   -h, --help               Show this help text.
@@ -27,7 +26,7 @@ Options:
 Examples:
   mkpkgwt a/dcron
   mkpkgwt --id 123 a/dcron
-  mkpkgwt --id 123 --beads --add a/anacron a/dcron
+  mkpkgwt --id 123 --add a/anacron a/dcron
   mkpkgwt --branch conv/123-a-dcron --worktree /tmp/wt-123 a/dcron
 EOF
 }
@@ -63,7 +62,6 @@ work_id=""
 branch_name=""
 worktree_path=""
 base_ref="HEAD"
-include_beads="no"
 include_templates="no"
 include_full_templates="no"
 declare -a extra_paths=()
@@ -94,10 +92,6 @@ while [[ $# -gt 0 ]]; do
       [[ $# -ge 2 ]] || die "$1 requires a value"
       extra_paths+=("$2")
       shift 2
-      ;;
-    --beads)
-      include_beads="yes"
-      shift
       ;;
     --templates)
       include_templates="yes"
@@ -176,9 +170,6 @@ if [[ -e "$worktree_path" ]]; then
 fi
 
 declare -a sparse_paths=("AGENTS.md" ".codex" "$pkg_path")
-if [[ "$include_beads" == "yes" ]]; then
-  sparse_paths+=(".beads")
-fi
 if [[ "$include_templates" == "yes" ]]; then
   sparse_paths+=("templates/SlackBuilds")
 fi

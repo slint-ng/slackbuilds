@@ -257,6 +257,5 @@ printf 'New %s HEAD: %s\n' "$target_branch" "$new_head"
 printf '\n'
 printf 'Next commands after your landing batch:\n'
 print_cmd git pull --rebase
-print_cmd bd sync
 print_cmd git push
 print_cmd git status

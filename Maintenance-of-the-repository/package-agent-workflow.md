@@ -72,8 +72,6 @@ worktrees do not include `Maintenance-of-the-repository/` by default.
    ```bash
    /home/sektor/projects/slackbuilds/Maintenance-of-the-repository/dispatchpkg \
      --id 123 \
-     --work-bead slackbuilds-123 \
-     --validation-bead slackbuilds-124 \
      a/dcron
    ```
 2. Run the printed converter command.
@@ -105,7 +103,6 @@ increase conflict risk.
 
 Optional flags add more paths only when needed:
 
-- `--beads`
 - `--templates`
 - `--full-templates`
 - `--add <path>`
@@ -127,8 +124,6 @@ Preferred validator entry point:
 ```bash
 /home/sektor/projects/slackbuilds/Maintenance-of-the-repository/pkghandoff \
   --worktree /tmp/slackbuilds-wt/conv-123-a-dcron \
-  --work-bead slackbuilds-123 \
-  --validation-bead slackbuilds-124 \
   a/dcron | \
 /home/sektor/projects/slackbuilds/Maintenance-of-the-repository/validatepkgwt \
   --handoff - \
@@ -171,7 +166,6 @@ After the validated branches you want are landed:
 
 ```bash
 git pull --rebase
-bd sync
 git push
 git status
 ```

@@ -88,17 +88,11 @@ read_handoff() {
     value=${line#*:}
     value=${value# }
     case "$key" in
-      bead)
-        validation_bead_from_handoff=$value
-        ;;
       package)
         pkg_from_handoff=$value
         ;;
       build\ note)
         build_note_from_handoff=$value
-        ;;
-      work\ bead)
-        work_bead_from_handoff=$value
         ;;
       branch)
         branch_from_handoff=$value
@@ -130,10 +124,8 @@ slapt_getrc=""
 run_shellcheck="yes"
 
 handoff_content=""
-validation_bead_from_handoff=""
 pkg_from_handoff=""
 build_note_from_handoff=""
-work_bead_from_handoff=""
 branch_from_handoff=""
 worktree_from_handoff=""
 artifact_from_handoff=""
@@ -235,8 +227,6 @@ validation_script="${worktree_path}/.codex/skills/slkbuild-validation/scripts/va
 [[ -x "$validation_script" || -f "$validation_script" ]] \
   || die "validation script not found: $validation_script"
 
-validation_bead="$(normalize_placeholder "$validation_bead_from_handoff")"
-work_bead="$(normalize_placeholder "$work_bead_from_handoff")"
 branch_name="$(normalize_placeholder "$branch_from_handoff")"
 build_note="$(normalize_placeholder "$build_note_from_handoff")"
 artifact_hint="$(normalize_placeholder "$artifact_from_handoff")"
@@ -296,8 +286,6 @@ else
 fi
 
 printf 'Handoff\n'
-printf -- '- Validation bead: %s\n' "${validation_bead:-<unset>}"
-printf -- '- Work bead: %s\n' "${work_bead:-<unset>}"
 printf -- '- Build note: %s\n' "${build_note:-<unset>}"
 printf -- '- Branch: %s\n' "$branch_name"
 printf -- '- Worktree: %s\n' "$worktree_path"

@@ -7,7 +7,6 @@ Within that role, use the `slkbuild-validation` skill.
 You validate exactly one package handoff:
 
 - Package: `<category/package>`
-- Validation bead: `<validation-bead>`
 - Worktree: `<worktree-path>`
 
 Operating rules:
@@ -16,13 +15,13 @@ Operating rules:
 - Prefer the provided handoff block over assumptions.
 - Call helper scripts by absolute path from the main checkout. Sparse package worktrees do not include `Maintenance-of-the-repository/` by default.
 - Validation is build-only. Do not install or upgrade the package.
-- Close the validation bead only with explicit evidence:
+- Call the package validated only with explicit evidence:
   - `bash -n` passes
   - `shellcheck` passes or is explicitly unavailable
   - the package artifact and `.dep` file exist
   - the validator output is recorded
   - the compile/basic smoketest evidence is stated
-- If validation fails, keep the bead open and report the first actionable fix.
+- If validation fails, report the first actionable fix.
 
 Execution flow:
 
@@ -45,7 +44,7 @@ Execution flow:
    - `Manifest Diff`
    - `Verdict`
    - `Next Action`
-4. Record the evidence in the validation bead.
+4. Include the evidence in the validation report.
 5. If validation passes, hand the branch/worktree to integration. Do not merge it yourself unless explicitly asked.
 
 Required output at the end:

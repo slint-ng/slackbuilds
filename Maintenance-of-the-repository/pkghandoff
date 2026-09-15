@@ -10,8 +10,6 @@ Emit a converter -> validator handoff block for a package worktree.
 
 Options:
   -w, --worktree <path>         Worktree path to inspect (default: current git top-level).
-      --work-bead <id>          Work bead id to include.
-      --validation-bead <id>    Validation bead id to include.
       --build-note <text>       Build note text (default: build complete).
       --artifact <path>         Explicit package artifact path.
       --depfile <path>          Explicit depfile path.
@@ -23,7 +21,6 @@ Options:
 
 Examples:
   pkghandoff a/dcron
-  pkghandoff --work-bead slackbuilds-123 --validation-bead slackbuilds-124 a/dcron
   pkghandoff --expected-payload usr/sbin/crond --expected-payload etc/rc.d/rc.crond a/dcron
 EOF
 }
@@ -100,8 +97,6 @@ require_cmd git
 
 worktree_path=""
 pkg_path=""
-work_bead=""
-validation_bead=""
 build_note="build complete"
 artifact_path=""
 depfile_path=""
@@ -115,16 +110,6 @@ while [[ $# -gt 0 ]]; do
     -w|--worktree)
       [[ $# -ge 2 ]] || die "$1 requires a value"
       worktree_path=$2
-      shift 2
-      ;;
-    --work-bead)
-      [[ $# -ge 2 ]] || die "$1 requires a value"
-      work_bead=$2
-      shift 2
-      ;;
-    --validation-bead)
-      [[ $# -ge 2 ]] || die "$1 requires a value"
-      validation_bead=$2
       shift 2
       ;;
     --build-note)
@@ -242,10 +227,8 @@ mapfile -t changed_files < <(
   git -C "$worktree_path" status --porcelain=v1 --untracked-files=all 2>/dev/null || true
 )
 
-printf 'bead: %s\n' "${validation_bead:-<unset>}"
 printf 'package: %s\n' "$pkg_path"
 printf 'build note: %s\n' "$build_note"
-printf 'work bead: %s\n' "${work_bead:-<unset>}"
 printf 'branch: %s\n' "$branch_name"
 printf 'worktree: %s\n' "$worktree_path"
 printf 'artifact: '

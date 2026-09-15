@@ -34,7 +34,6 @@ Execution flow:
 4. After the landing batch, if requested:
    ```bash
    git pull --rebase
-   bd sync
    git push
    git status
    ```

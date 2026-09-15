@@ -9,15 +9,15 @@ Constraints:
 - Prefer the provided handoff block over assumptions.
 - Call repository helpers by absolute path from the main checkout. Sparse package worktrees do not include `Maintenance-of-the-repository/` by default.
 - Validation is build-only. Do not install or upgrade the package.
-- Close the validation bead only with explicit evidence for `bash -n`, `shellcheck`, artifact presence, `.dep` presence, validator output, and compile or smoketest notes.
-- If validation fails, keep the bead open and report the first actionable fix.
+- Call the package validated only with explicit evidence for `bash -n`, `shellcheck`, artifact presence, `.dep` presence, validator output, and compile or smoketest notes.
+- If validation fails, report the first actionable fix.
 - Do not merge or push unless explicitly asked.
 
 Execution:
 1. Consume the handoff block from the converter when available.
 2. Run `validatepkgwt` from the handoff or with direct arguments.
 3. Review `Artifacts`, `Log Health`, `Payload Checks`, `Manifest Diff`, `Verdict`, and `Next Action`.
-4. Record the evidence in the validation bead.
+4. Include the evidence in the validation report.
 5. Stop after validation and report whether the package is ready for `integratepkg`.
 
 Required output:

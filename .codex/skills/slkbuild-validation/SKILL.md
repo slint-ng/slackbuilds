@@ -25,7 +25,6 @@ It accepts either:
 
 1. Wait for explicit VM build progress from the user.
 - Expected handoff format:
-  - `bead: <id>`
   - `package: <category>/<pkg>`
   - optional `build note: <status>`
 
@@ -67,8 +66,8 @@ It accepts either:
 - Example: missing artifact, missing payload path, hard-failure marker in log.
 - For conversion failures, unexpected manifest additions/removals after
   allowlisting are the primary findings.
-- If `.txz`/log/md5 is missing, keep the validation bead open with an explicit
-  "build evidence missing" reason.
+- If `.txz`/log/md5 is missing, report an explicit "build evidence missing"
+  reason.
 
 ## Scope
 

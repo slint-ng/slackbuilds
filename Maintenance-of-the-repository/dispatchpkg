@@ -11,8 +11,6 @@ package.
 
 Options:
   -i, --id <id>                  Short id used in branch/worktree naming.
-      --work-bead <id>           Work bead id.
-      --validation-bead <id>     Validation bead id.
   -b, --branch <name>            Package branch name.
   -w, --worktree <path>          Package worktree path.
       --worktree-root <path>     Root for derived package worktrees.
@@ -21,7 +19,6 @@ Options:
                                  Worktree that will run integratepkg.
                                  Defaults to the current repo root.
   -a, --add <path>               Extra sparse path for convertpkg. Repeatable.
-      --beads                    Include .beads in the package worktree.
       --templates                Include templates/SlackBuilds.
       --full-templates           Include the full templates directory.
       --expected-payload <path>  Expected payload path for pkghandoff.
@@ -32,8 +29,7 @@ Options:
   -h, --help                     Show this help text.
 
 Examples:
-  dispatchpkg --work-bead slackbuilds-123 a/dcron
-  dispatchpkg --id 123 --work-bead slackbuilds-123 --validation-bead slackbuilds-124 a/dcron
+  dispatchpkg --id 123 a/dcron
   dispatchpkg --target main --baseline /tmp/dcron-4.5-x86_64-1.txz a/dcron
 EOF
 }
@@ -94,8 +90,6 @@ done
 
 pkg_path=""
 work_id=""
-work_bead=""
-validation_bead=""
 branch_name=""
 worktree_path=""
 worktree_root="${TMPDIR:-/tmp}/slackbuilds-wt"
@@ -111,16 +105,6 @@ while [[ $# -gt 0 ]]; do
     -i|--id)
       [[ $# -ge 2 ]] || die "$1 requires a value"
       work_id=$2
-      shift 2
-      ;;
-    --work-bead)
-      [[ $# -ge 2 ]] || die "$1 requires a value"
-      work_bead=$2
-      shift 2
-      ;;
-    --validation-bead)
-      [[ $# -ge 2 ]] || die "$1 requires a value"
-      validation_bead=$2
       shift 2
       ;;
     -b|--branch)
@@ -153,7 +137,7 @@ while [[ $# -gt 0 ]]; do
       convert_args+=("$1" "$2")
       shift 2
       ;;
-    --beads|--templates|--full-templates)
+    --templates|--full-templates)
       convert_args+=("$1")
       shift
       ;;
@@ -203,10 +187,6 @@ fi
 
 [[ -d "$repo_root/$pkg_path" ]] || die "package directory not found: $pkg_path"
 
-if [[ -z "$work_id" && -n "$work_bead" ]]; then
-  work_id=$work_bead
-fi
-
 pkg_slug="$(slugify "$pkg_path")"
 if [[ -z "$branch_name" ]]; then
   if [[ -n "$work_id" ]]; then
@@ -227,12 +207,6 @@ convert_cmd=("$convertpkg_script" "--branch" "$branch_name" "--worktree" "$workt
 if [[ -n "$work_id" ]]; then
   convert_cmd+=("--id" "$work_id")
 fi
-if [[ -n "$work_bead" ]]; then
-  convert_cmd+=("--work-bead" "$work_bead")
-fi
-if [[ -n "$validation_bead" ]]; then
-  convert_cmd+=("--validation-bead" "$validation_bead")
-fi
 if [[ ${#convert_args[@]} -gt 0 ]]; then
   convert_cmd+=("${convert_args[@]}")
 fi
@@ -242,12 +216,6 @@ fi
 convert_cmd+=("$pkg_path")
 
 handoff_cmd=("$pkghandoff_script" "--worktree" "$worktree_path")
-if [[ -n "$work_bead" ]]; then
-  handoff_cmd+=("--work-bead" "$work_bead")
-fi
-if [[ -n "$validation_bead" ]]; then
-  handoff_cmd+=("--validation-bead" "$validation_bead")
-fi
 if [[ ${#handoff_args[@]} -gt 0 ]]; then
   handoff_cmd+=("${handoff_args[@]}")
 fi
@@ -265,8 +233,8 @@ integrate_cmd=(bash -lc "cd '$integration_worktree' && '$integratepkg_script' --
 
 worktree_parent=$(dirname "$worktree_path")
 
-converter_prompt="Spawn one package-converter agent for package ${pkg_path}. Work bead: ${work_bead:-unset}. Validation bead: ${validation_bead:-unset}. Worktree: ${worktree_path}. Branch: ${branch_name}. Wait for it to finish and return only its final report."
-validator_prompt="Spawn one package-validator agent for package ${pkg_path}. Validation bead: ${validation_bead:-unset}. Worktree: ${worktree_path}. Wait for it to finish and return only its final report."
+converter_prompt="Spawn one package-converter agent for package ${pkg_path}. Worktree: ${worktree_path}. Branch: ${branch_name}. Wait for it to finish and return only its final report."
+validator_prompt="Spawn one package-validator agent for package ${pkg_path}. Worktree: ${worktree_path}. Wait for it to finish and return only its final report."
 if [[ "$require_baseline" == "yes" ]]; then
   validator_prompt+=" Require baseline validation."
 else
@@ -333,12 +301,6 @@ printf '\n'
 printf 'Converter Command\n'
 print_cmd "${convert_cmd[@]}"
 printf '\n'
-
-if [[ -n "$work_bead" && -z "$validation_bead" ]]; then
-  printf 'Validation Bead Command\n'
-  print_cmd bd create "Validate $pkg_path: <change summary>" -t bug -p 1 --deps "discovered-from:$work_bead" --description "Validate bash -n/shellcheck, fakeroot slkbuild -X artifacts, depfinder output, baseline manifest diff, and basic smoketests" --json
-  printf '\n'
-fi
 
 printf 'Validator Handoff Command\n'
 print_cmd "${handoff_cmd[@]}"

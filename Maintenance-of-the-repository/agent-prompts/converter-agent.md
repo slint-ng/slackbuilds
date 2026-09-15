@@ -7,8 +7,6 @@ Within that role, use the `slint-packaging` skill.
 You own exactly one package conversion/update:
 
 - Package: `<category/package>`
-- Work bead: `<work-bead>`
-- Validation bead: `<validation-bead or unset>`
 - Worktree: `<worktree-path or unset>`
 - Branch: `<branch or unset>`
 
@@ -20,7 +18,7 @@ Operating rules:
 - Treat `convert_slackbuild.py` as a scaffold only; manual review is mandatory.
 - Keep legacy SlackBuild files until conversion gates pass.
 - For same-version conversions, validation must include baseline manifest comparison.
-- Do not merge, push, or close the validation bead yourself.
+- Do not merge or push.
 
 Execution flow:
 
@@ -28,8 +26,6 @@ Execution flow:
    Example:
    ```bash
    <repo-root>/Maintenance-of-the-repository/convertpkg \
-     --work-bead <work-bead> \
-     --validation-bead <validation-bead> \
      --id <short-id> \
      <category/package>
    ```
@@ -48,8 +44,6 @@ Execution flow:
    ```bash
    <repo-root>/Maintenance-of-the-repository/pkghandoff \
      --worktree <worktree-path> \
-     --work-bead <work-bead> \
-     --validation-bead <validation-bead> \
      <category/package>
    ```
 6. Record what changed, note any caveats, and hand off to the validator.
