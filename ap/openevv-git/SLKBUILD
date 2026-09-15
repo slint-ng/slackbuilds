@@ -1,0 +1,108 @@
+#!/bin/bash
+# shellcheck shell=bash disable=SC2034,SC2154
+# Maintainer: Storm Dragon <storm_dragon@stormux.org>
+
+pkgname=openevv-git
+sourceCommit=5b2de6782cb0500ebccb788ff12011eb5277bddc
+pkgver="r745.${sourceCommit:0:7}"
+pkgrel=1slint
+arch=('x86_64')
+url="https://github.com/mudb0y/openevv"
+license=('MIT' 'LicenseRef-IBM-Proprietary')
+depends=('speech-dispatcher')
+makedepends=('gcc' 'make' 'pkg-config' 'python3' 'speech-dispatcher')
+optdepends=(
+  'pipewire: preferred command-line playback through pw-play'
+  'pulseaudio: alternate command-line playback through paplay'
+  'alsa-utils: fallback command-line playback through aplay'
+)
+source=("https://github.com/mudb0y/openevv/archive/5b2de6782cb0500ebccb788ff12011eb5277bddc.tar.gz")
+options=('nosrcpack' 'noautodotnew')
+
+slackdesc=(
+#|-----handy-ruler------------------------------------------------------|
+"$pkgname (Open implementation of IBM Embedded ViaVoice)"
+"OpenEVV provides command-line speech synthesis and a native Speech"
+"Dispatcher output module. This development snapshot includes US and"
+"UK English, German, Spanish, French, and Italian languages."
+"The openevv-say helper can play speech through PipeWire, PulseAudio,"
+"or ALSA, and can also write synthesized speech to a WAV file."
+)
+
+doinst() {
+  config() {
+    newPath=$1
+    oldPath=${newPath%.new}
+
+    if [ ! -r "$oldPath" ]; then
+      mv "$newPath" "$oldPath"
+    elif [ "$(md5sum < "$oldPath")" = "$(md5sum < "$newPath")" ]; then
+      rm -f "$newPath"
+    fi
+  }
+
+  config etc/speech-dispatcher/modules/openevv.conf.new
+
+  printf '%s\n' \
+    'OpenEVV, openevv-say, and its Speech Dispatcher module are installed.' \
+    'Run openevv-speechd-enable as your normal user if configuration is needed.' \
+    'Run openevv-speechd-enable --system as root for system configuration.' \
+    'Warning: restarting Speech Dispatcher temporarily stops speech.' \
+    'Use a recoverable session and restart it only when safe.'
+}
+
+build() {
+  sourceDir="$SRC/openevv-$sourceCommit"
+  languages='lang/enus lang/dede lang/engb lang/eses lang/esus lang/frfr lang/frca lang/itit'
+  languageSuffix='enus-dede-engb-eses-esus-frfr-frca-itit'
+  moduleDir="$PKG/usr/lib${LIBDIRSUFFIX}/speech-dispatcher-modules"
+  docDir="$PKG/usr/doc/$pkgname-$pkgver"
+  smokeWav="$SRC/openevv-package-smoke.wav"
+
+  cd "$sourceDir" || return 1
+
+  # Rebuild all package outputs and archives so stale members can never carry
+  # over when this recipe is refreshed to a newer development snapshot.
+  rm -rf "build/obj-c/$languageSuffix"
+  rm -f \
+    build/evv \
+    build/openevv-say \
+    "build/libevv-$languageSuffix.a" \
+    "build/sd_openevv-$languageSuffix"
+
+  make -j"${numjobs:-1}" \
+    CFLAGS="${SLKCFLAGS:-} ${LDFLAGS:-}" \
+    RULES=c LANGS="$languages" all speechd || return 1
+
+  build/evv -o "$smokeWav" 'OpenEVV package test.' || return 1
+  [ -s "$smokeWav" ] || return 1
+  rm -f "$smokeWav"
+  OPENEVV_EXPECT_LANGUAGES=8 python3 \
+    test/speechd.py \
+    "build/sd_openevv-$languageSuffix" \
+    speechd/openevv.conf || return 1
+  bash test/speechd-enable.sh || return 1
+  make RULES=c LANGS="$languages" say-test || return 1
+
+  install -Dm0755 build/evv "$PKG/usr/bin/evv" || return 1
+  install -Dm0755 build/openevv-say \
+    "$PKG/usr/bin/openevv-say" || return 1
+  install -Dm0755 "build/sd_openevv-$languageSuffix" \
+    "$moduleDir/sd_openevv" || return 1
+  install -Dm0644 speechd/openevv.conf \
+    "$PKG/etc/speech-dispatcher/modules/openevv.conf.new" || return 1
+  install -Dm0755 speechd/openevv-speechd-enable \
+    "$PKG/usr/bin/openevv-speechd-enable" || return 1
+
+  install -d "$docDir" || return 1
+  install -m0644 \
+    LICENSE \
+    NOTICE \
+    README.md \
+    docs/building.md \
+    docs/speech-dispatcher.md \
+    docs/using.md \
+    "$docDir/" || return 1
+}
+
+# vim: set ts=2 sw=2 et:
