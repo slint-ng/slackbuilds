@@ -52,7 +52,7 @@ doinst() {
 }
 
 build() {
-  sourceDir="$SRC/openevv-$sourceCommit"
+  sourceDir="$SRC/openevv-5b2de6782cb0500ebccb788ff12011eb5277bddc"
   languages='lang/enus lang/dede lang/engb lang/eses lang/esus lang/frfr lang/frca lang/itit'
   languageSuffix='enus-dede-engb-eses-esus-frfr-frca-itit'
   moduleDir="$PKG/usr/lib${LIBDIRSUFFIX}/speech-dispatcher-modules"

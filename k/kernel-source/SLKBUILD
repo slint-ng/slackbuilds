@@ -2,7 +2,7 @@
 # Packager: Didier Spaier didieratslintdotfr
 
 pkgname=kernel-source
-pkgver=7.0.10
+pkgver=7.1.8
 pkgrel=1slint
 arch=x86_64
 source=("https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-${pkgver}.tar.xz")

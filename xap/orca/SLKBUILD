@@ -1,11 +1,11 @@
 #Packager: Didier Spaier <didier~at~slint~dot~fr>
 
 pkgname=orca
-pkgver=49.5
-pkgrel=1slint
+pkgver=49.7
+pkgrel=2slint
 
 source=("$pkgname-$pkgver.tar.xz")
-docs=("AUTHORS" "COPYING" "MAINTAINERS" "NEWS" "README" "orca-$pkgver.alpha.news")
+docs=("AUTHORS" "COPYING" "MAINTAINERS" "NEWS" "README.md")
 url=http://live.gnome.org/Orca/
 options=('nosrcpack')
 slackdesc=\
@@ -23,9 +23,12 @@ build() {
 	#cd orca
 	#git checkout 029cf5a
 	cd ${pkgname}-${pkgver} || exit
+	pythonShimDir="$(mktemp -d)"
+	ln -s /usr/bin/python3.11 "$pythonShimDir/python3"
 	CFLAGS="$SLKCFLAGS" \
 	CXXFLAGS="$SLKCFLAGS" \
 	PYTHON=/usr/bin/python3.11 \
+	PATH="$pythonShimDir:$PATH" \
 	meson setup --errorlogs \
 		--buildtype=release \
 		--infodir=/usr/info \
@@ -35,8 +38,8 @@ build() {
 		--prefix=/usr \
 		--sysconfdir=/etc \
 		_build
-	meson compile -C _build
-	meson install -C _build --destdir=$PKG
+	PATH="$pythonShimDir:$PATH" meson compile -C _build
+	PATH="$pythonShimDir:$PATH" meson install -C _build --destdir=$PKG
 	# No autostart but orca will be started:
 	# - at system level by gdm or lightdm if wished
 	# - by the user in graphical environments if ~/autostart/startorca.desktop
@@ -49,10 +52,9 @@ build() {
 	chmod -R 755 $startdir/pkg/usr/share
 	cp $startdir/orcaprofile $startdir/pkg/usr/share/orca/
 	chmod -R 644 $startdir/pkg/usr/share/orca/orcaprofile
-	(
-	cd $startdir/pkg/usr/bin  || exit
-	sed "s;#!/usr/bin/python3;#!/usr/bin/python3.11;" orca > bof
-	mv bof orca
-	chmod 755 $startdir/pkg/usr/bin/orca
-	)
+	find "$PKG" -type f -perm /111 -exec sed -i \
+		-e "1s;^#!$pythonShimDir/python3$;#!/usr/bin/python3.11;" \
+		-e '1s;^#!/usr/bin/python3$;#!/usr/bin/python3.11;' {} +
+	chmod 755 "$PKG/usr/bin/orca"
+	rm -rf "$pythonShimDir"
 }

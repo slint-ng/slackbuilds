@@ -1,29 +1,30 @@
+# shellcheck shell=bash disable=SC2034
 # Maintainer: Antonio Rojas <arojas@archlinux.org>
 
 #Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=yt-dlp-ejs
-pkgver=0.5.0
+pkgver=0.8.0
 pkgrel=1slint
-export commit=e91d03f
 export srcname=ejs
 slackdesc="$pkgname (External JavaScript for yt-dlp supporting many runtimes)"
 url='https://github.com/yt-dlp/ejs'
 license=(Unlicense)
 depends=(deno
          python)
-makedepends=(git
+makedepends=(nodejs
              python-build
-             python-hatch-vcs
              python-hatchling
              python-installer)
 checkdepends=(python-pytest)
-#source=(https://github.com/yt-dlp/ejs/archive/refs/tags/${pkgver}.tar.gz)
-sha256sums=('3c67e0e971812df363bb837d2f333091d6735092314fa01c4d6e5127b1ae00ef')
+source=("https://github.com/yt-dlp/ejs/archive/refs/tags/${pkgver}/${pkgname}-${pkgver}.tar.gz")
+sha256sums=('2704dfcac899fcb443d3b80cb8bb6337c5eb98d09ebf0760295d1c58e9461e53')
 docs=("LICENSE" "README.md")
 build() {
-  git clone https://github.com/yt-dlp/ejs.git	
-  cd $srcname
-  git checkout $commit
+  cd "$SRC/$srcname-$pkgver" || return 1
+  sed -i '/"hatch-vcs"/d' pyproject.toml
+  sed -i "s/dynamic = \\[\"version\"\\]/version = \"$pkgver\"/" pyproject.toml
+  sed -i '/^\[tool\.hatch\.version\]/,/^$/d' pyproject.toml
+  sed -i '/^\[tool\.hatch\.build\.hooks\.vcs\]/,/^$/d' pyproject.toml
   sed -i '/3\.14/d' pyproject.toml
   sed -i '/3\.13/d' pyproject.toml
   python3.11 -m build --wheel --no-isolation

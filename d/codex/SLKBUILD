@@ -2,7 +2,7 @@
 # Included in Slint by Didier Spaier didieratslintdotfr
 
 pkgname=codex
-pkgver=0.133.0
+pkgver=0.142.3
 _tag="rust-v${pkgver}"
 pkgrel=1slint
 arch=('x86_64' 'aarch64')
@@ -23,7 +23,7 @@ optdepends=('just: upstream command runner used by codex justfile'
             'pnpm: optional npm workflow support'
             'nodejs: required for pnpm and npm package workflows')
 source=("https://github.com/openai/codex/archive/refs/tags/${_tag}.tar.gz")
-sha256sums=('6c9c58b65dc10cf5ddc7013961796d32e53243a9a3f4249a9cb2e833d0eed69f')
+sha256sums=('1554eaec0f65a6adf5f8912ffe0080e20726c4c8cba06b8dfb548acf4662d521')
 options=("nosrcpack")
 
 build() {
@@ -46,9 +46,9 @@ build() {
     exit 1
   fi
 
-  # Upstream codex-rs/rust-toolchain.toml currently pins 1.93.x.
-  if ! "$RUSTC" --version | awk '{ split($2, v, "."); exit !((v[1] > 1) || (v[1] == 1 && v[2] >= 93)) }'; then
-    echo "rustc >= 1.93 is required to build $pkgname."
+  # Upstream dependencies currently require rustc 1.94.x.
+  if ! "$RUSTC" --version | awk '{ split($2, v, "."); exit !((v[1] > 1) || (v[1] == 1 && v[2] >= 94)) }'; then
+    echo "rustc >= 1.94 is required to build $pkgname."
     exit 1
   fi
 

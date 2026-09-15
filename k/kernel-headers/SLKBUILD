@@ -2,7 +2,7 @@
 # Packager: Didier Spaier didieratslintdotfr
 
 pkgname=kernel-headers
-pkgver=7.0.10
+pkgver=7.1.8
 pkgrel=1slint
 arch=x86_64
 source=("https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-${pkgver}.tar.xz")
@@ -41,6 +41,7 @@ build() {
     cp -a "$config" .config || return 1
   fi
 
+  make ARCH="$headers_arch" olddefconfig || return 1
   make headers_install ARCH="$headers_arch" INSTALL_HDR_PATH="$PKG/usr" || return 1
   cd "$PKG/usr/include" || return 1
 
