@@ -3,8 +3,8 @@
 # Maintainer: Storm Dragon <storm_dragon@stormux.org>
 
 pkgname=openevv-git
-sourceCommit=d6a402ddbd2442cd2988b2474094da0aa6baa1bf
-pkgver="r816.${sourceCommit:0:7}"
+sourceCommit=520585138206f1692c619ae2b45856cbbe4255b3
+pkgver="r817.${sourceCommit:0:7}"
 pkgrel=1slint
 arch=('x86_64')
 url="https://github.com/mudb0y/openevv"
@@ -52,7 +52,7 @@ doinst() {
 }
 
 build() {
-  sourceDir="$SRC/openevv-d6a402ddbd2442cd2988b2474094da0aa6baa1bf"
+  sourceDir="$SRC/openevv-520585138206f1692c619ae2b45856cbbe4255b3"
   languages='lang/enus lang/dede lang/engb lang/eses lang/esus lang/frfr lang/frca lang/itit'
   languageSuffix='enus-dede-engb-eses-esus-frfr-frca-itit'
   moduleDir="$PKG/usr/lib${LIBDIRSUFFIX}/speech-dispatcher-modules"

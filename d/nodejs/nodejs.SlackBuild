@@ -30,7 +30,7 @@ cd $(dirname $0) ; CWD=$(pwd)
 
 PRGNAM=nodejs
 SRCNAM=node
-VERSION=${VERSION:-20.11.1}
+VERSION=${VERSION:-22.23.3}
 BUILD=${BUILD:-1}
 TAG=slint
 PKGTYPE=${PKGTYPE:-txz}
@@ -95,7 +95,6 @@ sed -i "s|math.h|cmath|" src/node_crypto.cc
 ./configure \
   --prefix=/usr \
   --shared-zlib \
-  --shared-openssl \
   --ninja
 
 make CFLAGS="$SLKCFLAGS" CXXFLAGS="$SLKCFLAGS"

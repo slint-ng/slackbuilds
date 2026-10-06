@@ -1,3 +1,56 @@
+# Python caches
 __pycache__/
-*.pyc
-staging/
+*.py[cod]
+
+# Editor and operating-system leftovers
+*~
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Local maintenance-tool state
+/.beads/
+/staging/
+
+# Build output and binary files. Intentional exceptions can be added with
+# `git add -f`; .gitignore cannot identify binary content or file size.
+build-*.log
+*.7z
+*.a
+*.bin
+*.bz2
+*.class
+*.deb
+*.dll
+*.dmg
+*.exe
+*.gem
+*.gif
+*.gz
+*.ico
+*.iso
+*.jar
+*.jpeg
+*.jpg
+*.lz
+*.lz4
+*.lzma
+*.o
+*.pdf
+*.png
+*.rpm
+*.so
+*.so.*
+*.tar
+*.tbz
+*.tbz2
+*.tbr
+*.tgz
+*.tlz
+*.txz
+*.war
+*.whl
+*.xz
+*.zip
+*.zst

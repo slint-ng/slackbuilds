@@ -4,7 +4,7 @@
 #Included in Slint by Didier Spaier didieratslintdotfr
 pkgname=yt-dlp-ejs
 pkgver=0.8.0
-pkgrel=1slint
+pkgrel=2slint
 export srcname=ejs
 slackdesc="$pkgname (External JavaScript for yt-dlp supporting many runtimes)"
 url='https://github.com/yt-dlp/ejs'
@@ -27,6 +27,9 @@ build() {
   sed -i '/^\[tool\.hatch\.build\.hooks\.vcs\]/,/^$/d' pyproject.toml
   sed -i '/3\.14/d' pyproject.toml
   sed -i '/3\.13/d' pyproject.toml
+  printf 'version = "%s"\n' "$pkgver" > yt_dlp_ejs/_version.py
   python3.11 -m build --wheel --no-isolation
   python3.11 -m installer --destdir="$PKG" dist/*.whl
+  install -Dm0644 yt_dlp_ejs/_version.py \
+    "$PKG/usr/lib/python3.11/site-packages/yt_dlp_ejs/_version.py"
 }

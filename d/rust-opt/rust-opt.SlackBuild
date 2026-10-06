@@ -28,7 +28,7 @@ cd $(dirname $0) ; CWD=$(pwd)
 
 PRGNAM=rust-opt
 SRCNAM=rust
-VERSION=${VERSION:-1.89.0}
+VERSION=${VERSION:-1.95.0}
 BUILD=${BUILD:-1}
 TAG=slint
 PKGTYPE=${PKGTYPE:-txz}
@@ -78,7 +78,7 @@ rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
 cd $TMP
 rm -rf $SRCNAM-$VERSION-$TRIPLET
-tar xf $CWD/$SRCNAM-$VERSION-$TRIPLET.tar.gz
+tar xf $CWD/$SRCNAM-$VERSION-$TRIPLET.tar.xz
 cd $SRCNAM-$VERSION-$TRIPLET
 
 chown -R root:root .

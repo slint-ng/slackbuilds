@@ -4,7 +4,7 @@
 
 pkgname="barnard"
 pkgrel=1slint
-pkgver=2026.09.09
+pkgver=2026.09.29
 url="https://git.stormux.org/storm/barnard"
 source=("https://git.stormux.org/storm/barnard/archive/${pkgver}.tar.gz")
 options=('nosrcpack')
